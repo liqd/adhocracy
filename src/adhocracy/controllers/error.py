@@ -3,7 +3,9 @@ import re
 
 from pylons import request, response, tmpl_context as c
 from pylons.i18n import _
+from pylons import config
 
+from paste.deploy.converters import asbool
 from paste.urlparser import PkgResourcesParser
 from pylons.controllers.util import forward
 
@@ -42,6 +44,16 @@ class ErrorController(BaseController):
 
         if not c.error_message:
             c.error_message = _("Error %s") % c.error_code
+
+        if asbool(config.get('adhocracy.interactive_debugging', 'false')):
+            c.trace_url = request.environ['pylons.original_response']\
+                .headers.get('X-Debug-URL', None)
+
+            if c.trace_url is not None:
+                # this may only happen in debug mode
+                assert(asbool(config.get('debug', 'false')))
+        else:
+            c.trace_url = None
 
         return render("/error/http.html")
 

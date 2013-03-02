@@ -148,6 +148,11 @@ sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 
+# If debug is enabled, an web-based interactive debugger can be executed from
+# the HTTP500 error page, if the following option is set to true. This option
+# doesn't have any effect if debug is false.
+adhocracy.interactive_debugging = true
+
 # WARNING: *THE LINE BELOW MUST BE UNCOMMENTED ON A PRODUCTION ENVIRONMENT*
 # Debug mode will enable the interactive debugging tool, allowing ANYONE to
 # execute malicious code after an exception is raised.
@@ -205,18 +210,13 @@ adhocracy.twitter.profile_url = ${parts.twitter.profile_url}
 #adhocracy.bitly.login = 
 #adhocracy.bitly.key = 
 
-# INSTALL: the AMQP message queue, i.e. RabbitMQ. Make sure to use different 
-# queue and exchange names for each install of Adhocracy. Queue processing is 
-# unable to process messages related to another database. 
-adhocracy.amqp.host = 127.0.0.1
-#rabbitq default port is 5672
-adhocracy.amqp.port = ${parts.ports.rabbitmq}
-#adhocracy.amqp.event_queue = adhocracy.queue
-adhocracy.amqp.event_exchange = adhocracy.exchange
 
-# TODO: These are not currently evaluated. 
-#adhocracy.amqp.userid = 
-#adhocracy.amqp.password =
+# Redis is used to build a task queue that will be processed by the
+# `worker` process.
+# Note: host has to be an IP address, not a hostname
+adhocracy.redis.host = ${parts.domains.redis}
+adhocracy.redis.port = ${parts.ports.redis}
+adhocracy.redis.queue = ${parts.adhocracy.queue}
 
 # INSTALL: If you want to use recaptcha uncomment these lines 
 #recaptcha.public_key = 6LcICcgSAAAAAKNYq9iM4lIpB_GSjYItF21wS4NS
@@ -267,6 +267,9 @@ piwik.id =
 # and other complex constructs.
 #adhocracy.allow_user_html = false
 
+# INSTALL: How can users login?
+#adhocracy.login_type = openid,username+password,email+password
+
 # activate geo features
 
 {% if parts.adhocracy.geo == 'True' %}
@@ -292,7 +295,7 @@ adhocracy.show_instance_overview_milestones = True
 adhocracy.number_instance_overview_milestones = 3
 
 # show newest proposals in instance overview
-adhocracy.show_instance_overview_proposals = False
+adhocracy.show_instance_overview_proposals_new = False
 
 # hide categories in facet navigation if no proposal is assigned to it
 adhocracy.hide_empty_categories_in_facet_list = True

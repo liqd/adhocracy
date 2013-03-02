@@ -11,24 +11,23 @@ from babel import Locale
 
 from webob.exc import HTTPFound
 
-from repoze.what.plugins.pylonshq import ActionProtector
 from repoze.who.api import get_api
 
 from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, search as libsearch, tiles, text
-from adhocracy.lib.auth import require, login_user
-from adhocracy.lib.auth.authorization import has_permission, has
+from adhocracy.lib.auth import require, login_user, guard
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager, PROPOSAL_SORTS)
-from adhocracy.lib.queue import post_update
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.templating import ret_success
+from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
 from paste.deploy.converters import asbool
@@ -429,6 +428,18 @@ class UserController(BaseController):
             # message.
             redirect(h.base_url(path='/user/%s/dashboard' % c.user.user_name))
         else:
+            login_configuration = h.allowed_login_types()
+            error_message = _("Invalid login")
+            
+            if 'username+password' in login_configuration:
+                if 'email+password' in login_configuration:
+                    error_message = _("Invalid email / user name or password")
+                else:
+                    error_message = _("Invalid user name or password")
+            else:
+                if 'email+password' in login_configuration:
+                    error_message = _("Invalid email or password")            
+            
             return formencode.htmlfill.render(
                 render("/user/login.html"),
                 errors={"login": _("Invalid user name or password")})
@@ -508,7 +519,7 @@ class UserController(BaseController):
         return render('/user/dashboard.html')
 
     def dashboard_proposals(self, id):
-        '''Render all proposals for all instances the use is member'''
+        '''Render all proposals for all instances the user is member'''
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -523,7 +534,7 @@ class UserController(BaseController):
         return render("/user/proposals.html")
 
     def dashboard_pages(self, id):
-        '''Render all proposals for all instances the use is member'''
+        '''Render all proposals for all instances the user is member'''
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -539,7 +550,7 @@ class UserController(BaseController):
         #render result
         return render("/user/pages.html")
 
-    @ActionProtector(has_permission("user.view"))
+    @guard.perm("user.view")
     def complete(self):
         prefix = unicode(request.params.get('q', u''))
         users = model.User.complete(prefix, 15)
@@ -697,7 +708,7 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    @ActionProtector(has_permission('instance.admin'))
+    @guard.perm('instance.admin')
     def badges(self, id, errors=None):
         if has('global.admin'):
             c.badges = model.UserBadge.all(instance=None)
@@ -717,7 +728,7 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='badges')
-    @ActionProtector(has_permission('instance.admin'))
+    @guard.perm('instance.admin')
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
         badges = self.form_result.get('badge')
@@ -748,7 +759,7 @@ class UserController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        post_update(user, model.update.UPDATE)
+        update_entity(user, model.update.UPDATE)
         redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):

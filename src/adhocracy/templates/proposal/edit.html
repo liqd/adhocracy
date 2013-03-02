@@ -47,7 +47,7 @@
         <select name="category"> 
           <option value="">${_("No Category")}</option>
           %for category in c.categories:
-          <option value="${category.id}" ${'selected="selected"' if category==c.category else ''}>${category.description}</option>
+          <option value="${category.id}" ${'selected="selected"' if category==c.category else '' | n}>${category.description}</option>
           %endfor
         </select>      
       </div>

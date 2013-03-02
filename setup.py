@@ -36,22 +36,22 @@ setup(
         "AUTHORS.txt",
     ]]),
     install_requires=[
-        "Pylons==1.0.1",
+        "adhocracy-Pylons>=1.0.1",
         "WebOb==1.2.3",
         "SQLAlchemy==0.7.10",
         "sqlalchemy-migrate>=0.6",
-        "FormEncode>=1.2.4",
+        "FormEncode>=1.2.5",
         "repoze.who>=2.0",
         "repoze.what==1.0.8",  # 1.0.9 conflicts with repoze.who>=2.0
         "repoze.who.plugins.sa==1.0rc2",
-        "repoze.what-pylons==1.0",
         "repoze.what.plugins.sql==1.0.1",
         "repoze.who-friendlyform==1.0.8",
         "repoze.who-testutil==1.0",
         "python-twitter>=0.6",
         "oauth2",  # undeclared requirement of python-twitter
         "oauth>=1.0.1",
-        "amqplib>=0.6.1",
+        "rq",
+        "redis",
         "babel>=0.9",
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
@@ -100,13 +100,14 @@ setup(
         ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
         ('static/**', 'ignore', None)]},
     zip_safe=False,
-    paster_plugins=['PasteScript', 'Pylons'],
+    paster_plugins=['PasteScript', 'adhocracy_Pylons'],
     entry_points={
         'paste.app_factory': [
             'main = adhocracy.config.middleware:make_app'
         ],
         'paste.paster_command': [
-            'background = adhocracy.lib.cli:Background',
+            'worker = adhocracy.lib.cli:Worker',
+            'timer = adhocracy.lib.cli:Timer',
             'index = adhocracy.lib.cli:Index'
         ],
         'paste.app_install': [

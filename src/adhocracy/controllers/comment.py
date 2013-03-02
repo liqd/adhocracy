@@ -8,8 +8,6 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
-from repoze.what.plugins.pylonshq import ActionProtector
-
 from adhocracy import forms, model
 from adhocracy.lib import democracy
 from adhocracy.lib import event, helpers as h, sorting, tiles, watchlist
@@ -224,7 +222,7 @@ class CommentController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest()
-    @ActionProtector(has_permission("comment.edit"))
+    @guard.perm("comment.edit")
     @validate(schema=CommentRevertForm(), form="history",
               post_only=False, on_get=True)
     def revert(self, id, format='html'):
@@ -247,7 +245,7 @@ class CommentController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest()
-    @ActionProtector(has_permission("global.admin"))
+    @guard.perm("global.admin")
     @validate(schema=CommentPurgeForm(), form="history",
               post_only=False, on_get=True)
     def purge_history(self, id, format='html'):

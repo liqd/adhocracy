@@ -12,7 +12,7 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib import pager, sorting
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.static import StaticPage
+from adhocracy.lib.static import get_static_page
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -37,8 +37,7 @@ class RootController(BaseController):
         elif instances_in_root == -1:
             c.instances = model.Instance.all()
 
-        c.page = StaticPage('index')
-
+        c.page = get_static_page('index')
         #query = self.form_result.get('proposals_q')
         #proposals = libsearch.query.run(query,
         #                                entity_type=model.Proposal)[:10]

@@ -45,6 +45,7 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         q = model.meta.Session.query(model.User)
         q = q.filter(model.User.user_name == unicode(item_name))
         q = q.options(eagerload(model.User.memberships))
+
         try:
             return q.one()
         except NoResultFound, e:

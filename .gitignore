@@ -36,7 +36,7 @@ installed_eggs
 .mr.developer.cfg
 .installed.cfg
 etc/adhocracy.ini
-etc/rabbitmq-env.conf
+etc/redis.conf
 etc/unthemed.ini
 etc/vhost.conf
 etc/sysv-init
@@ -46,3 +46,4 @@ mailsink
 adhocracy-test-chroot
 RELEASE-VERSION
 dist
+buildout_current.cfg

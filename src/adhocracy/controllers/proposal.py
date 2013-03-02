@@ -8,18 +8,16 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
-from repoze.what.plugins.pylonshq import ActionProtector
-
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
-from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.auth import authorization, can, csrf, require, guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.templating import render_geojson
-from adhocracy.lib.queue import post_update
+from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import format_json_feature_to_geotag
 
@@ -133,10 +131,10 @@ class ProposalController(BaseController):
         return render("/proposal/index_map.html")
 
     @RequireInstance
+    @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
     def new(self, errors=None):
-        require.proposal.create()
         c.pages = []
         c.exclude_pages = []
         c.categories = model.CategoryBadge.all(
@@ -189,7 +187,8 @@ class ProposalController(BaseController):
                                         self.form_result.get('text'),
                                         c.user,
                                         function=model.Page.DESCRIPTION,
-                                        wiki=self.form_result.get('wiki'))
+                                        wiki=self.form_result.get('wiki'),
+                                        formatting=True)
         description.parents = [proposal]
         model.meta.Session.flush()
         proposal.description = description
@@ -233,8 +232,8 @@ class ProposalController(BaseController):
               post_only=False, on_get=True)
     def edit(self, id, errors={}):
         c.proposal = get_entity_or_abort(model.Proposal, id)
-        c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
         require.proposal.edit(c.proposal)
+        c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
 
         c.text_rows = text.text_rows(c.proposal.description.head)
 
@@ -462,7 +461,7 @@ class ProposalController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
-    @ActionProtector(authorization.has_permission("instance.admin"))
+    @guard.perm("instance.admin")
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         c.badges = self._editable_badges(c.proposal)
@@ -483,7 +482,7 @@ class ProposalController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
-    @ActionProtector(authorization.has_permission("instance.admin"))
+    @guard.perm("instance.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)
@@ -510,7 +509,7 @@ class ProposalController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        post_update(proposal, model.update.UPDATE)
+        update_entity(proposal, model.update.UPDATE)
         if format == 'ajax':
             obj = {'html': render_def('/badge/tiles.html', 'badges',
                                       badges=proposal.badges)}

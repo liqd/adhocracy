@@ -13,12 +13,16 @@
 
 ${c.tile.description|n}
 
-%if h.asbool(config.get('adhocracy.show_instance_overview_proposals')):
+%if c.new_proposals_pager is not None or c.all_proposals_pager is not None:
 <hr />
-DDD
 <div id="new_proposals_table" class="table">
+    %if c.new_proposals_pager is not None:
     <h3 class="section">${_("Newest Proposals")}</h3>
     ${c.new_proposals_pager.here()}
+    %endif
+    %if c.all_proposals_pager is not None:
+    ${c.all_proposals_pager.here()}
+    %endif
 
     <div id="proposal-actions">
         <% auth = check.proposal.create() %>
@@ -40,9 +44,11 @@ DDD
            href="${h.base_url('/proposal/new')}" rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
+        %if not c.all_proposals_pager:
         <a href="${h.base_url('/proposal')}" 
            class="button edit ttip" 
            title="${_('show a list of proposals')}">${_("more proposals")}</a>
+        %endif
     </div>
 
 </div>
@@ -62,8 +68,10 @@ ${c.next_milestones_pager.here()}
 
 <%block name="sidebar">
 <div class="sidebar_box">
+%if c.events_pager is not None:
 <h3>${_('Newest Events')}</h3>
 ${c.events_pager.here()}
+%endif
 
 %if h.asbool(config.get('adhocracy.proposal_geotags')):
 <h3 class="map_h3">${_('Newest geotagged proposals')}</h3>
@@ -81,12 +89,14 @@ ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not Non
     <h6>${_('Votings')}</h6>
     <p>${c.sidebar_delegations}</p>
 
+    %if c.stats is not None:
     <h6>${_('By the numbers')}</h6>
     <ul class="nobullet">
         <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
         <li>${_("<b>%s</b> proposals") % c.stats.get('proposals')|n}</li>
         <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
     </ul>
+    %endif
     
 </summary>
 

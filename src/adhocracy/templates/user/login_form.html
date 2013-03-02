@@ -1,15 +1,28 @@
 <%
 from urllib import urlencode
+
 came_from = request.params.get('came_from', '')
 query_string = ''
 if came_from:
     query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
+    
+login_titleandtype = h.allowed_login_types()
+if 'username+password' in login_titleandtype and 'email+password' in login_titleandtype:
+    field_title = _('Email or username:')
+    field_type = 'text'
+else:
+    field_title = _('Login:')
+    field_type =  'text'
+    if 'email+password' in login_titleandtype and \
+            'username+password' not in login_titleandtype:
+        field_title = _('Email:')
+        field_type = 'email'
 %>
 <div class="form_wrapper">
   <form name="login" method="POST" action="/perform_login">
     <div class="input_wrapper">
-      <label for="username">${_("Login:")}</label>
-      <input type="text" name="login" tabindex="1" />
+      <label for="username">${field_title}</label>
+      <input type="${field_type}" name="login" tabindex="1" />
     </div>
     <div class="input_wrapper">
       <label for="password">${_("Password:")}</label>

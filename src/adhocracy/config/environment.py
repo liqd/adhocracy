@@ -1,6 +1,7 @@
 """Pylons environment configuration"""
 import os
 import time
+import sys
 import traceback
 
 from mako.lookup import TemplateLookup
@@ -19,6 +20,7 @@ from adhocracy.lib.search import init_search
 from adhocracy.lib.democracy import init_democracy
 from adhocracy.lib.util import create_site_subdirectory
 from adhocracy.lib import init_site
+from adhocracy.lib.queue import RQConfig
 
 
 def load_environment(global_conf, app_conf, with_db=True):
@@ -30,11 +32,20 @@ def load_environment(global_conf, app_conf, with_db=True):
     conf_copy.update(app_conf)
     site_templates = create_site_subdirectory('templates', app_conf=conf_copy)
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    client_containing = app_conf.get('adhocracy.client_location')
+    if client_containing:
+        client_root = os.path.join(client_containing, 'adhocracy_client')
+        sys.path.insert(0, client_containing)
+        import adhocracy_client.static
+        sys.modules['adhocracy.static'] = adhocracy_client.static
+    else:
+        client_root = root
+    import adhocracy.static
     paths = dict(root=root,
                  controllers=os.path.join(root, 'controllers'),
-                 static_files=os.path.join(root, 'static'),
+                 static_files=os.path.join(client_root, 'static'),
                  templates=[site_templates,
-                            os.path.join(root, 'templates')])
+                            os.path.join(client_root, 'templates')])
 
     # Initialize config with the basic options
     config = PylonsConfig()
@@ -69,6 +80,7 @@ def load_environment(global_conf, app_conf, with_db=True):
     if with_db:
         init_search()
     init_democracy()
+    RQConfig.setup_from_config(config)
 
     return config
 

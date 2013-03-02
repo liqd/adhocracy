@@ -4,7 +4,7 @@ import logging
 from pylons import config
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
-from sqlalchemy import Integer, Unicode
+from sqlalchemy import Integer, Unicode, Boolean
 from geoalchemy import GeometryExtensionColumn, Geometry
 
 import meta
@@ -18,6 +18,7 @@ page_table = Table(
     'page', meta.data,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('function', Unicode(20)),
+    Column('formatting', Boolean, default=False),
     GeometryExtensionColumn(
         'geotag', Geometry(dimension=2, srid=900913), nullable=True),
 )
@@ -33,9 +34,10 @@ class Page(Delegateable):
     WITH_VARIANTS = [NORM]  # [DESCRIPTION, NORM]
     LISTED = [NORM]
 
-    def __init__(self, instance, alias, creator, function):
+    def __init__(self, instance, alias, creator, function, formatting=False):
         self.init_child(instance, alias, creator)
         self.function = function
+        self.formatting = formatting
 
     @property
     def selections(self):
@@ -108,14 +110,14 @@ class Page(Delegateable):
 
     @classmethod
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
-               wiki=False):
+               wiki=False, formatting=False):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
         if function not in Page.FUNCTIONS:
             raise AttributeError("Invalid page function type")
         label = title2alias(title)
-        page = Page(instance, label, creator, function)
+        page = Page(instance, label, creator, function, formatting)
         meta.Session.add(page)
         meta.Session.flush()
         Text(page, Text.HEAD, creator, title, text, wiki)

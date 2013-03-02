@@ -1,8 +1,9 @@
 import rfc822
 import hashlib
+import logging
 
 from pylons import response
-from pylons.templating import render_mako, render_mako_def
+import pylons.templating
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
 import geojson
@@ -14,6 +15,8 @@ import tiles
 import text
 import auth
 import sorting
+
+log = logging.getLogger(__name__)
 
 
 def tpl_vars():
@@ -28,8 +31,19 @@ def tpl_vars():
     vars['model'] = model
     return vars
 
+_legacy = object()
+def render(template_name, data=_legacy, overlay=False):
+    """ If overlay is True, the template will be rendered in a minimal template
+        containing only the main content markup of the site."""
 
-def render(template_name, extra_vars=None, cache_key=None,
+    if data is _legacy:
+        # log.debug(u'Legacy call to render() - missing data')
+        data = {}
+
+    return render_mako(template_name, data, overlay=overlay)
+
+
+def render_mako(template_name, data, extra_vars=None, cache_key=None,
            cache_type=None, cache_expire=None, overlay=False):
     """
     Signature matches that of pylons actual render_mako. Except
@@ -45,7 +59,10 @@ def render(template_name, extra_vars=None, cache_key=None,
     if overlay:
         extra_vars['root_template'] = '/overlay.html'
 
-    page = render_mako(template_name, extra_vars=extra_vars,
+    for k,v in data.items():
+        setattr(pylons.tmpl_context, k, v)
+
+    page = pylons.templating.render_mako(template_name, extra_vars=extra_vars,
                        cache_key=cache_key, cache_type=cache_type,
                        cache_expire=cache_expire)
     return page
@@ -56,13 +73,15 @@ def render_def(template_name, def_name, extra_vars=None, cache_key=None,
     """
     Signature matches that of pylons actual render_mako_def.
     """
+    # log.debug(u'Call to deprecated (Mako-specific) method render_def -'
+    #           u'call render(template_name, data, only_fragment=True) instead')
     if not extra_vars:
         extra_vars = {}
 
     extra_vars.update(tpl_vars())
     extra_vars.update(kwargs)
 
-    return render_mako_def(template_name, def_name,
+    return pylons.templating.render_mako_def(template_name, def_name,
                            cache_key=cache_key, cache_type=cache_type,
                            cache_expire=cache_expire, **extra_vars)
 

@@ -432,7 +432,7 @@ class GPG:
         if not (isinstance(recipients,list) or isinstance(recipients,tuple)):
             recipients = [recipients]
         for recipient in recipients:
-            args.append('--recipient %s'%recipient)
+            args.append('--recipient %s' % recipient)
         if sign:
             args.append("--sign --default-key %s" % sign)
         if always_trust:
@@ -608,9 +608,9 @@ class ImportResult:
 
     def summary(self):
         l = []
-        l.append('%d imported'%self.imported)
+        l.append('%d imported' % self.imported)
         if self.not_imported:
-            l.append('%d not imported'%self.not_imported)
+            l.append('%d not imported' % self.not_imported)
         return ', '.join(l)
 
 class ListKeys(list):

@@ -8,12 +8,10 @@ from formencode import validators
 
 from paste.deploy.converters import asbool, asint
 
-from pylons import request, response, tmpl_context as c, config, session
+from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
-
-from repoze.what.plugins.pylonshq import ActionProtector
 
 import geojson
 from shapely import wkb
@@ -26,9 +24,9 @@ from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
 from adhocracy.lib import cache
-from adhocracy.lib.auth import authorization, can, csrf, require
+from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.queue import post_update
+from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.templating import render_geojson
@@ -213,23 +211,9 @@ class InstanceController(BaseController):
             redirect(h.entity_url(c.page_instance))
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)
-        proposals = model.Proposal.all(instance=c.page_instance)
-        c.new_proposals_pager = pager.proposals(
-            proposals, size=7, enable_sorts=False,
-            enable_pages=False, default_sort=sorting.entity_newest)
-
         c.sidebar_delegations = (_('Delegations are enabled.') if
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
-
-        #pages = model.Page.all(instance=c.page_instance,
-        #        functions=[model.Page.NORM])
-        #c.top_pages_pager = pager.pages(
-        #    pages, size=7, enable_sorts=False,
-        #    enable_pages=False, default_sort=sorting.norm_selections)
-        #tags = model.Tag.popular_tags(limit=40)
-        #c.tags = sorted(text.tag_cloud_normalize(tags),
-        #                key=lambda (k, c, v): k.name)
 
         if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
                 and c.page_instance.milestones:
@@ -244,18 +228,43 @@ class InstanceController(BaseController):
                 milestones, size=number, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.milestone_time)
 
-        events = model.Event.find_by_instance(c.page_instance, limit=3)
+        c.events_pager = None
+        if asbool(config.get('adhocracy.show_instance_overview_events',
+                             'true')):
+            events = model.Event.find_by_instance(c.page_instance, limit=3)
+            c.events_pager = pager.events(events,
+                                          enable_pages=False,
+                                          enable_sorts=False)
 
-        c.events_pager = pager.events(events,
-                                      enable_pages=False,
-                                      enable_sorts=False)
+        proposals = model.Proposal.all(instance=c.page_instance)
 
-        c.stats = {
-            'comments': model.Comment.all_q().count(),
-            'proposals': model.Proposal.all_q(
-                instance=c.page_instance).count(),
-            'members': model.Membership.all_q().count()
-        }
+        show_new_proposals = asbool(config.get(
+            'adhocracy.show_instance_overview_proposals_new', 'false'))
+        if not show_new_proposals:
+            # Fall back to legacy option
+            show_new_proposals = asbool(config.get(
+                'adhocracy.show_instance_overview_proposals', 'true'))
+        c.new_proposals_pager = None
+        if asbool(show_new_proposals):
+            c.new_proposals_pager = pager.proposals(
+                proposals, size=7, enable_sorts=False,
+                enable_pages=False, default_sort=sorting.entity_newest)
+
+        c.all_proposals_pager = None
+        if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
+                             'false')):
+            c.all_proposals_pager = pager.proposals(proposals)
+
+        c.stats = None
+        if asbool(config.get('adhocracy.show_instance_overview_stats',
+                             'true')):
+            c.stats = {
+                'comments': model.Comment.all_q().count(),
+                'proposals': model.Proposal.all_q(
+                    instance=c.page_instance).count(),
+                'members': model.Membership.all_q().count()
+            }
+
         c.tutorial_intro = _('tutorial_instance_show_intro')
         c.tutorial = 'instance_show'
         return render("/instance/show.html")
@@ -304,7 +313,7 @@ class InstanceController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
-    @ActionProtector(authorization.has_permission("global.admin"))
+    @guard.perm("global.admin")
     def badges(self, id, errors=None, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
         c.badges = self._editable_badges(instance)
@@ -324,7 +333,7 @@ class InstanceController(BaseController):
             defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')
-    @ActionProtector(authorization.has_permission("global.admin"))
+    @guard.perm("global.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
@@ -343,7 +352,7 @@ class InstanceController(BaseController):
                 badge.assign(instance, c.user)
 
         model.meta.Session.commit()
-        post_update(instance, model.update.UPDATE)
+        update_entity(instance, model.update.UPDATE)
         if format == 'ajax':
             obj = {'html': render_def('/badge/tiles.html', 'badges',
                                       badges=instance.badges)}
