@@ -228,12 +228,12 @@ class InstanceController(BaseController):
 
         proposals = model.Proposal.all(instance=c.page_instance)
 
-        show_new_proposals = config.get(
-                    'adhocracy.show_instance_overview_proposals_new', 'false')
+        show_new_proposals = asbool(config.get(
+            'adhocracy.show_instance_overview_proposals_new', 'false'))
         if not show_new_proposals:
             # Fall back to legacy option
-            show_new_proposals = config.get(
-                        'adhocracy.show_instance_overview_proposals', 'true')
+            show_new_proposals = asbool(config.get(
+                'adhocracy.show_instance_overview_proposals', 'true'))
         c.new_proposals_pager = None
         if asbool(show_new_proposals):
             c.new_proposals_pager = pager.proposals(
