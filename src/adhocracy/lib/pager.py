@@ -280,6 +280,7 @@ def proposals(proposals, default_sort=None, **kwargs):
              _("newest comment"): sorting.delegateable_latest_comment,
              _("most support"): sorting.proposal_support,
              _("mixed"): sorting.proposal_mixed,
+             _("controversy"): sorting.proposal_controversy,
              _("alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
@@ -1015,7 +1016,7 @@ class ProposalVotesYesIndexer(SolrIndexer):
 
 class ProposalVotesNoIndexer(SolrIndexer):
 
-    solr_field = 'order.proposal.novotes'
+    solr_field = 'order.proposal.novotes'  
 
     @classmethod
     def add_data_to_index(cls, entity, data):
@@ -1032,6 +1033,16 @@ class ProposalMixedIndexer(SolrIndexer):
     def add_data_to_index(cls, entity, data):
         if isinstance(entity, model.Proposal):
             data[cls.solr_field] = sorting.proposal_mixed_key(entity)
+
+
+class ProposalControversyIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.controversy'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            date[cls.solr_field] = sorting.proposal_controversy(entity)
 
 
 class InstanceUserActivityIndexer(SolrIndexer):
@@ -1386,7 +1397,6 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
-
 
 def solr_instance_pager():
     # override default sort

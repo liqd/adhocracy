@@ -118,6 +118,21 @@ def proposal_mixed(entities):
     return sorted(entities, key=proposal_mixed_key, reverse=True)
 
 
+def proposal_controversy(entities):
+    def proposal_controversy_key(proposal):
+        num_for = proposal.rate_poll.tally.num_for
+        num_against = proposal.rate_poll.tally.num_against
+        if min(num_for, num_against) > 0:
+            controversy = (max(num_for, num_against) / 
+                           min(num_for, num_against) / (num_for + num_against))
+        else:
+            controversy = 1
+            if (num_for + num_against) != 0:
+                return (controversy, 1 / (num_for + num_against))
+            else:
+                return (controversy, 0)
+    return sorted(entities, key=proposal_controversy_key, reverse=True)
+
 def proposal_support(entities):
     return sorted(entities,
                   key=lambda p: p.rate_poll.tally.num_for, reverse=True)
