@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DEFAULT_BRANCH=develop
-BUILDOUT_URL=https://github.com/liqd/adhocracy.buildout
+GIT_URL=https://github.com/liqd/adhocracy
 SERVICE_TEMPLATE=etc/sysv-init.in
 SERVICE_TEMPLATE_URL=https://raw.github.com/liqd/adhocracy/$DEFAULT_BRANCH/$SERVICE_TEMPLATE
 CHECK_PORT_FREE_URL=https://raw.github.com/liqd/adhocracy/$DEFAULT_BRANCH/scripts/check_port_free.py
@@ -265,7 +265,7 @@ if [ -n "$check_port_free_tmp" ]; then
 fi
 
 if [ '!' -e adhocracy_buildout/.git ]; then
-    git clone https://github.com/liqd/adhocracy adhocracy_buildout
+    git clone "$GIT_URL" adhocracy_buildout
     (cd adhocracy_buildout && git checkout -q "$branch")
 fi
 
