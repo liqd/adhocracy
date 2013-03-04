@@ -23,6 +23,7 @@ user_table = Table('user', meta,
     Column('banned', Boolean, default=False),
     Column('no_help', Boolean, default=False, nullable=True),
     Column('page_size', Integer, default=10, nullable=True),
+    Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     )
 
 def upgrade(migrate_engine):
