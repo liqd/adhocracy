@@ -294,6 +294,12 @@ def make_map(config):
     map.connect('/instance/{id}/settings/badges/edit/{badge_id}',
                 controller='instance', action="settings_badges_update",
                 conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/massmessage',
+                controller='instance', action='settings_massmessage_new',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/massmessage',
+                controller='instance', action='settings_massmessage_create',
+                conditions=dict(method=['POST']))
     map.connect('/instance/{id}/settings/members_import',
                 controller='instance', action='settings_members_import',
                 conditions=dict(method=['GET']))

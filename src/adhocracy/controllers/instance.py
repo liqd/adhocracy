@@ -16,6 +16,7 @@ from pylons.i18n import _, lazy_ugettext as L_
 from adhocracy import forms, i18n, model
 from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
+from adhocracy.controllers.massmessage import MassmessageController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
 from adhocracy.lib.auth import can, csrf, require, guard
@@ -376,6 +377,8 @@ class InstanceController(BaseController):
             setting('contents', L_('Contents')),
             setting('voting', L_('Votings')),
             setting('badges', L_('Badges')),
+            setting('massmessage', L_('Mass message service'),
+                    allowed=(can.message.create)),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
                              can.instance.authenticated_edit(instance)))])
@@ -726,6 +729,29 @@ class InstanceController(BaseController):
             defaults={
                 '_method': 'PUT',
                 '_tok': csrf.token_id()})
+
+    def massmessage_controller(self):
+        '''
+        ugly hack to dispatch to the message controller.
+        '''
+        controller = MassmessageController()
+        controller.new_template = '/instance/settings_massmessage.html'
+        #controller.base_url_ = settings_url(instance, 'badges')
+        controller._py_object = self._py_object
+        controller.start_response = self.start_response
+        return controller
+
+    def settings_massmessage_new(self, id):
+        controller = self.massmessage_controller()
+        c.page_instance = self._get_current_instance(id)
+        c.settings_menu = self.settings_menu(c.page_instance, 'massmessage')
+        return controller.new()
+
+    def settings_massmessage_create(self, id):
+        controller = self.massmessage_controller()
+        c.page_instance = self._get_current_instance(id)
+        c.settings_menu = self.settings_menu(c.page_instance, 'massmessage')
+        return controller.create()
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
