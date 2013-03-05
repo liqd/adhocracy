@@ -3,10 +3,10 @@ from datetime import datetime
 from sqlalchemy import MetaData, Column, ForeignKey, Table
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 
-meta = MetaData()
+metadata = MetaData()
 
 message_table = Table(
-    'message', meta.data,
+    'message', metadata,
     Column('id', Integer, primary_key=True),
     Column('subject', Unicode(140), nullable=False),
     Column('body', UnicodeText(), nullable=True),
@@ -19,7 +19,7 @@ message_table = Table(
 )
 
 message_recipient_table = Table(
-    'message_recipient', meta.data,
+    'message_recipient', metadata,
     Column('id', Integer, primary_key=True),
     Column('message_id', Integer, ForeignKey('message.id'), nullable=False),
     Column('recipient_id', Integer, ForeignKey('user.id'), nullable=False),
@@ -27,7 +27,7 @@ message_recipient_table = Table(
 )
 
 user_table = Table(
-    'user', meta.data,
+    'user', metadata,
     Column('id', Integer, primary_key=True),
     Column('user_name', Unicode(255), nullable=False, unique=True, index=True),
     Column('display_name', Unicode(255), nullable=True, index=True),
