@@ -65,6 +65,11 @@ def make_map(config):
     map.connect('/user/{id}/message/new', controller='message', action='new',
                 conditions=dict(method=['GET']))
 
+    map.connect('/message/new', controller='massmessage', action='new',
+                conditions=dict(method=['GET']))
+    map.connect('/message/new', controller='massmessage', action='create',
+                conditions=dict(method=['POST']))
+
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
     map.connect('/logout', controller='user', action='logout')

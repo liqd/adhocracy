@@ -188,6 +188,9 @@ adhocracy.site.dir = ${parts.buildout.directory}/var/site
 # INSTALL: A nice E-Mail address. 
 adhocracy.email.from = ${parts.adhocracy['email.from']}
 
+# INSTALL: A noreply E-Mail address. 
+adhocracy.email.noreply = ${parts.adhocracy['email.noreply']}
+
 # Show fallback icons in instance overview if no instance icon is defined
 adhocracy.show_instance_fallback_icons = False
 
