@@ -22,9 +22,13 @@ def send(email_from, to_email, message):
     server.quit()
 
 
-def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True):
+def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
+            email_from=None, name_from=None):
     try:
-        email_from = config.get('adhocracy.email.from')
+        if email_from is None:
+            email_from = config.get('adhocracy.email.from')
+        if name_from is None:
+            name_from = config.get('adhocracy.site.name')
 
         if decorate_body:
             body = (_(u"Hi %s,") % to_name +
@@ -40,8 +44,7 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True):
 
         subject = Header(subject.encode(ENCODING), ENCODING)
         msg['Subject'] = subject
-        msg['From'] = _("%s <%s>") % (config.get('adhocracy.site.name'),
-                                      email_from)
+        msg['From'] = _("%s <%s>") % (name_from, email_from)
         to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
         msg['To'] = to
         msg['Date'] = email.Utils.formatdate(time())
@@ -52,9 +55,10 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True):
         log.exception("Sending mail failed.")
 
 
-def to_user(to_user, subject, body, headers={}, decorate_body=True):
+def to_user(to_user, subject, body, headers={}, decorate_body=True,
+            email_from=None, name_from=None):
     return to_mail(to_user.name, to_user.email, subject, body, headers,
-                   decorate_body=decorate_body)
+                   decorate_body, email_from, name_from)
 
 
 def send_activation_link(user):
