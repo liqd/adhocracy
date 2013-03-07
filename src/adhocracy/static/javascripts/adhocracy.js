@@ -473,7 +473,7 @@ $(document).ready(function () {
         second_level_comments.toggleClass('open');
     }());
 
-    if($('#main_comments').data('statsBaseurl')) {
+    if ($('#main_comments').data('statsBaseurl')) {
         $('.comment a.show_comments').one('click', function () {
             var c_id = $(this).closest('.comment').attr('id');
             var base_url = $('#main_comments').data('statsBaseurl');
