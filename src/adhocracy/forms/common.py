@@ -550,7 +550,7 @@ class MessageableInstances(formencode.FancyValidator):
 
     def _to_python(self, value, state):
 
-        if not len(value):
+        if not value:
             raise formencode.Invalid(
                 _('Please select at least one instance'), value, state)
 
