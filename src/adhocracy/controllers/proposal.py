@@ -272,6 +272,9 @@ class ProposalController(BaseController):
                 c.proposal.selections,
                 key=lambda s: s.page.title)
 
+        c.votedetail = model.votedetail.calc_votedetail(c.instance,
+                                                        c.proposal.rate_poll)
+
         if format == 'rss':
             return self.activity(id, format)
 
