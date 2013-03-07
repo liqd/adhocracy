@@ -31,3 +31,13 @@ else:
 </style>
 
 </%def>
+
+<%def name="badge_selector(badges, field_name)">
+%for b in badges:
+    <label>
+    <input type="checkbox" name="${field_name}" value="${b.id}"/>
+    ${badge(b)}
+    </label>
+%endfor
+</%def>
+

@@ -9,6 +9,10 @@ def badges(badges):
     return render_def('/badge/tiles.html', 'badges', badges=badges,
                       cached=True)
 
+def badge_selector(badges, field_name):
+    from adhocracy.lib.templating import render_def
+    return render_def('/badge/tiles.html', 'badge_selector',
+                    badges=badges, field_name=field_name)
 
 def badge_styles():
     '''

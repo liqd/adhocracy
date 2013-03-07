@@ -136,6 +136,8 @@ class InstanceVotingEditForm(formencode.Schema):
                                            if_missing=False)
     activation_delay = validators.Int(not_empty=True)
     required_majority = validators.Number(not_empty=True)
+    votedetail_badges = formencode.foreach.ForEach(validators.Int(),
+                                                    convert_to_list=True)
 
 
 class InstanceBadgesEditForm(formencode.Schema):
@@ -633,21 +635,27 @@ class InstanceController(BaseController):
                 {'value': majority[0],
                  'label': h.literal(majority[1]),
                  'selected': c.page_instance.required_majority == majority[0]})
+        c.votedetail_all_userbadges = model.UserBadge.all(
+                                  instance=c.page_instance, include_global=True)
+
         return render("/instance/settings_voting.html")
 
     @RequireInstance
     def settings_voting(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        return htmlfill.render(
-            self.settings_voting_form(id),
-            defaults={
+        defaults = {
                 '_method': 'PUT',
                 'required_majority': c.page_instance.required_majority,
                 'activation_delay': c.page_instance.activation_delay,
                 'allow_adopt': c.page_instance.allow_adopt,
                 'allow_delegate': c.page_instance.allow_delegate,
-                '_tok': csrf.token_id()})
+                '_tok': csrf.token_id()}
+        defaults['votedetail_badges'] = [b.id for b in
+                                         c.page_instance.votedetail_userbadges]
+        return htmlfill.render(
+            self.settings_voting_form(id),
+            defaults=defaults)
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
@@ -662,6 +670,14 @@ class InstanceController(BaseController):
             c.page_instance, self.form_result,
             ['required_majority', 'activation_delay', 'allow_adopt',
              'allow_delegate'])
+
+        votedetail_badges_ids = self.form_result['votedetail_badges']
+        new_badges = model.UserBadge.findall_by_ids(votedetail_badges_ids)
+        updated_vd = c.page_instance.votedetail_userbadges != new_badges
+        if updated_vd:
+            c.page_instance.votedetail_userbadges = new_badges
+        updated = updated or updated_vd
+
         return self.settings_result(updated, c.page_instance, 'voting')
 
     def badge_controller(self, instance):

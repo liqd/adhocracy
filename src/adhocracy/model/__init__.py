@@ -45,6 +45,8 @@ from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.requestlog import RequestLog, requestlog_table
+from adhocracy.model.votedetail import votedetail_table
+
 
 mapper(User, user_table, properties={
     'email': synonym('_email', map_column=True),
@@ -335,7 +337,8 @@ mapper(Instance, instance_table, properties={
         primaryjoin=instance_table.c.creator_id == user_table.c.id,
         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
-    'default_group': relation(Group, lazy=True)
+    'default_group': relation(Group, lazy=True),
+    'votedetail_userbadges': relation(UserBadge, secondary=votedetail_table)
 })
 
 
