@@ -8,7 +8,7 @@ votedetail_table = Table(
     Column('instance_id', Integer,
             ForeignKey('instance.id', ondelete='CASCADE')),
     Column('badge_id', Integer,
-            ForeignKey('badge.id'), ondelete='CASCADE')),
+            ForeignKey('badge.id', ondelete='CASCADE')),
 )
 
 def upgrade(migrate_engine):
