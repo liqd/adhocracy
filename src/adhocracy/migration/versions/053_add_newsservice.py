@@ -51,7 +51,7 @@ user_table = Table(
 
 
 def upgrade(migrate_engine):
-    meta.bind = migrate_engine
+    metadata.bind = migrate_engine
     message_table.create()
     message_recipient_table.create()
 
