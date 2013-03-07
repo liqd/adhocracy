@@ -25,7 +25,7 @@ from adhocracy.model import User
 log = logging.getLogger(__name__)
 
 
-class MassMessageForm(formencode.Schema):
+class MassmessageForm(formencode.Schema):
     allow_extra_fields = True
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
@@ -79,7 +79,7 @@ class MassmessageController(BaseController):
                                force_defaults=False)
 
     @RequireInternalRequest(methods=['POST'])
-    @validate(schema=MassMessageForm(), form='new')
+    @validate(schema=MassmessageForm(), form='new')
     def create(self):
 
         allowed_sender_options = self.get_allowed_sender_options(c.user)
