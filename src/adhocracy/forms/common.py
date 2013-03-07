@@ -554,7 +554,7 @@ class MessageableInstances(formencode.FancyValidator):
             raise formencode.Invalid(
                 _('Please select at least one instance'), value, state)
 
-        if len(value) == 1:
+        if not isinstance(value, list):
             value = [value]
 
         from adhocracy.controllers.massmessage import MassmessageController
