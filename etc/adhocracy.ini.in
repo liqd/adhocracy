@@ -188,8 +188,8 @@ adhocracy.site.dir = ${parts.buildout.directory}/var/site
 # INSTALL: A nice E-Mail address. 
 adhocracy.email.from = ${parts.adhocracy['email.from']}
 
-# INSTALL: A noreply E-Mail address. 
-adhocracy.email.noreply = ${parts.adhocracy['email.noreply']}
+# INSTALL: Allow users to use the above email as sender address in mass messages
+allow_system_email_in_mass_messages = True
 
 # Show fallback icons in instance overview if no instance icon is defined
 adhocracy.show_instance_fallback_icons = False

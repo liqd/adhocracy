@@ -5,6 +5,7 @@ from pylons import request
 from pylons import tmpl_context as c
 from pylons.decorators import validate
 from pylons.i18n import _
+from paste.deploy.converters import asbool
 
 import formencode
 from formencode import validators, htmlfill
@@ -30,6 +31,7 @@ class MassmessageForm(formencode.Schema):
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
     instances = forms.MessageableInstances()
+    sender = validators.String(not_empty=True)
 
 
 class MassmessageController(BaseController):
@@ -53,10 +55,28 @@ class MassmessageController(BaseController):
 
     @classmethod
     def get_allowed_sender_options(cls, user):
-        return {
-            'noreply': (config.get('adhocracy.email.noreply'), True, True),
-            'sender': (user.email, False, user.is_email_activated()),
+        sender_options = {
+            'user': {
+                'email': user.email,
+                'checked': False,
+                'enabled': user.is_email_activated(),
+                'reason': _("Email isn't activated"),
+            },
+            'system': {
+                'email': config.get('adhocracy.email.from'),
+                'checked': False,
+                'enabled': asbool(config.get(
+                    'allow_system_email_in_mass_messages', 'true')),
+                'reason': _("Not permitted in system settings"),
+            }
         }
+
+        if sender_options['user']['enabled']:
+            sender_options['user']['checked'] = True
+        elif sender_options['system']['enabled']:
+            sender_options['system']['checked'] = True
+
+        return sender_options
 
     def new(self, id=None, errors={}):
 
@@ -88,13 +108,12 @@ class MassmessageController(BaseController):
         allowed_sender_options = self.get_allowed_sender_options(c.user)
         sender = self.form_result.get('sender')
         assert(sender in allowed_sender_options)
-        sender_email, checked, enabled = allowed_sender_options[sender]
-        assert(enabled)
+        assert allowed_sender_options[sender]['enabled']
 
         message = Message.create(self.form_result.get('subject'),
                                  self.form_result.get('body'),
                                  c.user,
-                                 sender_email)
+                                 allowed_sender_options[sender]['email'])
 
         # Determine recipients
 
