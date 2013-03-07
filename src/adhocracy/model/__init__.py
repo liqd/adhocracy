@@ -338,7 +338,8 @@ mapper(Instance, instance_table, properties={
         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
     'default_group': relation(Group, lazy=True),
-    'votedetail_userbadges': relation(UserBadge, secondary=votedetail_table)
+    'votedetail_userbadges': relation(UserBadge, lazy=True,
+                                      secondary=votedetail_table)
 })
 
 
