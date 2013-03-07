@@ -883,7 +883,8 @@ class InstanceController(BaseController):
                            message=_("You've left %(instance)s.") % {
                                'instance': c.page_instance.label})
 
-    def _get_current_instance(self, id):
+    @classmethod
+    def _get_current_instance(cls, id):
         if id != c.instance.key:
             abort(403, _("You cannot manipulate one instance from within "
                          "another instance."))
