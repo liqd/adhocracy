@@ -40,8 +40,10 @@ class MassmessageController(BaseController):
 
     @classmethod
     def get_allowed_instances(cls, user):
-        # all instances in which the current user has permission to send a
-        # message to
+        """
+        returns all instances in which the given user has permission to send a
+        message to all users
+        """
         needed_permission = Permission.find_multiple(
             ['instance.message', 'global.message'])
 
