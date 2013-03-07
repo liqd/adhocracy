@@ -1,7 +1,7 @@
-def badge(badge):
+def badge(badge, force_visible=False):
     from adhocracy.lib.templating import render_def
     return render_def('/badge/tiles.html', 'badge', badge=badge,
-                      cached=True)
+                        force_visible=force_visible, cached=True)
 
 
 def badges(badges):
