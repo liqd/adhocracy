@@ -10,12 +10,12 @@ import formencode
 from formencode import validators, htmlfill
 
 from adhocracy import forms
-from adhocracy.lib.auth import guard, require
+from adhocracy.controllers.instance import InstanceController
+from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 from adhocracy.lib.templating import ret_success
-from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
@@ -38,8 +38,6 @@ class MassmessageController(BaseController):
     will be merged with the MessageController at some point.
     """
 
-    new_template = '/massmessage/new.html'
-
     @classmethod
     def get_allowed_instances(cls, user):
         # all instances in which the current user has permission to send a
@@ -58,8 +56,16 @@ class MassmessageController(BaseController):
             'sender': (user.email, False, user.is_email_activated()),
         }
 
-    def new(self, errors={}):
+    def new(self, id=None, errors={}):
         require.perm('instance.message')
+
+        if id is None:
+            template = '/massmessage/new.html'
+        else:
+            c.page_instance = InstanceController._get_current_instance(id)
+            c.settings_menu = InstanceController.settings_menu(c.page_instance,
+                                                               'massmessage')
+            template = '/instance/settings_massmessage.html'
 
         defaults = dict(request.params)
 
@@ -68,7 +74,7 @@ class MassmessageController(BaseController):
             'sender_options': self.get_allowed_sender_options(c.user),
         }
 
-        return htmlfill.render(render(self.new_template, data),
+        return htmlfill.render(render(template, data),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 
