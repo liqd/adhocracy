@@ -295,7 +295,7 @@ adhocracy.show_instance_overview_milestones = True
 adhocracy.number_instance_overview_milestones = 3
 
 # show newest proposals in instance overview
-adhocracy.show_instance_overview_proposals_new = False
+# adhocracy.show_instance_overview_proposals_new = False
 
 # hide categories in facet navigation if no proposal is assigned to it
 adhocracy.hide_empty_categories_in_facet_list = True
