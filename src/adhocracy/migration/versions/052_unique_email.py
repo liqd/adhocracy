@@ -26,7 +26,8 @@ user_table = Table('user', metadata,
     Column('banned', Boolean, default=False),
     Column('no_help', Boolean, default=False, nullable=True),
     Column('page_size', Integer, default=10, nullable=True),
-    Column('gender', Unicode(1), default=None)
+    Column('gender', Unicode(1), default=None),
+    Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     )
     
     

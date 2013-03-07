@@ -131,12 +131,12 @@ class BadgeController(BaseController):
         else:
             return method()
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create(self, badge_type):
         return self.dispatch('create', badge_type)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_instance_badge(self):
         try:
@@ -150,7 +150,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_user_badge(self):
         try:
@@ -168,7 +168,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_delegateable_badge(self):
         try:
@@ -182,7 +182,7 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_category_badge(self):
         try:
@@ -228,7 +228,7 @@ class BadgeController(BaseController):
             self._redirect_not_found(id)
         return badge
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     def edit(self, id, errors=None):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
@@ -251,14 +251,14 @@ class BadgeController(BaseController):
                                defaults=defaults,
                                force_defaults=False)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update(self, id):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         return self.dispatch('update', c.badge_type, id=id)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_user_badge(self, id):
         try:
@@ -283,7 +283,7 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_delegateable_badge(self, id):
         try:
@@ -303,7 +303,7 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_instance_badge(self, id):
         try:
@@ -323,7 +323,7 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard(require.instance.any_admin)
+    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_category_badge(self, id):
         try:

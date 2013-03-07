@@ -5,7 +5,7 @@ from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import reconstructor
 
-import simplejson as json
+import json
 
 import instance_filter as ifilter
 import meta

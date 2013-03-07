@@ -6,17 +6,15 @@
 
 Requires:
   python-twitter
-  simplejson
   oauth
 '''
 
 __author__ = "Hameedullah Khan <hameed@hameedkhan.net>"
 __version__ = "0.2"
 
+import json
 
 from twitter import Api, User
-
-import simplejson
 from oauth import oauth
 
 
@@ -200,8 +198,8 @@ class OAuthApi(Api):
         Returns:
           Returns the twitter.User object
         '''
-        json = self._FetchUrl(url)
-        data = simplejson.loads(json)
+        json_data = self._FetchUrl(url)
+        data = json.loads(json_data)
         self._CheckForTwitterError(data)
         return User.NewFromJsonDict(data)
         

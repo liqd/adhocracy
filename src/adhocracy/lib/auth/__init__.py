@@ -123,7 +123,7 @@ class RecursiveAuthWrapper(object):
 
     def check(self, *a, **kw):
 
-        auth_check = authorization.AuthCheck(method=self.obj.func_name)
+        auth_check = authorization.AuthCheck(method=self.obj.__name__)
         self.obj(auth_check, *a, **kw)
 
         if self.raise_type == RETURN_AUTH_CHECK:
