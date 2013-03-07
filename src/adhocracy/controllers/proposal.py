@@ -3,7 +3,9 @@ import logging
 import formencode
 from formencode import htmlfill, Invalid, validators
 
-from pylons import request, tmpl_context as c
+from paste.deploy.converters import asbool
+
+from pylons import config, request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -291,6 +293,11 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
+        monitor_comment_behavior = asbool(
+                config.get('adhocracy.monitor_comment_behavior', 'False'))
+        if monitor_comment_behavior:
+            c.monitor_comment_url = h.url.build(c.instance, 'stats', '',
+                    member='read_comments', query={ 'path' : h.entity_url(c.proposal) })
         return render("/proposal/show.html")
 
     @RequireInstance
