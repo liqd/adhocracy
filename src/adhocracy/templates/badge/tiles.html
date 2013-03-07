@@ -9,7 +9,7 @@ else:
     badge_id = badge.id
     badge_title = badge.title
     if not badge.visible:
-        return 
+        return ''
 %>
     <span class="abadge badge_${badge_id}">
         <span class="${description and 'ttip' or ''}" 
