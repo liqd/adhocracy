@@ -377,7 +377,7 @@ class InstanceController(BaseController):
             setting('voting', L_('Votings')),
             setting('badges', L_('Badges')),
             setting('massmessage', L_('Mass message service'),
-                    allowed=(can.message.create)),
+                    allowed=(can.message.create(instance))),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
                              can.instance.authenticated_edit(instance)))])

@@ -13,10 +13,12 @@ from formencode import validators, htmlfill
 from adhocracy import forms
 from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 from adhocracy.lib.templating import ret_success
+from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
@@ -46,12 +48,13 @@ class MassmessageController(BaseController):
         returns all instances in which the given user has permission to send a
         message to all users
         """
-        needed_permission = Permission.find_multiple(
-            ['instance.message', 'global.message'])
-
-        return [m.instance for m in user.memberships
-                if (m.instance is not None
-                    and m.group.has_any_permission(needed_permission))]
+        if has('global.message'):
+            return Instance.all()
+        else:
+            return [m.instance for m in user.memberships
+                    if (m.instance is not None
+                        and m.instance.is_authenticated
+                        and 'instance.message' in m.group.permissions)]
 
     @classmethod
     def get_allowed_sender_options(cls, user):
@@ -84,8 +87,8 @@ class MassmessageController(BaseController):
             require.perm('global.message')
             template = '/massmessage/new.html'
         else:
-            require.perm('instance.message')
             c.page_instance = InstanceController._get_current_instance(id)
+            require.message.create(c.page_instance)
             c.settings_menu = InstanceController.settings_menu(c.page_instance,
                                                                'massmessage')
             template = '/instance/settings_massmessage.html'
