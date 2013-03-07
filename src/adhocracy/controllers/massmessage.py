@@ -59,11 +59,12 @@ class MassmessageController(BaseController):
         }
 
     def new(self, id=None, errors={}):
-        require.perm('instance.message')
 
         if id is None:
+            require.perm('global.message')
             template = '/massmessage/new.html'
         else:
+            require.perm('instance.message')
             c.page_instance = InstanceController._get_current_instance(id)
             c.settings_menu = InstanceController.settings_menu(c.page_instance,
                                                                'massmessage')
