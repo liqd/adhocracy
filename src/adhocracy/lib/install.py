@@ -74,7 +74,7 @@ def setup_entities(initial_setup):
     mk_perm("instance.leave", initial_setup, default)
     mk_perm("instance.news", initial_setup, anonymous)
     mk_perm("instance.show", initial_setup, anonymous)
-    mk_perm("instance.message", initial_setup, anonymous)
+    mk_perm("instance.message", initial_setup, admins)
     mk_perm("milestone.create", initial_setup, supervisor)
     mk_perm("milestone.delete", initial_setup, supervisor)
     mk_perm("milestone.edit", initial_setup, supervisor)
