@@ -306,6 +306,8 @@ def make_map(config):
                                                  'update_badges': 'POST',
                                                  'activity': 'GET'})
 
+    map.connect('/stats/', controller='stats')
+
     # API
     map.connect('/api/{action}', controller='api')
     map.connect('/admin', controller='admin', action="index")
