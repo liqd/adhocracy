@@ -478,7 +478,6 @@ $(document).ready(function () {
             var c_id = $(this).closest('.comment').attr('id');
             var base_url = $('#main_comments').data('statsBaseurl');
             $.get(base_url + '&cause=showSubcomments&comment_id=' + c_id);
-            return false;
         });
         $(document).one('scroll', function() {
             var c_ids = $('.comment').filter('[id]').map(function() {
