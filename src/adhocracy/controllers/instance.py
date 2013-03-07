@@ -635,8 +635,11 @@ class InstanceController(BaseController):
                 {'value': majority[0],
                  'label': h.literal(majority[1]),
                  'selected': c.page_instance.required_majority == majority[0]})
-        c.votedetail_all_userbadges = model.UserBadge.all(
+        if model.votedetail.is_enabled():
+            c.votedetail_all_userbadges = model.UserBadge.all(
                                   instance=c.page_instance, include_global=True)
+        else:
+            c.votedetail_all_userbadges = None
 
         return render("/instance/settings_voting.html")
 
@@ -651,7 +654,8 @@ class InstanceController(BaseController):
                 'allow_adopt': c.page_instance.allow_adopt,
                 'allow_delegate': c.page_instance.allow_delegate,
                 '_tok': csrf.token_id()}
-        defaults['votedetail_badges'] = [b.id for b in
+        if model.votedetail.is_enabled():
+            defaults['votedetail_badges'] = [b.id for b in
                                          c.page_instance.votedetail_userbadges]
         return htmlfill.render(
             self.settings_voting_form(id),
@@ -671,12 +675,13 @@ class InstanceController(BaseController):
             ['required_majority', 'activation_delay', 'allow_adopt',
              'allow_delegate'])
 
-        votedetail_badges_ids = self.form_result['votedetail_badges']
-        new_badges = model.UserBadge.findall_by_ids(votedetail_badges_ids)
-        updated_vd = c.page_instance.votedetail_userbadges != new_badges
-        if updated_vd:
-            c.page_instance.votedetail_userbadges = new_badges
-        updated = updated or updated_vd
+        if model.votedetail.is_enabled():
+            votedetail_badges_ids = self.form_result['votedetail_badges']
+            new_badges = model.UserBadge.findall_by_ids(votedetail_badges_ids)
+            updated_vd = c.page_instance.votedetail_userbadges != new_badges
+            if updated_vd:
+                c.page_instance.votedetail_userbadges = new_badges
+            updated = updated or updated_vd
 
         return self.settings_result(updated, c.page_instance, 'voting')
 

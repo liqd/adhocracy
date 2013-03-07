@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column
 from sqlalchemy import Integer, ForeignKey
 from adhocracy.model import meta
+from paste.deploy.converters import asbool
 
 votedetail_table = Table(
     'votedetail', meta.data,
@@ -19,3 +20,6 @@ def calc_votedetail(instance, poll):
         res.append((badge, tally))
     return res
 
+def is_enabled():
+    from pylons import config
+    return asbool(config.get('adhocracy.enable_votedetail', 'false'))
