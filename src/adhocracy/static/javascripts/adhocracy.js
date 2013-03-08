@@ -473,18 +473,17 @@ $(document).ready(function () {
         second_level_comments.toggleClass('open');
     }());
 
-    if ($('#main_comments').data('statsBaseurl')) {
+    var stats_baseurl = $('#main_comments').data('stats-baseurl');
+    if (stats_baseurl) {
         $('.comment a.show_comments').one('click', function () {
             var c_id = $(this).closest('.comment').attr('id');
-            var base_url = $('#main_comments').data('statsBaseurl');
-            $.get(base_url + '&cause=showSubcomments&comment_id=' + c_id);
+            $.get(stats_baseurl + '&cause=showSubcomments&comment_id=' + c_id);
         });
         $(document).one('scroll', function() {
             var c_ids = $('.comment').filter('[id]').map(function() {
                 return this.id;
             }).get().sort().join(',');
-            var base_url = $('#main_comments').data('statsBaseurl');
-            $.get(base_url + '&cause=scroll&comment_id=' + c_ids);
+            $.get(stats_baseurl + '&cause=scroll&comment_id=' + c_ids);
         });
     }
 

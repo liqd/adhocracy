@@ -1,4 +1,5 @@
 import logging
+import urllib
 
 import formencode
 from formencode import htmlfill, Invalid, validators
@@ -296,8 +297,8 @@ class ProposalController(BaseController):
         monitor_comment_behavior = asbool(
                 config.get('adhocracy.monitor_comment_behavior', 'False'))
         if monitor_comment_behavior:
-            c.monitor_comment_url = h.url.build(c.instance, 'stats', '',
-                    member='read_comments', query={ 'path' : h.entity_url(c.proposal) })
+            c.monitor_comment_url = (h.base_url('/stats/read_comments') + '?' +
+                        urllib.urlencode({'path' : h.entity_url(c.proposal)}))
         return render("/proposal/show.html")
 
     @RequireInstance
