@@ -29,7 +29,7 @@
         "Please note that this key cannot be changed after the instance "
         "has been created.")|n}
       </p>
-      http://<input tabindex="2" class="" style="text-align: right;" name="key" />.${request.environ.get('adhocracy.domain')}
+      ${c.url_pre}<input tabindex="2" class=""${' style="text-align: right;"' if c.url_right_align else '' | n} name="key" />${c.url_post}
     </fieldset>
     
     <fieldset>

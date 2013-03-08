@@ -170,7 +170,21 @@ class InstanceController(BaseController):
 
     def new(self):
         require.instance.create()
-        return render("/instance/new.html")
+
+        data = {}
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        domain = config.get('adhocracy.domain').strip()
+
+        if asbool(config.get('adhocracy.relative_urls', 'false')):
+            data['url_pre'] = '%s://%s/i/' % (protocol, domain)
+            data['url_post'] = ''
+            data['url_right_align'] = False
+        else:
+            data['url_pre'] = '%s://' % protocol
+            data['url_post'] = '.%s' % domain
+            data['url_right_align'] = True
+
+        return render("/instance/new.html", data)
 
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
