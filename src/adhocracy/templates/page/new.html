@@ -23,7 +23,7 @@
         <fieldset>
             <legend>${_("Norm title")}</legend>
             <div class="input_wrapper page_title">
-                <input type="text" tabindex="1" class="title" name="title" ${'' if c.title is None else 'value="%s"' % c.title} placeholder="${_('New norm')}" />
+                <input type="text" class="title" name="title" ${'' if c.title is None else 'value="%s"' % c.title} placeholder="${_('New norm')}" autofocus />
             </div>
         </fieldset>
 
@@ -42,7 +42,7 @@
 
         <fieldset>
             <legend>${_("Norm content")}</legend>
-            <textarea tabindex="2" class="description normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
+            <textarea class="description normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
             ${components.formatting()}
         </fieldset>
 
