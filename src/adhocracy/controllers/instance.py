@@ -310,7 +310,10 @@ class InstanceController(BaseController):
     def badges(self, id, errors=None, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
         c.badges = self._editable_badges(instance)
-        defaults = {'badge': [str(badge.id) for badge in instance.badges]}
+        defaults = {
+            'badge': [str(badge.id) for badge in instance.badges],
+            '_tok': csrf.token_id(),
+        }
         if format == 'ajax':
             checked = [badge.id for badge in instance.badges]
             json = {'title': instance.label,

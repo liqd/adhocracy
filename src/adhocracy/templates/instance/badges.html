@@ -12,6 +12,8 @@
 <form name="settings" class="inplace" method="POST" 
       action="${h.entity_url(c.instance, member='update_badges')}">
 
+    ${h.field_token()|n}
+
     <label for="badge">Badges</label>
     <table>
         <thead>

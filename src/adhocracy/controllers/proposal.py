@@ -441,7 +441,10 @@ class ProposalController(BaseController):
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         c.badges = self._editable_badges(c.proposal)
-        defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
+        defaults = {
+            'badge': [str(badge.id) for badge in c.proposal.badges],
+            '_tok': csrf.token_id()
+        }
         if format == 'ajax':
             checked = [badge.id for badge in c.proposal.badges]
             json = {'title': c.proposal.title,
