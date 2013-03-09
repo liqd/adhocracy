@@ -38,6 +38,11 @@ class Permission(object):
             log.warn("find(%s): %s" % (permission_name, e))
             return None
 
+    @classmethod
+    def find_multiple(cls, permission_names):
+        return meta.Session.query(Permission).filter(
+            Permission.permission_name.in_(permission_names)).all()
+
     _index_id = 'permission_name'
 
     @classmethod

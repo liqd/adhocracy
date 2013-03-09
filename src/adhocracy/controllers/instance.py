@@ -395,6 +395,8 @@ class InstanceController(BaseController):
             setting('contents', L_('Contents')),
             setting('voting', L_('Votings')),
             setting('badges', L_('Badges')),
+            setting('massmessage', L_('Mass message service'),
+                    allowed=(can.message.create(instance))),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
                              can.instance.authenticated_edit(instance)))])
@@ -876,7 +878,8 @@ class InstanceController(BaseController):
                            message=_("You've left %(instance)s.") % {
                                'instance': c.page_instance.label})
 
-    def _get_current_instance(self, id):
+    @classmethod
+    def _get_current_instance(cls, id):
         if id != c.instance.key:
             abort(403, _("You cannot manipulate one instance from within "
                          "another instance."))

@@ -77,3 +77,6 @@ class Group(object):
 
     def __repr__(self):
         return u"<Group(%d,%s)>" % (self.id, self.code)
+
+    def has_any_permission(self, permissions):
+        return bool(set(permissions).intersection(set(self.permissions)))
