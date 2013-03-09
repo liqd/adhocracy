@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 import re
 from StringIO import StringIO
+from PIL import Image
 
 import formencode
 from pylons import tmpl_context as c
@@ -554,6 +555,34 @@ class ContainsEMailPlaceholders(formencode.FancyValidator):
                   'the email text so we can insert enough information '
                   'for the user: %s') % ', '.join(missing),
                 value, state)
+        return value
+
+
+class ValidImageFileUpload(formencode.FancyValidator):
+
+    max_size = 10*1024*1024
+
+    def _to_python(self, value, state):
+        payload = value.file.read(self.max_size+1)
+        if len(payload) > 0:
+            try:
+                im = Image.open(value.file)
+                value.file.seek(0)
+                del im
+            except IOError:
+                raise formencode.Invalid(_("This is not a valid image file"), value, state)
+        return value
+
+
+class ValidFileUpload(formencode.FancyValidator):
+
+    max_size = 1024*1024
+
+    def _to_python(self, value, state):
+        payload = value.file.read(self.max_size)
+        value.file.seek(0)
+        if len(payload) == self.max_size:
+            raise formencode.Invalid(_("The file is too big (>1MB)"), value, state)
         return value
 
 
