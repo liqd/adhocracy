@@ -303,6 +303,9 @@ adhocracy.hide_empty_categories_in_facet_list = True
 # Show global stats (user/proposal/comment count) on frontpage
 #adhocracy.show_stats_on_frontpage = true
 
+# number of newest proposals to show on frontpage (0 to hide the list)
+adhocracy.startpage.proposals.list_length = 0
+
 
 # Logging configuration
 [loggers]
