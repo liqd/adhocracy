@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from pylons import config
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 
@@ -68,10 +69,21 @@ class MessageRecipient(object):
         if (self.recipient.is_email_activated() and
            self.recipient.email_messages):
 
+            from adhocracy.lib import helpers as h
             from adhocracy.lib import mail
+            from adhocracy.lib.templating import render
+
+            body = render("/massmessage/body.txt", {
+                'body': self.message.body,
+                'page_url': config.get('adhocracy.domain').strip(),
+                'settings_url': h.entity_url(self.recipient,
+                                             member='edit',
+                                             absolute=True),
+            })
+
             mail.to_user(self.recipient,
                          self.message.subject,
-                         self.message.body,
+                         body,
                          headers={},
                          decorate_body=False,
                          email_from=self.message.sender_email)
