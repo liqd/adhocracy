@@ -66,6 +66,8 @@ class UserUpdateForm(formencode.Schema):
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
+    email_messages = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
     proposal_sort_order = validators.OneOf([''] + [
         v.value
         for g in PROPOSAL_SORTS.by_group.values()

@@ -17,6 +17,9 @@ import adhocracy.model as model
 log = logging.getLogger(__name__)
 
 
+NOT_LOGGED_IN = 'not_logged_in'
+
+
 class InstanceGroupSourceAdapter(SqlGroupsAdapter):
 
     def __init__(self, *args, **kwargs):
@@ -153,7 +156,8 @@ class AuthCheck(object):
         Login is needed in case a permission refusal exists and the user is
         not logged in.
         """
-        return c.user is None and self.permission_missing()
+        return c.user is None and (self.permission_missing() or
+                                   NOT_LOGGED_IN in self.other_refusals)
 
     def _propose_join_or_login(self):
         """

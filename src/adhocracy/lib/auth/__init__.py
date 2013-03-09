@@ -58,6 +58,7 @@ class AuthModuleWrapper(object):
     import variant
     import milestone
     import badge
+    import message
 
     @staticmethod
     def perm(check, permission):

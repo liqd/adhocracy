@@ -45,6 +45,9 @@ from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.requestlog import RequestLog, requestlog_table
+from adhocracy.model.message import Message, message_table
+from adhocracy.model.message import MessageRecipient, message_recipient_table
+
 
 mapper(User, user_table, properties={
     'email': synonym('_email', map_column=True),
@@ -424,6 +427,27 @@ mapper(Selection, selection_table, properties={
 })
 
 mapper(RequestLog, requestlog_table)
+
+
+mapper(Message, message_table, properties={
+    'creator': relation(
+        User, lazy=True,
+        primaryjoin=message_table.c.creator_id == user_table.c.id),
+})
+
+
+mapper(MessageRecipient, message_recipient_table, properties={
+    'message': relation(
+        Message, lazy=False, primaryjoin=(
+            message_table.c.id == message_recipient_table.c.message_id
+        ), backref=backref('recipients', lazy=True)
+    ),
+    'recipient': relation(
+        User, lazy=False, primaryjoin=(
+            user_table.c.id == message_recipient_table.c.recipient_id
+        ), backref=backref('messages', lazy=True)
+    ),
+})
 
 
 def init_model(engine):

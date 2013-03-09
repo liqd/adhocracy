@@ -1,5 +1,6 @@
 from pylons import tmpl_context as c
 from authorization import has
+from adhocracy.lib.auth.authorization import NOT_LOGGED_IN
 
 
 def index(check):
@@ -27,5 +28,5 @@ def delete(check, t):
         return
     check.perm('tag.delete')
     show(check, t)
-    check.other('not_logged_in', not c.user)
+    check.other(NOT_LOGGED_IN, not c.user)
     check.other('tag_creator_is_not_user', t.creator != c.user)

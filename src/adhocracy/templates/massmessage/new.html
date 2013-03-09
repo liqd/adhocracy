@@ -1,0 +1,56 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Send mass message")}</%def>
+
+<%def name="massmessage_form()">
+  <h3>Send mass message</h3>
+
+  Please note that only users with verified email addresses and activated news
+  service will receive this message per email.
+
+  <form name="create_message" class="inplace" method="POST">
+      ${h.field_token()|n}
+
+      <fieldset>
+        <legend>${_("Filter recipients by instance")}</legend>
+        <select name="instances" multiple="multiple">
+          %for instance in c.instances:
+          <option value="${instance.id}">${instance.label}</option>
+          %endfor
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>${_("Subject")}</legend>
+        <input name="subject" />
+      </fieldset>
+
+      <fieldset>
+        <legend>${_("Body")}</legend>
+        <textarea name="body"></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>${_('Sender identity')}</legend>
+        <div class="input_wrapper">
+          %for (key, value) in c.sender_options.iteritems():
+          <label>
+            <input type="radio" name="sender" value=${key} ${'checked="checked"' if value['checked'] else '' | n} ${'disabled="disabled"' if not value['enabled'] else '' | n} />${value['email']}
+            %if not value['enabled']:
+            <em>${value['reason']}</em>
+            %endif
+          </label>
+          %endfor
+        </div>
+      </fieldset>
+      
+      <div class="mainbar">
+          ${components.savebox(h.base_url("/"), save_text=_("Send"))}
+      </div>
+  </form>
+</%def>
+
+
+<%block name="main_content">
+  ${massmessage_form()}
+</%block>

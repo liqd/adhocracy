@@ -539,3 +539,29 @@ class ContainsEMailPlaceholders(formencode.FancyValidator):
                   'for the user: %s') % ', '.join(missing),
                 value, state)
         return value
+
+
+class MessageableInstances(formencode.FancyValidator):
+    """
+    Check if the given instance can be mass messaged by the current user.
+    """
+
+    accept_iterator = True
+
+    def _to_python(self, value, state):
+
+        if not value:
+            raise formencode.Invalid(
+                _('Please select at least one instance'), value, state)
+
+        if not isinstance(value, list):
+            value = [value]
+
+        from adhocracy.controllers.massmessage import MassmessageController
+        allowed_ids = (i.id for i in
+                       MassmessageController.get_allowed_instances(c.user))
+        if any(int(i) not in allowed_ids for i in value):
+            raise formencode.Invalid(
+                _('Disallowed instance selected'), value, state)
+
+        return value

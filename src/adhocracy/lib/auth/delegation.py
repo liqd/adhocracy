@@ -1,5 +1,6 @@
 from pylons import tmpl_context as c
 import user
+from adhocracy.lib.auth.authorization import NOT_LOGGED_IN
 
 
 def index(check):
@@ -30,5 +31,5 @@ def delete(check, d):
     check.perm('delegation.delete')
     show(check, d)
     check.other('no_instance_allow_delegate', not c.instance.allow_delegate)
-    check.other('not_logged_in', not c.user)
+    check.other(NOT_LOGGED_IN, not c.user)
     check.other('delegation_principal_is_not_user', d.principal != c.user)
