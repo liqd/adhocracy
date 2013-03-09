@@ -430,8 +430,8 @@ div.marker img {
 }
 
 .olControlScaleLine {
-    bottom: 5px;
-    left: 60px;
+    bottom: 5px !important;
+    left: 60px !important;
 }
 
 .olControlLayerSwitcher {
