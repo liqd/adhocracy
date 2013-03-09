@@ -4,6 +4,10 @@
 
 <%def name="massmessage_form()">
   <h3>Send mass message</h3>
+
+  Please note that only users with verified email addresses and activated news
+  service will receive this message per email.
+
   <form name="create_message" class="inplace" method="POST">
       ${h.field_token()|n}
 
