@@ -40,7 +40,6 @@ class RootController(BaseController):
         #query = self.form_result.get('proposals_q')
         #proposals = libsearch.query.run(query,
         #                                entity_type=model.Proposal)[:10]
-        c.milestones = model.Milestone.all()
         #c.proposals_pager = pager.proposals(proposals)
         #c.proposals = c.proposals_pager.here()
         if asbool(config.get('adhocracy.show_stats_on_frontpage', 'true')):
