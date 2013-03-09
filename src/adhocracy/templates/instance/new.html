@@ -18,7 +18,7 @@
     <fieldset>
       <legend>${_("Instance name")}</legend>
       <div class="input_wrapper">
-        <input type="text" tabindex="1" class="title" name="label" placeholder="${_('New Instance')}" />
+        <input type="text" class="title" name="label" placeholder="${_('New Instance')}" autofocus />
       </div>
     </fieldset>
     
@@ -29,7 +29,7 @@
         "Please note that this key cannot be changed after the instance "
         "has been created.")|n}
       </p>
-      http://<input tabindex="2" class="" style="text-align: right;" name="key" />.${request.environ.get('adhocracy.domain')}
+      ${c.url_pre}<input class=""${' style="text-align: right;"' if c.url_right_align else '' | n} name="key" />${c.url_post}
     </fieldset>
     
     <fieldset>
@@ -39,7 +39,7 @@
           "its community.")}
       ${_("(Both Markdown and HTML are allowed here.)") if h.text.getconf_allow_user_html() else ""}
       </p>
-      <textarea tabindex="3" class="description" name="description"></textarea>
+      <textarea class="description" name="description"></textarea>
       ${components.formatting()}
 
     </fieldset>

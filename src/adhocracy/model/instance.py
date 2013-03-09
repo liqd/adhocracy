@@ -68,6 +68,9 @@ class Instance(meta.Indexable):
 
     INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9-]{2,18}$")
 
+    # Special purpose instances
+    SPECIAL_KEYS = [u'test', u'feedback']
+
     def __init__(self, key, label, creator, description=None):
         self.key = key
         self.label = label

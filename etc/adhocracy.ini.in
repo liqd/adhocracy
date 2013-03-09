@@ -295,13 +295,16 @@ adhocracy.show_instance_overview_milestones = True
 adhocracy.number_instance_overview_milestones = 3
 
 # show newest proposals in instance overview
-adhocracy.show_instance_overview_proposals_new = False
+# adhocracy.show_instance_overview_proposals_new = False
 
 # hide categories in facet navigation if no proposal is assigned to it
 adhocracy.hide_empty_categories_in_facet_list = True
 
 # Show global stats (user/proposal/comment count) on frontpage
 #adhocracy.show_stats_on_frontpage = true
+
+# number of newest proposals to show on frontpage (0 to hide the list)
+adhocracy.startpage.proposals.list_length = 3
 
 
 # Logging configuration

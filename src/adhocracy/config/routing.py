@@ -343,6 +343,8 @@ def make_map(config):
                                                  'get_page_geotags': 'GET',
                                                  })
 
+    map.connect('/stats/', controller='stats')
+
     # API
     map.connect('/api/{action}', controller='api')
     map.connect('/admin', controller='admin', action="index")

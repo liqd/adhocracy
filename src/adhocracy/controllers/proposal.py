@@ -1,9 +1,12 @@
 import logging
+import urllib
 
 import formencode
 from formencode import htmlfill, Invalid, validators
 
-from pylons import request, tmpl_context as c
+from paste.deploy.converters import asbool
+
+from pylons import config, request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -323,6 +326,11 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
+        monitor_comment_behavior = asbool(
+                config.get('adhocracy.monitor_comment_behavior', 'False'))
+        if monitor_comment_behavior:
+            c.monitor_comment_url = (h.base_url('/stats/read_comments') + '?' +
+                        urllib.urlencode({'path' : h.entity_url(c.proposal)}))
         return render("/proposal/show.html")
 
     @RequireInstance
@@ -465,7 +473,10 @@ class ProposalController(BaseController):
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         c.badges = self._editable_badges(c.proposal)
-        defaults = {'badge': [str(badge.id) for badge in c.proposal.badges]}
+        defaults = {
+            'badge': [str(badge.id) for badge in c.proposal.badges],
+            '_tok': csrf.token_id()
+        }
         if format == 'ajax':
             checked = [badge.id for badge in c.proposal.badges]
             json = {'title': c.proposal.title,

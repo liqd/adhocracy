@@ -21,7 +21,7 @@
     <fieldset>
       <legend>${_("Proposal title")}</legend>
       <div class="input_wrapper">
-        <input type="text" tabindex="1" class="title" name="label" placeholder="${_('New proposal')}" />
+        <input type="text" class="title" name="label" placeholder="${_('New proposal')}" autofocus />
       </div>
     </fieldset>
 
@@ -105,7 +105,7 @@
       <legend>${_("Proposal goals")}</legend>
       <p class="info">${_("Give a brief description of <b>the goals</b> of your proposal.")|n}</p>
       <div class="input_wrapper">
-        <textarea tabindex="2" class="description" name="text" placeholder="${_('The proposal would...')}"></textarea>
+        <textarea class="description" name="text" placeholder="${_('The proposal would...')}"></textarea>
         ${components.formatting()}
       </div>
     </fieldset>
