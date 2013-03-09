@@ -58,3 +58,30 @@ class TestValidators(TestController):
         validator = ValidCategoryBadge(if_empty=None)
         value = validator.to_python('')
         self.assertEqual(value, None)
+
+class TestHelpers(TestController):
+
+    def test_get_badge_children_optgroups_no_hierarchy(self):
+        from adhocracy.forms.common import get_badge_children_optgroups
+        from adhocracy.model import CategoryBadge
+        badge = CategoryBadge.create('testbadge', '#ccc', True, 'description')
+        value = get_badge_children_optgroups(badge)
+        shouldbe = u'\n<option value="1">testbadge</option>'
+        self.assertEqual(value, shouldbe)
+
+    def test_get_badge_children_optgroups_with_hierarchy(self):
+        from adhocracy.forms.common import get_badge_children_optgroups
+        from adhocracy.model import CategoryBadge
+        badge = CategoryBadge.create('testbadge0', '#ccc', True, 'description')
+        badge11 = CategoryBadge.create('testbadge11', '#ccc', True, 'description')
+        badge12 = CategoryBadge.create('testbadge12', '#ccc', True, 'description')
+        badge121 = CategoryBadge.create('testbadge121', '#ccc', True, 'description')
+        badge11.parent = badge
+        badge12.parent = badge
+        badge121.parent = badge12
+        value = get_badge_children_optgroups(badge)
+        self.assert_("badge0" in value)
+        self.assert_("badge11" in value)
+        self.assert_("badge12" in value)
+        self.assert_("badge121" in value)
+

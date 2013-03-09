@@ -110,6 +110,20 @@ ${self.form()}
     <input type="hidden" name="instance" value="${c.instance.key}" />
     %endif
 
+    %if c.badge_type == 'category':
+    <label for="parent" class="">${_("Parent Badge")}</label>
+    <select name="parent">
+        <option value="">${_('No Parent Badge')}</option>
+        %for b in c.category_parents_optgroups:
+        ${h.literal(b)}"
+        %endfor
+    </select>  
+    
+    <label for="select_child_description" class="">${_("Description to select badge children")}</label>
+    <input name="select_child_description" id="badge_select_child_description" class="" style="width:20em"
+           value="" />
+    %endif
+
     <div class="mainbar">
       ${components.savebox(c.base_url, _('Save Badge'))}
     </div>
