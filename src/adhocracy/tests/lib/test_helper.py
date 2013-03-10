@@ -23,35 +23,33 @@ TEST_IMAGE = ('GIF89a\x10\x00\x10\x00\xd5\x00\x00\xff\xff\xff\xff\xff\xfe\xfc\xf
 
 class TestBadgeHelper(TestController):
 
-
-
     def test_generate_thumbnail_tag_no_color_no_thumb_attr(self):
-        from adhocracy.model import CategoryBadge
+        from adhocracy.model import ThumbnailBadge
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
-        badge = CategoryBadge.create('testbadge0', '', True, 'descr')
+        badge = ThumbnailBadge.create('testbadge0', '', True, 'descr')
         image = generate_thumbnail_tag(badge)
         self.assert_('b96ZYAAAAASUVORK5CYII=' in image)
 
     def test_generate_thumbnail_tag_with_color_attr(self):
-        from adhocracy.model import CategoryBadge
+        from adhocracy.model import ThumbnailBadge
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
-        badge = CategoryBadge.create('testbadge0', '#ccc', True, 'descr')
+        badge = ThumbnailBadge.create('testbadge0', '#ccc', True, 'descr')
         image = generate_thumbnail_tag(badge)
         self.assert_('Afb96ZYAAAAASUVORK5CYII=' in image)
 
     def test_generate_thumbnail_tag_with_thumb_attr(self):
-        from adhocracy.model import CategoryBadge
+        from adhocracy.model import ThumbnailBadge
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
-        badge = CategoryBadge.create('testbadge0', '#ccc', True, 'descr')
+        badge = ThumbnailBadge.create('testbadge0', '#ccc', True, 'descr')
         badge.thumbnail = TEST_IMAGE
         image = generate_thumbnail_tag(badge)
         self.assert_('6dBQ+AAAAABJRU5ErkJggg==' in image)
 
     def test_generate_thumbnail_tag_set_size(self):
-        from adhocracy.model import CategoryBadge, Instance
+        from adhocracy.model import ThumbnailBadge, Instance
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
         instance = Instance.find(u'test')
-        badge = CategoryBadge.create('testbadge0', '', True, 'descr')
+        badge = ThumbnailBadge.create('testbadge0', '', True, 'descr')
         badge.instance = instance
         image = generate_thumbnail_tag(badge)
         self.assert_('height="48" width="48" />' in image)
@@ -61,3 +59,16 @@ class TestBadgeHelper(TestController):
         self.assert_('height="12" width="10" />' in image)
         image = generate_thumbnail_tag(badge, width=8, height=11)
         self.assert_('height="11" width="8" />' in image)
+
+    def test_generate_thumbnail_cache(self):
+        from adhocracy.model import ThumbnailBadge
+        from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
+        badge = ThumbnailBadge.create('testbadge0', '', True, 'descr')
+        image = generate_thumbnail_tag(badge)
+        self.assert_('fb96ZYAAAAASUVORK5CYII=' in image)
+        badge.thumbnail = TEST_IMAGE
+        image = generate_thumbnail_tag(badge)
+        self.assert_('BQ+AAAAABJRU5ErkJggg=' in image)
+        badge.thumbnail = "Wrong Data"
+        image = generate_thumbnail_tag(badge)
+        self.assert_('fb96ZYAAAAASUVORK5CYII=' in image)

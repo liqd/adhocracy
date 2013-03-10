@@ -195,6 +195,15 @@ class TestThumbnailController(TestController):
 
         return creator, delegateable, badge
 
+    def test_thumbnailbadges_repr(self):
+        creator, delegateable, badge = self._make_content()
+        badge.thumbnail = None
+        no_thumb = "<ThumbnailBadge(1,testbadge,0)>"
+        self.assertEqual(no_thumb, badge.__repr__())
+        with_thumb = "<ThumbnailBadge(1,testbadge,4031337473392577953)>"
+        badge.thumbnail = "binary"
+        self.assertEqual(with_thumb, badge.__repr__())
+
     def test_thumbnailbadges_created(self):
         #setup
         from adhocracy.model import DelegateableBadges, meta
@@ -230,6 +239,7 @@ class TestThumbnailController(TestController):
                    }
         expected = sorted(expected.items())
         self.assertEqual(result, expected)
+
 
 class TestInstanceController(TestController):
 
@@ -282,4 +292,3 @@ class TestInstanceController(TestController):
         self.assert_(badge.instances == [])
         self.assert_(instance.badges == [])
         self.assert_(meta.Session.query(InstanceBadges).count() == 0)
-
