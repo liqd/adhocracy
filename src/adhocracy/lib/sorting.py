@@ -127,10 +127,8 @@ def proposal_controversy(entities):
                            min(num_for, num_against) / (num_for + num_against))
         else:
             controversy = 1
-            if (num_for + num_against) != 0:
-                return (controversy, 1 / (num_for + num_against))
-            else:
-                return (controversy, 0)
+            secondary = 0 if num_for + num_against == 0 else float(1) / (num_for + num_against)
+            return (controversy, secondary)
     return sorted(entities, key=proposal_controversy_key, reverse=True)
 
 def proposal_support(entities):
