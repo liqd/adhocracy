@@ -26,7 +26,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     """Returns string with the badge thumbnail img tag
        The image is resized and converted to PNG.
     """
-    #TODO Generated image is not Working with IE < 8, joka
+    #NOTE Generated image is not Working with IE < 8, joka
+    #TODO better expection handling
 
     size = (width and height) and (width, height)\
         or get_default_thumbnailsize(badge)
@@ -34,18 +35,29 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     imagefile = StringIO.StringIO(badge.thumbnail)
     mimetype = "image/png"
     try:
+        #resize image
         im = Image.open(imagefile)
         mimetype = "image/" + im.format.lower()
         im.thumbnail(size, Image.ANTIALIAS)
+        #optimize image but preserve transparency
+        im.load()
+        im_opti = Image.new("RGB", im.size, (255, 255, 255))
+        if len(im.split()) > 2:
+            im_opti.paste(im, mask=im.split()[3])
+        else:
+            im_opti.paste(im)
+        im_opti = im_opti.convert('P', colors=256, palette=Image.ADAPTIVE)
+        #save image
         f = StringIO.StringIO()
-        im.save(f, 'PNG')
-        del im, imagefile
+        im_opti.save(f, 'PNG')
+        del im, im_opti, imagefile
         imagefile = f
     except IOError:
         colour = badge.color or u"#ffffff"
-        im = Image.new('RGB', (10, 10))
+        im = Image.new('RGB', (5, 5))
         draw = ImageDraw.Draw(im)
-        draw.rectangle((0,0,10,10), fill=badge.color, outline=badge.color)
+        draw.rectangle((0, 0, 5, 5), fill=colour, outline=colour)
+        im = im.convert('P', colors=1, palette=Image.ADAPTIVE)
         f = StringIO.StringIO()
         im.save(f, "PNG")
         del draw, im
