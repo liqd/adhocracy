@@ -19,7 +19,7 @@ from adhocracy.model import Group, Instance, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
-from adhocracy.lib.auth import require, guard
+from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 
@@ -111,9 +111,11 @@ class BadgeController(BaseController):
                     }
         defaults.update(dict(request.params))
         #TODO global badges must have only global badges children, joka
-        categories = CategoryBadge.all(instance=c.instance, include_global=True)
-        c.category_parents_optgroups = [get_badge_children_optgroups(b) for b in
-                                        categories if not b.parent]
+        categories = CategoryBadge.all(instance=c.instance,
+                                       include_global=True)
+        c.category_parents_optgroups = [get_badge_children_optgroups(b)
+                                        for b in categories
+                                        if not b.parent]
 
         return htmlfill.render(self.render_form(),
                                defaults=defaults,
@@ -212,7 +214,8 @@ class BadgeController(BaseController):
         if parent and parent.id == id:
             parent = None
         CategoryBadge.create(title, color, visible, description, instance,
-                             parent=parent, select_child_description=child_descr)
+                             parent=parent,
+                             select_child_description=child_descr)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -254,7 +257,8 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         c.form_type = 'update'
-        categories = CategoryBadge.all(instance=c.instance, include_global=True)
+        categories = CategoryBadge.all(instance=c.instance,
+                                       include_global=True)
         c.category_parents_optgroups = [get_badge_children_optgroups(b) for b
                                         in categories
                                         if not b.parent and badge != b]

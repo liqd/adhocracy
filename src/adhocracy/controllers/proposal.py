@@ -12,7 +12,6 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy import forms, model
-from adhocracy.forms.common import get_badge_children_optgroups
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
 from adhocracy.lib.auth import authorization, can, csrf, require, guard
@@ -106,7 +105,6 @@ class ProposalController(BaseController):
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
 
-
     def _set_categories(self):
         categories = model.CategoryBadge.all(
             c.instance, include_global=not c.instance.hide_global_categories)
@@ -140,7 +138,6 @@ class ProposalController(BaseController):
             [(cat.id, get_key(cat), cat.select_child_description)
              for cat in categories],
             key=lambda x: x[1])
-
 
     @RequireInstance
     @guard.proposal.create()
@@ -335,10 +332,11 @@ class ProposalController(BaseController):
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
         monitor_comment_behavior = asbool(
-                config.get('adhocracy.monitor_comment_behavior', 'False'))
+            config.get('adhocracy.monitor_comment_behavior', 'False'))
         if monitor_comment_behavior:
-            c.monitor_comment_url = (h.base_url('/stats/read_comments') + '?' +
-                        urllib.urlencode({'path' : h.entity_url(c.proposal)}))
+            c.monitor_comment_url = '%s?%s' % (
+                h.base_url('/stats/read_comments'),
+                urllib.urlencode({'path': h.entity_url(c.proposal)}))
         return render("/proposal/show.html")
 
     @RequireInstance

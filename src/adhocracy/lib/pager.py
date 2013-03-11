@@ -426,7 +426,8 @@ class SolrFacet(SolrIndexer):
     >>> counts_query = q
     >>> exclusive_qs = []
     >>> # configure the queries further
-    >>> q, counts_query, exclusive_qs = some_facet.add_to_queries(q, exclusive_qs)
+    >>> q, counts_query, exclusive_qs = some_facet.add_to_queries(
+    ...     q, counts_query, exclusive_qs)
     >>> response = q.execute()
     >>> counts_response = counts_response.execute()
     >>> exclusive_responses = dict([counts_response = counts_response.execute()

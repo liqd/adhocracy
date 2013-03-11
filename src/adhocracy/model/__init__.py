@@ -137,7 +137,7 @@ mapper(CategoryBadge, inherits=badge_mapper,
                #remote_side=badge_table.c.id,
                backref=backref('parent', lazy='joined',
                                remote_side=badge_table.c.id),
-               )})
+           )})
 
 
 mapper(DelegateableBadge, inherits=badge_mapper,
