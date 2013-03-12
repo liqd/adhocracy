@@ -263,6 +263,20 @@ class ValidCategoryBadge(formencode.FancyValidator):
         return badge
 
 
+class ValidParentCategory(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+        if (field_dict['parent'] is not None and
+           field_dict['parent'].instance is not field_dict['instance']):
+            msg = _("Parent and child category instance have to match")
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'parent': msg}
+            )
+        else:
+            return field_dict
+
+
 class MaybeMilestone(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Milestone

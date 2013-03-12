@@ -9,6 +9,7 @@ from adhocracy.forms.common import ValidHTMLColor
 from adhocracy.forms.common import ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
 from adhocracy.forms.common import ValidCategoryBadge
+from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import get_badge_children_optgroups
 from adhocracy.model import Badge
 from adhocracy.model import CategoryBadge
@@ -36,6 +37,10 @@ class BadgeForm(formencode.Schema):
 class CategoryBadgeForm(BadgeForm):
     select_child_description = validators.String(max=255)
     parent = ValidCategoryBadge(not_empty=False)
+    chained_validators = [
+        # make sure parent has same instance as we
+        ValidParentCategory()
+    ]
 
 
 class UserBadgeForm(BadgeForm):
