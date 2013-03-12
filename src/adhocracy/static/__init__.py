@@ -74,6 +74,7 @@ spectrum = Resource(misc_library, 'spectrum/spectrum.js',
                     minified='spectrum/spectrum.min.js',
                     depends=[jquery, spectrum_css])
 select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
+                            minified='jquery.select-hierarchy.min.js',
                             depends=[jquery])
 
 
