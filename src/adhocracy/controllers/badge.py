@@ -10,6 +10,7 @@ from adhocracy.forms.common import ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
 from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
+from adhocracy.forms.common import ValidateNoCycle
 from adhocracy.forms.common import get_badge_children_optgroups
 from adhocracy.model import Badge
 from adhocracy.model import CategoryBadge
@@ -40,6 +41,16 @@ class CategoryBadgeForm(BadgeForm):
     chained_validators = [
         # make sure parent has same instance as we
         ValidParentCategory()
+    ]
+
+
+class CategoryBadgeUpdateForm(CategoryBadgeForm):
+    id = ValidCategoryBadge(not_empty=True)
+    chained_validators = [
+        # make sure parent has same instance as we
+        ValidParentCategory(),
+        # make sure we don't create a cycle
+        ValidateNoCycle(),
     ]
 
 
@@ -364,7 +375,9 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def update_category_badge(self, id):
         try:
-            self.form_result = CategoryBadgeForm().to_python(request.params)
+            params = request.params.copy()
+            params['id'] = id
+            self.form_result = CategoryBadgeUpdateForm().to_python(params)
         except Invalid, i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)

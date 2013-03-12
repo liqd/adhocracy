@@ -277,6 +277,30 @@ class ValidParentCategory(formencode.validators.FormValidator):
             return field_dict
 
 
+class ValidateNoCycle(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+
+        def parent_okay(category):
+            if category is None:
+                # no cycle
+                return True
+            elif category == field_dict['id']:
+                # cycle
+                return False
+            else:
+                return parent_okay(category.parent)
+
+        if parent_okay(field_dict['parent']):
+            return field_dict
+        else:
+            msg = _('You shall not create cycles!')
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'parent': msg}
+            )
+
+
 class MaybeMilestone(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Milestone
