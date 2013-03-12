@@ -444,7 +444,7 @@ class UserController(BaseController):
             
             return formencode.htmlfill.render(
                 render("/user/login.html"),
-                errors={"login": _("Invalid user name or password")})
+                errors={"login": error_message}
 
     def logout(self):
         pass  # managed by repoze.who
