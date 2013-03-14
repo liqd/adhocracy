@@ -125,17 +125,8 @@ class ProposalController(BaseController):
             c.toplevel_question = None
             root = None
 
-        def get_key(badge, separator=u' > '):
-            if badge.parent is root:
-                return badge.title
-            else:
-                return u'%s%s%s' % (
-                    get_key(badge.parent, separator),
-                    separator,
-                    badge.title)
-
         c.categories = sorted(
-            [(cat.id, get_key(cat), cat.select_child_description)
+            [(cat.id, cat.get_key(root), cat.select_child_description)
              for cat in categories],
             key=lambda x: x[1])
 

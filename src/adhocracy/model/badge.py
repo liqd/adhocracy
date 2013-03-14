@@ -318,3 +318,12 @@ class CategoryBadge(DelegateableBadge):
         d['parent'] = self.parent
         d['select_child_description'] = self.select_child_description
         return d
+
+    def get_key(self, root=None, separator=u' > '):
+        if self.parent is root:
+            return self.title
+        else:
+            return u'%s%s%s' % (
+                self.parent.get_key(root, separator),
+                separator,
+                self.title)
