@@ -11,7 +11,6 @@ from adhocracy.forms.common import ValidBadgeInstance
 from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import ValidateNoCycle
-from adhocracy.forms.common import get_badge_children_optgroups
 from adhocracy.model import meta
 from adhocracy.model import Badge
 from adhocracy.model import Group
@@ -111,6 +110,19 @@ class BadgeController(BaseController):
                 'error')
         redirect(self.base_url)
 
+    def _set_categories(self):
+        local_categories = CategoryBadge.all(instance=c.instance,
+                                             include_global=False)
+        c.local_category_parents = sorted(
+            [(b.id, b.get_key()) for b in local_categories],
+            key=lambda x: x[1])
+
+        if h.has_permission('global.admin'):
+            global_categories = CategoryBadge.all(instance=None,
+                                                  include_global=True)
+            c.global_category_parents = sorted(
+                [(b.id, b.get_key()) for b in global_categories],
+                key=lambda x: x[1])
 
     def add(self, badge_type=None, errors=None):
         if badge_type is not None:
@@ -121,12 +133,8 @@ class BadgeController(BaseController):
                     'select_child_description': '',
                     }
         defaults.update(dict(request.params))
-        #TODO global badges must have only global badges children, joka
-        categories = CategoryBadge.all(instance=c.instance,
-                                       include_global=True)
-        c.category_parents_optgroups = [get_badge_children_optgroups(b)
-                                        for b in categories
-                                        if not b.parent]
+
+        self._set_categories()
 
         return htmlfill.render(render(self.form_template),
                                defaults=defaults,
@@ -268,11 +276,8 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         c.form_type = 'update'
-        categories = CategoryBadge.all(instance=c.instance,
-                                       include_global=True)
-        c.category_parents_optgroups = [get_badge_children_optgroups(b) for b
-                                        in categories
-                                        if not b.parent and badge != b]
+        self._set_categories()
+
         # Plug in current values
         instance_default = badge.instance.key if badge.instance else ''
         defaults = dict(title=badge.title,

@@ -603,22 +603,3 @@ class MessageableInstances(formencode.FancyValidator):
                 _('Disallowed instance selected'), value, state)
 
         return value
-
-
-def get_badge_children_optgroups(badge):
-    """Returns a string with optgroup tags of all badge children."""
-
-    option_tmpl = u'\n<option value="%s">%s</option>'
-    optgroup_tmpl = u'\n<optgroup label="%s">%s\n</optgroup>'
-
-    if not badge:
-        return ""
-    badge_option = option_tmpl % (badge.id, badge.title)
-    children_options = [get_badge_children_optgroups(child)
-                        for child in badge.children]
-    if children_options:
-        children_optgroup = optgroup_tmpl % (badge.select_child_description,
-                                             u"".join(children_options))
-        return badge_option + children_optgroup
-    else:
-        return badge_option
