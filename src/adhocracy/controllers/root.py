@@ -1,14 +1,16 @@
 from datetime import datetime
 import logging
 
-from paste.deploy.converters import asbool,asint
+from paste.deploy.converters import asbool, asint
 from pylons import request, response, tmpl_context as c, config
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
+from sqlalchemy import not_
 
 from adhocracy import model
 from adhocracy.controllers.event import EventController
 from adhocracy.lib import helpers as h
+from adhocracy.lib import pager, sorting
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.static import get_static_page
@@ -37,12 +39,24 @@ class RootController(BaseController):
             c.instances = model.Instance.all()
 
         c.page = get_static_page('index')
-        #query = self.form_result.get('proposals_q')
-        #proposals = libsearch.query.run(query,
-        #                                entity_type=model.Proposal)[:10]
-        c.milestones = model.Milestone.all()
-        #c.proposals_pager = pager.proposals(proposals)
-        #c.proposals = c.proposals_pager.here()
+
+        proposals_number = asint(
+            config.get('adhocracy.startpage.proposals.list_length', 0))
+
+        if proposals_number > 0:
+            proposals = model.Proposal.all_q()\
+                .join(model.Instance).filter(not_(
+                    model.Instance.key.in_(model.Instance.SPECIAL_KEYS)))\
+                .order_by(model.Proposal.create_time.desc())
+
+            c.new_proposals_pager = pager.proposals(
+                proposals, size=proposals_number,
+                default_sort=sorting.entity_newest,
+                enable_pages=False,
+                enable_sorts=False)
+        else:
+            c.new_proposals_pager = None
+
         if asbool(config.get('adhocracy.show_stats_on_frontpage', 'true')):
             c.stats_global = {
                 "members": model.User.all_q().count(),

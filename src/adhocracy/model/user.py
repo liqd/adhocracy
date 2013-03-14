@@ -39,6 +39,7 @@ user_table = Table(
     Column('page_size', Integer, default=10, nullable=True),
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     Column('gender', Unicode(1), default=None),
+    Column('email_messages', Boolean, default=True),
 )
 
 

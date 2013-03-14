@@ -172,7 +172,21 @@ class InstanceController(BaseController):
 
     def new(self):
         require.instance.create()
-        return render("/instance/new.html")
+
+        data = {}
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        domain = config.get('adhocracy.domain').strip()
+
+        if asbool(config.get('adhocracy.relative_urls', 'false')):
+            data['url_pre'] = '%s://%s/i/' % (protocol, domain)
+            data['url_post'] = ''
+            data['url_right_align'] = False
+        else:
+            data['url_pre'] = '%s://' % protocol
+            data['url_post'] = '.%s' % domain
+            data['url_right_align'] = True
+
+        return render("/instance/new.html", data)
 
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
@@ -231,12 +245,14 @@ class InstanceController(BaseController):
 
         proposals = model.Proposal.all(instance=c.page_instance)
 
-        show_new_proposals = asbool(config.get(
-            'adhocracy.show_instance_overview_proposals_new', 'false'))
-        if not show_new_proposals:
+        show_new_proposals_cfg = config.get(
+                            'adhocracy.show_instance_overview_proposals_new')
+        if show_new_proposals_cfg is None:
             # Fall back to legacy option
             show_new_proposals = asbool(config.get(
                 'adhocracy.show_instance_overview_proposals', 'true'))
+        else:
+            show_new_proposals = asbool(show_new_proposals_cfg)
         c.new_proposals_pager = None
         if asbool(show_new_proposals):
             c.new_proposals_pager = pager.proposals(
@@ -310,7 +326,10 @@ class InstanceController(BaseController):
     def badges(self, id, errors=None, format='html'):
         instance = get_entity_or_abort(model.Instance, id)
         c.badges = self._editable_badges(instance)
-        defaults = {'badge': [str(badge.id) for badge in instance.badges]}
+        defaults = {
+            'badge': [str(badge.id) for badge in instance.badges],
+            '_tok': csrf.token_id(),
+        }
         if format == 'ajax':
             checked = [badge.id for badge in instance.badges]
             json = {'title': instance.label,
@@ -378,6 +397,8 @@ class InstanceController(BaseController):
             setting('contents', L_('Contents')),
             setting('voting', L_('Votings')),
             setting('badges', L_('Badges')),
+            setting('massmessage', L_('Mass message service'),
+                    allowed=(can.message.create(instance))),
             setting('members_import', L_('Members import'),
                     allowed=(h.has_permission('global.admin') or
                              can.instance.authenticated_edit(instance)))])
@@ -878,7 +899,8 @@ class InstanceController(BaseController):
                            message=_("You've left %(instance)s.") % {
                                'instance': c.page_instance.label})
 
-    def _get_current_instance(self, id):
+    @classmethod
+    def _get_current_instance(cls, id):
         if id != c.instance.key:
             abort(403, _("You cannot manipulate one instance from within "
                          "another instance."))

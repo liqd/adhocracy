@@ -16,14 +16,14 @@
     ${h.field_token()|n}
         <div>
             <label for="title">${_("Milestone title")}</label>
-            <input tabindex="1" name="title" />
+            <input name="title" autofocus />
         </div>
 
         <label for="text">${_("Milestone description")}</label>
         <div class="infobox">
             ${_("Give a brief description of the milestone.")|n}
         </div>
-        <textarea tabindex="2" class="description" name="text"></textarea>
+        <textarea class="description" name="text"></textarea>
         ${components.formatting()}
         <br/>
         <label for="time">${_("Date of the milestone")}</label>

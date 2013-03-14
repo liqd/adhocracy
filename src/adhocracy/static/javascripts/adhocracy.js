@@ -473,6 +473,20 @@ $(document).ready(function () {
         second_level_comments.toggleClass('open');
     }());
 
+    var stats_baseurl = $('#main_comments').data('stats-baseurl');
+    if (stats_baseurl) {
+        $('.comment a.show_comments').one('click', function () {
+            var c_id = $(this).closest('.comment').attr('id');
+            $.get(stats_baseurl + '&cause=showSubcomments&comment_id=' + c_id);
+        });
+        $(document).one('scroll', function() {
+            var c_ids = $('.comment').filter('[id]').map(function() {
+                return this.id;
+            }).get().sort().join(',');
+            $.get(stats_baseurl + '&cause=scroll&comment_id=' + c_ids);
+        });
+    }
+
     $('.paper a.show_comments').click(function () {
         var p_id = $(this).closest('.paper').attr('id');
         $('#' + p_id + '_comments').toggle();

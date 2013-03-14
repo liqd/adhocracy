@@ -65,6 +65,11 @@ def make_map(config):
     map.connect('/user/{id}/message/new', controller='message', action='new',
                 conditions=dict(method=['GET']))
 
+    map.connect('/message/new', controller='massmessage', action='new',
+                conditions=dict(method=['GET']))
+    map.connect('/message/new', controller='massmessage', action='create',
+                conditions=dict(method=['POST']))
+
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
     map.connect('/logout', controller='user', action='logout')
@@ -289,6 +294,12 @@ def make_map(config):
     map.connect('/instance/{id}/settings/badges/edit/{badge_id}',
                 controller='instance', action="settings_badges_update",
                 conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/massmessage',
+                controller='massmessage', action='new',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/massmessage',
+                controller='massmessage', action='create',
+                conditions=dict(method=['POST']))
     map.connect('/instance/{id}/settings/members_import',
                 controller='instance', action='settings_members_import',
                 conditions=dict(method=['GET']))
@@ -305,6 +316,8 @@ def make_map(config):
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
                                                  'activity': 'GET'})
+
+    map.connect('/stats/', controller='stats')
 
     # API
     map.connect('/api/{action}', controller='api')

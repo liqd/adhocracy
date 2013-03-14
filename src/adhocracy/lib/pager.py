@@ -793,16 +793,6 @@ class CommentScoreIndexer(SolrIndexer):
             data[cls.solr_field] = entity.poll.tally.score
 
 
-class CommentScoreIndexer(SolrIndexer):
-
-    solr_field = 'order.comment.score'
-
-    @classmethod
-    def add_data_to_index(cls, entity, data):
-        if isinstance(entity, model.Comment):
-            data[cls.solr_field] = entity.poll.tally.score
-
-
 class NormNumSelectionsIndexer(SolrIndexer):
 
     solr_field = 'order.norm.num_selections'
