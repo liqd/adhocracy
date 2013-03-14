@@ -136,3 +136,14 @@ def get_client_ip(environ):
         except KeyError:
             pass
     return environ['REMOTE_ADDR']
+
+
+def split_filter(condition, seq):
+    '''
+    Splits *seq* into two lists based on *condition*, the items in the first
+    list match the conditions, the items in the second list don't.
+    '''
+    a, b = [], []
+    for item in seq:
+        (a if condition(item) else b).append(item)
+    return a, b

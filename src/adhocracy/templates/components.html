@@ -299,3 +299,24 @@ ${caller.body()}
       <a href="#" id="feedback_button"></a>
     </div>
 </%def>
+
+<%def name="category_select(id, toplevel_question, categories)">
+    <% h.need.select_hierarchy %>
+    <fieldset>
+      <legend>${_('Proposal Category')}</legend>
+      %if toplevel_question is not None:
+      <div class="select_header">${toplevel_question}</div>
+      %endif
+      <div class="input_wrapper">
+        <select class="drilldown" id="${id}" name="category"> 
+          <option value="">${_("No Category")}</option>
+          %for (cat_id, key, child_desc) in categories:
+          <option value="${cat_id}" data-header="${child_desc|n}">${key}</option>
+          %endfor
+        </select>      
+      </div>
+    </fieldset> 
+    <script type="text/javascript">
+      $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
+    </script>
+</%def>

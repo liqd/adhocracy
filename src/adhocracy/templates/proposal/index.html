@@ -136,7 +136,5 @@
 </%block>
 
 <%block name="sidebar">
-    <div id="proposals_facets">
-        ${c.proposals_pager.render_facets()}    
-    </div>
+    ${c.proposals_pager.render_facets(cls='sidebar_box')}
 </%block>

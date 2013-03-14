@@ -647,4 +647,12 @@ $(document).ready(function () {
                 return false;
             });
     });
+
+    $('a.expand_arrow').click(function () {
+        $(this).parent().toggleClass('expanded');
+    });
+
+    $('.facet_check').click(function() {
+        $(this).parent().children('a')[0].click();
+    });
 });
