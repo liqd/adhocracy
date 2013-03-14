@@ -12,12 +12,13 @@ from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import ValidateNoCycle
 from adhocracy.forms.common import get_badge_children_optgroups
+from adhocracy.model import meta
 from adhocracy.model import Badge
+from adhocracy.model import Group
 from adhocracy.model import CategoryBadge
 from adhocracy.model import DelegateableBadge
-from adhocracy.model import UserBadge
 from adhocracy.model import InstanceBadge
-from adhocracy.model import Group, Instance, meta
+from adhocracy.model import UserBadge
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -110,12 +111,6 @@ class BadgeController(BaseController):
                 'error')
         redirect(self.base_url)
 
-    def render_form(self):
-        q = Instance.all_q().order_by(Instance.label)
-        if c.instance:
-            q = q.filter(Instance.id != c.instance.id)
-        c.other_instances = q.all()
-        return render(self.form_template)
 
     def add(self, badge_type=None, errors=None):
         if badge_type is not None:
@@ -133,7 +128,7 @@ class BadgeController(BaseController):
                                         for b in categories
                                         if not b.parent]
 
-        return htmlfill.render(self.render_form(),
+        return htmlfill.render(render(self.form_template),
                                defaults=defaults,
                                errors=errors,
                                force_defaults=False)
@@ -294,7 +289,7 @@ class BadgeController(BaseController):
             defaults['select_child_description'] =\
                 badge.select_child_description
 
-        return htmlfill.render(self.render_form(),
+        return htmlfill.render(render(self.form_template),
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)

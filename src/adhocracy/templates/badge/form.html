@@ -98,13 +98,6 @@ ${self.form()}
         %if c.instance is not None:
         <option value="${c.instance.key}">${c.instance.label}</option>
         %endif
-        %if c.other_instances:
-        <optgroup label="${_('Other instances')}">
-            %for i in c.other_instances:
-            <option value="${i.key}">${i.label}</option>
-            %endfor
-        </optgroup>
-        %endif
     </select>
     %else:
     <input type="hidden" name="instance" value="${c.instance.key}" />
