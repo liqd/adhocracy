@@ -310,8 +310,8 @@ ${caller.body()}
       <div class="input_wrapper">
         <select class="drilldown" id="${id}" name="category"> 
           <option value="">${_("No Category")}</option>
-          %for cat in categories:
-          <option value="${cat[0]}" data-header="${cat[2]|n}">${cat[1]}</option>
+          %for (cat_id, key, child_desc) in categories:
+          <option value="${cat_id}" data-header="${child_desc|n}">${key}</option>
           %endfor
         </select>      
       </div>
