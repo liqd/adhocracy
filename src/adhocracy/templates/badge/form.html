@@ -117,7 +117,7 @@ ${self.form()}
         <optgroup label="${_('Local instance categories')}">
         %endif
         %endif
-        %for (id, title) in c.category_parents:
+        %for (id, title) in c.local_category_parents:
         <option value="${id}">${title}</option>
         %endfor
         %if h.has_permission('global.admin'):
