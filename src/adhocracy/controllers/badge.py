@@ -3,6 +3,7 @@ from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.i18n import _
+from sqlalchemy import not_
 
 from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor
@@ -110,16 +111,23 @@ class BadgeController(BaseController):
                 'error')
         redirect(self.base_url)
 
-    def _set_categories(self):
-        local_categories = CategoryBadge.all(instance=c.instance,
-                                             include_global=False)
+    def _set_parent_categories(self, exclude=None):
+        local_categories = CategoryBadge.all_q(instance=c.instance)
+
+        if exclude is not None:
+            local_categories = filter(lambda c: not(c.is_ancester(exclude)),
+                                      local_categories)
+
         c.local_category_parents = sorted(
             [(b.id, b.get_key()) for b in local_categories],
             key=lambda x: x[1])
 
         if h.has_permission('global.admin'):
-            global_categories = CategoryBadge.all(instance=None,
-                                                  include_global=True)
+            global_categories = CategoryBadge.all_q(instance=None)
+
+            if exclude is not None:
+                global_categories = filter(
+                    lambda c: not(c.is_ancester(exclude)), global_categories)
             c.global_category_parents = sorted(
                 [(b.id, b.get_key()) for b in global_categories],
                 key=lambda x: x[1])
@@ -134,7 +142,7 @@ class BadgeController(BaseController):
                     }
         defaults.update(dict(request.params))
 
-        self._set_categories()
+        self._set_parent_categories()
 
         return htmlfill.render(render(self.form_template),
                                defaults=defaults,
@@ -276,7 +284,7 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         c.form_type = 'update'
-        self._set_categories()
+        self._set_parent_categories(exclude=badge)
 
         # Plug in current values
         instance_default = badge.instance.key if badge.instance else ''

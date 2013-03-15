@@ -322,6 +322,17 @@ class CategoryBadge(DelegateableBadge):
         d['select_child_description'] = self.select_child_description
         return d
 
+    def is_ancester(self, badge):
+        """
+        returns True if the given badge is an ancester of self
+        """
+        if self == badge:
+            return True
+        elif self.parent is None:
+            return False
+        else:
+            return self.parent.is_ancester(badge)
+
     def get_key(self, root=None, separator=u' > ', option_attribute='title'):
         if self.parent is root:
             return self.__getattribute__(option_attribute)
