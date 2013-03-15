@@ -263,6 +263,44 @@ class ValidCategoryBadge(formencode.FancyValidator):
         return badge
 
 
+class ValidParentCategory(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+        if (field_dict['parent'] is not None and
+           field_dict['parent'].instance is not field_dict['instance']):
+            msg = _("Parent and child category instance have to match")
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'parent': msg}
+            )
+        else:
+            return field_dict
+
+
+class ValidateNoCycle(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+
+        def parent_okay(category):
+            if category is None:
+                # no cycle
+                return True
+            elif category == field_dict['id']:
+                # cycle
+                return False
+            else:
+                return parent_okay(category.parent)
+
+        if parent_okay(field_dict['parent']):
+            return field_dict
+        else:
+            msg = _('You shall not create cycles!')
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'parent': msg}
+            )
+
+
 class MaybeMilestone(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Milestone
@@ -538,4 +576,30 @@ class ContainsEMailPlaceholders(formencode.FancyValidator):
                   'the email text so we can insert enough information '
                   'for the user: %s') % ', '.join(missing),
                 value, state)
+        return value
+
+
+class MessageableInstances(formencode.FancyValidator):
+    """
+    Check if the given instance can be mass messaged by the current user.
+    """
+
+    accept_iterator = True
+
+    def _to_python(self, value, state):
+
+        if not value:
+            raise formencode.Invalid(
+                _('Please select at least one instance'), value, state)
+
+        if not isinstance(value, list):
+            value = [value]
+
+        from adhocracy.controllers.massmessage import MassmessageController
+        allowed_ids = (i.id for i in
+                       MassmessageController.get_allowed_instances(c.user))
+        if any(int(i) not in allowed_ids for i in value):
+            raise formencode.Invalid(
+                _('Disallowed instance selected'), value, state)
+
         return value

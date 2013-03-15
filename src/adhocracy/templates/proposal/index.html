@@ -144,7 +144,5 @@
     ${map.show_region_map([p.id for p in c.proposals_pager.items if p is not None and p.geotag is not None], full_region=not(bool(c.query)), map_class="small_map")}
 %endif
 
-    <div id="proposals_facets">
-        ${c.proposals_pager.render_facets()}    
-    </div>
+    ${c.proposals_pager.render_facets(cls='sidebar_box')}
 </%block>

@@ -52,6 +52,7 @@ setup(
         "oauth>=1.0.1",
         "rq",
         "redis",
+        "ordereddict",
         "babel>=0.9",
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",

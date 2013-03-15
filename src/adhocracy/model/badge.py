@@ -6,6 +6,9 @@ of delegateables). Badges use single table inheritance.
 from datetime import datetime
 import logging
 
+from pylons import config
+from paste.deploy.converters import asbool
+
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Boolean, Integer, DateTime, String, Unicode
 
@@ -26,6 +29,11 @@ badge_table = Table(
     Column('description', Unicode(255), default=u'', nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id',
                                               ondelete="CASCADE",),
+           nullable=True),
+    # attributes for hierarchical badges (CategoryBadges)
+    Column('select_child_description', Unicode(255), default=u'',
+           nullable=False),
+    Column('parent_id', Integer, ForeignKey('badge.id', ondelete="CASCADE"),
            nullable=True),
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
@@ -293,6 +301,32 @@ class DelegateableBadges(Badges):
 
 # --[ Category Badges ]-----------------------------------------------------
 
+
 class CategoryBadge(DelegateableBadge):
 
     polymorphic_identity = 'category'
+
+    @classmethod
+    def create(cls, title, color, visible, description, instance=None,
+               parent=None, select_child_description=u'', ):
+        badge = cls(title, color, visible, description, instance)
+        badge.parent = parent
+        badge.select_child_description = select_child_description
+        meta.Session.add(badge)
+        meta.Session.flush()
+        return badge
+
+    def to_dict(self):
+        d = super(CategoryBadge, self).to_dict()
+        d['parent'] = self.parent
+        d['select_child_description'] = self.select_child_description
+        return d
+
+    def get_key(self, root=None, separator=u' > ', option_attribute='title'):
+        if self.parent is root:
+            return self.__getattribute__(option_attribute)
+        else:
+            return u'%s%s%s' % (
+                self.parent.get_key(root, separator, option_attribute),
+                separator,
+                self.title)

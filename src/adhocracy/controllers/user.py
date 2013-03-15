@@ -66,6 +66,8 @@ class UserUpdateForm(formencode.Schema):
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
+    email_messages = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
     proposal_sort_order = validators.OneOf([''] + [
         v.value
         for g in PROPOSAL_SORTS.by_group.values()
@@ -430,7 +432,7 @@ class UserController(BaseController):
         else:
             login_configuration = h.allowed_login_types()
             error_message = _("Invalid login")
-            
+
             if 'username+password' in login_configuration:
                 if 'email+password' in login_configuration:
                     error_message = _("Invalid email / user name or password")
@@ -438,11 +440,11 @@ class UserController(BaseController):
                     error_message = _("Invalid user name or password")
             else:
                 if 'email+password' in login_configuration:
-                    error_message = _("Invalid email or password")            
-            
+                    error_message = _("Invalid email or password")
+
             return formencode.htmlfill.render(
                 render("/user/login.html"),
-                errors={"login": _("Invalid user name or password")})
+                errors={"login": error_message})
 
     def logout(self):
         pass  # managed by repoze.who

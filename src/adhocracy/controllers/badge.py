@@ -8,16 +8,20 @@ from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor
 from adhocracy.forms.common import ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
+from adhocracy.forms.common import ValidCategoryBadge
+from adhocracy.forms.common import ValidParentCategory
+from adhocracy.forms.common import ValidateNoCycle
+from adhocracy.model import meta
 from adhocracy.model import Badge
+from adhocracy.model import Group
 from adhocracy.model import CategoryBadge
 from adhocracy.model import DelegateableBadge
-from adhocracy.model import UserBadge
 from adhocracy.model import InstanceBadge
-from adhocracy.model import Group, Instance, meta
+from adhocracy.model import UserBadge
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
-from adhocracy.lib.auth import require, guard
+from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 
@@ -29,6 +33,25 @@ class BadgeForm(formencode.Schema):
     description = validators.String(max=255)
     color = ValidHTMLColor()
     instance = ValidBadgeInstance()
+
+
+class CategoryBadgeForm(BadgeForm):
+    select_child_description = validators.String(max=255)
+    parent = ValidCategoryBadge(not_empty=False)
+    chained_validators = [
+        # make sure parent has same instance as we
+        ValidParentCategory()
+    ]
+
+
+class CategoryBadgeUpdateForm(CategoryBadgeForm):
+    id = ValidCategoryBadge(not_empty=True)
+    chained_validators = [
+        # make sure parent has same instance as we
+        ValidParentCategory(),
+        # make sure we don't create a cycle
+        ValidateNoCycle(),
+    ]
 
 
 class UserBadgeForm(BadgeForm):
@@ -87,21 +110,33 @@ class BadgeController(BaseController):
                 'error')
         redirect(self.base_url)
 
-    def render_form(self):
-        q = Instance.all_q().order_by(Instance.label)
-        if c.instance:
-            q = q.filter(Instance.id != c.instance.id)
-        c.other_instances = q.all()
-        return render(self.form_template)
+    def _set_categories(self):
+        local_categories = CategoryBadge.all(instance=c.instance,
+                                             include_global=False)
+        c.local_category_parents = sorted(
+            [(b.id, b.get_key()) for b in local_categories],
+            key=lambda x: x[1])
+
+        if h.has_permission('global.admin'):
+            global_categories = CategoryBadge.all(instance=None,
+                                                  include_global=True)
+            c.global_category_parents = sorted(
+                [(b.id, b.get_key()) for b in global_categories],
+                key=lambda x: x[1])
 
     def add(self, badge_type=None, errors=None):
         if badge_type is not None:
             c.badge_type = badge_type
         c.form_type = 'add'
         c.groups = Group.all_instance()
-        defaults = {'visible': True}
+        defaults = {'visible': True,
+                    'select_child_description': '',
+                    }
         defaults.update(dict(request.params))
-        return htmlfill.render(self.render_form(),
+
+        self._set_categories()
+
+        return htmlfill.render(render(self.form_template),
                                defaults=defaults,
                                errors=errors,
                                force_defaults=False)
@@ -113,7 +148,8 @@ class BadgeController(BaseController):
         Methods are named <action>_<badge_type>_badge().
         '''
         assert action in ['create', 'update']
-        if badge_type not in ['user', 'delegateable', 'category', 'instance']:
+        types = ['user', 'delegateable', 'category', 'instance']
+        if badge_type not in types:
             raise AssertionError('Unknown badge_type: %s' % badge_type)
 
         c.badge_type = badge_type
@@ -186,12 +222,19 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def create_category_badge(self):
         try:
-            self.form_result = BadgeForm().to_python(request.params)
+            self.form_result = CategoryBadgeForm().to_python(request.params)
         except Invalid, i:
             return self.add('category', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
-        CategoryBadge.create(title, color, visible, description, instance)
+        child_descr = self.form_result.get("select_child_description")
+        child_descr = child_descr.replace("$badge_title", title)
+        parent = self.form_result.get("parent")
+        if parent and parent.id == id:
+            parent = None
+        CategoryBadge.create(title, color, visible, description, instance,
+                             parent=parent,
+                             select_child_description=child_descr)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -233,6 +276,7 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
         c.form_type = 'update'
+        self._set_categories()
 
         # Plug in current values
         instance_default = badge.instance.key if badge.instance else ''
@@ -245,8 +289,12 @@ class BadgeController(BaseController):
         if isinstance(badge, UserBadge):
             c.groups = Group.all_instance()
             defaults['group'] = badge.group and badge.group.code or ''
+        if isinstance(badge, CategoryBadge):
+            defaults['parent'] = badge.parent and badge.parent.id or ''
+            defaults['select_child_description'] =\
+                badge.select_child_description
 
-        return htmlfill.render(self.render_form(),
+        return htmlfill.render(render(self.form_template),
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)
@@ -327,18 +375,27 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def update_category_badge(self, id):
         try:
-            self.form_result = BadgeForm().to_python(request.params)
+            params = request.params.copy()
+            params['id'] = id
+            self.form_result = CategoryBadgeUpdateForm().to_python(params)
         except Invalid, i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
-
+        child_descr = self.form_result.get("select_child_description")
+        child_descr = child_descr.replace("$badge_title", title)
+        #TODO global badges must have only global badges children, joka
+        parent = self.form_result.get("parent")
+        if parent and parent.id == id:
+            parent = None
         badge.title = title
         badge.color = color
         badge.visible = visible
         badge.description = description
         badge.instance = instance
+        badge.select_child_description = child_descr
+        badge.parent = parent
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)

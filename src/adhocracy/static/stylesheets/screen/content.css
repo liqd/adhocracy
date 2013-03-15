@@ -1580,12 +1580,45 @@ body.compact .only-anon {
 }
 
 #add_tags {
-padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .facet ul {
-list-style: none;
-margin-left: 0;
+  list-style: none;
+  margin-left: 0;
+  margin-bottom: 5px;
+}
+.facet ul ul {
+  margin-left: 18px;
+}
+.facet ul ul.noindent {
+  margin-left: 0px;
+}
+.facet li a.expand_arrow {
+  width: 11px;
+  height: 11px;
+  display: inline-block;
+  background: url("/images/arrow-right-11.png") no-repeat 0px top;
+}
+.facet li > a.expand_arrow:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+.facet li.expanded > a.expand_arrow {
+  background: url("/images/arrow-down-11.png") no-repeat 0px top;
+}
+.facet li > ul {
+  display: none;
+}
+.facet li.expanded > ul {
+  display: block;
+}
+.facet input {
+  margin-top: 2px;
+  margin-right: 5px;
+}
+.facet .facet_item_text {
+  font-weight: bold;
 }
 
 .content_box .more {

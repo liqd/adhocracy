@@ -47,9 +47,12 @@ from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.requestlog import RequestLog, requestlog_table
+from adhocracy.model.message import Message, message_table
+from adhocracy.model.message import MessageRecipient, message_recipient_table
 from adhocracy.model.region import Region, region_table
 from adhocracy.model.region import RegionSimplified, region_simplified_table
 from adhocracy.model.region import RegionHierarchy, region_hierarchy_table
+
 
 mapper(User, user_table, properties={
     'email': synonym('_email', map_column=True),
@@ -133,7 +136,13 @@ mapper(CategoryBadge, inherits=badge_mapper,
                secondaryjoin=(delegateable_badges_table.c.delegateable_id ==
                               delegateable_table.c.id),
                backref=backref('categories', lazy='joined'),
-               lazy=False)})
+               lazy=False),
+           'children': relation(
+               CategoryBadge,
+               #remote_side=badge_table.c.id,
+               backref=backref('parent', lazy='joined',
+                               remote_side=badge_table.c.id),
+           )})
 
 
 mapper(DelegateableBadge, inherits=badge_mapper,
@@ -457,6 +466,27 @@ mapper(RegionSimplified, region_simplified_table, properties={
 })
 
 mapper(RegionHierarchy, region_hierarchy_table)
+
+
+mapper(Message, message_table, properties={
+    'creator': relation(
+        User, lazy=True,
+        primaryjoin=message_table.c.creator_id == user_table.c.id),
+})
+
+
+mapper(MessageRecipient, message_recipient_table, properties={
+    'message': relation(
+        Message, lazy=False, primaryjoin=(
+            message_table.c.id == message_recipient_table.c.message_id
+        ), backref=backref('recipients', lazy=True)
+    ),
+    'recipient': relation(
+        User, lazy=False, primaryjoin=(
+            user_table.c.id == message_recipient_table.c.recipient_id
+        ), backref=backref('messages', lazy=True)
+    ),
+})
 
 
 def init_model(engine):
