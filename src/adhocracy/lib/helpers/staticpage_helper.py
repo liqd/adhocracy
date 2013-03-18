@@ -1,0 +1,14 @@
+import babel.core
+
+from adhocracy.lib import cache
+from adhocracy.lib.helpers import url as _url
+
+
+@cache.memoize('staticpage_url')
+def url(staticpage, **kwargs):
+    pid = staticpage.key + '_' + staticpage.lang
+    return _url.build(None, 'static', pid, **kwargs)
+
+def get_lang_info(lang):
+    locale = babel.core.Locale(lang)
+    return {'id': lang, 'name': locale.display_name}

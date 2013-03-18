@@ -97,3 +97,6 @@ Please define your styles before this section.
 
 /* Hide visually and from screenreaders, but maintain layout */
 .invisible { visibility: hidden; }
+
+
+.staticpages_index tr>td>a {display: block; width: 100%; height: 100%;}
