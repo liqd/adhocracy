@@ -79,18 +79,20 @@
 </div>
 </%def>
 
-<%def name="facets(pager)">
+<%def name="facets(pager, cls=None)">
 %if (True in [facet.available() for facet in pager.facets]):
+<div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
 
-%for facet in pager.facets:
+  %for facet in pager.facets:
     %if facet.available():
-    <div class="facet">
+    <div class="facet facet-${facet.name}">
         ${facet.render()}
     </div>
     %endif
-%endfor
+  %endfor
 %endif
+</div>
 </%def>
 
 <%def name="facet(facet)">
@@ -99,45 +101,62 @@
     %if facet.used:
     <a class="remove"
        href="${facet.unselect_all_link()|n}"
-       rel="nofollow">(${_("Remove all")})</a>
+       rel="nofollow">(${_("reset")})</a>
     %endif
 </h4>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
-<ul>
-    %for item in facet.current_items:
-    <li>
-        %if not item['visible']:
-            <span />
-        %elif item['disabled']:
-        ${h.literal(item['thumbnail'])}
-        <span class="disabled">
-            ${item['link_text']} (${item['current_count']})
-        </span>
-        %else:
-        ${h.literal(item['thumbnail'])}
-            %if item['selected']:
-            <span class="selected">
-                ${item['link_text']}
-                <a class="remove" href="${item['url']|n}" 
-		   rel="nofollow">
-		    (${_("remove")})
-		</a>
-            </span>
-            %else:
-            <a class="${item['selected']}"  
-               href="${item['url']|n}"
-	       rel="nofollow">
-                ${item['link_text']} (${item['current_count']})
-            </a>
-            %endif
-        %endif
-    </li>
-    %endfor
-</ul>
+
+${facet_items(facet.current_items)}
+
 <br />
 </%def>
+
+<%def name="facet_items(items, indent=True)">
+<ul${'' if indent else ' class="noindent"' | n}>
+    %for item in items:
+    <li class="facet-item-level-${item['level']}${' expanded' if item['open'] else ''}">
+        %if item['visible']:
+        %if item['disabled']:
+        <span class="disabled">
+            %if not item['hide_checkbox']:
+            <input type="checkbox" disabled="disabled" />
+            %endif
+            <span class="facet_item_text">${item['link_text']}</span>
+            <span>(${item['current_count']})</span>
+        </span>
+        %else:
+            %if item['selected']:
+            <span class="selected">
+                <input type="checkbox" class="facet_check" checked="checked" />
+                <a class="facet_item_text remove" href="${item['url']|n}" 
+                  rel="nofollow">${item['link_text']}</a>
+                <span>(${item['current_count']})</span>
+            </span>
+            %else:
+            <span class="selected">
+              <input type="checkbox" class="facet_check" />
+              <a class="facet_item_text ${item['selected']}"  
+                 href="${item['url']|n}"
+                 rel="nofollow">${item['link_text']}</a>
+               <span>(${item['current_count']})</span>
+            </span>
+            %endif
+        %endif
+
+        ${h.literal(item['thumbnail'])}
+
+        %if item["children"]:
+        <a class="expand_arrow"></a>
+        ${facet_items(item["children"], indent=not item['hide_checkbox'])}
+        %endif
+        %endif
+
+    </li>
+    %endfor
+</ul>  
+</%def> 
 
 <%def name="overlay_pager(render_facets=True)">
 

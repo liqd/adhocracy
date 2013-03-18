@@ -2,6 +2,7 @@ import copy
 from inspect import isclass
 import math
 import logging
+from ordereddict import OrderedDict
 import time
 import urllib
 
@@ -16,11 +17,12 @@ from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.helpers import base_url
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
+from adhocracy.lib.helpers.badge_helper import get_parent_badges
 from adhocracy.lib.event.stats import user_activity, user_rating
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
 from adhocracy.lib.util import generate_sequence
-from adhocracy.model.refs import ref_attr_value
+from adhocracy.lib.util import split_filter
 
 log = logging.getLogger(__name__)
 
@@ -354,6 +356,37 @@ def polls(polls, default_sort=None, **kwargs):
 
 # --[ solr pager ]----------------------------------------------------------
 
+
+def entity_to_solr_token(entity):
+    """ Returns the solr token string.
+        For normal entities this is the (unicode) value of the reference
+        attribute.
+        For hierachical entities (badges only so far) it adds the parents
+        reference attribute values as well making the solr path tokenizer work.
+    """
+
+    if isinstance(entity, model.Badge):
+        path_seperator = u"/"
+        parents = list(get_parent_badges(entity))
+        parents.reverse()
+        with_parents = parents + [entity]
+        with_parents_values = map(model.refs.ref_attr_value, with_parents)
+        token = path_seperator.join(with_parents_values)
+        return token
+    else:
+        return model.refs.ref_attr_value(entity)
+
+
+def solr_tokens_to_entities(tokens, entity_class):
+    """ Returns the entity according to the solr token string.
+        and entity_class.
+        For hierachical entities it supports tokens including the parents
+        reference attribute values ("1/2/3").
+    """
+    entity_ids = [t.rpartition('/')[-1] for t in tokens]
+    return model.refs.get_entities(entity_class, entity_ids)
+
+
 class SolrIndexer(object):
     '''
     An indexer class to add information to the data
@@ -392,11 +425,16 @@ class SolrFacet(SolrIndexer):
     >>> some_facet = SomeFacet('mypager_prefix', request)
     >>> q = solr_query()
     >>> counts_query = q
-    >>> # configure the query further
-    >>> q, counts_query = some_facet.add_to_queries(q, counts_query)
+    >>> exclusive_qs = []
+    >>> # configure the queries further
+    >>> q, counts_query, exclusive_qs = some_facet.add_to_queries(
+    ...     q, counts_query, exclusive_qs)
     >>> response = q.execute()
     >>> counts_response = counts_response.execute()
-    >>> some_facet.update(response, counts_response)
+    >>> exclusive_responses = dict([counts_response = counts_response.execute()
+    >>> exclusive_responses = dict(map(lambda ((k, q)): (k, q.execute()),
+    ...                                exclusive_qs.iteritems()))
+    >>> some_facet.update(response, counts_response, exclusive_responses)
     >>> some_facet.items
     [...]
     """
@@ -407,6 +445,7 @@ class SolrFacet(SolrIndexer):
     title = None
     description = None
     solr_field = None
+    exclusive = False
     show_empty = False
     show_current_empty = True
     template = '/pager.html'
@@ -442,7 +481,7 @@ class SolrFacet(SolrIndexer):
         '''
         return ''
 
-    def add_to_queries(self, query, counts_query):
+    def add_to_queries(self, query, counts_query, exclusive_queries):
         '''
         Add the facet to the queries *query* and *counts_query*.
         The difference is that the *query* will be limited to facet values
@@ -452,11 +491,21 @@ class SolrFacet(SolrIndexer):
         '''
         query = query.facet_by(self.solr_field)
         counts_query = counts_query.facet_by(self.solr_field)
+
+        if self.exclusive:
+            exclusive_queries[self.solr_field] =\
+                exclusive_queries[self.solr_field].facet_by(self.solr_field)
+
         for value in self.used:
             query = query.query(**{self.solr_field: value})
-        return query, counts_query
 
-    def update(self, response, counts_response):
+            for k, v in exclusive_queries.iteritems():
+                if k != self.solr_field:
+                    exclusive_queries[k] = v.query(**{self.solr_field: value})
+
+        return query, counts_query, exclusive_queries
+
+    def update(self, response, counts_response, exclusive_responses):
         '''
         Compute and update different attributes of the facet based
         on the solr *response* and the *base_query*.
@@ -473,16 +522,29 @@ class SolrFacet(SolrIndexer):
                                             reverse=True)
         self.current_counts = dict(self.sorted_current_counts)
 
-        # the counts in the current query which is limited to selected
+        # the counts in the base query which is not limited to selected
         # facet values
         facet_counts = counts_response.facet_counts.facet_fields[solr_field]
         self.sorted_facet_counts = sorted(facet_counts,
                                           key=lambda(value, count): count,
                                           reverse=True)
         self.facet_counts = dict(self.sorted_facet_counts)
+
+        # the counts in the current query without the current query for this
+        # facet if this is an exclusive (single value) facet
+        if self.exclusive:
+            exclusive_counts = exclusive_responses[solr_field]\
+                .facet_counts.facet_fields[solr_field]
+            self.sorted_exclusive_counts = sorted(
+                exclusive_counts,
+                key=lambda(value, count): count,
+                reverse=True)
+            self.exclusive_counts = dict(self.sorted_exclusive_counts)
+
         self.current_items = self._current_items()
 
     # fixme: memoize
+    # fixme: this method is not used, joka
     def _facet_items(self, facet_counts):
         facet_items = []
         for (value, count) in facet_counts:
@@ -491,6 +553,7 @@ class SolrFacet(SolrIndexer):
                 facet_items.append(facet_item)
         return self.sort_facet_items(facet_items)
 
+    # fixme: this method is not used, joka
     def _facet_item(self, value, count):
         '''
         Return an item dict for the facet *value*.
@@ -516,6 +579,9 @@ class SolrFacet(SolrIndexer):
         return sorted(items, key=sort_key_getter)
 
     def available(self):
+        if self.exclusive:
+            return (len(self.sorted_facet_counts) > 0
+                    and self.sorted_facet_counts[0][1] > 0)
         if not self.response:
             return False
         return bool(len(self.current_items))
@@ -530,10 +596,10 @@ class SolrFacet(SolrIndexer):
 
     def _current_items(self):
         '''
-        Return a list of facets to display.
+        Return a list of facet items to display.
         '''
 
-        def show_facet(current_count, facet_count, show_empty,
+        def show_facet(current_count, token_count, show_empty,
                        show_current_empty):
             if show_empty:
                 return True
@@ -541,39 +607,71 @@ class SolrFacet(SolrIndexer):
             if current_count > 0 or show_current_empty:
                 return True
 
-            if facet_count > 0 or show_empty:
+            if token_count > 0 or show_empty:
                 return True
 
             return False
 
-        ids = []
-        facet_items = {}
-        for (value, facet_count) in self.sorted_facet_counts:
-            current_count = self.current_counts[value]
+        # get solr tokens and search counts and sort hierarchical
+        token_counts = sorted(self.sorted_facet_counts, key=lambda x:
+                              len(x[0].split("/")), reverse=True)
 
-            if show_facet(current_count, facet_count,
+        # add the solr token (value) and search counts to the items
+        facet_items = OrderedDict()
+        for (token, token_count) in token_counts:
+            if self.exclusive:
+                current_count = self.exclusive_counts[token]
+            else:
+                current_count = self.current_counts[token]
+
+            if show_facet(current_count, token_count,
                           self.show_empty, self.show_current_empty):
-                id_ = value
-                ids.append(id_)
-                facet_items[id_] = {'current_count': current_count,
-                                    'value': value}
+                facet_items[token] = {'current_count': current_count,
+                                      'value': token}
 
-        result = []
+        for i, e in zip(facet_items.keys(),
+                        solr_tokens_to_entities(facet_items.keys(),
+                                                self.entity_type)):
+            facet_items[i]['entity'] = e
 
-        entities = model.refs.get_entities(self.entity_type, ids)
-
-        for entity in entities:
-            item = facet_items[ref_attr_value(entity)]
+        # add data to display the items
+        for token, item in facet_items.items():
+            entity = item['entity']
             item['link_text'] = self.get_item_label(entity)
             item['disabled'] = (item['current_count'] == 0)
             item['selected'] = item['value'] in self.used
             item['url'] = self.get_item_url(item)
             item['visible'] = getattr(entity, 'visible', 'default')
+            item['level'] = len((token).split("/"))
+            item['children'] = []
+            item['open'] = False
+            item['hide_checkbox'] = False
             item['thumbnail'] = self.get_thumbnail(entity)
 
-            result.append(item)
+        if self.exclusive:
+            lower, top = split_filter(lambda x: '/' in x, facet_items.keys())
+            disable_toplevel = (len(top) == 1 and len(lower) > 0)
 
-        return result
+        for token in sorted(facet_items.keys(),
+                            key=lambda x: x.count('/'),
+                            reverse=True):
+            item = facet_items[token]
+            if item['selected']:
+                item['open'] = True
+            parent_token = token.rpartition('/')[0]
+            if parent_token:
+                parent = facet_items[parent_token]
+                parent['children'].append(item)
+                if item['open']:
+                    parent['open'] = True
+                facet_items.pop(token)
+            else:
+                if self.exclusive and disable_toplevel:
+                    item['open'] = True
+                    item['disabled'] = True
+                    item['hide_checkbox'] = True
+
+        return facet_items.values()
 
     def get_item_label(self, entity):
         for attribute in ['label', 'title', 'name']:
@@ -588,11 +686,17 @@ class SolrFacet(SolrIndexer):
         build a new url for the action when you click on it to
         select or unselect the item.
         '''
-        values = self.used[:]
-        if item['selected']:
-            values.remove(item['value'])
+        if self.exclusive:
+            if item['selected']:
+                values = []
+            else:
+                values = [item['value']]
         else:
-            values.append(item['value'])
+            values = self.used[:]
+            if item['selected']:
+                values.remove(item['value'])
+            else:
+                values.append(item['value'])
         return self.build_url(self.request, values)
 
     def unselect_all_link(self):
@@ -607,7 +711,10 @@ class SolrFacet(SolrIndexer):
         '''
         params = self.build_params(request, facet_values)
         url_base = base_url(url.current(qualified=False))
-        return url_base + "?" + urllib.urlencode(params)
+        if params:
+            return url_base + '?' + urllib.urlencode(params)
+        else:
+            return url_base
 
     def build_params(self, request, facet_values):
         '''
@@ -655,7 +762,7 @@ class UserBadgeFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [ref_attr_value(badge) for
+        index[cls.solr_field] = [entity_to_solr_token(badge) for
                                  badge in user.badges]
 
 
@@ -671,7 +778,7 @@ class InstanceBadgeFacet(SolrFacet):
     def add_data_to_index(cls, instance, index):
         if not isinstance(instance, model.Instance):
             return
-        d = [ref_attr_value(badge) for badge in instance.badges]
+        d = [entity_to_solr_token(badge) for badge in instance.badges]
         index[cls.solr_field] = d
 
 
@@ -686,7 +793,7 @@ class InstanceFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [ref_attr_value(instance) for
+        index[cls.solr_field] = [entity_to_solr_token(instance) for
                                  instance in user.instances]
 
 
@@ -697,6 +804,7 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
+    exclusive = True
 
     @property
     def show_current_empty(self):
@@ -707,8 +815,9 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [ref_attr_value(badge) for
-                                badge in entity.categories]
+        data[cls.solr_field] = [entity_to_solr_token(b)
+                                for b in entity.categories]
+
 
 class DelegateableBadgeThumbnailFacet(SolrFacet):
     """Index all delegateable badge thumbnails"""
@@ -718,6 +827,7 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
     title = lazy_ugettext(u'Thumbnails')
     solr_field = 'facet.delegateable.badgethumbnail'
     show_current_empty = False
+    exclusive = True
 
     def get_thumbnail(self, entity):
         return generate_thumbnail_tag(entity, 16, 16)
@@ -726,7 +836,7 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [ref_attr_value(badge) for
+        data[cls.solr_field] = [entity_to_solr_token(badge) for
                                 badge in entity.thumbnails]
 
 
@@ -743,7 +853,7 @@ class DelegateableBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        d = [ref_attr_value(badge) for badge in entity.badges]
+        d = [entity_to_solr_token(badge) for badge in entity.badges]
         data[cls.solr_field] = d
 
 
@@ -759,7 +869,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
     def add_data_to_index(cls, entity, data):
         if not isinstance(entity, model.Delegateable):
             return
-        data[cls.solr_field] = [ref_attr_value(badge) for
+        data[cls.solr_field] = [entity_to_solr_token(badge) for
                                 badge in entity.creator.badges if
                                 (badge.instance is entity.instance or
                                  badge.instance is None)]
@@ -779,7 +889,7 @@ class DelegateableTags(SolrFacet):
             return
         tags = []
         for tag, count in entity.tags:
-            tags.extend([ref_attr_value(tag)] * count)
+            tags.extend([entity_to_solr_token(tag)] * count)
         data[cls.solr_field] = tags
 
 
@@ -1001,10 +1111,18 @@ class SolrPager(PagerMixin):
         # Add facets
         counts_query = query
         counts_query = counts_query.paginate(rows=0)
+
+        exclusive_queries = dict((f.solr_field, counts_query)
+                                 for f in self.facets if f.exclusive)
+
         query.faceter.update(limit='65000')
         counts_query.faceter.update(limit='65000')
+        map(lambda q: q.faceter.update(limit='65000'),
+            exclusive_queries.values())
+
         for facet in self.facets:
-            query, counts_query = facet.add_to_queries(query, counts_query)
+            query, counts_query, exclusive_queries = facet.add_to_queries(
+                query, counts_query, exclusive_queries)
 
         # Add pagination and sorting
         if enable_pages:
@@ -1016,6 +1134,9 @@ class SolrPager(PagerMixin):
         # query solr and calculate values from it
         self.response = query.execute()
         self.counts_response = counts_query.execute()
+        self.exclusive_responses = dict(map(lambda ((k, q)): (k, q.execute()),
+                                            exclusive_queries.iteritems()))
+
         # if we are out of the page range do a permanent redirect
         # to the last page
         if (self.pages > 0) and (self.page > self.pages):
@@ -1023,7 +1144,8 @@ class SolrPager(PagerMixin):
             redirect(new_url, code=301)
 
         for facet in self.facets:
-            facet.update(self.response, self.counts_response)
+            facet.update(self.response, self.counts_response,
+                         self.exclusive_responses)
         self.items = self._items_from_response(self.response)
 
     def total_num_items(self):
@@ -1064,11 +1186,11 @@ class SolrPager(PagerMixin):
         finally:
             return size
 
-    def render_facets(self):
+    def render_facets(self, cls=None):
         '''
         render all facets
         '''
-        return render_def('/pager.html', 'facets', pager=self)
+        return render_def('/pager.html', 'facets', pager=self, cls=cls)
 
 
 class SortOption(object):

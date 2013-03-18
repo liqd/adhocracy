@@ -123,6 +123,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <th>${_("Description")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
+        <th>${_("Parent")}</th>
         <th>${_("Actions")}</th>
       </thead>
       %for badge in badge_items:
@@ -131,7 +132,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
-        
+        <td>${badge.parent.title if badge.parent else ""}</td>
         <td>${edit_button(badge.id)}</td>
       </tr>
       %endfor

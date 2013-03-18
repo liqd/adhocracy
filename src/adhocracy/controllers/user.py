@@ -432,7 +432,7 @@ class UserController(BaseController):
         else:
             login_configuration = h.allowed_login_types()
             error_message = _("Invalid login")
-            
+
             if 'username+password' in login_configuration:
                 if 'email+password' in login_configuration:
                     error_message = _("Invalid email / user name or password")
@@ -440,11 +440,11 @@ class UserController(BaseController):
                     error_message = _("Invalid user name or password")
             else:
                 if 'email+password' in login_configuration:
-                    error_message = _("Invalid email or password")            
-            
+                    error_message = _("Invalid email or password")
+
             return formencode.htmlfill.render(
                 render("/user/login.html"),
-                errors={"login": _("Invalid user name or password")})
+                errors={"login": error_message})
 
     def logout(self):
         pass  # managed by repoze.who

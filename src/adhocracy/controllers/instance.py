@@ -248,7 +248,7 @@ class InstanceController(BaseController):
         proposals = model.Proposal.all(instance=c.page_instance)
 
         show_new_proposals_cfg = config.get(
-                            'adhocracy.show_instance_overview_proposals_new')
+            'adhocracy.show_instance_overview_proposals_new')
         if show_new_proposals_cfg is None:
             # Fall back to legacy option
             show_new_proposals = asbool(config.get(

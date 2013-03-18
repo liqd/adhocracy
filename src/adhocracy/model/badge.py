@@ -27,6 +27,11 @@ badge_table = Table(
     Column('instance_id', Integer, ForeignKey('instance.id',
                                               ondelete="CASCADE",),
            nullable=True),
+    # attributes for hierarchical badges (CategoryBadges)
+    Column('select_child_description', Unicode(255), default=u'',
+           nullable=False),
+    Column('parent_id', Integer, ForeignKey('badge.id', ondelete="CASCADE"),
+           nullable=True),
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
@@ -295,9 +300,46 @@ class DelegateableBadges(Badges):
 
 # --[ Category Badges ]-----------------------------------------------------
 
+
 class CategoryBadge(DelegateableBadge):
 
     polymorphic_identity = 'category'
+
+    @classmethod
+    def create(cls, title, color, visible, description, instance=None,
+               parent=None, select_child_description=u'', ):
+        badge = cls(title, color, visible, description, instance)
+        badge.parent = parent
+        badge.select_child_description = select_child_description
+        meta.Session.add(badge)
+        meta.Session.flush()
+        return badge
+
+    def to_dict(self):
+        d = super(CategoryBadge, self).to_dict()
+        d['parent'] = self.parent
+        d['select_child_description'] = self.select_child_description
+        return d
+
+    def is_ancester(self, badge):
+        """
+        returns True if the given badge is an ancester of self
+        """
+        if self == badge:
+            return True
+        elif self.parent is None:
+            return False
+        else:
+            return self.parent.is_ancester(badge)
+
+    def get_key(self, root=None, separator=u' > '):
+        if self.parent is root:
+            return self.title
+        else:
+            return u'%s%s%s' % (
+                self.parent.get_key(root, separator),
+                separator,
+                self.title)
 
 
 # --[ Thumbnail Badges ]-----------------------------------------------------
@@ -307,7 +349,8 @@ class ThumbnailBadge(DelegateableBadge):
     polymorphic_identity = 'thumbnail'
 
     @classmethod
-    def create(cls, title, color, visible, description, thumbnail=None, instance=None):
+    def create(cls, title, color, visible, description, thumbnail=None,
+               instance=None):
         badge = cls(title, color, visible, description, instance)
         badge.thumbnail = thumbnail
         meta.Session.add(badge)
@@ -316,10 +359,10 @@ class ThumbnailBadge(DelegateableBadge):
 
     def __repr__(self):
         return "<%s(%s,%s,%s,%s)>" % (self.__class__.__name__,
-                                   self.id,
-                                   self.title.encode('ascii', 'replace'),
-                                   hash(self.thumbnail or ''),
-                                   self.color)
+                                      self.id,
+                                      self.title.encode('ascii', 'replace'),
+                                      hash(self.thumbnail or ''),
+                                      self.color)
 
     def to_dict(self):
         d = super(ThumbnailBadge, self).to_dict()

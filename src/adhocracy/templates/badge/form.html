@@ -22,7 +22,7 @@ ${self.form()}
 
     <label for="badge_form_title" class="">${_("Badge title")}</label>
     <input name="title" id="badge_form_title" class="" style="width:20em"
-           value="" />
+           value="" autofocus />
 
     <label for="description" class="">${_("Badge description")}</label>
     <textarea name="description" id="description" 
@@ -93,16 +93,36 @@ ${self.form()}
         %if c.instance is not None:
         <option value="${c.instance.key}">${c.instance.label}</option>
         %endif
-        %if c.other_instances:
-        <optgroup label="${_('Other instances')}">
-            %for i in c.other_instances:
-            <option value="${i.key}">${i.label}</option>
-            %endfor
-        </optgroup>
-        %endif
     </select>
     %else:
     <input type="hidden" name="instance" value="${c.instance.key}" />
+    %endif
+
+    %if c.badge_type == 'category':
+    <label for="parent" class="">${_("Parent Badge")}</label>
+    <select name="parent">
+        <option value="">${_('No Parent Badge')}</option>
+        %if h.has_permission('global.admin'):
+        <optgroup label="${_('Global categories')}">
+        %for (id, title) in c.global_category_parents:
+        <option value="${id}">${title}</option>
+        %endfor
+        </optgroup>
+        %if c.instance:
+        <optgroup label="${_('Local instance categories')}">
+        %endif
+        %endif
+        %for (id, title) in c.local_category_parents:
+        <option value="${id}">${title}</option>
+        %endfor
+        %if h.has_permission('global.admin'):
+        </optgroup>
+        %endif
+    </select>  
+    
+    <label for="select_child_description" class="">${_("Description to select children of this badge (irrelevant if this badge doesn't have any children)")}</label>
+    <input name="select_child_description" id="badge_select_child_description" class="" style="width:20em"
+           value="" />
     %endif
 
     <div class="mainbar">

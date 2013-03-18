@@ -78,3 +78,14 @@ def get_default_thumbnailsize(badge):
     ins_w = instance and instance.thumbnailbadges_width
     ins_h = instance and instance.thumbnailbadges_height
     return (ins_w or global_w, ins_h or global_h)
+
+
+def get_parent_badges(badge):
+    """Returns a generator with all parent badges
+       in hierachical order (root last)
+    """
+    if hasattr(badge, "parent") and badge.parent:
+        parent = badge.parent
+        yield parent
+        for p in get_parent_badges(parent):
+            yield p

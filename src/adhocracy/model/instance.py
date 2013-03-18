@@ -232,7 +232,7 @@ class Instance(meta.Indexable):
         config_autojoin = config.get('adhocracy.instances.autojoin')
         if (config_autojoin and
                 (config_autojoin == 'ALL' or
-                key in (k.strip() for k in config_autojoin.split(',')))):
+                 key in (k.strip() for k in config_autojoin.split(',')))):
             users = adhocracy.model.User.all()
             for u in users:
                 autojoin_membership = Membership(u, instance,
