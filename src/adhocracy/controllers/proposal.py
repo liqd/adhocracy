@@ -162,7 +162,7 @@ class ProposalController(BaseController):
 
         pages = model.Page.all_q(instance=c.instance,
                                  functions=model.Page.LISTED)\
-            .filter(model.Page.geotag is not None)
+            .filter(model.Page.geotag != None)  # noqa
         c.pages_pager = pager.pages(pages)
 
         return render("/proposal/index_map.html")
