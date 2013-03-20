@@ -9,6 +9,7 @@ from repoze.what.middleware import setup_auth as setup_what
 from repoze.what.plugins.sql.adapters import SqlPermissionsAdapter
 
 import adhocracy.model as model
+from . import welcome
 from authorization import InstanceGroupSourceAdapter
 from instance_auth_tkt import InstanceAuthTktCookiePlugin
 
@@ -113,6 +114,8 @@ def setup_auth(app, config):
     authenticators = [('sqlauth', sqlauth), ('auth_tkt', auth_tkt)]
     challengers = [('form', form), ('basicauth', basicauth)]
     mdproviders = [('sql_user_md', sql_user_md)]
+
+    welcome.setup_auth(config, identifiers, authenticators)
 
     log_stream = None
     #log_stream = sys.stdout

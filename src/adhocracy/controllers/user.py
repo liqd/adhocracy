@@ -793,3 +793,8 @@ class UserController(BaseController):
             return True
         else:
             return False
+
+    def welcome(self, id, token):
+        # Should be intercepted by WelcomeRepozeWho
+        msg = _('Welcome module failed. Please login or use "Reset Password"')
+        return ret_abort(msg, code=403)

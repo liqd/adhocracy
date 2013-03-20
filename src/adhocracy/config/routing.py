@@ -37,6 +37,8 @@ def make_map(config):
                 action='dashboard_proposals')
     map.connect('/user/{id}/dashboard_pages', controller='user',
                 action='dashboard_pages')
+    map.connect('/welcome/{id}/{token}', controller='user',
+                action='welcome')
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'votes': 'GET',
