@@ -304,8 +304,8 @@ class ProposalController(BaseController):
                 key=lambda s: s.page.title)
 
         if model.votedetail.is_enabled():
-            c.votedetail = model.votedetail.calc_votedetail(c.instance,
-                                                        c.proposal.rate_poll)
+            c.votedetail = model.votedetail.calc_votedetail(
+                c.instance, c.proposal.rate_poll)
 
         if format == 'rss':
             return self.activity(id, format)
