@@ -118,6 +118,8 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     use_norms = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    show_norms_navigation = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     require_selection = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     frozen = validators.StringBool(
@@ -630,6 +632,7 @@ class InstanceController(BaseController):
                 'hide_global_categories': instance.hide_global_categories,
                 'editable_comments_default':
                 instance.editable_comments_default,
+                'show_norms_navigation': instance.show_norms_navigation,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
@@ -645,8 +648,9 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['allow_propose', 'allow_index', 'frozen', 'milestones',
-             'use_norms', 'require_selection', 'hide_global_categories',
-             'editable_comments_default', 'allow_thumbnailbadges'])
+             'use_norms', 'require_selection',
+             'hide_global_categories', 'editable_comments_default',
+             'show_norms_navigation', 'allow_thumbnailbadges'])
         return self._settings_result(updated, c.page_instance, 'contents')
 
     def _settings_voting_form(self, id):
