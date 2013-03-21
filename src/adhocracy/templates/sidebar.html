@@ -13,6 +13,18 @@ para = _('A total of <a href="%(url)s">%(votes)s Votes</a>, thereof %(for)s ayes
 
 </%def>
 
+<%def name="votedetail(vd)">
+%if vd:
+<h6>${_('Votes by User Group')}</h6>
+<dl class="votedetail">
+%for b, tally in vd:
+	<dt>${b.title}</dt>
+	<dd><span class="num_for">${tally.num_for}</span> : <span class="num_against">${tally.num_against}</span></dd>
+%endfor
+</dl>
+%endif
+</%def>
+
 <%def name="shortlink(delegateable)">
 <%
 shortlink = h.site.shortlink_url(delegateable)

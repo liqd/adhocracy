@@ -200,13 +200,15 @@ class Decision(object):
                 yield cls(user, poll, at_time=at_time)
 
     @classmethod
-    def for_poll(cls, poll, at_time=None):
+    def for_poll(cls, poll, at_time=None, user_filter=None):
         """
         Get all decisions that have been made on a poll.
 
         :param poll: The poll on which to get decisions.
         """
         query = model.meta.Session.query(User)
+        if user_filter:
+            query = user_filter(query)
         query = query.distinct().join(Vote)
         query = query.filter(Vote.poll_id == poll.id)
         if at_time:

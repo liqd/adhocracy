@@ -1,4 +1,4 @@
-<%def name="badge(badge)">
+<%def name="badge(badge, force_visible=False)">
 <%
 if badge == 'dummy':
     description = ''
@@ -8,7 +8,7 @@ else:
     description = badge.description.strip()
     badge_id = badge.id
     badge_title = badge.title
-    if not badge.visible:
+    if not badge.visible and not force_visible:
         return ''
 %>
     <span class="abadge badge_${badge_id}">
@@ -31,3 +31,13 @@ else:
 </style>
 
 </%def>
+
+<%def name="badge_selector(badges, field_name)">
+%for b in badges:
+    <label>
+    <input type="checkbox" name="${field_name}" value="${b.id}"/>
+    ${badge(b, force_visible=True)}
+    </label>
+%endfor
+</%def>
+
