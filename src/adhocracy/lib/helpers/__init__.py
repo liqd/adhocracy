@@ -170,7 +170,7 @@ def login_redirect_url(entity=None, **kwargs):
     ``entity`` is None, it will redirect to the current URL.
     '''
     if entity is None:
-        came_from_url = request.path_url
+        came_from_url = base_url(request.path)
     else:
         came_from_url = entity_url(entity, **kwargs)
 
@@ -187,7 +187,7 @@ def register_redirect_url(entity=None, **kwargs):
     ``entity`` is None, it will redirect to the current URL.
     '''
     if entity is None:
-        came_from_url = request.path_url
+        came_from_url = base_url(request.path)
     else:
         came_from_url = entity_url(entity, **kwargs)
 
