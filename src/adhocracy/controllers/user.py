@@ -810,6 +810,7 @@ class UserController(BaseController):
             return False
 
     def welcome(self, id, token):
-        # Should be intercepted by WelcomeRepozeWho
-        msg = _('Welcome module failed. Please login or use "Reset Password"')
-        return ret_abort(msg, code=403)
+        # Intercepted by WelcomeRepozeWho, only errors go in here
+        h.flash(_('Code is not valid anymore since you picked a password.'),
+                'error')
+        return redirect(h.base_url('/login'))
