@@ -194,6 +194,8 @@ class User(meta.Indexable):
             hashed_password = hashed_password.decode('utf-8')
         self._password = hashed_password
 
+        self.welcome_code = None
+
     def _get_password(self):
         """Return the password hashed"""
         return self._password

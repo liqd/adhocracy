@@ -51,7 +51,8 @@ def make_map(config):
                                          'revert': 'GET',
                                          'reset': 'GET',
                                          'activate': 'GET',
-                                         'resend': 'GET'},
+                                         'resend': 'GET',
+                                         'set_password': 'POST'},
                  collection={'complete': 'GET',
                              'filter': 'GET'})
 

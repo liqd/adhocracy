@@ -1774,3 +1774,34 @@ a.joyride-prev-tip:hover {
 iframe {
   border: none;
 }
+
+form#user_welcome {
+  margin: 0;
+  padding: 0;
+}
+form#user_welcome>label {
+  margin: 0;
+  padding: 5px 0;
+  text-align: center;
+  font-size: 22px;
+  line-height: normal;
+}
+form#user_welcome>label>* {
+  vertical-align: top;
+  font-size: inherit;
+  height: auto;
+  line-height: normal;
+}
+form#user_welcome>label>span {
+  display: inline-block;
+  padding-top: 3px;
+}
+form#user_welcome>label>input[type="password"] {
+  padding: 2px 5px;
+  margin: 0;
+  width: 5em;
+}
+form#user_welcome>label>input[type="submit"] {
+  padding: 2px 5px;
+}
+
