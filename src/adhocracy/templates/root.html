@@ -16,7 +16,12 @@
   </head>
 
 
-<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}">
+<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}"
+    %if c.monitor_page_time_interval:
+    data-stats-baseurl="${c.monitor_page_time_url}"
+    data-stats-interval="${c.monitor_page_time_interval}"
+    %endif
+    >
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
