@@ -44,7 +44,6 @@ class UserCreateForm(formencode.Schema):
                            forms.UniqueEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
-    password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
 
