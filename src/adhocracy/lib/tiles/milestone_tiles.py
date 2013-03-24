@@ -3,6 +3,7 @@ from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import text
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
 
@@ -34,16 +35,21 @@ def header(milestone, tile=None):
 
 def select(selected, name='milestone'):
     options = [('--', _('(no milestone)'), selected is None)]
-    all_future = model.Milestone.all_future(instance=c.instance)
 
-    # Add the currently selected milestone if it is in the past
-    # so it will be shown and won't be overwritten on save
-    if (selected is not None) and (selected not in all_future):
-        options.append((selected.id, selected.title, True))
+    if has('milestone.edit'):
+        milestones = model.Milestone.all(instance=c.instance)
+    else:
+        milestones = model.Milestone.all_future(instance=c.instance)
 
-    for milestone in all_future:
+        # Add the currently selected milestone if it is in the past
+        # so it will be shown and won't be overwritten on save
+        if (selected is not None) and (selected not in milestones):
+            milestones.insert(0, selected)
+
+    for milestone in milestones:
         options.append((milestone.id, milestone.title,
                         milestone == selected))
+
     return render_tile('/milestone/tiles.html', 'select',
                        None, options=options, name=name)
 

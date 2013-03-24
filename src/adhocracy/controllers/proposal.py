@@ -21,6 +21,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.util import split_filter
 
 import adhocracy.lib.text as text
 
@@ -104,6 +105,31 @@ class ProposalController(BaseController):
         c.tutorial = 'proposal_index'
         return render("/proposal/index.html")
 
+    def _set_categories(self):
+        categories = model.CategoryBadge.all(
+            c.instance, include_global=not c.instance.hide_global_categories)
+
+        toplevel, lowerlevel = split_filter(lambda c: c.parent is None,
+                                            categories)
+
+        # If there is exactly one top level category and there are lower
+        # level categories, only these are shown in the category chooser,
+        # and the (single) toplevel select description is used as the toplevel
+        # select prompt.
+
+        if len(toplevel) == 1 and len(lowerlevel) > 0:
+            categories = lowerlevel
+            c.toplevel_question = toplevel[0].select_child_description
+            root = toplevel[0]
+        else:
+            c.toplevel_question = None
+            root = None
+
+        c.categories = sorted(
+            [(cat.id, cat.get_key(root), cat.select_child_description)
+             for cat in categories],
+            key=lambda x: x[1])
+
     @RequireInstance
     @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
@@ -111,8 +137,9 @@ class ProposalController(BaseController):
     def new(self, errors=None):
         c.pages = []
         c.exclude_pages = []
-        c.categories = model.CategoryBadge.all(
-            c.instance, include_global=not c.instance.hide_global_categories)
+
+        self._set_categories()
+
         if 'page' in request.params:
             page = model.Page.find(request.params.get('page'))
             if page and page.function == model.Page.NORM:
@@ -208,8 +235,7 @@ class ProposalController(BaseController):
 
         c.text_rows = text.text_rows(c.proposal.description.head)
 
-        # all available categories
-        c.categories = model.CategoryBadge.all(c.instance, include_global=True)
+        self._set_categories()
 
         # categories for this proposal
         # (single category not assured in db model)
@@ -218,8 +244,10 @@ class ProposalController(BaseController):
         force_defaults = False
         if errors:
             force_defaults = True
+        defaults = dict(request.params)
+        defaults.update({"category": c.category.id if c.category else None})
         return htmlfill.render(render("/proposal/edit.html"),
-                               defaults=dict(request.params),
+                               defaults=defaults,
                                errors=errors, force_defaults=force_defaults)
 
     @RequireInstance
@@ -275,6 +303,10 @@ class ProposalController(BaseController):
                 c.proposal.selections,
                 key=lambda s: s.page.title)
 
+        if model.votedetail.is_enabled():
+            c.votedetail = model.votedetail.calc_votedetail(
+                c.instance, c.proposal.rate_poll)
+
         if format == 'rss':
             return self.activity(id, format)
 
@@ -295,10 +327,11 @@ class ProposalController(BaseController):
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
         monitor_comment_behavior = asbool(
-                config.get('adhocracy.monitor_comment_behavior', 'False'))
+            config.get('adhocracy.monitor_comment_behavior', 'False'))
         if monitor_comment_behavior:
-            c.monitor_comment_url = (h.base_url('/stats/read_comments') + '?' +
-                        urllib.urlencode({'path' : h.entity_url(c.proposal)}))
+            c.monitor_comment_url = '%s?%s' % (
+                h.base_url('/stats/read_comments'),
+                urllib.urlencode({'path': h.entity_url(c.proposal)}))
         return render("/proposal/show.html")
 
     @RequireInstance
