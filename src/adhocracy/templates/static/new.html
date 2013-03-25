@@ -1,0 +1,31 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_('New Static Page')}</%def>
+
+<%block name="main_content">
+
+<h1>${_('New static page')}</h1>
+
+<form action="${h.base_url('/static/')}" method="POST">
+	${h.field_token()|n}
+
+	<label>${_('Key:')} <input type="text" autofocus="autofocus" name="key" /></label>
+
+	<label>${_('Language')}:
+	<select name="lang" size="1" required="required">
+	%for lang in c.all_language_infos:
+		<option value="${lang['id']}">${lang['name']}</option>
+	%endfor
+	</select></label>
+
+	<label>${_('Title:')} <input type="text" name="title" /></label>
+
+	${components.freetext('body', _('Content of the page'))}
+
+	<input type="submit" value="${_('Add static page')}" />
+</form>
+
+<a href="${h.base_url('/static/', instance=None)}">${_('Back to the list')}</a>
+
+</%block>

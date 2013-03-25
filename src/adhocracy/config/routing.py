@@ -335,7 +335,18 @@ def make_map(config):
     map.connect('/admin/import/do',
                 controller='admin', action='import_do')
 
-    map.connect('/static/{page_name}.{format}', controller='static',
+    map.connect('/static/', controller='static', action='index',
+                conditions=dict(method=['GET', 'HEAD']))
+    map.connect('/static/', controller='static', action='make_new',
+                conditions=dict(method=['POST']))
+    map.connect('/static/new', controller='static', action='new')
+    map.connect('/static/{key}_{lang}',
+                controller='static', action='edit',
+                conditions=dict(method=['GET', 'HEAD']))
+    map.connect('/static/{key}_{lang}',
+                controller='static', action='update',
+                conditions=dict(method=['POST']))
+    map.connect('/static/{key}.{format}', controller='static',
                 action='serve')
 
     map.connect('/{controller}/{action}')

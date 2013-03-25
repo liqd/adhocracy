@@ -126,6 +126,18 @@ class UniqueInstanceKey(formencode.FancyValidator):
                 value, state)
         return value
 
+class StaticPageKey(formencode.FancyValidator):
+    def to_python(self, value, state):
+        from adhocracy.lib import staticpage
+        if not value:
+            raise formencode.Invalid(
+                _('No static key is given'),
+                value, state)
+        if not staticpage.STATICPAGE_KEY.match(value) or value in ['new']:
+            raise formencode.Invalid(
+                _('The static key is invalid'),
+                value, state)
+        return value
 
 class ValidDelegateable(formencode.FancyValidator):
     def _to_python(self, value, state):

@@ -1,5 +1,6 @@
 from common import UniqueUsername, UniqueEmail, UniqueInstanceKey
 from common import UniqueOtherEmail
+from common import StaticPageKey
 from common import ContainsChar, ContainsEMailPlaceholders, UsersCSV
 from common import ValidDelegateable, ValidProposal, MaybeMilestone
 from common import ValidInstanceGroup, ValidRevision, ValidComment

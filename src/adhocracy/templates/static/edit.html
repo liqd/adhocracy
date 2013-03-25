@@ -1,0 +1,23 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_('Edit')}</%def>
+
+<%block name="main_content">
+
+<h1>${_('Edit %(key)s (%(langname)s)') % {'key': c.staticpage.key,
+	'langname': h.staticpage.get_lang_info(c.staticpage.lang)['name']}}</h1>
+
+<form action="${h.entity_url(c.staticpage)}" method="POST">
+	${h.field_token()|n}
+
+	<label>${_('Title:')} <input type="text" name="title" /></label>
+
+	${components.freetext('body', _('Content of the page'))}
+
+	<input type="submit" value="${_('Change static page')}" />
+</form>
+
+<a href="${h.base_url('/static/', instance=None)}">${_('Back to the list')}</a>
+
+</%block>

@@ -1,0 +1,25 @@
+<%inherit file="/template.html" />
+
+<%def name="title()">${_('Static Pages')}</%def>
+
+<%block name="main_content">
+
+<h1>${_('Static Pages')}</h1>
+
+<table class="staticpages_index">
+<thead><tr>
+<th>${_('Key')}</th><th>${_('Language')}</th>
+</tr></thead>
+<tbody>
+%for sp in c.static_pages:
+	<tr>
+	<td><a href="${h.entity_url(sp)}">${sp.key}</a></td>
+	<td><a href="${h.entity_url(sp)}">${h.staticpage.get_lang_info(sp.lang)['name']}</a></td>
+	</tr>
+%endfor
+</tbody>
+</table>
+
+<a href="${h.base_url('/static/new', instance=None)}">${_('Create new page')}</a>
+
+</%block>

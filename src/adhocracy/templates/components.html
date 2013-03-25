@@ -4,6 +4,14 @@
     </div>
 </%def>
 
+<%def name="freetext(name, placeholder=None)">
+    <textarea name="${name}"
+    %if placeholder:
+        placeholder="${placeholder}"
+    %endif
+    ></textarea>
+    ${formatting()}
+</%def>
 
 <%def name="headline()">
 
