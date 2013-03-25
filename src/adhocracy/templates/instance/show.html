@@ -43,7 +43,7 @@ ${c.tile.description|n}
            href="${h.base_url('/proposal/new')}" rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
-        %if not c.all_proposals_pager:
+        %if c.all_proposals_pager is None:
         <a href="${h.base_url('/proposal')}" 
            class="button edit ttip" 
            title="${_('show a list of proposals')}">${_("more proposals")}</a>
