@@ -128,7 +128,7 @@ def setup_entities(initial_setup):
 
     admin = model.User.find(u"admin")
     if not admin:
-        admin = model.User.create(ADMIN, u'',
+        admin = model.User.create(ADMIN, u'admin@adhocracy.lan',
                                   password=ADMIN_PASSWORD,
                                   global_admin=True)
         admin.activation_code = None
