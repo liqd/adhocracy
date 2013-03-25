@@ -6,12 +6,14 @@ import adhocracy.model as model
 
 from paste.deploy.converters import asbool
 import pylons
-from repoze.who.interfaces import IAuthenticator,IIdentifier
+from repoze.who.interfaces import IAuthenticator, IIdentifier
 from webob.exc import HTTPFound
 from zope.interface import implements
 
+
 def welcome_enabled(config=pylons.config):
     return asbool(config.get('adhocracy.enable_welcome', 'False'))
+
 
 class WelcomeRepozeWho(object):
     implements(IAuthenticator, IIdentifier)
@@ -20,7 +22,7 @@ class WelcomeRepozeWho(object):
         self.config = config
         self.rememberer_name = rememberer_name
         self.url_rex = re.compile(r'^' + re.escape(prefix) +
-                              r'(?P<id>[^/]+)/(?P<code>[^/]+)$')
+                                  r'(?P<id>[^/]+)/(?P<code>[^/]+)$')
 
     def identify(self, environ):
         path_info = environ['PATH_INFO']
@@ -45,7 +47,7 @@ class WelcomeRepozeWho(object):
     def forget(self, environ, identity):
         rememberer = environ['repoze.who.plugins'][self.rememberer_name]
         return rememberer.forget(environ, identity)
-    
+
     def remember(self, environ, identity):
         rememberer = environ['repoze.who.plugins'][self.rememberer_name]
         return rememberer.remember(environ, identity)
@@ -56,6 +58,7 @@ class WelcomeRepozeWho(object):
             return None
         identity['repoze.who.userid'] = userid
         return userid
+
 
 def setup_auth(config, idenitifiers, authenticators):
     if not welcome_enabled(config):
