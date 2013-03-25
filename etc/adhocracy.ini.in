@@ -309,6 +309,9 @@ adhocracy.hide_empty_categories_in_facet_list = True
 # number of newest proposals to show on frontpage (0 to hide the list)
 adhocracy.startpage.proposals.list_length = 0
 
+# Source for imprint, details etc. ("database" or "filesystem" (default))
+#adhocracy.staticpage_backend = database
+
 
 # Logging configuration
 [loggers]
