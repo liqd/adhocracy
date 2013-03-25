@@ -2,15 +2,15 @@ import logging
 
 import formencode
 import formencode.htmlfill
-from pylons import request, tmpl_context as url
-from pylons.i18n import lazy_ugettext as L_
+from pylons import request
+from pylons.i18n import lazy_ugettext as L_, _
 from pylons.controllers.util import redirect
 
 from adhocracy import model, forms
 from adhocracy.lib.auth import guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.helpers import base_url
+from adhocracy.lib.helpers import base_url, flash
 from adhocracy.lib.mail import to_user
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import random_token
@@ -68,7 +68,8 @@ class AdminController(BaseController):
             if hasattr(entity_type, "all"):
                 for entity in entity_type.all():
                     index.update(entity)
-        redirect(url(controller='admin', action='index'))
+        flash(_('Solr index updated.'), 'success')
+        redirect(base_url('/admin'))
 
     @RequireInternalRequest()
     @guard.perm("global.admin")

@@ -66,6 +66,7 @@ def setup_entities(initial_setup):
     mk_perm("global.member", initial_setup, admins)
     mk_perm("global.message", initial_setup, admins)
     mk_perm("global.organization", initial_setup, organization)
+    mk_perm("global.staticpage", initial_setup, admins)
     mk_perm("instance.admin", initial_setup, supervisor)
     mk_perm("instance.create", initial_setup, admins)
     mk_perm("instance.delete", initial_setup, admins)

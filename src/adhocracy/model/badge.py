@@ -133,6 +133,14 @@ class Badge(object):
         return q.first()
 
     @classmethod
+    def findall_by_ids(cls, ids):
+        if len(ids) == 0:
+            return []
+        q = meta.Session.query(cls)
+        q = q.filter(cls.id.in_(ids))
+        return q.all()
+
+    @classmethod
     def all_q(cls, instance=MARKER):
         '''
         A preconfigured query for all Badges ordered by title.

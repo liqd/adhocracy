@@ -127,6 +127,20 @@ class UniqueInstanceKey(formencode.FancyValidator):
         return value
 
 
+class StaticPageKey(formencode.FancyValidator):
+    def to_python(self, value, state):
+        from adhocracy.lib import staticpage
+        if not value:
+            raise formencode.Invalid(
+                _('No static key is given'),
+                value, state)
+        if not staticpage.STATICPAGE_KEY.match(value) or value in ['new']:
+            raise formencode.Invalid(
+                _('The static key is invalid'),
+                value, state)
+        return value
+
+
 class ValidDelegateable(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy.model import Delegateable
@@ -206,6 +220,33 @@ class ValidUserBadge(formencode.FancyValidator):
                 value, state)
         return badge
 
+class ValidUserBadges(formencode.FancyValidator):
+    """ Check for a set of user badges, inputted by ID """
+
+    accept_iterator = True
+    if_missing = []
+
+    def _to_python(self, value, state):
+        from adhocracy.model import UserBadge
+
+        if value is None:
+            return []
+
+        if isinstance(value, (str, unicode)):
+            value = [value]
+
+        if len(value) != len(set(value)):
+            raise formencode.Invalid(
+                _("Duplicates in input set of user badge IDs") % value,
+                value, state)
+
+        badges = UserBadge.findall_by_ids(value)
+        if len(badges) != len(value):
+            missing = set(value).difference(b.id for b in badges)
+            raise formencode.Invalid(
+                _("Could not find badges %s") % ','.join(map(str, missing)),
+                value, state)
+        return badges
 
 class ValidInstanceBadge(formencode.FancyValidator):
 

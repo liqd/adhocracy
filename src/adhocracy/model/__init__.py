@@ -44,9 +44,11 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
+from adhocracy.model.staticpage import StaticPage, staticpage_table
 from adhocracy.model.requestlog import RequestLog, requestlog_table
 from adhocracy.model.message import Message, message_table
 from adhocracy.model.message import MessageRecipient, message_recipient_table
+from adhocracy.model.votedetail import votedetail_table
 
 
 mapper(User, user_table, properties={
@@ -344,7 +346,9 @@ mapper(Instance, instance_table, properties={
         primaryjoin=instance_table.c.creator_id == user_table.c.id,
         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
-    'default_group': relation(Group, lazy=True)
+    'default_group': relation(Group, lazy=True),
+    'votedetail_userbadges': relation(UserBadge, lazy=True,
+                                      secondary=votedetail_table)
 })
 
 
@@ -433,6 +437,8 @@ mapper(Selection, selection_table, properties={
 })
 
 mapper(RequestLog, requestlog_table)
+
+mapper(StaticPage, staticpage_table)
 
 
 mapper(Message, message_table, properties={
