@@ -16,13 +16,11 @@ from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.templating import render
-from adhocracy.lib.templating import ret_success
+from adhocracy.lib.templating import render, ret_abort, ret_success
 from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
-from adhocracy.model import Permission
 from adhocracy.model import User
 
 log = logging.getLogger(__name__)
@@ -110,8 +108,10 @@ class MassmessageController(BaseController):
 
         allowed_sender_options = self.get_allowed_sender_options(c.user)
         sender = self.form_result.get('sender')
-        assert(sender in allowed_sender_options)
-        assert allowed_sender_options[sender]['enabled']
+        if ((sender not in allowed_sender_options) or
+                (not allowed_sender_options[sender]['enabled'])):
+            return ret_abort(_("Sorry, but you're not allowed to set these "
+                               "message options"), code=403)
 
         message = Message.create(self.form_result.get('subject'),
                                  self.form_result.get('body'),
