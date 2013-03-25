@@ -21,7 +21,8 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
 from adhocracy.lib.templating import render
 import adhocracy.lib.mail as libmail
-from pylons import config
+from adhocracy.lib.auth.authentication import allowed_login_types
+from adhocracy.lib.templating import ret_abort
 
 log = logging.getLogger(__name__)
 
@@ -42,12 +43,8 @@ TRUSTED_PROVIDER_RES = [
 
 
 def openid_login_allowed():
-    allowed_types = config.get('adhocracy.login_type', 'openid,username+password,email+password')
-    allowed_types = allowed_types.split(',')
-    if "openid" in allowed_types:
-        return True
-    else:
-        return False
+    return 'openid' in allowed_login_types()
+
 
 def is_trusted_provider(identity):
     """
@@ -186,7 +183,7 @@ class OpenidauthController(BaseController):
 
     def verify(self):
         if not openid_login_allowed():
-            return self._failure(info.identity_url, _("OpenID login has been disabled."))
+            ret_abort(_("OpenID login has been disabled on this installation"), code=403)
         
         self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params,
