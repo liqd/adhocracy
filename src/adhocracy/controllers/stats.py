@@ -8,3 +8,6 @@ class StatsController(BaseController):
     them.  """
     def read_comments(self, format='json'):
         return render_json({})
+
+    def on_page(self, format='json'):
+        return render_json({})

@@ -487,6 +487,22 @@ $(document).ready(function () {
         });
     }
 
+    var page_stats_baseurl = $('body').data('stats-baseurl');
+    if (page_stats_baseurl) {
+        window_is_active = true;
+        $(window).focus(function() { window_is_active = true });
+        $(window).blur( function() { window_is_active = false });
+        var stats_interval = $('body').data('stats-interval');
+        var sendOnPagePing = function() {
+            $.get(page_stats_baseurl + '&window_is_active=' + window_is_active,
+                    null, setOnPageTimeout);
+        };
+        var setOnPageTimeout = function() {
+            window.setTimeout(sendOnPagePing, stats_interval);
+        };
+        setOnPageTimeout();
+    }
+
     $('.paper a.show_comments').click(function () {
         var p_id = $(this).closest('.paper').attr('id');
         $('#' + p_id + '_comments').toggle();
