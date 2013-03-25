@@ -1778,3 +1778,5 @@ iframe {
 dl.votedetail {margin: 0; padding: 0;}
 dl.votedetail>dt {float: left; min-width: 5em; padding-right: 0.5em;}
 dl.votedetail>dd {margin: 0; padding: 0;}
+
+.languagelist label {margin: 0; padding: 0;}
