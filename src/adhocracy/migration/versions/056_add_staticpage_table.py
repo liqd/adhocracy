@@ -1,5 +1,5 @@
 from sqlalchemy import MetaData, Column, Table
-from sqlalchemy import Integer, Unicode, UnicodeText
+from sqlalchemy import Unicode, UnicodeText
 
 metadata = MetaData()
 
@@ -11,9 +11,11 @@ staticpage_table = Table(
     Column('body', UnicodeText()),
 )
 
+
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
     staticpage_table.create()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

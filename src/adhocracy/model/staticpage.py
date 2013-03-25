@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column
-from sqlalchemy import Integer, Unicode, UnicodeText
+from sqlalchemy import Unicode, UnicodeText
 from adhocracy.model import meta
 
 staticpage_table = Table(
@@ -9,6 +9,7 @@ staticpage_table = Table(
     Column('title', UnicodeText(), nullable=True),
     Column('body', UnicodeText()),
 )
+
 
 class StaticPage(object):
     def __init__(self, key, lang, title, body):
