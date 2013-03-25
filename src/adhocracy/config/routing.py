@@ -37,6 +37,8 @@ def make_map(config):
                 action='dashboard_proposals')
     map.connect('/user/{id}/dashboard_pages', controller='user',
                 action='dashboard_pages')
+    map.connect('/welcome/{id}/{token}', controller='user',
+                action='welcome')
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'votes': 'GET',
@@ -49,7 +51,8 @@ def make_map(config):
                                          'revert': 'GET',
                                          'reset': 'GET',
                                          'activate': 'GET',
-                                         'resend': 'GET'},
+                                         'resend': 'GET',
+                                         'set_password': 'POST'},
                  collection={'complete': 'GET',
                              'filter': 'GET'})
 

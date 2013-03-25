@@ -40,6 +40,7 @@ user_table = Table(
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     Column('gender', Unicode(1), default=None),
     Column('email_messages', Boolean, default=True),
+    Column('welcome_code', Unicode(255), nullable=True),
 )
 
 
@@ -192,6 +193,8 @@ class User(meta.Indexable):
         if not isinstance(hashed_password, unicode):
             hashed_password = hashed_password.decode('utf-8')
         self._password = hashed_password
+
+        self.welcome_code = None
 
     def _get_password(self):
         """Return the password hashed"""
