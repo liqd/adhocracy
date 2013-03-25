@@ -17,3 +17,10 @@ def get_lang_info(lang):
 
 def can_edit():
     return staticpage.can_edit()
+
+
+def get_body(key, default=''):
+    res = staticpage.get_static_page(key)
+    if res is None:
+        return default
+    return res.body
