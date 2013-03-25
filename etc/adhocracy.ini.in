@@ -273,6 +273,9 @@ piwik.id =
 # INSTALL: How can users login?
 #adhocracy.login_type = openid,username+password,email+password
 
+# INSTALL: Allow administrators to let users log in from an invitation email
+# adhocracy.enable_welcome = True
+
 # activate geo features
 
 {% if parts.adhocracy.geo == 'True' %}

@@ -364,6 +364,13 @@ var adhocracy = adhocracy || {};
         update();
     };
 
+    adhocracy.helpers.flash = function(category, message) {
+        var container = $('#welcome_message').find('.page_wrapper');
+        var el = $('<div>');
+        el.attr('class', 'alert alert-' + category);
+        el.text(message);
+        container.append(el);
+    }; 
 }());
 
 $(document).ready(function () {
@@ -671,4 +678,28 @@ $(document).ready(function () {
     $('.facet_check').click(function() {
         $(this).parent().children('a')[0].click();
     });
+
+    var welcome_form = $('form#user_welcome');
+    welcome_form.submit(function(e) {
+        if (welcome_form.data('submitted')) {
+            return;
+        }
+        var data = welcome_form.serialize();
+        welcome_form.find('input').attr('disabled', 'disabled');
+        $.ajax(welcome_form.attr('action'), {
+            type: 'post',
+            data: data,
+            success: function() {
+                welcome_form.remove();
+                adhocracy.helpers.flash('success', welcome_form.attr('data-success-message'));
+            },
+            error: function() {
+                // Fall back to plain submission
+                welcome_form.data({submitted: true});
+                welcome_form.submit();
+            }
+        });
+        e.preventDefault();
+    });
+
 });

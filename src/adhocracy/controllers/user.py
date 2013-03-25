@@ -101,6 +101,9 @@ class UserBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = ForEach(forms.ValidUserBadge())
 
+class UserSetPasswordForm(formencode.Schema):
+    allow_extra_fields = True
+    password = validators.String(not_empty=False)
 
 class UserController(BaseController):
 
@@ -277,6 +280,18 @@ class UserController(BaseController):
         else:
             event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
         redirect(h.entity_url(c.page_user))
+
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)
+    def set_password(self, id):
+        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        require.user.edit(c.page_user)
+        c.page_user.password = self.form_result.get('password')
+        model.meta.Session.add(c.page_user)
+        model.meta.Session.commit()
+
+        h.flash(_('Password has been set. Have fun!'), 'success')
+        redirect(h.base_url('/'))
 
     def reset_form(self):
         return render("/user/reset_form.html")
@@ -792,3 +807,9 @@ class UserController(BaseController):
             return True
         else:
             return False
+
+    def welcome(self, id, token):
+        # Intercepted by WelcomeRepozeWho, only errors go in here
+        h.flash(_('Code is not valid anymore since you picked a password.'),
+                'error')
+        return redirect(h.base_url('/login'))
