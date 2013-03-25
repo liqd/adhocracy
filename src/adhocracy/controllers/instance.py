@@ -136,8 +136,7 @@ class InstanceVotingEditForm(formencode.Schema):
                                            if_missing=False)
     activation_delay = validators.Int(not_empty=True)
     required_majority = validators.Number(not_empty=True)
-    votedetail_badges = formencode.foreach.ForEach(validators.Int(),
-                                                   convert_to_list=True)
+    votedetail_badges = forms.ValidUserBadges()
 
 
 class InstanceBadgesEditForm(formencode.Schema):
@@ -697,8 +696,7 @@ class InstanceController(BaseController):
              'allow_delegate'])
 
         if model.votedetail.is_enabled():
-            votedetail_badges_ids = self.form_result['votedetail_badges']
-            new_badges = model.UserBadge.findall_by_ids(votedetail_badges_ids)
+            new_badges = self.form_result['votedetail_badges']
             updated_vd = c.page_instance.votedetail_userbadges != new_badges
             if updated_vd:
                 c.page_instance.votedetail_userbadges = new_badges
