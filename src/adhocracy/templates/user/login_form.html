@@ -41,8 +41,10 @@ else:
   <script>
       $('input[name=login]').focus();
   </script>
-  <%
-  c.openid_scenario = "login"
-  %>
-  <%include file="/openid/form.html"/>
+  %if 'openid' in login_titleandtype:
+      <%
+      c.openid_scenario = "login"
+      %>
+      <%include file="/openid/form.html"/>
+  %endif
 </div>
