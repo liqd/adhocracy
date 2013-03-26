@@ -33,6 +33,34 @@ class MassmessageForm(formencode.Schema):
     instances = forms.MessageableInstances()
     sender = validators.String(not_empty=True)
 
+def _get_options(func):
+    """ Decorator that calls the functions with the following parameters:
+        sender    - Email address of the sender
+        subject   - Subject of the message
+        body      - Body of the message
+        recipients- A list of users the email is going to
+    """
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=MassmessageForm(), form='new')
+    def wrapper(self):
+        allowed_sender_options = self.get_allowed_sender_options(c.user)
+        sender = self.form_result.get('sender')
+        if ((sender not in allowed_sender_options) or
+                (not allowed_sender_options[sender]['enabled'])):
+            return ret_abort(_("Sorry, but you're not allowed to set these "
+                               "message options"), code=403)
+
+        recipients = User.all_q().join(Membership).filter(
+                Membership.instance_id.in_(self.form_result.get('instances')))
+
+        return func(self,
+            allowed_sender_options[sender]['email'],
+            self.form_result.get('subject'),
+            self.form_result.get('body'),
+            recipients
+        )
+    return wrapper
+
 
 class MassmessageController(BaseController):
     """
@@ -102,29 +130,28 @@ class MassmessageController(BaseController):
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 
-    @RequireInternalRequest(methods=['POST'])
-    @validate(schema=MassmessageForm(), form='new')
-    def create(self):
+    @_get_options
+    def preview(self, sender, subject, body, recipients):
+        recipients_list = list(recipients)
+        data = {
+            'sender': sender,
+            'subject': subject,
+            'body': body,
+            'recipients': recipients_list,
+            'recipients_count': len(recipients_list),
+            'params': request.params,
+        }
+        return render('/massmessage/preview.html', data)
 
-        allowed_sender_options = self.get_allowed_sender_options(c.user)
-        sender = self.form_result.get('sender')
-        if ((sender not in allowed_sender_options) or
-                (not allowed_sender_options[sender]['enabled'])):
-            return ret_abort(_("Sorry, but you're not allowed to set these "
-                               "message options"), code=403)
-
-        message = Message.create(self.form_result.get('subject'),
-                                 self.form_result.get('body'),
+    @_get_options
+    def create(self, sender, subject, body, recipients):
+        message = Message.create(subject,
+                                 body,
                                  c.user,
-                                 allowed_sender_options[sender]['email'])
+                                 sender)
 
-        # Determine recipients
-
-        recipients = User.all_q().join(Membership).filter(
-            Membership.instance_id.in_(self.form_result.get('instances')))
-
-        for user in recipients:
+        for count,user in enumerate(recipients, start=1):
             MessageRecipient.create(message, user, notify=True)
 
-        return ret_success(message=_("Message sent to %d users." %
-                                     recipients.count()))
+        return ret_success(message=_("Message sent to %d users.") % count)
+

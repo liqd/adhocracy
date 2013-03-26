@@ -8,7 +8,8 @@
   Please note that only users with verified email addresses and activated news
   service will receive this message per email.
 
-  <form name="create_message" class="inplace" method="POST">
+  <form name="create_message" class="inplace" method="POST"
+        action="${h.base_url('/message/preview')}">
       ${h.field_token()|n}
 
       <fieldset>
