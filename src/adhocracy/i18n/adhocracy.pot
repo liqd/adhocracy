@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 5d324ac\n"
+"Project-Id-Version: adhocracy 1ab00c1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-27 15:32+0100\n"
+"POT-Creation-Date: 2013-03-25 14:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,9 @@ msgid "Please insert a subject for the mail we will send to the users."
 msgstr ""
 
 msgid "Please insert a template for the mail we will send to the users."
+msgstr ""
+
+msgid "Solr index updated."
 msgstr ""
 
 msgid "In all instances"
@@ -126,6 +129,9 @@ msgstr ""
 msgid "Badges"
 msgstr ""
 
+msgid "Mass message service"
+msgstr ""
+
 msgid "Members import"
 msgstr ""
 
@@ -177,6 +183,19 @@ msgid "You've left %(instance)s."
 msgstr ""
 
 msgid "You cannot manipulate one instance from within another instance."
+msgstr ""
+
+msgid "Email isn't activated"
+msgstr ""
+
+msgid "Not permitted in system settings"
+msgstr ""
+
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr ""
+
+#, python-format
+msgid "Message sent to %d users."
 msgstr ""
 
 #, python-format
@@ -362,6 +381,15 @@ msgstr ""
 msgid "Page not Found"
 msgstr ""
 
+msgid "Page does already exist. Select another key or language."
+msgstr ""
+
+msgid "Page updated"
+msgstr ""
+
+msgid "Cannot find static page to edit"
+msgstr ""
+
 msgid "The requested page was not found"
 msgstr ""
 
@@ -511,6 +539,12 @@ msgstr ""
 msgid "An instance with that key already exists"
 msgstr ""
 
+msgid "No static key is given"
+msgstr ""
+
+msgid "The static key is invalid"
+msgstr ""
+
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr ""
@@ -537,12 +571,25 @@ msgstr ""
 msgid "No Badge ID '%s' exists"
 msgstr ""
 
+msgid "Duplicates in input set of user badge IDs"
+msgstr ""
+
+#, python-format
+msgid "Could not find badges %s"
+msgstr ""
+
 #, python-format
 msgid "Cannot use global category %s in this instance"
 msgstr ""
 
 #, python-format
 msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
+
+msgid "Parent and child category instance have to match"
+msgstr ""
+
+msgid "You shall not create cycles!"
 msgstr ""
 
 #, python-format
@@ -631,6 +678,12 @@ msgstr ""
 
 #, python-format
 msgid "You need to insert the following placeholders into the email text so we can insert enough information for the user: %s"
+msgstr ""
+
+msgid "Please select at least one instance"
+msgstr ""
+
+msgid "Disallowed instance selected"
 msgstr ""
 
 msgid "Today"
@@ -808,10 +861,6 @@ msgid "Support"
 msgstr ""
 
 msgid "Newest Proposals"
-msgstr ""
-
-#, python-format
-msgid "Missing page: %s"
 msgstr ""
 
 #, python-format
@@ -1205,6 +1254,15 @@ msgstr ""
 msgid "List existing feedback"
 msgstr ""
 
+msgid "Proposal Category"
+msgstr ""
+
+msgid "No Category"
+msgstr ""
+
+msgid "Others"
+msgstr ""
+
 msgid "code of conduct"
 msgstr ""
 
@@ -1304,10 +1362,7 @@ msgstr ""
 msgid "Filter list"
 msgstr ""
 
-msgid "Remove all"
-msgstr ""
-
-msgid "remove"
+msgid "reset"
 msgstr ""
 
 msgid "Sort:"
@@ -1370,6 +1425,9 @@ msgid "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes 
 msgstr ""
 
 msgid "Votes"
+msgstr ""
+
+msgid "Votes by User Group"
 msgstr ""
 
 msgid "Shortlink"
@@ -1487,6 +1545,12 @@ msgid "Import Users"
 msgstr ""
 
 msgid "Update Search Index"
+msgstr ""
+
+msgid "Static Pages"
+msgstr ""
+
+msgid "Send an email to users"
 msgstr ""
 
 msgid "Site administration"
@@ -1616,7 +1680,19 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-msgid "Other instances"
+msgid "Parent Badge"
+msgstr ""
+
+msgid "No Parent Badge"
+msgstr ""
+
+msgid "Global categories"
+msgstr ""
+
+msgid "Local instance categories"
+msgstr ""
+
+msgid "Description to select children of this badge (irrelevant if this badge doesn't have any children)"
 msgstr ""
 
 msgid "Save Badge"
@@ -1653,6 +1729,9 @@ msgid "yes"
 msgstr ""
 
 msgid "no"
+msgstr ""
+
+msgid "Parent"
 msgstr ""
 
 msgid "User Badges"
@@ -2087,6 +2166,12 @@ msgstr ""
 msgid "Enable vote delegation"
 msgstr ""
 
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
+
 msgid "Home"
 msgstr ""
 
@@ -2161,11 +2246,23 @@ msgid_plural "%s norms"
 msgstr[0] ""
 msgstr[1] ""
 
-#, python-format
-msgid "Message %s"
+msgid "Send mass message"
+msgstr ""
+
+msgid "Filter recipients by instance"
 msgstr ""
 
 msgid "Subject"
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "Sender identity"
+msgstr ""
+
+#, python-format
+msgid "Message %s"
 msgstr ""
 
 msgid "Your e-mail address will be included in this message to give the recipient a method to reply to you."
@@ -2205,9 +2302,6 @@ msgid "Please use the DD.MM.YYYY format."
 msgstr ""
 
 msgid "Category"
-msgstr ""
-
-msgid "No Category"
 msgstr ""
 
 msgid "Create a new milestone."
@@ -2602,9 +2696,6 @@ msgstr ""
 msgid "Proposal goals"
 msgstr ""
 
-msgid "Proposal Category"
-msgstr ""
-
 msgid "Collaboration and Notification"
 msgstr ""
 
@@ -2860,6 +2951,40 @@ msgstr ""
 msgid "compare"
 msgstr ""
 
+#, python-format
+msgid "Edit %(key)s (%(langname)s)"
+msgstr ""
+
+msgid "Title:"
+msgstr ""
+
+msgid "Content of the page"
+msgstr ""
+
+msgid "Change static page"
+msgstr ""
+
+msgid "Back to the list"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "Create new page"
+msgstr ""
+
+msgid "New Static Page"
+msgstr ""
+
+msgid "New static page"
+msgstr ""
+
+msgid "Key:"
+msgstr ""
+
+msgid "Add static page"
+msgstr ""
+
 msgid "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr ""
 
@@ -2903,9 +3028,6 @@ msgstr ""
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
-msgstr ""
-
-msgid "Title:"
 msgstr ""
 
 msgid "Variant:"
@@ -3087,6 +3209,12 @@ msgstr ""
 msgid "Re-send activation link"
 msgstr ""
 
+msgid "Receive occasional news from instance administrators."
+msgstr ""
+
+msgid "Receive news service"
+msgstr ""
+
 msgid "OpenID"
 msgstr ""
 
@@ -3094,6 +3222,9 @@ msgid "OpenID allows you to use a single login on many web sites."
 msgstr ""
 
 msgid "There are no associated OpenIDs."
+msgstr ""
+
+msgid "remove"
 msgstr ""
 
 msgid "Short biography"

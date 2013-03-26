@@ -2,20 +2,22 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
+# Alexander Brateanu <alexander.brateanu@gmail.com>, 2013.
 # Daniel Reichert <daniel.reichert@liqd.de>, 2012.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 # <lea.thielscher@googlemail.com>, 2012.
 #   <lea.thielscher@googlemail.com>, 2012.
 # Mateusz Batelt <mateusz@batelt.eu>, 2012.
 # Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013.
+# Oskar Brabanski <o.brabanski@gmail.com>, 2013.
 #  <schroeder_carsten@gmx.de>, 2013.
 #   <sicco@ddo.nl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-27 15:32+0100\n"
-"PO-Revision-Date: 2013-02-27 14:42+0000\n"
+"POT-Creation-Date: 2013-03-25 14:34+0100\n"
+"PO-Revision-Date: 2013-03-26 21:14+0000\n"
 "Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -33,6 +35,9 @@ msgstr "Bitte geben Sie einen Betreff für die E-Mail ein, die wir an die import
 
 msgid "Please insert a template for the mail we will send to the users."
 msgstr "Bitte geben Sie eine Vorlage für die E-Mail ein, die wir an die importierten Benutzer senden werden."
+
+msgid "Solr index updated."
+msgstr "Solr Index aktualisiert."
 
 msgid "In all instances"
 msgstr "In allen Gruppen"
@@ -56,26 +61,26 @@ msgstr "neueste"
 
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Der Beitrag zu dem dieser Kommentar gehört, hat keine Version %s"
+msgstr "Der Beitrag zu dem dieses Argument gehört, hat keine Version %s"
 
 msgid "The comment has been deleted."
-msgstr "Dieser Kommentar wurde gelöscht."
+msgstr "Dieses Argument wurde gelöscht."
 
 msgid ""
 "You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr "Sie versuchen, zu einer Version zu revertieren, die nicht zu diesem Kommentar gehört."
+msgstr "Sie versuchen, zu einer Version wiederherzustellen, die nicht zu diesem Argument gehört."
 
 msgid "The comment has been reverted."
-msgstr "Dieser Kommentar wurde zurück gesetzt."
+msgstr "Dieses Argument wurde zurück gesetzt."
 
 msgid ""
 "You're trying to purge a revision which is not part of this comment's "
 "history"
-msgstr "Sie versuchen, eine Version zu löschen, die nicht zu diesem Kommentar gehört."
+msgstr "Sie versuchen, eine Version zu löschen, die nicht zu diesem Argument gehört."
 
 msgid "The comment revision has been deleted."
-msgstr "Die Version des Kommentars wurde gelöscht."
+msgstr "Die Version des Arguments wurde gelöscht."
 
 msgid "Wrong topic"
 msgstr "Falsches Thema"
@@ -122,7 +127,7 @@ msgid "Delegations are disabled."
 msgstr "Delegationen sind inaktiv."
 
 msgid "tutorial_instance_show_intro"
-msgstr "Willkommen auf der Startseite der Projektgruppe."
+msgstr "Willkommen auf der Startseite der Gruppe."
 
 msgid "General"
 msgstr "Allgemein"
@@ -138,6 +143,9 @@ msgstr "Abstimmungen"
 
 msgid "Badges"
 msgstr "Badges"
+
+msgid "Mass message service"
+msgstr "Massennachrichten Service."
 
 msgid "Members import"
 msgstr "Mitglieder importieren"
@@ -192,6 +200,19 @@ msgstr "Sie haben %(instance)s verlassen."
 msgid "You cannot manipulate one instance from within another instance."
 msgstr "Sie können eine Gruppe nicht von einer anderen Gruppe aus bearbeiten."
 
+msgid "Email isn't activated"
+msgstr "E-Mail ist nicht aktiviert."
+
+msgid "Not permitted in system settings"
+msgstr "Nicht erlaubt in den Systemeinstellungen."
+
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr "Leider ist es Ihnen nicht erlaubt diese Nachrichten Einstellungen zu setzen."
+
+#, python-format
+msgid "Message sent to %d users."
+msgstr "Nachricht an %d Benutzer versendet."
+
 #, python-format
 msgid "[%s] Message from %s: %s"
 msgstr "[%s] Nachricht von %s: %s"
@@ -200,7 +221,7 @@ msgid "Your message has been sent. Thanks."
 msgstr "Ihre Nachricht wurde versandt. Danke."
 
 msgid "tutorial_milestones_tab"
-msgstr "Diese Seite bietet Ihnen eine Übersicht über die Termine der Projektgruppe."
+msgstr "Diese Seite bietet Ihnen eine Übersicht über die Termine der Gruppe."
 
 msgid "tutorial_milestone_details_tab"
 msgstr "Die Termin-Detailansicht zeigt weitere Informationen zu dem Termin an."
@@ -258,7 +279,7 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case ist vorbeigekommen."
 
 msgid "tutorial_norms_overview_tab"
-msgstr "Übersichtseite über die Beschlüsse der Gruppe. Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse an, sondern unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt"
+msgstr "Übersichtseite über die Beschlüsse der Gruppe. Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse an, sondern unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Argumente angezeigt"
 
 msgid "No proposal has been specified"
 msgstr "Es wurde kein Vorschlag angegeben."
@@ -380,6 +401,15 @@ msgstr "Die Einbindung von %s wurde gelöscht."
 msgid "Page not Found"
 msgstr "Die angeforderte Seite wurde nicht gefunden."
 
+msgid "Page does already exist. Select another key or language."
+msgstr "Die Seite existiert schon. Wählen Sie eine andere Kennung oder Sprache."
+
+msgid "Page updated"
+msgstr "Seite aktualisiert"
+
+msgid "Cannot find static page to edit"
+msgstr "Seite zum editieren kann nicht gefunden werden"
+
 msgid "The requested page was not found"
 msgstr "Die angeforderte Seite wurde nicht gefunden."
 
@@ -397,7 +427,7 @@ msgid "You have no twitter association."
 msgstr "Sie haben keine Twitter-Verbindung."
 
 msgid "tutorial_user_index_intro"
-msgstr "Mitgliederliste der Projektgruppe."
+msgstr "Mitgliederliste der Gruppe."
 
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Es tut uns leid - Registrierung ist in dieser Installation deaktiviert."
@@ -537,6 +567,12 @@ msgstr "Diese Gruppen-Kennung ist ungültig."
 msgid "An instance with that key already exists"
 msgstr "Eine Gruppe mit dieser Kennung existiert bereits."
 
+msgid "No static key is given"
+msgstr "Keine statische Kennung angegeben"
+
+msgid "The static key is invalid"
+msgstr "Die statische Kennung ist ungültig"
+
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr "Kein Eintrag mit der ID '%s' vorhanden."
@@ -563,6 +599,13 @@ msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
 msgid "No Badge ID '%s' exists"
 msgstr "Das Badge '%s' existiert nicht."
 
+msgid "Duplicates in input set of user badge IDs"
+msgstr "Duplikate bei der Eingabe von Benutzer Badge IDs"
+
+#, python-format
+msgid "Could not find badges %s"
+msgstr "%s Badges konnten nicht gefunden werden"
+
 #, python-format
 msgid "Cannot use global category %s in this instance"
 msgstr "Die globale Kategorie %s kann in dieser Gruppe nicht verwendet werden."
@@ -571,13 +614,19 @@ msgstr "Die globale Kategorie %s kann in dieser Gruppe nicht verwendet werden."
 msgid "Badge with ID '%s' not valid in this instance"
 msgstr "Badge mit ID '%s' ist nicht gültig in dieser Gruppe."
 
+msgid "Parent and child category instance have to match"
+msgstr "Die Eltern- und Kindkategorie Gruppen müssen zusammenpassen"
+
+msgid "You shall not create cycles!"
+msgstr "Du sollst keine Zyklen anlegen!"
+
 #, python-format
 msgid "No revision with ID '%s' exists"
 msgstr "Es gibt keine Version mit der ID '%s'."
 
 #, python-format
 msgid "No comment with ID '%s' exists"
-msgstr "Kein Kommentar mit der ID '%s' vorhanden"
+msgstr "Kein Argument mit der ID '%s' vorhanden"
 
 #, python-format
 msgid "No watchlist entry with ID '%s' exists"
@@ -660,6 +709,12 @@ msgid ""
 "You need to insert the following placeholders into the email text so we can "
 "insert enough information for the user: %s"
 msgstr "Sie müssen die folgenden Platzhalter in den Text eintragen: %s"
+
+msgid "Please select at least one instance"
+msgstr "Bitte wählen Sie zumindest eine Gruppe"
+
+msgid "Disallowed instance selected"
+msgstr "Unerlaubte Gruppe ausgewählt"
 
 msgid "Today"
 msgstr "Heute"
@@ -753,7 +808,7 @@ msgid "activity"
 msgstr "Aktivität"
 
 msgid "newest comment"
-msgstr "neuester Kommentar"
+msgstr "neustes Argument"
 
 msgid "most support"
 msgstr "meiste Unterstützung"
@@ -777,7 +832,7 @@ msgid "Instance"
 msgstr "Instanz"
 
 msgid "Categories"
-msgstr "Bereiche"
+msgstr "Kategorien"
 
 msgid "Created by"
 msgstr "Erstellt von"
@@ -795,7 +850,7 @@ msgid "Newest"
 msgstr "Neueste"
 
 msgid "Newest Comment"
-msgstr "Neuester Kommentar"
+msgstr "Neuestes Argument"
 
 msgid "Activity"
 msgstr "Aktivität"
@@ -844,10 +899,6 @@ msgstr "Unterstützung"
 
 msgid "Newest Proposals"
 msgstr "Neueste Vorschläge"
-
-#, python-format
-msgid "Missing page: %s"
-msgstr "Fehlende Seite: %s"
 
 #, python-format
 msgid "Could not find the entity '%s'"
@@ -1020,27 +1071,27 @@ msgstr "löschte %(page)s"
 
 #, python-format
 msgid "New comment: in %(topic)s"
-msgstr "Neuer Kommentar: unter %(topic)s"
+msgstr "Neues Argument: unter %(topic)s"
 
 #, python-format
 msgid "commented %(topic)s"
-msgstr "kommentierte %(topic)s"
+msgstr "diskutierte %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
-msgstr "Bearbeiteter Kommentar unter %(topic)s"
+msgstr "Bearbeitetes Argument unter %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
-msgstr "bearbeitete Kommentar zu %(topic)s"
+msgstr "bearbeitete Argumente zu %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
-msgstr "Gelöschter Kommentar: unter %(topic)s"
+msgstr "Gelöschtes Argument: unter %(topic)s"
 
 #, python-format
 msgid "deleted comment from %(topic)s"
-msgstr "löschte Kommentar zu %(topic)s"
+msgstr "gelöschte Argumente zu %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1112,11 +1163,11 @@ msgstr "Delegaten-Konflikt bei %(poll)s"
 
 #, python-format
 msgid "Comment Reply: %(topic)s"
-msgstr "Kommentar-Antwort: %(topic)s"
+msgstr "Neues Argument bei: %(topic)s"
 
 #, python-format
 msgid "Comment Edit: %(topic)s"
-msgstr "Bearbeiteter Kommentar: %(topic)s"
+msgstr "Bearbeitetes Argument: %(topic)s"
 
 #, python-format
 msgid ""
@@ -1218,13 +1269,13 @@ msgid "Follow User"
 msgstr "Benutzer folgen"
 
 msgid "Follow Comment"
-msgstr "Kommentar folgen"
+msgstr "Argument folgen"
 
 msgid "Follow Tag"
 msgstr "Tag folgen"
 
 msgid "Following"
-msgstr "Wird verfolgt"
+msgstr "Wird gefolgt"
 
 msgid "Unfollow"
 msgstr "entfolgen"
@@ -1240,6 +1291,15 @@ msgstr "Abschicken"
 
 msgid "List existing feedback"
 msgstr "Zeige vorhandenes Feedback an"
+
+msgid "Proposal Category"
+msgstr "Bereich"
+
+msgid "No Category"
+msgstr "Kein Bereich"
+
+msgid "Others"
+msgstr "Andere"
 
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
@@ -1263,7 +1323,7 @@ msgstr "<b>%s</b> Vorschläge"
 
 #, python-format
 msgid "<b>%s</b> comments"
-msgstr "<b>%s</b> Kommentare"
+msgstr "<b>%s</b> Argumente"
 
 #, python-format
 msgid "<b>%s</b> votes"
@@ -1340,11 +1400,8 @@ msgstr "Einträge"
 msgid "Filter list"
 msgstr "Liste filtern"
 
-msgid "Remove all"
-msgstr "Alle entfernen"
-
-msgid "remove"
-msgstr "entfernen"
+msgid "reset"
+msgstr "zurücksetzen"
 
 msgid "Sort:"
 msgstr "Sortieren:"
@@ -1413,6 +1470,9 @@ msgstr "Insgesamt <a href=\"%(url)s\">%(votes)s Stimmen</a>, davon %(for)s dafü
 msgid "Votes"
 msgstr "Stimmen"
 
+msgid "Votes by User Group"
+msgstr "Stimmen nach Benutzergruppe"
+
 msgid "Shortlink"
 msgstr "Kurzlink"
 
@@ -1450,7 +1510,7 @@ msgid "Include proposals"
 msgstr "Vorschläge hinzufügen"
 
 msgid "Include comments"
-msgstr "Kommentare hinzufügen"
+msgstr "Neue Diskussion beginnen"
 
 msgid "Export format:"
 msgstr "Export-Format:"
@@ -1532,6 +1592,12 @@ msgstr "Benutzer importieren"
 msgid "Update Search Index"
 msgstr "Suchindex aktualisieren"
 
+msgid "Static Pages"
+msgstr "Seiten"
+
+msgid "Send an email to users"
+msgstr "Senden Sie eine E-Mail an Benutzer"
+
 msgid "Site administration"
 msgstr "Seiteneinstellungen"
 
@@ -1591,7 +1657,7 @@ msgstr "Sie haben erfolgreich die folgenden Benutzer erstellt:"
 msgid ""
 "You successfully created the following users and added them as Members to "
 "the instance \"%s\":"
-msgstr "Sie haben erfolgreich die folgenden Benutzer erstellt und sie als Mitglieder der Projektgruppe \"%s\" hinzugefügt:"
+msgstr "Sie haben erfolgreich die folgenden Benutzer erstellt und sie als Mitglieder der Gruppe \"%s\" hinzugefügt:"
 
 msgid "The following errors happend while creating the users"
 msgstr "Die folgenden Fehler traten während der Erstellung der Benutzer auf"
@@ -1667,8 +1733,22 @@ msgstr "Zeige dieses Badge an, anstatt der normalen Gruppe des Users."
 msgid "Global"
 msgstr "Global"
 
-msgid "Other instances"
-msgstr "Andere Gruppen"
+msgid "Parent Badge"
+msgstr "Eltern Badge"
+
+msgid "No Parent Badge"
+msgstr "Keine Eltern Badge"
+
+msgid "Global categories"
+msgstr "Globale Kategorien"
+
+msgid "Local instance categories"
+msgstr "Lokale Gruppenkategorien"
+
+msgid ""
+"Description to select children of this badge (irrelevant if this badge "
+"doesn't have any children)"
+msgstr "Angabe um die Kinder dieser Badge auszuwählen (irrelevant falls diese Badge keine Kinder hat)"
 
 msgid "Save Badge"
 msgstr "Badge speichern"
@@ -1706,6 +1786,9 @@ msgstr "Ja"
 msgid "no"
 msgstr "Nein"
 
+msgid "Parent"
+msgstr "Eltern"
+
 msgid "User Badges"
 msgstr "Benutzerbadge"
 
@@ -1713,39 +1796,39 @@ msgid "New"
 msgstr "Neu"
 
 msgid "Proposal Badges"
-msgstr "Badges dieses Vorschlags"
+msgstr "Badges für Vorschläge"
 
 msgid "Proposal Category Badges"
-msgstr "Badge für Bereiche von Vorschägen"
+msgstr "Kategorien von Vorschlägen"
 
 msgid "Instance Badges"
 msgstr "Gruppen-Badge"
 
 msgid "Comment"
-msgstr "Kommentar"
+msgstr "Argument"
 
 #, python-format
 msgid "Comment on %s"
 msgstr "%s kommentieren"
 
 msgid "Are you sure you want to delete this comment?"
-msgstr "Sind Sie sicher, dass Sie diesen Kommentar entfernen möchten?"
+msgstr "Sind Sie sicher, dass Sie dieses Argument entfernen möchten?"
 
 msgid "Confirm"
 msgstr "Bestätigen"
 
 msgid "Edit comment"
-msgstr "Kommentar bearbeiten"
+msgstr "Argument bearbeiten"
 
 #, python-format
 msgid "Comment on: %s"
 msgstr "%s kommentieren"
 
 msgid "Comment History"
-msgstr "Historie des Kommentars"
+msgstr "Historie des Arguments"
 
 msgid "New comment"
-msgstr "Neuer Kommentar"
+msgstr "Neues Argument"
 
 #, python-format
 msgid "created %s"
@@ -1766,22 +1849,22 @@ msgid "edited %s"
 msgstr "%s bearbeitet"
 
 msgid "No comments were made yet."
-msgstr "Bisher wurden keine Kommentare abgegeben."
+msgstr "Bisher wurden keine Argumente hinzugefügt."
 
 msgid "Start new Discussion"
-msgstr "Neue Diskussion starten"
+msgstr "Neue Diskussion anlegen"
 
 msgid "Join instance to comment."
 msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
 
 msgid "Add comment"
-msgstr "Kommentar hinzufügen"
+msgstr "Geben Sie hier ihren Text ein:"
 
 msgid "Login to comment."
-msgstr "Zum Kommentieren einloggen."
+msgstr "Loggen Sie sich ein um ein Argument hinzuzufügen."
 
 msgid "Validate email in order to comment."
-msgstr "Verifizieren Sie Ihre Email-Adresse, um zu kommentieren."
+msgstr "Verifizieren Sie Ihre Email-Adresse, um Argumente hinzuzufügen."
 
 msgid "is pro"
 msgstr "ist dafür"
@@ -1793,7 +1876,7 @@ msgid "(deleted)"
 msgstr "(gelöscht)"
 
 msgid "This comment has been deleted."
-msgstr "Dieser Kommentar wurde gelöscht."
+msgstr "Dieses Argument wurde gelöscht."
 
 msgid "edit"
 msgstr "bearbeiten"
@@ -1802,20 +1885,20 @@ msgid "delete"
 msgstr "löschen"
 
 msgid "1 Comment"
-msgstr "1 Kommentar"
+msgstr "1 Argument"
 
 #, python-format
 msgid "%s Comments"
-msgstr "%s Kommentare"
+msgstr "Alle %s Argumente anzeigen"
 
 msgid "reply"
-msgstr "antworten"
+msgstr "Neues Argument hinzufügen"
 
 msgid "Join instance to reply"
-msgstr "Gruppe zum Antworten beitreten"
+msgstr "Gruppe beitreten um alle Argumente zu zeigen"
 
 msgid "Login to reply"
-msgstr "Anmelden, um zu antworten"
+msgstr "Anmelden, um alle Argumente zu zeigen"
 
 msgid "Validate email in order to reply"
 msgstr "Verifizieren Sie Ihre Email-Adresse, um zu antworten"
@@ -1835,7 +1918,7 @@ msgid "edited %s by %s"
 msgstr "%s bearbeitet von %s"
 
 msgid "Comment is..."
-msgstr "Kommentar ist..."
+msgstr "Argument ist..."
 
 msgid "Pro"
 msgstr "zugunsten"
@@ -1847,7 +1930,7 @@ msgid "Con"
 msgstr "gegen"
 
 msgid "Allow others to edit this comment."
-msgstr "Andere dürfen diesen Kommentar bearbeiten."
+msgstr "Andere dürfen dieses Argument bearbeiten."
 
 #, python-format
 msgid "Discussion on %s"
@@ -2108,7 +2191,7 @@ msgid "Hide global categories"
 msgstr "Verstecke globale Kategorien"
 
 msgid "Allow editing of comments by default"
-msgstr "Erlaube Bearbeiten von Kommentaren standardmäßig"
+msgstr "Erlaube Bearbeiten von Argumenten standardmäßig"
 
 msgid "Freeze this instance"
 msgstr "Die Arbeit in dieser Gruppe einfrieren"
@@ -2157,6 +2240,12 @@ msgstr "Verzögerung"
 
 msgid "Enable vote delegation"
 msgstr "Delegation erlauben"
+
+msgid "Break down Voting Result by Badge"
+msgstr "Abstimmungsresultat nach Badge aufteilen"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "Die Meinung der Benutzer zu diesem Thema anzeigen, welche die ausgewählten Badges besitzen."
 
 msgid "Home"
 msgstr "Gruppe"
@@ -2218,7 +2307,7 @@ msgid "Close"
 msgstr "Schließen"
 
 msgid "tutorial_instance_numbers"
-msgstr "Hier finden Sie noch eine kurze Information über die aktuelle Mitgliederzahl der Projektgruppe, der Anzahl der eingebrachten Vorschläge und der geschriebenen Kommentare."
+msgstr "Hier finden Sie noch eine kurze Information über die aktuelle Mitgliederzahl der Gruppe, der Anzahl der eingebrachten Vorschläge und der geschriebenen Argumente."
 
 #, python-format
 msgid "%s proposal"
@@ -2232,12 +2321,24 @@ msgid_plural "%s norms"
 msgstr[0] "%s Beschluss"
 msgstr[1] "%s Beschlüsse"
 
-#, python-format
-msgid "Message %s"
-msgstr "%s anschreiben"
+msgid "Send mass message"
+msgstr "Massennachricht versenden"
+
+msgid "Filter recipients by instance"
+msgstr "Empfänger nach Gruppen filtern"
 
 msgid "Subject"
 msgstr "Betreff"
+
+msgid "Body"
+msgstr "Hauptteil"
+
+msgid "Sender identity"
+msgstr "Versender Identität"
+
+#, python-format
+msgid "Message %s"
+msgstr "%s anschreiben"
 
 msgid ""
 "Your e-mail address will be included in this message to give the recipient a"
@@ -2279,9 +2380,6 @@ msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
 msgid "Category"
 msgstr "Kategorie"
-
-msgid "No Category"
-msgstr "Kein Bereich"
 
 msgid "Create a new milestone."
 msgstr "Einen neuen Termin anlegen."
@@ -2421,10 +2519,10 @@ msgid "Text"
 msgstr "Text"
 
 msgid "Formatting"
-msgstr ""
+msgstr "Formatierung "
 
 msgid "Use markdown formatting."
-msgstr ""
+msgstr "Nutze markdown zur Formatierung"
 
 msgid "Parent page:"
 msgstr "Elternseite:"
@@ -2442,7 +2540,7 @@ msgid "Popular tags"
 msgstr "Beliebte Tags"
 
 msgid "tutorial_norms_overview_table"
-msgstr "Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse. Unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Kommentare angezeigt."
+msgstr "Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse. Unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Argumente angezeigt."
 
 msgid "tutorial_norms_overview_facets"
 msgstr "Für eine bessere Übersicht können Sie die Auswahl der Beschlüsse nach Schlagworten filtern."
@@ -2529,8 +2627,8 @@ msgstr "Unterbeschlüsse anzeigen"
 #, python-format
 msgid "%s comment"
 msgid_plural "%s comments"
-msgstr[0] "%s Kommentar"
-msgstr[1] "%s Kommentare"
+msgstr[0] "%s Argument"
+msgstr[1] "%s Argumente"
 
 #, python-format
 msgid "latest <b>%s</b>"
@@ -2676,7 +2774,7 @@ msgid "Edit &ldquo;%s&rdquo;"
 msgstr "&ldquo;%s&rdquo; bearbeiten"
 
 msgid "Title and Goals"
-msgstr "Titel und Ziele"
+msgstr "Eine kurze Beschreibung des Vorschlags"
 
 msgid "Proposal title"
 msgstr "Titel des Vorschlags"
@@ -2685,13 +2783,10 @@ msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Bitte geben Sie eine kurze Beschreibung Ihres Vorschlags an."
 
 msgid "The proposal would..."
-msgstr "Dieser Vorschlag will..."
+msgstr "Bitte geben Sie hier die Beschreibung Ihres Vorschlags ein und benennen und verlinken Sie gegebenenfalls Zitate und Quellen. "
 
 msgid "Proposal goals"
-msgstr "Begründung"
-
-msgid "Proposal Category"
-msgstr "Bereich"
+msgstr "Beschreibung"
 
 msgid "Collaboration and Notification"
 msgstr "Zusammenarbeit und Benachrichtigung"
@@ -2709,13 +2804,13 @@ msgid "Go"
 msgstr "Los"
 
 msgid "tutorial_proposal_overview_table"
-msgstr "Die Liste bietet einen Überblick aller bisher eingebrachter Vorschläge, welche nach mehreren Kriterien sortiert werden kann."
+msgstr "Die Liste bietet einen Überblick aller bisher eingebrachter Vorschläge, welche nach mehreren Kriterien sortiert werden können."
 
 msgid "tutorial_proposal_overview_facets"
-msgstr "...sondern können auch die Anzahl der angezeigten Vorschläge einschränken. Beispielsweise nach Nutzern, Kategorien, Schlagworten (Tags) oder Zuständen."
+msgstr "Sie können mit Hilfe des Suchfeldes Vorschläge nach Titel oder Inhalt duchsuchen und entsprechende Treffer nach verschiedenen Kategorien sortieren, z.B. größte Unterstützung, neuste Vorschläge oder alphabetisch."
 
 msgid "tutorial_proposal_overview_new"
-msgstr "Ist Ihre Idee noch nicht vorhanden, können Sie einen eigenen, neuen Vorschlag anlegen.“"
+msgstr "Ist Ihre Idee noch nicht vorhanden, können Sie einen eigenen, neuen Vorschlag anlegen."
 
 msgid "New proposal"
 msgstr "Neuer Vorschlag"
@@ -2787,16 +2882,16 @@ msgid "tutorial_proposal_show_share"
 msgstr "...oder den Vorschlag mit anderen per Facebook, Google+ oder Twitter teilen."
 
 msgid "tutorial_proposal_show_vote_comment"
-msgstr "Kommentare können Sie nicht nur bewerten..."
+msgstr "Argumente können Sie nicht nur bewerten..."
 
 msgid "tutorial_proposal_show_answers"
 msgstr "...sondern auch dazu verfasste Antworten einsehen..."
 
 msgid "tutorial_proposal_show_answer"
-msgstr "...selbst eine Antwort zu einem Kommentar schreiben..."
+msgstr "...selbst eine Antwort zu einem Argument schreiben..."
 
 msgid "tutorial_proposal_show_new_discussion"
-msgstr "... und neue Kommentare einbringen."
+msgstr "... und neue Argumente einbringen."
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "Oder aktiv den Vorschlag mitgestalten und Alternativen einbringen."
@@ -2960,6 +3055,40 @@ msgstr "ansehen"
 msgid "compare"
 msgstr "vergleichen"
 
+#, python-format
+msgid "Edit %(key)s (%(langname)s)"
+msgstr "Bearbeite %(key)s (%(langname)s)"
+
+msgid "Title:"
+msgstr "Titel:"
+
+msgid "Content of the page"
+msgstr "Inhalt der Seite"
+
+msgid "Change static page"
+msgstr "Seite wechseln"
+
+msgid "Back to the list"
+msgstr "Zurück zur Liste"
+
+msgid "Key"
+msgstr "Kennung"
+
+msgid "Create new page"
+msgstr "Neue Seite anlegen"
+
+msgid "New Static Page"
+msgstr "Neue statische Seite"
+
+msgid "New static page"
+msgstr "Neue statische Seite"
+
+msgid "Key:"
+msgstr "Kennung:"
+
+msgid "Add static page"
+msgstr "Statische Seite hinzufügen"
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Tags sind Stichwörter, die helfen, Vorschläge und Beschlüsse zu finden, zu sortieren und zu filtern."
@@ -3007,9 +3136,6 @@ msgstr "Ihre Gruppe hat zu diesem Beschluss noch keine Regelung getroffen. "
 #, python-format
 msgid "discuss (%s comments) &raquo;"
 msgstr "diskutieren (%s Kommentare) &raquo;"
-
-msgid "Title:"
-msgstr "Titel:"
 
 msgid "Variant:"
 msgstr "Version:"
@@ -3082,7 +3208,7 @@ msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
 "member in, norms and proposals from these instance and a list of the pages "
 "you follow."
-msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Gruppen, in denen Sie Mitglied sind, Beschlüsse und Vorschläge dieser Projektgruppen und eine Liste der Seiten, denen Sie folgen."
+msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Gruppen, in denen Sie Mitglied sind, Beschlüsse und Vorschläge dieser Gruppen und eine Liste der Vorschläge, Termine und Benutzer, denen Sie folgen."
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
@@ -3098,7 +3224,7 @@ msgid "list all"
 msgstr "zeige alle"
 
 msgid "Norms in your instances"
-msgstr "Beschlüsse in Ihren Instanzen"
+msgstr "Beschlüsse in Ihren Gruppen"
 
 msgid "List all pages"
 msgstr "Zeige alle Beschlüsse"
@@ -3107,16 +3233,16 @@ msgid "tutorial_dashboard_username"
 msgstr "Sie können Ihr Dashboard jederzeit durch einen Klick auf Ihren Benutzernamen aufrufen."
 
 msgid "tutorial_dashboard_proposals"
-msgstr "Ihr Dashboard bietet Ihnen unter anderem eine Liste aller, in den Projektgruppen, eingebrachter Vorschläge."
+msgstr "Ihr Dashboard bietet Ihnen unter anderem eine Liste aller, in den Gruppen, eingebrachter Vorschläge."
 
 msgid "tutorial_dashboard_show_all"
 msgstr "Durch einen Klick auf \"Zeige alle\" können Sie sich die vollständige Liste aller Vorschläge anzeigen lassen."
 
 msgid "tutorial_dashboard_instances"
-msgstr "Hier finden Sie eine Liste der Projektgruppen, in denen Sie Mitglied sind. Durch einen Klick auf eine der Projektgruppen gelangen Sie zur Projektgruppe."
+msgstr "Hier finden Sie eine Liste der Gruppen, in denen Sie Mitglied sind. Durch einen Klick auf den Gruppennamen gelangen Sie zur Gruppe."
 
 msgid "tutorial_dashboard_watchlist"
-msgstr "In der Beobachtungsliste finden Sie Inhalte, denen sie folgen. Durch einen Klick auf \"Zeige alle\" erhalten Sie eine Übersicht über alle Inhalte denen Sie folgen."
+msgstr "In der Beobachtungsliste finden Sie Inhalte, denen sie folgen. Durch einen Klick auf \"Zeige alle\" erhalten Sie eine Übersicht über alle Vorschläge, Termine und Benutzer denen Sie folgen."
 
 msgid "Your Instances"
 msgstr "Ihre Gruppen"
@@ -3125,7 +3251,7 @@ msgid "Your Watchlist"
 msgstr "Ihre Beobachtungsliste"
 
 msgid "Current polls in your instances"
-msgstr "Aktuelle Abstimmungen in Ihren Projektgruppen"
+msgstr "Aktuelle Abstimmungen in Ihren Gruppen"
 
 msgid "Topic"
 msgstr "Thema"
@@ -3203,6 +3329,12 @@ msgstr "Nicht bestätigt."
 msgid "Re-send activation link"
 msgstr "Aktivierungslink erneut zusenden"
 
+msgid "Receive occasional news from instance administrators."
+msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen."
+
+msgid "Receive news service"
+msgstr "Nachrichtendienst empfangen"
+
 msgid "OpenID"
 msgstr "OpenID"
 
@@ -3211,6 +3343,9 @@ msgstr "OpenID erlaubt es, den gleichen Benutzernamen auf vielen Webseiten zu ve
 
 msgid "There are no associated OpenIDs."
 msgstr "Diesem Account sind keine OpenIDs zugeordnet."
+
+msgid "remove"
+msgstr "entfernen"
 
 msgid "Short biography"
 msgstr "Kurzbiographie"
@@ -3242,7 +3377,7 @@ msgid "Find users"
 msgstr "Benutzer suchen"
 
 msgid "tutorial_user_index_table"
-msgstr "Die Liste zeigt Ihnen alle Mitglieder der Projektgruppe an. Sie können die Liste sortieren."
+msgstr "Die Liste zeigt Ihnen alle Mitglieder der Gruppe an. Sie können die Liste sortieren."
 
 msgid "tutorial_user_index_facets"
 msgstr "Oder filtern Sie die Liste nach Nutzergruppen."
