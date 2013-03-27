@@ -487,7 +487,7 @@ class UserController(BaseController):
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        require.user.show(c.page_user)
+        require.user.show_dashboard(c.page_user)
         #instances
         instances = c.page_user.instances
         #proposals
@@ -642,7 +642,7 @@ class UserController(BaseController):
         c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        require.user.show(c.page_user)
+        require.user.show_watchlist(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)
         entities = [w.entity for w in watches if (w.entity is not None)
                     and (not isinstance(w.entity, unicode))]
