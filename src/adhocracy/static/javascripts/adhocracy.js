@@ -489,7 +489,7 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-        window_is_active = true;
+        var window_is_active = true;
         $(window).focus(function() { window_is_active = true });
         $(window).blur( function() { window_is_active = false });
         var stats_interval = $('body').data('stats-interval');
