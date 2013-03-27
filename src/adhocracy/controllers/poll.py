@@ -55,7 +55,7 @@ class PollController(BaseController):
     @RequireInstance
     def show(self, id, format='html'):
         poll = get_entity_or_abort(model.Poll, id)
-        require.poll.show(c.poll)
+        require.poll.show(poll)
 
         if format == 'json':
             return render_json(poll)
