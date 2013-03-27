@@ -11,6 +11,7 @@ from paste.deploy.converters import asbool
 from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
 from pylons import config, request, tmpl_context as c, url
 from pylons.controllers.util import redirect
+from pylons.controllers.util import abort
 from webob.multidict import MultiDict
 
 from adhocracy import model
@@ -580,7 +581,11 @@ class SolrFacet(SolrIndexer):
     def _used(self, request):
         used = []
         for param in request.params.getall(self.request_key):
-            facet, value = param.split(':')
+            try:
+                facet, value = param.split(':')
+            except ValueError:
+                raise abort(404)
+
             if facet == self.name and value not in used:
                 used.append(value)
         return used
