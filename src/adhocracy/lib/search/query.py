@@ -80,7 +80,7 @@ def run(terms, instance=None, entity_type=None, **kwargs):
 
     for term in terms.split():
         if ':' in term:
-            field, value = term.split(':')
+            field, value = term.split(':', 1)
             q = q.query(**{field.strip(): value.strip()})
         else:
             q = add_wildcard_query(q, 'text', term.strip())

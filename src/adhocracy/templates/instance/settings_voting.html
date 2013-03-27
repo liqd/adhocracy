@@ -30,6 +30,17 @@
     </div>
 
     ${forms.checkbox(_("Enable vote delegation"), 'allow_delegate', 15)}
+
+%if c.votedetail_all_userbadges is not None:
+    <h4>${_('Break down Voting Result by Badge')}</h4>
+
+    <p>${_('Display how the users with the selected badges feel about the issue.')}</p>
+
+    <div>
+    ${tiles.badge.badge_selector(c.votedetail_all_userbadges, 'votedetail_badges')}
+    </div>
+%endif
+
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
 </form> 

@@ -12,7 +12,8 @@ class DecisionTile(BaseTile):
 
     @property
     def topic(self):
-        if self.poll.action == self.poll.SELECT and self.poll.selection:
+        if self.poll.action == self.poll.SELECT and self.poll.selection\
+           and self.poll.variant:
             text = self.poll.selection.page.variant_head(self.poll.variant)
             variant_link = "<a href='%s'>%s</a>" % (h.text.url(text),
                                                     text.variant_html)

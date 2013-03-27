@@ -44,7 +44,6 @@ class UserCreateForm(formencode.Schema):
                            forms.UniqueEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
-    password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
 
@@ -101,6 +100,11 @@ class UserFilterForm(formencode.Schema):
 class UserBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = ForEach(forms.ValidUserBadge())
+
+
+class UserSetPasswordForm(formencode.Schema):
+    allow_extra_fields = True
+    password = validators.String(not_empty=False)
 
 
 class UserController(BaseController):
@@ -278,6 +282,19 @@ class UserController(BaseController):
         else:
             event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
         redirect(h.entity_url(c.page_user))
+
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)
+    def set_password(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
+        c.page_user.password = self.form_result.get('password')
+        model.meta.Session.add(c.page_user)
+        model.meta.Session.commit()
+
+        h.flash(_('Password has been set. Have fun!'), 'success')
+        redirect(h.base_url('/'))
 
     def reset_form(self):
         return render("/user/reset_form.html")
@@ -470,7 +487,7 @@ class UserController(BaseController):
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        require.user.show(c.page_user)
+        require.user.show_dashboard(c.page_user)
         #instances
         instances = c.page_user.instances
         #proposals
@@ -625,7 +642,7 @@ class UserController(BaseController):
         c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        require.user.show(c.page_user)
+        require.user.show_watchlist(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)
         entities = [w.entity for w in watches if (w.entity is not None)
                     and (not isinstance(w.entity, unicode))]
@@ -793,3 +810,9 @@ class UserController(BaseController):
             return True
         else:
             return False
+
+    def welcome(self, id, token):
+        # Intercepted by WelcomeRepozeWho, only errors go in here
+        h.flash(_('You already have a password - use that to log in.'),
+                'error')
+        return redirect(h.base_url('/login'))

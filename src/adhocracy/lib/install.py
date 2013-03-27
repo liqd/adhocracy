@@ -1,8 +1,8 @@
 import logging
 
 import adhocracy.model as model
+from adhocracy.lib.helpers.site_helper import get_domain_part
 
-from pylons import config
 from paste.deploy.converters import asbool
 
 log = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ def mk_perm(name, set_groups, *groups):
     return perm
 
 
-def setup_entities(initial_setup):
+def setup_entities(config, initial_setup):
     #model.meta.Session.begin()
     model.meta.Session.commit()
 
@@ -66,6 +66,7 @@ def setup_entities(initial_setup):
     mk_perm("global.member", initial_setup, admins)
     mk_perm("global.message", initial_setup, admins)
     mk_perm("global.organization", initial_setup, organization)
+    mk_perm("global.staticpage", initial_setup, admins)
     mk_perm("instance.admin", initial_setup, supervisor)
     mk_perm("instance.create", initial_setup, admins)
     mk_perm("instance.delete", initial_setup, admins)
@@ -127,7 +128,8 @@ def setup_entities(initial_setup):
 
     admin = model.User.find(u"admin")
     if not admin:
-        admin = model.User.create(ADMIN, u'',
+        email = u'admin@%s' % get_domain_part(config.get('adhocracy.domain'))
+        admin = model.User.create(ADMIN, email,
                                   password=ADMIN_PASSWORD,
                                   global_admin=True)
         admin.activation_code = None

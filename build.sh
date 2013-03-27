@@ -160,7 +160,7 @@ if ! $not_use_sudo_commands; then
     case $distro in
         debian )
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libpng-dev libjpeg-dev gcc make build-essential bin86 unzip libpcre3-dev zlib1g-dev git mercurial python python-virtualenv python-dev libsqlite3-dev openjdk-6-jre libpq-dev'
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
 
     if $install_mysql_client; then
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient-dev'
@@ -168,7 +168,7 @@ if ! $not_use_sudo_commands; then
     ;;
         arch )
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libpng libjpeg gcc make base-devel bin86 unzip zlib git mercurial python2 python2-virtualenv python2-pip sqlite jre7-openjdk postgresql-libs'
-        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh'
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh mutt'
 
         if $install_mysql_client; then
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient'

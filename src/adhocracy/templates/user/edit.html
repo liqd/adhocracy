@@ -21,13 +21,13 @@
 
     <fieldset>
         <legend>${_("Language")}</legend>
-        <ul>
+        <ul class="languagelist">
             %for locale in c.locales:
-            <li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
+            <li style="list-style-type: none;"><label><input type="radio" name="locale" value="${str(locale)}" 
             %if locale == c.page_user.locale:
             checked="checked"
             %endif
-            /> ${locale.display_name}</li>
+            /> ${locale.display_name}</label></li>
             %endfor
         </ul>
     </fieldset>

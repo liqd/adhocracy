@@ -7,8 +7,12 @@ from adhocracy.model import instance_filter as ifilter
 CURRENT_INSTANCE = object()
 
 
+def get_domain_part(domain_with_port):
+    return domain_with_port.split(':')[0]
+
+
 def domain():
-    return config.get('adhocracy.domain').split(':')[0]
+    return get_domain_part(config.get('adhocracy.domain'))
 
 
 def name():

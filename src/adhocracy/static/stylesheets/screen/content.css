@@ -1776,3 +1776,54 @@ a.joyride-prev-tip:hover {
 iframe {
   border: none;
 }
+
+form#user_welcome {
+  margin: 0;
+  padding: 0;
+}
+form#user_welcome>label {
+  margin: 0;
+  padding: 5px 0;
+  text-align: center;
+  font-size: 22px;
+  line-height: normal;
+}
+form#user_welcome>label>* {
+  vertical-align: top;
+  font-size: inherit;
+  height: auto;
+  line-height: normal;
+}
+form#user_welcome>label>span {
+  display: inline-block;
+  padding-top: 3px;
+}
+form#user_welcome>label>input[type="password"] {
+  padding: 2px 5px;
+  margin: 0;
+  width: 5em;
+}
+form#user_welcome>label>input[type="submit"] {
+  padding: 2px 5px;
+}
+
+dl.votedetail {margin: 0; padding: 0;}
+dl.votedetail>dt {float: left; min-width: 5em; padding-right: 0.5em;}
+dl.votedetail>dd {margin: 0; padding: 0;}
+
+.languagelist label {margin: 0; padding: 0;}
+
+.massmessage_filter>div {float: left;}
+.massmessage_filter>div:not(:first-of-type) {
+  padding-left: 1em;
+  margin-left: 1em;
+  border-left: 1px solid #ddd;
+}
+.massmessage_preview {background: inherit;}
+.massmessage_preview dl {margin: 0;}
+.massmessage_preview dt {float: left; min-width: 5em;}
+.massmessage_preview dt, .massmessage_preview dd {margin: 0;}
+/* Override bootstrap mis-definitions */
+.massmessage_preview dt, .massmessage_preview dd {line-height: inherit;}
+
+.message_preview_body {background: #ccc; white-space: pre-wrap; margin-bottom: 0.5em;}

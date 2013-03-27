@@ -15,7 +15,12 @@
       %endif
   </head>
 
-  <body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>">        
+  <body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>"
+    %if c.monitor_page_time_interval:
+    data-stats-baseurl="${c.monitor_page_time_url}"
+    data-stats-interval="${c.monitor_page_time_interval}"
+    %endif
+    >
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
@@ -26,6 +31,15 @@
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
+    %if c.user and c.user.welcome_code and not c.user.password:
+      <form id="user_welcome" action="${h.entity_url(c.user, member='set_password')}" method="post" data-success-message="${_('Password has been set. Have fun!')}">
+      ${h.field_token()|n}
+      <label><span>${_('Welcome to %s!') % h.site.name()} ${_('Please choose a password:')}</span>
+      <input type="password" name="password" autofocus="autofocus" required="required" pattern=".{6,}" title="${('Please pick a secure password')}" x-moz-errormessage="${('Please pick a secure password')}"/>
+      <input type="submit" value="${_('Set Password')}" />
+      </label>
+      </form>
+    %endif
     %if c.user is None:
     <div class="overlay" id="overlay-login">
       <a class="close"></a>

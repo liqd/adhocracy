@@ -4,6 +4,7 @@ import re
 from pylons import request, response, tmpl_context as c
 from pylons.i18n import _
 from pylons import config
+from pylons.controllers.util import abort
 
 from paste.deploy.converters import asbool
 from paste.urlparser import PkgResourcesParser
@@ -29,6 +30,8 @@ class ErrorController(BaseController):
 
     def document(self):
         resp = request.environ.get('pylons.original_response')
+        if resp is None:
+            raise abort(404)
         response.status = resp.status
         if resp.content_type == 'text/javascript':
             response.content_type == resp.content_type

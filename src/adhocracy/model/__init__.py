@@ -46,9 +46,11 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
+from adhocracy.model.staticpage import StaticPage, staticpage_table
 from adhocracy.model.requestlog import RequestLog, requestlog_table
 from adhocracy.model.message import Message, message_table
 from adhocracy.model.message import MessageRecipient, message_recipient_table
+from adhocracy.model.votedetail import votedetail_table
 from adhocracy.model.region import Region, region_table
 from adhocracy.model.region import RegionSimplified, region_simplified_table
 from adhocracy.model.region import RegionHierarchy, region_hierarchy_table
@@ -350,6 +352,8 @@ mapper(Instance, instance_table, properties={
         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
     'default_group': relation(Group, lazy=True),
+    'votedetail_userbadges': relation(UserBadge, lazy=True,
+                                      secondary=votedetail_table),
     'region': relation(
         Region,
         primaryjoin=instance_table.c.region_id == region_table.c.id,
@@ -466,6 +470,9 @@ mapper(RegionSimplified, region_simplified_table, properties={
 })
 
 mapper(RegionHierarchy, region_hierarchy_table)
+
+
+mapper(StaticPage, staticpage_table)
 
 
 mapper(Message, message_table, properties={

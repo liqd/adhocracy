@@ -21,8 +21,6 @@ badge_table = Table(
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
     Column('visible', Boolean, default=True),
-    # attributes for ThumbnailBadges
-    Column('thumbnail', LargeBinary, default=None, nullable=True)
 )
 
 

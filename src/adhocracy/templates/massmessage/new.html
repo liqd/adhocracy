@@ -3,21 +3,31 @@
 <%def name="title()">${_("Send mass message")}</%def>
 
 <%def name="massmessage_form()">
-  <h3>Send mass message</h3>
+  <h3>${_('Send mass message')}</h3>
 
-  Please note that only users with verified email addresses and activated news
-  service will receive this message per email.
+  ${_('Please note that only users with verified email addresses and activated news'
+  'service will receive this message per email.')}
 
-  <form name="create_message" class="inplace" method="POST">
+  <form name="create_message" class="inplace" method="POST"
+        action="${h.base_url('/message/preview')}">
       ${h.field_token()|n}
 
-      <fieldset>
-        <legend>${_("Filter recipients by instance")}</legend>
-        <select name="instances" multiple="multiple">
+      <fieldset class="massmessage_filter">
+        <legend>${_("Filter users ...")}</legend>
+        <div>
+        ${_('... by instance:')}<br/>
+        <select name="filter_instances" multiple="multiple">
           %for instance in c.instances:
           <option value="${instance.id}">${instance.label}</option>
           %endfor
         </select>
+        </div>
+        %if c.userbadges:
+        <div>
+        ${_('... by badge:')}<br/>
+        ${tiles.badge.badge_selector(c.userbadges, 'filter_badges')}
+        </div>
+        %endif
       </fieldset>
 
       <fieldset>
@@ -28,6 +38,7 @@
       <fieldset>
         <legend>${_("Body")}</legend>
         <textarea name="body"></textarea>
+        <div>${_('Use {email}, {name}, {salutation} to address the user directly.')}</div>
       </fieldset>
 
       <fieldset>

@@ -38,6 +38,16 @@ def klass(what):
     <li class="${klass('export')}">
         <a href="/admin/export">${_("Export")}</a>
     </li>
+
+    %if h.staticpage.can_edit():
+    <li class="${klass('static')}">
+        <a href="/static/">${_("Static Pages")}</a>
+    </li>
+    %endif
+
+    <li class="${klass('massmessage')}">
+        <a href="/message/new">${_("Send an email to users")}</a>
+    </li>
 </ul>
 </%def>
 
