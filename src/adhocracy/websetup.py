@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 def setup_app(command, conf, vars):
     """Place any commands to setup adhocracy here"""
     if not pylons.test.pylonsapp:
-        load_environment(conf.global_conf, conf.local_conf, with_db=False)
+        conf = load_environment(conf.global_conf, conf.local_conf, with_db=False)
     _setup(conf)
 
 
@@ -56,4 +56,4 @@ def _setup(config):
         migrateapi.version_control(url, migrate_repo, version=repo_version)
         initial_setup = True
 
-    install.setup_entities(initial_setup)
+    install.setup_entities(config, initial_setup)

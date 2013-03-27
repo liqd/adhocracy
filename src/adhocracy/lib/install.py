@@ -2,7 +2,6 @@ import logging
 
 import adhocracy.model as model
 
-from pylons import config
 from paste.deploy.converters import asbool
 
 log = logging.getLogger(__name__)
@@ -33,7 +32,7 @@ def mk_perm(name, set_groups, *groups):
     return perm
 
 
-def setup_entities(initial_setup):
+def setup_entities(config, initial_setup):
     #model.meta.Session.begin()
     model.meta.Session.commit()
 
