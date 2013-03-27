@@ -699,7 +699,7 @@ class PageController(BaseController):
         except Invalid, i:
             return self.edit_geotag(id, errors=i.unpack_errors())
 
-        require.proposal.edit(c.proposal)
+        require.proposal.edit(c.page)
 
         geotag = self.form_result.get('geotag')
         c.page.geotag = format_json_feature_to_geotag(geotag)
