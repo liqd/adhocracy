@@ -101,9 +101,11 @@ class UserBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = ForEach(forms.ValidUserBadge())
 
+
 class UserSetPasswordForm(formencode.Schema):
     allow_extra_fields = True
     password = validators.String(not_empty=False)
+
 
 class UserController(BaseController):
 
@@ -284,7 +286,8 @@ class UserController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)
     def set_password(self, id):
-        c.page_user = get_entity_or_abort(model.User, id, instance_filter=False)
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
         require.user.edit(c.page_user)
         c.page_user.password = self.form_result.get('password')
         model.meta.Session.add(c.page_user)
