@@ -235,8 +235,7 @@ class Proposal(Delegateable):
 
     def has_geotag(self):
         import adhocracy.lib.helpers.geo_helper as geo
-        assert geo.use_proposal_geotags()
-        return self.geotag is not None
+        return geo.use_proposal_geotags() and self.geotag is not None
 
     def get_geojson_feature(self):
 
@@ -256,4 +255,4 @@ class Proposal(Delegateable):
                     'num_norms': len(self.selections)
                 },
                 id=self.id
-                )
+            )

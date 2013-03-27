@@ -4,7 +4,10 @@ from paste.deploy.converters import asbool
 
 
 def use_maps():
-    return c.instance.use_maps
+    if c.instance is None:
+        return True
+    else:
+        return c.instance.use_maps
 
 
 def use_proposal_geotags():

@@ -356,8 +356,7 @@ class Page(Delegateable):
 
     def has_geotag(self):
         import adhocracy.lib.helpers.geo_helper as geo
-        assert geo.use_page_geotags()
-        return self.geotag is not None
+        return geo.use_page_geotags() and self.geotag is not None
 
     def depth(self):
         parent = self.parent
@@ -386,4 +385,4 @@ class Page(Delegateable):
                     'fillColor': '#656565' if self.category is None else self.category.color,
                 },
                 id=self.id
-                )
+            )
