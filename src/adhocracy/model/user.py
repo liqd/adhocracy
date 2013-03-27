@@ -28,7 +28,7 @@ user_table = Table(
     Column('email_priority', Integer, default=3),
     Column('activation_code', Unicode(255), nullable=True, unique=False),
     Column('reset_code', Unicode(255), nullable=True, unique=False),
-    Column('password', Unicode(80), nullable=False),
+    Column('password', Unicode(80), nullable=True),
     Column('locale', Unicode(7), nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('access_time', DateTime, default=datetime.utcnow,
@@ -211,6 +211,8 @@ class User(meta.Indexable):
         :return: Whether the password is valid.
         :rtype: bool
         """
+        if self.password is None:
+            return False
         if isinstance(password, unicode):
             password_8bit = password.encode('ascii', 'ignore')
         else:

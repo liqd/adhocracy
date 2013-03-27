@@ -30,7 +30,7 @@ class WelcomeRepozeWho(object):
         if not m:
             return None
         u = model.User.find(m.group('id'))
-        if not u or not u.welcome_code:
+        if not u or not u.welcome_code or u.password:
             return None
         if u.welcome_code != m.group('code'):
             return None
