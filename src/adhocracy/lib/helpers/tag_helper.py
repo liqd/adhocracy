@@ -6,7 +6,10 @@ from pylons import tmpl_context as c
 from pylons.i18n import _
 
 from adhocracy.lib import cache
+from adhocracy.lib.auth import can
 from adhocracy.lib.helpers import url as _url
+from adhocracy.lib.helpers import url_token
+from adhocracy.lib.helpers.site_helper import base_url
 
 
 def link(tag, count=None, size=None, base_size=12, plain=False, simple=False):
@@ -37,6 +40,23 @@ def link(tag, count=None, size=None, base_size=12, plain=False, simple=False):
         text += u"&thinsp;&times;" + str(count)
     text += u"</span>"
     return text
+
+
+def link_with_untag(tag, delegateable, simple=True):
+    tag_link = link(tag, simple=simple)
+    if can.instance.edit(c.instance):
+        return '%s (%s)' % (
+            tag_link,
+            '<a href="%s?tag=%d&delegateable=%d&%s">%s</a>' % (
+                base_url('/untag_all'),
+                tag.id,
+                delegateable.id,
+                url_token(),
+                _('delete')
+            )
+        )
+    else:
+        return tag_link
 
 
 def url(tag, instance=None, **kwargs):
