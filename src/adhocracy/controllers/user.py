@@ -810,6 +810,6 @@ class UserController(BaseController):
 
     def welcome(self, id, token):
         # Intercepted by WelcomeRepozeWho, only errors go in here
-        h.flash(_('Code is not valid anymore since you picked a password.'),
+        h.flash(_('You already have a password - use that to log in.'),
                 'error')
         return redirect(h.base_url('/login'))
