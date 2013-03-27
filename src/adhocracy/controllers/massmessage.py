@@ -15,6 +15,7 @@ from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.message import render_body
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, ret_abort, ret_success
 from adhocracy.model import Instance
@@ -32,6 +33,7 @@ class MassmessageForm(formencode.Schema):
     body = validators.String(min=2, not_empty=True)
     instances = forms.MessageableInstances()
     sender = validators.String(not_empty=True)
+
 
 def _get_options(func):
     """ Decorator that calls the functions with the following parameters:
@@ -51,14 +53,14 @@ def _get_options(func):
                                "message options"), code=403)
 
         recipients = User.all_q().join(Membership).filter(
-                Membership.instance_id.in_(self.form_result.get('instances')))
+            Membership.instance_id.in_(self.form_result.get('instances')))
 
         return func(self,
-            allowed_sender_options[sender]['email'],
-            self.form_result.get('subject'),
-            self.form_result.get('body'),
-            recipients
-        )
+                    allowed_sender_options[sender]['email'],
+                    self.form_result.get('subject'),
+                    self.form_result.get('body'),
+                    recipients,
+                    )
     return wrapper
 
 
@@ -132,11 +134,19 @@ class MassmessageController(BaseController):
 
     @_get_options
     def preview(self, sender, subject, body, recipients):
-        recipients_list = list(recipients)
+        recipients_list = sorted(list(recipients), key=lambda r: r.name)
+        if recipients_list:
+            try:
+                rendered_body = render_body(body, recipients[0])
+            except (KeyError, ValueError) as e:
+                rendered_body = _('Could not render message: %s') % str(e)
+        else:
+            rendered_body = body
+
         data = {
             'sender': sender,
             'subject': subject,
-            'body': body,
+            'body': rendered_body,
             'recipients': recipients_list,
             'recipients_count': len(recipients_list),
             'params': request.params,
@@ -150,8 +160,7 @@ class MassmessageController(BaseController):
                                  c.user,
                                  sender)
 
-        for count,user in enumerate(recipients, start=1):
+        for count, user in enumerate(recipients, start=1):
             MessageRecipient.create(message, user, notify=True)
 
         return ret_success(message=_("Message sent to %d users.") % count)
-

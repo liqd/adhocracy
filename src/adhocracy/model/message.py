@@ -39,6 +39,10 @@ class Message(meta.Indexable):
         meta.Session.flush()
         return message
 
+    def render_body(self, user):
+        import adhocracy.lib.message
+        return adhocracy.lib.message.render_body(self.body, user)
+
 
 message_recipient_table = Table(
     'message_recipient', meta.data,
@@ -74,7 +78,7 @@ class MessageRecipient(object):
             from adhocracy.lib.templating import render
 
             body = render("/massmessage/body.txt", {
-                'body': self.message.body,
+                'body': self.message.render_body(self.recipient),
                 'page_url': config.get('adhocracy.domain').strip(),
                 'settings_url': h.entity_url(self.recipient,
                                              member='edit',
