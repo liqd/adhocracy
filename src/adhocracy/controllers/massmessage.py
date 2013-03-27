@@ -23,6 +23,8 @@ from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
 from adhocracy.model import User
+from adhocracy.model import UserBadge
+from adhocracy.model import UserBadges
 
 log = logging.getLogger(__name__)
 
@@ -31,7 +33,8 @@ class MassmessageForm(formencode.Schema):
     allow_extra_fields = True
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
-    instances = forms.MessageableInstances()
+    filter_instances = forms.MessageableInstances()
+    filter_badges = forms.ValidUserBadges()
     sender = validators.String(not_empty=True)
 
 
@@ -52,8 +55,16 @@ def _get_options(func):
             return ret_abort(_("Sorry, but you're not allowed to set these "
                                "message options"), code=403)
 
-        recipients = User.all_q().join(Membership).filter(
-            Membership.instance_id.in_(self.form_result.get('instances')))
+        recipients = User.all_q()
+        filter_instances = self.form_result.get('filter_instances')
+        recipients = recipients.join(Membership).filter(
+            Membership.instance_id.in_(filter_instances))
+        filter_badges = self.form_result.get('filter_badges')
+        if filter_badges:
+            recipients = recipients.join(UserBadges,
+                                         UserBadges.user_id == User.id)
+            recipients = recipients.filter(
+                UserBadges.badge_id.in_([fb.id for fb in filter_badges]))
 
         return func(self,
                     allowed_sender_options[sender]['email'],
@@ -126,6 +137,8 @@ class MassmessageController(BaseController):
         data = {
             'instances': self.get_allowed_instances(c.user),
             'sender_options': self.get_allowed_sender_options(c.user),
+            'userbadges': UserBadge.all(instance=c.instance,
+                                        include_global=True)
         }
 
         return htmlfill.render(render(template, data),

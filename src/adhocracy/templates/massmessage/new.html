@@ -12,13 +12,22 @@
         action="${h.base_url('/message/preview')}">
       ${h.field_token()|n}
 
-      <fieldset>
-        <legend>${_("Filter recipients by instance")}</legend>
-        <select name="instances" multiple="multiple">
+      <fieldset class="massmessage_filter">
+        <legend>${_("Filter users ...")}</legend>
+        <div>
+        ${_('... by instance:')}<br/>
+        <select name="filter_instances" multiple="multiple">
           %for instance in c.instances:
           <option value="${instance.id}">${instance.label}</option>
           %endfor
         </select>
+        </div>
+        %if c.userbadges:
+        <div>
+        ${_('... by badge:')}<br/>
+        ${tiles.badge.badge_selector(c.userbadges, 'filter_badges')}
+        </div>
+        %endif
       </fieldset>
 
       <fieldset>
