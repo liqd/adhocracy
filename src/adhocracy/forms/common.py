@@ -584,14 +584,16 @@ class UsersCSV(formencode.FancyValidator):
     def _check_item(self, item, line):
         error_list = []
         user_name = item.get(USER_NAME, '').strip()
-        email = item.get(EMAIL, '').strip()
+        email = item.get(EMAIL, '')
+        if email is not None:
+            email = email.strip()
         for (validator, value) in ((USERNAME_VALIDATOR, user_name),
                                    (EMAIL_VALIDATOR, email)):
             try:
                 validator.to_python(value, None)
             except formencode.Invalid, E:
                 error_list.append(u'%s (%s)' % (E.msg, value))
-        emails = self.emails.setdefault(email.strip(), [])
+        emails = self.emails.setdefault(email, [])
         emails.append(line)
         usernames = self.usernames.setdefault(user_name.strip(), [])
         usernames.append(line)
