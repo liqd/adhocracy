@@ -1,6 +1,7 @@
 import logging
 
 import adhocracy.model as model
+from adhocracy.lib.helpers.site_helper import get_domain_part
 
 from paste.deploy.converters import asbool
 
@@ -127,7 +128,8 @@ def setup_entities(config, initial_setup):
 
     admin = model.User.find(u"admin")
     if not admin:
-        admin = model.User.create(ADMIN, u'admin@adhocracy.lan',
+        email = u'admin@%s' % get_domain_part(config.get('adhocracy.domain'))
+        admin = model.User.create(ADMIN, email,
                                   password=ADMIN_PASSWORD,
                                   global_admin=True)
         admin.activation_code = None
