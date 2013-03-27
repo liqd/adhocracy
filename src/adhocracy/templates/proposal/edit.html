@@ -41,7 +41,9 @@
       %endif
     </fieldset>
 
+    %if c.categories:
     ${components.category_select('category_select', c.toplevel_question, c.categories)}
+    %endif
 
     <fieldset>
       <legend>${_('Collaboration and Notification')}</legend>
