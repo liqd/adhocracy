@@ -22,7 +22,7 @@ ${h.site.name()} &raquo; ${_("Instances")}
 <div id="proposals_facets">
     ${c.instance_pager.render_facets()}    
 </div>
-%if h.asbool(config.get('adhocracy.proposal_geotags')) and h.asbool(config.get('adhocracy.show_overview_map_on_instance_index')):
+%if h.geo.use_proposal_geotags() and h.asbool(config.get('adhocracy.show_overview_map_on_instance_index')):
     <h3>${_('Map')}</h3>
     ${map.show_overview_map([i.id for i in c.instance_pager.items])}
 %endif

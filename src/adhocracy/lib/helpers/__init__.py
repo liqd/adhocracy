@@ -44,6 +44,7 @@ from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
 from adhocracy.lib.helpers import feedback_helper as feedback
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
+from adhocracy.lib.helpers import geo_helper as geo
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy.lib.helpers.counter import counter
 from adhocracy import model, static

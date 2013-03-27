@@ -117,7 +117,7 @@
         <p class="info">${_("Multiple tags can be separated by commas.")}</p>
       </div>
 
-      %if h.asbool(config.get('adhocracy.proposal_geotags')):
+      %if h.geo.use_proposal_geotags():
         <legend>${_('Map')}</legend>
         ${map.show_single_proposal_edit_map_on_creation()}
       %endif

@@ -8,6 +8,7 @@ from paste.deploy.converters import asbool
 
 from pylons import config, request, tmpl_context as c
 from pylons.controllers.util import redirect
+from pylons.controllers.util import abort
 from pylons.decorators import validate
 from pylons.i18n import _
 
@@ -49,7 +50,7 @@ class ProposalCreateForm(ProposalNewForm):
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
-    geotag = validators.String(not_empty=False)
+    geotag = validators.String(if_empty=None, if_missing=None)
 
 
 class ProposalEditForm(formencode.Schema):
@@ -149,6 +150,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index_map(self, format="html"):
         require.proposal.index()
+        if not h.geo.use_maps():
+            raise abort(404)
 
         c.active_subheader_nav = 'map'
         c.query = self.form_result.get('proposals_q')

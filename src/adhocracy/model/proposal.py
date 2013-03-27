@@ -6,8 +6,6 @@ from sqlalchemy.orm import reconstructor, eagerload
 
 from geoalchemy import GeometryExtensionColumn, Geometry
 
-from pylons import config
-
 import meta
 import instance_filter as ifilter
 
@@ -236,7 +234,8 @@ class Proposal(Delegateable):
         return u"<Proposal(%s)>" % self.id
 
     def has_geotag(self):
-        assert config.get('adhocracy.proposal_geotags')
+        import adhocracy.lib.helpers.geo_helper as geo
+        assert geo.use_proposal_geotags()
         return self.geotag is not None
 
     def get_geojson_feature(self):

@@ -44,7 +44,7 @@ def format_json_feature_to_geotag(geotag):
 
     from geoalchemy.utils import to_wkt
 
-    if geotag == '':
+    if geotag is None or geotag == '':
         return None
 
     else:
@@ -81,5 +81,3 @@ def add_instance_props(instance, properties):
     properties['numProposals'] = instance.num_proposals
     properties['numPapers'] = num_pages(instance)
     properties['numMembers'] = instance.num_members
-
-

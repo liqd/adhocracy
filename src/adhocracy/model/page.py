@@ -1,7 +1,6 @@
 from datetime import datetime
 import logging
 
-from pylons import config
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
 from sqlalchemy import Integer, Unicode, Boolean
@@ -356,7 +355,8 @@ class Page(Delegateable):
         return u"<Page(%s)>" % (self.id)
 
     def has_geotag(self):
-        assert config.get('adhocracy.page_geotags')
+        import adhocracy.lib.helpers.geo_helper as geo
+        assert geo.use_page_geotags()
         return self.geotag is not None
 
     def depth(self):

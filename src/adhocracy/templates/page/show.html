@@ -97,7 +97,7 @@
     </ol>
     %endif
 
-    %if h.asbool(config.get('adhocracy.page_geotags')):
+    %if h.geo.use_page_geotags():
     <h3>${_("Map")}</h3>
     %if c.page.has_geotag():
         ${map.show_page_map(c.page.id)}

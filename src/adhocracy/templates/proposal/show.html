@@ -221,7 +221,7 @@ delegate_url = url if can.delegation.create() else None
 ${components.watch(c.proposal)}
 
 
-%if h.asbool(config.get('adhocracy.proposal_geotags')):
+%if h.geo.use_proposal_geotags():
     <h3>${_('Map')}</h3>
 %if c.proposal.has_geotag():
     ${map.show_single_proposal_map(c.proposal.id)}
