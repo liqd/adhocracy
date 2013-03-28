@@ -40,7 +40,9 @@
     <h3>${_("Information")}</h3>
     <div>
         ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
+      %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
     · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+      %endif
   </div>
   %if proposal.milestone and c.instance.milestones:
   <br/>

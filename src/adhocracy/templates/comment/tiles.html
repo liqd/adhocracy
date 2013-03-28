@@ -176,8 +176,10 @@
             </div>
             <div class="utility">
                 <span style="display: none;" class="hover_active">
+                    %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
                     <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
                     · 
+                    %endif
                     %if len(comment.revisions) > 1:
                     <span class="only-js"> 
                         ## FIXME: remove when we can support no-js clients.
