@@ -1,7 +1,6 @@
 ${_("The following message was sent to you by %s:") % c.user.name}
 
-${c.body}
-
+${c.body|n}
 
 --
 %if c.user.is_email_activated():
