@@ -160,6 +160,7 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'reset_code', 'adhocracy_')
             _set_optional(o, data, 'password', 'adhocracy_')
             _set_optional(o, data, 'banned', 'adhocracy_')
+            _set_optional(o, data, 'welcome_code', 'adhocracy_')
         if self._opt_badges:
             o.badges = list(map(self._badge_transform._get_by_key,
                                 data['badges']))
@@ -181,6 +182,7 @@ class UserTransform(_Transform):
                 'adhocracy_reset_code': o.reset_code,
                 'adhocracy_password': o.password,
                 'adhocracy_banned': o.banned,
+                'adhocracy_welcome_code': o.welcome_code,
             })
         if self._opt_badges:
             res['badges'] = [getattr(b, BadgeTransform._ID_KEY)
