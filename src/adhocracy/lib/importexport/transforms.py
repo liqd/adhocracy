@@ -140,6 +140,7 @@ class UserTransform(_Transform):
     def _create(self, data):
         assert self._opt_personal
         res = self._model_class.create(data['user_name'], data['email'])
+        res.activation_code = None
         if self._opt_welcome:
             res.initialize_welcome()
         return res
