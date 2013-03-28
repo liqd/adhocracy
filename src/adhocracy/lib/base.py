@@ -48,9 +48,7 @@ class BaseController(WSGIController):
                 config.get('adhocracy.monitor_page_time_interval', -1))
         if monitor_page_time_interval > 0:
             c.monitor_page_time_interval = monitor_page_time_interval
-            c.monitor_page_time_url = '%s?%s' % (
-                h.base_url('/stats/on_page'),
-                urllib.urlencode({'path': request.url}))
+            c.monitor_page_time_url = h.base_url('/stats/on_page')
 
         h.add_rss("%s News" % h.site.name(),
                   h.base_url('/feed.rss', None))
