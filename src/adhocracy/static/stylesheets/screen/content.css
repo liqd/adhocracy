@@ -1825,3 +1825,5 @@ dl.votedetail>dd {margin: 0; padding: 0;}
 .massmessage_preview dt, .massmessage_preview dd {line-height: inherit;}
 
 .message_preview_body {background: #ccc; white-space: pre-wrap; margin-bottom: 0.5em;}
+
+.importexport_settings {margin-left: 30px;}
