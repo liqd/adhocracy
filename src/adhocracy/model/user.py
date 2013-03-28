@@ -224,6 +224,12 @@ class User(meta.Indexable):
 
     password = property(_get_password, _set_password)
 
+    def initialize_welcome(self):
+        """ Sign up the user for the welcome feature (on user import or so) """
+        import adhocracy.lib.util as util
+        self.welcome_code = util.random_token()
+        self._password = None
+
     def current_agencies(self, instance_filter=True):
         ds = filter(lambda d: not d.is_revoked(), self.agencies)
         if ifilter.has_instance() and instance_filter:

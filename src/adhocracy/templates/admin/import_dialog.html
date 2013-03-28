@@ -16,6 +16,15 @@
             <input type="checkbox" name="include_user" checked="checked" />
             ${_("Import users")}
         </label>
+        %if c.welcome_enabled:
+        <div class="importexport_settings">
+            <div>
+                <label>
+                    <input type="checkbox" name="welcome" checked="checked" />
+                    ${_("Generate welcome codes")}
+                </label>
+            </div>
+        %endif
     </div>
     <div>
         <label>

@@ -135,10 +135,14 @@ class UserTransform(_Transform):
             self._ID_KEY = 'id'
         self._opt_password = self._options.get('user_password', False)
         self._opt_badges = self._options.get('include_badge', False)
+        self._opt_welcome = self._options.get('welcome', False)
 
     def _create(self, data):
         assert self._opt_personal
-        return self._model_class.create(data['user_name'], data['email'])
+        res = self._model_class.create(data['user_name'], data['email'])
+        if self._opt_welcome:
+            res.initialize_welcome()
+        return res
 
     def _modify(self, o, data):
         assert self._opt_personal
