@@ -501,7 +501,7 @@ $(document).ready(function () {
         $(window).blur( function() { window_is_active = false });
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            $.get(page_stats_baseurl + '&window_is_active=' + window_is_active,
+            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href) + '&window_is_active=' + window_is_active,
                     null, setOnPageTimeout);
         };
         var setOnPageTimeout = function() {
