@@ -59,7 +59,7 @@ setup(
         "python-memcached>=1.45",
         "sunburnt==0.6",
         "PIL>=1.1.6",
-        "secure-Markdown>2.2.1",
+        "Markdown>=2.3",
         "lxml>=2.2.6",
         "Mako>=0.7.3",
         "MarkupSafe>=0.15",
