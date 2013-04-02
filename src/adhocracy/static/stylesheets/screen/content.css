@@ -325,9 +325,9 @@ li.content_box .base {
   margin-bottom: 0px;
 }
 
-.pro, .contra { font-size: 14px; }
+.pro, .con { font-size: 14px; }
 .pro, ins { color: darkgreen; }
-.contra, del, .countdown.highlight { color: darkred; }
+.con, del, .countdown.highlight { color: darkred; }
 
 .close { display: none; }
 .open { display: block; }
