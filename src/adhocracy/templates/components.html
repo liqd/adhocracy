@@ -78,7 +78,7 @@
 </%def>
 
 
-<%def name="watch(entity)">
+<%def name="watch(entity, id=None)">
     ## FIXME: turn into an ajax call
     %if c.user:
     <%
@@ -98,6 +98,10 @@
         follow_text = _("Follow Tag")
     else:
         log.error('Unknown entity for watch button: %s' % entity)
+    if id is None:
+        id_attr = ''
+    else:
+        id_attr = 'id=%s'%id
 
     skip = False
     watch = h.find_watch(entity)
@@ -125,7 +129,7 @@
         </%doc>
     </div>
     %else:
-    <a class="follow_paper ${css_cls}" href="${href}"
+    <a ${id_attr} class="follow_paper ${css_cls}" href="${href}"
        data-text="${text}" data-hover-text="${hover_text}">${text}</a>
     %endif
 
