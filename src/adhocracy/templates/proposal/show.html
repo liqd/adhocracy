@@ -166,7 +166,7 @@ delegate_url = url if can.delegation.create() else None
         <p>${_('tutorial_proposal_show_vote')}</p>
     </li>
 
-    <li data-id="col3_content"
+    <li data-id="follow_proposal"
         data-tip-location="top left" class="custom">
         <p>${_('tutorial_proposal_show_follow')}</p>
     </li>
@@ -219,7 +219,7 @@ delegate_url = url if can.delegation.create() else None
 
 <%block name="sidebar">
 
-${components.watch(c.proposal)}
+${components.watch(c.proposal, id='follow_proposal')}
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>
