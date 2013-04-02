@@ -2,7 +2,6 @@
 
 from __future__ import print_function
 
-import codecs
 import optparse
 import os
 import re
@@ -29,7 +28,7 @@ def process_file(fn, on_error):
         try:
             absfn = os.path.abspath(fn)
             content = f.read().decode('utf-8')
-        except UnicodeDecodeError as e:
+        except UnicodeDecodeError:
             on_error(absfn + ' is not UTF-8')
             return False
 
