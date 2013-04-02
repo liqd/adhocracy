@@ -3,7 +3,6 @@
 Provides the BaseController class for subclassing.
 """
 import logging
-import urllib
 
 from paste.deploy.converters import asbool, asint
 from pylons import config
@@ -49,6 +48,9 @@ class BaseController(WSGIController):
         if monitor_page_time_interval > 0:
             c.monitor_page_time_interval = monitor_page_time_interval
             c.monitor_page_time_url = h.base_url('/stats/on_page')
+
+        if asbool(config.get('adhocracy.monitor_external_links', 'False')):
+            c.monitor_external_links_url = h.base_url('/stats/record_external')
 
         h.add_rss("%s News" % h.site.name(),
                   h.base_url('/feed.rss', None))

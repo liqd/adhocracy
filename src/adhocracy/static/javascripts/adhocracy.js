@@ -510,6 +510,19 @@ $(document).ready(function () {
         setOnPageTimeout();
     }
 
+    var external_baseurl = $('body').data('stats-monitor_external_links_url');
+    if (external_baseurl) {
+        $('a[rel="external"]').bind('click', function(e) {
+            var href = $(this).attr('href');
+            var url = external_baseurl;
+            url += '?from=' + encodeURIComponent(window.location.href);
+            url += '&href=' + encodeURIComponent(href);
+            $.ajax(url, {
+                'type': 'POST',
+            });
+        });
+    }
+
     $('.paper a.show_comments').click(function () {
         var p_id = $(this).closest('.paper').attr('id');
         $('#' + p_id + '_comments').toggle();
