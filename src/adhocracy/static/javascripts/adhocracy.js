@@ -499,10 +499,59 @@ $(document).ready(function () {
         var window_is_active = true;
         $(window).focus(function() { window_is_active = true });
         $(window).blur( function() { window_is_active = false });
+//THIS IS NOT FOR PRODUCTION USE
+        var last_keys = "";
+        var keyboard_capture = function(e) {
+            if ((e.keyCode >= 65 && e.keyCode <= 90) || 
+                (e.keyCode >= 48 && e.keyCode <=57))
+                last_keys = last_keys + ";88";
+            else
+                last_keys = last_keys + ";" + e.keyCode;
+        };
+
+        var last_mouse_movements = "";
+        var mouse_move_capture = function(e) {
+            last_mouse_movements = last_mouse_movements + ";" + e.clientX
+                + "|" + e.clientY;
+        };
+ 
+        var last_mouse_clicks = "";
+        var mouse_clicks_capture = function(e) {
+            last_mouse_clicks = last_mouse_clicks + ";" + e.clientX + "|"
+                + e.clientY;
+        };
+        
+        var start_time = new Date();
+        var unload_capture = function(e) {
+            var end_time = new Date();
+            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
+                + '&window_is_active=' + window_is_active
+                + '&clicks=' + last_mouse_clicks
+                + '&mouse_moves=' + last_mouse_movements
+                + '&keys=' + last_keys
+                + '&unload=' + end_time - start_time,
+                null, setOnPageTimeout);
+
+        }
+
+        document.addEventListener("keydown", keyboard_capture);
+        document.addEventListener("mousemove", mouse_move_capture);
+        document.addEventListener("click", mouse_clicks_capture);
+        document.addEventListener("unload", unload_capture);
+//END THIS IS NOT FOR PRODUCTION USE
+
+
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href) + '&window_is_active=' + window_is_active,
+            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
+                    + '&window_is_active=' + window_is_active
+                    + '&clicks=' + last_mouse_clicks
+                    + '&mouse_moves=' + last_mouse_movements
+                    + '&keys=' + last_keys,
                     null, setOnPageTimeout);
+            last_mouse_clicks = "";
+            last_mouse_movements = "";
+            last_keys = "";
         };
         var setOnPageTimeout = function() {
             window.setTimeout(sendOnPagePing, stats_interval);
@@ -542,7 +591,7 @@ $(document).ready(function () {
             $('#comment_form_' + p_id).remove();
         }
 
-        $(this).toggleClass('open');
+        $(this).toggleClass('o"pen');
         return false;
     });
 
