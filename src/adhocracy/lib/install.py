@@ -157,5 +157,6 @@ def setup_entities(config, initial_setup):
                 fb.allow_adopt = False
                 fb.allow_delegate = False
                 fb.hide_global_categories = True
+                fb.require_valid_email = False
 
     model.meta.Session.commit()
