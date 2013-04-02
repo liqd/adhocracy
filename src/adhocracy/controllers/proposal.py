@@ -22,6 +22,7 @@ from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
+from adhocracy.lib.helpers import flash
 
 import adhocracy.lib.text as text
 
@@ -81,6 +82,11 @@ class ProposalController(BaseController):
     def __init__(self):
         super(ProposalController, self).__init__()
         c.active_subheader_nav = 'proposals'
+
+    def __before__(self):
+        if c.instance.frozen:
+            flash(_("This instance is currently frozen. You are currently "
+                "not able to edit it."))
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)

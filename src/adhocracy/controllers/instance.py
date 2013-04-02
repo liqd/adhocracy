@@ -24,6 +24,7 @@ from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.helpers import flash
 
 
 log = logging.getLogger(__name__)
@@ -156,6 +157,14 @@ class InstanceSnameEditForm(formencode.Schema):
 # --[ Controller ]----------------------------------------------------------
 
 class InstanceController(BaseController):
+
+    def __before__(self):
+        if c.instance is None:
+            pass
+        else:
+            if c.instance.frozen:
+               flash(_("This instance is currently frozen. You are "
+                    "currently not able to edit it."))
 
     def index(self, format="html"):
         require.instance.index()

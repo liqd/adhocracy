@@ -24,7 +24,7 @@ from adhocracy.lib.text.diff import (norm_texts_inline_compare,
 from adhocracy.lib.text.render import render_line_based, render as render_text
 import adhocracy.lib.text as libtext
 from adhocracy.lib.util import get_entity_or_abort
-
+from adhocracy.lib.helpers import flash
 
 log = logging.getLogger(__name__)
 
@@ -86,6 +86,11 @@ class PageDiffForm(formencode.Schema):
 
 
 class PageController(BaseController):
+
+    def __before__(self):
+        if c.instance.frozen:
+            flash(_("This instance is currently frozen. You are "
+                "currently not able to edit it."))
 
     def __init__(self):
         super(PageController, self).__init__()
