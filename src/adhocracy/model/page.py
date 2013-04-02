@@ -187,6 +187,12 @@ class Page(Delegateable):
             return head.history
         return []
 
+    def variant_changes_count(self, variant):
+        head = self.variant_head(variant)
+        if head:
+            return head.history_q().count() - 1
+        return 0
+
     def variant_comments(self, variant):
         return [c for c in self.comments if
                 ((not c.is_deleted()) and c.variant == variant)]

@@ -69,15 +69,18 @@ class Text(object):
             page.establish_variant(variant, user)
         return _text
 
-    @property
-    def history(self, include_deleted=False):
+    def history_q(self, include_deleted=False):
         texts_q = meta.Session.query(Text).filter(
             Text.page_id == self.page_id, Text.variant == self.variant)
         if not include_deleted:
             texts_q = texts_q.filter(
                 or_(Text.delete_time == None,  # noqa
                     Text.delete_time > datetime.now()))
-        return texts_q.all()
+        return texts_q
+
+    @property
+    def history(self, include_deleted=False):
+        return self.history_q().all()
 
     def delete(self, delete_time=None):
         if delete_time is None:

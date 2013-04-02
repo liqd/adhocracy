@@ -269,7 +269,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
 created_msg = _("by %s on %s, %s changes since then.") % (
     h.user.link(c.proposal.creator), 
     h.format_date(c.proposal.create_time),
-    len(c.proposal.description.variant_history(model.Text.HEAD)))
+    c.proposal.description.variant_changes_count(model.Text.HEAD))
 %>
     ${created_msg|n}
     </p>
