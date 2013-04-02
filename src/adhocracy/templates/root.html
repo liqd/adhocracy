@@ -84,6 +84,14 @@
       </div>
     </div>
     %endif
+    %if c.instance and c.instance.frozen:
+    <div class="overlay">
+      <a class="close"></a>
+      <div class="contentWrap">
+      ${_('This instance has been frozen - you can not edit or post anything.')}
+      </div>
+    </div>
+    %endif
   <!-- begin: header -->
   <header>
     <div id="header">

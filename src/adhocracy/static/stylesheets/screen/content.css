@@ -580,7 +580,13 @@ body.logged_in #nav li a {
 }
 
 #flash_message p.register_msg {
-  line-height: 27px;g
+  line-height: 27px;
+}
+#flash_message .attention-frozen {
+  text-align: center;
+  font-size: 140%;
+  background: #fffbd0;
+  padding: 5px 0;
 }
 
 /* info box and overlay */
