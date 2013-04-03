@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-04-03 13:05+0200\n"
-"PO-Revision-Date: 2013-04-03 11:40+0000\n"
-"Last-Translator: phihag <phihag@phihag.de>\n"
+"PO-Revision-Date: 2013-04-03 12:31+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgid "Solr index updated."
 msgstr "Solr Index aktualisiert."
 
 msgid "Welcoming requested, but not enabled"
-msgstr ""
+msgstr "Welcoming angefragt, aber nicht aktiviert"
 
 msgid "In all instances"
 msgstr "In allen Gruppen"
@@ -150,7 +150,7 @@ msgid "Badges"
 msgstr "Badges"
 
 msgid "Mass message service"
-msgstr "Massennachrichten Service."
+msgstr "Benachrichtigungsdienst"
 
 msgid "Members import"
 msgstr "Mitglieder importieren"
@@ -216,7 +216,7 @@ msgstr "Nicht erlaubt in den Systemeinstellungen."
 
 #, python-format
 msgid "Could not render message: %s"
-msgstr ""
+msgstr "Nachricht konnte nicht gerendert werden: %s"
 
 #, python-format
 msgid "Message sent to %d users."
@@ -260,7 +260,7 @@ msgid "Successfully removed OpenID from account"
 msgstr "OpenID erfolgreich vom Nutzerkonto entfernt"
 
 msgid "OpenID login has been disabled on this installation"
-msgstr ""
+msgstr "OpenID-Login ist in dieser Installation deaktiviert."
 
 msgid "OpenID login failed."
 msgstr "OpenID-Anmeldung ist fehlgeschlagen."
@@ -427,7 +427,7 @@ msgstr "Die angeforderte Seite wurde nicht gefunden."
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
-msgstr ""
+msgstr "Tag \"%s\" wurde entfernt von %s \"%s%."
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -452,7 +452,7 @@ msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
 
 msgid "Password has been set. Have fun!"
-msgstr ""
+msgstr "Passwort gesetzt. Viel Spaß!"
 
 msgid "There is no user registered with that email address."
 msgstr "Unter dieser E-Mail-Adresse ist kein/e BenutzerIn angemeldet."
@@ -545,7 +545,7 @@ msgid "%s is banned from the system."
 msgstr "%s ist aus dem System ausgeschlossen."
 
 msgid "You already have a password - use that to log in."
-msgstr ""
+msgstr "Sie haben bereits ein Passwort - nutzen Sie dieses, um sich einzuloggen."
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Hierfür existiert bereits ein Eintrag auf der Beobachtungsliste."
@@ -1306,7 +1306,7 @@ msgid "Following"
 msgstr "Wird gefolgt"
 
 msgid "Unfollow"
-msgstr "entfolgen"
+msgstr "Nicht mehr folgen"
 
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
@@ -1436,13 +1436,13 @@ msgstr "Sortieren:"
 
 #, python-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Willkommen bei %s!"
 
 msgid "Please choose a password:"
-msgstr ""
+msgstr "Bitte wählen Sie ein Passwort:"
 
 msgid "Set Password"
-msgstr ""
+msgstr "Passwort setzen"
 
 msgid "Get an account to participate in the discussion."
 msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
@@ -1476,7 +1476,7 @@ msgid "Edit profile"
 msgstr "Profil editieren"
 
 msgid "This instance has been frozen - you can not edit or post anything."
-msgstr ""
+msgstr "Diese Gruppe ist eingefroren - Bearbeiten oder Hinzufügen von neuen Beiträgen ist nicht möglich."
 
 msgid ""
 "You need to set an email in your profile in order to contribute to this "
@@ -1578,7 +1578,7 @@ msgid "Import users"
 msgstr "User importieren"
 
 msgid "Generate welcome codes"
-msgstr ""
+msgstr "Generiere Einladungs-Tokens"
 
 msgid "Import badges"
 msgstr "Badges importieren"
@@ -2366,21 +2366,21 @@ msgstr[0] "%s Beschluss"
 msgstr[1] "%s Beschlüsse"
 
 msgid "Send mass message"
-msgstr "Massennachricht versenden"
+msgstr "Benachrichtigung versenden"
 
 msgid ""
 "Please note that only users with verified email addresses and activated "
 "newsservice will receive this message per email."
-msgstr ""
+msgstr "Bitte beachten Sie, dass nur User mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
 
 msgid "Filter users ..."
-msgstr ""
+msgstr "Benutzer filtern ..."
 
 msgid "... by instance:"
-msgstr ""
+msgstr ".. nach Gruppe"
 
 msgid "... by badge:"
-msgstr ""
+msgstr ".. nach Badge:"
 
 msgid "Subject"
 msgstr "Betreff"
@@ -2389,20 +2389,20 @@ msgid "Body"
 msgstr "Hauptteil"
 
 msgid "Use {email}, {name}, {salutation} to address the user directly."
-msgstr ""
+msgstr "Verwenden Sie {email}, {name}, {salutation}, um den Benutzer direkt anzusprechen."
 
 msgid "Sender identity"
 msgstr "Versender Identität"
 
 msgid "Mass Message Preview"
-msgstr ""
+msgstr "Benachrichtigung versenden: Vorschau"
 
 #, python-format
 msgid "You're about to send the following message to %s recipients:"
-msgstr ""
+msgstr "Sie sind dabei, die folgende Nachricht an %s Empfänger/innen zu senden:"
 
 msgid "The message will go to the following users:"
-msgstr ""
+msgstr "Die Nachricht wird an die folgende User gesendet:"
 
 #, python-format
 msgid "Message %s"
