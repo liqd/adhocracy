@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # Benjamin Claverie <ben@skl8em.com>, 2010.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009,2012.
 # Iwan Gabovitch <qubodup@gmail.com>, 2012.
 # <ryel33@gmail.com>, 2012.
 #   <ryel33@gmail.com>, 2012.
+# Руслан <nasretdinov.r.r@ya.ru>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-18 01:48+0100\n"
-"PO-Revision-Date: 2013-02-18 00:49+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-04-03 13:05+0200\n"
+"PO-Revision-Date: 2013-04-03 11:05+0000\n"
+"Last-Translator: Wawe <transifex.com@jroene.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "Thank you for helping."
-msgstr "благодарим за помощь"
+msgstr "Благодарим за помощь."
 
 msgid "Please insert a subject for the mail we will send to the users."
 msgstr ""
@@ -31,19 +32,25 @@ msgstr ""
 msgid "Please insert a template for the mail we will send to the users."
 msgstr ""
 
-msgid "In all instances"
+msgid "Solr index updated."
 msgstr ""
+
+msgid "Welcoming requested, but not enabled"
+msgstr ""
+
+msgid "In all instances"
+msgstr "Во все инстанции"
 
 #, python-format
 msgid "In instance \"%s\""
-msgstr ""
+msgstr "В организации \"%s\""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr "мы не можем найти ярлык с номером %s"
+msgstr "Мы не можем найти ярлык с номером %s"
 
 msgid "Badge changed successfully"
-msgstr "ярлык изменен успешно"
+msgstr "Ярлык изменён успешно"
 
 msgid "oldest"
 msgstr "более старые"
@@ -61,7 +68,7 @@ msgstr "Коментарий был удален"
 msgid ""
 "You're trying to revert to a revision which is not part of this comment's "
 "history"
-msgstr ""
+msgstr "Вы пытаетесь вернуть отсутствующую в истории этого комментария версию"
 
 msgid "The comment has been reverted."
 msgstr "коментарий переписан"
@@ -72,7 +79,7 @@ msgid ""
 msgstr ""
 
 msgid "The comment revision has been deleted."
-msgstr ""
+msgstr "Версия комментария удалена"
 
 msgid "Wrong topic"
 msgstr "Не верная тема"
@@ -110,7 +117,7 @@ msgid "No update required."
 msgstr ""
 
 msgid "Instance created successfully. You can now configure it as you like."
-msgstr ""
+msgstr "Вы создали новую организацию. Вы можете настроить её на своё усмотрение."
 
 msgid "Delegations are enabled."
 msgstr ""
@@ -122,25 +129,28 @@ msgid "tutorial_instance_show_intro"
 msgstr ""
 
 msgid "General"
-msgstr ""
+msgstr "Общее"
 
 msgid "Appearance"
 msgstr ""
 
 msgid "Contents"
-msgstr ""
+msgstr "Содержание"
 
 msgid "Votings"
-msgstr ""
+msgstr "Голосования"
 
 msgid "Badges"
 msgstr "Ярлыки"
 
-msgid "Members import"
+msgid "Mass message service"
 msgstr ""
 
+msgid "Members import"
+msgstr "Импорт участников"
+
 msgid "The logo has been deleted."
-msgstr ""
+msgstr "Логотип удалён"
 
 msgid "No delay"
 msgstr "Нет задержки"
@@ -189,6 +199,23 @@ msgstr "Вы покинули %(instance)s"
 msgid "You cannot manipulate one instance from within another instance."
 msgstr "Вы не можете управлять одной организации, находясь в другой. "
 
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr ""
+
+msgid "Email isn't activated"
+msgstr ""
+
+msgid "Not permitted in system settings"
+msgstr ""
+
+#, python-format
+msgid "Could not render message: %s"
+msgstr ""
+
+#, python-format
+msgid "Message sent to %d users."
+msgstr ""
+
 #, python-format
 msgid "[%s] Message from %s: %s"
 msgstr "[%s] Сообщение от  %s: %s"
@@ -224,6 +251,9 @@ msgid "You're not authorized to change %s's settings."
 msgstr "У Вас нет полномочий изменять установки %s."
 
 msgid "Successfully removed OpenID from account"
+msgstr "OpenID удалён"
+
+msgid "OpenID login has been disabled on this installation"
 msgstr ""
 
 msgid "OpenID login failed."
@@ -237,7 +267,7 @@ msgid "OpenID %s already belongs to %s."
 msgstr "Открытый ID %s уже принадлежит %s."
 
 msgid "Successfully added OpenID to user account."
-msgstr ""
+msgstr "OpenID добавлен"
 
 #, python-format
 msgid ""
@@ -245,11 +275,11 @@ msgid ""
 "belongs to a different user account. Please login with that account or use "
 "the forgot password functionality, and add the OpenID in your user profile "
 "settings afterwards. Sorry for the inconvenience."
-msgstr ""
+msgstr "E-mail адрес %s, принадлежащий этому OpenID, уже используется другим аккаунтом. Войдите от своего имени и добавьте OpenID в настройках профиля."
 
 #, python-format
 msgid "Successfully created new user account %s"
-msgstr ""
+msgstr "Аккаунт \"%s\" успешно создан"
 
 msgid "Justin Case has entered the room."
 msgstr "Джастин Кейс вошел в комнату. "
@@ -317,10 +347,10 @@ msgid "The variant %s has been deleted."
 msgstr "Вариант %s удален. "
 
 msgid "Cannot delete, if there's only one version"
-msgstr ""
+msgstr "Невозможно удалить единственную версию"
 
 msgid "The selected version has been deleted."
-msgstr ""
+msgstr "Выбранная версия удалена"
 
 #, python-format
 msgid "The page %s has been deleted."
@@ -377,8 +407,21 @@ msgstr "Вставка в %s удалена"
 msgid "Page not Found"
 msgstr "Страница не найдена"
 
+msgid "Page does already exist. Select another key or language."
+msgstr ""
+
+msgid "Page updated"
+msgstr ""
+
+msgid "Cannot find static page to edit"
+msgstr ""
+
 msgid "The requested page was not found"
 msgstr "Искомая страница не найдена. "
+
+#, python-format
+msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr ""
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -397,9 +440,12 @@ msgid "tutorial_user_index_intro"
 msgstr ""
 
 msgid "Sorry, registration has been disabled by administrator."
-msgstr ""
+msgstr "Регистрация запрещена администратором. Приносим свои извинения за неудобства."
 
 msgid "Sorry, but we don't accept registrations with this email address."
+msgstr ""
+
+msgid "Password has been set. Have fun!"
 msgstr ""
 
 msgid "There is no user registered with that email address."
@@ -412,7 +458,7 @@ msgstr "Вы запросили новый пароль. Для того, что
 
 #, python-format
 msgid "Your user name to login is: %s"
-msgstr ""
+msgstr "Ваш логин: %s"
 
 msgid "Reset your password"
 msgstr "Поменять пароль"
@@ -434,14 +480,14 @@ msgid ""
 msgstr "Код восстановления недействителен. Пожалуйста повторите процедуру восстановления пароля. "
 
 msgid "Thank you, The address is already activated."
-msgstr ""
+msgstr "Спасибо. Этот адрес уже активирован"
 
 msgid "The activation code is invalid. Please have it resent."
 msgstr "Сообщение с описанием происшедшего было выслано нашим разработчикам.  "
 
 #, python-format
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Добро пожаловать в %s"
 
 msgid "Your email has been confirmed."
 msgstr "Ваш емаил был подтвержден"
@@ -449,8 +495,17 @@ msgstr "Ваш емаил был подтвержден"
 msgid "The activation link has been re-sent to your email address."
 msgstr "Ссылка активации послана на Вашу электронную почту. "
 
+msgid "Invalid login"
+msgstr ""
+
+msgid "Invalid email / user name or password"
+msgstr ""
+
 msgid "Invalid user name or password"
 msgstr "Недействительное имя пользователя или пароль. "
+
+msgid "Invalid email or password"
+msgstr ""
 
 msgid "tutorial_dashboard_title"
 msgstr ""
@@ -465,7 +520,7 @@ msgid "The account has been deleted."
 msgstr "Учетная запись удалена. "
 
 msgid "Invalid badge choice."
-msgstr ""
+msgstr "Неверный выбор ярлыка"
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -482,6 +537,9 @@ msgstr "%s не является участником %s "
 #, python-format
 msgid "%s is banned from the system."
 msgstr "%s забанен в системе"
+
+msgid "You already have a password - use that to log in."
+msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "запись в списке наблюдения для этого объекта уже существует"
@@ -506,7 +564,7 @@ msgid "That email is already registered"
 msgstr "Этот адрес электронной почты уже зарегистрирован"
 
 msgid "That email is already used by another account"
-msgstr ""
+msgstr "Этот e-mail уже используется другим аккаунтом"
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Недействительная дата, требуется формат DD.MM.YYYY"
@@ -524,6 +582,12 @@ msgstr "Ключ организации не действителен. "
 
 msgid "An instance with that key already exists"
 msgstr "Организация с таким ключем уже существует. "
+
+msgid "No static key is given"
+msgstr ""
+
+msgid "The static key is invalid"
+msgstr ""
 
 #, python-format
 msgid "No entity with ID '%s' exists"
@@ -545,11 +609,18 @@ msgid "At least one character is required"
 msgstr "Требуется по крайней мере один значок."
 
 msgid "You're not allowed to edit global badges"
-msgstr ""
+msgstr "Вы не можете редактировать глобальные ярлыки"
 
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Не существует ярлыка с ID '%s'."
+
+msgid "Duplicates in input set of user badge IDs"
+msgstr ""
+
+#, python-format
+msgid "Could not find badges %s"
+msgstr ""
 
 #, python-format
 msgid "Cannot use global category %s in this instance"
@@ -557,6 +628,12 @@ msgstr ""
 
 #, python-format
 msgid "Badge with ID '%s' not valid in this instance"
+msgstr "Ярлык под номером %s не подходит к этой организации"
+
+msgid "Parent and child category instance have to match"
+msgstr ""
+
+msgid "You shall not create cycles!"
 msgstr ""
 
 #, python-format
@@ -647,13 +724,13 @@ msgstr "Строка %s: %s"
 msgid ""
 "You need to insert the following placeholders into the email text so we can "
 "insert enough information for the user: %s"
+msgstr "Вставьте следующий текст в письмо, чтобы мы могли предоставить достаточно информации для пользователя %s"
+
+msgid "Please select at least one instance"
 msgstr ""
 
-msgid "Today"
-msgstr "Сегодня"
-
-msgid "Yesterday"
-msgstr "Вчера"
+msgid "Disallowed instance selected"
+msgstr ""
 
 #, python-format
 msgid "%d days"
@@ -737,6 +814,15 @@ msgstr "Это письмо является проверкой предоста
 msgid "Confirm your email address"
 msgstr "Подтвердите Ваш адрес электронной почты. "
 
+msgid "Dear Ms."
+msgstr ""
+
+msgid "Dear Mr."
+msgstr ""
+
+msgid "Dear"
+msgstr ""
+
 msgid "activity"
 msgstr "активность"
 
@@ -744,7 +830,7 @@ msgid "newest comment"
 msgstr "новейшие коментарии"
 
 msgid "most support"
-msgstr ""
+msgstr "самые поддерживаемые"
 
 msgid "mixed"
 msgstr "разное"
@@ -759,10 +845,10 @@ msgid "hierarchical"
 msgstr ""
 
 msgid "Badge"
-msgstr ""
+msgstr "Ярлык"
 
 msgid "Instance"
-msgstr ""
+msgstr "Организация"
 
 msgid "Categories"
 msgstr "Категории"
@@ -777,28 +863,28 @@ msgid "Milestones"
 msgstr "Сроки"
 
 msgid "Oldest"
-msgstr ""
+msgstr "Старые"
 
 msgid "Newest"
-msgstr ""
+msgstr "Новые"
 
 msgid "Newest Comment"
-msgstr ""
+msgstr "Последние комментарии"
 
 msgid "Activity"
 msgstr "Активность"
 
 msgid "Alphabetically"
-msgstr ""
+msgstr "По алфавиту"
 
 msgid "Most Support"
-msgstr ""
+msgstr "Самые поддерживаемые"
 
 msgid "Yays - nays"
 msgstr ""
 
 msgid "Most Votes"
-msgstr ""
+msgstr "Где больше голосов"
 
 msgid "Yays + nays"
 msgstr ""
@@ -810,32 +896,28 @@ msgid "Most Nays"
 msgstr ""
 
 msgid "Mixed"
-msgstr ""
+msgstr "Смешано"
 
 msgid "Age and Support"
 msgstr ""
 
 msgid "Rating"
-msgstr ""
+msgstr "Рейтинг"
 
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 msgid "User behavior"
 msgstr ""
 
 msgid "Other"
-msgstr ""
+msgstr "Другое"
 
 msgid "Support"
-msgstr ""
+msgstr "Поддержка"
 
 msgid "Newest Proposals"
 msgstr "Последние предложения"
-
-#, python-format
-msgid "Missing page: %s"
-msgstr "Страница отсутствует: %s"
 
 #, python-format
 msgid "Could not find the entity '%s'"
@@ -1131,6 +1213,9 @@ msgstr "Реализация"
 msgid "Adhocracy"
 msgstr "Adhocracy"
 
+msgid "delete"
+msgstr "удалить"
+
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (удаленный пользователь)"
@@ -1218,15 +1303,24 @@ msgid "Unfollow"
 msgstr "Не следует "
 
 msgid "Send us your feedback"
-msgstr ""
+msgstr "Отправить отзыв"
 
 msgid "One line summary"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Отправить"
 
 msgid "List existing feedback"
+msgstr ""
+
+msgid "Proposal Category"
+msgstr "категория предложения"
+
+msgid "No Category"
+msgstr "нет категории"
+
+msgid "Others"
 msgstr ""
 
 msgid "code of conduct"
@@ -1282,7 +1376,7 @@ msgid "Edit Profile"
 msgstr "Редактировать профиль"
 
 msgid "View Profile"
-msgstr ""
+msgstr "Просмотр профиля"
 
 msgid "Administrate Site"
 msgstr "Администрация Сайта"
@@ -1291,7 +1385,7 @@ msgid "Logout"
 msgstr "Выйти"
 
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 msgid "Search"
 msgstr "Поиск"
@@ -1326,19 +1420,29 @@ msgid "entries"
 msgstr "записи"
 
 msgid "Filter list"
+msgstr "Список фильтров"
+
+msgid "reset"
 msgstr ""
 
-msgid "Remove all"
-msgstr "Удалить все"
-
-msgid "remove"
-msgstr "удалить"
-
 msgid "Sort:"
+msgstr "Сортировка:"
+
+#, python-format
+msgid "Welcome to %s!"
+msgstr ""
+
+msgid "Please choose a password:"
+msgstr ""
+
+msgid "Set Password"
 msgstr ""
 
 msgid "Get an account to participate in the discussion."
 msgstr "Завести аккаунт для участие в обсуждении"
+
+msgid "Log in to participate in the discussion."
+msgstr ""
 
 msgid "Register"
 msgstr "Зарегистрироваться"
@@ -1357,12 +1461,15 @@ msgstr ""
 
 #, python-format
 msgid "Resend validation email to %s"
-msgstr ""
+msgstr "Отправить подтверждение на %s заново"
 
 msgid "Send activation link"
-msgstr ""
+msgstr "Получить код активации"
 
 msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+msgid "This instance has been frozen - you can not edit or post anything."
 msgstr ""
 
 msgid ""
@@ -1401,6 +1508,9 @@ msgstr "Сумма <a href=\"%(url)s\">%(votes)s голосований </a>, и
 msgid "Votes"
 msgstr "Голоса"
 
+msgid "Votes by User Group"
+msgstr ""
+
 msgid "Shortlink"
 msgstr "Короткая ссылка"
 
@@ -1417,19 +1527,19 @@ msgid "Send"
 msgstr "Послать"
 
 msgid "Export"
-msgstr ""
+msgstr "Экспорт"
 
 msgid "Export users"
-msgstr ""
+msgstr "Экспорт пользователей"
 
 msgid "Include personal data"
-msgstr ""
+msgstr "Включить данные пользователя"
 
 msgid "Include password hashes"
-msgstr ""
+msgstr "Включить хэш паролей"
 
 msgid "Export badges"
-msgstr ""
+msgstr "Экспорт ярлыков"
 
 msgid "Export content (instances)"
 msgstr ""
@@ -1450,19 +1560,22 @@ msgid "JSON"
 msgstr ""
 
 msgid "ZIP download"
-msgstr ""
+msgstr "Скачать ZIP"
 
 msgid "Export Now"
-msgstr ""
+msgstr "НАЧАТЬ ЭКСПОРТ"
 
 msgid "Import"
-msgstr ""
+msgstr "Импорт"
 
 msgid "Import users"
+msgstr "Импорт пользователей"
+
+msgid "Generate welcome codes"
 msgstr ""
 
 msgid "Import badges"
-msgstr ""
+msgstr "Импорт ярлыков"
 
 msgid "Import content (instances)"
 msgstr ""
@@ -1474,25 +1587,25 @@ msgid "Update duplicate entries"
 msgstr ""
 
 msgid "Skip duplicate entries"
-msgstr ""
+msgstr "Пропустить дубликаты"
 
 msgid "File to import:"
-msgstr ""
+msgstr "Файл импорта:"
 
 msgid "Detect"
 msgstr ""
 
 msgid "ZIP"
-msgstr ""
+msgstr "ZIP"
 
 msgid "Import Now"
-msgstr ""
+msgstr "НАЧАТЬ ИМПОРТ"
 
 msgid "Import successfully performed."
-msgstr ""
+msgstr "Импорт завершён"
 
 msgid "back to main page"
-msgstr ""
+msgstr "Возврат на главную"
 
 msgid "Admin: Group Permissions"
 msgstr "Администратор: права пользовательских групп. "
@@ -1512,12 +1625,18 @@ msgid "Permissions"
 msgstr "Права"
 
 msgid "All Events"
-msgstr ""
+msgstr "Все события"
 
 msgid "Import Users"
 msgstr "Импортировать список пользователей"
 
 msgid "Update Search Index"
+msgstr "Проиндексировать"
+
+msgid "Static Pages"
+msgstr ""
+
+msgid "Send an email to users"
 msgstr ""
 
 msgid "Site administration"
@@ -1541,19 +1660,19 @@ msgid "Email Template"
 msgstr "Макет письма"
 
 msgid "The name with which the user can log in."
-msgstr ""
+msgstr "Имя, используемое для входа"
 
 msgid "The initial password for the user."
-msgstr ""
+msgstr "Первоначальный пароль пользователя"
 
 msgid "An URL for the user to activate his account."
-msgstr ""
+msgstr "Ссылка для активации аккаунта"
 
 msgid "The name that will be displayed to other users."
-msgstr ""
+msgstr "Имя, которое видят другие пользователи"
 
 msgid "The email address of the user."
-msgstr ""
+msgstr "E-mail адрес пользователя"
 
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
@@ -1561,10 +1680,10 @@ msgid ""
 msgstr ""
 
 msgid "Required"
-msgstr ""
+msgstr "Требуется"
 
 msgid "Optional"
-msgstr ""
+msgstr "Дополнительно"
 
 msgid "Imported Users"
 msgstr "импортированные пользователи"
@@ -1591,25 +1710,25 @@ msgid "These users where created, but we could not send out mails:"
 msgstr "Данные учетные записи были созданы, но мы не смогли послать им письма:"
 
 msgid "Add instance badge"
-msgstr ""
+msgstr "Добавить ярлык организации"
 
 msgid "Add user badge"
-msgstr ""
+msgstr "Добавить ярлык пользователя"
 
 msgid "Add delegateable badge"
 msgstr ""
 
 msgid "Add category badge"
-msgstr ""
+msgstr "Добавить ярлык категории"
 
 msgid "Edit user badge"
-msgstr ""
+msgstr "Изменить ярлык пользователя"
 
 msgid "Edit delegateable badge"
 msgstr ""
 
 msgid "Edit category badge"
-msgstr ""
+msgstr "Изменить ярлык категории"
 
 msgid "Badge title"
 msgstr "Название ярлыка"
@@ -1624,13 +1743,13 @@ msgid "Like '#a4a4a4'"
 msgstr "по типу '#a4a4a4'"
 
 msgid "Preview:"
-msgstr ""
+msgstr "Предпросмотр:"
 
 msgid "Check to hide badge in user interface"
-msgstr ""
+msgstr "Не показывать ярлыки в пользовательском интерфейсе"
 
 msgid "visible"
-msgstr ""
+msgstr "видимый"
 
 msgid "Group"
 msgstr "Группа"
@@ -1641,10 +1760,10 @@ msgstr "нет группы"
 msgid ""
 "Automatically assign all users with this badge to the selected group for all"
 " instances in the adhocracy site."
-msgstr ""
+msgstr "Включить всех с этим ярлыком в выбранную группу для всех учреждений"
 
 msgid "Automatically assign all users with this badge to the selected group."
-msgstr ""
+msgstr "Включить всех с этим ярлыком в выбранную группу"
 
 msgid "Display group in instances"
 msgstr "Отображать групы в организациях. "
@@ -1655,11 +1774,25 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-msgid "Other instances"
+msgid "Parent Badge"
+msgstr ""
+
+msgid "No Parent Badge"
+msgstr ""
+
+msgid "Global categories"
+msgstr ""
+
+msgid "Local instance categories"
+msgstr ""
+
+msgid ""
+"Description to select children of this badge (irrelevant if this badge "
+"doesn't have any children)"
 msgstr ""
 
 msgid "Save Badge"
-msgstr ""
+msgstr "Сохранить ярлык"
 
 msgid "Edit"
 msgstr "Редактировать"
@@ -1694,11 +1827,14 @@ msgstr "да"
 msgid "no"
 msgstr "нет"
 
+msgid "Parent"
+msgstr ""
+
 msgid "User Badges"
 msgstr "Ярлыки пользователя."
 
 msgid "New"
-msgstr ""
+msgstr "Новое"
 
 msgid "Proposal Badges"
 msgstr "Ярлыки предложений"
@@ -1707,7 +1843,7 @@ msgid "Proposal Category Badges"
 msgstr "ярлык категории предложения"
 
 msgid "Instance Badges"
-msgstr ""
+msgstr "Ярлыки организации"
 
 msgid "Comment"
 msgstr "Коментарий"
@@ -1743,7 +1879,7 @@ msgid "revert here"
 msgstr "вернуться сюда"
 
 msgid "delete version permanently"
-msgstr ""
+msgstr "Навсегда удалить версию"
 
 #, python-format
 msgid "on %s"
@@ -1785,9 +1921,6 @@ msgstr "Этот коментарий удален."
 
 msgid "edit"
 msgstr "редактировать"
-
-msgid "delete"
-msgstr "удалить"
 
 msgid "1 Comment"
 msgstr "1 коментарий"
@@ -2069,10 +2202,10 @@ msgid "Logo"
 msgstr "Лого"
 
 msgid "Current logo"
-msgstr ""
+msgstr "Действующий логотип"
 
 msgid "Delete current logo"
-msgstr ""
+msgstr "Удалить действующий логотип"
 
 msgid "You can add css that will be used to style the instance."
 msgstr ""
@@ -2081,7 +2214,7 @@ msgid "Extra CSS"
 msgstr "Дополнительные CSS"
 
 msgid "Use Norms"
-msgstr ""
+msgstr "Использовать документы"
 
 msgid "Allow users to propose norms"
 msgstr "Разрешить пользователям предлагать документы"
@@ -2093,7 +2226,7 @@ msgid "Use milestones"
 msgstr "Использовать сроки"
 
 msgid "Hide global categories"
-msgstr ""
+msgstr "Спрятать глобальные категории"
 
 msgid "Allow editing of comments by default"
 msgstr ""
@@ -2102,7 +2235,7 @@ msgid "Freeze this instance"
 msgstr "Заморозить эту организацию"
 
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 msgid "Language"
 msgstr "Язык"
@@ -2146,6 +2279,12 @@ msgstr "Задержка"
 msgid "Enable vote delegation"
 msgstr "Активировать делегирование голосов"
 
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
+
 msgid "Home"
 msgstr "На главную"
 
@@ -2171,13 +2310,13 @@ msgid "more proposals"
 msgstr "Дальнейшие предложения"
 
 msgid "Next milestone"
-msgstr ""
+msgstr "Следующий указатель"
 
 msgid "Next milestones"
-msgstr ""
+msgstr "Следующие указатели"
 
 msgid "Newest Events"
-msgstr ""
+msgstr "Новые события"
 
 msgid "Informations"
 msgstr "Информация"
@@ -2187,7 +2326,7 @@ msgstr "Создано "
 
 #, python-format
 msgid "by %s on %s"
-msgstr ""
+msgstr "С %s до %s"
 
 msgid "By the numbers"
 msgstr "По порядку"
@@ -2222,12 +2361,48 @@ msgstr[0] "%s документ"
 msgstr[1] "%s док."
 msgstr[2] "%s док."
 
-#, python-format
-msgid "Message %s"
-msgstr "Сообщение %s"
+msgid "Send mass message"
+msgstr ""
+
+msgid ""
+"Please note that only users with verified email addresses and activated "
+"newsservice will receive this message per email."
+msgstr ""
+
+msgid "Filter users ..."
+msgstr ""
+
+msgid "... by instance:"
+msgstr ""
+
+msgid "... by badge:"
+msgstr ""
 
 msgid "Subject"
 msgstr "Тема"
+
+msgid "Body"
+msgstr ""
+
+msgid "Use {email}, {name}, {salutation} to address the user directly."
+msgstr ""
+
+msgid "Sender identity"
+msgstr ""
+
+msgid "Mass Message Preview"
+msgstr ""
+
+#, python-format
+msgid "You're about to send the following message to %s recipients:"
+msgstr ""
+
+msgid "The message will go to the following users:"
+msgstr ""
+
+#, python-format
+msgid "Message %s"
+msgstr "Сообщение %s"
 
 msgid ""
 "Your e-mail address will be included in this message to give the recipient a"
@@ -2250,7 +2425,7 @@ msgid "Edit %s"
 msgstr "Редактировать %s"
 
 msgid "Edit milestone"
-msgstr ""
+msgstr "Редактировать указатель"
 
 msgid "Milestone title"
 msgstr "Название срока"
@@ -2268,10 +2443,7 @@ msgid "Please use the DD.MM.YYYY format."
 msgstr "Пожалуйста используйте формат DD.MM.YYYY"
 
 msgid "Category"
-msgstr ""
-
-msgid "No Category"
-msgstr "нет категории"
+msgstr "Категория"
 
 msgid "Create a new milestone."
 msgstr "Определить новый срок. "
@@ -2292,7 +2464,7 @@ msgid "New milestone"
 msgstr "Новый срок"
 
 msgid "Last Change"
-msgstr ""
+msgstr "Последнее изменение"
 
 msgid "Edit this milestone."
 msgstr "редактировать срок"
@@ -2301,10 +2473,10 @@ msgid "Delete this milestone."
 msgstr "удалить этот срок"
 
 msgid "Associated Proposals"
-msgstr ""
+msgstr "Ассоциированные предложения"
 
 msgid "No proposals are connected to this milestone"
-msgstr ""
+msgstr "По указателю нет подключённых предложений"
 
 msgid "Associated Norms"
 msgstr ""
@@ -2322,10 +2494,10 @@ msgid "tutorial_milestone_details_listing"
 msgstr ""
 
 msgid "See more"
-msgstr ""
+msgstr "Подробнее..."
 
 msgid "(unknown)"
-msgstr ""
+msgstr "(неизвестно)"
 
 msgid "Add an OpenID"
 msgstr "Добавить OpenID"
@@ -2379,7 +2551,7 @@ msgid ""
 msgstr "ПРЕДУРЕЖДЕНИЕ: все версии и варианты любых связанных с ним предложений будут удалены."
 
 msgid "Are you sure you want to purge the following version:"
-msgstr ""
+msgstr "Вы действительно хотите очистить версию:"
 
 #, python-format
 msgid "Variant: %s"
@@ -2408,6 +2580,12 @@ msgid "Variant Name"
 msgstr "Название варианта"
 
 msgid "Text"
+msgstr "Текст"
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
 msgstr ""
 
 msgid "Parent page:"
@@ -2459,10 +2637,10 @@ msgid "Highlight Changes"
 msgstr "Выделить исправления."
 
 msgid "On"
-msgstr ""
+msgstr "Вкл"
 
 msgid "Off"
-msgstr ""
+msgstr "Вык"
 
 msgid "New Proposal"
 msgstr "Новое предложение"
@@ -2481,7 +2659,7 @@ msgid "This norm relates to the milestone %s."
 msgstr "Этот документ связан со сроком %s."
 
 msgid "Subnorms"
-msgstr ""
+msgstr "Поддокументы"
 
 msgid "View Proposal"
 msgstr "Просмотреть предложение"
@@ -2505,10 +2683,10 @@ msgid "tutorial_norm_show_new"
 msgstr ""
 
 msgid "hide sub-topics"
-msgstr ""
+msgstr "Спрятать подтемы"
 
 msgid "show sub-topics"
-msgstr ""
+msgstr "Показать подтемы"
 
 #, python-format
 msgid "%s comment"
@@ -2674,9 +2852,6 @@ msgstr "Это предложение..."
 
 msgid "Proposal goals"
 msgstr "Цели предложения"
-
-msgid "Proposal Category"
-msgstr "категория предложения"
 
 msgid "Collaboration and Notification"
 msgstr "Сотрудничество и получение Уведомлений"
@@ -2945,6 +3120,40 @@ msgstr "посмотреть"
 msgid "compare"
 msgstr "сравнить"
 
+#, python-format
+msgid "Edit %(key)s (%(langname)s)"
+msgstr ""
+
+msgid "Title:"
+msgstr "Название:"
+
+msgid "Content of the page"
+msgstr ""
+
+msgid "Change static page"
+msgstr ""
+
+msgid "Back to the list"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "Create new page"
+msgstr ""
+
+msgid "New Static Page"
+msgstr ""
+
+msgid "New static page"
+msgstr ""
+
+msgid "Key:"
+msgstr ""
+
+msgid "Add static page"
+msgstr ""
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Теги являются ключевыми словами для нахождения, сортировки и фильтрации предложений и документов. "
@@ -2993,9 +3202,6 @@ msgstr "Этот документ еще не принят и не являет�
 msgid "discuss (%s comments) &raquo;"
 msgstr "дискутировать (%s comments) &raquo;"
 
-msgid "Title:"
-msgstr "Название:"
-
 msgid "Variant:"
 msgstr "Вариант:"
 
@@ -3028,7 +3234,7 @@ msgid "Badges for %s"
 msgstr "Ярлыки для %s"
 
 msgid "all instances"
-msgstr ""
+msgstr "все группы"
 
 msgid "Example:"
 msgstr "Пример:"
@@ -3061,7 +3267,7 @@ msgstr "Если вы присоединитесь к организации, т
 msgid ""
 "You can reach your dashboard anytime by clicking on your user name on the "
 "top of the page."
-msgstr ""
+msgstr "Вы можете вернуться на панель инструментов, нажав на своё имя в верхней части страницы"
 
 msgid ""
 "This is your Dashboard. Here you can find the list of instances your a "
@@ -3150,19 +3356,19 @@ msgid "Password (confirm):"
 msgstr "Пароль : (подтвердить)"
 
 msgid "Gender"
-msgstr ""
+msgstr "Пол"
 
 msgid "Select your gender"
-msgstr ""
+msgstr "Укажите ваш пол"
 
 msgid "Unspecified"
-msgstr ""
+msgstr "Не указан"
 
 msgid "Male"
-msgstr ""
+msgstr "Мужской"
 
 msgid "Female"
-msgstr ""
+msgstr "Женский"
 
 msgid "Notifications"
 msgstr "Напоминания"
@@ -3188,6 +3394,12 @@ msgstr "не подтверждено"
 msgid "Re-send activation link"
 msgstr "Переслать ccылку активации"
 
+msgid "Receive occasional news from instance administrators."
+msgstr ""
+
+msgid "Receive news service"
+msgstr ""
+
 msgid "OpenID"
 msgstr "OpenID"
 
@@ -3196,6 +3408,9 @@ msgstr "OpenID позволяет Вам использовать один вх�
 
 msgid "There are no associated OpenIDs."
 msgstr "Связанные OpenIDs отсутствуют. "
+
+msgid "remove"
+msgstr "удалить"
 
 msgid "Short biography"
 msgstr "Краткая биография"
@@ -3251,8 +3466,14 @@ msgid ""
 " here</a>."
 msgstr "Если у Вас есть учетная запись, но Вы потеряли "
 
+msgid "Email or username:"
+msgstr ""
+
 msgid "Login:"
 msgstr "Логин:"
+
+msgid "Email:"
+msgstr ""
 
 msgid "Register new account"
 msgstr "Зарегистрировать  новую учетную запись"
