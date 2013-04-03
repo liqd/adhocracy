@@ -6,10 +6,12 @@
 </%def>
 
 <%block name="headline">
-<h1>${_("Add an OpenID")}</h1>
-    <div class="infobox">
-        ${_("Enter the URL of your OpenID to connect the ID to your "
-            + "account. This will allow you to login using this OpenID in the future.")}
-    </div>
-    <%include file="/openid/form.html"/>
+%if 'openid' in h.allowed_login_types():
+    <h1>${_("Add an OpenID")}</h1>
+        <div class="infobox">
+            ${_("Enter the URL of your OpenID to connect the ID to your "
+                + "account. This will allow you to login using this OpenID in the future.")}
+        </div>
+        <%include file="/openid/form.html"/>
+%endif
 </%block>
