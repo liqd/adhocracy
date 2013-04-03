@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 1ab00c1\n"
+"Project-Id-Version: adhocracy 871094a\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-25 14:34+0100\n"
+"POT-Creation-Date: 2013-04-03 13:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,9 @@ msgid "Please insert a template for the mail we will send to the users."
 msgstr ""
 
 msgid "Solr index updated."
+msgstr ""
+
+msgid "Welcoming requested, but not enabled"
 msgstr ""
 
 msgid "In all instances"
@@ -185,13 +188,17 @@ msgstr ""
 msgid "You cannot manipulate one instance from within another instance."
 msgstr ""
 
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr ""
+
 msgid "Email isn't activated"
 msgstr ""
 
 msgid "Not permitted in system settings"
 msgstr ""
 
-msgid "Sorry, but you're not allowed to set these message options"
+#, python-format
+msgid "Could not render message: %s"
 msgstr ""
 
 #, python-format
@@ -233,6 +240,9 @@ msgid "You're not authorized to change %s's settings."
 msgstr ""
 
 msgid "Successfully removed OpenID from account"
+msgstr ""
+
+msgid "OpenID login has been disabled on this installation"
 msgstr ""
 
 msgid "OpenID login failed."
@@ -393,6 +403,10 @@ msgstr ""
 msgid "The requested page was not found"
 msgstr ""
 
+#, python-format
+msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr ""
+
 msgid "You have been logged out while authenticating at twitter. Please try again."
 msgstr ""
 
@@ -410,6 +424,9 @@ msgid "Sorry, registration has been disabled by administrator."
 msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
+msgstr ""
+
+msgid "Password has been set. Have fun!"
 msgstr ""
 
 msgid "There is no user registered with that email address."
@@ -497,6 +514,9 @@ msgstr ""
 
 #, python-format
 msgid "%s is banned from the system."
+msgstr ""
+
+msgid "You already have a password - use that to log in."
 msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
@@ -686,12 +706,6 @@ msgstr ""
 msgid "Disallowed instance selected"
 msgstr ""
 
-msgid "Today"
-msgstr ""
-
-msgid "Yesterday"
-msgstr ""
-
 #, python-format
 msgid "%d days"
 msgstr ""
@@ -765,6 +779,15 @@ msgid "this email is to check the email address you have provided. In order to c
 msgstr ""
 
 msgid "Confirm your email address"
+msgstr ""
+
+msgid "Dear Ms."
+msgstr ""
+
+msgid "Dear Mr."
+msgstr ""
+
+msgid "Dear"
 msgstr ""
 
 msgid "activity"
@@ -1156,6 +1179,9 @@ msgstr ""
 msgid "Adhocracy"
 msgstr ""
 
+msgid "delete"
+msgstr ""
+
 #, python-format
 msgid "%s (deleted user)"
 msgstr ""
@@ -1368,7 +1394,20 @@ msgstr ""
 msgid "Sort:"
 msgstr ""
 
+#, python-format
+msgid "Welcome to %s!"
+msgstr ""
+
+msgid "Please choose a password:"
+msgstr ""
+
+msgid "Set Password"
+msgstr ""
+
 msgid "Get an account to participate in the discussion."
+msgstr ""
+
+msgid "Log in to participate in the discussion."
 msgstr ""
 
 msgid "Register"
@@ -1394,6 +1433,9 @@ msgid "Send activation link"
 msgstr ""
 
 msgid "Edit profile"
+msgstr ""
+
+msgid "This instance has been frozen - you can not edit or post anything."
 msgstr ""
 
 msgid "You need to set an email in your profile in order to contribute to this instance."
@@ -1488,6 +1530,9 @@ msgid "Import"
 msgstr ""
 
 msgid "Import users"
+msgstr ""
+
+msgid "Generate welcome codes"
 msgstr ""
 
 msgid "Import badges"
@@ -1824,9 +1869,6 @@ msgid "This comment has been deleted."
 msgstr ""
 
 msgid "edit"
-msgstr ""
-
-msgid "delete"
 msgstr ""
 
 msgid "1 Comment"
@@ -2249,7 +2291,16 @@ msgstr[1] ""
 msgid "Send mass message"
 msgstr ""
 
-msgid "Filter recipients by instance"
+msgid "Please note that only users with verified email addresses and activated newsservice will receive this message per email."
+msgstr ""
+
+msgid "Filter users ..."
+msgstr ""
+
+msgid "... by instance:"
+msgstr ""
+
+msgid "... by badge:"
 msgstr ""
 
 msgid "Subject"
@@ -2258,7 +2309,20 @@ msgstr ""
 msgid "Body"
 msgstr ""
 
+msgid "Use {email}, {name}, {salutation} to address the user directly."
+msgstr ""
+
 msgid "Sender identity"
+msgstr ""
+
+msgid "Mass Message Preview"
+msgstr ""
+
+#, python-format
+msgid "You're about to send the following message to %s recipients:"
+msgstr ""
+
+msgid "The message will go to the following users:"
 msgstr ""
 
 #, python-format
