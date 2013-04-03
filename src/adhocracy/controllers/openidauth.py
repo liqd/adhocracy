@@ -292,8 +292,6 @@ class OpenidauthController(BaseController):
                 h.flash(_("Successfully created new user account %s" %
                           user_name), 'success')
                 self._login(user)
-        return self._failure(info.identity_url,
-                             _("Justin Case has entered the room."))
 
     @validate(schema=OpenIDUsernameForm(), form="username", post_only=True)
     def username(self):
