@@ -171,7 +171,9 @@ class AdminController(BaseController):
     def import_do(self):
         options = ImportForm().to_python(dict(request.params))
         if not can_welcome() and options['welcome']:
-            return ret_abort(_("Welcoming requested, but not enabled"),
+            return ret_abort(_("Requested generation of welcome codes, but "
+                               "welcome functionality"
+                               "(adhocracy.enable_welcome) is not enabled."),
                              code=403)
         obj = request.POST['importfile']
         options['user_personal'] = True
