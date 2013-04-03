@@ -245,6 +245,14 @@ class OpenidauthController(BaseController):
                 redirect(h.entity_url(c.user, member='edit'))
             else:
 
+                if not h.allow_user_registration():
+                    h.flash(_(
+                        "OpenID %s doesn't belong to an existing user account "
+                        "and user registration is disabled in this "
+                        "installation." % info.identity_url
+                    ), 'warning')
+                    redirect(h.base_url('/login'))
+
                 user_by_email = model.User.find_by_email(email)
                 if user_by_email is not None:
                     if is_trusted_provider(info.identity_url):
