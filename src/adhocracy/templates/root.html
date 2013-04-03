@@ -50,11 +50,17 @@
       <div class="contentWrap">
          <div class="register">
              <p class="patch_description">
+             %if h.allow_user_registration():
                  ${_('Get an account to participate in the discussion.')}
+             %else:
+                 ${_('Log in to participate in the discussion.')}
+             %endif
              </p>
+             %if h.allow_user_registration():
              <a href="${h.base_url('/register')}" 
                 class="button patch_camefrom">${_('Register')}</a> 
              ${_("or")} 
+             %endif
              <a href="${h.base_url('/login')}" 
                 class="icon_link more_uppercase patch_camefrom">${_('Log in')}</a>
          </div>
@@ -127,16 +133,22 @@
               <div class="message">
                   %if c.user is None:
                   <div class="register">
+                      %if h.allow_user_registration():
                       <a href="${h.register_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate when ready.
                          class="button">${_('Register')}</a> 
                       ${_("or")} 
+                      %endif
                       <a href="${h.login_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate.
                          class="icon_link more_uppercase">${_('Login')}</a>
                   </div>
                   <p class="register_msg">
-                      ${_('Get an account to participate in the discussion.')}
+                     %if h.allow_user_registration():
+                         ${_('Get an account to participate in the discussion.')}
+                     %else:
+                         ${_('Log in to participate in the discussion.')}
+                     %endif
                   </p>
                   %elif can.instance.join(c.instance):
                   <div class="register">
