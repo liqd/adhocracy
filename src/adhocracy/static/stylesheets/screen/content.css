@@ -874,10 +874,13 @@ a.follow_paper, div.skip_follow {
   border-radius: 13px;
   overflow: hidden;
   display: inline-block;
-  margin: 0 0 20px;
   font-weight: bold;
   font-size: 14px;
   padding: 0 20px 0 40px;
+}
+
+.sidebar_box a.follow_paper {
+  margin-top: 20px;
 }
 
 a.follow_paper {
