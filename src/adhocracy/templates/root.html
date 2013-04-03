@@ -2,12 +2,12 @@
 /><%namespace name="components" file="/components.html"
 /><%namespace name="navigation" file="/navigation.html"
 /><%namespace name="debug" file="/debug/tiles.html"
-/><%def name="breadcrumbs()">&nbsp;</%def><?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+/><%def name="breadcrumbs()">&nbsp;</%def><%def name="title()"></%def><?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE html>
 <html class="no-js">
   <head>
       <%block name="head">
-      ${components.head()}
+      ${components.head(self.title)}
       </%block>
 
       %if h.config.get('adhocracy.debug.sql'):
