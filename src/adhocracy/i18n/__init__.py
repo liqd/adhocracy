@@ -1,12 +1,17 @@
 from datetime import datetime, timedelta
+import logging
 import pkgutil
 
+import pytz
 import babel
 from babel import Locale
 import babel.dates
 import formencode
 from pylons.i18n import _, add_fallback, set_lang
 from pylons import config, tmpl_context as c
+
+
+log = logging.getLogger(__name__)
 
 
 LOCALES = [babel.Locale('de', 'DE'),
@@ -16,6 +21,7 @@ LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('pl', 'PL'),
            babel.Locale('ro', 'RO'),
            babel.Locale('ru', 'RU')]
+FALLBACK_TZ = 'Europe/Berlin'
 
 
 def get_default_locale():
@@ -81,18 +87,6 @@ def user_language(user, fallbacks=[]):
     return locale
 
 
-def relative_date(time):
-    """ Date only, not date & time. """
-    date = time.date()
-    today = date.today()
-    if date == today:
-        return _("Today")
-    elif date == (today - timedelta(days=1)):
-        return _("Yesterday")
-    else:
-        return babel.dates.format_date(date, 'long', c.locale)
-
-
 def countdown_time(dt, default):
     # THIS IS A HACK TO GET RID OF BABEL
     if dt is not None:
@@ -101,27 +95,63 @@ def countdown_time(dt, default):
     return _("%d days") % default
 
 
-def format_date(dt):
+def local_datetime(dt):
+    """
+    Calculates a datetime object with the configured timezone information set
+    from a given datetime ``dt``.
+    """
+    tz_setting = config.get('adhocracy.timezone', FALLBACK_TZ)
+    try:
+        tz = pytz.timezone(tz_setting)
+    except pytz.UnknownTimeZoneError:
+        log.warn('Invalid time zone setting: %s' % tz_setting)
+        tz = pytz.timezone(FALLBACK_TZ)
+
+    if dt.tzinfo is None:
+        return tz.fromutc(dt)
+    else:
+        return dt.astimezone(tz)
+
+
+def format_date(dt, set_timezone=True):
     '''
     Format the date in a local aware format.
     '''
     from pylons import tmpl_context as c
+    if set_timezone:
+        dt = local_datetime(dt)
     return babel.dates.format_date(dt, format='long', locale=c.locale or
                                    babel.Locale('en', 'US'))
 
 
-def format_time(dt):
+def format_time(dt, set_timezone=True):
     '''
     Format the date in a local aware format.
     '''
     from pylons import tmpl_context as c
+    if set_timezone:
+        dt = local_datetime(dt)
     return babel.dates.format_time(dt, format='short', locale=c.locale or
                                    babel.Locale('en', 'US'))
 
 
-def relative_time(dt):
-    """ A short statement giving the time distance since ``dt``. """
-    fmt = "<time class='ts' datetime='%(iso)sZ'>%(formatted)s</time>"
+def date_tag(dt):
+    """ Display a <time> html tag for the given datetime ``dt``. """
+    fmt = "<time datetime='%(iso)s'>%(formatted)s</time>"
     dt = dt.replace(microsecond=0)
-    formatted = "%s %s" % (format_date(dt), format_time(dt))
+    dt = local_datetime(dt)
+
+    formatted = format_date(dt, False)
     return fmt % dict(iso=dt.isoformat(), formatted=formatted)
+
+
+def datetime_tag(dt):
+    """
+    Display a <time> html tag for the given datetime ``dt``.
+    """
+    fmt = "<time class='ts' datetime='%(iso)s'>%(formatted)s</time>"
+    dt = dt.replace(microsecond=0)
+    tz_dt = local_datetime(dt)
+
+    formatted = "%s %s" % (format_date(dt), format_time(dt))
+    return fmt % dict(iso=tz_dt.isoformat(), formatted=formatted)

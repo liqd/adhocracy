@@ -39,7 +39,7 @@
 
     <h3>${_("Information")}</h3>
     <div>
-        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
+        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n} 
       %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
     · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
       %endif
@@ -114,7 +114,7 @@
         <div class="panel">
             <div class="info adoption adopted">
                 ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False),
-                                                  h.relative_time(proposal.adopt_poll.end_time))|n}
+                                                  h.datetime_tag(proposal.adopt_poll.end_time))|n}
             </div>
         </div>
         %elif proposal.is_adopt_polling():

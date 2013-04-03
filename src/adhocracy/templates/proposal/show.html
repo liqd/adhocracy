@@ -228,7 +228,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
 
     <h6>${_('Last Activity')}</h6>
     <p><time>
-        ${h.relative_time(
+        ${h.datetime_tag(
         c.proposal.find_latest_comment_time())|n}
     </time></p>
 
@@ -268,7 +268,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
 <%
 created_msg = _("by %s on %s, %s changes since then.") % (
     h.user.link(c.proposal.creator), 
-    h.format_date(c.proposal.create_time),
+    h.date_tag(c.proposal.create_time),
     c.proposal.description.variant_changes_count(model.Text.HEAD))
 %>
     ${created_msg|n}

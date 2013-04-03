@@ -33,7 +33,7 @@
                 %endif
                 ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()}
                 ·
-                ${_("latest <b>%s</b>") % h.relative_time(page.find_latest_comment_time())|n}&nbsp;
+                ${_("latest <b>%s</b>") % h.datetime_tag(page.find_latest_comment_time())|n}&nbsp;
                 %endif
             </div>
         </div>

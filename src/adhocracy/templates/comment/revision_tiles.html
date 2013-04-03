@@ -4,7 +4,7 @@
     <div class="tile revision history">
         <div class="index">${revision.index}</div>
         ${h.user.link(revision.user, scope=revision.comment.topic)|n}
-        · ${_("created %s") % h.relative_time(revision.create_time)|n}
+        · ${_("created %s") % h.datetime_tag(revision.create_time)|n}
         
         <div class="meta">
             &nbsp;

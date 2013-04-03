@@ -177,6 +177,9 @@ adhocracy.protocol = ${parts.adhocracy.protocol}
 adhocracy.site.name = ${parts.adhocracy['site.name']}
 adhocracy.language = ${parts.adhocracy.language}
 
+# INSTALL: Server timezone
+# adhocracy.timezone = Europe/Berlin
+
 # INSTALL: The site directory contains your site modifications of Adhocracy 
 # (e.g. logos, CSS, html pages). A skeleton site directory will be created 
 # by the "setup-app" paster command. 

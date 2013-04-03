@@ -47,7 +47,8 @@ from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model, static
 from adhocracy.i18n import countdown_time, format_date
-from adhocracy.i18n import relative_date, relative_time
+from adhocracy.i18n import date_tag
+from adhocracy.i18n import datetime_tag
 
 
 flash = _Flash()

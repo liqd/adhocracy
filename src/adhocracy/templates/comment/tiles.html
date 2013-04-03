@@ -9,9 +9,9 @@
             <div class="meta">
                 ${h.user.link(comment.creator, scope=comment.topic)|n}
                 %if len(comment.revisions) == 1:  
-                    · ${_("created %s") % h.relative_time(comment.create_time)|n}
+                    · ${_("created %s") % h.datetime_tag(comment.create_time)|n}
                 %else:
-                    · ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+                    · ${_("edited %s") % h.datetime_tag(comment.latest.create_time)|n}
                 %endif      
             </div>
         </div>
@@ -198,15 +198,15 @@
                 </span>
 
                 %if comment.is_deleted():
-                ${_("deleted %s") % h.relative_time(comment.delete_time)|n}
+                ${_("deleted %s") % h.datetime_tag(comment.delete_time)|n}
                 %else:
                   %if not comment.is_edited(): 
-                  ${h.relative_time(comment.create_time)|n}
+                  ${h.datetime_tag(comment.create_time)|n}
                   %else:
                     %if comment.latest.user == comment.creator:
-                    ${_("edited %s") % h.relative_time(comment.latest.create_time)|n}
+                    ${_("edited %s") % h.datetime_tag(comment.latest.create_time)|n}
                     %else:
-                    ${_("edited %s by %s") % (h.relative_time(comment.latest.create_time),
+                    ${_("edited %s by %s") % (h.datetime_tag(comment.latest.create_time),
                     h.user.link(comment.latest.user, scope=comment.topic))|n}
                     %endif
                   %endif

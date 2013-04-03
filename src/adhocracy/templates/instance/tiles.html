@@ -15,7 +15,7 @@
         </h3>
         <div class="meta">
             ##${h.user.link(instance.creator)|n} · 
-            ${_("created %s") % h.relative_time(instance.create_time)|n} · 
+            ${_("created %s") % h.datetime_tag(instance.create_time)|n} · 
             ${ungettext("%s proposal", "%s proposals", tile.num_proposals) % tile.num_proposals} 
             
             %if instance.use_norms:
