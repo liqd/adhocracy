@@ -144,8 +144,6 @@
     %endif
 </%def>
 
-<%def name="title()"></%def>
-
 
 <%def name="vertical_tabs(items, css_class, current_variant=None)">
 <nav>
@@ -185,14 +183,16 @@ $(document).ready(function () {
 </%def>
 
 
-<%def name="head()">
+<%def name="head(title_def)">
   <meta charset="utf-8" />
-    <title>${'self.title() - ' if self.title() else ''}
-            %if c.instance:
-                 ${c.instance.label} -
-            %endif
-                ${h.site.name()}
-    </title>
+    <%
+    local_title = capture(title_def)
+    full_title = '%s%s%s' % (
+        local_title + ' - ' if local_title else '',
+        c.instance.label + ' - ' if c.instance else '',
+        h.site.name())
+    %>
+    <title>${full_title}</title>
 
     <meta http-equiv="X-XRDS-Location" 
           content="${h.base_url('/openid/xrds', absolute=True)}" />
