@@ -273,6 +273,9 @@ piwik.id =
 # and other complex constructs.
 #adhocracy.allow_user_html = false
 
+# INSTALL: Allow registration
+#adhocracy.allow_registration = true
+
 # INSTALL: How can users login?
 #adhocracy.login_type = openid,username+password,email+password
 
