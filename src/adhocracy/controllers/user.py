@@ -135,6 +135,10 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
+        if not h.allow_user_registration():
+            return ret_abort(
+                _("Sorry, registration has been disabled by administrator."),
+                category='error', code=403)
         c.active_global_nav = "login"
         if c.user:
             redirect('/')
