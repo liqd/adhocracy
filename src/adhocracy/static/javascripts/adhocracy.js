@@ -511,16 +511,20 @@ $(document).ready(function () {
 
         var last_mouse_movements = "";
         var mouse_move_capture = function(e) {
-            last_mouse_movements = last_mouse_movements + ";" + e.clientX
-                + "|" + e.clientY;
+            last_mouse_movements += ";" + e.clientX + "|" + e.clientY;
         };
  
         var last_mouse_clicks = "";
         var mouse_clicks_capture = function(e) {
-            last_mouse_clicks = last_mouse_clicks + ";" + e.clientX + "|"
-                + e.clientY;
+            last_mouse_clicks += ";" + e.clientX + "|" + e.clientY;
         };
-        
+
+        var last_focus = ""; var current_focus = true;
+        var focus_and_blur_capture = function(e) {
+            current_focus = !current_focus;
+            last_focus += new Date() - start_time + "|" + current_focus + ";"
+        }
+
         var start_time = new Date();
         var unload_capture = function(e) {
             var end_time = new Date();
@@ -529,6 +533,7 @@ $(document).ready(function () {
                 + '&clicks=' + last_mouse_clicks
                 + '&mouse_moves=' + last_mouse_movements
                 + '&keys=' + last_keys
+                + '&last_focus=' + last_focus
                 + '&unload=' + end_time - start_time,
                 null, setOnPageTimeout);
 
@@ -538,6 +543,8 @@ $(document).ready(function () {
         document.addEventListener("mousemove", mouse_move_capture);
         document.addEventListener("click", mouse_clicks_capture);
         document.addEventListener("unload", unload_capture);
+        document.addEventListener("blur", focus_and_blur_capture);
+        document.addEventListener("focus", focus_and_blur_capture);
 //END THIS IS NOT FOR PRODUCTION USE
 
 
