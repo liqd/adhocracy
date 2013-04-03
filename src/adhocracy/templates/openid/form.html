@@ -2,7 +2,13 @@
    <label for="openid">${_('Alternative')}:</label>
    <div id="openid_choice">
       %if c.openid_scenario and c.openid_scenario == "login":
-         <span class="hint">${_('Login with your OpenID to skip registration.')}</span>
+         <span class="hint">
+           %if h.allow_user_registration():
+           ${_('Login with your OpenID to skip registration.')}
+           %else:
+           ${_('Login with your OpenID.')}
+           %endif
+         </span>
       %endif
       <div id="openid_btns"></div>
    </div>
