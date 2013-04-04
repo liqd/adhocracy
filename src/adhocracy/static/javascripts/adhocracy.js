@@ -500,9 +500,9 @@ $(document).ready(function () {
         var keyboard_capture = function(e) {
             if ((e.keyCode >= 65 && e.keyCode <= 90) || 
                 (e.keyCode >= 48 && e.keyCode <=57))
-                last_keys = last_keys + ";88";
+                last_keys += "88;";
             else
-                last_keys = last_keys + ";" + e.keyCode;
+                last_keys += e.keyCode + ";";
         };
 
         var last_mouse_movements = "";
