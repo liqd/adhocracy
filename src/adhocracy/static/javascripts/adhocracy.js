@@ -593,7 +593,7 @@ $(document).ready(function () {
             $('#comment_form_' + p_id).remove();
         }
 
-        $(this).toggleClass('o"pen');
+        $(this).toggleClass('open');
         return false;
     });
 
