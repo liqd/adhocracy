@@ -525,7 +525,6 @@ $(document).ready(function () {
         var unload_capture = function(e) {
             var end_time = new Date();
             $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
-                + '&window_is_active=' + window_is_active
                 + '&clicks=' + last_mouse_clicks
                 + '&mouse_moves=' + last_mouse_movements
                 + '&keys=' + last_keys
@@ -537,7 +536,7 @@ $(document).ready(function () {
         document.addEventListener("keydown", keyboard_capture);
         document.addEventListener("mousemove", mouse_move_capture);
         document.addEventListener("click", mouse_clicks_capture);
-        document.addEventListener("unload", unload_capture);
+        window.addEventListener("unload", unload_capture);
         window.addEventListener("blur", focus_and_blur_capture);
         window.addEventListener("focus", focus_and_blur_capture);
 
