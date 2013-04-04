@@ -496,10 +496,6 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-        var window_is_active = true;
-        $(window).focus(function() { window_is_active = true });
-        $(window).blur( function() { window_is_active = false });
-//THIS IS NOT FOR PRODUCTION USE
         var last_keys = "";
         var keyboard_capture = function(e) {
             if ((e.keyCode >= 65 && e.keyCode <= 90) || 
@@ -511,18 +507,18 @@ $(document).ready(function () {
 
         var last_mouse_movements = "";
         var mouse_move_capture = function(e) {
-            last_mouse_movements += ";" + e.clientX + "|" + e.clientY;
+            last_mouse_movements += e.clientX + "|" + e.clientY + ";";
         };
  
         var last_mouse_clicks = "";
         var mouse_clicks_capture = function(e) {
-            last_mouse_clicks += ";" + e.clientX + "|" + e.clientY;
+            last_mouse_clicks += e.clientX + "|" + e.clientY + ";";
         };
 
         var last_focus = ""; var current_focus = true;
         var focus_and_blur_capture = function(e) {
             current_focus = !current_focus;
-            last_focus += new Date() - start_time + "|" + current_focus + ";"
+            last_focus += new Date() - start_time + "|" + current_focus + ";";
         }
 
         var start_time = new Date();
@@ -536,29 +532,28 @@ $(document).ready(function () {
                 + '&last_focus=' + last_focus
                 + '&unload=' + end_time - start_time,
                 null, setOnPageTimeout);
-
         }
 
         document.addEventListener("keydown", keyboard_capture);
         document.addEventListener("mousemove", mouse_move_capture);
         document.addEventListener("click", mouse_clicks_capture);
         document.addEventListener("unload", unload_capture);
-        document.addEventListener("blur", focus_and_blur_capture);
-        document.addEventListener("focus", focus_and_blur_capture);
-//END THIS IS NOT FOR PRODUCTION USE
+        window.addEventListener("blur", focus_and_blur_capture);
+        window.addEventListener("focus", focus_and_blur_capture);
 
 
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
             $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
-                    + '&window_is_active=' + window_is_active
                     + '&clicks=' + last_mouse_clicks
                     + '&mouse_moves=' + last_mouse_movements
-                    + '&keys=' + last_keys,
+                    + '&keys=' + last_keys
+                    + '&focus=' + last_focus, 
                     null, setOnPageTimeout);
             last_mouse_clicks = "";
             last_mouse_movements = "";
             last_keys = "";
+            last_focus = "";
         };
         var setOnPageTimeout = function() {
             window.setTimeout(sendOnPagePing, stats_interval);
