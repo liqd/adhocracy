@@ -523,13 +523,13 @@ $(document).ready(function () {
 
         var start_time = new Date();
         var unload_capture = function(e) {
-            var end_time = new Date();
-            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
+            $.get(page_stats_baseurl + '?page='
+                + encodeURIComponent(location.href)
                 + '&clicks=' + last_mouse_clicks
                 + '&mouse_moves=' + last_mouse_movements
                 + '&keys=' + last_keys
                 + '&last_focus=' + last_focus
-                + '&unload=' + end_time - start_time,
+                + '&unload=' + new Date() - start_time,
                 null, setOnPageTimeout);
         }
 
@@ -543,7 +543,8 @@ $(document).ready(function () {
 
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
+            $.get(page_stats_baseurl + '?page=' 
+                    + encodeURIComponent(location.href)
                     + '&clicks=' + last_mouse_clicks
                     + '&mouse_moves=' + last_mouse_movements
                     + '&keys=' + last_keys
