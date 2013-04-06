@@ -512,7 +512,11 @@ $(document).ready(function () {
  
         var last_mouse_clicks = "";
         var mouse_clicks_capture = function(e) {
-            last_mouse_clicks += e.clientX + "|" + e.clientY + ";";
+            var _event = (window.event) ? window.event : e;
+            var target = (_event.target) ? _event.target :
+                _event.srcElement;
+            last_mouse_clicks += e.clientX + "|" + e.clientY + "|" +
+                target.id + ";";
         };
 
         var last_focus = ""; var current_focus = true;
@@ -529,7 +533,9 @@ $(document).ready(function () {
                 + '&mouse_moves=' + last_mouse_movements
                 + '&keys=' + last_keys
                 + '&last_focus=' + last_focus
-                + '&unload=' + new Date() - start_time,
+                + '&unload=' + new Date() - start_time
+                + '&res=' + document.body.clientWidth + '|' +  
+                document.body.clientHeigth,
                 null, setOnPageTimeout);
         }
 
@@ -548,7 +554,9 @@ $(document).ready(function () {
                     + '&clicks=' + last_mouse_clicks
                     + '&mouse_moves=' + last_mouse_movements
                     + '&keys=' + last_keys
-                    + '&focus=' + last_focus, 
+                    + '&focus=' + last_focus
+                    + '&res=' +  document.body.clientWidth + '|'
+                    + document.body.clientHeight,
                     null, setOnPageTimeout);
             last_mouse_clicks = "";
             last_mouse_movements = "";
