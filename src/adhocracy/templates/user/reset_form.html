@@ -8,6 +8,7 @@
 
 <%block name="main_content">
 <form name="settings" class="inplace" method="POST" action="/reset">
+    ${h.field_token()|n}
     <div class="mainbar">
         ${_("In order to retrieve your login, you will have to enter your email address.")}
         <br/><br/>  
