@@ -63,7 +63,7 @@ _BACKENDS = {
     'database': adhocracy.model.StaticPage,
 }
 
-STATICPAGE_KEY = re.compile(r'^[a-z0-9-]+$')
+STATICPAGE_KEY = re.compile(r'^[a-z0-9_-]+$')
 
 
 def all_languages(include_preferences=False):

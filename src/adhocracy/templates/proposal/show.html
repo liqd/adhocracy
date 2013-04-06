@@ -77,10 +77,12 @@ delegate_url = url if can.delegation.create() else None
                         ${_("%s Proposed Implementations") % len(c.num_selections)}
                     </a>
                     %endif
+                    %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
                     · 
                     <a href="${h.abuse.for_entity(c.proposal)}">
                         ${_("report")}
                     </a>
+                    %endif
                     ·
                     <a href="${c.history_url}"
                        rel="#overlay-ajax">${'history'}</a>
@@ -165,7 +167,7 @@ delegate_url = url if can.delegation.create() else None
         <p>${_('tutorial_proposal_show_vote')}</p>
     </li>
 
-    <li data-id="col3_content"
+    <li data-id="follow_proposal"
         data-tip-location="top left" class="custom">
         <p>${_('tutorial_proposal_show_follow')}</p>
     </li>
@@ -218,7 +220,8 @@ delegate_url = url if can.delegation.create() else None
 
 <%block name="sidebar">
 
-${components.watch(c.proposal)}
+<div class="sidebar_box">
+${components.watch(c.proposal, id='follow_proposal')}
 
 
 %if h.geo.use_proposal_geotags():
@@ -256,7 +259,7 @@ ${components.watch(c.proposal)}
 
     <h6>${_('Last Activity')}</h6>
     <p><time>
-        ${h.relative_time(
+        ${h.datetime_tag(
         c.proposal.find_latest_comment_time())|n}
     </time></p>
 
@@ -296,8 +299,8 @@ ${components.watch(c.proposal)}
 <%
 created_msg = _("by %s on %s, %s changes since then.") % (
     h.user.link(c.proposal.creator), 
-    h.format_date(c.proposal.create_time),
-    len(c.proposal.description.variant_history(model.Text.HEAD)))
+    h.date_tag(c.proposal.create_time),
+    c.proposal.description.variant_changes_count(model.Text.HEAD))
 %>
     ${created_msg|n}
     </p>
@@ -310,5 +313,6 @@ created_msg = _("by %s on %s, %s changes since then.") % (
     ## </div>
 </summary>
 
+</div>
 
 </%block>

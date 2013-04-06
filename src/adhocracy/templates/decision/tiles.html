@@ -56,7 +56,7 @@
             %endif
         </div>
         <div class="meta">
-            ${h.relative_time(decision.create_time)|n}
+            ${h.datetime_tag(decision.create_time)|n}
             %if not focus_scope:
                 · ${tile.topic|n}
             %endif

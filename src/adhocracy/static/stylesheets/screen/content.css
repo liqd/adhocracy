@@ -177,7 +177,6 @@ a.button.highlight:hover {
 }
 
 .register {
-  height: 27px;
   line-height: 27px;
   font-size:13px;
 }
@@ -325,9 +324,9 @@ li.content_box .base {
   margin-bottom: 0px;
 }
 
-.pro, .contra { font-size: 14px; }
+.pro, .con { font-size: 14px; }
 .pro, ins { color: darkgreen; }
-.contra, del, .countdown.highlight { color: darkred; }
+.con, del, .countdown.highlight { color: darkred; }
 
 .close { display: none; }
 .open { display: block; }
@@ -582,7 +581,13 @@ body.compact #nav li a {
 }
 
 #flash_message p.register_msg {
-  line-height: 27px;g
+  line-height: 27px;
+}
+#flash_message .attention-frozen {
+  text-align: center;
+  font-size: 140%;
+  background: #fffbd0;
+  padding: 5px 0;
 }
 
 /* info box and overlay */
@@ -870,10 +875,13 @@ a.follow_paper, div.skip_follow {
   border-radius: 13px;
   overflow: hidden;
   display: inline-block;
-  margin: 0 0 20px;
   font-weight: bold;
   font-size: 14px;
   padding: 0 20px 0 40px;
+}
+
+.sidebar_box a.follow_paper {
+  margin-top: 20px;
 }
 
 a.follow_paper {
@@ -1827,3 +1835,5 @@ dl.votedetail>dd {margin: 0; padding: 0;}
 .massmessage_preview dt, .massmessage_preview dd {line-height: inherit;}
 
 .message_preview_body {background: #ccc; white-space: pre-wrap; margin-bottom: 0.5em;}
+
+.importexport_settings {margin-left: 30px;}

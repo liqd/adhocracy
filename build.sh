@@ -284,6 +284,9 @@ echo '#!/bin/sh
 set -e
 cd "$(dirname $(dirname $(readlink -f $0)))"
 
+# Remove caches (workaround: cache fails when switching adhocracy.client_location)
+rm -rf var/data/templates
+
 cp etc/adhocracy.ini etc/adhocracy-interactive.ini
 
 # Comment out the following line to restrict access to local only

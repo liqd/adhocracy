@@ -12,7 +12,6 @@ from adhocracy import forms, model
 from adhocracy.lib import democracy
 from adhocracy.lib import event, helpers as h, sorting, tiles, watchlist
 from adhocracy.lib.auth import can, csrf, require, guard
-from adhocracy.lib.auth.authorization import has_permission
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager

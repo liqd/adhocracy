@@ -10,7 +10,7 @@
                 %endif
             </li>
             <li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
-                    ${_("created %s") % h.relative_time(text.create_time)|n}
+                    ${_("created %s") % h.datetime_tag(text.create_time)|n}
             %if h.has_permission('page.delete_history') and (text.valid_child() is not None or text.valid_parent() is not None):
             <span> <a href="${h.page.page_text_url(text.page, text, 'ask_purge_history')}">(delete version)</a></span>
             %endif
@@ -120,7 +120,7 @@
             </li>
             %if field is None:
                 <li>
-                    ${_("%s by %s") % (h.relative_time(this.create_time), 
+                    ${_("%s by %s") % (h.datetime_tag(this.create_time), 
                                                         h.user.link(this.user, scope=this.page))|n}
                     · <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
                 </li>

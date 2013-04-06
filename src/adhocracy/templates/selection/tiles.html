@@ -62,7 +62,7 @@ else:
                 · ${h.user.link(tile.selected_text.user, 
                                        show_badges=False)|n}
             </span>
-            <time pubdate="pubdate">${h.format_date(tile.selected_text.history[-1].create_time)}</time>
+            <time pubdate="pubdate">${h.date_tag(tile.selected_text.history[-1].create_time)}</time>
             %else:
             <span>&nbsp;</span>
             %endif

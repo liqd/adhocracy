@@ -9,10 +9,11 @@ from pylons.controllers.util import redirect
 from adhocracy import model, forms
 from adhocracy.lib.auth import guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth.welcome import can_welcome
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import base_url, flash
 from adhocracy.lib.mail import to_user
-from adhocracy.lib.templating import render
+from adhocracy.lib.templating import render, ret_abort
 from adhocracy.lib.util import random_token
 from adhocracy.lib.search import index
 import adhocracy.lib.importexport
@@ -49,6 +50,7 @@ class ExportForm(formencode.Schema):
 
 class ImportForm(formencode.Schema):
     include_user = formencode.validators.StringBoolean(if_missing=False)
+    welcome = formencode.validators.StringBoolean(if_missing=False)
     include_badge = formencode.validators.StringBoolean(if_missing=False)
     filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
     importfile = formencode.validators.FieldStorageUploadConverter()
@@ -159,12 +161,20 @@ class AdminController(BaseController):
 
     @guard.perm("global.admin")
     def import_dialog(self):
-        return render('admin/import_dialog.html', {})
+        data = {
+            'welcome_enabled': can_welcome()
+        }
+        return render('admin/import_dialog.html', data)
 
     @RequireInternalRequest(methods=['POST'])
     @guard.perm("global.admin")
     def import_do(self):
         options = ImportForm().to_python(dict(request.params))
+        if not can_welcome() and options['welcome']:
+            return ret_abort(_("Requested generation of welcome codes, but "
+                               "welcome functionality"
+                               "(adhocracy.enable_welcome) is not enabled."),
+                             code=403)
         obj = request.POST['importfile']
         options['user_personal'] = True
         adhocracy.lib.importexport.import_(options, obj.file)

@@ -59,7 +59,7 @@ setup(
         "python-memcached>=1.45",
         "sunburnt==0.6",
         "PIL>=1.1.6",
-        "secure-Markdown>2.2.1",
+        "Markdown>=2.3",
         "lxml>=2.2.6",
         "Mako>=0.7.3",
         "MarkupSafe>=0.15",
@@ -72,6 +72,7 @@ setup(
         "PasteScript>=1.6.3",
         "setuptools_git >= 0.3",
         "ipaddress>=1.0.3",
+        "pytz",
     ],
     setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
                     "PasteScript",

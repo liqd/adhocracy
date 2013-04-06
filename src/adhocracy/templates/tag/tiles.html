@@ -4,7 +4,7 @@
         <div class="base" style="background-image: url(/img/icons/tag_24.png);">
             <h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
             <div class="meta noclear">
-                ${_("created %s") % h.relative_time(tag.create_time)|n} 
+                ${_("created %s") % h.datetime_tag(tag.create_time)|n} 
                 %if c.instance:
                      ·   ${_("used %s times") % len(tag)}
                 %endif

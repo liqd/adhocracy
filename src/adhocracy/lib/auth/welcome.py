@@ -3,6 +3,7 @@
 import re
 
 import adhocracy.model as model
+from adhocracy.lib.auth.authorization import has
 
 from paste.deploy.converters import asbool
 import pylons
@@ -13,6 +14,11 @@ from zope.interface import implements
 
 def welcome_enabled(config=pylons.config):
     return asbool(config.get('adhocracy.enable_welcome', 'False'))
+
+
+def can_welcome():
+    """ Can the current user set welcome codes? """
+    return welcome_enabled() and has('global.admin')
 
 
 class WelcomeRepozeWho(object):

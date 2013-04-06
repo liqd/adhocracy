@@ -3,7 +3,6 @@ from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.i18n import _
-from sqlalchemy import not_
 
 from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor

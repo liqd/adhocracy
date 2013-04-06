@@ -122,6 +122,7 @@
       </div>
     </fieldset>
 
+    %if 'openid' in h.allowed_login_types():
     <fieldset>
       <legend><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</legend>  
       <p class="info">${_("OpenID allows you to use a single login on many web sites.")}</p>
@@ -143,6 +144,7 @@
       %endif
       <a class="add" href="/openid/connect">${_("Add OpenID")}</a>
     </fieldset>
+    %endif
     
     <fieldset>
       <legend>${_("Short biography")}</legend>

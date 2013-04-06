@@ -509,13 +509,26 @@ $(document).ready(function () {
         $(window).blur( function() { window_is_active = false });
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            $.get(page_stats_baseurl + '&window_is_active=' + window_is_active,
+            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href) + '&window_is_active=' + window_is_active,
                     null, setOnPageTimeout);
         };
         var setOnPageTimeout = function() {
             window.setTimeout(sendOnPagePing, stats_interval);
         };
         setOnPageTimeout();
+    }
+
+    var external_baseurl = $('body').data('stats-monitor_external_links_url');
+    if (external_baseurl) {
+        $('a[rel="external"]').bind('click', function(e) {
+            var href = $(this).attr('href');
+            var url = external_baseurl;
+            url += '?from=' + encodeURIComponent(window.location.href);
+            url += '&href=' + encodeURIComponent(href);
+            $.ajax(url, {
+                'type': 'POST',
+            });
+        });
     }
 
     $('.paper a.show_comments').click(function () {

@@ -135,6 +135,10 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
+        if not h.allow_user_registration():
+            return ret_abort(
+                _("Sorry, registration has been disabled by administrator."),
+                category='error', code=403)
         c.active_global_nav = "login"
         if c.user:
             redirect('/')
@@ -509,15 +513,17 @@ class UserController(BaseController):
                                     enable_pages=False,
                                     enable_sorts=False,)
         #pages
-        require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
-                 for i in instances]
-        pages = pages and reduce(lambda x, y: x + y, pages)
-        c.pages = pages
-        c.pages_pager = pager.pages(pages, size=3,
-                                    default_sort=sorting.entity_newest,
-                                    enable_pages=False,
-                                    enable_sorts=False)
+        c.show_pages = any(instance.use_norms for instance in instances)
+        if c.show_pages:
+            require.page.index()
+            pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
+                     for i in instances]
+            pages = pages and reduce(lambda x, y: x + y, pages)
+            c.pages = pages
+            c.pages_pager = pager.pages(pages, size=3,
+                                        default_sort=sorting.entity_newest,
+                                        enable_pages=False,
+                                        enable_sorts=False)
         #watchlist
         require.watch.index()
         c.active_global_nav = 'user'

@@ -24,9 +24,9 @@
                 ${_("to %s") % h.user.link(c.delegation.agent)|n}</li>
         </ul>   
         <div class="meta">
-            ${_("established %s") % h.relative_time(c.delegation.create_time)|n}
+            ${_("established %s") % h.datetime_tag(c.delegation.create_time)|n}
             %if c.delegation.is_revoked():
-                 · ${_("revoked %s") % h.relative_time(c.delegation.revoke_time)|n}
+                 · ${_("revoked %s") % h.datetime_tag(c.delegation.revoke_time)|n}
             %endif      
         </div>
     </div>

@@ -14,7 +14,7 @@
                 </div>
             %endif
             <div class="meta noclear">
-                ${_("%s") % h.relative_time(event.time)|n}
+                ${_("%s") % h.datetime_tag(event.time)|n}
                 <a href="${event.link()}" class="more_link">${_("more")}</a>
             </div>
         </div>

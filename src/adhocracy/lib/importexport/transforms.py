@@ -135,10 +135,15 @@ class UserTransform(_Transform):
             self._ID_KEY = 'id'
         self._opt_password = self._options.get('user_password', False)
         self._opt_badges = self._options.get('include_badge', False)
+        self._opt_welcome = self._options.get('welcome', False)
 
     def _create(self, data):
         assert self._opt_personal
-        return self._model_class.create(data['user_name'], data['email'])
+        res = self._model_class.create(data['user_name'], data['email'])
+        res.activation_code = None
+        if self._opt_welcome:
+            res.initialize_welcome()
+        return res
 
     def _modify(self, o, data):
         assert self._opt_personal
@@ -155,6 +160,7 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'reset_code', 'adhocracy_')
             _set_optional(o, data, 'password', 'adhocracy_')
             _set_optional(o, data, 'banned', 'adhocracy_')
+            _set_optional(o, data, 'welcome_code', 'adhocracy_')
         if self._opt_badges:
             o.badges = list(map(self._badge_transform._get_by_key,
                                 data['badges']))
@@ -176,6 +182,7 @@ class UserTransform(_Transform):
                 'adhocracy_reset_code': o.reset_code,
                 'adhocracy_password': o.password,
                 'adhocracy_banned': o.banned,
+                'adhocracy_welcome_code': o.welcome_code,
             })
         if self._opt_badges:
             res['badges'] = [getattr(b, BadgeTransform._ID_KEY)

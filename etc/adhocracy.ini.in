@@ -177,6 +177,9 @@ adhocracy.protocol = ${parts.adhocracy.protocol}
 adhocracy.site.name = ${parts.adhocracy['site.name']}
 adhocracy.language = ${parts.adhocracy.language}
 
+# INSTALL: Server timezone
+# adhocracy.timezone = Europe/Berlin
+
 # INSTALL: The site directory contains your site modifications of Adhocracy 
 # (e.g. logos, CSS, html pages). A skeleton site directory will be created 
 # by the "setup-app" paster command. 
@@ -269,6 +272,9 @@ piwik.id =
 # If it is set, we make a best effort to filter unsafe HTML, but allow iframes
 # and other complex constructs.
 #adhocracy.allow_user_html = false
+
+# INSTALL: Allow registration
+#adhocracy.allow_registration = true
 
 # INSTALL: How can users login?
 #adhocracy.login_type = openid,username+password,email+password

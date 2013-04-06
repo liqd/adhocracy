@@ -9,15 +9,17 @@
 # Mateusz Batelt <mateusz@batelt.eu>, 2012.
 # Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013.
 # Oskar Brabanski <o.brabanski@gmail.com>, 2013.
+# Philipp Hagemeister <phihag@phihag.de>, 2013.
 #  <schroeder_carsten@gmx.de>, 2013.
 #   <sicco@ddo.nl>, 2012.
+#  <transifex.com@jroene.de>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-25 14:34+0100\n"
-"PO-Revision-Date: 2013-03-26 21:14+0000\n"
-"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
+"POT-Creation-Date: 2013-04-03 13:05+0200\n"
+"PO-Revision-Date: 2013-04-03 12:31+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -41,6 +43,9 @@ msgstr ""
 
 msgid "Solr index updated."
 msgstr "Solr Index aktualisiert."
+
+msgid "Welcoming requested, but not enabled"
+msgstr "Welcoming angefragt, aber nicht aktiviert"
 
 msgid "In all instances"
 msgstr "In allen Gruppen"
@@ -148,7 +153,7 @@ msgid "Badges"
 msgstr "Badges"
 
 msgid "Mass message service"
-msgstr "Massennachrichten Service."
+msgstr "Benachrichtigungsdienst"
 
 msgid "Members import"
 msgstr "Mitglieder importieren"
@@ -203,14 +208,18 @@ msgstr "Sie haben %(instance)s verlassen."
 msgid "You cannot manipulate one instance from within another instance."
 msgstr "Sie können eine Gruppe nicht von einer anderen Gruppe aus bearbeiten."
 
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr "Leider ist es Ihnen nicht erlaubt diese Nachrichten Einstellungen zu setzen."
+
 msgid "Email isn't activated"
 msgstr "E-Mail ist nicht aktiviert."
 
 msgid "Not permitted in system settings"
 msgstr "Nicht erlaubt in den Systemeinstellungen."
 
-msgid "Sorry, but you're not allowed to set these message options"
-msgstr "Leider ist es Ihnen nicht erlaubt diese Nachrichten Einstellungen zu setzen."
+#, python-format
+msgid "Could not render message: %s"
+msgstr "Nachricht konnte nicht gerendert werden: %s"
 
 #, python-format
 msgid "Message sent to %d users."
@@ -252,6 +261,9 @@ msgstr "Sie sind nicht befugt, %ss Einstellungen zu bearbeiten."
 
 msgid "Successfully removed OpenID from account"
 msgstr "OpenID erfolgreich vom Nutzerkonto entfernt"
+
+msgid "OpenID login has been disabled on this installation"
+msgstr "OpenID-Login ist in dieser Installation deaktiviert."
 
 msgid "OpenID login failed."
 msgstr "OpenID-Anmeldung ist fehlgeschlagen."
@@ -421,6 +433,10 @@ msgstr "Seite zum editieren kann nicht gefunden werden"
 msgid "The requested page was not found"
 msgstr "Die angeforderte Seite wurde nicht gefunden."
 
+#, python-format
+msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr "Tag \"%s\" wurde entfernt von %s \"%s%."
+
 msgid ""
 "You have been logged out while authenticating at twitter. Please try "
 "again."
@@ -447,6 +463,9 @@ msgstr "Es tut uns leid - Registrierung ist in dieser Installation deaktiviert."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
+
+msgid "Password has been set. Have fun!"
+msgstr "Passwort gesetzt. Viel Spaß!"
 
 msgid "There is no user registered with that email address."
 msgstr "Unter dieser E-Mail-Adresse ist kein/e BenutzerIn angemeldet."
@@ -544,6 +563,9 @@ msgstr "%s ist kein Mitglied von %s"
 #, python-format
 msgid "%s is banned from the system."
 msgstr "%s ist aus dem System ausgeschlossen."
+
+msgid "You already have a password - use that to log in."
+msgstr "Sie haben bereits ein Passwort - nutzen Sie dieses, um sich einzuloggen."
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Hierfür existiert bereits ein Eintrag auf der Beobachtungsliste."
@@ -740,12 +762,6 @@ msgstr "Bitte wählen Sie zumindest eine Gruppe"
 msgid "Disallowed instance selected"
 msgstr "Unerlaubte Gruppe ausgewählt"
 
-msgid "Today"
-msgstr "Heute"
-
-msgid "Yesterday"
-msgstr "Gestern"
-
 #, python-format
 msgid "%d days"
 msgstr "%d Tage"
@@ -837,6 +853,15 @@ msgstr ""
 
 msgid "Confirm your email address"
 msgstr "Bestätigen Sie Ihre E-Mail-Adresse."
+
+msgid "Dear Ms."
+msgstr "Sehr geehrte Frau"
+
+msgid "Dear Mr."
+msgstr "Sehr geehrter Herr"
+
+msgid "Dear"
+msgstr "Sehr geehrte(r)"
 
 msgid "activity"
 msgstr "Aktivität"
@@ -1231,6 +1256,9 @@ msgstr "Umsetzung"
 msgid "Adhocracy"
 msgstr "Adhocracy"
 
+msgid "delete"
+msgstr "löschen"
+
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (gelöscht)"
@@ -1317,7 +1345,7 @@ msgid "Following"
 msgstr "Wird gefolgt"
 
 msgid "Unfollow"
-msgstr "entfolgen"
+msgstr "Nicht mehr folgen"
 
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
@@ -1484,8 +1512,21 @@ msgstr "zurücksetzen"
 msgid "Sort:"
 msgstr "Sortieren:"
 
+#, python-format
+msgid "Welcome to %s!"
+msgstr "Willkommen bei %s!"
+
+msgid "Please choose a password:"
+msgstr "Bitte wählen Sie ein Passwort:"
+
+msgid "Set Password"
+msgstr "Passwort setzen"
+
 msgid "Get an account to participate in the discussion."
 msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
+
+msgid "Log in to participate in the discussion."
+msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
 
 msgid "Register"
 msgstr "Registrieren"
@@ -1511,6 +1552,9 @@ msgstr "Aktivierungslink senden"
 
 msgid "Edit profile"
 msgstr "Profil editieren"
+
+msgid "This instance has been frozen - you can not edit or post anything."
+msgstr "Diese Gruppe ist eingefroren - Bearbeiten oder Hinzufügen von neuen Beiträgen ist nicht möglich."
 
 msgid ""
 "You need to set an email in your profile in order to contribute to this "
@@ -1612,6 +1656,9 @@ msgstr "Importieren"
 
 msgid "Import users"
 msgstr "User importieren"
+
+msgid "Generate welcome codes"
+msgstr "Generiere Einladungs-Tokens"
 
 msgid "Import badges"
 msgstr "Badges importieren"
@@ -1991,9 +2038,6 @@ msgstr "Dieses Argument wurde gelöscht."
 
 msgid "edit"
 msgstr "bearbeiten"
-
-msgid "delete"
-msgstr "löschen"
 
 msgid "1 Comment"
 msgstr "1 Argument"
@@ -2474,10 +2518,21 @@ msgstr[0] "%s Beschluss"
 msgstr[1] "%s Beschlüsse"
 
 msgid "Send mass message"
-msgstr "Massennachricht versenden"
+msgstr "Benachrichtigung versenden"
 
-msgid "Filter recipients by instance"
-msgstr "Empfänger nach Gruppen filtern"
+msgid ""
+"Please note that only users with verified email addresses and activated "
+"newsservice will receive this message per email."
+msgstr "Bitte beachten Sie, dass nur User mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
+
+msgid "Filter users ..."
+msgstr "Benutzer filtern ..."
+
+msgid "... by instance:"
+msgstr ".. nach Gruppe"
+
+msgid "... by badge:"
+msgstr ".. nach Badge:"
 
 msgid "Subject"
 msgstr "Betreff"
@@ -2485,8 +2540,21 @@ msgstr "Betreff"
 msgid "Body"
 msgstr "Hauptteil"
 
+msgid "Use {email}, {name}, {salutation} to address the user directly."
+msgstr "Verwenden Sie {email}, {name}, {salutation}, um den Benutzer direkt anzusprechen."
+
 msgid "Sender identity"
 msgstr "Versender Identität"
+
+msgid "Mass Message Preview"
+msgstr "Benachrichtigung versenden: Vorschau"
+
+#, python-format
+msgid "You're about to send the following message to %s recipients:"
+msgstr "Sie sind dabei, die folgende Nachricht an %s Empfänger/innen zu senden:"
+
+msgid "The message will go to the following users:"
+msgstr "Die Nachricht wird an die folgende User gesendet:"
 
 #, python-format
 msgid "Message %s"
