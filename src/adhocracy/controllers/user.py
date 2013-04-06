@@ -303,7 +303,7 @@ class UserController(BaseController):
     def reset_form(self):
         return render("/user/reset_form.html")
 
-    @validate(schema=UserResetApplyForm(), form="reset", post_only=True)
+    @validate(schema=UserResetApplyForm(), form="reset_form", post_only=True)
     def reset_request(self):
         c.page_user = model.User.find_by_email(self.form_result.get('email'))
         if c.page_user is None:
