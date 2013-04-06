@@ -203,10 +203,11 @@ class UserController(BaseController):
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
-        login = self.form_result.get("user_name").encode('utf-8')
+        login = self.form_result.get("user_name")
         credentials = {
             'login': login,
-            'password': self.form_result.get("password").encode('utf-8')}
+            'password': self.form_result.get("password")
+        }
         authenticated, headers = who_api.login(credentials)
         if authenticated:
             # redirect to dashboard with login message
