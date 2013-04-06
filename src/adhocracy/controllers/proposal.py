@@ -521,7 +521,7 @@ class ProposalController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        update_entity(proposal, model.update.UPDATE)
+        update_entity(proposal, model.UPDATE)
         if format == 'ajax':
             obj = {'html': render_def('/badge/tiles.html', 'badges',
                                       badges=proposal.badges)}

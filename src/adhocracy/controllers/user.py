@@ -786,7 +786,7 @@ class UserController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        update_entity(user, model.update.UPDATE)
+        update_entity(user, model.UPDATE)
         redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):

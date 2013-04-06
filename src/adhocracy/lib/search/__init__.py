@@ -19,7 +19,7 @@ def init_search():
     delete documents in solr when model instances are commited.
     '''
     from adhocracy.lib.queue import LISTENERS
-    from adhocracy.model.update import INSERT, UPDATE, DELETE
+    from adhocracy.model import INSERT, UPDATE, DELETE
     for cls in INDEXED_CLASSES:
         LISTENERS[(cls, INSERT)].append(index.update)
         LISTENERS[(cls, UPDATE)].append(index.update)

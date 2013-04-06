@@ -127,7 +127,7 @@ class TagController(BaseController):
         for tagging in delegateable.taggings:
             if tagging.tag == tag:
                 tagging.delete()
-        update_entity(delegateable, model.update.UPDATE)
+        update_entity(delegateable, model.UPDATE)
         model.meta.Session.commit()
         return ret_success(
             message=_('Tag "%s" has been removed from %s "%s".') % (

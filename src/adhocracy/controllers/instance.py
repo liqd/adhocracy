@@ -363,7 +363,7 @@ class InstanceController(BaseController):
                 badge.assign(instance, c.user)
 
         model.meta.Session.commit()
-        update_entity(instance, model.update.UPDATE)
+        update_entity(instance, model.UPDATE)
         if format == 'ajax':
             obj = {'html': render_def('/badge/tiles.html', 'badges',
                                       badges=instance.badges)}
