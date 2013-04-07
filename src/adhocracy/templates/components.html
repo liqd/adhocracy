@@ -183,10 +183,13 @@ $(document).ready(function () {
 </%def>
 
 
-<%def name="head(title_def)">
+<%def name="head(title_def=None)">
   <meta charset="utf-8" />
     <%
-    local_title = capture(title_def)
+    if title_def is None:
+        local_title = ''
+    else:
+        local_title = capture(title_def)
     full_title = '%s%s%s' % (
         local_title + ' - ' if local_title else '',
         c.instance.label + ' - ' if c.instance else '',
