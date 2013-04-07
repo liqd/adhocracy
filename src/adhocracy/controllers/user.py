@@ -203,10 +203,11 @@ class UserController(BaseController):
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
-        login = self.form_result.get("user_name").encode('utf-8')
+        login = self.form_result.get("user_name")
         credentials = {
             'login': login,
-            'password': self.form_result.get("password").encode('utf-8')}
+            'password': self.form_result.get("password")
+        }
         authenticated, headers = who_api.login(credentials)
         if authenticated:
             # redirect to dashboard with login message
@@ -303,7 +304,8 @@ class UserController(BaseController):
     def reset_form(self):
         return render("/user/reset_form.html")
 
-    @validate(schema=UserResetApplyForm(), form="reset", post_only=True)
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=UserResetApplyForm(), form="reset_form", post_only=True)
     def reset_request(self):
         c.page_user = model.User.find_by_email(self.form_result.get('email'))
         if c.page_user is None:
@@ -358,12 +360,12 @@ class UserController(BaseController):
                                           instance_filter=False)
         code = self.form_result.get('c')
 
-        if c.page_user.activation_code is None:
-            h.flash(_(u'Thank you, The address is already activated.'))
-            redirect(h.entity_url(c.page_user))
-        elif c.page_user.activation_code != code:
+        if c.page_user.activation_code != code:
             h.flash(_("The activation code is invalid. Please have it "
                       "resent."), 'error')
+            redirect(h.entity_url(c.page_user))
+        if c.page_user.activation_code is None:
+            h.flash(_(u'Thank you, The address is already activated.'))
             redirect(h.entity_url(c.page_user))
 
         c.page_user.activation_code = None
@@ -784,7 +786,7 @@ class UserController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        update_entity(user, model.update.UPDATE)
+        update_entity(user, model.UPDATE)
         redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):
