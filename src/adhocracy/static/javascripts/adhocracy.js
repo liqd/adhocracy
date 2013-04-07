@@ -527,7 +527,7 @@ $(document).ready(function () {
 
         var start_time = new Date();
         var unload_capture = function(e) {
-            /*$.get(*/alert(page_stats_baseurl + '?page='
+            $.get(page_stats_baseurl + '?page='
                 + encodeURIComponent(location.href)
                 + '&clicks=' + last_mouse_clicks
                 + '&mouse_moves=' + last_mouse_movements
@@ -535,18 +535,16 @@ $(document).ready(function () {
                 + '&last_focus=' + last_focus
                 + '&unload=' + (new Date() - start_time)
                 + '&res=' + document.body.clientWidth + '|' +  
-                document.body.clientHeigth);/*,
-                null, null);*/
+                document.body.clientHeigth,
+                null, null);
         }
-
-        window.addEventListener("beforeunload", unload_capture);
         
         document.addEventListener("keydown", keyboard_capture);
         document.addEventListener("mousemove", mouse_move_capture);
         document.addEventListener("click", mouse_clicks_capture);
         window.addEventListener("blur", focus_and_blur_capture);
         window.addEventListener("focus", focus_and_blur_capture);
-
+        window.addEventListener("beforeunload", unload_capture);
 
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
