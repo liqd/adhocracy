@@ -526,8 +526,9 @@ $(document).ready(function () {
         }
 
         var start_time = new Date();
+        var copy = page_stats_baseurl;
         var unload_capture = function(e) {
-            $.get(page_stats_baseurl + '?page='
+            $.get("/stats/on_page" + '?page='
                 + encodeURIComponent(location.href)
                 + '&clicks=' + last_mouse_clicks
                 + '&mouse_moves=' + last_mouse_movements
@@ -536,13 +537,14 @@ $(document).ready(function () {
                 + '&unload=' + new Date() - start_time
                 + '&res=' + document.body.clientWidth + '|' +  
                 document.body.clientHeigth,
-                null, setOnPageTimeout);
+                null, null);
         }
 
+        $(window).bind("unload", unload_capture);
+        
         document.addEventListener("keydown", keyboard_capture);
         document.addEventListener("mousemove", mouse_move_capture);
         document.addEventListener("click", mouse_clicks_capture);
-        window.addEventListener("unload", unload_capture);
         window.addEventListener("blur", focus_and_blur_capture);
         window.addEventListener("focus", focus_and_blur_capture);
 
