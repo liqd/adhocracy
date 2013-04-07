@@ -526,21 +526,20 @@ $(document).ready(function () {
         }
 
         var start_time = new Date();
-        var copy = page_stats_baseurl;
         var unload_capture = function(e) {
-            $.get("/stats/on_page" + '?page='
+            /*$.get(*/alert(page_stats_baseurl + '?page='
                 + encodeURIComponent(location.href)
                 + '&clicks=' + last_mouse_clicks
                 + '&mouse_moves=' + last_mouse_movements
                 + '&keys=' + last_keys
                 + '&last_focus=' + last_focus
-                + '&unload=' + new Date() - start_time
+                + '&unload=' + (new Date() - start_time)
                 + '&res=' + document.body.clientWidth + '|' +  
-                document.body.clientHeigth,
-                null, null);
+                document.body.clientHeigth);/*,
+                null, null);*/
         }
 
-        $(window).bind("unload", unload_capture);
+        window.addEventListener("beforeunload", unload_capture);
         
         document.addEventListener("keydown", keyboard_capture);
         document.addEventListener("mousemove", mouse_move_capture);
