@@ -64,29 +64,10 @@ class Tally(object):
         return tally
 
     @classmethod
-    def make_from_poll(cls, poll, at_time=None, user_filter=None):
-        from adhocracy.lib.democracy import Decision
-        from vote import Vote
-        if at_time is None:
-            at_time = datetime.utcnow()
-        results = {}
-        decisions = Decision.for_poll(poll, at_time=at_time,
-                                      user_filter=user_filter)
-        for decision in decisions:
-            if not decision.is_decided():
-                continue
-            results[decision.result] = results.get(decision.result, 0) + 1
-        tally = Tally(poll,
-                      results.get(Vote.YES, 0),
-                      results.get(Vote.NO, 0),
-                      results.get(Vote.ABSTAIN, 0))
-        tally.create_time = at_time
-        return tally
-
-    @classmethod
     def create_from_poll(cls, poll, at_time=None, user_filter=None):
-        tally = cls.make_from_poll(poll, at_time=at_time,
-                                   user_filter=user_filter)
+        from adhocracy.lib.democracy.tally import make_from_poll
+        tally = make_from_poll(cls, poll, at_time=at_time,
+                               user_filter=user_filter)
         meta.Session.add(tally)
         meta.Session.flush()
         return tally
