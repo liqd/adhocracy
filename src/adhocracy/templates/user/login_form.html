@@ -21,13 +21,14 @@ else:
 <div class="form_wrapper">
   <form name="login" method="POST" action="/perform_login">
     <div class="input_wrapper">
-      <label><div>${field_title}</div>
+      <label>${field_title}
         <input type="${field_type}" name="login" autofocus="autofocus" />
       </label>
     </div>
     <div class="input_wrapper">
-      <label><div>${_("Password:")}</div>
+      <label>${_("Password:")}
         <input type="password" name="password" />
+        <a href="/reset" class="password-reset-link">${('Forgot your password?')}</a>
       </label>
     </div>
     <div class="input_wrapper submit">        

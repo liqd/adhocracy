@@ -1835,3 +1835,20 @@ dl.votedetail>dd {margin: 0; padding: 0;}
 .message_preview_body {background: #ccc; white-space: pre-wrap; margin-bottom: 0.5em;}
 
 .importexport_settings {margin-left: 30px;}
+
+form[name="login"] input[type="text"],
+form[name="login"] input[type="email"],
+form[name="login"] input[type="password"] {
+  display: block;
+  width: 206px;
+}
+form[name="login"] input[type="password"] {
+  margin-bottom: 0;
+}
+.password-reset-link {
+  display: inline-block;
+  width: 206px;
+  padding-left: 12px;
+  text-align: right;
+  padding-right: 0;
+}
