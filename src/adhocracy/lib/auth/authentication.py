@@ -16,6 +16,7 @@ from instance_auth_tkt import InstanceAuthTktCookiePlugin
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 import repoze.who.plugins.sa
 from pylons import config
+from webob import Request
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +29,11 @@ def allowed_login_types():
 class _EmailBaseSQLAlchemyPlugin(object):
     default_translations = {'user_name': "user_name", 'email': 'email', 'validate_password': "validate_password"}
 
-    def get_user(self, login, allow_name, allow_email):
+    def get_user(self, login):
+        login_configuration = allowed_login_types()
+        allow_name = 'username+password' in login_configuration
+        allow_email = 'email+password' in login_configuration
+
         if allow_name:
             if allow_email:
                 login_type = u'email' if u'@' in login else u'user_name'
@@ -57,13 +62,9 @@ class EmailSQLAlchemyAuthenticatorPlugin(_EmailBaseSQLAlchemyPlugin,
     def authenticate(self, environ, identity):
         if not ("login" in identity and "password" in identity):
             return None
-            
-        login_configuration = allowed_login_types()
-        allow_name = 'username+password' in login_configuration
-        allow_email = 'email+password' in login_configuration
-        
-        user = self.get_user(identity['login'], allow_name, allow_email)
-        
+
+        user = self.get_user(identity['login'])
+
         if user:
             validator = getattr(user, self.translations['validate_password'])
             if validator(identity['password']):
@@ -72,7 +73,24 @@ class EmailSQLAlchemyAuthenticatorPlugin(_EmailBaseSQLAlchemyPlugin,
 class EmailSQLAlchemyUserMDPlugin(_EmailBaseSQLAlchemyPlugin,
           repoze.who.plugins.sa.SQLAlchemyUserMDPlugin):
     pass
-    
+
+class AlternateLoginFriendlyFormPlugin(FriendlyFormPlugin):
+    def __init__(self, get_user, *args, **kwargs):
+        self._get_user = get_user
+        super(AlternateLoginFriendlyFormPlugin, self).__init__(*args, **kwargs)
+
+    def identify(self, environ):
+        if environ['PATH_INFO'] == self.login_handler_path:
+            request = Request(environ, charset=self.charset)
+            form = dict(request.POST)
+            if form.get('have_password') == 'false':
+                environ['PATH_INFO'] = '/user/nopassword'
+                login = form.get('login')
+                environ['_adhocracy_nopassword_user'] = self._get_user(login)
+                return None
+
+        return super(AlternateLoginFriendlyFormPlugin, self).identify(environ)
+
 
 def setup_auth(app, config):
     groupadapter = InstanceGroupSourceAdapter()
@@ -94,19 +112,26 @@ def setup_auth(app, config):
         secure=config.get('adhocracy.protocol', 'http') == 'https'
     )
 
-    form = FriendlyFormPlugin(
+    sqlauth = EmailSQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
+    sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)
+
+    login_urls = [
             '/login',
             '/perform_login',
             '/post_login',
             '/logout',
             '/post_logout',
+    ]
+    login_options = dict(
             login_counter_name='_login_tries',
             rememberer_name='auth_tkt',
             charset='utf-8'
     )
-    
-    sqlauth = EmailSQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
-    sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)
+    if config.get('adhocracy.login_style') == 'alternate':
+        form = AlternateLoginFriendlyFormPlugin(sqlauth.get_user,
+                                                *login_urls, **login_options)
+    else:
+        form = FriendlyFormPlugin(*login_urls, **login_options)
 
     identifiers = [('form', form),
                    ('basicauth', basicauth),

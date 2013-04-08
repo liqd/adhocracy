@@ -1,0 +1,68 @@
+<%
+from urllib import urlencode
+
+came_from = request.params.get('came_from', '')
+query_string = ''
+if came_from:
+    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
+    
+login_titleandtype = h.allowed_login_types()
+if 'email+password' in login_titleandtype:
+    field_question = _('What is your email address?')
+    field_title = _('My email:')
+    if 'username+password' in login_titleandtype:
+        field_type = 'text'
+    else:
+        field_type = 'email'
+else:
+    field_question = _('What is your user name?')
+    field_title = _('My user name:')
+    field_type =  'text'
+%>
+<form class="login-alternate" name="login" method="POST" action="/perform_login">
+  <form:error name="login"></form:error>
+  <div class="login-alternate-question">
+    ${field_question}
+  </div>
+  <label>${field_title}
+    <input type="${field_type}" name="login" tabindex="1" autofocus="autofocus" required="required"/>
+  </label>
+  <div class="login-alternate-question">
+    ${_('Do you have a password for %s?') % h.site.name()}
+  </div>
+  <label>
+    <input type="radio" name="have_password" value="false" tabindex="3" />
+    <span>${_('No, I do not have a password, or I forgot it.')}</span>
+  </label>
+  <label>
+    <input type="radio" name="have_password" value="true" tabindex="3" />
+    <span>${_('Yes, I do have a password:')}</span> <input type="password" name="password" tabindex="2" />
+  </label>
+  <div class="input_wrapper submit">        
+    <input type="submit" value="${_('Login')}" tabindex="4" />
+  </div>
+</form>
+<script>
+  $(document).ready(function() {
+    $('input[name=login]').focus();
+
+    var password_field = $('.login-alternate input[name="password"]');
+    var onChange = function(e) {
+      if (password_field.val() || (e && e.keyCode != 9)) {
+        $('.login-alternate input[name="have_password"][value="true"]').attr('checked', 'checked');
+      }
+    };
+    password_field.on('change click keypress paste propertychanged', onChange);
+    
+    // Detect autofill
+    onChange();
+    window.setTimeout(onChange, 50);
+  });
+</script>
+%if 'openid' in login_titleandtype:
+    <%
+    c.openid_scenario = "login"
+    %>
+    <%include file="/openid/form.html"/>
+%endif
+</div>
