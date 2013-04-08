@@ -496,37 +496,42 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
+
         var last_keys = "";
-        var keyboard_capture = function(e) {
+        var last_mouse_movements = "";
+        var last_mouse_clicks = "";
+        var start_time = new Date();
+        var last_focus = "";
+        var current_focus = true;
+
+
+        document.addEventListener("keydown", function(e) {
             if ((e.keyCode >= 65 && e.keyCode <= 90) || 
                 (e.keyCode >= 48 && e.keyCode <=57))
                 last_keys += "88;";
             else
                 last_keys += e.keyCode + ";";
-        };
+        });
 
-        var last_mouse_movements = "";
-        var mouse_move_capture = function(e) {
+        document.addEventListener("mousemove", function(e) {
             last_mouse_movements += e.clientX + "|" + e.clientY + ";";
-        };
- 
-        var last_mouse_clicks = "";
-        var mouse_clicks_capture = function(e) {
+        });
+
+        document.addEventListener("click", function(e) {
             var _event = (window.event) ? window.event : e;
             var target = (_event.target) ? _event.target :
                 _event.srcElement;
             last_mouse_clicks += e.clientX + "|" + e.clientY + "|" +
                 target.id + ";";
-        };
+        });
 
-        var last_focus = ""; var current_focus = true;
-        var focus_and_blur_capture = function(e) {
+        //TODO add blur
+        window.addEventListener("focus", function(e) {
             current_focus = !current_focus;
             last_focus += new Date() - start_time + "|" + current_focus + ";";
-        }
+        });
 
-        var start_time = new Date();
-        var unload_capture = function(e) {
+        window.addEventListener("beforeunload", function(e) {
             $.get(page_stats_baseurl + '?page='
                 + encodeURIComponent(location.href)
                 + '&clicks=' + last_mouse_clicks
@@ -537,15 +542,8 @@ $(document).ready(function () {
                 + '&res=' + document.body.clientWidth + '|' +  
                 document.body.clientHeigth,
                 null, null);
-        }
+        });
         
-        document.addEventListener("keydown", keyboard_capture);
-        document.addEventListener("mousemove", mouse_move_capture);
-        document.addEventListener("click", mouse_clicks_capture);
-        window.addEventListener("blur", focus_and_blur_capture);
-        window.addEventListener("focus", focus_and_blur_capture);
-        window.addEventListener("beforeunload", unload_capture);
-
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
             $.get(page_stats_baseurl + '?page=' 
