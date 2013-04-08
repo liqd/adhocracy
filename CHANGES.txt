@@ -3,6 +3,13 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+
+- Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with: 
+    "bin/buildout -n".
+  If you have versions conflicts with distribute delete the old one: 
+    "rm -r eggs/distribute..".
+  [joka]
+
 - Replace RabbitMQ/amqp with redis/rq. This means that you have to
   provide a working redis instance if you want to use asyncronous
   jobs (highly recommended in production).
