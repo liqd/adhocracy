@@ -55,15 +55,13 @@
     %if c.enable_gender:
     <fieldset>
         <legend>${_("Gender")}</legend>
-        <p class="info">${_("Select your gender")}</p>
         <div class="input_wrapper">
-            <label for="gender">${_("Gender")}</label>
             <select id="gender" name="gender">
 		<option value="u"
                 %if c.page_user.gender == "u": 
                     selected="selected" 
                 %endif
-                >${_("Unspecified")}</option>
+                >${_("I am...")}</option>
                 <option value="m" 
                 %if c.page_user.gender == "m":
                     selected="selected" 
