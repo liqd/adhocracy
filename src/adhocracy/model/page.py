@@ -53,7 +53,7 @@ class Page(Delegateable):
             q = q.join(Text)
             q = q.filter(Text.title.like(id))
             if not include_deleted:
-                q = q.filter(or_(Page.delete_time == None,
+                q = q.filter(or_(Page.delete_time == None,  # noqa
                                  Page.delete_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Page.instance == ifilter.get_instance())
@@ -72,7 +72,7 @@ class Page(Delegateable):
                 #from adhocracy.lib.text import title2alias
                 q = q.filter(Page.label == id)
             if not include_deleted:
-                q = q.filter(or_(Page.delete_time == None,
+                q = q.filter(or_(Page.delete_time == None,  # noqa
                                  Page.delete_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Page.instance == ifilter.get_instance())
@@ -86,7 +86,7 @@ class Page(Delegateable):
               include_deleted=False):
         q = meta.Session.query(Page)
         if not include_deleted:
-            q = q.filter(or_(Page.delete_time == None,
+            q = q.filter(or_(Page.delete_time == None,  # noqa
                              Page.delete_time > datetime.utcnow()))
         if functions != []:
             q = q.filter(Page.function.in_(functions))

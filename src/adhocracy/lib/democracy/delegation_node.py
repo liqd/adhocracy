@@ -66,7 +66,7 @@ class DelegationNode(object):
         query = model.meta.Session.query(Delegation)
         query = query.filter(Delegation.scope == self.delegateable)
         query = query.filter(Delegation.create_time <= at_time)
-        query = query.filter(or_(Delegation.revoke_time == None,
+        query = query.filter(or_(Delegation.revoke_time == None,  # noqa
                                  Delegation.revoke_time > at_time))
         query = querymod(query)
         delegations = query.all()

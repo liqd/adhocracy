@@ -39,7 +39,7 @@ class ProposalTile(DelegateableTile):
 
     @property
     def num_principals(self):
-        if self.__num_principals == None:
+        if self.__num_principals is None:
             principals = set(map(lambda d: d.principal,
                                  self.dnode.transitive_inbound()))
             if self.poll:
