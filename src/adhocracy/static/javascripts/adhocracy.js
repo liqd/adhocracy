@@ -522,8 +522,11 @@ $(document).ready(function () {
             var _event = (window.event) ? window.event : e;
             var target = (_event.target) ? _event.target :
                 _event.srcElement;
-            add_to_page_stats("click", {"target": target, "x": e.clientX,
-                "y": e.clientY});
+            var path = $(target).parentsUntil('body').andSelf().map(function() {
+                return this.id + '|' + this.nodeName;
+            }).get().join('>');
+            add_to_page_stats("click", {"target": target.id, "x": e.clientX,
+                "y": e.clientY, "button": e.which, "path": path});
         });
 
         window.addEventListener("focus", function(e) {
