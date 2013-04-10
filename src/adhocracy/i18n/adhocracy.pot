@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 871094a\n"
+"Project-Id-Version: adhocracy 56bd32e\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-03 13:05+0200\n"
+"POT-Creation-Date: 2013-04-10 16:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Solr index updated."
 msgstr ""
 
-msgid "Welcoming requested, but not enabled"
+msgid "Requested generation of welcome codes, but welcome functionality(adhocracy.enable_welcome) is not enabled."
 msgstr ""
 
 msgid "In all instances"
@@ -228,7 +228,13 @@ msgstr ""
 msgid "No OpenID given!"
 msgstr ""
 
+msgid "Connection not allowed, OpenID has been disabled on this installation"
+msgstr ""
+
 msgid "No OpenID was entered."
+msgstr ""
+
+msgid "Removal not allowed, OpenID has been disabled on this installation"
 msgstr ""
 
 #, python-format
@@ -259,14 +265,15 @@ msgid "Successfully added OpenID to user account."
 msgstr ""
 
 #, python-format
+msgid "OpenID %s doesn't belong to an existing user account and user registration is disabled in this installation."
+msgstr ""
+
+#, python-format
 msgid "The email address %s which was returned by the OpenID provider already belongs to a different user account. Please login with that account or use the forgot password functionality, and add the OpenID in your user profile settings afterwards. Sorry for the inconvenience."
 msgstr ""
 
 #, python-format
 msgid "Successfully created new user account %s"
-msgstr ""
-
-msgid "Justin Case has entered the room."
 msgstr ""
 
 msgid "tutorial_norms_overview_tab"
@@ -457,10 +464,10 @@ msgstr ""
 msgid "The reset code is invalid. Please repeat the password recovery procedure."
 msgstr ""
 
-msgid "Thank you, The address is already activated."
+msgid "The activation code is invalid. Please have it resent."
 msgstr ""
 
-msgid "The activation code is invalid. Please have it resent."
+msgid "Thank you, The address is already activated."
 msgstr ""
 
 #, python-format
@@ -2437,6 +2444,9 @@ msgstr ""
 msgid "Login with your OpenID to skip registration."
 msgstr ""
 
+msgid "Login with your OpenID."
+msgstr ""
+
 msgid "Sign in"
 msgstr ""
 
@@ -3237,10 +3247,7 @@ msgstr ""
 msgid "Gender"
 msgstr ""
 
-msgid "Select your gender"
-msgstr ""
-
-msgid "Unspecified"
+msgid "I am..."
 msgstr ""
 
 msgid "Male"
@@ -3338,9 +3345,6 @@ msgstr ""
 msgid "Who are you, then?"
 msgstr ""
 
-msgid "If you have an account but you've lost your password, <a href='/reset'>click here</a>."
-msgstr ""
-
 msgid "Email or username:"
 msgstr ""
 
@@ -3354,6 +3358,9 @@ msgid "Register new account"
 msgstr ""
 
 msgid "Creating an account is easy; all you need is a user name, password and email address."
+msgstr ""
+
+msgid "If you have an account but you've lost your password, <a href='/reset'>click here</a>."
 msgstr ""
 
 msgid "Can only contain letters and numbers."

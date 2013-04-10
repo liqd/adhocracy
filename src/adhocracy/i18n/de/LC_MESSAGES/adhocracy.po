@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-03 13:05+0200\n"
-"PO-Revision-Date: 2013-04-03 12:31+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-04-10 16:06+0200\n"
+"PO-Revision-Date: 2013-04-10 14:36+0000\n"
+"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,8 +41,10 @@ msgstr "Bitte geben Sie eine Vorlage für die E-Mail ein, die wir an die importi
 msgid "Solr index updated."
 msgstr "Solr Index aktualisiert."
 
-msgid "Welcoming requested, but not enabled"
-msgstr "Welcoming angefragt, aber nicht aktiviert"
+msgid ""
+"Requested generation of welcome codes, but welcome "
+"functionality(adhocracy.enable_welcome) is not enabled."
+msgstr "Generierung von Willkommens Codes angefordert, aber die Willkommens-Funktionalität (adhocracy.enable_welcome) ist nicht aktiv."
 
 msgid "In all instances"
 msgstr "In allen Gruppen"
@@ -245,8 +247,14 @@ msgstr "Ungültige Eingabe."
 msgid "No OpenID given!"
 msgstr "Keine OpenID angegeben!"
 
+msgid "Connection not allowed, OpenID has been disabled on this installation"
+msgstr "Verbinden nicht erlaubt, OpenID wurde auf dieser Installation deaktiviert"
+
 msgid "No OpenID was entered."
 msgstr "Keine OpenID eingegeben."
+
+msgid "Removal not allowed, OpenID has been disabled on this installation"
+msgstr "Entfernen nicht erlaubt, OpenID wurde auf dieser Installation deaktiviert"
 
 #, python-format
 msgid "No OpenID with ID '%s' exists."
@@ -277,6 +285,12 @@ msgstr "OpenID erfolgreich zum Nutzerkonto hinzugefügt"
 
 #, python-format
 msgid ""
+"OpenID %s doesn't belong to an existing user account and user registration "
+"is disabled in this installation."
+msgstr "OpenID %s gehört nicht zu einem bestehenden Benutzerkonto und Benutzerregistrierung wurde deaktiviert auf dieser Installation."
+
+#, python-format
+msgid ""
 "The email address %s which was returned by the OpenID provider already "
 "belongs to a different user account. Please login with that account or use "
 "the forgot password functionality, and add the OpenID in your user profile "
@@ -286,9 +300,6 @@ msgstr "Die Email-Adresse %s, welche vom OpenID-Provider geliefert wurd, gehört
 #, python-format
 msgid "Successfully created new user account %s"
 msgstr "Erfolgreich neuen Nutzer/innen-Zugang %s angelegt"
-
-msgid "Justin Case has entered the room."
-msgstr "Justin Case ist vorbeigekommen."
 
 msgid "tutorial_norms_overview_tab"
 msgstr "Übersichtseite über die Beschlüsse der Gruppe. Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse an, sondern unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Argumente angezeigt"
@@ -485,11 +496,11 @@ msgid ""
 "The reset code is invalid. Please repeat the password recovery procedure."
 msgstr "Der Code zum Zurücksetzen des Passworts ist ungültig. Bitte wiederholen Sie die Prozedur zur Wiederherstellung Ihres Passworts."
 
-msgid "Thank you, The address is already activated."
-msgstr "Danke. Die E-Mail-Adresse ist bereits aktiviert."
-
 msgid "The activation code is invalid. Please have it resent."
 msgstr "Ihr Aktivierungscode ist ungültig. Bitte versuchen sie es noch ein Mal."
+
+msgid "Thank you, The address is already activated."
+msgstr "Danke. Die E-Mail-Adresse ist bereits aktiviert."
 
 #, python-format
 msgid "Welcome to %s"
@@ -1414,7 +1425,7 @@ msgid "%(start)s-%(end)s out of %(total)s"
 msgstr "%(start)s-%(end)s von %(total)s"
 
 msgid "No entries."
-msgstr "Keine Eintragungen."
+msgstr "Keine Einträge."
 
 msgid "previous"
 msgstr "vorherige"
@@ -2520,6 +2531,9 @@ msgstr "Alternative"
 msgid "Login with your OpenID to skip registration."
 msgstr "Nutzen Sie OpenID, um sich ohne Registrierung anzumelden."
 
+msgid "Login with your OpenID."
+msgstr "Melden Sie sich an mit Ihrer OpenID."
+
 msgid "Sign in"
 msgstr "Anmelden"
 
@@ -3359,13 +3373,10 @@ msgid "Password (confirm):"
 msgstr "Passwort (bestätigen):"
 
 msgid "Gender"
-msgstr "Gender"
+msgstr "Geschlecht"
 
-msgid "Select your gender"
-msgstr "Gender auswählen"
-
-msgid "Unspecified"
-msgstr "Unspezifiziert"
+msgid "I am..."
+msgstr "Ich bin..."
 
 msgid "Male"
 msgstr "Männlich"
@@ -3374,7 +3385,7 @@ msgid "Female"
 msgstr "Weiblich"
 
 msgid "Notifications"
-msgstr "Benachrichtungen"
+msgstr "Benachrichtigungen"
 
 msgid "Select how you would like to be notified of events."
 msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen."
@@ -3401,7 +3412,7 @@ msgid "Receive occasional news from instance administrators."
 msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen."
 
 msgid "Receive news service"
-msgstr "Nachrichtendienst empfangen"
+msgstr "Neuigkeiten empfangen"
 
 msgid "OpenID"
 msgstr "OpenID"
@@ -3464,11 +3475,6 @@ msgstr "%s ist Mitglied in den folgenden Gruppen"
 msgid "Who are you, then?"
 msgstr "Und wer sind Sie? "
 
-msgid ""
-"If you have an account but you've lost your password, <a href='/reset'>click"
-" here</a>."
-msgstr "Falls Sie Ihr Passwort vergessen haben, <a href='/reset'>klicken Sie hier</a>."
-
 msgid "Email or username:"
 msgstr "E-Mail oder Benutzername:"
 
@@ -3485,6 +3491,11 @@ msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
 " address."
 msgstr "Um einen Account anzulegen, brauchen Sie nur einen Benutzernamen, ein Passwort und eine E-Mail-Adresse."
+
+msgid ""
+"If you have an account but you've lost your password, <a href='/reset'>click"
+" here</a>."
+msgstr "Falls Sie Ihr Passwort vergessen haben, <a href='/reset'>klicken Sie hier</a>."
 
 msgid "Can only contain letters and numbers."
 msgstr "Darf nur Buchstaben und Zahlen enthalten."
