@@ -496,69 +496,77 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-        var start_time = new Date();
-        var current_focus = true;
+        var stats_extended = $('body').data('stats-extended'));
 
-        var page_stats_data = new Array();
+        if (stats_extended) {
+            var start_time = new Date();
+            var page_stats_data = new Array();
 
-        var add_to_page_stats = function(type, data) {
-            var timestamp = new Date() - start_time;
-            page_stats_data.push({"time": timestamp, "type": type, "data": data});
-        };
+            var add_to_page_stats = function(type, data) {
+                var timestamp = new Date() - start_time;
+                page_stats_data.push({"time": timestamp, "type": type,
+                    "data": data});
+            };
         
-        var get_path = function(element) {
-            return $(element).parentsUntil('body').andSelf().map(function() {
-                return this.id + '|' + this.nodeName;
-            }).get().join('>');
-        };
+            var get_path = function(element) {
+                return $(element).parentsUntil('body').andSelf().map(function() {
+                    return this.id + '|' + this.nodeName;
+                }).get().join('>');
+            };
 
-        document.addEventListener("keydown", function(e) {
-            if ((e.keyCode >= 65 && e.keyCode <= 90) || 
-                (e.keyCode >= 48 && e.keyCode <=57))
-                add_to_page_stats("keydown", [88]);
-            else
-                add_to_page_stats("keydown", [e.keyCode]);
-        });
+            document.addEventListener("keydown", function(e) {
+                if ((e.keyCode >= 65 && e.keyCode <= 90) || 
+                    (e.keyCode >= 48 && e.keyCode <=57))
+                    add_to_page_stats("keydown", [88]);
+                else
+                    add_to_page_stats("keydown", [e.keyCode]);
+            });
 
-        document.addEventListener("mousemove", function(e) {
-            add_to_page_stats("mousemove", {"x": e.clientX, "y": e.clientY});
-        });
+            document.addEventListener("mousemove", function(e) {
+                add_to_page_stats("mousemove", {"x": e.clientX, "y": e.clientY});
+            });
 
-        document.addEventListener("click", function(e) {
-            var _event = (window.event) ? window.event : e;
-            var target = (_event.target) ? _event.target :
-                _event.srcElement;
-            add_to_page_stats("click", {"target": target.id, "x": e.clientX,
-                "y": e.clientY, "button": e.which, "path": get_path(target)});
-        });
+            document.addEventListener("click", function(e) {
+                var _event = (window.event) ? window.event : e;
+                var target = (_event.target) ? _event.target :
+                    _event.srcElement;
+                add_to_page_stats("click", {"target": target.id, "x": e.clientX,
+                    "y": e.clientY, "button": e.which, "path": get_path(target)});
+            });
 
-        window.addEventListener("focus", function(e) {
-            add_to_page_stats("focus", "");
-        });
+            window.addEventListener("focus", function(e) {
+                add_to_page_stats("focus", "");
+            });
 
-        window.addEventListener("blur", function(e) {
-            add_to_page_stats("blur", "");
-        });
+            window.addEventListener("blur", function(e) {
+                add_to_page_stats("blur", "");
+            });
 
-        window.addEventListener("resize", function() {
-            add_to_page_stats("resize", {"x": window.innerHeight,
-                "y": window.innerWidth});
-        });
+            window.addEventListener("resize", function() {
+                add_to_page_stats("resize", {"x": window.innerHeight,
+                    "y": window.innerWidth});
+            });
 
-        window.addEventListener("beforeunload", function(e) {
-            add_to_page_stats("unload", "");
-            sendOnPagePing();
-        });
-        
+            window.addEventListener("beforeunload", function(e) {
+                add_to_page_stats("unload", "");
+                sendOnPagePing();
+            });
+        }
+
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            add_to_page_stats("active_element", get_path(document.activeElement));
-            $.get(page_stats_baseurl + '?page=' 
-                    + encodeURIComponent(location.href)
-                    + '&data=' + JSON.stringify(page_stats_data)
-                    + '&res=' + window.innerHeight + '|' + window.innerWidth,
+            if (stats_extended) { 
+                add_to_page_stats("active_element",
+                    get_path(document.activeElement));
+                var append_string = '&data=' + JSON.stringify(page_stats_data)
+                    + '&res=' + window.innerHeight + '|' + window.innerWidth;
+                page_stats_data = new Array();
+            } else {
+                var append_string = "";
+            }
+            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
+                    + append_string,
                     null, setOnPageTimeout);
-            page_stats_data = new Array();
         };
         var setOnPageTimeout = function() {
             window.setTimeout(sendOnPagePing, stats_interval);

@@ -51,6 +51,8 @@ class BaseController(WSGIController):
 
         if asbool(config.get('adhocracy.monitor_external_links', 'False')):
             c.monitor_external_links_url = h.base_url('/stats/record_external')
+        if asbool(config.get('adhocracy.monitor_extended')):
+            c.monitor_extended = True
 
         h.add_rss("%s News" % h.site.name(),
                   h.base_url('/feed.rss', None))
