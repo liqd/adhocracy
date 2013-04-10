@@ -496,69 +496,62 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-
-        var last_keys = "";
-        var last_mouse_movements = "";
-        var last_mouse_clicks = "";
         var start_time = new Date();
-        var last_focus = "";
         var current_focus = true;
 
+        var page_stats_data = new Array();
+
+        var add_to_page_stats = function(type, data) {
+            var timestamp = new Date() - start_time;
+            page_stats_data.push({"time": timestamp, "type": type, "data": data});
+        };
 
         document.addEventListener("keydown", function(e) {
             if ((e.keyCode >= 65 && e.keyCode <= 90) || 
                 (e.keyCode >= 48 && e.keyCode <=57))
-                last_keys += "88;";
+                add_to_page_stats("keydown", [88]);
             else
-                last_keys += e.keyCode + ";";
+                add_to_page_stats("keydown", [e.keyCode]);
         });
 
         document.addEventListener("mousemove", function(e) {
-            last_mouse_movements += e.clientX + "|" + e.clientY + ";";
+            add_to_page_stats("mousemove", {"x": e.clientX, "y": e.clientY});
         });
 
         document.addEventListener("click", function(e) {
             var _event = (window.event) ? window.event : e;
             var target = (_event.target) ? _event.target :
                 _event.srcElement;
-            last_mouse_clicks += e.clientX + "|" + e.clientY + "|" +
-                target.id + ";";
+            add_to_page_stats("click", {"target": target, "x": e.clientX,
+                "y": e.clientY});
         });
 
-        //TODO add blur
         window.addEventListener("focus", function(e) {
-            current_focus = !current_focus;
-            last_focus += new Date() - start_time + "|" + current_focus + ";";
+            add_to_page_stats("focus", "");
+        });
+
+        window.addEventListener("blur", function(e) {
+            add_to_page_stats("blur", "");
+        });
+
+        window.addEventListener("resize", function() {
+            add_to_page_stats("resize", {"x": window.innerHeight,
+                "y": window.innerWidth});
         });
 
         window.addEventListener("beforeunload", function(e) {
-            $.get(page_stats_baseurl + '?page='
-                + encodeURIComponent(location.href)
-                + '&clicks=' + last_mouse_clicks
-                + '&mouse_moves=' + last_mouse_movements
-                + '&keys=' + last_keys
-                + '&last_focus=' + last_focus
-                + '&unload=' + (new Date() - start_time)
-                + '&res=' + document.body.clientWidth + '|' +  
-                document.body.clientHeigth,
-                null, null);
+            add_to_page_stats("unload", "");
+            sendOnPagePing();
         });
         
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
             $.get(page_stats_baseurl + '?page=' 
                     + encodeURIComponent(location.href)
-                    + '&clicks=' + last_mouse_clicks
-                    + '&mouse_moves=' + last_mouse_movements
-                    + '&keys=' + last_keys
-                    + '&focus=' + last_focus
-                    + '&res=' +  document.body.clientWidth + '|'
-                    + document.body.clientHeight,
+                    + '&data=' + JSON.stringify(page_stats_data)
+                    + '&res=' + window.innerHeight + '|' + window.innerWidth,
                     null, setOnPageTimeout);
-            last_mouse_clicks = "";
-            last_mouse_movements = "";
-            last_keys = "";
-            last_focus = "";
+            page_stats_data = new Array();
         };
         var setOnPageTimeout = function() {
             window.setTimeout(sendOnPagePing, stats_interval);
