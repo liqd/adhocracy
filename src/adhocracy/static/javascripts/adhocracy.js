@@ -505,6 +505,12 @@ $(document).ready(function () {
             var timestamp = new Date() - start_time;
             page_stats_data.push({"time": timestamp, "type": type, "data": data});
         };
+        
+        var get_path = function(element) {
+            return $(element).parentsUntil('body').andSelf().map(function() {
+                return this.id + '|' + this.nodeName;
+            }).get().join('>');
+        };
 
         document.addEventListener("keydown", function(e) {
             if ((e.keyCode >= 65 && e.keyCode <= 90) || 
@@ -522,11 +528,8 @@ $(document).ready(function () {
             var _event = (window.event) ? window.event : e;
             var target = (_event.target) ? _event.target :
                 _event.srcElement;
-            var path = $(target).parentsUntil('body').andSelf().map(function() {
-                return this.id + '|' + this.nodeName;
-            }).get().join('>');
             add_to_page_stats("click", {"target": target.id, "x": e.clientX,
-                "y": e.clientY, "button": e.which, "path": path});
+                "y": e.clientY, "button": e.which, "path": get_path(target)});
         });
 
         window.addEventListener("focus", function(e) {
@@ -549,6 +552,7 @@ $(document).ready(function () {
         
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
+            add_to_page_stats("active_element", get_path(document.activeElement));
             $.get(page_stats_baseurl + '?page=' 
                     + encodeURIComponent(location.href)
                     + '&data=' + JSON.stringify(page_stats_data)
