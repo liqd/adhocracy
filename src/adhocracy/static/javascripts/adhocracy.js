@@ -496,7 +496,7 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-        var stats_extended = $('body').data('stats-extended'));
+        var stats_extended = $('body').data('stats-extended');
 
         if (stats_extended) {
             var start_time = new Date();
