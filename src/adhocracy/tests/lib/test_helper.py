@@ -45,7 +45,7 @@ class TestBadgeHelper(TestController):
         badge = ThumbnailBadge.create('testbadge0', '#ccc', True, 'descr')
         badge.thumbnail = TEST_IMAGE
         image = generate_thumbnail_tag(badge)
-        self.assert_('6dBQ+AAAAABJRU5ErkJggg==' in image)
+        self.assert_('VWyKXFMAAAAASUVORK5CYII=' in image)
 
     def test_generate_thumbnail_tag_set_size(self):
         from adhocracy.model import ThumbnailBadge, Instance
@@ -70,7 +70,7 @@ class TestBadgeHelper(TestController):
         self.assert_('fb96ZYAAAAASUVORK5CYII=' in image)
         badge.thumbnail = TEST_IMAGE
         image = generate_thumbnail_tag(badge)
-        self.assert_('BQ+AAAAABJRU5ErkJggg=' in image)
+        self.assert_('VWyKXFMAAAAASUVORK5CYII=' in image)
         badge.thumbnail = "Wrong Data"
         image = generate_thumbnail_tag(badge)
         self.assert_('fb96ZYAAAAASUVORK5CYII=' in image)

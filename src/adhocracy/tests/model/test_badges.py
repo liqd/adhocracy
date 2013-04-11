@@ -247,7 +247,7 @@ class TestThumbnailController(TestController):
         badge.thumbnail = None
         no_thumb = "<ThumbnailBadge(1,testbadge,0,#ccc)>"
         self.assertEqual(no_thumb, badge.__repr__())
-        with_thumb = "<ThumbnailBadge(1,testbadge,4031337473392577953,#ccc)>"
+        with_thumb = "<ThumbnailBadge(1,testbadge,-1219949151,#ccc)>"
         badge.thumbnail = "binary"
         self.assertEqual(with_thumb, badge.__repr__())
 
