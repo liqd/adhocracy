@@ -62,7 +62,7 @@ Check out Adhocracy:
 
 Run buildout:
 
-    $ python bootstrap.py --version=1.7.0
+    $ python bootstrap.py 
     $ bin/buildout
 
 Start Adhocracy and dependent servers:
