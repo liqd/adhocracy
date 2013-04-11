@@ -255,7 +255,7 @@ class ValidInstanceBadge(formencode.FancyValidator):
         from adhocracy.model import InstanceBadge
         try:
             value = int(value)
-        except:
+        except ValueError:
             pass
         badge = InstanceBadge.by_id(value, instance_filter=False)
         if badge is None or badge.instance not in [None, c.instance]:
