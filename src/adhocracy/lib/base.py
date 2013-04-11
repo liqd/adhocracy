@@ -4,7 +4,7 @@ Provides the BaseController class for subclassing.
 """
 import logging
 
-from paste.deploy.converters import asbool
+from paste.deploy.converters import asbool, asint
 from pylons import config
 from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
@@ -42,6 +42,15 @@ class BaseController(WSGIController):
             .get('controller')
         c.debug = asbool(config.get('debug'))
         i18n.handle_request()
+
+        monitor_page_time_interval = asint(
+                config.get('adhocracy.monitor_page_time_interval', -1))
+        if monitor_page_time_interval > 0:
+            c.monitor_page_time_interval = monitor_page_time_interval
+            c.monitor_page_time_url = h.base_url('/stats/on_page')
+
+        if asbool(config.get('adhocracy.monitor_external_links', 'False')):
+            c.monitor_external_links_url = h.base_url('/stats/record_external')
 
         h.add_rss("%s News" % h.site.name(),
                   h.base_url('/feed.rss', None))

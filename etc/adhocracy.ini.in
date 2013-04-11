@@ -177,6 +177,9 @@ adhocracy.protocol = ${parts.adhocracy.protocol}
 adhocracy.site.name = ${parts.adhocracy['site.name']}
 adhocracy.language = ${parts.adhocracy.language}
 
+# INSTALL: Server timezone
+# adhocracy.timezone = Europe/Berlin
+
 # INSTALL: The site directory contains your site modifications of Adhocracy 
 # (e.g. logos, CSS, html pages). A skeleton site directory will be created 
 # by the "setup-app" paster command. 
@@ -270,8 +273,14 @@ piwik.id =
 # and other complex constructs.
 #adhocracy.allow_user_html = false
 
+# INSTALL: Allow registration
+#adhocracy.allow_registration = true
+
 # INSTALL: How can users login?
 #adhocracy.login_type = openid,username+password,email+password
+
+# INSTALL: Allow administrators to let users log in from an invitation email
+# adhocracy.enable_welcome = True
 
 # activate geo features
 
@@ -308,6 +317,9 @@ adhocracy.hide_empty_categories_in_facet_list = True
 
 # number of newest proposals to show on frontpage (0 to hide the list)
 adhocracy.startpage.proposals.list_length = 0
+
+# Source for imprint, details etc. ("database" or "filesystem" (default))
+#adhocracy.staticpage_backend = database
 
 
 # Logging configuration
@@ -348,8 +360,7 @@ level = NOTSET
 formatter = generic
 
 [formatter_generic]
-format = %(asctime)s,%(msecs)03d %(levelname)-5.5s [%(name)s] %(message)s
-datefmt = %H:%M:%S
+format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 
 ##############################################################
 # Custom OVERRIDE adhocracy settings 

@@ -16,7 +16,7 @@ ${components.watch(c.milestone)}
 <%
 created_msg = _("by %s on %s") % (
     h.user.link(c.milestone.creator), 
-    h.format_date(c.milestone.create_time))
+    h.date_tag(c.milestone.create_time))
 %>
     ${created_msg|n}
     </p>
@@ -24,7 +24,7 @@ created_msg = _("by %s on %s") % (
     %if c.milestone.modify_time is not None:
     <h6>${_('Last Change')}</h6>
     <p><time>
-        ${h.relative_time(c.milestone.modify_time)|n}
+        ${h.datetime_tag(c.milestone.modify_time)|n}
     </time></p>
     %endif
 

@@ -37,6 +37,8 @@ def make_map(config):
                 action='dashboard_proposals')
     map.connect('/user/{id}/dashboard_pages', controller='user',
                 action='dashboard_pages')
+    map.connect('/welcome/{id}/{token}', controller='user',
+                action='welcome')
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'votes': 'GET',
@@ -49,7 +51,8 @@ def make_map(config):
                                          'revert': 'GET',
                                          'reset': 'GET',
                                          'activate': 'GET',
-                                         'resend': 'GET'},
+                                         'resend': 'GET',
+                                         'set_password': 'POST'},
                  collection={'complete': 'GET',
                              'filter': 'GET'})
 
@@ -65,10 +68,10 @@ def make_map(config):
     map.connect('/user/{id}/message/new', controller='message', action='new',
                 conditions=dict(method=['GET']))
 
-    map.connect('/message/new', controller='massmessage', action='new',
-                conditions=dict(method=['GET']))
-    map.connect('/message/new', controller='massmessage', action='create',
-                conditions=dict(method=['POST']))
+    map.connect('/message/new', controller='massmessage', action='new')
+    map.connect('/message/preview', controller='massmessage', action='preview')
+    map.connect('/message/create', controller='massmessage', action='create')
+
 
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
@@ -335,7 +338,18 @@ def make_map(config):
     map.connect('/admin/import/do',
                 controller='admin', action='import_do')
 
-    map.connect('/static/{page_name}.{format}', controller='static',
+    map.connect('/static/', controller='static', action='index',
+                conditions=dict(method=['GET', 'HEAD']))
+    map.connect('/static/', controller='static', action='make_new',
+                conditions=dict(method=['POST']))
+    map.connect('/static/new', controller='static', action='new')
+    map.connect('/static/{key}_{lang}',
+                controller='static', action='edit',
+                conditions=dict(method=['GET', 'HEAD']))
+    map.connect('/static/{key}_{lang}',
+                controller='static', action='update',
+                conditions=dict(method=['POST']))
+    map.connect('/static/{key}.{format}', controller='static',
                 action='serve')
 
     map.connect('/{controller}/{action}')

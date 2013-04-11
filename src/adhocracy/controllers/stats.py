@@ -6,5 +6,12 @@ class StatsController(BaseController):
     """ This controller is an endpoint for AJAX requests that monitor user
     behavior. You'll want to enable `adhocracy.requestlog_active` to record
     them.  """
+
     def read_comments(self, format='json'):
+        return render_json({})
+
+    def on_page(self, format='json'):
+        return render_json({})
+
+    def record_external(self, format='json'):
         return render_json({})

@@ -44,7 +44,6 @@ class UserCreateForm(formencode.Schema):
                            forms.UniqueEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
-    password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
 
@@ -103,6 +102,11 @@ class UserBadgesForm(formencode.Schema):
     badge = ForEach(forms.ValidUserBadge())
 
 
+class UserSetPasswordForm(formencode.Schema):
+    allow_extra_fields = True
+    password = validators.String(not_empty=False)
+
+
 class UserController(BaseController):
 
     def __init__(self):
@@ -131,6 +135,10 @@ class UserController(BaseController):
         return render("/user/all.html")
 
     def new(self):
+        if not h.allow_user_registration():
+            return ret_abort(
+                _("Sorry, registration has been disabled by administrator."),
+                category='error', code=403)
         c.active_global_nav = "login"
         if c.user:
             redirect('/')
@@ -195,10 +203,11 @@ class UserController(BaseController):
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
-        login = self.form_result.get("user_name").encode('utf-8')
+        login = self.form_result.get("user_name")
         credentials = {
             'login': login,
-            'password': self.form_result.get("password").encode('utf-8')}
+            'password': self.form_result.get("password")
+        }
         authenticated, headers = who_api.login(credentials)
         if authenticated:
             # redirect to dashboard with login message
@@ -279,10 +288,24 @@ class UserController(BaseController):
             event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
         redirect(h.entity_url(c.page_user))
 
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)
+    def set_password(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
+        c.page_user.password = self.form_result.get('password')
+        model.meta.Session.add(c.page_user)
+        model.meta.Session.commit()
+
+        h.flash(_('Password has been set. Have fun!'), 'success')
+        redirect(h.base_url('/'))
+
     def reset_form(self):
         return render("/user/reset_form.html")
 
-    @validate(schema=UserResetApplyForm(), form="reset", post_only=True)
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=UserResetApplyForm(), form="reset_form", post_only=True)
     def reset_request(self):
         c.page_user = model.User.find_by_email(self.form_result.get('email'))
         if c.page_user is None:
@@ -337,12 +360,12 @@ class UserController(BaseController):
                                           instance_filter=False)
         code = self.form_result.get('c')
 
-        if c.page_user.activation_code is None:
-            h.flash(_(u'Thank you, The address is already activated.'))
-            redirect(h.entity_url(c.page_user))
-        elif c.page_user.activation_code != code:
+        if c.page_user.activation_code != code:
             h.flash(_("The activation code is invalid. Please have it "
                       "resent."), 'error')
+            redirect(h.entity_url(c.page_user))
+        if c.page_user.activation_code is None:
+            h.flash(_(u'Thank you, The address is already activated.'))
             redirect(h.entity_url(c.page_user))
 
         c.page_user.activation_code = None
@@ -470,7 +493,7 @@ class UserController(BaseController):
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        require.user.show(c.page_user)
+        require.user.show_dashboard(c.page_user)
         #instances
         instances = c.page_user.instances
         #proposals
@@ -492,15 +515,17 @@ class UserController(BaseController):
                                     enable_pages=False,
                                     enable_sorts=False,)
         #pages
-        require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
-                 for i in instances]
-        pages = pages and reduce(lambda x, y: x + y, pages)
-        c.pages = pages
-        c.pages_pager = pager.pages(pages, size=3,
-                                    default_sort=sorting.entity_newest,
-                                    enable_pages=False,
-                                    enable_sorts=False)
+        c.show_pages = any(instance.use_norms for instance in instances)
+        if c.show_pages:
+            require.page.index()
+            pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
+                     for i in instances]
+            pages = pages and reduce(lambda x, y: x + y, pages)
+            c.pages = pages
+            c.pages_pager = pager.pages(pages, size=3,
+                                        default_sort=sorting.entity_newest,
+                                        enable_pages=False,
+                                        enable_sorts=False)
         #watchlist
         require.watch.index()
         c.active_global_nav = 'user'
@@ -625,7 +650,7 @@ class UserController(BaseController):
         c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        require.user.show(c.page_user)
+        require.user.show_watchlist(c.page_user)
         watches = model.Watch.all_by_user(c.page_user)
         entities = [w.entity for w in watches if (w.entity is not None)
                     and (not isinstance(w.entity, unicode))]
@@ -761,7 +786,7 @@ class UserController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        update_entity(user, model.update.UPDATE)
+        update_entity(user, model.UPDATE)
         redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):
@@ -793,3 +818,9 @@ class UserController(BaseController):
             return True
         else:
             return False
+
+    def welcome(self, id, token):
+        # Intercepted by WelcomeRepozeWho, only errors go in here
+        h.flash(_('You already have a password - use that to log in.'),
+                'error')
+        return redirect(h.base_url('/login'))

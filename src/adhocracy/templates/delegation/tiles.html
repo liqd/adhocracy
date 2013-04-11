@@ -22,7 +22,7 @@
         <div class="base">
             <h3>${h.user.link(delegation.principal)|n} ${_("to %s") % h.user.link(delegation.agent)|n}</h3>
             <div class="meta">
-                ${_("created <b>%s</b>") % h.relative_time(delegation.create_time)|n}
+                ${_("created <b>%s</b>") % h.datetime_tag(delegation.create_time)|n}
                 · <a href="${h.entity_url(delegation)}">${_("track record")}</a>
                 %if delegation.principal == c.user:
                     · <a href="${h.entity_url(delegation)}?_method=DELETE&amp;${h.url_token()}">${_("revoke")}</a>

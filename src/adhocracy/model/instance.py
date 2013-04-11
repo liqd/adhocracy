@@ -111,7 +111,7 @@ class Instance(meta.Indexable):
         global_membership = Permission.find('global.member')
         for group in global_membership.groups:
             for membership in group.memberships:
-                if membership.instance == None and not membership.expire_time:
+                if membership.instance is None and not membership.expire_time:
                     members.append(membership.user)
         return list(set(members))
 
@@ -135,7 +135,7 @@ class Instance(meta.Indexable):
         from proposal import Proposal
         q = meta.Session.query(Proposal)
         q = q.filter(Proposal.instance == self)
-        q = q.filter(or_(Proposal.delete_time == None,
+        q = q.filter(or_(Proposal.delete_time == None,  # noqa
                          Proposal.delete_time >= datetime.utcnow()))
         return q.count()
 
@@ -145,7 +145,7 @@ class Instance(meta.Indexable):
         from membership import Membership
         q = meta.Session.query(Membership)
         q = q.filter(Membership.instance == self)
-        q = q.filter(or_(Membership.expire_time == None,
+        q = q.filter(or_(Membership.expire_time == None,  # noqa
                          Membership.expire_time >= datetime.utcnow()))
         return q.count()
 
@@ -162,7 +162,7 @@ class Instance(meta.Indexable):
             except ValueError:
                 q = q.filter(Instance.key == unicode(key))
             if not include_deleted:
-                q = q.filter(or_(Instance.delete_time == None,
+                q = q.filter(or_(Instance.delete_time == None,  # noqa
                                  Instance.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
@@ -201,10 +201,10 @@ class Instance(meta.Indexable):
         q = cls.all_q()
         q = meta.Session.query(Instance)
         if not include_deleted:
-            q = q.filter(or_(Instance.delete_time == None,
+            q = q.filter(or_(Instance.delete_time == None,  # noqa
                              Instance.delete_time > datetime.utcnow()))
         if not include_hidden:
-            q = q.filter(or_(Instance.hidden == None,
+            q = q.filter(or_(Instance.hidden == None,  # noqa
                              Instance.hidden == False))
         if limit is not None:
             q = q.limit(limit)

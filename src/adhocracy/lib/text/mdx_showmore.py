@@ -64,7 +64,8 @@ class ShowmoreExtension(markdown.Extension):
 
     def extendMarkdown(self, md, md_globals):
         md.registerExtension(self)
-        md.preprocessors.add('showmore', ShowmorePreprocessor(md), "_begin")
+        md.preprocessors.add('showmore', ShowmorePreprocessor(md),
+                             '>normalize_whitespace')
 
 
 class ShowmorePreprocessor(markdown.preprocessors.Preprocessor):

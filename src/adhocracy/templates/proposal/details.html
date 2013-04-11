@@ -72,7 +72,7 @@
         ## FIXME: <p><a href="#">http://j.mp/12345</a></p>
 
         <h6>Zuletzt aktiv</h6>
-        <p><time>${h.relative_time(c.page.find_latest_comment_time())|n}</time></p>
+        <p><time>${h.datetime_tag(c.page.find_latest_comment_time())|n}</time></p>
 
         %if c.page.milestone and c.instance.milestones:
         <h6>Termine</h6>

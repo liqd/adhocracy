@@ -305,6 +305,10 @@ class ProposalController(BaseController):
                 c.proposal.selections,
                 key=lambda s: s.page.title)
 
+        if model.votedetail.is_enabled():
+            c.votedetail = model.votedetail.calc_votedetail(
+                c.instance, c.proposal.rate_poll)
+
         if format == 'rss':
             return self.activity(id, format)
 
@@ -329,7 +333,8 @@ class ProposalController(BaseController):
         if monitor_comment_behavior:
             c.monitor_comment_url = '%s?%s' % (
                 h.base_url('/stats/read_comments'),
-                urllib.urlencode({'path': h.entity_url(c.proposal)}))
+                urllib.urlencode({'path':
+                    h.entity_url(c.proposal).encode('utf-8')}))
         return render("/proposal/show.html")
 
     @RequireInstance
@@ -556,7 +561,7 @@ class ProposalController(BaseController):
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
-        update_entity(proposal, model.update.UPDATE)
+        update_entity(proposal, model.UPDATE)
         if format == 'ajax':
             obj = {'badges_html': render_def('/badge/tiles.html', 'badges',
                                              badges=proposal.badges),

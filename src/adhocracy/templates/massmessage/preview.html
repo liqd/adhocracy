@@ -1,0 +1,37 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Mass Message Preview")}</%def>
+
+<%block name="main_content">
+<h3>${_("Preview")}</h3>
+
+<form name="create_message" method="POST" class="massmessage_preview"
+      action="${h.base_url('/message/create')}">
+    ${h.field_token()|n}
+
+    <p>${_("You're about to send the following message to %s recipients:") % c.recipients_count}</p>
+
+    <dl>
+      <dt>From:</dt><dd>${c.sender}</dd>
+      <dt>Subject:</dt><dd>${c.subject}</dd>
+    </dl>
+    <div class="message_preview_body">${c.body}</div>
+
+    <p>${_('The message will go to the following users:')}</p>
+
+    <ul>
+    %for r in c.recipients:
+      <li>${r.name} &lt;${r.email}&gt;</li>
+    %endfor
+    </li>
+
+    %for pkey,pval in c.params.items():
+      <input type="hidden" name="${pkey}" value="${pval}" />
+    %endfor
+
+    <div class="mainbar">
+        ${components.savebox(h.base_url("/"), save_text=_("Send"))}
+    </div>
+</form>
+
+</%block>

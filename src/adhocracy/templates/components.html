@@ -4,6 +4,14 @@
     </div>
 </%def>
 
+<%def name="freetext(name, placeholder=None)">
+    <textarea name="${name}"
+    %if placeholder:
+        placeholder="${placeholder}"
+    %endif
+    ></textarea>
+    ${formatting()}
+</%def>
 
 <%def name="headline()">
 
@@ -70,7 +78,7 @@
 </%def>
 
 
-<%def name="watch(entity)">
+<%def name="watch(entity, id=None)">
     ## FIXME: turn into an ajax call
     %if c.user:
     <%
@@ -90,6 +98,10 @@
         follow_text = _("Follow Tag")
     else:
         log.error('Unknown entity for watch button: %s' % entity)
+    if id is None:
+        id_attr = ''
+    else:
+        id_attr = 'id=%s'%id
 
     skip = False
     watch = h.find_watch(entity)
@@ -117,7 +129,7 @@
         </%doc>
     </div>
     %else:
-    <a class="follow_paper ${css_cls}" href="${href}"
+    <a ${id_attr} class="follow_paper ${css_cls}" href="${href}"
        data-text="${text}" data-hover-text="${hover_text}">${text}</a>
     %endif
 
@@ -131,8 +143,6 @@
     </div>
     %endif
 </%def>
-
-<%def name="title()"></%def>
 
 
 <%def name="vertical_tabs(items, css_class, current_variant=None)">
@@ -173,14 +183,19 @@ $(document).ready(function () {
 </%def>
 
 
-<%def name="head()">
+<%def name="head(title_def=None)">
   <meta charset="utf-8" />
-    <title>${'self.title() - ' if self.title() else ''}
-            %if c.instance:
-                 ${c.instance.label} -
-            %endif
-                ${h.site.name()}
-    </title>
+    <%
+    if title_def is None:
+        local_title = ''
+    else:
+        local_title = capture(title_def)
+    full_title = '%s%s%s' % (
+        local_title + ' - ' if local_title else '',
+        c.instance.label + ' - ' if c.instance else '',
+        h.site.name())
+    %>
+    <title>${full_title}</title>
 
     <meta http-equiv="X-XRDS-Location" 
           content="${h.base_url('/openid/xrds', absolute=True)}" />
@@ -281,12 +296,14 @@ ${caller.body()}
           ${h.field_token()|n}
           <fieldset>
             <legend>${_(u'Send us your feedback')}</legend>
-            <label>${(u'Category')}</label>
-            <select name="category">
-            %for category in h.feedback.get_categories():
-            <option value="${category.id}">${category.title}</option>
-            %endfor
-            </select>
+            %if h.feedback.get_categories():
+                <label>${(u'Category')}</label>
+                <select name="category">
+                %for category in h.feedback.get_categories():
+                <option value="${category.id}">${category.title}</option>
+                %endfor
+                </select>
+            %endif
             <label>${(u'Title')}</label>
             <input type="text" placeholder="${_(u'One line summary')}" name="label">
             <label>${(u'Description')}</label>

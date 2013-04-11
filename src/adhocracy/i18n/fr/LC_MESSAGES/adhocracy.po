@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-18 01:48+0100\n"
-"PO-Revision-Date: 2013-02-18 01:31+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-04-03 13:05+0200\n"
+"PO-Revision-Date: 2013-04-03 11:05+0000\n"
+"Last-Translator: Wawe <transifex.com@jroene.de>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,6 +28,12 @@ msgstr "Ajoutez un sujet au courriel dont nous enverrons aux utilisateurs, s'il 
 
 msgid "Please insert a template for the mail we will send to the users."
 msgstr "Insérez un modèle pour le courriel dont nous enverrons aux utilisateurs."
+
+msgid "Solr index updated."
+msgstr ""
+
+msgid "Welcoming requested, but not enabled"
+msgstr ""
 
 msgid "In all instances"
 msgstr "Dans tous les groupes"
@@ -134,6 +140,9 @@ msgstr ""
 msgid "Badges"
 msgstr "Badges"
 
+msgid "Mass message service"
+msgstr ""
+
 msgid "Members import"
 msgstr "Importation des membres"
 
@@ -187,6 +196,23 @@ msgstr "Vous avez quitté l' %(instance)s"
 msgid "You cannot manipulate one instance from within another instance."
 msgstr "Vous ne pouvez pas manipuler une instance depuis une autre."
 
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr ""
+
+msgid "Email isn't activated"
+msgstr ""
+
+msgid "Not permitted in system settings"
+msgstr ""
+
+#, python-format
+msgid "Could not render message: %s"
+msgstr ""
+
+#, python-format
+msgid "Message sent to %d users."
+msgstr ""
+
 #, python-format
 msgid "[%s] Message from %s: %s"
 msgstr "[%s] Message de %s: %s"
@@ -222,6 +248,9 @@ msgid "You're not authorized to change %s's settings."
 msgstr "Vous n'êtes pas autorisé a changer les préférences de %s."
 
 msgid "Successfully removed OpenID from account"
+msgstr ""
+
+msgid "OpenID login has been disabled on this installation"
 msgstr ""
 
 msgid "OpenID login failed."
@@ -375,8 +404,21 @@ msgstr "l'inclusion de %s a été effacée."
 msgid "Page not Found"
 msgstr "La page demandé n'as pas été trouvée. "
 
+msgid "Page does already exist. Select another key or language."
+msgstr ""
+
+msgid "Page updated"
+msgstr ""
+
+msgid "Cannot find static page to edit"
+msgstr ""
+
 msgid "The requested page was not found"
 msgstr "La page demandé n'as pas été trouvée. "
+
+#, python-format
+msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr ""
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -398,6 +440,9 @@ msgid "Sorry, registration has been disabled by administrator."
 msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
+msgstr ""
+
+msgid "Password has been set. Have fun!"
 msgstr ""
 
 msgid "There is no user registered with that email address."
@@ -447,8 +492,17 @@ msgstr "Votre adresse mail est confirmé."
 msgid "The activation link has been re-sent to your email address."
 msgstr "Un code d'activation a été envoyé a votre adresse mail."
 
+msgid "Invalid login"
+msgstr ""
+
+msgid "Invalid email / user name or password"
+msgstr ""
+
 msgid "Invalid user name or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide."
+
+msgid "Invalid email or password"
+msgstr ""
 
 msgid "tutorial_dashboard_title"
 msgstr "Vous êtes sur votre tableau de bord. Le tableau de bord vous offre une vue d'ensemble des toutes les propositions et des thèmes, des groupes de projet et de la liste de suivi."
@@ -480,6 +534,9 @@ msgstr "%s n'est pas un membre de %s"
 #, python-format
 msgid "%s is banned from the system."
 msgstr "%s est suspendu du système."
+
+msgid "You already have a password - use that to log in."
+msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Une subscription pour cette entité existe déjà ."
@@ -523,6 +580,12 @@ msgstr "Clé d'instance invalide"
 msgid "An instance with that key already exists"
 msgstr "Une instance avec cette clé existe déjà"
 
+msgid "No static key is given"
+msgstr ""
+
+msgid "The static key is invalid"
+msgstr ""
+
 #, python-format
 msgid "No entity with ID '%s' exists"
 msgstr "Aucune entité avec l'ID '%s'"
@@ -549,12 +612,25 @@ msgstr "Ce n'est pas permi à vous d'éditer les badges globales"
 msgid "No Badge ID '%s' exists"
 msgstr "Badge ID '%s' n'existe pas"
 
+msgid "Duplicates in input set of user badge IDs"
+msgstr ""
+
+#, python-format
+msgid "Could not find badges %s"
+msgstr ""
+
 #, python-format
 msgid "Cannot use global category %s in this instance"
 msgstr ""
 
 #, python-format
 msgid "Badge with ID '%s' not valid in this instance"
+msgstr ""
+
+msgid "Parent and child category instance have to match"
+msgstr ""
+
+msgid "You shall not create cycles!"
 msgstr ""
 
 #, python-format
@@ -647,11 +723,11 @@ msgid ""
 "insert enough information for the user: %s"
 msgstr "Il faut que vous insériez les paramètres fictives suivants afin d'insérer assez d'information pour l'utilisateur %s"
 
-msgid "Today"
-msgstr "Aujourd'hui"
+msgid "Please select at least one instance"
+msgstr ""
 
-msgid "Yesterday"
-msgstr "Hier"
+msgid "Disallowed instance selected"
+msgstr ""
 
 #, python-format
 msgid "%d days"
@@ -734,6 +810,15 @@ msgstr "Mail de confirmation d'adresse. Pour confirmer, veuillez ouvrir le lien 
 
 msgid "Confirm your email address"
 msgstr "Confirmer votre adresse mail."
+
+msgid "Dear Ms."
+msgstr ""
+
+msgid "Dear Mr."
+msgstr ""
+
+msgid "Dear"
+msgstr ""
 
 msgid "activity"
 msgstr "activité"
@@ -830,10 +915,6 @@ msgstr "le support"
 
 msgid "Newest Proposals"
 msgstr "Dernières Propositions"
-
-#, python-format
-msgid "Missing page: %s"
-msgstr "Page manquante: %s"
 
 #, python-format
 msgid "Could not find the entity '%s'"
@@ -1129,6 +1210,9 @@ msgstr "Mise en oeuvre"
 msgid "Adhocracy"
 msgstr "Adhocracie"
 
+msgid "delete"
+msgstr "effacer"
+
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (deleted user)"
@@ -1225,6 +1309,15 @@ msgid "Submit"
 msgstr ""
 
 msgid "List existing feedback"
+msgstr ""
+
+msgid "Proposal Category"
+msgstr "Catégorie de proposition"
+
+msgid "No Category"
+msgstr "Aucune catégorie"
+
+msgid "Others"
 msgstr ""
 
 msgid "code of conduct"
@@ -1326,17 +1419,27 @@ msgstr "entrées"
 msgid "Filter list"
 msgstr ""
 
-msgid "Remove all"
-msgstr "Effacer tout"
-
-msgid "remove"
-msgstr "supprimer"
+msgid "reset"
+msgstr ""
 
 msgid "Sort:"
 msgstr "Assortir:"
 
+#, python-format
+msgid "Welcome to %s!"
+msgstr ""
+
+msgid "Please choose a password:"
+msgstr ""
+
+msgid "Set Password"
+msgstr ""
+
 msgid "Get an account to participate in the discussion."
 msgstr "Inscrivez vous pour participer à la discussion."
+
+msgid "Log in to participate in the discussion."
+msgstr ""
 
 msgid "Register"
 msgstr "S'inscrire"
@@ -1361,6 +1464,9 @@ msgid "Send activation link"
 msgstr ""
 
 msgid "Edit profile"
+msgstr ""
+
+msgid "This instance has been frozen - you can not edit or post anything."
 msgstr ""
 
 msgid ""
@@ -1398,6 +1504,9 @@ msgstr "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes
 
 msgid "Votes"
 msgstr "Votes"
+
+msgid "Votes by User Group"
+msgstr ""
 
 msgid "Shortlink"
 msgstr "Shortlink"
@@ -1459,6 +1568,9 @@ msgstr ""
 msgid "Import users"
 msgstr ""
 
+msgid "Generate welcome codes"
+msgstr ""
+
 msgid "Import badges"
 msgstr ""
 
@@ -1516,6 +1628,12 @@ msgid "Import Users"
 msgstr "Importer des utilisateurs"
 
 msgid "Update Search Index"
+msgstr ""
+
+msgid "Static Pages"
+msgstr ""
+
+msgid "Send an email to users"
 msgstr ""
 
 msgid "Site administration"
@@ -1653,7 +1771,21 @@ msgstr ""
 msgid "Global"
 msgstr "Global"
 
-msgid "Other instances"
+msgid "Parent Badge"
+msgstr ""
+
+msgid "No Parent Badge"
+msgstr ""
+
+msgid "Global categories"
+msgstr ""
+
+msgid "Local instance categories"
+msgstr ""
+
+msgid ""
+"Description to select children of this badge (irrelevant if this badge "
+"doesn't have any children)"
 msgstr ""
 
 msgid "Save Badge"
@@ -1691,6 +1823,9 @@ msgstr "oui"
 
 msgid "no"
 msgstr "non"
+
+msgid "Parent"
+msgstr ""
 
 msgid "User Badges"
 msgstr "Utiliser Badges"
@@ -1783,9 +1918,6 @@ msgstr "Ce commentaire a été effacé."
 
 msgid "edit"
 msgstr "editer"
-
-msgid "delete"
-msgstr "effacer"
 
 msgid "1 Comment"
 msgstr "1 Commentaire"
@@ -2144,6 +2276,12 @@ msgstr "Délai"
 msgid "Enable vote delegation"
 msgstr "Permettre le délégation des votes"
 
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
+
 msgid "Home"
 msgstr "Acceuil"
 
@@ -2218,12 +2356,48 @@ msgid_plural "%s norms"
 msgstr[0] "%s règle"
 msgstr[1] "%s règles"
 
-#, python-format
-msgid "Message %s"
-msgstr "Message %s"
+msgid "Send mass message"
+msgstr ""
+
+msgid ""
+"Please note that only users with verified email addresses and activated "
+"newsservice will receive this message per email."
+msgstr ""
+
+msgid "Filter users ..."
+msgstr ""
+
+msgid "... by instance:"
+msgstr ""
+
+msgid "... by badge:"
+msgstr ""
 
 msgid "Subject"
 msgstr "Sujet"
+
+msgid "Body"
+msgstr ""
+
+msgid "Use {email}, {name}, {salutation} to address the user directly."
+msgstr ""
+
+msgid "Sender identity"
+msgstr ""
+
+msgid "Mass Message Preview"
+msgstr ""
+
+#, python-format
+msgid "You're about to send the following message to %s recipients:"
+msgstr ""
+
+msgid "The message will go to the following users:"
+msgstr ""
+
+#, python-format
+msgid "Message %s"
+msgstr "Message %s"
 
 msgid ""
 "Your e-mail address will be included in this message to give the recipient a"
@@ -2265,9 +2439,6 @@ msgstr "Utilisez le format DD.MM.YYYY, s'il vous plaît."
 
 msgid "Category"
 msgstr "Catégorie"
-
-msgid "No Category"
-msgstr "Aucune catégorie"
 
 msgid "Create a new milestone."
 msgstr "Créer un nouveau rendez-vous."
@@ -2404,6 +2575,12 @@ msgid "Variant Name"
 msgstr "Nom de la motion"
 
 msgid "Text"
+msgstr ""
+
+msgid "Formatting"
+msgstr ""
+
+msgid "Use markdown formatting."
 msgstr ""
 
 msgid "Parent page:"
@@ -2669,9 +2846,6 @@ msgstr "La proposition serait..."
 
 msgid "Proposal goals"
 msgstr "Objectif de la proposition"
-
-msgid "Proposal Category"
-msgstr "Catégorie de proposition"
 
 msgid "Collaboration and Notification"
 msgstr "Collaboration et Notification"
@@ -2940,6 +3114,40 @@ msgstr "revoir"
 msgid "compare"
 msgstr "comparer"
 
+#, python-format
+msgid "Edit %(key)s (%(langname)s)"
+msgstr ""
+
+msgid "Title:"
+msgstr "Titre:"
+
+msgid "Content of the page"
+msgstr ""
+
+msgid "Change static page"
+msgstr ""
+
+msgid "Back to the list"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "Create new page"
+msgstr ""
+
+msgid "New Static Page"
+msgstr ""
+
+msgid "New static page"
+msgstr ""
+
+msgid "Key:"
+msgstr ""
+
+msgid "Add static page"
+msgstr ""
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Des tags sont des mots-clé utilisé pour trouver, sorter et filtrer des propositions et des documents."
@@ -2987,9 +3195,6 @@ msgstr "Cette règle n'a pas encore été validée et n'est donc pas en applicat
 #, python-format
 msgid "discuss (%s comments) &raquo;"
 msgstr "discuter (%s commentaires) &raquo;"
-
-msgid "Title:"
-msgstr "Titre:"
 
 msgid "Variant:"
 msgstr "Motion:"
@@ -3183,6 +3388,12 @@ msgstr "Pas encore confirmé."
 msgid "Re-send activation link"
 msgstr "Reenvoyer le lien d'activation"
 
+msgid "Receive occasional news from instance administrators."
+msgstr ""
+
+msgid "Receive news service"
+msgstr ""
+
 msgid "OpenID"
 msgstr "OpenID"
 
@@ -3191,6 +3402,9 @@ msgstr "OpenID vous permet d'appliquer un login unique aux plusieurs sites web."
 
 msgid "There are no associated OpenIDs."
 msgstr "Aucun des OpenIDs sont associés."
+
+msgid "remove"
+msgstr "supprimer"
 
 msgid "Short biography"
 msgstr "Brève biographie"
@@ -3246,8 +3460,14 @@ msgid ""
 " here</a>."
 msgstr "Si vous possedez un compte mais avez oublié le mot de passe, <a href='/reset'> cliquez</a>."
 
+msgid "Email or username:"
+msgstr ""
+
 msgid "Login:"
 msgstr "Identifiant :"
+
+msgid "Email:"
+msgstr ""
 
 msgid "Register new account"
 msgstr "Registrez un nouveau compte"

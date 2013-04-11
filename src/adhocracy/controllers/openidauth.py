@@ -21,7 +21,8 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
 from adhocracy.lib.templating import render
 import adhocracy.lib.mail as libmail
-
+from adhocracy.lib.auth.authentication import allowed_login_types
+from adhocracy.lib.templating import ret_abort
 
 log = logging.getLogger(__name__)
 
@@ -39,6 +40,10 @@ TRUSTED_PROVIDER_RES = [
     GOOGLE_RE,
     YAHOO_RE,
 ]
+
+
+def openid_login_allowed():
+    return 'openid' in allowed_login_types()
 
 
 def is_trusted_provider(identity):
@@ -152,6 +157,8 @@ class OpenidauthController(BaseController):
             return self._failure(openid, str(e))
 
     def connect(self):
+        if not openid_login_allowed():
+            ret_abort(_("Connection not allowed, OpenID has been disabled on this installation"), code=403)
         require.user.edit(c.user)
         if not c.user:
             h.flash(_("No OpenID was entered."), 'warning')
@@ -160,6 +167,8 @@ class OpenidauthController(BaseController):
 
     @RequireInternalRequest()
     def revoke(self):
+        if not openid_login_allowed():
+            ret_abort(_("Removal not allowed, OpenID has been disabled on this installation"), code=403)
         require.user.edit(c.user)
         id = request.params.get('id')
         openid = model.OpenID.by_id(id)
@@ -177,6 +186,9 @@ class OpenidauthController(BaseController):
         redirect(h.entity_url(c.user, member='edit'))
 
     def verify(self):
+        if not openid_login_allowed():
+            ret_abort(_("OpenID login has been disabled on this installation"), code=403)
+        
         self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params,
                                       h.base_url('/openid/verify',
@@ -233,6 +245,14 @@ class OpenidauthController(BaseController):
                 redirect(h.entity_url(c.user, member='edit'))
             else:
 
+                if not h.allow_user_registration():
+                    h.flash(_(
+                        "OpenID %s doesn't belong to an existing user account "
+                        "and user registration is disabled in this "
+                        "installation." % info.identity_url
+                    ), 'warning')
+                    redirect(h.base_url('/login'))
+
                 user_by_email = model.User.find_by_email(email)
                 if user_by_email is not None:
                     if is_trusted_provider(info.identity_url):
@@ -280,8 +300,6 @@ class OpenidauthController(BaseController):
                 h.flash(_("Successfully created new user account %s" %
                           user_name), 'success')
                 self._login(user)
-        return self._failure(info.identity_url,
-                             _("Justin Case has entered the room."))
 
     @validate(schema=OpenIDUsernameForm(), form="username", post_only=True)
     def username(self):

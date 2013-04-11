@@ -14,9 +14,9 @@
                 <span class="role">
                     ${tile.translated_instance_role_names()}
                     </span> ·
-                ${_("joined %s") % h.relative_time(mem.create_time)|n}
+                ${_("joined %s") % h.datetime_tag(mem.create_time)|n}
             %else: 
-                ${_("signed up %s") % h.relative_time(user.create_time)|n}
+                ${_("signed up %s") % h.datetime_tag(user.create_time)|n}
             %endif
         </div>
         <div class="hr"><hr /></div>

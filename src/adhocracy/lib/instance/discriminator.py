@@ -2,7 +2,6 @@ import logging
 
 from adhocracy import model
 from paste.deploy.converters import asbool
-
 from webob import Response
 
 log = logging.getLogger(__name__)
@@ -17,10 +16,12 @@ class InstanceDiscriminatorMiddleware(object):
         log.debug("Host name: %s." % domain)
 
     def __call__(self, environ, start_response):
+        relative_urls = asbool(self.config.get('adhocracy.relative_urls',
+                                               'false'))
         environ['adhocracy.domain'] = self.domain
         instance_key = self.config.get('adhocracy.instance')
         if instance_key is None:
-            if asbool(self.config.get('adhocracy.relative_urls', 'false')):
+            if relative_urls:
                 path = environ.get('PATH_INFO', '')
                 if path.startswith('/i/'):
                     instance_key = path.split('/')[2]
@@ -47,7 +48,12 @@ class InstanceDiscriminatorMiddleware(object):
         if instance_key:  # instance key is set (neither None nor "")
             instance = model.Instance.find(instance_key)
             if instance is None:
-                log.debug("No such instance: %s, defaulting!" % instance_key)
+                if (not relative_urls) and instance_key == 'www':
+                    log.debug("No such instance: www, defaulting to global!")
+                else:
+                    response = Response()
+                    response.status_int = 404
+                    return response(environ, start_response)
             else:
                 model.instance_filter.setup_thread(instance)
         try:

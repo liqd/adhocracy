@@ -2,12 +2,12 @@
 /><%namespace name="components" file="/components.html"
 /><%namespace name="navigation" file="/navigation.html"
 /><%namespace name="debug" file="/debug/tiles.html"
-/><%def name="breadcrumbs()">&nbsp;</%def><?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+/><%def name="breadcrumbs()">&nbsp;</%def><%def name="title()"></%def><?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE html>
 <html class="no-js">
   <head>
       <%block name="head">
-      ${components.head()}
+      ${components.head(self.title)}
       </%block>
 
       %if h.config.get('adhocracy.debug.sql'):
@@ -16,7 +16,15 @@
   </head>
 
 
-<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}">
+<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}"
+    %if c.monitor_page_time_interval:
+    data-stats-baseurl="${c.monitor_page_time_url}"
+    data-stats-interval="${c.monitor_page_time_interval}"
+    %endif
+    %if c.monitor_external_links_url:
+    data-stats-monitor_external_links_url="${c.monitor_external_links_url}"
+    %endif
+    >
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
@@ -27,17 +35,32 @@
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
+    %if c.user and c.user.welcome_code and not c.user.password:
+      <form id="user_welcome" action="${h.entity_url(c.user, member='set_password')}" method="post" data-success-message="${_('Password has been set. Have fun!')}">
+      ${h.field_token()|n}
+      <label><span>${_('Welcome to %s!') % h.site.name()} ${_('Please choose a password:')}</span>
+      <input type="password" name="password" autofocus="autofocus" required="required" pattern=".{6,}" title="${('Please pick a secure password')}" x-moz-errormessage="${('Please pick a secure password')}"/>
+      <input type="submit" value="${_('Set Password')}" />
+      </label>
+      </form>
+    %endif
     %if c.user is None:
     <div class="overlay" id="overlay-login">
       <a class="close"></a>
       <div class="contentWrap">
          <div class="register">
              <p class="patch_description">
+             %if h.allow_user_registration():
                  ${_('Get an account to participate in the discussion.')}
+             %else:
+                 ${_('Log in to participate in the discussion.')}
+             %endif
              </p>
+             %if h.allow_user_registration():
              <a href="${h.base_url('/register')}" 
                 class="button patch_camefrom">${_('Register')}</a> 
              ${_("or")} 
+             %endif
              <a href="${h.base_url('/login')}" 
                 class="icon_link more_uppercase patch_camefrom">${_('Log in')}</a>
          </div>
@@ -67,6 +90,14 @@
              ${_("or")} 
              <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a> 
          </div>
+      </div>
+    </div>
+    %endif
+    %if c.instance and c.instance.frozen:
+    <div class="overlay">
+      <a class="close"></a>
+      <div class="contentWrap">
+      ${_('This instance has been frozen - you can not edit or post anything.')}
       </div>
     </div>
     %endif
@@ -102,16 +133,22 @@
               <div class="message">
                   %if c.user is None:
                   <div class="register">
+                      %if h.allow_user_registration():
                       <a href="${h.register_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate when ready.
                          class="button">${_('Register')}</a> 
                       ${_("or")} 
+                      %endif
                       <a href="${h.login_redirect_url()}" 
                          ## rel="#overlay-ajax" FIXME: reactivate.
                          class="icon_link more_uppercase">${_('Login')}</a>
                   </div>
                   <p class="register_msg">
-                      ${_('Get an account to participate in the discussion.')}
+                     %if h.allow_user_registration():
+                         ${_('Get an account to participate in the discussion.')}
+                     %else:
+                         ${_('Log in to participate in the discussion.')}
+                     %endif
                   </p>
                   %elif can.instance.join(c.instance):
                   <div class="register">

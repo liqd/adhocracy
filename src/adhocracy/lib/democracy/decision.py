@@ -145,7 +145,7 @@ class Decision(object):
         Determine if a given decision was made by the user, i.e. if the user
         or one of his/her agents has voted on the proposal.
         """
-        return not self.result == None
+        return not self.result is None
 
     def is_self_decided(self):
         """
@@ -154,7 +154,7 @@ class Decision(object):
         """
 
         relevant = self.relevant_votes
-        return len(relevant) == 1 and relevant[0].delegation == None
+        return len(relevant) == 1 and relevant[0].delegation is None
 
     def __repr__(self):
         return "<Decision(%s,%s)>" % (self.user.user_name, self.poll.id)
@@ -200,13 +200,15 @@ class Decision(object):
                 yield cls(user, poll, at_time=at_time)
 
     @classmethod
-    def for_poll(cls, poll, at_time=None):
+    def for_poll(cls, poll, at_time=None, user_filter=None):
         """
         Get all decisions that have been made on a poll.
 
         :param poll: The poll on which to get decisions.
         """
         query = model.meta.Session.query(User)
+        if user_filter:
+            query = user_filter(query)
         query = query.distinct().join(Vote)
         query = query.filter(Vote.poll_id == poll.id)
         if at_time:
@@ -227,7 +229,7 @@ class Decision(object):
             query = model.meta.Session.query(Poll)
             query = query.join(Delegateable)
             query = query.filter(Delegateable.instance_id == instance.id)
-            query = query.filter(Poll.end_time == None)
+            query = query.filter(Poll.end_time == None)  # noqa
             query = query.filter(Poll.action != Poll.RATE)
             decisions = []
             for poll in query:

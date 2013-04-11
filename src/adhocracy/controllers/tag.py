@@ -16,7 +16,9 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
+from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import render, render_json
+from adhocracy.lib.templating import ret_success
 from adhocracy.lib.util import get_entity_or_abort
 
 import adhocracy.lib.text as text
@@ -125,8 +127,16 @@ class TagController(BaseController):
         for tagging in delegateable.taggings:
             if tagging.tag == tag:
                 tagging.delete()
+        update_entity(delegateable, model.UPDATE)
         model.meta.Session.commit()
-        redirect(h.entity_url(delegateable, format=format))
+        return ret_success(
+            message=_('Tag "%s" has been removed from %s "%s".') % (
+                tag.name,
+                _(delegateable.type),
+                delegateable.label),
+            category='success',
+            entity=delegateable,
+            format=format)
 
     @RequireInstance
     @validate(schema=TaggingCompleteForm(), form="bad_request",

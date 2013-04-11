@@ -28,7 +28,7 @@ user_table = Table(
     Column('email_priority', Integer, default=3),
     Column('activation_code', Unicode(255), nullable=True, unique=False),
     Column('reset_code', Unicode(255), nullable=True, unique=False),
-    Column('password', Unicode(80), nullable=False),
+    Column('password', Unicode(80), nullable=True),
     Column('locale', Unicode(7), nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('access_time', DateTime, default=datetime.utcnow,
@@ -40,6 +40,7 @@ user_table = Table(
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     Column('gender', Unicode(1), default=None),
     Column('email_messages', Boolean, default=True),
+    Column('welcome_code', Unicode(255), nullable=True),
 )
 
 
@@ -105,12 +106,12 @@ class User(meta.Indexable):
         memberships_q = meta.Session.query(Membership).filter(
             Membership.user_id == self.id)
 
-        if current_instance == None:
+        if current_instance is None:
             memberships_q = memberships_q.filter(
-                Membership.instance_id == None)
+                Membership.instance_id == None)  # noqa
         else:
             memberships_q = memberships_q.filter(or_(
-                Membership.instance_id == None,
+                Membership.instance_id == None,  # noqa
                 Membership.instance_id == current_instance.id
             ))
 
@@ -174,7 +175,7 @@ class User(meta.Indexable):
         from watch import Watch
         q = meta.Session.query(Watch)
         q = q.filter(Watch.user == self)
-        q = q.filter(or_(Watch.delete_time == None,
+        q = q.filter(or_(Watch.delete_time == None,  # noqa
                          Watch.delete_time >= datetime.utcnow()))
         return q.count()
 
@@ -193,6 +194,8 @@ class User(meta.Indexable):
             hashed_password = hashed_password.decode('utf-8')
         self._password = hashed_password
 
+        self.welcome_code = None
+
     def _get_password(self):
         """Return the password hashed"""
         return self._password
@@ -208,6 +211,8 @@ class User(meta.Indexable):
         :return: Whether the password is valid.
         :rtype: bool
         """
+        if self.password is None:
+            return False
         if isinstance(password, unicode):
             password_8bit = password.encode('ascii', 'ignore')
         else:
@@ -218,6 +223,12 @@ class User(meta.Indexable):
         return self.password[40:] == hashed_pass.hexdigest()
 
     password = property(_get_password, _set_password)
+
+    def initialize_welcome(self):
+        """ Sign up the user for the welcome feature (on user import or so) """
+        import adhocracy.lib.util as util
+        self.welcome_code = util.random_token()
+        self._password = None
 
     def current_agencies(self, instance_filter=True):
         ds = filter(lambda d: not d.is_revoked(), self.agencies)
@@ -257,11 +268,11 @@ class User(meta.Indexable):
             except ValueError:
                 q = q.filter(User.user_name == unicode(user_name))
             if not include_deleted:
-                q = q.filter(or_(User.delete_time == None,
+                q = q.filter(or_(User.delete_time == None,  # noqa
                                  User.delete_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.join(Membership)
-                q = q.filter(or_(Membership.expire_time == None,
+                q = q.filter(or_(Membership.expire_time == None,  # noqa
                                  Membership.expire_time > datetime.utcnow()))
                 q = q.filter(Membership.instance == ifilter.get_instance())
             return q.limit(1).first()
@@ -282,11 +293,11 @@ class User(meta.Indexable):
         q = meta.Session.query(User)
         q = q.filter(User.user_name.in_(unames))
         if not include_deleted:
-            q = q.filter(or_(User.delete_time == None,
+            q = q.filter(or_(User.delete_time == None,  # noqa
                              User.delete_time > datetime.utcnow()))
         if ifilter.has_instance() and instance_filter:
             q = q.join(Membership)
-            q = q.filter(or_(Membership.expire_time == None,
+            q = q.filter(or_(Membership.expire_time == None,  # noqa
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == ifilter.get_instance())
         #log.debug("QueryAll: %s" % q)
@@ -300,12 +311,12 @@ class User(meta.Indexable):
         from membership import Membership
         q = meta.Session.query(User)
         if not include_deleted:
-            q = q.filter(or_(User.delete_time == None,
+            q = q.filter(or_(User.delete_time == None,  # noqa
                              User.delete_time > datetime.utcnow()))
         if instance:
             q = q.options(eagerload_all('memberships'))
             q = q.join(Membership)
-            q = q.filter(or_(Membership.expire_time == None,
+            q = q.filter(or_(Membership.expire_time == None,  # noqa
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == instance)
         return q
@@ -347,7 +358,7 @@ class User(meta.Indexable):
         q = meta.Session.query(Delegation)
         q = q.filter(or_(Delegation.agent == self,
                          Delegation.principal == self))
-        q = q.filter(or_(Delegation.revoke_time == None,
+        q = q.filter(or_(Delegation.revoke_time == None,  # noqa
                          Delegation.revoke_time > datetime.utcnow()))
         for delegation in q:
             if instance is None or delegation.scope.instance == instance:

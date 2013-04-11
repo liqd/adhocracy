@@ -1,4 +1,4 @@
-${c.body}
+${c.body|n}
 
 --
 ${_("You receive this message because you're signed in to the news service on %s. You can change your subscription settings on the following page: %s") % (c.page_url, c.settings_url) | n}

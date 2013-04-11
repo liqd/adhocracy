@@ -21,13 +21,13 @@
 
     <fieldset>
         <legend>${_("Language")}</legend>
-        <ul>
+        <ul class="languagelist">
             %for locale in c.locales:
-            <li style="list-style-type: none;"><input type="radio" name="locale" value="${str(locale)}" 
+            <li style="list-style-type: none;"><label><input type="radio" name="locale" value="${str(locale)}" 
             %if locale == c.page_user.locale:
             checked="checked"
             %endif
-            /> ${locale.display_name}</li>
+            /> ${locale.display_name}</label></li>
             %endfor
         </ul>
     </fieldset>
@@ -55,15 +55,13 @@
     %if c.enable_gender:
     <fieldset>
         <legend>${_("Gender")}</legend>
-        <p class="info">${_("Select your gender")}</p>
         <div class="input_wrapper">
-            <label for="gender">${_("Gender")}</label>
             <select id="gender" name="gender">
 		<option value="u"
                 %if c.page_user.gender == "u": 
                     selected="selected" 
                 %endif
-                >${_("Unspecified")}</option>
+                >${_("I am...")}</option>
                 <option value="m" 
                 %if c.page_user.gender == "m":
                     selected="selected" 
@@ -122,6 +120,7 @@
       </div>
     </fieldset>
 
+    %if 'openid' in h.allowed_login_types():
     <fieldset>
       <legend><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</legend>  
       <p class="info">${_("OpenID allows you to use a single login on many web sites.")}</p>
@@ -143,6 +142,7 @@
       %endif
       <a class="add" href="/openid/connect">${_("Add OpenID")}</a>
     </fieldset>
+    %endif
     
     <fieldset>
       <legend>${_("Short biography")}</legend>

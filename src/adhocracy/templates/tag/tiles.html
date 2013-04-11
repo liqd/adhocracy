@@ -4,7 +4,7 @@
         <div class="base" style="background-image: url(/img/icons/tag_24.png);">
             <h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
             <div class="meta noclear">
-                ${_("created %s") % h.relative_time(tag.create_time)|n} 
+                ${_("created %s") % h.datetime_tag(tag.create_time)|n} 
                 %if c.instance:
                      ·   ${_("used %s times") % len(tag)}
                 %endif
@@ -21,7 +21,7 @@
     %endfor
     </p>
     %if link_more:
-    <p><a href="/tag">${_("more tags...")}</a></p>
+    <p><a href="${h.base_url('/tag')}">${_("more tags...")}</a></p>
     %endif
 </%def>
 
@@ -30,7 +30,7 @@
     <h6>${_("Tagged with")}</h6>
     <p>
         %if len(delegateable.tags):
-        ${", ".join([h.tag.link(tag, simple=True) for 
+        ${", ".join([h.tag.link_with_untag(tag, delegateable, simple=True) for 
                      (tag, count) in delegateable.tags])|n}
         %else:
         ${_('Not tagged yet')}

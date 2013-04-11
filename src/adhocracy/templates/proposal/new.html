@@ -24,7 +24,9 @@
       </div>
     </fieldset>
 
+    %if c.categories:
     ${components.category_select('category_select', c.toplevel_question, c.categories)}
+    %endif
     
     %if c.instance.use_norms:
     <fieldset>          

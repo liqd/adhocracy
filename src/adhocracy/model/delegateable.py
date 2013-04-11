@@ -84,7 +84,7 @@ class Delegateable(meta.Indexable):
             q = meta.Session.query(Delegateable)
             q = q.filter(Delegateable.id == int(id))
             if not include_deleted:
-                q = q.filter(or_(Delegateable.delete_time == None,
+                q = q.filter(or_(Delegateable.delete_time == None,  # noqa
                                  Delegateable.delete_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.filter((Delegateable.instance_id ==
@@ -98,7 +98,7 @@ class Delegateable(meta.Indexable):
     def all_q(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Delegateable)
         if not include_deleted:
-            q = q.filter(or_(Delegateable.delete_time == None,
+            q = q.filter(or_(Delegateable.delete_time == None,  # noqa
                              Delegateable.delete_time > datetime.utcnow()))
         if instance is not None:
             q = q.filter(Delegateable.instance == instance)
@@ -170,7 +170,7 @@ class Delegateable(meta.Indexable):
         from comment import Comment
         query = meta.Session.query(Comment)
         query = query.filter(Comment.topic_id == self.id)
-        query = query.filter(or_(Comment.delete_time == None,
+        query = query.filter(or_(Comment.delete_time == None,  # noqa
                                  Comment.delete_time > datetime.utcnow()))
         return query
 
@@ -188,7 +188,7 @@ class Delegateable(meta.Indexable):
         from comment import Comment
         query = self._comment_count_query()
         if reply_filter is None:
-            query = query.filter(Comment.reply_id == None)
+            query = query.filter(Comment.reply_id == None)  # noqa
         elif reply_filter is not False:
             if isinstance(reply_filter, Comment):
                 reply_filter = reply_filter.id

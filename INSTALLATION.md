@@ -46,7 +46,7 @@ Manual installation
 Install required system packages (Debian Squeeze example):
 
     $ sudo apt-get install libpng-dev libjpeg-dev gcc make build-essential bin86 unzip libpcre3-dev zlib1g-dev mercurial git
-    $ sudo apt-get install python python-virtualenv  # either Python 2.6 or 2.7
+    $ sudo apt-get install python python-dev python-virtualenv  # either Python 2.6 or 2.7
     $ sudo apt-get install libsqlite3-dev postgresql-server-dev-8.4
     $ sudo apt-get install openjdk-6-jre
 

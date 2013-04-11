@@ -39,6 +39,7 @@ from adhocracy.lib.helpers import instance_helper as instance
 from adhocracy.lib.helpers import abuse_helper as abuse, tutorial
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
+from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
@@ -48,7 +49,8 @@ from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model, static
 from adhocracy.i18n import countdown_time, format_date
-from adhocracy.i18n import relative_date, relative_time
+from adhocracy.i18n import date_tag
+from adhocracy.i18n import datetime_tag
 
 
 flash = _Flash()
@@ -172,7 +174,7 @@ def login_redirect_url(entity=None, **kwargs):
     ``entity`` is None, it will redirect to the current URL.
     '''
     if entity is None:
-        came_from_url = request.path_url
+        came_from_url = base_url(request.path)
     else:
         came_from_url = entity_url(entity, **kwargs)
 
@@ -189,7 +191,7 @@ def register_redirect_url(entity=None, **kwargs):
     ``entity`` is None, it will redirect to the current URL.
     '''
     if entity is None:
-        came_from_url = request.path_url
+        came_from_url = base_url(request.path)
     else:
         came_from_url = entity_url(entity, **kwargs)
 
@@ -223,6 +225,8 @@ def entity_url(entity, **kwargs):
         return milestone.url(entity, **kwargs)
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
+    elif isinstance(entity, model.StaticPage):
+        return staticpage.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

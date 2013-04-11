@@ -44,6 +44,14 @@ def supervise(check, u):
                 not (has('user.manage') or has('instance.admin')))
 
 
+def show_dashboard(check, u):
+    show(check, u)
+    check.other('user_not_self', u != c.user)
+
+
+show_watchlist = show_dashboard
+
+
 delete = edit
 
 

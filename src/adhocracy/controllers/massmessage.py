@@ -15,15 +15,16 @@ from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.message import render_body
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.templating import render
-from adhocracy.lib.templating import ret_success
+from adhocracy.lib.templating import render, ret_abort, ret_success
 from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
-from adhocracy.model import Permission
 from adhocracy.model import User
+from adhocracy.model import UserBadge
+from adhocracy.model import UserBadges
 
 log = logging.getLogger(__name__)
 
@@ -32,8 +33,46 @@ class MassmessageForm(formencode.Schema):
     allow_extra_fields = True
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
-    instances = forms.MessageableInstances()
+    filter_instances = forms.MessageableInstances()
+    filter_badges = forms.ValidUserBadges()
     sender = validators.String(not_empty=True)
+
+
+def _get_options(func):
+    """ Decorator that calls the functions with the following parameters:
+        sender    - Email address of the sender
+        subject   - Subject of the message
+        body      - Body of the message
+        recipients- A list of users the email is going to
+    """
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=MassmessageForm(), form='new')
+    def wrapper(self):
+        allowed_sender_options = self.get_allowed_sender_options(c.user)
+        sender = self.form_result.get('sender')
+        if ((sender not in allowed_sender_options) or
+                (not allowed_sender_options[sender]['enabled'])):
+            return ret_abort(_("Sorry, but you're not allowed to set these "
+                               "message options"), code=403)
+
+        recipients = User.all_q()
+        filter_instances = self.form_result.get('filter_instances')
+        recipients = recipients.join(Membership).filter(
+            Membership.instance_id.in_(filter_instances))
+        filter_badges = self.form_result.get('filter_badges')
+        if filter_badges:
+            recipients = recipients.join(UserBadges,
+                                         UserBadges.user_id == User.id)
+            recipients = recipients.filter(
+                UserBadges.badge_id.in_([fb.id for fb in filter_badges]))
+
+        return func(self,
+                    allowed_sender_options[sender]['email'],
+                    self.form_result.get('subject'),
+                    self.form_result.get('body'),
+                    recipients,
+                    )
+    return wrapper
 
 
 class MassmessageController(BaseController):
@@ -98,33 +137,43 @@ class MassmessageController(BaseController):
         data = {
             'instances': self.get_allowed_instances(c.user),
             'sender_options': self.get_allowed_sender_options(c.user),
+            'userbadges': UserBadge.all(instance=c.instance,
+                                        include_global=True)
         }
 
         return htmlfill.render(render(template, data),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 
-    @RequireInternalRequest(methods=['POST'])
-    @validate(schema=MassmessageForm(), form='new')
-    def create(self):
+    @_get_options
+    def preview(self, sender, subject, body, recipients):
+        recipients_list = sorted(list(recipients), key=lambda r: r.name)
+        if recipients_list:
+            try:
+                rendered_body = render_body(body, recipients[0])
+            except (KeyError, ValueError) as e:
+                rendered_body = _('Could not render message: %s') % str(e)
+        else:
+            rendered_body = body
 
-        allowed_sender_options = self.get_allowed_sender_options(c.user)
-        sender = self.form_result.get('sender')
-        assert(sender in allowed_sender_options)
-        assert allowed_sender_options[sender]['enabled']
+        data = {
+            'sender': sender,
+            'subject': subject,
+            'body': rendered_body,
+            'recipients': recipients_list,
+            'recipients_count': len(recipients_list),
+            'params': request.params,
+        }
+        return render('/massmessage/preview.html', data)
 
-        message = Message.create(self.form_result.get('subject'),
-                                 self.form_result.get('body'),
+    @_get_options
+    def create(self, sender, subject, body, recipients):
+        message = Message.create(subject,
+                                 body,
                                  c.user,
-                                 allowed_sender_options[sender]['email'])
+                                 sender)
 
-        # Determine recipients
-
-        recipients = User.all_q().join(Membership).filter(
-            Membership.instance_id.in_(self.form_result.get('instances')))
-
-        for user in recipients:
+        for count, user in enumerate(recipients, start=1):
             MessageRecipient.create(message, user, notify=True)
 
-        return ret_success(message=_("Message sent to %d users." %
-                                     recipients.count()))
+        return ret_success(message=_("Message sent to %d users.") % count)
