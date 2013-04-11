@@ -195,7 +195,7 @@ class BadgeController(BaseController):
     def create_instance_badge(self):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('instance', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -209,7 +209,7 @@ class BadgeController(BaseController):
     def create_user_badge(self):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('user', i.unpack_errors())
 
         title, color, visible, description, instance = self._get_common_fields(
@@ -227,7 +227,7 @@ class BadgeController(BaseController):
     def create_delegateable_badge(self):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('delegateable', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -241,7 +241,7 @@ class BadgeController(BaseController):
     def create_category_badge(self):
         try:
             self.form_result = CategoryBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('category', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -262,7 +262,7 @@ class BadgeController(BaseController):
     def create_thumbnail_badge(self):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('thumbnail', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -352,7 +352,7 @@ class BadgeController(BaseController):
     def update_user_badge(self, id):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
 
         badge = self.get_badge_or_redirect(id)
@@ -377,7 +377,7 @@ class BadgeController(BaseController):
     def update_delegateable_badge(self, id):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
@@ -397,7 +397,7 @@ class BadgeController(BaseController):
     def update_instance_badge(self, id):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
@@ -419,7 +419,7 @@ class BadgeController(BaseController):
             params = request.params.copy()
             params['id'] = id
             self.form_result = CategoryBadgeUpdateForm().to_python(params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
@@ -446,7 +446,7 @@ class BadgeController(BaseController):
     def update_thumbnail_badge(self, id):
         try:
             self.form_result = ThumbnailBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
