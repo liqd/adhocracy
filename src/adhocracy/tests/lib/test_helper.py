@@ -54,13 +54,16 @@ class TestBadgeHelper(TestController):
         badge = ThumbnailBadge.create('testbadge0', '', True, 'descr')
         badge.instance = instance
         image = generate_thumbnail_tag(badge)
-        self.assert_('height="48" width="48" />' in image)
+        self.assert_('width="48"' in image)
+        self.assert_('height="48"' in image)
         instance.thumbnailbadges_width = 10
         instance.thumbnailbadges_height = 12
         image = generate_thumbnail_tag(badge)
-        self.assert_('height="12" width="10" />' in image)
+        self.assert_('height="12"' in image)
+        self.assert_('width="10"' in image)
         image = generate_thumbnail_tag(badge, width=8, height=11)
-        self.assert_('height="11" width="8" />' in image)
+        self.assert_('height="11"' in image)
+        self.assert_('width="8"' in image)
 
     def test_generate_thumbnail_cache(self):
         from adhocracy.model import ThumbnailBadge

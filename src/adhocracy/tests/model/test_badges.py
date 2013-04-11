@@ -37,9 +37,9 @@ class TestBadgeController(TestController):
                              instance=instance)
 
         ThumbnailBadge.create(u'badge ü', u'#ccc', True, u"desc",
-                              thumbnail='binary')
+                              thumbnail=b'binary')
         ThumbnailBadge.create(u'badge ü', u'#ccc', True, u"desc",
-                              thumbnail='binary', instance=instance)
+                              thumbnail=b'binary', instance=instance)
 
         # all instance badges
         self.assertEqual(len(InstanceBadge.all()), 1)
@@ -236,7 +236,7 @@ class TestThumbnailController(TestController):
         instance = Instance.find('test')
         creator = tt_make_user('creator')
         delegateable = Proposal.create(instance, u"labeld", creator)
-        thumbnail = 'binary'
+        thumbnail = b'binary'
         badge = ThumbnailBadge.create(u'testbadge', u'#ccc', True,
                                       'description', thumbnail=thumbnail)
 
@@ -248,7 +248,7 @@ class TestThumbnailController(TestController):
         no_thumb = "<ThumbnailBadge(1,testbadge,0,#ccc)>"
         self.assertEqual(no_thumb, badge.__repr__())
         with_thumb = "<ThumbnailBadge(1,testbadge,-1219949151,#ccc)>"
-        badge.thumbnail = "binary"
+        badge.thumbnail = b"binary"
         self.assertEqual(with_thumb, badge.__repr__())
 
     def test_thumbnailbadges_created(self):
@@ -258,15 +258,15 @@ class TestThumbnailController(TestController):
         # create the delegateable badge
         badge.assign(delegateable, creator)
         delegateablebadges = meta.Session.query(DelegateableBadges).first()
-        self.assert_(delegateablebadges.creator is creator)
-        self.assert_(delegateablebadges.delegateable is delegateable)
-        self.assert_(delegateablebadges.badge is badge)
+        self.assertEqual(delegateablebadges.creator, creator)
+        self.assertEqual(delegateablebadges.delegateable, delegateable)
+        self.assertEqual(delegateablebadges.badge, badge)
         # test the references on the badged delegateable
-        self.assert_(delegateable.thumbnails == [badge])
+        self.assertEqual(delegateable.thumbnails, [badge])
         # test the references on the badge
-        self.assert_(delegateable.thumbnails[0].delegateables
-                     == badge.delegateables
-                     == [delegateable])
+        self.assertEqual(delegateable.thumbnails[0].delegateables,
+                         badge.delegateables,
+                         [delegateable])
 
     def test_to_dict_thumbnail(self):
         #setup
@@ -280,7 +280,7 @@ class TestThumbnailController(TestController):
                     'description': u'description',
                     'id': 1,
                     'instance': None,
-                    'thumbnail': 'binary',
+                    'thumbnail': b'binary',
                     'title': u'testbadge',
                     'visible': True
                     }
