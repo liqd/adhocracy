@@ -23,8 +23,10 @@ var
 parts
 bin
 local
-/src/*_theme
-lib64
+/src/*
+!/src/adhocracy/
+/lib
+/lib64
 eggs
 develop-eggs
 htmlcov
@@ -36,6 +38,7 @@ installed_eggs
 .installed.cfg
 etc/adhocracy.ini
 etc/velruse.ini
+etc/adhocracy_service.ini
 etc/redis.conf
 etc/unthemed.ini
 etc/vhost.conf
