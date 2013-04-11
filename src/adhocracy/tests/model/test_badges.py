@@ -39,7 +39,7 @@ class TestBadgeController(TestController):
         ThumbnailBadge.create(u'badge ü', u'#ccc', True, u"desc",
                               thumbnail='binary')
         ThumbnailBadge.create(u'badge ü', u'#ccc', True, u"desc",
-                             thumbnail='binary', instance=instance)
+                              thumbnail='binary', instance=instance)
 
         # all instance badges
         self.assertEqual(len(InstanceBadge.all()), 1)
@@ -226,6 +226,7 @@ class TestCategoryController(TestController):
         expected = sorted(expected.items())
         self.assertEqual(result, expected)
 
+
 class TestThumbnailController(TestController):
 
     def _make_content(self):
@@ -237,7 +238,7 @@ class TestThumbnailController(TestController):
         delegateable = Proposal.create(instance, u"labeld", creator)
         thumbnail = 'binary'
         badge = ThumbnailBadge.create(u'testbadge', u'#ccc', True,
-                                         'description', thumbnail=thumbnail)
+                                      'description', thumbnail=thumbnail)
 
         return creator, delegateable, badge
 
@@ -279,10 +280,10 @@ class TestThumbnailController(TestController):
                     'description': u'description',
                     'id': 1,
                     'instance': None,
-                    'thumbnail' : 'binary',
+                    'thumbnail': 'binary',
                     'title': u'testbadge',
                     'visible': True
-                   }
+                    }
         expected = sorted(expected.items())
         self.assertEqual(result, expected)
 

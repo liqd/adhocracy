@@ -16,7 +16,7 @@ else:
       return ''
 
    # thumbnail badge
-   if badge.type =="thumbnail":
+   if badge.type == "thumbnail":
       spanclass = "thumbnailbadge badge_%s" % badge.id
       aclass    = 'ttip'
       atitle    = '%s - %s' % (badge.title, badge.description)
@@ -30,7 +30,7 @@ else:
        acontent  = badge.title
 %>
 <span class="${spanclass}">
-    <span class="${aclass}" title="${atitle}">${(badge == 'dummy' or badge.type =="thumbnail") and h.literal(acontent) or acontent}</span>
+    <span class="${aclass}" title="${atitle}">${(badge == 'dummy' or badge.type == "thumbnail") and h.literal(acontent) or acontent}</span>
 </span>
 </%def>
 
