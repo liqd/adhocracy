@@ -60,9 +60,13 @@ Check out Adhocracy:
     $ git clone https://github.com/liqd/adhocracy
     $ cd adhocracy
 
-Run buildout:
+Create virtualenv to isolate your python installation:
 
-    $ python bootstrap.py 
+    $ bin/virtualenv . 
+
+Run buildout (mind to use your virtualenv python):
+
+    $ bin/python bootstrap.py 
     $ bin/buildout
 
 Start Adhocracy and dependent servers:
