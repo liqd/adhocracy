@@ -153,7 +153,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
       %for badge in badge_items:
       <tr class="tile">
         <td>${badge.title}</td>
-        <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
+        <td>${(badge.description[:20] + u'...' if len(badge.description) > 20 else badge.description) if badge.description else u''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
         <td>${edit_button(badge.id)}</td>
