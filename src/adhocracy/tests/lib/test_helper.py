@@ -30,14 +30,14 @@ class TestBadgeHelper(TestController):
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
         badge = ThumbnailBadge.create('testbadge0', '', True, 'descr')
         image = generate_thumbnail_tag(badge)
-        self.assert_('b96ZYAAAAASUVORK5CYII=' in image)
+        self.assert_(b'b96ZYAAAAASUVORK5CYII=' in image)
 
     def test_generate_thumbnail_tag_with_color_attr(self):
         from adhocracy.model import ThumbnailBadge
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
         badge = ThumbnailBadge.create('testbadge0', '#ccc', True, 'descr')
         image = generate_thumbnail_tag(badge)
-        self.assert_('Afb96ZYAAAAASUVORK5CYII=' in image)
+        self.assert_(b'Afb96ZYAAAAASUVORK5CYII=' in image)
 
     def test_generate_thumbnail_tag_with_thumb_attr(self):
         from adhocracy.model import ThumbnailBadge
@@ -45,7 +45,7 @@ class TestBadgeHelper(TestController):
         badge = ThumbnailBadge.create('testbadge0', '#ccc', True, 'descr')
         badge.thumbnail = TEST_IMAGE
         image = generate_thumbnail_tag(badge)
-        self.assert_('VWyKXFMAAAAASUVORK5CYII=' in image)
+        self.assert_(b'VWyKXFMAAAAASUVORK5CYII=' in image)
 
     def test_generate_thumbnail_tag_set_size(self):
         from adhocracy.model import ThumbnailBadge, Instance
@@ -70,13 +70,13 @@ class TestBadgeHelper(TestController):
         from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
         badge = ThumbnailBadge.create('testbadge0', '', True, 'descr')
         image = generate_thumbnail_tag(badge)
-        self.assert_('fb96ZYAAAAASUVORK5CYII=' in image)
+        self.assert_(b'fb96ZYAAAAASUVORK5CYII=' in image)
         badge.thumbnail = TEST_IMAGE
         image = generate_thumbnail_tag(badge)
-        self.assert_('VWyKXFMAAAAASUVORK5CYII=' in image)
+        self.assert_(b'VWyKXFMAAAAASUVORK5CYII=' in image)
         badge.thumbnail = "Wrong Data"
         image = generate_thumbnail_tag(badge)
-        self.assert_('fb96ZYAAAAASUVORK5CYII=' in image)
+        self.assert_(b'fb96ZYAAAAASUVORK5CYII=' in image)
 
     def test_get_parent_badges_no_hierarchy(self):
         from adhocracy.model import UserBadge
