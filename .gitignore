@@ -25,6 +25,7 @@ bin
 local
 /src/*
 !/src/adhocracy/
+!/src/adhocracy_kotti_theme
 /lib
 /lib64
 eggs
