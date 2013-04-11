@@ -29,7 +29,7 @@ def get_instance_admins(instance):
     q = q.filter(model.Membership.instance == instance)
     q = q.filter(or_(model.Membership.group == sgroup,
                      model.Membership.group == agroup))
-    q = q.filter(or_(model.Membership.expire_time == None,
+    q = q.filter(or_(model.Membership.expire_time == None,  # noqa
                      model.Membership.expire_time >= datetime.utcnow()))
     return q.all()
 
@@ -38,9 +38,9 @@ def get_global_admins():
     group = model.Group.find(model.Group.CODE_ADMIN)
     q = model.meta.Session.query(model.User)
     q = q.join(model.Membership)
-    q = q.filter(model.Membership.instance == None)
+    q = q.filter(model.Membership.instance == None)  # noqa
     q = q.filter(model.Membership.group == group)
-    q = q.filter(or_(model.Membership.expire_time == None,
+    q = q.filter(or_(model.Membership.expire_time == None,  # noqa
                      model.Membership.expire_time >= datetime.utcnow()))
     return q.all()
 

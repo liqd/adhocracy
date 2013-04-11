@@ -44,7 +44,7 @@ class Text(object):
             q = meta.Session.query(Text)
             q = q.filter(Text.id == id)
             if not include_deleted:
-                q = q.filter(or_(Text.delete_time == None,
+                q = q.filter(or_(Text.delete_time == None,  # noqa
                                  Text.delete_time > datetime.utcnow()))
             return q.first()
         except Exception, e:

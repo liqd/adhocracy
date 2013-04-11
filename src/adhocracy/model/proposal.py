@@ -114,7 +114,7 @@ class Proposal(Delegateable):
             if ifilter.has_instance() and instance_filter:
                 q = q.filter(Proposal.instance_id == ifilter.get_instance().id)
             if not include_deleted:
-                q = q.filter(or_(Proposal.delete_time == None,
+                q = q.filter(or_(Proposal.delete_time == None,  # noqa
                                  Proposal.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
@@ -128,7 +128,7 @@ class Proposal(Delegateable):
         if ifilter.has_instance() and instance_filter:
             q = q.filter(Proposal.instance_id == ifilter.get_instance().id)
         if not include_deleted:
-            q = q.filter(or_(Proposal.delete_time == None,
+            q = q.filter(or_(Proposal.delete_time == None,  # noqa
                              Proposal.delete_time > datetime.utcnow()))
         return q.all()
 
@@ -136,7 +136,7 @@ class Proposal(Delegateable):
     def find_by_creator(cls, user, instance_filter=True):
         q = meta.Session.query(Proposal)
         q = q.filter(Proposal.creator == user)
-        q = q.filter(or_(Proposal.delete_time == None,
+        q = q.filter(or_(Proposal.delete_time == None,  # noqa
                          Proposal.delete_time > datetime.utcnow()))
         if ifilter.has_instance() and instance_filter:
             q = q.filter(Proposal.instance_id == ifilter.get_instance().id)
@@ -146,7 +146,7 @@ class Proposal(Delegateable):
     def all_q(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Proposal)
         if not include_deleted:
-            q = q.filter(or_(Proposal.delete_time == None,
+            q = q.filter(or_(Proposal.delete_time == None,  # noqa
                              Proposal.delete_time > datetime.utcnow()))
         if instance is not None:
             q = q.filter(Proposal.instance == instance)

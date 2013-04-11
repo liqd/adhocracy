@@ -374,7 +374,8 @@ class ProposalController(BaseController):
         if monitor_comment_behavior:
             c.monitor_comment_url = '%s?%s' % (
                 h.base_url('/stats/read_comments'),
-                urllib.urlencode({'path': h.entity_url(c.proposal)}))
+                urllib.urlencode({'path':
+                    h.entity_url(c.proposal).encode('utf-8')}))
         return render("/proposal/show.html")
 
     @RequireInstance

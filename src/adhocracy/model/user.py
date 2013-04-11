@@ -106,12 +106,12 @@ class User(meta.Indexable):
         memberships_q = meta.Session.query(Membership).filter(
             Membership.user_id == self.id)
 
-        if current_instance == None:
+        if current_instance is None:
             memberships_q = memberships_q.filter(
-                Membership.instance_id == None)
+                Membership.instance_id == None)  # noqa
         else:
             memberships_q = memberships_q.filter(or_(
-                Membership.instance_id == None,
+                Membership.instance_id == None,  # noqa
                 Membership.instance_id == current_instance.id
             ))
 
@@ -175,7 +175,7 @@ class User(meta.Indexable):
         from watch import Watch
         q = meta.Session.query(Watch)
         q = q.filter(Watch.user == self)
-        q = q.filter(or_(Watch.delete_time == None,
+        q = q.filter(or_(Watch.delete_time == None,  # noqa
                          Watch.delete_time >= datetime.utcnow()))
         return q.count()
 
@@ -268,11 +268,11 @@ class User(meta.Indexable):
             except ValueError:
                 q = q.filter(User.user_name == unicode(user_name))
             if not include_deleted:
-                q = q.filter(or_(User.delete_time == None,
+                q = q.filter(or_(User.delete_time == None,  # noqa
                                  User.delete_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.join(Membership)
-                q = q.filter(or_(Membership.expire_time == None,
+                q = q.filter(or_(Membership.expire_time == None,  # noqa
                                  Membership.expire_time > datetime.utcnow()))
                 q = q.filter(Membership.instance == ifilter.get_instance())
             return q.limit(1).first()
@@ -293,11 +293,11 @@ class User(meta.Indexable):
         q = meta.Session.query(User)
         q = q.filter(User.user_name.in_(unames))
         if not include_deleted:
-            q = q.filter(or_(User.delete_time == None,
+            q = q.filter(or_(User.delete_time == None,  # noqa
                              User.delete_time > datetime.utcnow()))
         if ifilter.has_instance() and instance_filter:
             q = q.join(Membership)
-            q = q.filter(or_(Membership.expire_time == None,
+            q = q.filter(or_(Membership.expire_time == None,  # noqa
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == ifilter.get_instance())
         #log.debug("QueryAll: %s" % q)
@@ -311,12 +311,12 @@ class User(meta.Indexable):
         from membership import Membership
         q = meta.Session.query(User)
         if not include_deleted:
-            q = q.filter(or_(User.delete_time == None,
+            q = q.filter(or_(User.delete_time == None,  # noqa
                              User.delete_time > datetime.utcnow()))
         if instance:
             q = q.options(eagerload_all('memberships'))
             q = q.join(Membership)
-            q = q.filter(or_(Membership.expire_time == None,
+            q = q.filter(or_(Membership.expire_time == None,  # noqa
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == instance)
         return q
@@ -358,7 +358,7 @@ class User(meta.Indexable):
         q = meta.Session.query(Delegation)
         q = q.filter(or_(Delegation.agent == self,
                          Delegation.principal == self))
-        q = q.filter(or_(Delegation.revoke_time == None,
+        q = q.filter(or_(Delegation.revoke_time == None,  # noqa
                          Delegation.revoke_time > datetime.utcnow()))
         for delegation in q:
             if instance is None or delegation.scope.instance == instance:
