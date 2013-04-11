@@ -26,7 +26,7 @@ def sunburnt_query(entity_type=None, instance=None, connection=None):
         An existing sunburnt connection. Mostly useful
         in tests.
     '''
-    if connection == None:
+    if connection is None:
         connection = get_sunburnt_connection()
     q = connection.query()
     if entity_type:

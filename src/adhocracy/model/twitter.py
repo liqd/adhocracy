@@ -38,7 +38,7 @@ class Twitter(object):
             q = meta.Session.query(Twitter)
             q = q.filter(Twitter.screen_name == screen_name)
             if not include_deleted:
-                q = q.filter(or_(Twitter.delete_time == None,
+                q = q.filter(or_(Twitter.delete_time == None,  # noqa
                                  Twitter.delete_time > datetime.utcnow()))
             return q.one()
         except Exception, e:

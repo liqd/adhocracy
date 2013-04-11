@@ -166,7 +166,7 @@ class Poll(object):
             q = meta.Session.query(Poll)
             q = q.filter(Poll.id == int(id))
             if not include_deleted:
-                q = q.filter(or_(Poll.end_time == None,
+                q = q.filter(or_(Poll.end_time == None,  # noqa
                                  Poll.end_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.join(Delegateable)
@@ -183,7 +183,7 @@ class Poll(object):
             q = q.filter(Poll.subject.in_(subjects))
             q = q.options(eagerload(Poll.tallies))
             if not include_deleted:
-                q = q.filter(or_(Poll.end_time == None,
+                q = q.filter(or_(Poll.end_time == None,  # noqa
                                  Poll.end_time > datetime.utcnow()))
             return q.all()
         except Exception, e:
@@ -199,7 +199,7 @@ class Poll(object):
         scope_ids = [s.id for s in _crawl(scope)]
         q = meta.Session.query(Poll)
         q = q.filter(Poll.scope_id.in_(scope_ids))
-        q = q.filter(or_(Poll.end_time == None,
+        q = q.filter(or_(Poll.end_time == None,  # noqa
                          Poll.end_time > datetime.utcnow()))
         return q.all()
 

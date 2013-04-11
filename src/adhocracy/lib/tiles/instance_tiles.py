@@ -38,7 +38,7 @@ class InstanceTile(BaseTile):
         if self.__proposals_count is None:
             query = meta.Session.query(Proposal)
             query = query.filter(Proposal.instance == self.instance)
-            query = query.filter(Proposal.delete_time == None)
+            query = query.filter(Proposal.delete_time == None)  # noqa
             self.__proposals_count = query.count()
         return self.__proposals_count
 
@@ -47,7 +47,7 @@ class InstanceTile(BaseTile):
         if self.__norms_count is None:
             query = meta.Session.query(Page)
             query = query.filter(Page.instance == self.instance)
-            query = query.filter(Page.delete_time == None)
+            query = query.filter(Page.delete_time == None)  # noqa
             query = query.filter(Page.function == Page.NORM)
             self.__norms_count = query.count()
         return self.__norms_count

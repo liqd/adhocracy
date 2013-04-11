@@ -51,7 +51,7 @@ class Watch(object):
             q = meta.Session.query(Watch)
             q = q.filter(Watch.id == id)
             if not include_deleted:
-                q = q.filter(or_(Watch.delete_time == None,
+                q = q.filter(or_(Watch.delete_time == None,  # noqa
                                  Watch.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except:
@@ -69,7 +69,7 @@ class Watch(object):
             q = q.filter(Watch.user == user)
             q = q.filter(Watch.entity_ref == ref)
             if not include_deleted:
-                q = q.filter(or_(Watch.delete_time == None,
+                q = q.filter(or_(Watch.delete_time == None,  # noqa
                                  Watch.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
@@ -79,7 +79,7 @@ class Watch(object):
     def all_by_entity(self, entity):
         q = meta.Session.query(Watch)
         q = q.filter(Watch.entity_ref == refs.to_ref(entity))
-        q = q.filter(or_(Watch.delete_time == None,
+        q = q.filter(or_(Watch.delete_time == None,  # noqa
                          Watch.delete_time > datetime.utcnow()))
         return q.all()
 
@@ -87,7 +87,7 @@ class Watch(object):
     def all_by_user(self, user):
         q = meta.Session.query(Watch)
         q = q.filter(Watch.user == user)
-        q = q.filter(or_(Watch.delete_time == None,
+        q = q.filter(or_(Watch.delete_time == None,  # noqa
                          Watch.delete_time > datetime.utcnow()))
         return q.all()
 
@@ -95,7 +95,7 @@ class Watch(object):
     def all(cls, include_deleted=False):
         q = meta.Session.query(Watch)
         if not include_deleted:
-            q = q.filter(or_(Watch.delete_time == None,
+            q = q.filter(or_(Watch.delete_time == None,  # noqa
                              Watch.delete_time > datetime.utcnow()))
         return q.all()
 

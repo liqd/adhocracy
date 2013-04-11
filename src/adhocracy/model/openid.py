@@ -50,7 +50,7 @@ class OpenID(object):
             q = meta.Session.query(OpenID)
             q = q.filter(OpenID.identifier == identifier)
             if not include_deleted:
-                q = q.filter(or_(OpenID.delete_time == None,
+                q = q.filter(or_(OpenID.delete_time == None,  # noqa
                                  OpenID.delete_time > datetime.utcnow()))
             return q.one()
         except Exception, e:
@@ -63,7 +63,7 @@ class OpenID(object):
             q = meta.Session.query(OpenID)
             q = q.filter(OpenID.id == id)
             if not include_deleted:
-                q = q.filter(or_(OpenID.delete_time == None,
+                q = q.filter(or_(OpenID.delete_time == None,  # noqa
                                  OpenID.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception:

@@ -145,7 +145,7 @@ class Decision(object):
         Determine if a given decision was made by the user, i.e. if the user
         or one of his/her agents has voted on the proposal.
         """
-        return not self.result == None
+        return not self.result is None
 
     def is_self_decided(self):
         """
@@ -154,7 +154,7 @@ class Decision(object):
         """
 
         relevant = self.relevant_votes
-        return len(relevant) == 1 and relevant[0].delegation == None
+        return len(relevant) == 1 and relevant[0].delegation is None
 
     def __repr__(self):
         return "<Decision(%s,%s)>" % (self.user.user_name, self.poll.id)
@@ -229,7 +229,7 @@ class Decision(object):
             query = model.meta.Session.query(Poll)
             query = query.join(Delegateable)
             query = query.filter(Delegateable.instance_id == instance.id)
-            query = query.filter(Poll.end_time == None)
+            query = query.filter(Poll.end_time == None)  # noqa
             query = query.filter(Poll.action != Poll.RATE)
             decisions = []
             for poll in query:

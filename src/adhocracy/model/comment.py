@@ -56,7 +56,7 @@ class Comment(meta.Indexable):
             q = meta.Session.query(Comment)
             q = q.filter(Comment.id == id)
             if not include_deleted:
-                q = q.filter(or_(Comment.delete_time == None,
+                q = q.filter(or_(Comment.delete_time == None,  # noqa
                                  Comment.delete_time > datetime.utcnow()))
             return q.limit(1).first()
         except Exception, e:
@@ -71,7 +71,7 @@ class Comment(meta.Indexable):
         if ifilter.has_instance() and instance_filter:
             q = q.filter(Delegateable.instance_id == ifilter.get_instance().id)
         if not include_deleted:
-            q = q.filter(or_(Comment.delete_time == None,
+            q = q.filter(or_(Comment.delete_time == None,  # noqa
                              Comment.delete_time > datetime.utcnow()))
         return q
 

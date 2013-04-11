@@ -60,7 +60,7 @@ class Selection(object):
             q = meta.Session.query(Selection)
             q = q.filter(Selection.id == id)
             if not include_deleted:
-                q = q.filter(or_(Selection.delete_time == None,
+                q = q.filter(or_(Selection.delete_time == None,  # noqa
                                  Selection.delete_time > datetime.utcnow()))
             if ifilter.has_instance() and instance_filter:
                 q = q.join(Proposal)
@@ -102,7 +102,7 @@ class Selection(object):
             q = q.filter(Selection.page == page)
             if proposal is not None:
                 q = q.filter(Selection.proposal == proposal)
-            q = q.filter(or_(Selection.delete_time == None,
+            q = q.filter(or_(Selection.delete_time == None,  # noqa
                              Selection.delete_time > datetime.utcnow()))
             return q.all()
         except Exception, e:

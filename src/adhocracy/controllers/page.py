@@ -102,7 +102,7 @@ class PageController(BaseController):
             # cannot handle this and we can not pass arguments to the tile
             # WARNING: This will break if the index of the sort changes.
             c.is_hierarchical = True
-            pages = [page for page in pages if page.parent == None]
+            pages = [page for page in pages if page.parent is None]
         c.pages_pager = pager.pages(pages)
 
         if format == 'json':

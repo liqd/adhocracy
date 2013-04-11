@@ -34,7 +34,7 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
         q = q.join(model.Group)
         q = q.filter(model.Group.code == section)
         q = q.filter(
-            or_(model.Membership.instance == None,
+            or_(model.Membership.instance == None,  # noqa
                 model.Membership.instance == model.filter.get_instance()))
         return q.all()
 

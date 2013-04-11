@@ -38,7 +38,7 @@ class Membership(object):
         if ifilter.has_instance() and instance_filter:
             q = q.filter(Membership.instance_id == ifilter.get_instance().id)
         if not include_deleted:
-            q = q.filter(or_(Membership.expire_time == None,
+            q = q.filter(or_(Membership.expire_time == None,  # noqa
                              Membership.expire_time > datetime.utcnow()))
         return q
 

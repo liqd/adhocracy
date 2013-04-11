@@ -43,7 +43,7 @@ class Milestone(object):
             return None
         q = q.filter(Milestone.id == id)
         if not include_deleted:
-            q = q.filter(or_(Milestone.delete_time == None,
+            q = q.filter(or_(Milestone.delete_time == None,  # noqa
                              Milestone.delete_time > datetime.utcnow()))
         return q.first()
 
@@ -59,7 +59,7 @@ class Milestone(object):
     def all_q(cls, instance=None, include_deleted=False):
         q = meta.Session.query(Milestone)
         if not include_deleted:
-            q = q.filter(or_(Milestone.delete_time == None,
+            q = q.filter(or_(Milestone.delete_time == None,  # noqa
                              Milestone.delete_time > datetime.utcnow()))
         if instance is not None:
             q = q.filter(Milestone.instance == instance)

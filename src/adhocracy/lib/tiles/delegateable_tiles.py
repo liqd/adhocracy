@@ -29,7 +29,7 @@ class DelegateableTile(BaseTile):
     delegations = property(_delegations)
 
     def _num_principals(self):
-        if self.__num_principals == None:
+        if self.__num_principals is None:
             principals = set(map(lambda d: d.principal,
                                  self.dnode.transitive_inbound()))
             self.__num_principals = len(principals)

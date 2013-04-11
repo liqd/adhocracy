@@ -41,7 +41,7 @@ class Delegation(object):
             q = meta.Session.query(Delegation)
             q = q.filter(Delegation.id == id)
             if not include_deleted:
-                q = q.filter(or_(Delegation.revoke_time == None,
+                q = q.filter(or_(Delegation.revoke_time == None,  # noqa
                                  Delegation.revoke_time > datetime.utcnow()))
             d = q.one()
             if ifilter.has_instance() and instance_filter:
@@ -62,7 +62,7 @@ class Delegation(object):
             q = q.filter(Delegation.principal == principal)
             q = q.filter(Delegation.scope == scope)
             if not include_deleted:
-                q = q.filter(or_(Delegation.revoke_time == None,
+                q = q.filter(or_(Delegation.revoke_time == None,  # noqa
                                  Delegation.revoke_time > datetime.utcnow()))
             d = q.one()
             if ifilter.has_instance() and instance_filter:
@@ -79,7 +79,7 @@ class Delegation(object):
             q = meta.Session.query(Delegation)
             q = q.filter(Delegation.principal == principal)
             if not include_deleted:
-                q = q.filter(or_(Delegation.revoke_time == None,
+                q = q.filter(or_(Delegation.revoke_time == None,  # noqa
                                  Delegation.revoke_time > datetime.utcnow()))
             return q.all()
         except Exception, e:
@@ -99,7 +99,7 @@ class Delegation(object):
         q = meta.Session.query(Delegation)
         q = q.join(Delegateable)
         if not include_deleted:
-            q = q.filter(or_(Delegation.revoke_time == None,
+            q = q.filter(or_(Delegation.revoke_time == None,  # noqa
                              Delegation.revoke_time > datetime.utcnow()))
         if instance is not None:
             q = q.filter(Delegateable.instance == instance)
