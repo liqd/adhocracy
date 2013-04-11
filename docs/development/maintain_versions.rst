@@ -10,6 +10,8 @@ setup.py
 
 Direct dependencies are manually tracked in setup.py. This should only include minimal versions
 if we know that we depend on a certain feature which was included in that version.
+And this should only include maximal versions if we know that the library breaks our code
+in a certain version.
 
 
 versions.cfg
