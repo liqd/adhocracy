@@ -5,7 +5,6 @@ As a global administrator:
 
 
     >>> admin = make_browser()
-    >>> admin.raiseHttpErrors = False
     >>> admin.login('admin')
     >>> admin.open('http://test.lan/')
 
