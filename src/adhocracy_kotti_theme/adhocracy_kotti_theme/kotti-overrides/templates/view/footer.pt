@@ -1,0 +1,11 @@
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>
+      This website is powered by
+      <a href="http://kotti.pylonsproject.org/">Kotti</a>.
+    </p>
+  </div>
+</footer>
