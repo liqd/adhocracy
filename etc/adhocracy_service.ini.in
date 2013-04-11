@@ -1,0 +1,60 @@
+# Documentation for this file is available at:
+#   kotti.readthedocs.org/en/latest/index.html#configuration-and-customization
+
+[app:kotti]
+use = egg:kotti
+
+# kotti.site_title: your site's title
+kotti.site_title = Adhocracy static pages and media center
+
+
+# kotti.secret: defines the initial password of the 'admin' user
+kotti.secret = ${parts.adhocracy_service['kotti.secret']}
+
+
+# sqlalchemy.url: the database that you want to use, defaults to SQLite
+# see http://www.sqlalchemy.org/docs/core/engines.html#database-urls
+sqlalchemy.url = ${parts.adhocracy_service['sqlalchemy.url']}
+
+# mail.default_sender: configure the 'from' address of emails sent by Kotti
+mail.default_sender = yourname@yourhost
+
+
+# kotti.includes: include add-ons; an example:
+# kotti.includes = kotti_twitter.include_search_widget
+
+
+# kotti.configurators: another hook for add-ons
+# kotti_tinymce should always be present (unless you don't want WYSIWYG editing)
+kotti.configurators = kotti_tinymce.kotti_configure
+
+# kotti.populators : create initial content
+kotti.populators = kotti.populate.populate
+
+# kotti.asset_overrides: override Kotti's templates and resources; an example:
+# kotti.asset_overrides = mypackage:kotti-overrides/
+
+
+# pyramid.default_locale_name: set the user interface language
+pyramid.default_locale_name = en
+
+
+pyramid.includes =
+  pyramid_tm
+#  pyramid_debugtoolbar
+
+
+[filter:fanstatic]
+use = egg:fanstatic#fanstatic
+
+
+[pipeline:main]
+pipeline =
+    fanstatic
+    kotti
+
+
+[server:main]
+use = egg:waitress#main
+host = ${parts.domains.adhocracy_service}
+port = ${parts.ports.adhocracy_service} 
