@@ -56,10 +56,10 @@ def generate_thumbnail_tag(badge, width=0, height=0):
         del im, im_opti, imagefile
         imagefile = f
     except IOError:
-        colour = badge.color or u"#ffffff"
+        color = badge.color or u"#ffffff"
         im = Image.new('RGB', (5, 5))
         draw = ImageDraw.Draw(im)
-        draw.rectangle((0, 0, 5, 5), fill=colour, outline=colour)
+        draw.rectangle((0, 0, 5, 5), fill=color, outline=color)
         im = im.convert('P', colors=1, palette=Image.ADAPTIVE)
         f = StringIO.StringIO()
         im.save(f, "PNG")
