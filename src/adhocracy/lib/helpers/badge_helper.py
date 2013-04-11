@@ -1,6 +1,6 @@
 from base64 import b64encode
 from hashlib import sha1
-import StringIO
+from io import BytesIO
 from PIL import Image, ImageDraw
 
 from pylons import config
@@ -33,7 +33,7 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     size = (width and height) and (width, height)\
         or get_default_thumbnailsize(badge)
     img_template = """<img src="data:%s;base64,%s" width="%s" height="%s" />"""
-    imagefile = StringIO.StringIO(badge.thumbnail)
+    imagefile = BytesIO(badge.thumbnail)
     mimetype = "image/png"
     try:
         #resize image
@@ -51,7 +51,7 @@ def generate_thumbnail_tag(badge, width=0, height=0):
         # structure (renders the image blank). maybe due to PIL.
         # im_opti = im_opti.convert('P', colors=256, palette=Image.ADAPTIVE)
         #save image
-        f = StringIO.StringIO()
+        f = BytesIO()
         im_opti.save(f, 'PNG')
         del im, im_opti, imagefile
         imagefile = f
@@ -61,7 +61,7 @@ def generate_thumbnail_tag(badge, width=0, height=0):
         draw = ImageDraw.Draw(im)
         draw.rectangle((0, 0, 5, 5), fill=color, outline=color)
         im = im.convert('P', colors=1, palette=Image.ADAPTIVE)
-        f = StringIO.StringIO()
+        f = BytesIO()
         im.save(f, "PNG")
         del draw, im
         imagefile = f

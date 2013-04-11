@@ -63,9 +63,9 @@ class TestValidators(TestController):
         from adhocracy.forms.common import ValidImageFileUpload
         from formencode import Invalid
         from cgi import FieldStorage
-        import StringIO
+        from io import BytesIO
         value = FieldStorage()
-        value.file = StringIO.StringIO("binarydata")
+        value.file = BytesIO(b"binarydata")
         value.filename = "test.png"
         value.name = "thumbs"
         self.assertRaises(Invalid, ValidImageFileUpload.to_python, value)
@@ -74,10 +74,10 @@ class TestValidators(TestController):
         from adhocracy.forms.common import ValidFileUpload
         from formencode import Invalid
         from cgi import FieldStorage
-        import StringIO
+        from io import BytesIO
         ValidFileUpload.max_size = 1
         value = FieldStorage()
-        value.file = StringIO.StringIO("bi")
+        value.file = BytesIO(b"bi")
         value.filename = "test.png"
         value.name = "thumbs"
         self.assertRaises(Invalid, ValidFileUpload.to_python, value)
