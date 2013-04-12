@@ -47,9 +47,6 @@ def generate_thumbnail_tag(badge, width=0, height=0):
             im_opti.paste(im, mask=im.split()[3])
         else:
             im_opti.paste(im)
-        # the next line somehow doesn't work anymore in the new buildout
-        # structure (renders the image blank). maybe due to PIL.
-        # im_opti = im_opti.convert('P', colors=256, palette=Image.ADAPTIVE)
         #save image
         f = BytesIO()
         im_opti.save(f, 'PNG')
