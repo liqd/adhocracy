@@ -48,6 +48,7 @@ installed_eggs
 etc/adhocracy.ini
 etc/velruse.ini
 etc/adhocracy_service.ini
+etc/adhocracy_service_testing.ini
 etc/redis.conf
 etc/unthemed.ini
 etc/vhost.conf
