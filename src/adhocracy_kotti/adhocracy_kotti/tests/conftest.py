@@ -1,6 +1,7 @@
 from pytest import fixture
 from webtest import TestApp
 from kotti import base_configure
+from cornice.errors import Errors
 
 
 def settings():
@@ -13,6 +14,18 @@ def settings():
     settings['pyramid.includes'] = 'adhocracy_kotti'
     _resolve_dotted(settings)
     return settings
+
+
+@fixture
+def dummy_request(config):
+    """ returns a dummy request object after registering it as
+        the currently active request.  This is needed when
+        `pyramid.threadlocal.get_current_request` is used.
+    """
+    from kotti.testing import DummyRequest
+    config.manager.get()['request'] = request = DummyRequest()
+    request.errors = Errors(request)
+    return request
 
 
 @fixture
