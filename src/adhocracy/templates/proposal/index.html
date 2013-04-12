@@ -62,13 +62,26 @@
                 <li class="nobullet">
                     <input class="badgetsform_input" type="checkbox" 
                            name="badge" 
-                           data-bind="value: id, checked: checked">
+                           data-bind="attr: {value: id, checked: checked}">
                         <span data-bind="attr: {class: css_class()}">
                             <a data-bind="text: title">Abgelehnt</a>
                         </span>
                     </input>
                 </li>
             </ul>
+            <ul data-bind="foreach: selected.thumbnailbadges">
+                <li class="nobullet">
+                    <input class="badgetsform_input" type="radio" 
+                           name="thumbnailbadge" 
+                           data-bind="attr: {value: id, checked: checked}">
+                        <span data-bind="html: thumbnail" />
+                        <span data-bind="attr: {class: css_class()}">
+                            <a data-bind="text: title">Abgelehnt</a>
+                        </span>
+                    </input>
+                    <br />
+                </li>
+            </ul>      
             <a href="#" class="btn" data-bind="click: save">Save</a> 
             or 
             <a href="" data-bind="click: cancel">Cancel</a>
@@ -78,9 +91,7 @@
 </div>
 
 %if can.badge.edit_instance():
-
     <% h.need.adhocracy_ko %>
-
     <script>
         var editModel = new adhocracy.ko.editBadges('proposal/');
         editModel.applyToPager('#proposals_table');
