@@ -45,15 +45,13 @@ class ImageGETDATA(colander.MappingSchema):
 
     name = Identifier(location="path")
     scale = colander.SchemaNode(colander.String(),
-                                validator=colander.OneOf(['',
-                                                          'icon'
-                                                          'thumb'
-                                                          'logo'
-                                                          'middle'
-                                                          'large'
+                                validator=colander.OneOf([u'icon',
+                                                          u'thumb',
+                                                          u'logo',
+                                                          u'middle',
+                                                          u'large',
                                                           ]),
-                                default='',
-                                missing='',
+                                missing=u"large",
+                                default=u"large",
                                 location="path",
-                                required=False,
                                 )

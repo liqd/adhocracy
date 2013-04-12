@@ -1,15 +1,39 @@
-from pytest import fixture
-from webtest import TestApp
-from kotti import base_configure
-from kotti.tests import (
-    settings,
+from os.path import (
+    join,
+    dirname
 )
 
+BASE_URL = 'http://localhost:6543'
 
-@fixture
-def testapp(db_session, request):
-    """returns an instance of webtest.TestApp"""
 
-    wsgi_app = base_configure({}, **settings()).make_wsgi_app()
-    testapp = TestApp(wsgi_app)
-    return testapp
+def asset(name):
+    import adhocracy_kotti
+    return open(join(dirname(adhocracy_kotti.__file__), 'tests', name), 'rb')
+
+
+def setup_functional(global_config=None, **settings):
+    from kotti import main
+    from kotti.testing import tearDown
+    import wsgi_intercept.zope_testbrowser
+    from webtest import TestApp
+
+    tearDown()
+
+    _settings = {
+        'sqlalchemy.url': "sqlite://",
+        'kotti.secret': 'secret',
+        'kotti.populators': 'adhocracy_kotti.populate.populate',
+        'pyramid.includes': 'kotti.testing._functional_includeme adhocracy_kotti',
+        }
+    _settings.update(settings)
+
+    host, port = BASE_URL.split(':')[-2:]
+    app = main({}, **_settings)
+    wsgi_intercept.add_wsgi_intercept(host[2:], int(port), lambda: app)
+    Browser = wsgi_intercept.zope_testbrowser.WSGI_Browser
+
+    return dict(
+        Browser=Browser,
+        browser=Browser(),
+        test_app=TestApp(app),
+        )

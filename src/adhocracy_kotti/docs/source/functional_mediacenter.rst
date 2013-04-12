@@ -1,0 +1,1 @@
+../../adhocracy_kotti/tests/functional_mediacenter.rst

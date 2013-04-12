@@ -1,3 +1,5 @@
+import base64
+import binascii
 from kotti.resources import Image
 from kotti.views.util import content_with_tags
 from kotti.views.image import ImageView
@@ -7,22 +9,40 @@ from adhocracy_kotti import schemata
 from adhocracy_kotti import utils
 
 
-images = Service(name='images',
-                 path='/images',
-                 description="Service to get images or add new ones")
+images = Service(
+    name='images',
+    path='/images',
+    description="Service to get images or add new ones")
+
+image = Service(
+    name='image',
+    path='/images/{name}',
+    description="Service to delete image or get the image binary data")
+
+imagescale = Service(
+    name='imagescale',
+    path='/images/{name}/{scale}',
+    description="Service to get a scaled image binary data")
 
 
-image = Service(name='image',
-                path='/images/{name}/{scale}',
-                description="Service to delete image or get image binary data")
+def validate_image_data(request):
+    data_raw = request.validated.get("data", b"")
+    try:
+        data = base64.decodestring(data_raw)
+        request.validated["data"] = data
+    except (binascii.Error, UnicodeEncodeError) as e:
+        error = u"The image data is not valid base64 encoding: %s"
+        request.errors.add('body', 'data', error % e)
 
 
 #TODO use view classes instead of functions
-@images.post(schema=schemata.ImagePOST, accept="text/json",)
+@images.post(schema=schemata.ImagePOST, accept="text/json",
+             validators=(validate_image_data,))
 def images_post(request):
     """Add new Image.
 
        mimetype value: "image/jpeg" | "image/png"
+       data value: base64 encoded string
     """
     data = request.validated
     data["size"] = len(data["data"])
@@ -50,22 +70,9 @@ def images_get(request):
     return imagesdata
 
 
-#@images.delete(accept="text/json")
-#def images_delete(request):
-    #"""Delete all Images
-
-       #return codes: 200, 400, 500
-    #"""
-    #image_folder = utils.get_image_folder()
-    #for k, i in image_folder.items():
-        #if i.type == 'image':
-            #del image_folder[k]
-    #return {"status": "succeeded"}
-
-
-@image.get(schema=schemata.ImageGETDATA, accept="text/json", renderer="binary")
-def image_get(request):
-    """Get one image binary
+@imagescale.get(schema=schemata.ImageGETDATA, accept="text/json",)
+def imagescale_get(request):
+    """Get the image binary with specific scale
 
        returns: response
     """
@@ -77,5 +84,26 @@ def image_get(request):
     return resp
 
 
-# GET /images/id scale? linktype? :rtype: pyramid.response.Response
-# DELETE /images/id rtype: {sucesses}
+@image.get(schema=schemata.ImageGETDATA, accept="text/json",)
+def image_get(request):
+    """Get the image binary
+
+       returns: response
+    """
+    data = request.validated
+    name = data["name"]
+    images = utils.get_image_folder()
+    image = images[name]
+    resp = ImageView(image, request).image(subpath="%s/download" % scale)
+    return resp
+
+
+@image.delete(schema=schemata.ImageGETDATA, accept="text/json")
+def image_delete(request):
+    """Delete the image
+    """
+    data = request.validated
+    name = data["name"]
+    images = utils.get_image_folder()
+    del images[name]
+    return {"status": "succeeded"}
