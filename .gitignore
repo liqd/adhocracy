@@ -47,6 +47,7 @@ installed_eggs
 .installed.cfg
 etc/adhocracy.ini
 etc/adhocracy_service.ini
+etc/adhocracy_service_testing.ini
 etc/redis.conf
 etc/unthemed.ini
 etc/vhost.conf
