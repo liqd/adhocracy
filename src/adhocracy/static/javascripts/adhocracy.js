@@ -496,13 +496,13 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-        var stats_extended = $('body').data('stats-extended');
 
-        if (stats_extended) {
+        var stats_extended = $('body').data('stats-extended');
+        if (stats_extended != undefined) {
             var start_time = new Date();
             var page_stats_data = new Array();
 
-            var add_to_page_stats = function(type, data) {
+            var add_to_page_stats = function(type, data="") {
                 var timestamp = new Date() - start_time;
                 page_stats_data.push({"time": timestamp, "type": type,
                     "data": data});
@@ -510,59 +510,60 @@ $(document).ready(function () {
         
             var get_path = function(element) {
                 return $(element).parentsUntil('body').andSelf().map(function() {
-                    return this.id + '|' + this.nodeName;
+                    if (this.id == undefined) {
+                        return this.nodeName + '[' + $(this).index() + ']'; 
+                    } else {
+                        return this.nodeName + '#' + this.id;
+                    }
                 }).get().join('>');
             };
 
-            document.addEventListener("keydown", function(e) {
+            $(document).on("keydown", function(e) {
                 if ((e.keyCode >= 65 && e.keyCode <= 90) || 
                     (e.keyCode >= 48 && e.keyCode <=57))
-                    add_to_page_stats("keydown", [88]);
+                    add_to_page_stats(e.type);
                 else
-                    add_to_page_stats("keydown", [e.keyCode]);
+                    add_to_page_stats(e.type, e.keyCode);
             });
 
-            document.addEventListener("mousemove", function(e) {
+            $(document).on("mousemove", function(e) {
                 add_to_page_stats("mousemove", {"x": e.clientX, "y": e.clientY});
             });
 
-            document.addEventListener("click", function(e) {
-                var _event = (window.event) ? window.event : e;
-                var target = (_event.target) ? _event.target :
-                    _event.srcElement;
-                add_to_page_stats("click", {"target": target.id, "x": e.clientX,
-                    "y": e.clientY, "button": e.which, "path": get_path(target)});
+            $(document).on("click", function(e) {
+                alert(get_path(e.target));
+                add_to_page_stats("click", {"x": e.clientX, "y": e.clientY,
+                    "button": e.which, "path": get_path(e.currentTarget)});
             });
 
-            window.addEventListener("focus", function(e) {
-                add_to_page_stats("focus", "");
+            $(window).on("focus blur", function(e) {
+                add_to_page_stats(e.type);
             });
 
-            window.addEventListener("blur", function(e) {
-                add_to_page_stats("blur", "");
-            });
-
-            window.addEventListener("resize", function() {
+            $(window).on("resize", function() {
                 add_to_page_stats("resize", {"x": window.innerHeight,
                     "y": window.innerWidth});
             });
 
-            window.addEventListener("beforeunload", function(e) {
-                add_to_page_stats("unload", "");
+            $(window).on("beforeunload", function(e) {
+                add_to_page_stats(e.type);
                 sendOnPagePing();
             });
+
+            add_to_page_stats("initialsize",{"x": window.innerHeight,
+                    "y": window.innerWidth}); 
         }
 
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            if (stats_extended) { 
+            if (stats_extended == undefined) { 
+                var append_string = "";
+            } else {
                 add_to_page_stats("active_element",
                     get_path(document.activeElement));
                 var append_string = '&data=' + JSON.stringify(page_stats_data)
                     + '&res=' + window.innerHeight + '|' + window.innerWidth;
                 page_stats_data = new Array();
-            } else {
-                var append_string = "";
             }
             $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
                     + append_string,
