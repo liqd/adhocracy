@@ -62,7 +62,7 @@ Check out Adhocracy:
 
 Create virtualenv to isolate your python installation:
 
-    $ bin/virtualenv . 
+    $ virtualenv . 
 
 Run buildout (mind to use your virtualenv python):
 
