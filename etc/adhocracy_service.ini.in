@@ -9,12 +9,12 @@ kotti.site_title = Adhocracy static pages and media center
 
 
 # kotti.secret: defines the initial password of the 'admin' user
-kotti.secret = ${parts.adhocracy_service['kotti.secret']}
+kotti.secret = ${:kotti_secret}
 
 
 # sqlalchemy.url: the database that you want to use, defaults to SQLite
 # see http://www.sqlalchemy.org/docs/core/engines.html#database-urls
-sqlalchemy.url = ${parts.adhocracy_service['sqlalchemy.url']}
+sqlalchemy.url = ${:sqlalchemy_url}
 
 # mail.default_sender: configure the 'from' address of emails sent by Kotti
 mail.default_sender = yourname@yourhost
@@ -29,7 +29,7 @@ mail.default_sender = yourname@yourhost
 kotti.configurators = kotti_tinymce.kotti_configure
 
 # kotti.populators : create initial content
-kotti.populators = kotti.populate.populate
+kotti.populators = ${:kotti_populate}
 
 # kotti.asset_overrides: override Kotti's templates and resources; an example:
 # kotti.asset_overrides = mypackage:kotti-overrides/
@@ -56,5 +56,5 @@ pipeline =
 
 [server:main]
 use = egg:waitress#main
-host = ${parts.domains.adhocracy_service}
-port = ${parts.ports.adhocracy_service} 
+host = ${:domain}
+port = ${:port} 
