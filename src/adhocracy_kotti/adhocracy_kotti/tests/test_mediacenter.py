@@ -1,14 +1,36 @@
-# test the mediacenter webservice
+# -*- coding: utf-8 -*-
 import copy
+import base64
 import pytest
 from webtest import AppError
 
+from adhocracy_kotti.testing import asset
+
+
+image_file = asset("image_test.jpg")
+
+image_data = base64.b64encode(image_file.read())
+
 
 IMAGEDATA_APPSTRUCT = {"filename": u"test_image",
-             "mimetype": u"image/jpeg",
-             "tags": [u"tag1", u"tag2"],
-             "data": u"binary",
-         }
+                       "mimetype": u"image/jpeg",
+                       "tags": [u"tag1", u"tag2"],
+                       "data": b"image_data",
+                       }
+
+
+def test_validate_image_data_valid(dummy_request):
+    from adhocracy_kotti.mediacenter import validate_image_data
+    dummy_request.validated = {"data": b"binary_base64"}
+    validate_image_data(dummy_request)
+    assert(len(dummy_request.errors) == 0)
+
+
+def test_validate_image_data_invalid(dummy_request):
+    from adhocracy_kotti.mediacenter import validate_image_data
+    dummy_request.validated = {"data": u"wrong dötö"}
+    validate_image_data(dummy_request)
+    assert(len(dummy_request.errors) == 1)
 
 
 def test_images_post_one(root, request):  # pytest public fixture: conftest.py
@@ -18,10 +40,10 @@ def test_images_post_one(root, request):  # pytest public fixture: conftest.py
     result = images_post(request)
     assert result == {'status': 'succeeded', 'name': u'test_image'}
     assert root["mediacenter"]["test_image"].tags == [u'tag1', u'tag2']
-    assert root["mediacenter"]["test_image"].size == 6
+    assert root["mediacenter"]["test_image"].size == 10
 
 
-def test_images_post_multiple(root, request):  # pytest public fixture: conftest.py
+def test_images_post_multiple(root, request):
     import transaction
     from adhocracy_kotti.mediacenter import images_post
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
@@ -38,13 +60,7 @@ def test_images_post_multiple(root, request):  # pytest public fixture: conftest
     assert result3 == {'status': 'succeeded', 'name': u'test_image-2'}
 
 
-def test_functional_images_post_valid(testapp, root):  # pytest public fixture: conftest.py
-    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
-    testapp.post_json("/images", data)
-    assert "test_image" in root["mediacenter"].keys()
-
-
-def test_functional_images_post_invalid_missing_fields(testapp, root):
+def test_images_post_functional_invalid_missing_fields(testapp, root):
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
     del data["data"]
     with pytest.raises(AppError) as err:
@@ -83,7 +99,6 @@ def test_images_get(root, request):
                          'tags': [u'tag3']}
 
 
-
 def test_images_get_tags(root, dummy_request):
     #TODO more more DRY
     from kotti.resources import Image
@@ -111,20 +126,34 @@ def test_image_get(root, request):
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
     images["test_image"] = Image(**data)
 
-    request.validated = {"name": u"test_image", "scale": ""}
+    request.validated = {"name": u"test_image"}
     request.subpath = u""
     response = image_get(request)
     assert response.content_type == "image/jpeg"
 
 
-def test_image_get_scale(root, request):
+def test_image_delete(root, request):
     from kotti.resources import Image
     from adhocracy_kotti import utils
-    from adhocracy_kotti.mediacenter import image_get
+    from adhocracy_kotti.mediacenter import image_delete
+    images = utils.get_image_folder()
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    images["test_image"] = Image(**data)
+
+    request.validated = {"name": u"test_image", "scale": u"large"}
+    result = image_delete(request)
+    assert images.items() == []
+    del result
+
+
+def test_imagescale_get(root, request):
+    from kotti.resources import Image
+    from adhocracy_kotti import utils
+    from adhocracy_kotti.mediacenter import imagescale_get
     images = utils.get_image_folder()
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
     images["test_image"] = Image(**data)
 
     request.validated = {"name": u"test_image", "scale": "large"}
-    response = image_get(request)
+    response = imagescale_get(request)
     assert response.content_type == "image/jpeg"
