@@ -140,7 +140,7 @@ def test_image_delete(root, request):
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
     images["test_image"] = Image(**data)
 
-    request.validated = {"name": u"test_image", "scale": u"large"}
+    request.validated = {"name": u"test_image"}
     result = image_delete(request)
     assert images.items() == []
     del result
