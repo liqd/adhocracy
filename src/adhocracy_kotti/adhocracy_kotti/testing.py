@@ -23,8 +23,11 @@ def setup_functional(global_config=None, **settings):
         'sqlalchemy.url': "sqlite://",
         'kotti.secret': 'secret',
         'kotti.populators': 'adhocracy_kotti.populate.populate',
-        'pyramid.includes': 'kotti.testing._functional_includeme adhocracy_kotti',
-        }
+        'pyramid.includes': 'kotti.testing._functional_includeme '
+                            'adhocracy_kotti',
+        'kotti.configurators': 'kotti_tinymce.kotti_configure '
+                               'adhocracy_kotti.kotti_configure'
+    }
     _settings.update(settings)
 
     host, port = BASE_URL.split(':')[-2:]
