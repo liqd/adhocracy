@@ -1,3 +1,4 @@
+import uuid
 from kotti.util import title_to_name
 from kotti.resources import get_root
 from kotti.resources import (
@@ -5,9 +6,11 @@ from kotti.resources import (
 )
 
 
-def find_name(context, title):
-    """find a valid name, try to use title"""
-    name = title_to_name(title, blacklist=context.keys())
+def generate_image_name(binarydata):
+    """find a valid name based on the binarydata hash"""
+    name_uid = uuid.uuid3(uuid.NAMESPACE_DNS, binarydata)
+    name = u"".join(name_uid.urn)
+    name = title_to_name(u"".join(name_uid.urn))
     return name
 
 
