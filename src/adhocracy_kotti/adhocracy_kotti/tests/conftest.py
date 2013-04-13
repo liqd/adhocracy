@@ -8,12 +8,30 @@ def settings():
     from kotti import _resolve_dotted
     from kotti import conf_defaults
     settings = conf_defaults.copy()
+    settings["kotti.configurators"] = "kotti_tinymce.kotti_configure "\
+                                      "adhocracy_kotti.kotti_configure"
     settings['kotti.secret'] = 'secret'
     settings['kotti.populators'] =\
         'adhocracy_kotti.populate.populate'
     settings['pyramid.includes'] = 'adhocracy_kotti'
     _resolve_dotted(settings)
     return settings
+
+
+@fixture
+def config(request):
+    """ returns a Pyramid `Configurator` object initialized
+        with Kotti's default (test) settings.
+    """
+    from pyramid.config import DEFAULT_RENDERERS
+    from pyramid import testing
+    from kotti import security
+    config = testing.setUp(settings=settings())
+    for name, renderer in DEFAULT_RENDERERS:
+        config.add_renderer(name, renderer)
+    request.addfinalizer(security.reset)
+    request.addfinalizer(testing.tearDown)
+    return config
 
 
 @fixture
