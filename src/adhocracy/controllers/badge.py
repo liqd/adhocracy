@@ -1,3 +1,4 @@
+from cgi import FieldStorage
 import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
@@ -8,6 +9,8 @@ from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor
 from adhocracy.forms.common import ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
+from adhocracy.forms.common import ValidImageFileUpload
+from adhocracy.forms.common import ValidFileUpload
 from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import ValidateNoCycle
@@ -17,6 +20,7 @@ from adhocracy.model import Group
 from adhocracy.model import CategoryBadge
 from adhocracy.model import DelegateableBadge
 from adhocracy.model import InstanceBadge
+from adhocracy.model import ThumbnailBadge
 from adhocracy.model import UserBadge
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
@@ -59,6 +63,11 @@ class UserBadgeForm(BadgeForm):
     display_group = validators.StringBoolean(if_missing=False)
 
 
+class ThumbnailBadgeForm(BadgeForm):
+    thumbnail = All(ValidImageFileUpload(not_empty=False),
+                    ValidFileUpload(not_empty=False), )
+
+
 class BadgeController(BaseController):
     """Badge controller base class"""
 
@@ -84,13 +93,15 @@ class BadgeController(BaseController):
                 'instance': InstanceBadge.all(instance=None),
                 'user': UserBadge.all(instance=None),
                 'delegateable': DelegateableBadge.all(instance=None),
-                'category': CategoryBadge.all(instance=None)}
+                'category': CategoryBadge.all(instance=None),
+                'thumbnail': ThumbnailBadge.all(instance=None)}
         if has('instance.admin') and c.instance is not None:
             badges['instance.admin'] = {
                 'instance': InstanceBadge.all(instance=c.instance),
                 'user': UserBadge.all(instance=c.instance),
                 'delegateable': DelegateableBadge.all(instance=c.instance),
-                'category': CategoryBadge.all(instance=c.instance)}
+                'category': CategoryBadge.all(instance=c.instance),
+                'thumbnail': ThumbnailBadge.all(instance=c.instance)}
         return badges
 
     @property
@@ -155,7 +166,7 @@ class BadgeController(BaseController):
         Methods are named <action>_<badge_type>_badge().
         '''
         assert action in ['create', 'update']
-        types = ['user', 'delegateable', 'category', 'instance']
+        types = ['user', 'delegateable', 'category', 'instance', 'thumbnail']
         if badge_type not in types:
             raise AssertionError('Unknown badge_type: %s' % badge_type)
 
@@ -184,7 +195,7 @@ class BadgeController(BaseController):
     def create_instance_badge(self):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('instance', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -198,7 +209,7 @@ class BadgeController(BaseController):
     def create_user_badge(self):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('user', i.unpack_errors())
 
         title, color, visible, description, instance = self._get_common_fields(
@@ -216,7 +227,7 @@ class BadgeController(BaseController):
     def create_delegateable_badge(self):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('delegateable', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -230,7 +241,7 @@ class BadgeController(BaseController):
     def create_category_badge(self):
         try:
             self.form_result = CategoryBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.add('category', i.unpack_errors())
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
@@ -242,6 +253,26 @@ class BadgeController(BaseController):
         CategoryBadge.create(title, color, visible, description, instance,
                              parent=parent,
                              select_child_description=child_descr)
+        # commit cause redirect() raises an exception
+        meta.Session.commit()
+        redirect(self.base_url)
+
+    @guard.instance.any_admin()
+    @RequireInternalRequest()
+    def create_thumbnail_badge(self):
+        try:
+            self.form_result = BadgeForm().to_python(request.params)
+        except Invalid as i:
+            return self.add('thumbnail', i.unpack_errors())
+        title, color, visible, description, instance = self._get_common_fields(
+            self.form_result)
+        thumbnail = self.form_result.get("thumbnail")
+        if isinstance(thumbnail, FieldStorage):
+            thumbnail = thumbnail.file.read()
+        else:
+            thumbnail = None
+        ThumbnailBadge.create(title, color, visible, description, thumbnail,
+                              instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -282,6 +313,9 @@ class BadgeController(BaseController):
     def edit(self, id, errors=None):
         badge = self.get_badge_or_redirect(id)
         c.badge_type = self.get_badge_type(badge)
+        c.badge_thumbnail = None
+        if getattr(badge, "thumbnail", None):
+            c.badge_thumbnail = h.badge_helper.generate_thumbnail_tag(badge)
         c.form_type = 'update'
         self._set_parent_categories(exclude=badge)
 
@@ -318,7 +352,7 @@ class BadgeController(BaseController):
     def update_user_badge(self, id):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
 
         badge = self.get_badge_or_redirect(id)
@@ -343,7 +377,7 @@ class BadgeController(BaseController):
     def update_delegateable_badge(self, id):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
@@ -363,7 +397,7 @@ class BadgeController(BaseController):
     def update_instance_badge(self, id):
         try:
             self.form_result = BadgeForm().to_python(request.params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
@@ -385,7 +419,7 @@ class BadgeController(BaseController):
             params = request.params.copy()
             params['id'] = id
             self.form_result = CategoryBadgeUpdateForm().to_python(params)
-        except Invalid, i:
+        except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self.get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
@@ -403,6 +437,30 @@ class BadgeController(BaseController):
         badge.instance = instance
         badge.select_child_description = child_descr
         badge.parent = parent
+        meta.Session.commit()
+        h.flash(_("Badge changed successfully"), 'success')
+        redirect(self.base_url)
+
+    @guard.instance.any_admin()
+    @RequireInternalRequest()
+    def update_thumbnail_badge(self, id):
+        try:
+            self.form_result = ThumbnailBadgeForm().to_python(request.params)
+        except Invalid as i:
+            return self.edit(id, i.unpack_errors())
+        badge = self.get_badge_or_redirect(id)
+        title, color, visible, description, instance = self._get_common_fields(
+            self.form_result)
+        thumbnail = self.form_result.get("thumbnail")
+        if isinstance(thumbnail, FieldStorage):
+            badge.thumbnail = thumbnail.file.read()
+        if 'delete_thumbnail' in self.form_result:
+            badge.thumbnail = None
+        badge.title = title
+        badge.color = color
+        badge.visible = visible
+        badge.description = description
+        badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)

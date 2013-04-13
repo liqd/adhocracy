@@ -7,7 +7,7 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy import Boolean, Integer, DateTime, String, Unicode
+from sqlalchemy import Boolean, Integer, DateTime, String, Unicode, LargeBinary
 
 from adhocracy.model import meta, instance_filter as ifilter
 
@@ -36,6 +36,8 @@ badge_table = Table(
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
     Column('visible', Boolean, default=True),
+    # attributes for ThumbnailBadges
+    Column('thumbnail', LargeBinary, default=None, nullable=True)
 )
 
 
@@ -346,3 +348,31 @@ class CategoryBadge(DelegateableBadge):
                 self.parent.get_key(root, separator),
                 separator,
                 self.title)
+
+
+# --[ Thumbnail Badges ]-----------------------------------------------------
+
+class ThumbnailBadge(DelegateableBadge):
+
+    polymorphic_identity = 'thumbnail'
+
+    @classmethod
+    def create(cls, title, color, visible, description, thumbnail=None,
+               instance=None):
+        badge = cls(title, color, visible, description, instance)
+        badge.thumbnail = thumbnail
+        meta.Session.add(badge)
+        meta.Session.flush()
+        return badge
+
+    def __repr__(self):
+        return "<%s(%s,%s,%s,%s)>" % (self.__class__.__name__,
+                                      self.id,
+                                      self.title.encode('ascii', 'replace'),
+                                      hash(self.thumbnail or ''),
+                                      self.color)
+
+    def to_dict(self):
+        d = super(ThumbnailBadge, self).to_dict()
+        d['thumbnail'] = self.thumbnail or ""
+        return d

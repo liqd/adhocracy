@@ -98,13 +98,16 @@ class TestSolrTokenHelpers(TestCase):
         from adhocracy.lib.pager import solr_tokens_to_entities
         badge = CategoryBadge.create('testbadge', '#ccc', True, 'description')
         token = u"1/2/%s" % str(badge.id)
-        self.assertEqual(solr_tokens_to_entities([token], CategoryBadge), [badge])
+        self.assertEqual(solr_tokens_to_entities([token], CategoryBadge),
+                         [badge])
 
     def test_solr_token_to_entity_no_hierachy(self):
         from adhocracy.model import CategoryBadge
         from adhocracy.lib.pager import solr_tokens_to_entities
         badge = CategoryBadge.create('testbadge', '#ccc', True, 'description')
         token = u"%s" % str(badge.id)
-        self.assertEqual(solr_tokens_to_entities([token], CategoryBadge), [badge])
+        self.assertEqual(solr_tokens_to_entities([token], CategoryBadge),
+                         [badge])
         wrongtoken = "1A"
-        self.assertEqual(solr_tokens_to_entities([wrongtoken], CategoryBadge), [])
+        self.assertEqual(solr_tokens_to_entities([wrongtoken], CategoryBadge),
+                         [])

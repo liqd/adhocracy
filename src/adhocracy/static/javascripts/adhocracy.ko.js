@@ -31,6 +31,7 @@ var adhocracy = adhocracy || {};
         this.title = ko.observable(data.title);
         this.description = ko.observable(data.description);
         this.checked = ko.observable(data.checked);
+        this.thumbnail = ko.observable(data.thumbnail);
         this.css_class = ko.computed(function () {
             return 'badge badge_' + self.id();
         });
@@ -41,10 +42,12 @@ var adhocracy = adhocracy || {};
         this.id = ko.observable();
         this.title = ko.observable();
         this.badges = ko.observableArray();
+        this.thumbnailbadges = ko.observableArray();
         this.clear = function () {
             self.id(undefined);
             self.title(undefined);
             self.badges([]);
+            self.thumbnailbadges([]);
         };
         this.load = function (id, callback) {
             self.id(id);
@@ -62,7 +65,8 @@ var adhocracy = adhocracy || {};
             var url = basepath + self.id() + '/update_badges.ajax?',
                 parameters = $('#edit_badges').serialize();
             $.post(url, parameters, function (data) {
-                $('#badges_' + self.id()).html(data.html);
+                $('#badges_' + self.id()).html(data.badges_html);
+                $('#thumbnailbadges_' + self.id()).html(data.thumbnailbadges_html);
                 callback();
             }, 'json').error(function (_, txt) {
                 console.log('Error saving the badge: ' + txt);
@@ -70,6 +74,11 @@ var adhocracy = adhocracy || {};
         };
         this.mapping = {
             badges: {
+                create: function (options) {
+                    return new adhocracy.ko.Badge(options.data);
+                }
+            },
+            thumbnailbadges: {
                 create: function (options) {
                     return new adhocracy.ko.Badge(options.data);
                 }

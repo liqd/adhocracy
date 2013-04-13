@@ -1,25 +1,42 @@
+<%!
+from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag 
+%>
 <%def name="badge(badge, force_visible=False)">
 <%
+# dummy badge
 if badge == 'dummy':
-    description = ''
-    badge_id = 'dummy'
-    badge_title = 'badge'
+   spanclass = 'abadge badge_dummy'
+   aclass    = ''
+   atitle    = 'badge'
+   acontent  = 'badge'
+
 else:
-    description = badge.description.strip()
-    badge_id = badge.id
-    badge_title = badge.title
-    if not badge.visible and not force_visible:
-        return ''
+    # invisible badge
+   if not badge.visible and not force_visible:
+      return ''
+
+   # thumbnail badge
+   if badge.type == "thumbnail":
+      spanclass = "thumbnailbadge badge_%s" % badge.id
+      aclass    = 'ttip'
+      atitle    = '%s - %s' % (badge.title, badge.description)
+      acontent  = generate_thumbnail_tag(badge)
+
+   # common badge
+   else:
+       spanclass = "abadge badge_%s" % badge.id
+       aclass    = badge.description.strip() and 'ttip' or ''
+       atitle    = badge.description
+       acontent  = badge.title
 %>
-    <span class="abadge badge_${badge_id}">
-        <span class="${description and 'ttip' or ''}" 
-           title="${description}">${badge_title}</span>
-    </span>
+<span class="${spanclass}">
+    <span class="${aclass}" title="${atitle}">${(badge == 'dummy' or badge.type == "thumbnail") and h.literal(acontent) or acontent}</span>
+</span>
 </%def>
 
 <%def name="badges(badges)">
     %for badge_ in badges:
-        ${badge(badge_)} 
+        ${badge(badge_)}
     %endfor
 </%def>
 
