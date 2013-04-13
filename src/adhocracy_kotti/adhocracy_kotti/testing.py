@@ -6,6 +6,9 @@ from os.path import (
 BASE_URL = 'http://localhost:6543'
 
 
+API_TOKEN = 'evqTj3ucH'
+
+
 def asset(name):
     import adhocracy_kotti
     return open(join(dirname(adhocracy_kotti.__file__), 'tests', name), 'rb')
@@ -19,6 +22,7 @@ def setup_functional(global_config=None, **settings):
 
     tearDown()
 
+    # TODO more DRY, use tests.conftest.settings
     _settings = {
         'sqlalchemy.url': "sqlite://",
         'kotti.secret': 'secret',
@@ -26,7 +30,8 @@ def setup_functional(global_config=None, **settings):
         'pyramid.includes': 'kotti.testing._functional_includeme '
                             'adhocracy_kotti',
         'kotti.configurators': 'kotti_tinymce.kotti_configure '
-                               'adhocracy_kotti.kotti_configure'
+                               'adhocracy_kotti.kotti_configure',
+        'rest_api_token': API_TOKEN,
     }
     _settings.update(settings)
 
