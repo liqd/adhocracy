@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import copy
 import base64
-import pytest
-from webtest import AppError
 
 from adhocracy_kotti.testing import asset
 
@@ -46,19 +44,6 @@ def test_images_post_multiple(root, request):
     assert result1 == {'status': 'succeeded', 'name': name}
     assert result2 == {'status': 'succeeded', 'name': name}
     assert result3 == {'status': 'succeeded', 'name': name}
-
-
-def test_images_post_functional_invalid_missing_fields(testapp, root):
-    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
-    del data["data"]
-    with pytest.raises(AppError) as err:
-        testapp.post_json("/images", data)
-    assert err.value.args[0].splitlines()[1] ==\
-        u'{"status": "error", "errors": '\
-        u'[{"location": "body", '\
-        u'"name": "data", "description": "data is missing"}]}'
-    assert err.value.args[0].splitlines()[0].startswith(
-        u'Bad response: 400')
 
 
 def test_images_get(root, request):

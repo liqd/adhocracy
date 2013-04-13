@@ -27,7 +27,8 @@ imagescale = Service(
 
 #TODO use view classes instead of functions
 @images.post(schema=schemata.ImagePOST, accept="text/json",
-             validators=(validate.validate_image_data,))
+             validators=(validate.validate_image_data,
+                         validate.validate_api_token,))
 def images_post(request):
     """Add new Image.
 
@@ -44,7 +45,8 @@ def images_post(request):
             "status": "succeeded"}
 
 
-@images.get(schema=schemata.TagsList, accept="text/json")
+@images.get(schema=schemata.TagsList, accept="text/json",
+            validators=(validate.validate_api_token,))
 def images_get(request):
     """Get all Images
 
@@ -89,7 +91,8 @@ def image_get(request):
     return resp
 
 
-@image.delete(schema=schemata.ImageGETDATA, accept="text/json")
+@image.delete(schema=schemata.ImageGETDATA, accept="text/json",
+              validators=(validate.validate_api_token,))
 def image_delete(request):
     """Delete the image
     """
