@@ -14,31 +14,9 @@ ${self.form()}
 
 <%def name="form()">
   <% h.need.spectrum %>
-  <form name="update_badge" class="inplace" method="POST">
+  <form name="update_badge" class="inplace" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
 
-      ${components.flashmessages()}
-
-      <h2>
-          %if c.form_type == 'create':
-              %if c.badge_type == 'instance':
-              ${_('Add instance badge')} 
-              %elif c.badge_type == 'user':
-              ${_('Add user badge')}
-              %elif c.badge_type == 'delegateable':
-              ${_('Add delegateable badge')}
-              %elif c.badge_type == 'category':
-              ${_('Add category badge')}
-              %endif
-              %elif c.form_type == 'update':
-          %if c.badge_type == 'user':
-              ${_('Edit user badge')}
-              %elif c.badge_type == 'delegateable':
-              ${_('Edit delegateable badge')}
-              %elif c.badge_type == 'category':
-              ${_('Edit category badge')}
-              %endif
-          %endif
-      </h2>
+    ${components.flashmessages()}
 
     ${h.field_token()|n}
 
@@ -55,17 +33,34 @@ ${self.form()}
     <input name="color" style="width: 8em" id="color" class=""
            value=""/>
     <span class="hint only-no-js">${_("Like '#a4a4a4'")}</span>
+    
+    %if c.badge_type != 'thumbnail':
     <span id="badge-preview" class="hidden">
         ${_('Preview:')} &nbsp;&nbsp; ${badge_tiles.badge('dummy')}
     </span>
+    %endif       
     <script>
         $(document).ready(function() {
             adhocracy.helpers.initializeBadgeColorPicker('#color', '#badge_form_visible', '#badge_form_title', '${h.site.domain()}.colors.badge')})
     </script>
-    
+
+    %if c.badge_type == 'thumbnail':
+        %if c.badge_thumbnail:
+            <div>
+                ${h.literal(c.badge_thumbnail)}
+                <button name="delete_thumbnail" value="1">
+                    <i class="icon-remove"></i>${_('Delete current thumbnail image')}
+                </button>
+            </div>
+        %endif    
+    <label for="thumbnail">${_('Upload thumbnail icon. This is used instead of color to show the badge')}</label>
+    <input id="thumbnail" name="thumbnail" type="file">  
+    <br />
+    %endif       
+
     <input type="checkbox" name="visible" id="badge_form_visible" />
     <label for="badge_form_visible" style="display: inline;" title="${_('Check to hide badge in user interface')}">${_("visible")}</label>
-
+ 
     %if c.badge_type == 'user':
     <label for="group" class="">
         ${_("Group")}

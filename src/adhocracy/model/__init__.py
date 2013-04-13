@@ -12,6 +12,7 @@ from adhocracy.model.badge import (
     badge_table,
     Badge,
     CategoryBadge,
+    ThumbnailBadge,
     delegateable_badges_table,
     DelegateableBadge,
     DelegateableBadges,
@@ -141,6 +142,18 @@ mapper(CategoryBadge, inherits=badge_mapper,
                                remote_side=badge_table.c.id),
            )})
 
+mapper(ThumbnailBadge, inherits=badge_mapper,
+       polymorphic_identity=ThumbnailBadge.polymorphic_identity,
+       properties={
+           'delegateables': relation(
+               Delegateable,
+               secondary=delegateable_badges_table,
+               primaryjoin=(badge_table.c.id ==
+                            delegateable_badges_table.c.badge_id),
+               secondaryjoin=(delegateable_badges_table.c.delegateable_id ==
+                              delegateable_table.c.id),
+               backref=backref('thumbnails', lazy='joined'),
+               lazy=False)})
 
 mapper(DelegateableBadge, inherits=badge_mapper,
        polymorphic_identity=DelegateableBadge.polymorphic_identity,
