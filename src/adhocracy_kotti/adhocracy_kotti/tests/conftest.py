@@ -3,6 +3,8 @@ from webtest import TestApp
 from kotti import base_configure
 from cornice.errors import Errors
 
+from adhocracy_kotti.testing import API_TOKEN
+
 
 def settings():
     from kotti import _resolve_dotted
@@ -14,6 +16,7 @@ def settings():
     settings['kotti.populators'] =\
         'adhocracy_kotti.populate.populate'
     settings['pyramid.includes'] = 'adhocracy_kotti'
+    settings['rest_api_token'] = API_TOKEN
     _resolve_dotted(settings)
     return settings
 
