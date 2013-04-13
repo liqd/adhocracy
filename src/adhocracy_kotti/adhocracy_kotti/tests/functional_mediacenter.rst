@@ -32,7 +32,7 @@ The response body gives us the name to identifiy the image::
     >>> return_data = json.loads(resp.body)
     >>> name = return_data["name"]
     >>> name
-    u'test_image'
+    u'urn-uuid-f477dcfc-6da0-37d0-9f53'
 
 Now we can get the image ::
 

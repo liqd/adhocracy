@@ -33,14 +33,15 @@ def test_validate_image_data_invalid(dummy_request):
     assert(len(dummy_request.errors) == 1)
 
 
-def test_images_post_one(root, request):  # pytest public fixture: conftest.py
+def test_images_post_one(root, request):  # pytest public fixtures: conftest.py
     from adhocracy_kotti.mediacenter import images_post
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
     request.validated = data
     result = images_post(request)
-    assert result == {'status': 'succeeded', 'name': u'test_image'}
-    assert root["mediacenter"]["test_image"].tags == [u'tag1', u'tag2']
-    assert root["mediacenter"]["test_image"].size == 10
+    name = u'urn-uuid-2be14549-b985-3aaf-ad9f'
+    assert result == {'status': 'succeeded', 'name': name}
+    assert root["mediacenter"][name].tags == [u'tag1', u'tag2']
+    assert root["mediacenter"][name].size == 10
 
 
 def test_images_post_multiple(root, request):
@@ -55,9 +56,10 @@ def test_images_post_multiple(root, request):
     data["tags"] = []
     result3 = images_post(request)
     transaction.commit()
-    assert result1 == {'status': 'succeeded', 'name': u'test_image'}
-    assert result2 == {'status': 'succeeded', 'name': u'test_image-1'}
-    assert result3 == {'status': 'succeeded', 'name': u'test_image-2'}
+    name = u'urn-uuid-2be14549-b985-3aaf-ad9f'
+    assert result1 == {'status': 'succeeded', 'name': name}
+    assert result2 == {'status': 'succeeded', 'name': name}
+    assert result3 == {'status': 'succeeded', 'name': name}
 
 
 def test_images_post_functional_invalid_missing_fields(testapp, root):
@@ -71,7 +73,6 @@ def test_images_post_functional_invalid_missing_fields(testapp, root):
         u'"name": "data", "description": "data is missing"}]}'
     assert err.value.args[0].splitlines()[0].startswith(
         u'Bad response: 400')
-    assert data["filename"] not in root["mediacenter"].keys()
 
 
 def test_images_get(root, request):

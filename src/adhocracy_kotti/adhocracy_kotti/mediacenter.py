@@ -47,8 +47,9 @@ def images_post(request):
     data = request.validated
     data["size"] = len(data["data"])
     image_folder = utils.get_image_folder()
-    name = utils.find_name(image_folder, data["filename"])
-    image_folder[name] = Image(**data)
+    name = utils.generate_image_name(data["data"])
+    if name not in image_folder:
+        image_folder[name] = Image(**data)
     return {"name": name,
             "status": "succeeded"}
 
