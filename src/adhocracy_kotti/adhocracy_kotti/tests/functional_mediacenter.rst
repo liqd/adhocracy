@@ -4,7 +4,7 @@ adhocracy medicenter REST-API browser tests
 Setup
 -----
 
-    >>> from adhocracy_kotti.testing import setup_functional, asset
+    >>> from adhocracy_kotti.testing import setup_functional, asset, API_TOKEN
     >>> import json
     >>> import base64
     >>> tools = setup_functional()
@@ -23,7 +23,7 @@ Add image and get image scale
 
 We can add a new image to the medicenter::
 
-    >>> resp = app.post_json("/images", image_data_post)
+    >>> resp = app.post_json("/images", image_data_post, [('X-API-Token', API_TOKEN)])
     >>> resp.status
     '200 OK'
 
@@ -36,18 +36,18 @@ The response body gives us the name to identifiy the image::
 
 Now we can get the image ::
 
-    >>> resp = app.get("/images/%s" % str(name))
+    >>> resp = app.get("/images/%s" % str(name), [('X-API-Token', API_TOKEN)])
     >>> resp
     <200 OK image/jpeg body='\x...
 
 or a specific image scale ::
 
-    >>> app.get("/images/%s/large" % str(name))
+    >>> app.get("/images/%s/large" % str(name), [('X-API-Token', API_TOKEN)])
     <200 OK image/jpeg body='\x...
 
 We can also delete the image::
 
-    >>> app.delete("/images/%s" % str(name))
+    >>> app.delete("/images/%s" % str(name), u"", [('X-API-Token', API_TOKEN)])
     <200 OK application/json body='{"status...
 
 

@@ -34,6 +34,8 @@ kotti.populators = ${:kotti_populate}
 # kotti.asset_overrides: override Kotti's templates and resources; an example:
 # kotti.asset_overrides = mypackage:kotti-overrides/
 
+# token to access the rest api (use it for header "X-API-Token")
+rest_api_token = ${:rest_api_token}
 
 # pyramid.default_locale_name: set the user interface language
 pyramid.default_locale_name = en
