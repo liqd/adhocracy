@@ -92,7 +92,8 @@ def image_get(request):
 
 
 @image.delete(schema=schemata.ImageGETDATA, accept="text/json",
-              validators=(validate.validate_api_token,))
+              validators=(validate.validate_api_token,
+                          validate.validate_image_name_exists,))
 def image_delete(request):
     """Delete the image
     """

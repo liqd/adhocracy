@@ -27,3 +27,22 @@ def test_validate_api_token_invalid(dummy_request):
     dummy_request.validated = {}
     validate_api_token(dummy_request)
     assert(len(dummy_request.errors) == 1)
+
+
+def test_validate_image_name_exists_valid(root, dummy_request):
+    from adhocracy_kotti.validate import validate_image_name_exists
+    from adhocracy_kotti.utils import get_image_folder
+    from kotti.resources import Image
+    images = get_image_folder()
+    images["exists"] = Image(title=u"exists")
+
+    dummy_request.validated = {"name": "exists"}
+    validate_image_name_exists(dummy_request)
+    assert(len(dummy_request.errors) == 0)
+
+
+def test_validate_image_name_exists_invalid(root, dummy_request):
+    from adhocracy_kotti.validate import validate_image_name_exists
+    dummy_request.validated = {"name": "notexists"}
+    validate_image_name_exists(dummy_request)
+    assert(len(dummy_request.errors) == 1)
