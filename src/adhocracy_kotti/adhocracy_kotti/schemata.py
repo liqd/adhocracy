@@ -22,6 +22,20 @@ class Identifier(colander.SchemaNode):
     validator = colander.Regex(u'^[a-zA-Z0-9_-]+$')
 
 
+class ImageScale(colander.SchemaNode):
+    """Predefined image scale String, encoding utf-8
+
+       value: icon | thumb | logo | middle | large
+    """
+    schema_type = colander.String
+    validator = colander.OneOf([u'icon',
+                                u'thumb',
+                                u'logo',
+                                u'middle',
+                                u'large',
+                                ])
+
+
 class ImagePOST(colander.MappingSchema):
 
     filename = colander.SchemaNode(colander.String())
@@ -44,14 +58,4 @@ class ImageGET(colander.MappingSchema):
 class ImageGETDATA(colander.MappingSchema):
 
     name = Identifier(location="path")
-    scale = colander.SchemaNode(colander.String(),
-                                validator=colander.OneOf([u'icon',
-                                                          u'thumb',
-                                                          u'logo',
-                                                          u'middle',
-                                                          u'large',
-                                                          ]),
-                                missing=u"large",
-                                default=u"large",
-                                location="path",
-                                )
+    scale = ImageScale(missing=u"large", default=u"large", location="path",)
