@@ -33,6 +33,23 @@ def test_validate_image_data_invalid(dummy_request):
     assert(len(dummy_request.errors) == 1)
 
 
+def test_validate_api_token_valid(dummy_request):
+    from adhocracy_kotti.mediacenter import validate_api_token
+    from adhocracy_kotti.testing import API_TOKEN
+    dummy_request.headers["X-API-Token"] = API_TOKEN
+    dummy_request.validated = {}
+    validate_api_token(dummy_request)
+    assert(len(dummy_request.errors) == 0)
+
+
+def test_validate_api_token_invalid(dummy_request):
+    from adhocracy_kotti.mediacenter import validate_api_token
+    dummy_request.headers["X-API-Token"] = "wrong token"
+    dummy_request.validated = {}
+    validate_api_token(dummy_request)
+    assert(len(dummy_request.errors) == 1)
+
+
 def test_images_post_one(root, request):  # pytest public fixtures: conftest.py
     from adhocracy_kotti.mediacenter import images_post
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
