@@ -29,8 +29,6 @@ mediafile_table = Table(
 )
 
 
-# --[ relation tables ]-----------------------------------------------------
-
 delegateable_mediafiles_table = Table(
     'delegateable_mediafiles', meta.data,
     Column('id', Integer, primary_key=True),
