@@ -3,6 +3,7 @@ import binascii
 from kotti.resources import Image
 from kotti.views.util import content_with_tags
 from kotti.views.image import ImageView
+from kotti.util import extract_from_settings
 from cornice import Service
 
 from adhocracy_kotti import schemata
@@ -33,6 +34,17 @@ def validate_image_data(request):
     except (binascii.Error, UnicodeEncodeError) as e:
         error = u"The image data is not valid base64 encoding: %s"
         request.errors.add('body', 'data', error % e)
+
+
+def validate_api_token(request):
+    if not 'X-API-Token' in request.headers:
+        request.errors.add('header', 'X-API-Token',
+                           'You need to provied a valid token')
+    token = request.headers.get('X-API-Token', '')
+    valid_token = request.registry.settings['rest_api_token']
+    if token != valid_token:
+        request.errors.add('header', 'X-API-Token',
+                           'The token is invalid')
 
 
 #TODO use view classes instead of functions
