@@ -3,6 +3,155 @@ Welcome to Adhocracy webservice's documentation!
 
 
 
+Service at /images
+==================
+
+Service to get images or add new ones
+
+
+POST
+----
+
+values in the body
+
+* filename :  String, required
+* mimetype :  String, required
+* tags :  Sequence, optional
+* data :  String, required
+**Accepted content types:
+
+* text/json
+**
+
+Add new Image.
+
+mimetype value: "image/jpeg" | "image/png" data value: base64 encoded
+string
+
+**Response: json**
+
+
+GET
+---
+
+values in the body
+
+* tags :  Sequence, optional
+**Accepted content types:
+
+* text/json
+**
+
+Get all Images
+
+returns: Sequence of ImageGET
+
+**Response: json**
+
+
+HEAD
+----
+
+values in the body
+
+* tags :  Sequence, optional
+**Accepted content types:
+
+* text/json
+**
+
+Get all Images
+
+returns: Sequence of ImageGET
+
+**Response: json**
+
+
+Service at /images/{name}
+=========================
+
+Service to delete image or get the image binary data
+
+
+GET
+---
+
+**Accepted content types:
+
+* text/json
+**
+
+Get the image binary
+
+returns: response
+
+**Response: json**
+
+
+HEAD
+----
+
+**Accepted content types:
+
+* text/json
+**
+
+Get the image binary
+
+returns: response
+
+**Response: json**
+
+
+DELETE
+------
+
+**Accepted content types:
+
+* text/json
+**
+
+Delete the image
+
+**Response: json**
+
+
+Service at /images/{name}/{scale}
+=================================
+
+Service to get a image binary data scale
+
+
+GET
+---
+
+**Accepted content types:
+
+* text/json
+**
+
+Get the image binary with specific scale
+
+returns: response
+
+**Response: json**
+
+
+HEAD
+----
+
+**Accepted content types:
+
+* text/json
+**
+
+Get the image binary with specific scale
+
+returns: response
+
+**Response: json**
+
+
 Example usage
 =============
 
@@ -12,9 +161,13 @@ Example usage
    Setup
    -----
 
-       >>> from adhocracy_kotti.testing import setup_functional, asset
-       >>> import json
        >>> import base64
+       >>> import copy
+       >>> import json
+       >>> import pytest
+       >>> from webtest import AppError
+       >>> from adhocracy_kotti.testing import setup_functional, asset, API_TOKEN
+
        >>> tools = setup_functional()
        >>> app = tools["test_app"]
 
@@ -31,7 +184,7 @@ Example usage
 
    We can add a new image to the medicenter::
 
-       >>> resp = app.post_json("/images", image_data_post)
+       >>> resp = app.post_json("/images", image_data_post, [('X-API-Token', API_TOKEN)])
        >>> resp.status
        '200 OK'
 
@@ -40,23 +193,48 @@ Example usage
        >>> return_data = json.loads(resp.body)
        >>> name = return_data["name"]
        >>> name
-       u'test_image'
+       u'urn-uuid-f477dcfc-6da0-37d0-9f53'
 
    Now we can get the image ::
 
-       >>> resp = app.get("/images/%s" % str(name))
+       >>> resp = app.get("/images/%s" % str(name), [('X-API-Token', API_TOKEN)])
        >>> resp
        <200 OK image/jpeg body='\x...
 
    or a specific image scale ::
 
-       >>> app.get("/images/%s/large" % str(name))
+       >>> app.get("/images/%s/large" % str(name), [('X-API-Token', API_TOKEN)])
        <200 OK image/jpeg body='\x...
 
    We can also delete the image::
 
-       >>> app.delete("/images/%s" % str(name))
+       >>> app.delete("/images/%s" % str(name), u"", [('X-API-Token', API_TOKEN)])
        <200 OK application/json body='{"status...
+
+   If we send invalid data we get a nice error description::
+
+       >>> import copy
+       >>> image_data_invalid = copy.deepcopy(image_data_post)
+       >>> del image_data_invalid["data"]
+       >>> with pytest.raises(AppError) as err:
+       ...     resp = app.post_json("/images", image_data_invalid, [('X-API-Token', API_TOKEN)])
+       >>> err.value.args[0].splitlines()[0] # doctest: +ELLIPSIS
+       u'Bad response: 400 ...
+       >>> err.value.args[0].splitlines()[1]
+       u'{"status": "error", "errors": [{"location": "body", "name": "data", "description": "data is missing"}]}'
+
+
+   ef test_images_post_functional_invalid_missing_fields(testapp, root):
+       data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+       del data["data"]
+           testapp.post_json("/images", data)
+       assert err.value.args[0].splitlines()[1] ==\
+           u'{"status": "error", "errors": '\
+           u'[{"location": "body", '\
+           u'"name": "data", "description": "data is missing"}]}'
+       assert err.value.args[0].splitlines()[0].startswith(
+           u'Bad response: 400')
+
 
 
 
@@ -74,10 +252,11 @@ Return erro codes:
 Return value is a JSON dictionary with:
 
 * location is the location of the error. It can be “querystring”,
-  “header” or
+  “header” or “body”
 
-“body” * name is the eventual name of the value that caused problems *
-description is a description of the problem encountered.
+* name is the eventual name of the value that caused problems
+
+* description is a description of the problem encountered.
 
 
 Indices and tables
