@@ -19,11 +19,12 @@ def validate_api_token(request):
     if not 'X-API-Token' in request.headers:
         request.errors.add('header', 'X-API-Token',
                            'You need to provied a valid token')
-    token = request.headers.get('X-API-Token', '')
-    valid_token = request.registry.settings['rest_api_token']
-    if token != valid_token:
-        request.errors.add('header', 'X-API-Token',
-                           'The token is invalid')
+    else:
+        token = request.headers.get('X-API-Token', '')
+        valid_token = request.registry.settings['rest_api_token']
+        if token != valid_token:
+            request.errors.add('header', 'X-API-Token',
+                               'The token is invalid')
 
 
 def validate_image_name_exists(request):
