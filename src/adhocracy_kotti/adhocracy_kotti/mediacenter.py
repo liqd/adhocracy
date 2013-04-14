@@ -73,7 +73,7 @@ def imagescale_get(request):
     scale, name = data["scale"], data["name"]
     images = utils.get_image_folder()
     image = images[name]
-    resp = ImageView(image, request).image(subpath="%s/download" % scale)
+    resp = ImageView(image, request).image(subpath=[scale, "download"])
     return resp
 
 
