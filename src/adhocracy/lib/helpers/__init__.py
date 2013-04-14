@@ -24,6 +24,7 @@ from adhocracy.lib import version
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.authorization import has as has_permission
 from adhocracy.lib.auth.csrf import url_token, field_token
+from adhocracy.lib.helpers import adhocracy_service
 from adhocracy.lib.helpers import site_helper as site
 from adhocracy.lib.helpers import user_helper as user
 from adhocracy.lib.helpers import proposal_helper as proposal
