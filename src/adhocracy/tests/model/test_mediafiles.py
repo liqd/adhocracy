@@ -30,7 +30,7 @@ class TestDelegateableController(TestController):
         instance = Instance.find('test')
         creator = tt_make_user('creator')
         delegateable = Proposal.create(instance, u"labeld", creator)
-        mediafile = MediaFile.create(u'name',)
+        mediafile = MediaFile.create(u'name')
 
         return creator, delegateable, mediafile
 
