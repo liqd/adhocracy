@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 def test_validate_image_data_valid(dummy_request):
     from adhocracy_kotti.validate import validate_image_data
     dummy_request.validated = {"data": b"binary_base64"}
