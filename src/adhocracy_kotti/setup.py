@@ -59,8 +59,5 @@ setup(
     extras_require=dict(
         testing=tests_requires, ),
     entry_points={
-        'fanstatic.libraries': [
-            'adhocracy_kotti = adhocracy_kotti:library',
-        ],
     },
 )
