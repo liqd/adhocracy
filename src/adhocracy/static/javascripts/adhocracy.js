@@ -498,7 +498,8 @@ $(document).ready(function () {
     if (page_stats_baseurl) {
 
         var stats_extended = $('body').data('stats-extended');
-        if (stats_extended) {
+        alert(stats_extended);
+        if (stats_extended === "enabled") {
             var start_time = new Date();
             var page_stats_data = new Array();
 
