@@ -76,6 +76,7 @@ setup(
         "pytz",
         "requests",
         "raven",
+        "python-magic",
     ],
     setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
                     "PasteScript",
