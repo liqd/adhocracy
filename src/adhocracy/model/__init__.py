@@ -24,7 +24,12 @@ from adhocracy.model.badge import (
     InstanceBadge,
     InstanceBadges
 )
-from adhocracy.model import mediafile
+from adhocracy.model.mediafile import (
+    MediaFile,
+    DelegateableMediaFiles,
+    mediafile_table,
+    delegateable_mediafiles_table,
+)
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
                                         permission_table)
@@ -72,33 +77,33 @@ mapper(Twitter, twitter_table, properties={
 
 # --[ /start MediaFile ]-------------------------------------------------------
 
-mapper(mediafile.DelegateableMediaFiles, mediafile.delegateable_mediafiles_table,
+mapper(DelegateableMediaFiles, delegateable_mediafiles_table,
        properties={
            'creator': relation(
                User, lazy=True,
-               primaryjoin=(mediafile.delegateable_mediafiles_table.c.creator_id ==
+               primaryjoin=(delegateable_mediafiles_table.c.creator_id ==
                             user_table.c.id),
                backref=backref('delegateablemediafiles_created')),
            'delegateable': relation(
                Delegateable, lazy=True,
-               primaryjoin=(mediafile.delegateable_mediafiles_table.c.delegateable_id ==
+               primaryjoin=(delegateable_mediafiles_table.c.delegateable_id ==
                             delegateable_table.c.id),
                backref=backref('delegatemediafiles')),
-           'mediafile': relation(mediafile.MediaFile)})
+           'mediafile': relation(MediaFile)})
 
 
-mapper(mediafile.MediaFile, mediafile.mediafile_table,
+mapper(MediaFile, mediafile_table,
        properties={
            'instance': relation(
                Instance,
-               primaryjoin=(instance_table.c.id == mediafile.mediafile_table.c.instance_id),
+               primaryjoin=(instance_table.c.id == mediafile_table.c.instance_id),
                lazy=True),
            'delegateables': relation(
                Delegateable,
-               secondary=mediafile.delegateable_mediafiles_table,
-               primaryjoin=(mediafile.mediafile_table.c.id ==
-                            mediafile.delegateable_mediafiles_table.c.mediafile_id),
-               secondaryjoin=(mediafile.delegateable_mediafiles_table.c.delegateable_id ==
+               secondary=delegateable_mediafiles_table,
+               primaryjoin=(mediafile_table.c.id ==
+                            delegateable_mediafiles_table.c.mediafile_id),
+               secondaryjoin=(delegateable_mediafiles_table.c.delegateable_id ==
                               delegateable_table.c.id),
                backref=backref('mediafiles', lazy='joined'),
                lazy=False)})
