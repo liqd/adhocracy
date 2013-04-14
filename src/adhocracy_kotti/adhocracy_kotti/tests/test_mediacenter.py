@@ -13,7 +13,7 @@ image_data = base64.b64encode(image_file.read())
 IMAGEDATA_APPSTRUCT = {"filename": u"test_image",
                        "mimetype": u"image/jpeg",
                        "tags": [u"tag1", u"tag2"],
-                       "data": b"image_data",
+                       "data": image_data,
                        }
 
 
@@ -22,10 +22,11 @@ def test_images_post_one(root, request):  # pytest public fixtures: conftest.py
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
     request.validated = data
     result = images_post(request)
-    name = u'urn-uuid-2be14549-b985-3aaf-ad9f'
+    name = u'urn-uuid-29cf7df1-b1f9-367e-b528'
     assert result == {'status': 'succeeded', 'name': name}
     assert root["mediacenter"][name].tags == [u'tag1', u'tag2']
-    assert root["mediacenter"][name].size == 10
+    assert root["mediacenter"][name].size == 143124
+    assert root["mediacenter"][name].title == u"test_image"
 
 
 def test_images_post_multiple(root, request):
@@ -40,7 +41,7 @@ def test_images_post_multiple(root, request):
     data["tags"] = []
     result3 = images_post(request)
     transaction.commit()
-    name = u'urn-uuid-2be14549-b985-3aaf-ad9f'
+    name = u'urn-uuid-29cf7df1-b1f9-367e-b528'
     assert result1 == {'status': 'succeeded', 'name': name}
     assert result2 == {'status': 'succeeded', 'name': name}
     assert result3 == {'status': 'succeeded', 'name': name}
@@ -124,6 +125,7 @@ def test_imagescale_get(root, request):
     from adhocracy_kotti.mediacenter import imagescale_get
     images = utils.get_image_folder()
     data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    data["data"] = base64.b64decode(data["data"])
     images["test_image"] = Image(**data)
 
     request.validated = {"name": u"test_image", "scale": "large"}
