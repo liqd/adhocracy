@@ -443,6 +443,9 @@ adhocracy.static_index_path = index
 
 {% if parts.get("adhocracy_service_conf", False) %}
 
+# allow to add mediafiles to proposals
+adhocracy.delegateable_mediafiles = True
+
 # token to access the rest api (use it for header "X-API-Token")
 adhocracy_service.rest_api_token = ${parts.adhocracy_service_conf.rest_api_token}
 

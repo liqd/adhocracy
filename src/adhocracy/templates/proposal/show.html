@@ -63,8 +63,8 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
                     hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
         </div>
 
-        %if c.image_src:
-            <img src="${c.image_src}/middle" />
+        %if c.image_src and c.allow_mediafiles:
+        <img src="${c.image_src}/middle" />
         %endif
 
         ${components.social_share_buttons(c.proposal.title)}

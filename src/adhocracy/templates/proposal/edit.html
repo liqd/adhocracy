@@ -115,16 +115,18 @@
         %endif
         %endif
 
+        %if c.allow_mediafiles:
         <fieldset>
             %if c.image_src:
             <img src="${c.image_src}/logo" />
             <button name="delete_image" value="1">
                 <i class="icon-remove"></i>${_('Delete current image')}
-            </button>     
+            </button>
             %endif
             <label for="image">${_('Upload image. The image is displayed below the proposal description.')}</label>
-            <input id="image" name="image" type="file" accept="image/jpeg">    
-        </fieldset> 
+            <input id="image" name="image" type="file" accept="image/jpeg">
+        </fieldset>
+        %endif
 
         <fieldset>
             <legend>${_('Collaboration and Notification')}</legend>
