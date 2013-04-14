@@ -60,6 +60,10 @@ delegate_url = url if can.delegation.create() else None
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
 
+                %if c.image_src:
+                  <img src="${c.image_src}/middle" />
+                %endif 
+
                 ${components.social_share_buttons(c.proposal)}
 
                 <div class="meta">
