@@ -58,6 +58,7 @@
       </div>    
     </fieldset>
 
+    %if c.allow_mediafiles: 
     <fieldset>
         %if c.image_src:
         <img src="${c.image_src}/logo" />
@@ -68,6 +69,7 @@
         <label for="image">${_('Upload image. The image is displayed below the proposal description.')}</label>
         <input id="image" name="image" type="file" accept="image/jpeg">    
     </fieldset> 
+    %endif
 
     <div class="input_wrapper submit">
       ${components.savebox(h.base_url('/proposal/%s' % c.proposal.id))}
