@@ -36,6 +36,7 @@ def images_post(request):
        data value: base64 encoded string
     """
     data = request.validated
+    data["title"] = data["filename"]
     data["size"] = len(data["data"])
     image_folder = utils.get_image_folder()
     name = utils.generate_image_name(data["data"])

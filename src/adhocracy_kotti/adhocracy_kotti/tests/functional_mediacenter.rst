@@ -27,7 +27,7 @@ Add image and get image scale
 
 We can add a new image to the medicenter::
 
-    >>> resp = app.post_json("/images", image_data_post, [('X-API-Token', API_TOKEN)])
+    >>> resp = app.post_json("/images", image_data_post, headers=[('X-API-Token', API_TOKEN)])
     >>> resp.status
     '200 OK'
 
@@ -40,18 +40,18 @@ The response body gives us the name to identifiy the image::
 
 Now we can get the image ::
 
-    >>> resp = app.get("/images/%s" % str(name), [('X-API-Token', API_TOKEN)])
+    >>> resp = app.get("/images/%s" % str(name), headers=[('X-API-Token', API_TOKEN)])
     >>> resp
     <200 OK image/jpeg body='\x...
 
 or a specific image scale ::
 
-    >>> app.get("/images/%s/large" % str(name), [('X-API-Token', API_TOKEN)])
+    >>> app.get("/images/%s/large" % str(name), headers=[('X-API-Token', API_TOKEN)])
     <200 OK image/jpeg body='\x...
 
 We can also delete the image::
 
-    >>> app.delete("/images/%s" % str(name), u"", [('X-API-Token', API_TOKEN)])
+    >>> app.delete("/images/%s" % str(name), u"", headers=[('X-API-Token', API_TOKEN)])
     <200 OK application/json body='{"status...
 
 If we send invalid data we get a nice error description::
@@ -60,24 +60,8 @@ If we send invalid data we get a nice error description::
     >>> image_data_invalid = copy.deepcopy(image_data_post)
     >>> del image_data_invalid["data"]
     >>> with pytest.raises(AppError) as err:
-    ...     resp = app.post_json("/images", image_data_invalid, [('X-API-Token', API_TOKEN)])
+    ...     resp = app.post_json("/images", image_data_invalid, headers=[('X-API-Token', API_TOKEN)])
     >>> err.value.args[0].splitlines()[0] # doctest: +ELLIPSIS
     u'Bad response: 400 ...
     >>> err.value.args[0].splitlines()[1]
     u'{"status": "error", "errors": [{"location": "body", "name": "data", "description": "data is missing"}]}'
-
-
-ef test_images_post_functional_invalid_missing_fields(testapp, root):
-    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
-    del data["data"]
-        testapp.post_json("/images", data)
-    assert err.value.args[0].splitlines()[1] ==\
-        u'{"status": "error", "errors": '\
-        u'[{"location": "body", '\
-        u'"name": "data", "description": "data is missing"}]}'
-    assert err.value.args[0].splitlines()[0].startswith(
-        u'Bad response: 400')
-
-
-
-
