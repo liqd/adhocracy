@@ -68,6 +68,10 @@ adhocracy.shibboleth.userbadge_mapping =
     editor attribute_equals shib-user-role editor 
     staff attribute_equals shib-user-role staff
 
+# settings to work with the adhocracy_service rest api (adhocracy.kotti)
+adhocracy_service.rest_api_token = evqTj3ucH
+adhocracy_service.rest_api_address = http://127.0.0.1:5004/ 
+
 [alembic]
 script_location = src/adhocracy/alembic
 sqlalchemy.url = sqlite:///${parts.buildout.directory}/var/testdata/test.db
