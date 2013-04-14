@@ -52,8 +52,8 @@ class ProposalCreateForm(ProposalNewForm):
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
-    image = All(ValidImageFileUpload(not_empty=False),
-                                     ValidFileUpload(not_empty=False),)
+    image = All(ValidImageFileUpload(not_empty=False, if_missing=None),
+                ValidFileUpload(not_empty=False),)
     chained_validators = [
         forms.UnusedProposalTitle(),
     ]
@@ -73,8 +73,8 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
-    image = All(ValidImageFileUpload(not_empty=False),
-                                     ValidFileUpload(not_empty=False),)
+    image = All(ValidImageFileUpload(not_empty=False, if_missing=None),
+                ValidFileUpload(not_empty=False),)
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
     thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
     chained_validators = [
@@ -89,6 +89,7 @@ class ProposalFilterForm(formencode.Schema):
     proposals_state = validators.String(max=255, not_empty=False,
                                         if_empty=None, if_missing=None)
 
+
 class DelegateableBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
@@ -101,6 +102,8 @@ class ProposalController(BaseController):
         super(ProposalController, self).__init__()
         c.active_subheader_nav = 'proposals'
         c.api = h.adhocracy_service.RESTAPI()
+        c.allow_mediafiles = config.get_bool(
+            'adhocracy.delegateable_mediafiles', False)
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
