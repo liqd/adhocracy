@@ -27,7 +27,6 @@ def handle_vote(vote):
     #log.debug("Post-processing vote: %s" % vote)
     if Tally.find_by_vote(vote) is None:
         tally = Tally.create_from_vote(vote)
-        meta.Session.commit()
         log.debug("Tallied %s: %s" % (vote.poll, tally))
 
 
