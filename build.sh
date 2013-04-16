@@ -38,7 +38,7 @@ not_use_user_commands=false
 adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
-branch=$DEFAULT_BRANCH
+branch=feature-#241-buildout2
 always_rebuild=false
 
 if [ -n "$SUDO_USER" ]; then
