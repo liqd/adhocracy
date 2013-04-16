@@ -276,7 +276,7 @@ if $always_rebuild || test -z "$cur_installed"; then
     python bootstrap.py "--version=$BUILDOUT_VERSION"
 fi
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
-bin/buildout -c "buildout_current.cfg"
+bin/buildout -nc "buildout_current.cfg"
 
 echo '#!/bin/sh
 set -e
