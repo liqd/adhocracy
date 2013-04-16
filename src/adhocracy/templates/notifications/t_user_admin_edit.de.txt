@@ -1,5 +1,5 @@
-${e.admin.name} hat das Profil von ${e.user.name} aktualisiert. 
-%if e.user.bio: 
+${c.e.admin.name} hat das Profil von ${c.e.user.name} aktualisiert. 
+%if c.e.user.bio: 
 Benutzerprofil: 
-${e.user.bio}  
+${c.e.user.bio}  
 %endif

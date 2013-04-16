@@ -1,4 +1,4 @@
-${e.user.name} edited ${"variant %s of" % e.rev.variant if e.rev.variant != e.rev.HEAD else ""} ${e.rev.title}.
+${c.e.user.name} edited ${"variant %s of" % c.e.rev.variant if c.e.rev.variant != c.e.rev.HEAD else ""} ${c.e.rev.title}.
 
 Here's the current text: 
-${e.rev.text}
+${c.e.rev.text}

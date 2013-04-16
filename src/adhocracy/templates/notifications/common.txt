@@ -6,7 +6,7 @@ else: context.write(_("with an abstention on"))
 %></%def>
 
 <%def name="quotecomment(comment)"><%
-if e.comment.reply: 
+if c.e.comment.reply: 
 	self._quotecomment(comment, 1)
 %></%def>
 

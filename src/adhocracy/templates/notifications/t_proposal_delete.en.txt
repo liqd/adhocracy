@@ -1,1 +1,1 @@
-${e.user.name} deleted the proposal ${e.proposal.title}.  
+${c.e.user.name} deleted the proposal ${c.e.proposal.title}.  

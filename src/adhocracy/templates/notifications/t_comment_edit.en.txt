@@ -1,6 +1,6 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-${e.user.name|n} has changed a comment regarding ${e.comment.topic.label|n}. It now reads:
+${c.e.user.name|n} has changed a comment regarding ${c.e.comment.topic.label|n}. It now reads:
 
-${e.comment.latest.text|n}
-${common.quotecomment(e.comment.reply)}
+${c.e.comment.latest.text|n}
+${common.quotecomment(c.e.comment.reply)}

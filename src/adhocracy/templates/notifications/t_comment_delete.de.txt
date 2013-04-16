@@ -1,1 +1,1 @@
-${e.user.name|n} entfernte einen Kommentar zu ${e.comment.topic.label|n}.
+${c.e.user.name|n} entfernte einen Kommentar zu ${c.e.comment.topic.label|n}.

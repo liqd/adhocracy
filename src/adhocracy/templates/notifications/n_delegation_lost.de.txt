@@ -1,3 +1,3 @@
-Du hast eine Delegation von ${e.user.name|n} zu ${e.scope.title|n} verloren.
+Du hast eine Delegation von ${c.e.user.name|n} zu ${c.e.scope.title|n} verloren.
 
-Profil-Seite: ${h.base_url(None, path="/user/%s" % e.user.user_name)}
+Profil-Seite: ${h.base_url(None, path="/user/%s" % c.e.user.user_name)}

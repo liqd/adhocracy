@@ -1,1 +1,1 @@
-${e.user.name} has joined ${e.instance.label}.
+${c.e.user.name} has joined ${c.e.instance.label}.
