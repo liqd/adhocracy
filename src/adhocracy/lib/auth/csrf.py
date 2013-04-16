@@ -14,7 +14,6 @@ from pylons import session, request
 from pylons.i18n import _
 
 from repoze.who.plugins.basicauth import BasicAuthPlugin
-from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin
 
 log = logging.getLogger(__name__)
 
