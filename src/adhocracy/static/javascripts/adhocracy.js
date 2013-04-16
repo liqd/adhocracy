@@ -541,7 +541,6 @@ $(document).ready(function () {
             });
 
             $(document).on("click", function(e) {
-                alert(get_path(e.target));
                 add_to_page_stats("click", {"x": e.clientX, "y": e.clientY,
                     "button": e.which, "path": get_path(e.target)});
             });
