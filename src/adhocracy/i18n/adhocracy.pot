@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 56bd32e\n"
+"Project-Id-Version: adhocracy 4eb5266\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-10 16:06+0200\n"
+"POT-Creation-Date: 2013-04-16 13:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -707,6 +707,12 @@ msgstr ""
 msgid "You need to insert the following placeholders into the email text so we can insert enough information for the user: %s"
 msgstr ""
 
+msgid "This is not a valid image file"
+msgstr ""
+
+msgid "The file is too big (>1MB)"
+msgstr ""
+
 msgid "Please select at least one instance"
 msgstr ""
 
@@ -825,6 +831,9 @@ msgid "Instance"
 msgstr ""
 
 msgid "Categories"
+msgstr ""
+
+msgid "Thumbnails"
 msgstr ""
 
 msgid "Created by"
@@ -1278,7 +1287,16 @@ msgstr ""
 msgid "Send us your feedback"
 msgstr ""
 
+msgid "Category"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
 msgid "One line summary"
+msgstr ""
+
+msgid "Description"
 msgstr ""
 
 msgid "Submit"
@@ -1406,6 +1424,9 @@ msgid "Welcome to %s!"
 msgstr ""
 
 msgid "Please choose a password:"
+msgstr ""
+
+msgid "Please pick a secure password"
 msgstr ""
 
 msgid "Set Password"
@@ -1669,27 +1690,6 @@ msgstr ""
 msgid "These users where created, but we could not send out mails:"
 msgstr ""
 
-msgid "Add instance badge"
-msgstr ""
-
-msgid "Add user badge"
-msgstr ""
-
-msgid "Add delegateable badge"
-msgstr ""
-
-msgid "Add category badge"
-msgstr ""
-
-msgid "Edit user badge"
-msgstr ""
-
-msgid "Edit delegateable badge"
-msgstr ""
-
-msgid "Edit category badge"
-msgstr ""
-
 msgid "Badge title"
 msgstr ""
 
@@ -1703,6 +1703,12 @@ msgid "Like '#a4a4a4'"
 msgstr ""
 
 msgid "Preview:"
+msgstr ""
+
+msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -1756,12 +1762,6 @@ msgstr ""
 msgid "No badges added yet."
 msgstr ""
 
-msgid "Title"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
 msgid "Color"
 msgstr ""
 
@@ -1796,6 +1796,9 @@ msgid "Proposal Badges"
 msgstr ""
 
 msgid "Proposal Category Badges"
+msgstr ""
+
+msgid "Proposal Thumbnail Badges"
 msgstr ""
 
 msgid "Instance Badges"
@@ -2152,6 +2155,12 @@ msgstr ""
 msgid "Extra CSS"
 msgstr ""
 
+msgid "Thumbnail badges width"
+msgstr ""
+
+msgid "Thumbnail badges height"
+msgstr ""
+
 msgid "Use Norms"
 msgstr ""
 
@@ -2162,6 +2171,9 @@ msgid "Require to propose a variant"
 msgstr ""
 
 msgid "Use milestones"
+msgstr ""
+
+msgid "Use thumbnail badges"
 msgstr ""
 
 msgid "Hide global categories"
@@ -2370,9 +2382,6 @@ msgid "Date of the milestone"
 msgstr ""
 
 msgid "Please use the DD.MM.YYYY format."
-msgstr ""
-
-msgid "Category"
 msgstr ""
 
 msgid "Create a new milestone."
@@ -2715,6 +2724,12 @@ msgid "You are about to call for a vote. When you do this, you will lose the abi
 msgstr ""
 
 msgid "Are you sure you want to delete this proposal?"
+msgstr ""
+
+msgid "thumbnail badge"
+msgstr ""
+
+msgid "No Thumbnail Badge"
 msgstr ""
 
 #, python-format
