@@ -270,15 +270,23 @@ if [ '!' -e adhocracy_buildout/.git ]; then
     (cd adhocracy_buildout && git submodule update)
 fi
 
-# Install adhocracy
 cd adhocracy_buildout
-BUILDOUT_VERSION=2.1.0
-cur_installed="$(find eggs -maxdepth 1 -name "zc.buildout-${BUILDOUT_VERSION}-*" -print -quit 2>/dev/null)"
-if $always_rebuild || test -z "$cur_installed"; then
-    python bootstrap.py "--version=$BUILDOUT_VERSION"
+# Compile python
+if $compile_python; then
+    (cd python && python bootstrap.py)
+    (cd python && bin/buildout) 
 fi
+# Install adhocracy
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
-bin/buildout -nc "buildout_current.cfg"
+if $always_rebuild; then
+    # bootstrap buildout
+    bin/python bootstrap.py -c buildout_current.cfg
+    # run buildout in newest mode to make upgrading work smooth
+    bin/buildout -nc buildout_current.cfg
+else 
+    # run buildout in non newest mode
+    bin/buildout -c buildout_current.cfg
+fi
 
 # Install adhocracy interactive script
 echo '#!/bin/sh
