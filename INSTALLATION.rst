@@ -69,6 +69,9 @@ Check out Adhocracy:
 
     $ git clone https://github.com/liqd/adhocracy
     $ cd adhocracy
+    
+    $ git submodule init
+    $ git submodule update
 
 ## Setup an isolated python environment to run Adhocracy
 

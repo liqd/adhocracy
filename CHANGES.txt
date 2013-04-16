@@ -12,6 +12,11 @@ adhocracy Changelog
 
 - The default way to isolate your python environment is to compile 
   python and PIL now instead of using virtualenv. 
+  
+  Checkout python buildout
+  
+  * git submodule init
+  * git submodule update
 
   Compile python:
 
