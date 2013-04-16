@@ -270,7 +270,7 @@ if [ '!' -e adhocracy_buildout/.git ]; then
 fi
 
 cd adhocracy_buildout
-BUILDOUT_VERSION=1.7.0
+BUILDOUT_VERSION=2.1.0
 cur_installed="$(find eggs -maxdepth 1 -name "zc.buildout-${BUILDOUT_VERSION}-*" -print -quit 2>/dev/null)"
 if $always_rebuild || test -z "$cur_installed"; then
     python bootstrap.py "--version=$BUILDOUT_VERSION"
