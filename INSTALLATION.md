@@ -43,8 +43,7 @@ Add `-c hhu` to install with the preconfiguration for HHU Düsseldorf.
 Manual installation
 -------------------
 
-Preparations
-~~~~~~~~~~~~~
+## Preparations
 
 Install required system packages (Debian Squeeze example):
 
@@ -63,8 +62,7 @@ Check out Adhocracy:
     $ git clone https://github.com/liqd/adhocracy
     $ cd adhocracy
 
-Setup an isolated python environment to run Adhocracy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Setup an isolated python environment to run Adhocracy
 
 To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but 
 no other system-packages.
@@ -75,8 +73,7 @@ Compile python and PIL with the included python buildout::
     $ python boostrap.py
     $ bin/buildout
 
-Install and start Adhocracy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Install and start Adhocracy
 
 Run buildout:
 
