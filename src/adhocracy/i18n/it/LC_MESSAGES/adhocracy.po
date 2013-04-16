@@ -1,0 +1,3591 @@
+# Translations template for adhocracy.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the adhocracy project.
+# Translators:
+# rosangela <rosangelabochicchio@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: Adhocracy\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-04-16 13:50+0200\n"
+"PO-Revision-Date: 2013-04-16 11:51+0000\n"
+"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Thank you for helping."
+msgstr "Grazie per l'aiuto offerto."
+
+msgid "Please insert a subject for the mail we will send to the users."
+msgstr "Ti preghiamo di inserire l'oggetto della e-mail che invieremo agli utenti."
+
+msgid "Please insert a template for the mail we will send to the users."
+msgstr "Ti preghiamo di inseirire un modello per la email che invieremo agli utenti."
+
+msgid "Solr index updated."
+msgstr "Solr Index aggiornato"
+
+msgid ""
+"Requested generation of welcome codes, but welcome "
+"functionality(adhocracy.enable_welcome) is not enabled."
+msgstr "È necessaria una generazione dei codici di benveuto, ma la funzionalità(adhocracy.enable_welcome) di benvenuto non è attiva."
+
+msgid "In all instances"
+msgstr "In tutti i gruppi"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "Nel gruppo \"%s\""
+
+#, python-format
+msgid "We cannot find the badge with the id %s"
+msgstr "Impossibile trovare il badge con l'id %s"
+
+msgid "Badge changed successfully"
+msgstr "Il badge è stato modificato con successo."
+
+msgid "oldest"
+msgstr "meno recenti"
+
+msgid "newest"
+msgstr "più recenti"
+
+#, python-format
+msgid "Comment topic has no variant %s"
+msgstr "L'argomento al quale il commento si riferisce non ha una versione %s"
+
+msgid "The comment has been deleted."
+msgstr "Il commento è stato eliminato."
+
+msgid ""
+"You're trying to revert to a revision which is not part of this comment's "
+"history"
+msgstr "Stai tentando di ripristinare una versione che non fa parte della cronologia dei commenti."
+
+msgid "The comment has been reverted."
+msgstr "Il commento è stato ripristinato."
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr "Stai tentando di eliminare una versione che non fa parte della cronologia dei commenti"
+
+msgid "The comment revision has been deleted."
+msgstr "La revisione dei commenti è stata eliminata."
+
+msgid "Wrong topic"
+msgstr "Argomento sbagliato"
+
+msgid "Invalid delegation recipient"
+msgstr "Destinatario di delegazione non valido"
+
+#, python-format
+msgid "You have already delegated voting to %s in %s"
+msgstr "Hai già dato il tuo voto per %s nel %s"
+
+#, python-format
+msgid "Cannot access delegation %(id)s"
+msgstr "La delegazione non è al momento disponibile %(id)s"
+
+msgid "The delegation is now revoked."
+msgstr "La delega è stata ora revocata."
+
+#, python-format
+msgid "Error %s"
+msgstr "Errore %s"
+
+#, python-format
+msgid "%s News"
+msgstr "%s Novità"
+
+#, python-format
+msgid "News from %s"
+msgstr "Novità da %s"
+
+msgid "The changes where saved."
+msgstr "Le modifiche sono state salvate."
+
+msgid "No update required."
+msgstr "L'aggiornamento non è necessario."
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Gruppo creato con successo. Ora puoi configurarlo a seconda delle tue necessitá."
+
+msgid "Delegations are enabled."
+msgstr "Le delegazioni sono state attivate."
+
+msgid "Delegations are disabled."
+msgstr "Le delegazioni sono state disattivate."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Benventi sulla pagina principale del gruppo."
+
+msgid "General"
+msgstr "Generale"
+
+msgid "Appearance"
+msgstr "Aspetto"
+
+msgid "Contents"
+msgstr "Contenuti"
+
+msgid "Votings"
+msgstr "Voti"
+
+msgid "Badges"
+msgstr "Badges"
+
+msgid "Mass message service"
+msgstr "Servizio di messaggistica"
+
+msgid "Members import"
+msgstr "Importa membri"
+
+msgid "The logo has been deleted."
+msgstr "Il logo è stato eliminato."
+
+msgid "No delay"
+msgstr "Nessun ritardo"
+
+msgid "1 Day"
+msgstr "1 giorno"
+
+msgid "2 Days"
+msgstr "2 giorni"
+
+msgid "One Week"
+msgstr "Una settimana"
+
+msgid "Two Weeks"
+msgstr "Due settimane"
+
+msgid "Four Weeks"
+msgstr "Quattro settimane"
+
+msgid "A simple majority (&frac12; of vote)"
+msgstr "Una maggioranza semplice (&frac12; of vote)"
+
+msgid "A two-thirds majority"
+msgstr "Una maggioranza di due-terzi"
+
+#, python-format
+msgid "The instance %s has been deleted."
+msgstr "Il gruppo %s è stato eliminato"
+
+#, python-format
+msgid "Welcome to %(instance)s"
+msgstr "Benvenuto su %(instance)s"
+
+#, python-format
+msgid "You're not a member of %(instance)s."
+msgstr "Non sei un membro di %(instance)s"
+
+#, python-format
+msgid "You're the founder of %s, cannot leave."
+msgstr "Sei l'amministratore di %s, non puoi abbandonare la pagina."
+
+#, python-format
+msgid "You've left %(instance)s."
+msgstr "Hai abbandonato %(instance)s."
+
+msgid "You cannot manipulate one instance from within another instance."
+msgstr "Non sei autorizzato a manipolare un gruppo dopo un altro."
+
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr "Ci scusiamo ma non sei autorizzato ad inserire queste impostazioni di messaggistica"
+
+msgid "Email isn't activated"
+msgstr "L'email risulta essere inattiva"
+
+msgid "Not permitted in system settings"
+msgstr "Non è permesso nelle impostazioni di sistema"
+
+#, python-format
+msgid "Could not render message: %s"
+msgstr "Non è stato possibile effettuare il rendering del messaggio: %s"
+
+#, python-format
+msgid "Message sent to %d users."
+msgstr "Messaggio inviato a %d  utenti."
+
+#, python-format
+msgid "[%s] Message from %s: %s"
+msgstr "[%s] Messaggio da %s: %s"
+
+msgid "Your message has been sent. Thanks."
+msgstr "Il messaggio è stato inviato con successo. Grazie."
+
+msgid "tutorial_milestones_tab"
+msgstr "Questa pagina vi offre la possibilità di visualizzare gli eventi del gruppo."
+
+msgid "tutorial_milestone_details_tab"
+msgstr "L'anteprima dell'evento mostra ulteriori informazioni riguardanti l'evento."
+
+#, python-format
+msgid "The milestone %s has been deleted."
+msgstr "L'evento %s è stato eliminato."
+
+msgid "Invalid input."
+msgstr "Input non valido."
+
+msgid "No OpenID given!"
+msgstr "Non è stato digitato nessun OpenID!"
+
+msgid "Connection not allowed, OpenID has been disabled on this installation"
+msgstr "Connessione non consentita, l'OpenID è stato disabilitato su questa installazione"
+
+msgid "No OpenID was entered."
+msgstr "Non è stato inserito alcun OpenID."
+
+msgid "Removal not allowed, OpenID has been disabled on this installation"
+msgstr "Non è consentita la rimozione, l'OpenID è stato disabilitato su questa installazione"
+
+#, python-format
+msgid "No OpenID with ID '%s' exists."
+msgstr "Impossibile trovare l'OpenID con ID '%s'."
+
+#, python-format
+msgid "You're not authorized to change %s's settings."
+msgstr "Non sei autorizzato a cambiare le impostazioni %s's."
+
+msgid "Successfully removed OpenID from account"
+msgstr "OpenID rimosso dall'account con successo"
+
+msgid "OpenID login has been disabled on this installation"
+msgstr "L'accesso dell'OpenID è stato disattivato su questa installazione"
+
+msgid "OpenID login failed."
+msgstr "Accesso OpenID fallito."
+
+msgid "You have already claimed this OpenID."
+msgstr "Hai già richiesto questo OpenID."
+
+#, python-format
+msgid "OpenID %s already belongs to %s."
+msgstr "OpenID %s appartiene già a %s."
+
+msgid "Successfully added OpenID to user account."
+msgstr "OpenID aggiunto all'account utente con successo"
+
+#, python-format
+msgid ""
+"OpenID %s doesn't belong to an existing user account and user registration "
+"is disabled in this installation."
+msgstr "OpenID %s non appartiene ad un account utente già esistente e la registrazione dell'utente è stata disattivata su questa installazione."
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr "L'indirizzo email %s che é stato fornito dall'OpenID provider appartiene ad un account utente diverso. Ti preghiamo di accedere con questo account o di utilizzare la funzionalità \"password dimenticata\" e di aggiungere successivamente l'OpenID nelle impostazioni del tuo profilo utente"
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr "Account utente %s creato con successo"
+
+msgid "tutorial_norms_overview_tab"
+msgstr "Anteprima relativa ai decreti del gruppo. La lista mostra non soltanto\ni decreti suggeriti dai membri del gruppo, bensì anche il numero di proposte e di commenti riguardanti l'argomento di cui si sta discutendo."
+
+msgid "No proposal has been specified"
+msgstr "Non è stato indicata nessuna proposta."
+
+msgid "You cannot create a new norm"
+msgstr "Non sei autorizzato a creare un nuovo decreto"
+
+#, python-format
+msgid "Variant %s is already present, cannot branch."
+msgstr "La versione %s esiste già, non può essere interrotta."
+
+msgid ""
+"You're trying to update to a text which is not part of this pages history"
+msgstr "Stai cercando di aggiornare un testo che non fa parte della cronologia"
+
+msgid "<i>(No text)</i>"
+msgstr "<i>(Senza testo)</i>"
+
+msgid "<i>(No title))</i>"
+msgstr "<i>(Senza titolo))</i>"
+
+msgid "<i>(No differences))</i>"
+msgstr "<i>(Nessuna differenza))</i>"
+
+msgid "<i>(No differences)</i>"
+msgstr "<i>(Nessuna differenza)</i>"
+
+msgid "Original version"
+msgstr "Versione originale"
+
+#, python-format
+msgid "Variant: \"%s\""
+msgstr "Versione: \"%s\""
+
+msgid "Original Version"
+msgstr "Versione originale"
+
+#, python-format
+msgid "Variant %s does not exist!"
+msgstr "La versione %s non esiste!"
+
+msgid "alphabetically"
+msgstr "in ordine alfabetico"
+
+msgid "tutorial_norm_show_tab"
+msgstr "Sulla pagina dei dettagli troverai la versione attuale dei decreti e tutte le versioni che si riferiscono ai decreti suggeriti fino ad oggi."
+
+msgid "No such text revision."
+msgstr "La versione del testo che stai cercando non esiste."
+
+msgid "Cannot compare identical text revisions."
+msgstr "Le revisioni di testi identici non possono essere confrontate."
+
+msgid "Cannot compare versions of different texts."
+msgstr "Le versioni di testi diversi non possono essere confrontate."
+
+#, python-format
+msgid "The variant %s has been deleted."
+msgstr "La versione %s è stata eliminata."
+
+msgid "Cannot delete, if there's only one version"
+msgstr "Impossibile eliminare se esiste già una versione."
+
+msgid "The selected version has been deleted."
+msgstr "La versione selezionata è stata eliminata."
+
+#, python-format
+msgid "The page %s has been deleted."
+msgstr "La pagina %s è stata eliminata."
+
+#, python-format
+msgid "Invalid text ID %s for this page/variant!"
+msgstr "Testo ID non valido %s per questa pagina/versione!"
+
+msgid "This is not an adoption poll."
+msgstr "Questo non è un sondaggio di adozione."
+
+msgid "This is not a rating poll."
+msgstr "Questo non è uno scrutinio di valutazione."
+
+msgid "The poll has ended."
+msgstr "Il sondaggio si è concluso."
+
+msgid "The proposal is not undergoing a poll."
+msgstr "La proposta non verrà sottoposta a sondaggio."
+
+msgid "tutorial_proposal_overview_tab"
+msgstr "Antreprima relativa alle proposte suggerite fino ad oggi. Qui hai la possiblità di creare le proposte..."
+
+msgid "Please select norm and propose a change to it."
+msgstr "Ti preghiamo di selezionare un decreto e di proporre una modifica."
+
+msgid "tutorial_proposal_show_tab"
+msgstr "Sul sito dettagliato di una proposta troverai non soltanto le informazioni più importanti, bensí anche le infinite possibilità di partecipare attivamente a questa iniziativa."
+
+#, python-format
+msgid "Proposal: %s"
+msgstr "Proposta: %s"
+
+#, python-format
+msgid "Activity on the %s proposal"
+msgstr "Attività riguardo alla proposta %s"
+
+#, python-format
+msgid "The proposal %s has been deleted."
+msgstr "La proposta %s è stata eliminata."
+
+#, python-format
+msgid "Proposal: %(proposal)s"
+msgstr "Proposta: %(proposal)s"
+
+msgid "relevance"
+msgstr "pertinenza"
+
+#, python-format
+msgid "The inclusion of %s has been deleted."
+msgstr "L'inclusione di %s è stata eliminata."
+
+msgid "Page not Found"
+msgstr "Impossibile trovare la pagina."
+
+msgid "Page does already exist. Select another key or language."
+msgstr "La pagina esiste già. Seleziona un altro codice o un'altra lingua."
+
+msgid "Page updated"
+msgstr "Pagina aggiornata"
+
+msgid "Cannot find static page to edit"
+msgstr "Impossibile trovare la pagina statica da modificare"
+
+msgid "The requested page was not found"
+msgstr "La pagina richiesta non è stata trovata"
+
+#, python-format
+msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr "Il tag \"%s\" è stato rimosso da %s \"%s\""
+
+msgid ""
+"You have been logged out while authenticating at twitter. Please try again."
+msgstr "Sei stato disconnesso durante l'autenticazione a twitter. Riprova."
+
+#, python-format
+msgid ""
+"You're now following %s on twitter so we can send you notifications as "
+"direct messages"
+msgstr "Ora stai seguendo %s su twitter. Adhocracy ti invierà delle notifiche attraverso dei messaggi privati"
+
+msgid "You have no twitter association."
+msgstr "Il tuo account non possiede alcun collegamento con twitter."
+
+msgid "tutorial_user_index_intro"
+msgstr "Lista dei membri del gruppo."
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr "Ci scusiamo ma la registrazione è stata disabilitata dall'amministratore."
+
+msgid "Sorry, but we don't accept registrations with this email address."
+msgstr "Ci dispiace ma non accettiamo registrazioni con questo indirizzo email."
+
+msgid "Password has been set. Have fun!"
+msgstr "Password inviata. Buon divertimento!"
+
+msgid "There is no user registered with that email address."
+msgstr "Impossibile trovare il profilo associato a questo indirizzo email."
+
+msgid ""
+"you have requested that your password be reset. In order to confirm the "
+"validity of your claim, please open the link below in your browser:"
+msgstr "Ti è stato richiesto di reimpostare la tua password. Per confermare la validità della tua richiesta ti preghiamo di cliccare sul seguente link del tuo browser:"
+
+#, python-format
+msgid "Your user name to login is: %s"
+msgstr "Il tuo nome utente per accedere è: %s"
+
+msgid "Reset your password"
+msgstr "Reimposta la tua password"
+
+msgid "your password has been reset. It is now:"
+msgstr "la tua password è stata modificata. Ora sarà la seguente:"
+
+msgid "Please login and change the password in your user settings."
+msgstr "Ti preghiamo di accedere e di modificare la tua password nell'account utente."
+
+msgid "Your new password"
+msgstr "La tua nuova password"
+
+msgid "Success. You have been sent an email with your new password."
+msgstr "Operazione terminata con successo. A breve riceverai una email con la tua nuova password."
+
+msgid ""
+"The reset code is invalid. Please repeat the password recovery procedure."
+msgstr "Il codice di ripristino non è valido. Ti preghiamo di ripetere la procedura di ripristino password."
+
+msgid "The activation code is invalid. Please have it resent."
+msgstr "Il codice di attivazione non è valido. Ti preghiamo di riprovare."
+
+msgid "Thank you, The address is already activated."
+msgstr "Grazie. L'indirizzo email è stato attivato."
+
+#, python-format
+msgid "Welcome to %s"
+msgstr "Benvenuto su %s"
+
+msgid "Your email has been confirmed."
+msgstr "Il tuo indirizzo mail è stato confermato."
+
+msgid "The activation link has been re-sent to your email address."
+msgstr "Il link di attivazione è stato rinviato al tuo indirizzo email."
+
+msgid "Invalid login"
+msgstr "Accesso non valido"
+
+msgid "Invalid email / user name or password"
+msgstr "Email/nome utente o password non validi"
+
+msgid "Invalid user name or password"
+msgstr "Account utente o password non validi."
+
+msgid "Invalid email or password"
+msgstr "Email o password non validi"
+
+msgid "tutorial_dashboard_title"
+msgstr "Ora ti trovi sulla tua Dashboard personale. Qui troverai un'anterpima sulle proposte e sui decreti suggeriti, sui tuoi gruppi e sulla tua lista di riferimento."
+
+msgid "The account has been suspended."
+msgstr "L'account è stato sospeso."
+
+msgid "The account has been re-activated."
+msgstr "L'account è stato riattivato."
+
+msgid "The account has been deleted."
+msgstr "L'account é stato eliminato."
+
+msgid "Invalid badge choice."
+msgstr "Scelta di badge non valida"
+
+#, python-format
+msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
+msgstr "%(user)s sta utilizzando Adhocracy, uno strumento decisionale democratico."
+
+#, python-format
+msgid "%(user)ss Activity"
+msgstr "%(user)s Attività"
+
+#, python-format
+msgid "%s is not a member of %s"
+msgstr "%s non è un membro di %s"
+
+#, python-format
+msgid "%s is banned from the system."
+msgstr "%s è stato escluso dal sistema."
+
+msgid "You already have a password - use that to log in."
+msgstr "Possiedi già una password - utilizzala per accedere."
+
+msgid "A watchlist entry for this entity already exists."
+msgstr "Esiste giá una voce lista di riferimento per questa entità."
+
+#, python-format
+msgid "You're not authorized to delete %s's watchlist entries."
+msgstr "Non possiedi alcuna autorizzazione che ti permetta di eliminare le voci della lista di riferimento %s's."
+
+msgid "No username is given"
+msgstr "Non è stato inserito il nome utente"
+
+msgid "Username is too short"
+msgstr "Il nome utente è troppo corto"
+
+msgid "The username is invalid"
+msgstr "Il nome utente non è valido"
+
+msgid "That username already exists"
+msgstr "Il nome utente esiste già"
+
+msgid "That email is already registered"
+msgstr "Questo indirizzo email è stato giá registrato"
+
+msgid "That email is already used by another account"
+msgstr "Questa email risulta già essere stata usata da un altro account"
+
+msgid "Invalid date, expecting DD.MM.YYYY"
+msgstr "Data non valida, inserire secondo il parametro GG.MM.AAAA"
+
+msgid ""
+"Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid "
+"color code."
+msgstr "Ti preghiamo di inserire un codice di colore in formato HTML come ad esempio '#f0f0f0'. \n'%(value)' non risulta essere un codice di colore valido."
+
+msgid "No instance key is given"
+msgstr "Codice del gruppo non indicato"
+
+msgid "The instance key is invalid"
+msgstr "Il codice del gruppo non è valido"
+
+msgid "An instance with that key already exists"
+msgstr "Esiste già un gruppo con questo codice"
+
+msgid "No static key is given"
+msgstr "Non é stato digitato alcun codice statico"
+
+msgid "The static key is invalid"
+msgstr "Il codice statico inserito non é valido"
+
+#, python-format
+msgid "No entity with ID '%s' exists"
+msgstr "Impossibile trovare l'entitá con l'ID '%s'"
+
+#, python-format
+msgid "No proposal with ID '%s' exists"
+msgstr "Impossibile trovare la proposta con l'ID '%s'"
+
+#, python-format
+msgid "No group with ID '%s' exists"
+msgstr "Impossibile trovare il gruppo con l'ID '%s'"
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr "Il gruppo '%s' non è un gruppo ad istanza"
+
+msgid "At least one character is required"
+msgstr "È richiesto almeno un carattere"
+
+msgid "You're not allowed to edit global badges"
+msgstr "Non sei autorizzato a modificare i badges globali"
+
+#, python-format
+msgid "No Badge ID '%s' exists"
+msgstr "Impossibile trovare l'etichetta con l'ID '%s'"
+
+msgid "Duplicates in input set of user badge IDs"
+msgstr "Duplicati nella serie di input del badge ID dell'utente"
+
+#, python-format
+msgid "Could not find badges %s"
+msgstr "Impossibile trovare badges %s"
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr "Non puoi utilizzare una categoria globale %s in questo gruppo"
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr "Il Badge con ID '%s' non è valido in questo gruppo"
+
+msgid "Parent and child category instance have to match"
+msgstr "Le categorie capogruppo e sottogruppo devono combaciare"
+
+msgid "You shall not create cycles!"
+msgstr "Non sei autorizzato a creare dei cicli!"
+
+#, python-format
+msgid "No revision with ID '%s' exists"
+msgstr "Impossibile trovare la revisione con l'ID '%s'"
+
+#, python-format
+msgid "No comment with ID '%s' exists"
+msgstr "Impossibile trovare il commento con l'ID '%s'"
+
+#, python-format
+msgid "No watchlist entry with ID '%s' exists"
+msgstr "Impossibile trovare la lista di riferimento con l'ID '%s'"
+
+msgid "Invalid reference"
+msgstr "Riferimento non valido"
+
+#, python-format
+msgid "No user with the user name '%s' exists"
+msgstr "Impossibile trovare l'utente con il nome utente '%s'"
+
+#, python-format
+msgid "No tagging with ID '%s' exists"
+msgstr "Impossibile trovare il tagging con l'ID '%s'"
+
+#, python-format
+msgid "No tag with ID '%s' exists"
+msgstr "Impossibile trovare il tag con l'ID '%s'"
+
+#, python-format
+msgid "No text with ID '%s' exists"
+msgstr "Impossibile trovare il testo con l'ID '%s'"
+
+#, python-format
+msgid "No page '%s' exists"
+msgstr "Impossibile trovare la pagina '%s'"
+
+#, python-format
+msgid "Invalid page function: %s"
+msgstr "Funzione di pagina non valida: '%s'"
+
+msgid "No variant name is given."
+msgstr "Non é stato dato nessun nome alla variante."
+
+#, python-format
+msgid "Invalid variant name: %s"
+msgstr "Nome della variante non valido: %s"
+
+#, python-format
+msgid "Variant name cannot be purely numeric: %s"
+msgstr "Il nome della variante non può essere semplicemente a caratteri numerici: %s"
+
+msgid "An entry with this title already exists"
+msgstr "Esiste già una voce con questo titolo"
+
+msgid "No page name is given."
+msgstr "Non è stato indicato nessun nome della pagina."
+
+#, python-format
+msgid "Invalid page name: %s"
+msgstr "Nome della pagina non valido: %s"
+
+#, python-format
+msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
+msgstr "Errore \"%(error)s\" durante la lettura riga <pre><i>%(line_content)s</i></pre>"
+
+#, python-format
+msgid "The following errors occured while reading the list of users: <br />%s"
+msgstr "Si sono verificati i seguenti errori durante la lettura della lista utenti: <br />%s"
+
+#, python-format
+msgid "Line %s: %s"
+msgstr "Riga %s: %s"
+
+#, python-format
+msgid "Email %s is used multiple times"
+msgstr "Il seguente indirizzo email %s esiste già"
+
+#, python-format
+msgid "Username %s is used multiple times"
+msgstr "Il nome utente %s risulta essere già stato utilizzato"
+
+#, python-format
+msgid "Lines %s: %s"
+msgstr "Righe %s %s"
+
+#, python-format
+msgid ""
+"You need to insert the following placeholders into the email text so we can "
+"insert enough information for the user: %s"
+msgstr "Devi inserire il seguente segnaposto nel testo: %s"
+
+msgid "This is not a valid image file"
+msgstr ""
+
+msgid "The file is too big (>1MB)"
+msgstr ""
+
+msgid "Please select at least one instance"
+msgstr "Tu preghiamo di scegliere almeno un gruppo"
+
+msgid "Disallowed instance selected"
+msgstr "Hai selezionato un gruppo non autorizzato"
+
+#, python-format
+msgid "%d days"
+msgstr "%d giorni"
+
+msgid "Voter"
+msgstr "Elettore"
+
+msgid "Observer"
+msgstr "Osservatore"
+
+msgid "Supervisor"
+msgstr "Supervisore"
+
+msgid "Administrator"
+msgstr "Amministratore"
+
+msgid "Default"
+msgstr "Impostazione predefinita"
+
+msgid "Advisor"
+msgstr "Consulente"
+
+msgid "Draft"
+msgstr "Bozza"
+
+msgid "Polling"
+msgstr "Voto"
+
+msgid "Adopted"
+msgstr "Adozione"
+
+msgid ""
+"A liquid democracy platform for making decisions in distributed, open groups"
+" by cooperatively creating proposals and voting on them to establish their "
+"support."
+msgstr "Si tratta di una piattaforma creata da Liquid Democracy dove diversi gruppi distribuiti apertamente possono collaborare insieme ad elaborare ed a votare le proprie proposte. "
+
+msgid ""
+"adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
+"voting,participation, group decisions, decisions, decision-making"
+msgstr "adhocracy, democrazia diretta, liquid democracy, liqd, democrazia, wiki, voto,partecipazione, decisioni di gruppo, decisioni, attività decisionale"
+
+msgid "Invalid request. Please go back and try again."
+msgstr "Richiesta non valida. Ti preghiamo di tornare indietro e di riprovare."
+
+msgid "The method you used is not implemented."
+msgstr "Il metodo utilizzato non è implementato."
+
+#, python-format
+msgid "Abuse report: %s"
+msgstr "Report di abuso: %s"
+
+#, python-format
+msgid ""
+"%(user)s has reported abuse on the page %(url)s:\r\n"
+"\r\n"
+"%(message)s"
+msgstr "%(user)s ha riportato l'abuso sulla pagina %(url)s:»⏎ »⏎ %(message)s"
+
+#, python-format
+msgid "Hi %s,"
+msgstr "Ciao %s,"
+
+#, python-format
+msgid ""
+"Cheers,\r\n"
+"\r\n"
+"    the %s Team\r\n"
+msgstr "Saluti,\n\nil vostro %s Team\n\n"
+
+#, python-format
+msgid "%s <%s>"
+msgstr "%s <%s>"
+
+msgid ""
+"this email is to check the email address you have provided. In order to "
+"confirm this email address, please open the link below in your browser:"
+msgstr "Questa email ti è stata inviata allo scopo di verificare il tuo indirizzo email. Per confermare l'indirizzo email seguente, ti preghiamo di cliccare su questo link nel tuo browser:"
+
+msgid "Confirm your email address"
+msgstr "Conferma il tuo indirizzo email"
+
+msgid "Dear Ms."
+msgstr "Gentile signora"
+
+msgid "Dear Mr."
+msgstr "Gentile signore"
+
+msgid "Dear"
+msgstr "Gentile"
+
+msgid "activity"
+msgstr "attività"
+
+msgid "newest comment"
+msgstr "commento più recente"
+
+msgid "most support"
+msgstr "massimo sostegno"
+
+msgid "mixed"
+msgstr "misto"
+
+msgid "by date"
+msgstr "per data"
+
+msgid "most proposals"
+msgstr "la maggioranza delle proposte"
+
+msgid "hierarchical"
+msgstr "in ordine gerarchico"
+
+msgid "Badge"
+msgstr "Badge"
+
+msgid "Instance"
+msgstr "Istanza"
+
+msgid "Categories"
+msgstr "Categorie"
+
+msgid "Thumbnails"
+msgstr ""
+
+msgid "Created by"
+msgstr "Creato da"
+
+msgid "Tags"
+msgstr "Tags"
+
+msgid "Milestones"
+msgstr "Eventi importanti"
+
+msgid "Oldest"
+msgstr "meno recenti"
+
+msgid "Newest"
+msgstr "più recenti"
+
+msgid "Newest Comment"
+msgstr "Commento più recente"
+
+msgid "Activity"
+msgstr "Attività"
+
+msgid "Alphabetically"
+msgstr "In ordine alfabetico"
+
+msgid "Most Support"
+msgstr "massimo sostegno"
+
+msgid "Yays - nays"
+msgstr "Sì - No"
+
+msgid "Most Votes"
+msgstr "Maggior numero di voti"
+
+msgid "Yays + nays"
+msgstr "Sí + No"
+
+msgid "Most Ayes"
+msgstr "Maggior numero di Sì"
+
+msgid "Most Nays"
+msgstr "Maggior numero di No"
+
+msgid "Mixed"
+msgstr "misto"
+
+msgid "Age and Support"
+msgstr "Età e supporto"
+
+msgid "Rating"
+msgstr "Valutazione"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "User behavior"
+msgstr "Condotta dell'utente"
+
+msgid "Other"
+msgstr "Altro"
+
+msgid "Support"
+msgstr "Supporto"
+
+msgid "Newest Proposals"
+msgstr "Proposte più recenti"
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "L'entità %s' non puó essere trovata"
+
+msgid "We're sorry, but it seems that you lack the permissions to continue."
+msgstr "Ci dispiace, ma sembra che tu non disponga di alcuna autorizzazione a procedere."
+
+msgid ""
+"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
+msgstr "Ci dispiace, sembra che si sia verificato un errore (CSRF-allarme). Ti preghiamo di riprovare."
+
+#, python-format
+msgid "variant %(variant)s of %(page)s"
+msgstr "variante %(variant)s della %(page)s"
+
+msgid "is for"
+msgstr "é per"
+
+msgid "abstains on"
+msgstr "si astiene riguardo a"
+
+msgid "is against"
+msgstr "è contro"
+
+msgid "(Undefined)"
+msgstr "(indefinito)"
+
+#, python-format
+msgid "New user: %(user)s"
+msgstr "Nuovo utente: %(user)s"
+
+msgid "signed up"
+msgstr "iscriviti"
+
+#, python-format
+msgid "%(user)s: profile updated"
+msgstr "%(user)s: profilo aggiornato"
+
+msgid "edited their profile"
+msgstr "hanno modificato il loro profilo"
+
+#, python-format
+msgid "%(user)s: profile was edited by %(admin)s"
+msgstr "%(user)s: il profilo è stato modificato da %(admin)s"
+
+#, python-format
+msgid "had their profile updated by %(admin)s"
+msgstr "il profilo è stato modificato da %(admin)s"
+
+#, python-format
+msgid "New instance: %(instance)s"
+msgstr "Nuovo gruppo: %(instance)s"
+
+#, python-format
+msgid "founded the %(instance)s instance"
+msgstr "ha creato un gruppo %(instance)s"
+
+#, python-format
+msgid "%(instance)s: instance was updated"
+msgstr "%(instance)s: il gruppo è stato aggiornato"
+
+#, python-format
+msgid "updated the %(instance)s instance"
+msgstr "ha aggiornato il gruppo %(instance)s"
+
+#, python-format
+msgid "Deleted Adhocracy: %(instance)s"
+msgstr "Adhocracy eliminata: %(instance)s"
+
+#, python-format
+msgid "deleted the %(instance)s instance"
+msgstr "ha eliminato il gruppo %(instance)s"
+
+#, python-format
+msgid "%(instance)s: %(user)s joined"
+msgstr "%(instance)s: %(user)s si è iscritto"
+
+#, python-format
+msgid "joined %(instance)s"
+msgstr "si è iscritto %(instance)s"
+
+#, python-format
+msgid "%(instance)s: %(user)s left"
+msgstr "%(instance)s: %(user)s si è disconnesso"
+
+#, python-format
+msgid "left %(instance)s"
+msgstr "si è disconnesso %(instance)s "
+
+#, python-format
+msgid "%(instance)s: %(user)s was forced to leave"
+msgstr "%(instance)s: %(user)s è stato obbligato a disconnettersi"
+
+#, python-format
+msgid "was forced to leave %(instance)s by %(admin)s"
+msgstr "è stato costretto a disconnettersi %(instance)s da %(admin)s"
+
+#, python-format
+msgid "%(instance)s: %(user)s is now a %(group)s"
+msgstr "%(instance)s: %(user)s è ora un %(group)s"
+
+#, python-format
+msgid "now is a %(group)s within %(instance)s"
+msgstr "ora è %(group)s dentro %(instance)s"
+
+#, python-format
+msgid "New proposal: %(proposal)s"
+msgstr "Nuova proposta: %(proposal)s"
+
+#, python-format
+msgid "created %(proposal)s"
+msgstr "ha creato %(proposal)s"
+
+#, python-format
+msgid "Edit proposal: %(proposal)s"
+msgstr "Modifica la proposta: %(proposal)s"
+
+#, python-format
+msgid "edited %(proposal)s"
+msgstr "modificata %(proposal)s"
+
+#, python-format
+msgid "Poll cancelled: %(proposal)s"
+msgstr "La votazione è stata eliminata: %(proposal)s"
+
+#, python-format
+msgid "re-drafted %(proposal)s"
+msgstr "ha interrotto la votazione sulla proposta %(proposal)s"
+
+#, python-format
+msgid "New Poll: %(proposal)s"
+msgstr "Nuova votazione: %(proposal)s"
+
+#, python-format
+msgid "called a vote on %(proposal)s"
+msgstr "ha richiamato il voto sulla proposta %(proposal)s"
+
+#, python-format
+msgid "Deleted proposal: %(proposal)s"
+msgstr "Proposta eliminata: %(proposal)s"
+
+#, python-format
+msgid "deleted %(proposal)s"
+msgstr "eliminata: %(proposal)s"
+
+#, python-format
+msgid "New page: %(page)s"
+msgstr "Nuova pagina: %(page)s"
+
+#, python-format
+msgid "created %(page)s"
+msgstr "è stata creata %(page)s"
+
+#, python-format
+msgid "Edit page: %(page)s"
+msgstr "Modifica a pagina: %(page)s"
+
+#, python-format
+msgid "edited %(page)s"
+msgstr "è stata modificata %(page)s"
+
+#, python-format
+msgid "Deleted page: %(page)s"
+msgstr "Pagina eliminata: %(page)s"
+
+#, python-format
+msgid "deleted %(page)s"
+msgstr "eliminata %(page)s"
+
+#, python-format
+msgid "New comment: in %(topic)s"
+msgstr "Nuovo commento: in %(topic)s"
+
+#, python-format
+msgid "commented %(topic)s"
+msgstr "%(topic)s commentati "
+
+#, python-format
+msgid "Edited comment: in %(topic)s"
+msgstr "Ha modificato il commento: in %(topic)s"
+
+#, python-format
+msgid "edited comment on %(topic)s"
+msgstr "modifica commento su %(topic)s"
+
+#, python-format
+msgid "Deleted comment: in %(topic)s"
+msgstr "Ha eliminato il commento: in %(topic)s"
+
+#, python-format
+msgid "deleted comment from %(topic)s"
+msgstr "elimina commento da %(topic)s"
+
+#, python-format
+msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
+msgstr "Nuova delega: %(user)s ha delegato %(scope)s a %(agent)s"
+
+#, python-format
+msgid "delegated voting on %(scope)s to %(agent)s"
+msgstr "votazione delegata riguardo a %(scope)s a %(agent)s"
+
+#, python-format
+msgid "Revoked Delegation: %(user)s revoked delegation to %(agent)s"
+msgstr "Delega revocata: %(user)s hanno revocato la delega a %(agent)s"
+
+#, python-format
+msgid "revoked their delegation on %(scope)s to %(agent)s"
+msgstr "hanno revocato la loro delega riguardo a %(scope)s a %(agent)s"
+
+#, python-format
+msgid "Vote: %(user)s %(vote)s %(poll)s"
+msgstr "Voto: %(user)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "%(vote)s %(poll)s"
+msgstr "%(vote)s %(poll)s"
+
+#, python-format
+msgid "Rating: %(user)s %(vote)s %(poll)s"
+msgstr "Scrutinio: %(user)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "Variants: %(user)s %(vote)s %(poll)s"
+msgstr "Varianti: %(user)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "Adhocracy says hello: %(test)s"
+msgstr "Adhocracy è lieta di salutarti: %(test)s"
+
+#, python-format
+msgid "test %(test)s"
+msgstr "testo %(test)s"
+
+#, python-format
+msgid "You received %(user)ss delegation on %(scope)s"
+msgstr "Hai ricevuto %(user)ss la delega per %(scope)s"
+
+#, python-format
+msgid "You lost %(user)ss delegation on %(scope)s"
+msgstr "Hai perso la delega di %(user)ss riguardo a %(scope)s"
+
+#, python-format
+msgid "Membership: You've been kicked from %(instance)s"
+msgstr "Iscrizione: Sei stato eliminato da %(instance)s"
+
+#, python-format
+msgid "Membership: you're now a %(group)s in %(instance)s"
+msgstr "Iscrizione: ora fai parte del %(group)s nelle %(instance)s"
+
+#, python-format
+msgid "Your vote %(vote)s %(poll)s"
+msgstr "Il tuo voto %(vote)s %(poll)s"
+
+#, python-format
+msgid "Your delegate %(agent)s %(vote)s %(poll)s"
+msgstr "Il tuo delegato %(agent)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "Delegation conflict regarding %(poll)s"
+msgstr "Conflitto di delega per quanto riguarda %(poll)s"
+
+#, python-format
+msgid "Comment Reply: %(topic)s"
+msgstr "Risposta al commento: %(topic)s"
+
+#, python-format
+msgid "Comment Edit: %(topic)s"
+msgstr "Modica il commento: %(topic)s"
+
+#, python-format
+msgid ""
+"\r\n"
+"\r\n"
+"More info: %(url)s"
+msgstr "»⏎ »⏎ Dettagli: %(url)s"
+
+msgid "This proposal is currently being voted on and cannot be modified."
+msgstr "Questa proposta sta per essere votata e non può essere modificata."
+
+msgid "(Unknown)"
+msgstr "(Sconosciuto)"
+
+msgid "Documents"
+msgstr "Documenti"
+
+msgid "Proposals"
+msgstr "Proposte"
+
+msgid "Implementation"
+msgstr "Implementazione"
+
+msgid "Adhocracy"
+msgstr "Adhocracy"
+
+msgid "delete"
+msgstr "elimina"
+
+#, python-format
+msgid "%s (deleted user)"
+msgstr "%s (utente eliminato)"
+
+msgid "Users"
+msgstr "Utenti"
+
+msgid "This action is only available in an instance context."
+msgstr "Quest'azione è disponibile solo all'interno del gruppo."
+
+msgid "(no milestone)"
+msgstr "(nessun evento importante)"
+
+msgid "Your current vote is already pro"
+msgstr "Ha già espresso il tuo voto a favore di"
+
+msgid "Click to change you vote to neutral"
+msgstr "Clicca qui per modificare il tuo voto in neutrale"
+
+msgid "Click to vote pro"
+msgstr "Clicca qui per votare a favore di"
+
+msgid "Click to vote con"
+msgstr "Clicca qui per votare contro"
+
+msgid "Voting has ended. Click to view the list of votes"
+msgstr "Il voto termina qui. Clicca qui per visualizzare la lista dei voti"
+
+msgid "Please login or register to vote."
+msgstr "Ti preghiamo di accedere o di registrarti per votare."
+
+#, python-format
+msgid "Please join the instance \"%s\" to vote."
+msgstr "Ti preghiamo di iscriverti al gruppo \"%s\" per votare."
+
+msgid "Click to see the list of votes"
+msgstr "Clicca qui per visualizzare la lista dei voti"
+
+msgid "(Untitled)"
+msgstr "(Senza titolo)"
+
+msgid "Status Quo"
+msgstr "Versione originale"
+
+msgid "formatting hints"
+msgstr "suggerimenti di formattazione"
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "or"
+msgstr "o"
+
+msgid "cancel"
+msgstr "elimina"
+
+msgid "Notify me of updates."
+msgstr "Inviami notifiche degli aggiornamenti."
+
+msgid "Follow Norm"
+msgstr "Segui il decreto"
+
+msgid "Follow Instance"
+msgstr "Segui gruppo"
+
+msgid "Follow Proposal"
+msgstr "Segui proposta"
+
+msgid "Follow Milestone"
+msgstr "Segui evento"
+
+msgid "Follow User"
+msgstr "Segui utente"
+
+msgid "Follow Comment"
+msgstr "Segui commento"
+
+msgid "Follow Tag"
+msgstr "Segui tag"
+
+msgid "Following"
+msgstr "Chi ti sta seguendo"
+
+msgid "Unfollow"
+msgstr "Non seguire più"
+
+msgid "Send us your feedback"
+msgstr "Inviaci un Feedback"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Title"
+msgstr "Titolo"
+
+msgid "One line summary"
+msgstr "Riepilogo (una riga)"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Submit"
+msgstr "Inoltra"
+
+msgid "List existing feedback"
+msgstr "Mostra Feedback esistenti"
+
+msgid "Proposal Category"
+msgstr "Ambito"
+
+msgid "No Category"
+msgstr "Nessuna categoria"
+
+msgid "Others"
+msgstr "Altri"
+
+msgid "code of conduct"
+msgstr "Codice di condotta"
+
+msgid "terms and conditions"
+msgstr "termini e condizioni"
+
+msgid "privacy"
+msgstr "tutela della privacy"
+
+msgid "imprint"
+msgstr "stampa"
+
+#, python-format
+msgid "<b>%s</b> members"
+msgstr "<b>%s</b> membri"
+
+#, python-format
+msgid "<b>%s</b> proposals"
+msgstr "<b>%s</b> proposte"
+
+#, python-format
+msgid "<b>%s</b> comments"
+msgstr "<b>%s</b> commenti"
+
+#, python-format
+msgid "<b>%s</b> votes"
+msgstr "<b>%s</b> voti"
+
+msgid "Start"
+msgstr "Avvio"
+
+msgid "Instances"
+msgstr "Gruppi"
+
+msgid "Watchlist"
+msgstr "Lista di riferimento"
+
+msgid "About"
+msgstr "Per saperne di più"
+
+msgid "Help"
+msgstr "Aiuto"
+
+msgid "Login"
+msgstr "Accedi"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Edit Profile"
+msgstr "Modifica il profilo"
+
+msgid "View Profile"
+msgstr "Visualizza profilo"
+
+msgid "Administrate Site"
+msgstr "Diventa amministratore del sito"
+
+msgid "Logout"
+msgstr "Disconnetti"
+
+msgid "Settings"
+msgstr "Impostazioni"
+
+msgid "Search"
+msgstr "Cerca"
+
+#, python-format
+msgid "Search in &ldquo;%s&rdquo;&hellip;"
+msgstr "Cerca in &ldquo;%s&rdquo;&hellip;"
+
+msgid "Overview"
+msgstr "Anteprima"
+
+msgid "Norms"
+msgstr "Decreti"
+
+msgid "Members"
+msgstr "Membri"
+
+#, python-format
+msgid "%(start)s-%(end)s out of %(total)s"
+msgstr "%(start)s-%(end)s out of %(total)s"
+
+msgid "No entries."
+msgstr "Nessuna voce."
+
+msgid "previous"
+msgstr "indietro"
+
+msgid "next"
+msgstr "avanti"
+
+msgid "entries"
+msgstr "voci"
+
+msgid "Filter list"
+msgstr "Filtra lista"
+
+msgid "reset"
+msgstr "ripristina"
+
+msgid "Sort:"
+msgstr "Classificare"
+
+#, python-format
+msgid "Welcome to %s!"
+msgstr "Benvenuto su %s!"
+
+msgid "Please choose a password:"
+msgstr "Ti preghiamo di scegliere una password:"
+
+msgid "Please pick a secure password"
+msgstr ""
+
+msgid "Set Password"
+msgstr "Imposta password"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Devi essere registrato per poter prendere parte a questa discussione."
+
+msgid "Log in to participate in the discussion."
+msgstr "Registrati per partecipare alla discussione."
+
+msgid "Register"
+msgstr "Registrati"
+
+msgid "Log in"
+msgstr "Accedi"
+
+msgid "Join this instance to start contributing."
+msgstr "Iscriviti a questo gruppo per poter partecipare alla conversazione."
+
+msgid "join"
+msgstr "iscriviti"
+
+msgid "Validate email to start contributing."
+msgstr "Verifica il tuo indirizzo email per iniziare a sottoscrivere"
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Reinvia la email di convalida a %s"
+
+msgid "Send activation link"
+msgstr "Invia link di attivazione"
+
+msgid "Edit profile"
+msgstr "Modifica profilo"
+
+msgid "This instance has been frozen - you can not edit or post anything."
+msgstr "Il gruppo é stato bloccato - non puoi modificare o inserire alcun commento."
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "È necessario che tu inserisca il tuo indirizzo email nelle impostazioni del profilo per poter dare un contributo al gruppo."
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Ti preghiamo di verificare il tuo indirizzo email per poter dare il tuo contributo al gruppo."
+
+msgid "Your registered email address is:"
+msgstr "Il tuo indirizzo email di registrazione è:"
+
+msgid "Next"
+msgstr "Avanti"
+
+msgid "Previous"
+msgstr "Indietro"
+
+msgid "start_this_tutorial"
+msgstr "Inizia il Tutorial"
+
+msgid "disable_this_tutorial"
+msgstr "Ignora il Tutorial"
+
+msgid "disable_all_tutorials"
+msgstr "Ignora tutti i Tutorial"
+
+#, python-format
+msgid ""
+"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+" %(against)s nays"
+msgstr "Un totale di <a href=\"%(url)s\">%(votes)s voti </a>, di cui %(for)s a favore e  %(against)s contro"
+
+msgid "Votes"
+msgstr "Voti"
+
+msgid "Votes by User Group"
+msgstr "Voti del gruppo utenti"
+
+msgid "Shortlink"
+msgstr "Breve collegamento"
+
+msgid "Report abuse"
+msgstr "Report di abuso"
+
+msgid "Link:"
+msgstr "Link:"
+
+msgid "Reason to report this page..."
+msgstr "Segnala questa pagina..."
+
+msgid "Send"
+msgstr "Invia"
+
+msgid "Export"
+msgstr "Esporta"
+
+msgid "Export users"
+msgstr "Esporta utenti"
+
+msgid "Include personal data"
+msgstr "Includi informazioni personali"
+
+msgid "Include password hashes"
+msgstr "Includi cifratura della password"
+
+msgid "Export badges"
+msgstr "Esporta badges"
+
+msgid "Export content (instances)"
+msgstr "Esporta contenuto"
+
+msgid "Include proposals"
+msgstr "Includi proposte"
+
+msgid "Include comments"
+msgstr "Inizia una nuova discussione"
+
+msgid "Export format:"
+msgstr "Formato di esportazione"
+
+msgid "JSON download"
+msgstr "effettua il download di JSON "
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "ZIP download"
+msgstr "effettua il download di ZIP"
+
+msgid "Export Now"
+msgstr "Esporta ora"
+
+msgid "Import"
+msgstr "Importa"
+
+msgid "Import users"
+msgstr "Importa utenti"
+
+msgid "Generate welcome codes"
+msgstr "Genera codici di benvenuto"
+
+msgid "Import badges"
+msgstr "Importa badges"
+
+msgid "Import content (instances)"
+msgstr "Importa contenuti (gruppi)"
+
+msgid "Replacement strategy"
+msgstr "Strategia di sostituzione"
+
+msgid "Update duplicate entries"
+msgstr "Aggiorna le doppie entrate"
+
+msgid "Skip duplicate entries"
+msgstr "Salta le doppie entrate"
+
+msgid "File to import:"
+msgstr "File da importare:"
+
+msgid "Detect"
+msgstr "Rileva"
+
+msgid "ZIP"
+msgstr "ZIP"
+
+msgid "Import Now"
+msgstr "Importa ora"
+
+msgid "Import successfully performed."
+msgstr "Importazione completata con successo."
+
+msgid "back to main page"
+msgstr "torna alla pagina principale"
+
+msgid "Admin: Group Permissions"
+msgstr "Amministratore: Autorizzazioni gruppo utenti"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "Amministratore &raquo; Autorizzazioni gruppo utenti"
+
+msgid "Group Permissions"
+msgstr "Autorizzazioni gruppo utenti"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "ATTENZIONE: Quest'azione ti permette di ..."
+
+msgid "Permissions"
+msgstr "Autorizzazioni"
+
+msgid "All Events"
+msgstr "Tutti i risultati"
+
+msgid "Import Users"
+msgstr "Importa utenti"
+
+msgid "Update Search Index"
+msgstr "Aggiorna l'indice di ricerca"
+
+msgid "Static Pages"
+msgstr "Pagine"
+
+msgid "Send an email to users"
+msgstr "Invia una email agli utenti"
+
+msgid "Site administration"
+msgstr "Amministrazione del sito"
+
+msgid "Admin: Import Users"
+msgstr "Amministratore: importa utente"
+
+msgid ""
+"Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
+"columns username, display name and email"
+msgstr "Incolla il contenuto del documento CSV, per esempio esporta da Excel con 3 colonne il nome utente, il nome visulizzato e l'indirizzo email."
+
+msgid "Users CSV"
+msgstr "Utenti CSV"
+
+msgid "Email Subject"
+msgstr "Oggetto della email"
+
+msgid "Email Template"
+msgstr "Modello di email"
+
+msgid "The name with which the user can log in."
+msgstr "Il nome con il quale l'utente ha effettuato la registrazione (Nome utente)."
+
+msgid "The initial password for the user."
+msgstr "La password iniziale dell'utente."
+
+msgid "An URL for the user to activate his account."
+msgstr "Un URL per l'utente per l'attivazione del suo account."
+
+msgid "The name that will be displayed to other users."
+msgstr "Il nome verrà visualizzato dagli altri utenti."
+
+msgid "The email address of the user."
+msgstr "L'indirizzo email dell'utente."
+
+msgid ""
+"The template for the mail to the users. You need to insert some placeholders"
+" into the email text."
+msgstr "Il modello utilizzato per inviare email all'utente. É necessario inserire il seguente segnaposto nel testo."
+
+msgid "Required"
+msgstr "Necessario"
+
+msgid "Optional"
+msgstr "Opzionale"
+
+msgid "Imported Users"
+msgstr "Utenti importati"
+
+msgid "But some errors occured"
+msgstr "Ma si sono verificati alcuni errori"
+
+msgid "You successfully created the following users:"
+msgstr "Hai creato con successo i seguenti utenti:"
+
+#, python-format
+msgid ""
+"You successfully created the following users and added them as Members to "
+"the instance \"%s\":"
+msgstr "Hai creato con successo i seguenti utenti e li hai aggiunti come membri al gruppo \"%s\":"
+
+msgid "The following errors happend while creating the users"
+msgstr "Si sono verificati i seguenti errori durante la creazione degli utenti"
+
+msgid "These users could not be created:"
+msgstr "Impossibile crare i seguenti utenti "
+
+msgid "These users where created, but we could not send out mails:"
+msgstr "I seguenti utenti sono stati creati, ma risulta impossibile inviare loro delle emails:"
+
+msgid "Badge title"
+msgstr "Titolo del Badge"
+
+msgid "Badge description"
+msgstr "Descrizione del Badge"
+
+msgid "The color that is used to show the badge"
+msgstr "Il colore che viene utilizzato per il Badge"
+
+msgid "Like '#a4a4a4'"
+msgstr "'#a4a4a4' Mi piace"
+
+msgid "Preview:"
+msgstr "Anteprima"
+
+msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Upload thumbnail icon. This is used instead of color to show the badge"
+msgstr ""
+
+msgid "Check to hide badge in user interface"
+msgstr "Controlla per nascondere il badge nell'interfaccia utente"
+
+msgid "visible"
+msgstr "visibile"
+
+msgid "Group"
+msgstr "Ruolo utente"
+
+msgid "No Group"
+msgstr "Nessun gruppo"
+
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr "Disponi automaticamente tutti gli utenti in possesso di questo badge nel gruppo prescelto per tutte le istanze del sito di adhocracy."
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr "Disponi automaticamente tutti gli utenti in possesso di questo badge al gruppo prescelto."
+
+msgid "Display group in instances"
+msgstr "Mostra ruolo utente nei gruppi"
+
+msgid "Display this badge instead of the normal user group."
+msgstr "Visualizza questo badge al posto del normale gruppo di utenti."
+
+msgid "Global"
+msgstr "Globale"
+
+msgid "Parent Badge"
+msgstr "Badge capogruppo"
+
+msgid "No Parent Badge"
+msgstr "Nessun Badge capogruppo"
+
+msgid "Global categories"
+msgstr "Categorie globali"
+
+msgid "Local instance categories"
+msgstr "Categorie dei gruppi locali"
+
+msgid ""
+"Description to select children of this badge (irrelevant if this badge "
+"doesn't have any children)"
+msgstr "Indicazioni su come selezionare i sottogruppi di questo badge (irrilevante nel caso in cui il Badge non contenga sottogruppi)"
+
+msgid "Save Badge"
+msgstr "Salva badge"
+
+msgid "Edit"
+msgstr "Modifica"
+
+msgid "No badges added yet."
+msgstr "Non sono stati ancora aggiunti dei badges. "
+
+msgid "Color"
+msgstr "Colore"
+
+msgid "Preview"
+msgstr "Anteprima"
+
+msgid "Assigned Group"
+msgstr "Ruolo utente assegnato"
+
+msgid "Display"
+msgstr "Mostra"
+
+msgid "Actions"
+msgstr "Azioni"
+
+msgid "yes"
+msgstr "sì"
+
+msgid "no"
+msgstr "no"
+
+msgid "Parent"
+msgstr "Capogruppo"
+
+msgid "User Badges"
+msgstr "Badge Utente"
+
+msgid "New"
+msgstr "Nuovo"
+
+msgid "Proposal Badges"
+msgstr "Badges per le proposte"
+
+msgid "Proposal Category Badges"
+msgstr "Categorie delle proposte"
+
+msgid "Proposal Thumbnail Badges"
+msgstr ""
+
+msgid "Instance Badges"
+msgstr "Badge del gruppo"
+
+msgid "Comment"
+msgstr "Commento"
+
+#, python-format
+msgid "Comment on %s"
+msgstr "Commenta %s "
+
+msgid "Are you sure you want to delete this comment?"
+msgstr "Sei sicuro di voler eliminare questo commento?"
+
+msgid "Confirm"
+msgstr "Conferma"
+
+msgid "Edit comment"
+msgstr "Modifica commento"
+
+#, python-format
+msgid "Comment on: %s"
+msgstr "Commenta: %s"
+
+msgid "Comment History"
+msgstr "Cronologia dei commenti"
+
+msgid "New comment"
+msgstr "Nuovo commento"
+
+#, python-format
+msgid "created %s"
+msgstr "creato %s"
+
+msgid "revert here"
+msgstr "ripristina qui"
+
+msgid "delete version permanently"
+msgstr "elimina questa versione"
+
+#, python-format
+msgid "on %s"
+msgstr "riguardo a  %s"
+
+#, python-format
+msgid "edited %s"
+msgstr "modificato %s"
+
+msgid "No comments were made yet."
+msgstr "Non è stato fatto ancora nessun commento."
+
+msgid "Start new Discussion"
+msgstr "Dai inizio ad un nuovo dibattito"
+
+msgid "Join instance to comment."
+msgstr "Iscriviti al gruppo per commentare."
+
+msgid "Add comment"
+msgstr "Aggiungi un commento"
+
+msgid "Login to comment."
+msgstr "Accedi per lasciare un commento"
+
+msgid "Validate email in order to comment."
+msgstr "Conferma la tua email per poter commentare"
+
+msgid "is pro"
+msgstr "è a favore "
+
+msgid "is con"
+msgstr "è contro"
+
+msgid "(deleted)"
+msgstr "(eliminato)"
+
+msgid "This comment has been deleted."
+msgstr "Il commento è stato eliminato."
+
+msgid "edit"
+msgstr "modifica"
+
+msgid "1 Comment"
+msgstr "1 Commento"
+
+#, python-format
+msgid "%s Comments"
+msgstr "Mostra %s tutti i commenti"
+
+msgid "reply"
+msgstr "Inserisci un nuovo commento"
+
+msgid "Join instance to reply"
+msgstr "Iscriviti al gruppo per inserire un nuovo commento"
+
+msgid "Login to reply"
+msgstr "Entra per lasciare un commento"
+
+msgid "Validate email in order to reply"
+msgstr "Conferma la tua email per poter rispondere"
+
+msgid "report"
+msgstr "segnala"
+
+msgid "history"
+msgstr "cronologia"
+
+#, python-format
+msgid "deleted %s"
+msgstr "eliminato %s"
+
+#, python-format
+msgid "edited %s by %s"
+msgstr "%s modificato da %s"
+
+msgid "Comment is..."
+msgstr "Commento su..."
+
+msgid "Pro"
+msgstr "a favore"
+
+msgid "Neutral"
+msgstr "neutrale"
+
+msgid "Con"
+msgstr "contro"
+
+msgid "Allow others to edit this comment."
+msgstr "Permetti agli altri di modificare questo commento."
+
+#, python-format
+msgid "Discussion on %s"
+msgstr "Discussione riguardo a %s"
+
+msgid "Context"
+msgstr "Contesto "
+
+msgid "History"
+msgstr "Cronologia"
+
+msgid "for"
+msgstr "per"
+
+msgid "against"
+msgstr "contro"
+
+msgid "abstained"
+msgstr "astenuto"
+
+msgid "undecided"
+msgstr "indeciso"
+
+msgid ""
+"The user's delegates have voted, but no consensus wasreached among them. The"
+" decision is deferred."
+msgstr "Le persone delegate dall'utente hanno votato, ma non è stato raggiunto nessun consenso. La decisione è stata rinviata."
+
+msgid "The decision was made without delegations."
+msgstr "La decisione è stata presa senza il consenso della delegazione."
+
+msgid "The decision was determined as a result of the following delegations:"
+msgstr "La decisione è stata determinata basandosi sul risultato delle seguenti delegazioni:"
+
+msgid "on"
+msgstr "riguardo a"
+
+msgid "review"
+msgstr "rivedi"
+
+#, python-format
+msgid "Delegate: %s"
+msgstr "Delegare: %s"
+
+msgid "Delegation"
+msgstr "Delega"
+
+msgid ""
+"These people might be a good match for your delegation. Either select one of"
+" the listed delegates, or enter another user name."
+msgstr "Queste persone potrebbero essere adatte per la tua delegazione. Scegli un delegato da questa lista oppure accedi con un altro nome utente."
+
+msgid "Start typing, you will receive suggestions to find the user."
+msgstr "Inizia a digitare, riceverai dei suggerimenti sull'utente."
+
+msgid "Include decisions made before now."
+msgstr "Aggiungi le decisioni prese finora."
+
+#, python-format
+msgid "Delegation: %s"
+msgstr "Delega: %s"
+
+msgid "Cancel this delegation."
+msgstr "Annulla questa delega."
+
+msgid "revoke"
+msgstr "Revoca"
+
+#, python-format
+msgid "from %s"
+msgstr "da %s"
+
+#, python-format
+msgid "to %s"
+msgstr "a %s"
+
+#, python-format
+msgid "established %s"
+msgstr "stabilito %s"
+
+#, python-format
+msgid "revoked %s"
+msgstr "revocato  %s"
+
+msgid "The delegation can be overridden or revoked at any time."
+msgstr "La delega può essere ignorata o revocata in qualsiasi momento."
+
+msgid ""
+"No decisions have been based on this delegation yet. As soon as this "
+"delegation leads to any decisions, they will be listed here."
+msgstr "Nessuna decisione si è basata finora sulla delega. Non appena questa delega porterá a delle decisioni, le seguenti verrano elencate qui."
+
+msgid "track record"
+msgstr "protocollo"
+
+#, python-format
+msgid "created <b>%s</b>"
+msgstr "creato <b>%s</b>"
+
+msgid "Delegate voting"
+msgstr "Delega il voto"
+
+msgid "You have not delegated voting."
+msgstr "Non hai delegato il voto."
+
+msgid "You have delegated voting to:"
+msgstr "Hai delegato il tuo voto a:"
+
+msgid "Delegate your say in this debate to another participant."
+msgstr "Delega il tuo diritto di parola in questo dibatitto ad un altro partecipante."
+
+msgid "delegate"
+msgstr "delega"
+
+msgid "You hold an additional vote."
+msgstr "Disponi di un'altra possibilità di voto."
+
+#, python-format
+msgid "You hold %s additional votes."
+msgstr "Disponi di %s altre possiblità di voto."
+
+msgid ""
+"If this error continues to occur, please <a class='staticlink_imprint' "
+"href='/static/imprint.html'>notify the developers</a> with a description of "
+"what you were trying to do."
+msgstr "Se l'errore si dovesse verificare nuovamente, ti preghiamo <a class='staticlink_imprint' href='/static/imprint.html'> di contattare gli sviluppatori </a> notificandogli una descrizione di ciò che stavi tentando di fare quando si è verificato l'errore."
+
+msgid ""
+"An automated email message describing the situation has been sent to our "
+"developers."
+msgstr "É stato inviato un messaggio di posta elettronica con una descrizione dell'errore agli sviluppatori del software."
+
+msgid "Whazza"
+msgstr "Come va?"
+
+msgid "All current events."
+msgstr "Tutti gli eventi del momento."
+
+#, python-format
+msgid "%s"
+msgstr "%s"
+
+msgid "more"
+msgstr "scopri di più"
+
+msgid "Latest Events"
+msgstr "Ultimi eventi"
+
+msgid "This is a record of all recent actions within this instance."
+msgstr "Questo è un sommario di tutte le azioni recenti che hanno avuto luogo in questo gruppo."
+
+msgid "You can also have notifications sent to you."
+msgstr "Hai la possibilità di ricevere delle notifiche."
+
+msgid "Info..."
+msgstr "Informazioni..."
+
+#, python-format
+msgid "Create a proposal to start debating in %(instance)s."
+msgstr "Crea una proposta per poter iniziare un dibattito nel %(instance)s."
+
+msgid "Delete"
+msgstr "Elimina"
+
+msgid "Delete instance"
+msgstr "Elimina gruppo"
+
+msgid "Are you sure you want to delete this instance?"
+msgstr "Sei sicuro di voler eliminae questo gruppo?"
+
+msgid "Leave"
+msgstr "Abbandona"
+
+msgid ""
+"Are you sure you want to leave this instance? You will no longer be able to "
+"write contributions or to vote."
+msgstr "Sei sicuro di voler abbandonare questo gruppo? In tal caso ti sará più permesso di scrivere dei commenti o di votare."
+
+#, python-format
+msgid "Edit badges for %s"
+msgstr "Modifica badges per %s"
+
+msgid "Edit Badges"
+msgstr "Modifica Badges"
+
+msgid "badge"
+msgstr "badge"
+
+msgid "new instance"
+msgstr "Nuovo gruppo"
+
+msgid "Instances are little democracies that are ran by their community."
+msgstr "I gruppi rappresentano delle piccole democrazie che gestiscono la propria comunità."
+
+msgid "New Instance"
+msgstr "Nuovo gruppo"
+
+msgid "Create new instance"
+msgstr "Crea un nuovo gruppo"
+
+msgid "Instance name"
+msgstr "Nome del gruppo"
+
+msgid "Instance URL"
+msgstr "URL del gruppo"
+
+msgid ""
+"The address may only contain alpha-numeric characters. Please note that this"
+" key cannot be changed after the instance has been created."
+msgstr "L'indirizzo può contenere soltanto caratteri alfa-numerici. Nota bene che non potrai più cambiare il codice dopo la creazione del gruppo."
+
+msgid ""
+"Describe what the goals of this instance are and who constitutes its "
+"community."
+msgstr "Descrivi quali sono gli obiettivi di questo gruppo e quali sono i membri di questa comunitá."
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "(Markdown e HTML sono consentiti qui.)"
+
+#, python-format
+msgid "Manage: %s"
+msgstr "Amministra: %s"
+
+msgid "Manage"
+msgstr "Amministra"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Scegl un logo che apparirà nell'area intestazione di questo gruppo."
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Current logo"
+msgstr "Logo attuale"
+
+msgid "Delete current logo"
+msgstr "Elimina logo attuale"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Puoi aggiungere CSS che verranno utilizzati per modificare il gruppo."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
+
+msgid "Thumbnail badges width"
+msgstr ""
+
+msgid "Thumbnail badges height"
+msgstr ""
+
+msgid "Use Norms"
+msgstr "Utilizza decreti"
+
+msgid "Allow users to propose norms"
+msgstr "Permetti agli altri utenti di inserire altri decreti"
+
+msgid "Require to propose a variant"
+msgstr "È necessario proporre un decreto"
+
+msgid "Use milestones"
+msgstr "Utilizza eventi"
+
+msgid "Use thumbnail badges"
+msgstr ""
+
+msgid "Hide global categories"
+msgstr "Nascondi categorie globali"
+
+msgid "Allow editing of comments by default"
+msgstr "Consenti la modifica dei commenti per impostazione predefinita"
+
+msgid "Freeze this instance"
+msgstr "Blocca questo gruppo"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Language"
+msgstr "Lingua"
+
+msgid ""
+"The language setting will be overridden by the user's personal setting."
+msgstr "Le impostazioni lingua verranno rimosse dalle impostazioni personali dell'utente."
+
+msgid "Default group"
+msgstr "Gruppo predefinito"
+
+msgid "Hide this instance"
+msgstr "Nascondi questo gruppo"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Scegli se rendere il gruppo visibile agli altri."
+
+msgid "Require email validation"
+msgstr "Una convalida dell'indirizzo email è necessaria"
+
+msgid "Require instance members to validate their email address."
+msgstr "È necessaria la verifica degli indirizzi email dei membri del gruppo."
+
+msgid "This instance is authenticated"
+msgstr "Il gruppo è \"autenticato\""
+
+msgid "Enable (final) adoption voting"
+msgstr "Attiva l'adozione (finale) di voto"
+
+msgid ""
+"Before activating, the defined majority must be continuously held by the "
+"proposal for the specified interval."
+msgstr "Prima che la proposta possa essere attivata, essa deve raggiungere una determinata maggioranza in un determinato lasso di tempo."
+
+msgid "Majority"
+msgstr "Maggioranza"
+
+msgid "Delay"
+msgstr "Ritardo"
+
+msgid "Enable vote delegation"
+msgstr "Attiva la delegazione di voto"
+
+msgid "Break down Voting Result by Badge"
+msgstr "Frazionare il risultato della votazione in base al Badge"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "Visualizza l'opinione degli utenti che sono in possesso dei badges prescelti riguardo alla tematica."
+
+msgid "Home"
+msgstr "Pagina iniziale"
+
+msgid "Introduce a new idea to debate."
+msgstr "Introduci una nuova idea per iniziare un dibattito. "
+
+msgid "new proposal"
+msgstr "Nuova proposta"
+
+msgid "Join instance to create a new proposal."
+msgstr "Iscriviti al gruppo per creare una nuova proposta."
+
+msgid "Login to create a new proposal."
+msgstr "Accedi per creare una nuova proposta"
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Verifica il tuo indirizzo email per poter creare una nuova proposta."
+
+msgid "show a list of proposals"
+msgstr "mostra una lista di proposte"
+
+msgid "more proposals"
+msgstr "altre proposte"
+
+msgid "Next milestone"
+msgstr "Prossimo evento"
+
+msgid "Next milestones"
+msgstr "Prossimi eventi"
+
+msgid "Newest Events"
+msgstr "Eventi più recenti"
+
+msgid "Informations"
+msgstr "Informazioni"
+
+msgid "Created"
+msgstr "Creato"
+
+#, python-format
+msgid "by %s on %s"
+msgstr "da %s a %s"
+
+msgid "By the numbers"
+msgstr "in base al numero"
+
+#, python-format
+msgid "<b>%s</b> community members"
+msgstr "<b>%s</b> membri "
+
+msgid "tutorial_instance_proposals_table"
+msgstr "Qui troverai una lista delle proposte più recenti."
+
+msgid "tutorial_instance_proposal_button"
+msgstr "Puoi suggerire direttamente nuove proposte oppure visualizzarne altre"
+
+msgid "Close"
+msgstr "Chiudi"
+
+msgid "tutorial_instance_numbers"
+msgstr "Qui trovi delle brevi informazioni sul numero attuale di membri del gruppo, sul numero delle proposte suggerite e dei commenti segnalati."
+
+#, python-format
+msgid "%s proposal"
+msgid_plural "%s proposals"
+msgstr[0] "una:  %s proposta"
+msgstr[1] "altre:  %s proposte"
+
+#, python-format
+msgid "%s norm"
+msgid_plural "%s norms"
+msgstr[0] "un:  %s decreto"
+msgstr[1] "altri:  %s decreti"
+
+msgid "Send mass message"
+msgstr "Invia messaggio"
+
+msgid ""
+"Please note that only users with verified email addresses and activated "
+"newsservice will receive this message per email."
+msgstr "Ti preghiamo di tener presente che soltanto gli utenti con un indirizzo email valido e con la newsletter attiva potranno ricevere questo messaggio via mail."
+
+msgid "Filter users ..."
+msgstr "Flitra utenti..."
+
+msgid "... by instance:"
+msgstr "...a seconda del gruppo"
+
+msgid "... by badge:"
+msgstr "...a seconda del badge"
+
+msgid "Subject"
+msgstr "Oggetto"
+
+msgid "Body"
+msgstr "Parte principale"
+
+msgid "Use {email}, {name}, {salutation} to address the user directly."
+msgstr "Utilizza (email), (nome), (titolo) per indirizzarti direttamente all'utente."
+
+msgid "Sender identity"
+msgstr "Identità del mittente"
+
+msgid "Mass Message Preview"
+msgstr "Invia messaggio: anteprima"
+
+#, python-format
+msgid "You're about to send the following message to %s recipients:"
+msgstr "Stai per inviare il seguento messaggio ai %s destinatari:"
+
+msgid "The message will go to the following users:"
+msgstr "Il messaggio verrà inviato ai seguenti utenti:"
+
+#, python-format
+msgid "Message %s"
+msgstr " %s scrivi messaggio"
+
+msgid ""
+"Your e-mail address will be included in this message to give the recipient a"
+" method to reply to you."
+msgstr "Il tuo indirizzo email verrà incluso nel messaggio per dare la possibilità al destinatario di risponderti."
+
+#, python-format
+msgid "Dear %s, ..."
+msgstr "Cara/o %s, ..."
+
+#, python-format
+msgid "Delete: %s"
+msgstr "Elimina: %s"
+
+msgid "Are you sure you want to delete this milestone?"
+msgstr "Sei sicuro di voler eliminare questo evento?"
+
+#, python-format
+msgid "Edit %s"
+msgstr "Modifica %s"
+
+msgid "Edit milestone"
+msgstr "Modifica evento"
+
+msgid "Milestone title"
+msgstr "Titolo dell'evento"
+
+msgid "Milestone description"
+msgstr "Descrizione dell'evento"
+
+msgid "Give a brief description of the milestone."
+msgstr "Breve descrizione dell'evento."
+
+msgid "Date of the milestone"
+msgstr "Data dell'evento"
+
+msgid "Please use the DD.MM.YYYY format."
+msgstr "Ti preghiamo di utilizzare il formato GG.MM.AAAA"
+
+msgid "Create a new milestone."
+msgstr "Crea un nuovo evento."
+
+msgid "new milestone"
+msgstr "Nuovo evento"
+
+msgid "Past Milestones"
+msgstr "Eventi passati"
+
+msgid "tutorial_milestones_timeline"
+msgstr "Sul calendario interattivo potrai trovare gli eventi posti in ordine cronologico..."
+
+msgid "tutorial_milestones_listing"
+msgstr "...trova tutti gli eventi nella lista. Cliccando su ciascuno di essi comparirà un sito dettagliato dell'evento selezionato."
+
+msgid "New milestone"
+msgstr "Nuovo evento"
+
+msgid "Last Change"
+msgstr "Ultima modifica"
+
+msgid "Edit this milestone."
+msgstr "Modifica questo evento."
+
+msgid "Delete this milestone."
+msgstr "Elimina questo evento."
+
+msgid "Associated Proposals"
+msgstr "Proposte associate"
+
+msgid "No proposals are connected to this milestone"
+msgstr "Non esiste nessuna proposta associata a questo evento."
+
+msgid "Associated Norms"
+msgstr "Norme associate"
+
+msgid "No norms are connected to this milestone"
+msgstr "Non esiste nessuna norma associata a questo evento"
+
+msgid "tutorial_milestone_details_follow"
+msgstr "É un appuntamento da non perdere? Allora aggiungilo alla lista di riferimento."
+
+msgid "tutorial_milestone_details_description"
+msgstr "E puoi visualizzare le informazioni relative allo scopo dell'evento - se si tratta di un incontro del gruppo e di una votazione."
+
+msgid "tutorial_milestone_details_listing"
+msgstr "Qui troverai una lista "
+
+msgid "See more"
+msgstr "Vedi altro"
+
+msgid "(unknown)"
+msgstr "(sconosciuto)"
+
+msgid "Add an OpenID"
+msgstr "Aggiungi un OpenID"
+
+msgid "Add OpenID"
+msgstr "Aggiungi OpenID"
+
+msgid ""
+"Enter the URL of your OpenID to connect the ID to your account. This will "
+"allow you to login using this OpenID in the future."
+msgstr "Inserisci l'indirizzo del tuo account OpenID. Questo ti permetterá di connetterti in futuro utilizzando questo OpenID."
+
+msgid "Alternative"
+msgstr "Alternativa"
+
+msgid "Login with your OpenID to skip registration."
+msgstr "Accedi con un OpenID e ignora la registrazione."
+
+msgid "Login with your OpenID."
+msgstr "Registrati con il tuo OpenID"
+
+msgid "Sign in"
+msgstr "Accedi"
+
+msgid "Continue"
+msgstr "Avanti"
+
+msgid "Select a user name"
+msgstr "Seleziona un nome utente"
+
+msgid "User name"
+msgstr "Nome utente"
+
+#, python-format
+msgid ""
+"A unique user name is required for you complete sign up and login. The user "
+"name \"%s\" received from your OpenID provider is invalid or already used. "
+"Please provide a different, unique user name."
+msgstr "Per poter concludere il processo di registrazione è necessario inserire un solo nome utente. Il nome utente \"%s\" che è stato messo a disposizione dal tuo OpenID Provider non è valido oppure è giá stato utilizzato. Ti preghiamo di sceglierne un altro valido."
+
+msgid "Username:"
+msgstr "Nome utente"
+
+msgid "Are you sure you want to delete this page?"
+msgstr "Sei sicuro di voler eliminare questa pagina?"
+
+#, python-format
+msgid "Are you sure you want to purge variant %s?"
+msgstr "Sei sicuro di voler eliminare la proposta %s?"
+
+msgid ""
+"WARNING: This will remove all revisions of the variant from any proposals "
+"that might support it."
+msgstr "ATTENZIONE: Quest'azione ..."
+
+msgid "Are you sure you want to purge the following version:"
+msgstr "Sei sicuro di voler eliminare la seguente versione?"
+
+#, python-format
+msgid "Variant: %s"
+msgstr "Variante: %s"
+
+msgid "This variant has no text."
+msgstr "Questa variante non ha testo."
+
+msgid "Related Proposals"
+msgstr "Proposte simili"
+
+msgid "(supports this variant)"
+msgstr "(sostieni questo decreto)"
+
+msgid "Create a new proposal..."
+msgstr "Crea una nuova proposta..."
+
+msgid "Edit variant"
+msgstr "Modifica variante"
+
+#, python-format
+msgid "Norm: %s"
+msgstr "Decreto: %s"
+
+msgid "Variant Name"
+msgstr "Nome della variante"
+
+msgid "Text"
+msgstr "Testo"
+
+msgid "Formatting"
+msgstr "Formattazione"
+
+msgid "Use markdown formatting."
+msgstr "Utilizza markdown per la formattazione"
+
+msgid "Parent page:"
+msgstr "Pagina principale:"
+
+msgid "Relates to a milestone"
+msgstr "Si riferisce ad un evento"
+
+msgid "Create a new norm."
+msgstr "Crea un nuovo decreto."
+
+msgid "new norm"
+msgstr "nuovo decreto"
+
+msgid "Popular tags"
+msgstr "Tags più ricercati"
+
+msgid "tutorial_norms_overview_table"
+msgstr "La lista mostra non soltanto i decreti suggeriti dal gruppo, bensí anche il numero delle proposte e delle tematiche affrontati fino ad oggi."
+
+msgid "tutorial_norms_overview_facets"
+msgstr "Per una migliore visualizzazione puoi filtrare la scelta dei decreti in base alle parole chiave."
+
+msgid "New page"
+msgstr "Nuova pagina"
+
+msgid "Create norm"
+msgstr "Crea decreto"
+
+msgid "Norm title"
+msgstr "Titolo del decreto"
+
+msgid "New norm"
+msgstr "Nuovo decreto"
+
+msgid "Norm content"
+msgstr "Contenuto della decisione"
+
+msgid "Tag and classify"
+msgstr "Tags e classificazioni"
+
+msgid "Tags to describe the subject"
+msgstr "Tags utilizzati per descrivere il contenuto"
+
+msgid "The new norm will be categorized under the specified parent theme."
+msgstr "Il nuovo decreto verrà categorizzato sotto la pagina principale specifica."
+
+msgid "Highlight Changes"
+msgstr "Mostra revisioni"
+
+msgid "On"
+msgstr "attivo"
+
+msgid "Off"
+msgstr "non attivo"
+
+msgid "New Proposal"
+msgstr "Nuova proposta"
+
+msgid "Information about the norm"
+msgstr "Informazioni sul decreto"
+
+msgid "Last Activity"
+msgstr "Ultima attività"
+
+msgid "This page is not assigned to any category"
+msgstr "Questa pagina risulta non essere assegnata ad alcuna categoria"
+
+#, python-format
+msgid "This norm relates to the milestone %s."
+msgstr "Questo decreto si riferisce all'evento %s."
+
+msgid "Subnorms"
+msgstr "Sotto decreti"
+
+msgid "View Proposal"
+msgstr "Mostra la proposta"
+
+msgid "No text."
+msgstr "Nessun testo."
+
+msgid "Text compared to the original version"
+msgstr "Confronta il testo con la versione originale"
+
+msgid "Proposal"
+msgstr "Proposta"
+
+msgid "tutorial_norm_show_vote"
+msgstr "Valuta i decreti originali e quelli che sono già stati suggeriti cliccando sulle frecce per sostenere (sopra) o per opporsi (sotto) al voto. Puoi, inoltre, sostenere oppure opporti ad altre tematiche."
+
+msgid "tutorial_norm_show_diff"
+msgstr "Scegli se devono essere effettuate delle modifiche alla versione originale."
+
+msgid "tutorial_norm_show_new"
+msgstr "Qui hai anche la possibilità di suggerire una nuova versione del decreto."
+
+msgid "hide sub-topics"
+msgstr "nascondi sotto-argomenti"
+
+msgid "show sub-topics"
+msgstr "mostra sotto-argomenti"
+
+#, python-format
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] "un: %s commento"
+msgstr[1] "altri: %s commenti"
+
+#, python-format
+msgid "latest <b>%s</b>"
+msgstr "più recente <b>%s</b>"
+
+msgid "(none)"
+msgstr "(nessuno)"
+
+msgid "Propose alternative language."
+msgstr "Proponi un'altra lingua."
+
+msgid "branch new variant"
+msgstr "interrompi nuova versione"
+
+msgid "Edit the status quo."
+msgstr "Modifica la versione originale."
+
+msgid "Edit this variant."
+msgstr "Modica questa versione."
+
+msgid "Delete this variant."
+msgstr "Elimina questa versione."
+
+msgid "purge variant"
+msgstr "elimina definitivamente la versione"
+
+#, python-format
+msgid "Variant %s of %s"
+msgstr "Variante  %s di %s"
+
+#, python-format
+msgid "Variant of %s"
+msgstr "Versione di %s"
+
+msgid "End a poll"
+msgstr "Termina la votazione"
+
+msgid ""
+"You are about to cancel this poll. This means that the proposal will become "
+"editable again but that all votes that have been cast at this time "
+"<strong>will be invalidated</strong>."
+msgstr "Stai per eliminare questo sondaggio. Ciò significa che la proposta potrà essee nuovamente modificata ma che tutti i voti che sono stati previamente dati <strong> veranno considerati non valid </strong>."
+
+msgid "to abstain"
+msgstr "astenersi"
+
+msgid "or:"
+msgstr "oppure"
+
+msgid "Poll"
+msgstr "Voto"
+
+msgid "Option"
+msgstr "Opzione"
+
+msgid "Percent"
+msgstr "Percentuale"
+
+msgid "Affirm"
+msgstr "A favore"
+
+msgid "Dissent"
+msgstr "Dissenso"
+
+msgid "Abstain"
+msgstr "Astenersi"
+
+msgid "vote"
+msgstr "vota"
+
+#, python-format
+msgid "%d votes"
+msgstr "%d voti"
+
+#, python-format
+msgid "ended %s"
+msgstr "terminato %s"
+
+#, python-format
+msgid "began %s"
+msgstr "è iniziato %s"
+
+msgid "no enddate"
+msgstr "nessuna data fine"
+
+#, python-format
+msgid "Votes: %s"
+msgstr "Voti: %s"
+
+msgid ""
+"Vote results are updated with a short delay. After casting your vote, expect"
+" a short delay before the tally updates."
+msgstr "I tuoi risultati verranno aggiornati a breve. "
+
+msgid "Call a poll"
+msgstr "Procedi alla votazione"
+
+msgid ""
+"You are about to call for a vote. When you do this, you will lose the "
+"ability to <strong>change the proposal's wording</strong> unless you cancel "
+"the vote."
+msgstr "Stai per esprimere il tuo voto. Una volta fatto, perderai la possiblità di <strong> modifcare la proposta </strong> a meno che tu non decida di eliminare il tuo voto."
+
+msgid "Are you sure you want to delete this proposal?"
+msgstr "Sei sicuro di voler eliminare questa proposta?"
+
+msgid "thumbnail badge"
+msgstr ""
+
+msgid "No Thumbnail Badge"
+msgstr ""
+
+#, python-format
+msgid "Delegations: %s"
+msgstr "Deleghe: %s"
+
+msgid "Delegations"
+msgstr "Deleghe"
+
+msgid "Propose new Variant"
+msgstr "Proponi una nuova variante"
+
+msgid "Join instance to propose a new variant."
+msgstr "Iscriviti al gruppo per proporre una nuova modifica."
+
+msgid "Login to propose a new variant."
+msgstr "Accedi per proporre un nuovo decreto."
+
+msgid "Validate email in order to propose a new variant."
+msgstr "Verifica il tuo indirizzo email per poter apportare una nuova modifica."
+
+msgid "Get Involved"
+msgstr "Partecipa "
+
+msgid "Vote"
+msgstr "Vota"
+
+msgid "Kein Text"
+msgstr "Nessun testo"
+
+msgid "History of this variant"
+msgstr "Cronologia di questa variante"
+
+msgid "Votes for this variant"
+msgstr "Voti per questa variante"
+
+#, python-format
+msgid "Edit &ldquo;%s&rdquo;"
+msgstr "Modifica &ldquo;%s&rdquo;"
+
+msgid "Title and Goals"
+msgstr "Una breve descrizione della proposta"
+
+msgid "Proposal title"
+msgstr "Titolo della proposta"
+
+msgid "A brief description of <b>the goals</b> of your proposal."
+msgstr "Una breve descrizion degli <b> obiettivi </b> di questa proposta."
+
+msgid "The proposal would..."
+msgstr "La proposta intende..."
+
+msgid "Proposal goals"
+msgstr "Obiettivi della proposta"
+
+msgid "Collaboration and Notification"
+msgstr "Collaborazione e Notifica"
+
+msgid "Allow others to edit this proposal."
+msgstr "Permetti agli altri di modificare questa proposta."
+
+msgid "Create new proposal"
+msgstr "Suggerisci una nuova proposta"
+
+msgid "Find proposals"
+msgstr "Cerca proposte"
+
+msgid "Go"
+msgstr "Vai"
+
+msgid "tutorial_proposal_overview_table"
+msgstr "La vista ti offre un'anteprima delle proposte suggerite fino ad oggi che vengono classificate in base a determinati criteri."
+
+msgid "tutorial_proposal_overview_facets"
+msgstr "Con l'aiuto del campo di ricerca potrai cercare le proposte in base al titolo o al contenuto e classificare il risultato prescelto in base a varie categorie, per esempio il massimo sostegno, le proposte più nuove oppure in ordine alfabetico."
+
+msgid "tutorial_proposal_overview_new"
+msgstr "La tua idea ancora non è ancora presente? Allora puoi inserire una tua proposta."
+
+msgid "New proposal"
+msgstr "Nuova proposta"
+
+msgid "Change norms with this proposal"
+msgstr "Modifica i decreti con questa proposta"
+
+msgid ""
+"Proposals are implemented by including changes towards new or existing norm."
+" Norms are fixed documents that represent the consensus of this instance and"
+" can only be changed through a vote. Amend the proposal to change or create "
+"a norm."
+msgstr "Le proposte contengono delle modifiche che si riferiscono a dei decreti nuovi o già esistenti. Le proposte costituiscono determinati documenti che rappresentano a loro volta il consenso del gruppo e non possono essere modificati semplicemente con un voto. Completa la proposta per modificare o per creare un decreto."
+
+msgid "Select a norm to change:"
+msgstr "Seleziona un decreto da modificare:"
+
+msgid "Give a brief description of <b>the goals</b> of your proposal."
+msgstr "Inserisci una breve descrizione degli <b> </b> della tua proposta."
+
+msgid "Multiple tags can be separated by commas."
+msgstr "Più tag possono essere separati da una virgola."
+
+msgid "Delete this proposal."
+msgstr "Elimina questa proposta."
+
+msgid "Topic and Description of the Proposal"
+msgstr "Argomento e descrizione della proposta"
+
+#, python-format
+msgid "%s Discussions"
+msgstr "%s Discussioni"
+
+#, python-format
+msgid "%s Proposed Implementations"
+msgstr "%s suggerimenti di modifica"
+
+msgid "Discussions"
+msgstr "Discussioni"
+
+msgid "Proposed Implementations"
+msgstr "Attuazioni proposte"
+
+msgid "Propose to change a norm"
+msgstr "Proponi una modifica del decreto"
+
+msgid "Login to propose to change a norm"
+msgstr "Accedi per proporre una modifica del decreto"
+
+msgid "Join instance to propose to change a norm"
+msgstr "Iscriviti al gruppo per proporre una modifica del decreto"
+
+msgid "Validate email in order to propose to change a norm"
+msgstr "Verifica il tuo indirizzo email per poter proporre la modifica di un decreto"
+
+msgid "tutorial_proposal_show_vote"
+msgstr "Puoi sostenere oppure respingere una proposta."
+
+msgid "tutorial_proposal_show_follow"
+msgstr "ed inserirla nella lista di riferimento."
+
+msgid "tutorial_proposal_show_information"
+msgstr "Visualizza le informazioni relative alla proposta..."
+
+msgid "tutorial_proposal_show_tags"
+msgstr "Inserisci parole chiavi per questa proposta..."
+
+msgid "tutorial_proposal_show_share"
+msgstr "...oppure condivi la proposta con gli altri utenti su Facebook, Google+ o Twitter."
+
+msgid "tutorial_proposal_show_vote_comment"
+msgstr "Non puoi soltanto valutare i commenti..."
+
+msgid "tutorial_proposal_show_answers"
+msgstr "...bensí anche visualizzare le risposte redatte..."
+
+msgid "tutorial_proposal_show_answer"
+msgstr "...oppure dare tu stesso una risposta al commento..."
+
+msgid "tutorial_proposal_show_new_discussion"
+msgstr "...inserisci nuove discussioni."
+
+msgid "tutorial_proposal_show_propose_variant"
+msgstr "Oppure partecipare alla proposta in maniera attiva e suggerire delle alternative."
+
+msgid "This proposal is not assigned to any category"
+msgstr "Questa proposta risulta non essere assegnata ad alcuna categoria"
+
+#, python-format
+msgid "This proposal relates to the deleted milestone %s."
+msgstr "Questa proposta si riferisce all'evento eliminato %s."
+
+#, python-format
+msgid "This proposal relates to the milestone %s."
+msgstr "Questa proposta si riferisce all'evento %s."
+
+msgid "This proposal is not related to a milestone"
+msgstr "Questa proposta non si riferisce ad un evento"
+
+#, python-format
+msgid "by %s on %s, %s changes since then."
+msgstr "da %s il giorno %s, %s modifiche attuate da quando"
+
+msgid "(new)"
+msgstr "(nuovo)"
+
+#, python-format
+msgid "%s%% approval"
+msgstr "%s%% approvazione"
+
+#, python-format
+msgid "%s:%s votes"
+msgstr " %s:%s voti"
+
+msgid "Information"
+msgstr "Informazione"
+
+#, python-format
+msgid "The proposal was created by %s on %s"
+msgstr "La proposta è stata creata da %s il giorno %s"
+
+msgid ""
+"This is a <b>joint proposal</b> that can be improved by anyone. Edit it to "
+"improve or refine the text."
+msgstr "Questa è una <b> proposta congiunta </b> che può essere migliorata da qualunque persona. Modificala per poter migliorare o ridefinire il testo."
+
+msgid "Main page"
+msgstr "Pagina principale"
+
+msgid "Who is receiving delegations?"
+msgstr "Chi riceve le deleghe?"
+
+msgid "Support this proposal"
+msgstr "Sostieni questa proposta"
+
+msgid "Oppose this proposal"
+msgstr "Rifiuta questa proposta"
+
+#, python-format
+msgid "%s has been adopted %s."
+msgstr "%s è stata adottata %s."
+
+msgid "Adoption requirements:"
+msgstr "Requisiti di adozione:"
+
+#, python-format
+msgid "%s participators"
+msgstr "%s partecipanti"
+
+#, python-format
+msgid "stable majority for %s days"
+msgstr "maggioranza stabile per %s giorni"
+
+#, python-format
+msgid "Search in %s"
+msgstr "Cerca in %s"
+
+msgid "Search includes issues and proposals."
+msgstr "La ricerca include decreti e proposte."
+
+msgid "You did not provide a search query."
+msgstr "Inserisci un criterio di ricerca."
+
+#, python-format
+msgid "Delete: Implementation of %s"
+msgstr "Elimina: Imlementazione di %s"
+
+#, python-format
+msgid "Are you sure you want to delete the norm %s from this proposal?"
+msgstr "Sei sicuro di voler eliminare il decreto %s da questa proposta?"
+
+#, python-format
+msgid "Implementation: %s"
+msgstr "Implementazione: %s"
+
+msgid "Change an existing norm"
+msgstr "Modifica un decreto giá esistente"
+
+msgid ""
+"Select a norm that you want to relate to. You can later propose a variant of"
+" this norm to effect a change."
+msgstr "Seleziona un decreto al quale vuoi fare riferimento. Dopo potrai proporre una tua versione del decreto per cambiarlo."
+
+msgid "Include"
+msgstr "Aggiungi"
+
+msgid "Can't find an appropriate norm?"
+msgstr "Non riesci a trovare un decreto appropriato?"
+
+msgid "Create a new norm instead"
+msgstr "Crea un nuovo decreto al posto di"
+
+msgid "Propose a new norm"
+msgstr "Suggerisci un nuovo decreto"
+
+msgid ""
+"Create a new norm that you want to relate to. The norm will be created "
+"without any status quo. You can then add a text variant of that norm, "
+"specifying the change you want to implement."
+msgstr "Crea una nuova norma alla quale desideri fare riferimento. Il decreto verrà creato senza alcun status quo. Hai, inoltre, la possiblità di aggiungere una versione di testo al decreto specificando le modifiche che vuoi apportare."
+
+msgid "New norm title"
+msgstr "Nuovo titolo del decreto"
+
+msgid "The new norm will be categorized under the specified parent page."
+msgstr "Il nuovo decreto verrà categorizzato nella pagina principale designata."
+
+msgid "Have you checked for exisiting norms?"
+msgstr "Hai già controllato che non esistano delle norme simili?"
+
+msgid "Include an existing norm instead"
+msgstr "Aggiungi un decreto già esistente al posto di"
+
+msgid "Show Norm"
+msgstr "Mostra il decreto"
+
+msgid "There is a tie between variants, thus none is included at the moment."
+msgstr "C'é un legame tra le varianti, perciò nessuna risulta inclusa al momento."
+
+msgid ""
+"Status quo has the most votes, resulting in no proposed change to this norm."
+msgstr "Lo status quo sembra avere la maggioranza dei voti, quindi non verrà attuata alcuna modifica del decreto."
+
+msgid "Proposed by"
+msgstr "Proposto da"
+
+msgid "Support this variant"
+msgstr "Sostieni questo decreto"
+
+msgid "Oppose this variant"
+msgstr "Rifiuta questa versione"
+
+msgid "(this proposal should not change this norm)"
+msgstr "(questa proposta non dovrebbe modificare il decreto)"
+
+msgid "Currently selected for inclusion in this proposal"
+msgstr "Attualmente selezionati per questa proposta"
+
+msgid "view"
+msgstr "visualizza"
+
+msgid "compare"
+msgstr "confronta"
+
+#, python-format
+msgid "Edit %(key)s (%(langname)s)"
+msgstr "Modifica %(key)s (%(langname)s)"
+
+msgid "Title:"
+msgstr "Titolo:"
+
+msgid "Content of the page"
+msgstr "Contenuto della pagina"
+
+msgid "Change static page"
+msgstr "Modifica la pagina"
+
+msgid "Back to the list"
+msgstr "Torna alla lista"
+
+msgid "Key"
+msgstr "Codice"
+
+msgid "Create new page"
+msgstr "Crea una nuova pagina"
+
+msgid "New Static Page"
+msgstr "Nuova pagina statica"
+
+msgid "New static page"
+msgstr "Nuova pagina statica"
+
+msgid "Key:"
+msgstr "Codice"
+
+msgid "Add static page"
+msgstr "Aggiungi pagina statica"
+
+msgid ""
+"Tags are keywords used to find, sort and filter proposals and documents."
+msgstr "I tags vengono designati come parole chiave che aiutano ad ordinare e a filtrare proposte e decreti."
+
+msgid "Similar tags"
+msgstr "Tags analoghi"
+
+#, python-format
+msgid "used %s times"
+msgstr "utilizzato %s volte"
+
+msgid "more tags..."
+msgstr "altri Tags..."
+
+msgid "Tagged with"
+msgstr "Taggato con"
+
+msgid "Not tagged yet"
+msgstr "Non ancora taggato"
+
+msgid "add tags..."
+msgstr "aggiungi Tags..."
+
+msgid "Multiple tags can be separated by commas or spaces."
+msgstr "Più tag possono essere separati dalle virgole o dagli spazi."
+
+msgid "Add tags"
+msgstr "Aggiungi tags"
+
+msgid "Cancel"
+msgstr "Elimina"
+
+#, python-format
+msgid "by %s, "
+msgstr "da %s,"
+
+msgid "This revision has no text."
+msgstr "Questa versione non possiede alcun testo."
+
+msgid ""
+"This norm has not yet been decided and is thus no official position of this "
+"group."
+msgstr "La proposta non è stata ancora decisa e non può essere applicata ufficialmente nel gruppo."
+
+#, python-format
+msgid "discuss (%s comments) &raquo;"
+msgstr "discutere (%s comments) &raquo;"
+
+msgid "Variant:"
+msgstr "Variante"
+
+msgid "see"
+msgstr "visualizza"
+
+#, python-format
+msgid "%s by %s"
+msgstr "%s da %s"
+
+msgid "Compare"
+msgstr "Confronta"
+
+msgid "All Members on this Adhocracy Server"
+msgstr "Tutti i membri di questo Server Adhocracy"
+
+msgid "A listing of all users in all instance an this adhocracy server."
+msgstr "Una lista di tutti gli utenti di questo gruppo e del Server di Adhocracy."
+
+msgid ""
+"Are you sure you want to delete your profile? This step cannot be reversed."
+msgstr "Sei sicuro di voler eliminare il tuo profilo? Una volta fatto questo passo, non potrai tornare più indietro."
+
+#, python-format
+msgid "Edit Badges for %s"
+msgstr "Elabora Badges per %s"
+
+#, python-format
+msgid "Badges for %s"
+msgstr "Badges per %s"
+
+msgid "all instances"
+msgstr "tutti i gruppi"
+
+msgid "Example:"
+msgstr "Esempio:"
+
+msgid "Startpage"
+msgstr "Pagina iniziale"
+
+#, python-format
+msgid "Hi %s."
+msgstr "Ciao %s."
+
+#, python-format
+msgid ""
+"Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
+"href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
+"href=\"%s\">instances</a></b>."
+msgstr "Inizia leggendo alcune <b><a href=\"%s\"> proposte</a></b> o <b><a href=\"%s\">decreti</a></b>. Oppure dai un'occhiata a quelle degli altri <b><a href=\"%s\">gruppi</a></b>."
+
+#, python-format
+msgid ""
+"Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
+"the proposals and norms in the instances."
+msgstr "Inizia ad esplorare i <b><a href=\"%s\">gruppi</a></b> e a leggere alcune delle loro proposte e dei loro decreti."
+
+msgid ""
+"If you join an instance, norms and proposals of the instance will be shown "
+"on your dashboard."
+msgstr "Se fai parte di un gruppo, i decreti e le proposte di tale gruppo ti verranno mostrate sul tuo Dashboard."
+
+msgid ""
+"You can reach your dashboard anytime by clicking on your user name on the "
+"top of the page."
+msgstr "Puoi tornare alla Dashboard in qualsiasi momento semplicemente cliccando sulla parte destra del tuo nome utente."
+
+msgid ""
+"This is your Dashboard. Here you can find the list of instances your a "
+"member in, norms and proposals from these instance and a list of the pages "
+"you follow."
+msgstr "Questo è il tuo Dashboard. Qui troverai una lista dei gruppi dei quali sei membro, troverai, inoltre, le proposte e i decreti di questi gruppi ed una lista delle proposte, degli eventi e degli utenti che segui."
+
+#, python-format
+msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
+msgstr "Puoi anche tornare alla <a href=\"%s\">pagina principale </a>."
+
+msgid "Proposals in your instances"
+msgstr "Proposte dei tuoi gruppi"
+
+msgid "List all proposals"
+msgstr "Mostra tutte le proposte"
+
+msgid "list all"
+msgstr "mostra tutto"
+
+msgid "Norms in your instances"
+msgstr "Decreti dei tuoi gruppi"
+
+msgid "List all pages"
+msgstr "Mostra tutte le pagine"
+
+msgid "tutorial_dashboard_username"
+msgstr "Puoi tornare alla pagina principale semplicemente cliccando sul nome utente."
+
+msgid "tutorial_dashboard_proposals"
+msgstr "Il tuo Dashboard ti offre in particolare una lista di tutte le proposte suggerite dai vostri gruppi in relazione a determinate iniziative."
+
+msgid "tutorial_dashboard_show_all"
+msgstr "Cliccando su \"Mostra tutto\" potrai visualizzare la lista completa di tutte le proposte."
+
+msgid "tutorial_dashboard_instances"
+msgstr "Qui troverai una lista dei gruppi dei quali risulti essere un membro. Cliccando sul nome del gruppo verrai indirizzato sulla loro pagina."
+
+msgid "tutorial_dashboard_watchlist"
+msgstr "Nella lista di riferimento troverai i contenuti che stai seguendo. Cliccando su \"Mostra tutto\" riceverai un'anteprima di tutte le proposte, gli eventi e gli utenti che stai seguendo."
+
+msgid "Your Instances"
+msgstr "I tuoi gruppi"
+
+msgid "Your Watchlist"
+msgstr "La tua lista di riferimento"
+
+msgid "Current polls in your instances"
+msgstr "Attuali votazioni dei vostri gruppi"
+
+msgid "Topic"
+msgstr "Argomento"
+
+msgid "Given"
+msgstr "Accedi"
+
+msgid "Received"
+msgstr "Ricevuto"
+
+msgid "There are no delegations."
+msgstr "Non esistono deleghe."
+
+#, python-format
+msgid "Settings: %s"
+msgstr "Impostazioni: %s"
+
+msgid "Your User Details"
+msgstr "Il tuo profilo utente"
+
+msgid "Display name for"
+msgstr "Mostra nome per"
+
+msgid "You can chose which name other users see."
+msgstr "Puoi scegliere con quale nome essere visto da gli altri utenti."
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Select a new password or leave the fields blank to keep your old one."
+msgstr "Seleziona una nuova password o lascia gli spazi bianchi per mantenere la tua vecchia password."
+
+msgid "Password:"
+msgstr "Password:"
+
+msgid "Password (confirm):"
+msgstr "Password (conferma):"
+
+msgid "Gender"
+msgstr "Sesso"
+
+msgid "I am..."
+msgstr "Io sono..."
+
+msgid "Male"
+msgstr "Uomo"
+
+msgid "Female"
+msgstr "Donna"
+
+msgid "Notifications"
+msgstr "Notifiche"
+
+msgid "Select how you would like to be notified of events."
+msgstr "Seleziona come ricevere le notifiche degli eventi."
+
+msgid "Help."
+msgstr "Aiuto."
+
+msgid "E-Mail:"
+msgstr "E-mail:"
+
+msgid "fewer"
+msgstr "meno"
+
+msgid "more notifications"
+msgstr "altre notifiche"
+
+msgid "Not confirmed."
+msgstr "Non confermato."
+
+msgid "Re-send activation link"
+msgstr "Rinvia link di attivazione"
+
+msgid "Receive occasional news from instance administrators."
+msgstr "Iscriviti alla newsletter e ricevi le novità dagli amministratori del gruppo."
+
+msgid "Receive news service"
+msgstr "Iscriviti alla newsletter"
+
+msgid "OpenID"
+msgstr "OpenID"
+
+msgid "OpenID allows you to use a single login on many web sites."
+msgstr "OpenID ti permette di utilizzare una unica chiave d'accesso per molti altri siti web."
+
+msgid "There are no associated OpenIDs."
+msgstr "Non esistono OpenID associati."
+
+msgid "remove"
+msgstr "elimina"
+
+msgid "Short biography"
+msgstr "Breve biografia"
+
+msgid ""
+"A bio will allow others to learn about you and perhaps even get you a few "
+"delegations."
+msgstr "Scrivendo una piccola biografia, gli altri ti potranno conoscere meglio e potranno eventualmente delegarti determinate scelte."
+
+msgid "Advanced Settings"
+msgstr "Impostazioni avanzate"
+
+msgid "The pre-set number of entries in listing pages."
+msgstr "Numero preventivo di voci nelle liste."
+
+msgid "List size:"
+msgstr "Dimensioni elenco:"
+
+msgid "Disable help messages and links to the documentation."
+msgstr "Disabilita i messaggi di aiuto e i link ai documenti."
+
+msgid "Hide help messages:"
+msgstr "Nascondi suggerimenti:"
+
+msgid "Change default sorting order for proposals:"
+msgstr "Modifica la modalità di ordinamento predefinita delle proposte:"
+
+msgid "Find users"
+msgstr "Cerca utenti"
+
+msgid "tutorial_user_index_table"
+msgstr "La lista vi mostra tutti i membri del gruppo. Puoi classificare la lista."
+
+msgid "tutorial_user_index_facets"
+msgstr "Oppure filtrare la lista in base ai gruppi di utenti."
+
+#, python-format
+msgid "Adhocracies: %s"
+msgstr "Adhocracies: %s"
+
+msgid "Adhocracies"
+msgstr "Adhocracies"
+
+#, python-format
+msgid "%s is a member in these Adhocracies"
+msgstr "%s è membro dei seguenti gruppi"
+
+msgid "Who are you, then?"
+msgstr "E tu chi saresti?"
+
+msgid "Email or username:"
+msgstr "Email o nome utente"
+
+msgid "Login:"
+msgstr "Nome utente:"
+
+msgid "Email:"
+msgstr "Email"
+
+msgid "Register new account"
+msgstr "Registra nuovo account"
+
+msgid ""
+"Creating an account is easy; all you need is a user name, password and email"
+" address."
+msgstr "Creare un account è semplice; tutto ciò di cui hai bisogno è un nome utente, una password e un indirizzo e-mail."
+
+msgid ""
+"If you have an account but you've lost your password, <a href='/reset'>click"
+" here</a>."
+msgstr "Hai un account, ma hai dimenticato la password? <a href='/reset'> clicca qui  </a>."
+
+msgid "Can only contain letters and numbers."
+msgstr "Il seguente campo può contenere solo lettere o numeri."
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "Enter password:"
+msgstr "Inserire password:"
+
+#, python-format
+msgid "By registering, you agree with the %s."
+msgstr "Registrandoti, accetterai le condizioni di %s."
+
+msgid "Terms and Conditions"
+msgstr "Termini e condizioni"
+
+msgid "leave empty"
+msgstr "lascia lo spazio vuoto"
+
+msgid "Password reset"
+msgstr "Reimposta la password"
+
+msgid ""
+"You will be sent an activation link that, when opened, will cause the system"
+" to email you a new password."
+msgstr "Ti invieremo un link di attivazione che ti darà la possiblità di attivare la nuova password."
+
+msgid ""
+"In order to retrieve your login, you will have to enter your email address."
+msgstr "Digita il tuo indirizzo e-mail per reimpostare la tua password."
+
+msgid "Reset"
+msgstr "Reimposta"
+
+msgid "Confirmation pending"
+msgstr "In attesa di conferma"
+
+msgid ""
+"You have recieved an email containing a link. Please open that link in order"
+" to reset you password"
+msgstr "Hai ricevuto una email che contiene un link. Apri il link seguente per reimpostare la tua password."
+
+#, python-format
+msgid "Signed up %s"
+msgstr "Accesso effettuato con successo %s"
+
+#, python-format
+msgid "%s does not yet have a bio."
+msgstr "%s non ha ancora completato il campo Informazioni personali"
+
+#, python-format
+msgid "joined %s"
+msgstr "si è iscritto %s"
+
+#, python-format
+msgid "signed up %s"
+msgstr "%s ha effettuato l'accesso"
+
+msgid "send a message"
+msgstr "invia un messaggio"
+
+#, python-format
+msgid "make %s"
+msgstr "fai %s"
+
+msgid "Resign from this instance."
+msgstr "Esci dal gruppo."
+
+msgid "leave instance"
+msgstr "abbandona il gruppo"
+
+msgid "un-ban"
+msgstr "Annulla sospensione"
+
+msgid "ban"
+msgstr "sospendi"
+
+msgid "Delete this user."
+msgstr "Elimina questo utente."
+
+#, python-format
+msgid "Watchlist: %s"
+msgstr "Lista di riferimento: %s"
+
+msgid ""
+"This is your watchlist. You will receive notifications for events concerning"
+" each of these items."
+msgstr "Questa è la tua lista di riferimento Riceverai delle notifiche relative agli eventi di questi gruppi."
