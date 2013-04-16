@@ -70,11 +70,12 @@ class async(object):
 
         if rq_config.in_worker:
             try:
-                log.debug('exec job from worker: args: %s, kwargs: %s' % (
-                    str(args), str(kwargs)))
+                log.debug('exec job from worker: %s, args: %s, kwargs: %s' % (
+                    self.func.__name__, str(args), str(kwargs)))
                 return self.func(*args, **kwargs)
             except:
-                #log.exception('exception in async.__call__')
+                log.exception('exception in async job execution: %s' % (
+                    self.func.__name__))
                 raise
             finally:
                 # cleanup the sqlalchemy session after we run the job
@@ -82,6 +83,8 @@ class async(object):
                 meta.Session.commit()
                 meta.Session.remove()
         else:
+            log.debug('enqueuing job: %s, args: %s, kwargs: %s' % (
+                self.func.__name__, str(args), str(kwargs)))
             return self.enqueue(*args, **kwargs)
 
 
