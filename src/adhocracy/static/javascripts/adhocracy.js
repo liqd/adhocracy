@@ -516,7 +516,7 @@ $(document).ready(function () {
                     if (this.id) {
                         return this.nodeName + '#' + this.id;
                     } else {
-                        var number = $(this.nodeName).index(element);
+                        var number = $(this.nodeName).index();
                         if (number == -1) {
                             return this.nodeName;
                         } else {
@@ -566,12 +566,10 @@ $(document).ready(function () {
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
             if (stats_extended) { 
-                add_to_page_stats("active_element",
-                    get_path(document.activeElement));
-                add_to_page_stats("current_size", {"x": window.innerHeight,
-                    "y": window.innerWidth});
                 var append_string = '&data=' + JSON.stringify(page_stats_data);
                 page_stats_data = new Array();
+                add_to_page_stats("current_size", {"x": window.innerHeight,
+                    "y": window.innerWidth});
             } else {
                 var append_string = "";
             }
