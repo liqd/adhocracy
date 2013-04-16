@@ -497,7 +497,7 @@ $(document).ready(function () {
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
 
-        var stats_extended = $('body').data('stats-extended');
+        var stats_extended = $('body').attr('data-stats-extended');
         if (stats_extended === "enabled") {
             var start_time = new Date();
             var page_stats_data = new Array();
@@ -505,7 +505,7 @@ $(document).ready(function () {
             var add_to_page_stats = function(type, data) {
                 var timestamp = new Date() - start_time;
                 var event = {"time": timestamp, "type": type};
-                if(data) {
+                if (data) {
                     event.data = data;
                 }
                 page_stats_data.push(event);
@@ -517,7 +517,7 @@ $(document).ready(function () {
                         return this.nodeName + '#' + this.id;
                     } else {
                         var number = $(this.nodeName).index(element);
-                        if(number == -1) {
+                        if (number == -1) {
                             return this.nodeName;
                         } else {
                             return this.nodeName + '[' + number + ']'; 
@@ -541,6 +541,7 @@ $(document).ready(function () {
             });
 
             $(document).on("click", function(e) {
+                alert(get_path(e.target));
                 add_to_page_stats("click", {"x": e.clientX, "y": e.clientY,
                     "button": e.which, "path": get_path(e.target)});
             });
@@ -568,8 +569,9 @@ $(document).ready(function () {
             if (stats_extended) { 
                 add_to_page_stats("active_element",
                     get_path(document.activeElement));
-                var append_string = '&data=' + JSON.stringify(page_stats_data)
-                    + '&res=' + window.innerHeight + '|' + window.innerWidth;
+                add_to_page_stats("current_size", {"x": window.innerHeight,
+                    "y": window.innerWidth});
+                var append_string = '&data=' + JSON.stringify(page_stats_data);
                 page_stats_data = new Array();
             } else {
                 var append_string = "";
