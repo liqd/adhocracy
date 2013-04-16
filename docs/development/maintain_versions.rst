@@ -38,3 +38,9 @@ To update only minor releases:
     bin/checkversions -l 2 > output
 
 * read output and manually update the versions in versions.cfg
+
+
+python/buildout.cfg
+-------------------
+
+Mind to modify the version of Pillow here if needed
