@@ -40,6 +40,7 @@ install_mysql_client=false
 arch_install=false
 branch=feature-#241-buildout2
 always_rebuild=false
+compile_python=true
 
 if [ -n "$SUDO_USER" ]; then
     adhoc_user=$SUDO_USER
@@ -75,7 +76,6 @@ if which apt-get >/dev/null ; then
     PYTHON_CMD='python'
     PIP_CMD='pip'
     PKG_INSTALL_CMD='apt-get install -yqq'
-    VIRTUALENV_CMD='virtualenv'
 fi
 
 if which pacman >/dev/null ; then
@@ -83,7 +83,6 @@ if which pacman >/dev/null ; then
     PYTHON_CMD='python2'
     PIP_CMD='pip2'
     PKG_INSTALL_CMD='pacman -S --needed --noconfirm'
-    VIRTUALENV_CMD='virtualenv2'
 fi
 
 if [ -z "$distro" ] ; then
@@ -159,7 +158,7 @@ fi
 if ! $not_use_sudo_commands; then
     case $distro in
         debian )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libpng-dev libjpeg-dev gcc make build-essential bin86 unzip libpcre3-dev zlib1g-dev git mercurial python python-virtualenv python-dev libsqlite3-dev openjdk-6-jre libpq-dev'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libsqlite3-dev openjdk-6-jre libpq-dev'
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
 
     if $install_mysql_client; then
@@ -167,7 +166,7 @@ if ! $not_use_sudo_commands; then
     fi
     ;;
         arch )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libpng libjpeg gcc make base-devel bin86 unzip zlib git mercurial python2 python2-virtualenv python2-pip sqlite jre7-openjdk postgresql-libs'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make base-devel bin86 unzip git mercurial python2 sqlite jre7-openjdk postgresql-libs'
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh mutt'
 
         if $install_mysql_client; then
@@ -267,6 +266,8 @@ fi
 if [ '!' -e adhocracy_buildout/.git ]; then
     git clone "$GIT_URL" adhocracy_buildout
     (cd adhocracy_buildout && git checkout -q "$branch")
+    (cd adhocracy_buildout && git submodule init)
+    (cd adhocracy_buildout && git submodule update)
 fi
 
 # Install adhocracy
