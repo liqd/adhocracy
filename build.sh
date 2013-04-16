@@ -269,6 +269,7 @@ if [ '!' -e adhocracy_buildout/.git ]; then
     (cd adhocracy_buildout && git checkout -q "$branch")
 fi
 
+# Install adhocracy
 cd adhocracy_buildout
 BUILDOUT_VERSION=2.1.0
 cur_installed="$(find eggs -maxdepth 1 -name "zc.buildout-${BUILDOUT_VERSION}-*" -print -quit 2>/dev/null)"
@@ -278,6 +279,7 @@ fi
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 bin/buildout -nc "buildout_current.cfg"
 
+# Install adhocracy interactive script
 echo '#!/bin/sh
 set -e
 cd "$(dirname $(dirname $(readlink -f $0)))"
@@ -293,6 +295,7 @@ exec bin/paster serve --reload etc/adhocracy-interactive.ini
 ' > "bin/adhocracy_interactive.sh"
 chmod a+x "bin/adhocracy_interactive.sh"
 
+# Autostart adhocracy 
 if $autostart; then
     bin/supervisord
     echo "Use ${ROOTDIR_FROM_CALLER}bin/supervisorctl to control running services."
