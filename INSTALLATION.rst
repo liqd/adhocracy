@@ -45,12 +45,15 @@ Add ``-c hhu`` to install with the preconfiguration for HHU Düsseldorf.
 Manual installation
 -------------------
 
+Preparations
+~~~~~~~~~~~~~
+
 Install required system packages (Debian Squeeze example):
 
 ::
 
-    $ sudo apt-get install libpng-dev libjpeg-dev gcc make build-essential bin86 unzip libpcre3-dev zlib1g-dev mercurial git
-    $ sudo apt-get install python python-dev python-virtualenv  # either Python 2.6 or 2.7
+    $ sudo apt-get install gcc make build-essential bin86 unzip libpcre3-dev mercurial git
+    $ sudo apt-get install python
     $ sudo apt-get install libsqlite3-dev postgresql-server-dev-8.4
     $ sudo apt-get install openjdk-6-jre
 
@@ -68,13 +71,22 @@ Check out Adhocracy:
     $ git clone https://github.com/liqd/adhocracy
     $ cd adhocracy
 
-Create virtualenv to isolate your python installation:
+Setup an isolated python environment to run Adhocracy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but 
+no other system-packages.
 
-    $ virtualenv . 
+Compile python and PIL with the included python buildout::
 
-Run buildout (mind to use your virtualenv python):
+    $ cd python
+    $ python boostrap.py
+    $ bin/buildout
+
+Install and start Adhocracy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run buildout:
 
 ::
 
