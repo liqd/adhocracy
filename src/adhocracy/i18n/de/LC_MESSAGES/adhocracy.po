@@ -2,24 +2,24 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
-# Alexander Brateanu <alexander.brateanu@gmail.com>, 2013.
-# Daniel Reichert <daniel.reichert@liqd.de>, 2012.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
-# <lea.thielscher@googlemail.com>, 2012.
-#   <lea.thielscher@googlemail.com>, 2012.
-# Mateusz Batelt <mateusz@batelt.eu>, 2012.
-# Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013.
-# Oskar Brabanski <o.brabanski@gmail.com>, 2013.
-# Philipp Hagemeister <phihag@phihag.de>, 2013.
-#  <schroeder_carsten@gmx.de>, 2013.
-#   <sicco@ddo.nl>, 2012.
-#  <transifex.com@jroene.de>, 2013.
+# alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
+# Daniel Reichert <daniel.reichert@liqd.de>, 2012
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009
+# Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
+# Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
+# Mateusz Batelt <mateusz@batelt.eu>, 2012
+# Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013
+# oskarb <o.brabanski@gmail.com>, 2013
+# phihag <phihag@phihag.de>, 2013
+# cs <schroeder_carsten@gmx.de>, 2013
+# sicco <sicco@ddo.nl>, 2012
+# Wawe <transifex.com@jroene.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-10 16:06+0200\n"
-"PO-Revision-Date: 2013-04-10 14:36+0000\n"
+"POT-Creation-Date: 2013-04-16 13:50+0200\n"
+"PO-Revision-Date: 2013-04-17 09:36+0000\n"
 "Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgid ""
 msgstr "Sie versuchen, zu einer Version wiederherzustellen, die nicht zu diesem Argument gehört."
 
 msgid "The comment has been reverted."
-msgstr "Dieses Argument wurde zurück gesetzt."
+msgstr "Dieses Argument wurde zurückgesetzt."
 
 msgid ""
 "You're trying to purge a revision which is not part of this comment's "
@@ -295,7 +295,7 @@ msgid ""
 "belongs to a different user account. Please login with that account or use "
 "the forgot password functionality, and add the OpenID in your user profile "
 "settings afterwards. Sorry for the inconvenience."
-msgstr "Die Email-Adresse %s, welche vom OpenID-Provider geliefert wurd, gehört bereits zu einem anderen User. Bitte loggen Sie sich mit diesem User-Zugang ein, oder verwenden Sie die \"Passwort vergessen\"-Funktion, und fügen Sie im nachhinein über Ihre Profileinstellungen die OpenID zu Ihrem Zugang hinzu. Entschuldigen Sie die Umstände!"
+msgstr "Die Email-Adresse %s, welche vom OpenID-Provider geliefert wurde, gehört bereits zu einem anderen User. Bitte loggen Sie sich mit diesem User-Zugang ein, oder verwenden Sie die \"Passwort vergessen\"-Funktion, und fügen Sie im nachhinein über Ihre Profileinstellungen die OpenID zu Ihrem Zugang hinzu. Entschuldigen Sie die Umstände!"
 
 #, python-format
 msgid "Successfully created new user account %s"
@@ -438,7 +438,7 @@ msgstr "Die angeforderte Seite wurde nicht gefunden."
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
-msgstr "Tag \"%s\" wurde entfernt von %s \"%s%."
+msgstr "Tag \"%s\" wurde entfernt von %s \"%s\"."
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -572,7 +572,7 @@ msgid "Username is too short"
 msgstr "Benutzername ist zu kurz."
 
 msgid "The username is invalid"
-msgstr "Benutzername fehlerhaft."
+msgstr "Benutzername ungültig."
 
 msgid "That username already exists"
 msgstr "Dieser Benutzername ist bereits vergeben."
@@ -743,6 +743,12 @@ msgid ""
 "insert enough information for the user: %s"
 msgstr "Sie müssen die folgenden Platzhalter in den Text eintragen: %s"
 
+msgid "This is not a valid image file"
+msgstr "Dies ist keine gültige Bilddatei"
+
+msgid "The file is too big (>1MB)"
+msgstr "Die Datei ist zu groß (>1MB)"
+
 msgid "Please select at least one instance"
 msgstr "Bitte wählen Sie zumindest eine Gruppe"
 
@@ -869,6 +875,9 @@ msgstr "Instanz"
 
 msgid "Categories"
 msgstr "Kategorien"
+
+msgid "Thumbnails"
+msgstr "Miniaturbilder"
 
 msgid "Created by"
 msgstr "Erstellt von"
@@ -1115,7 +1124,7 @@ msgstr "diskutierte %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
-msgstr "Bearbeitetes Argument unter %(topic)s"
+msgstr "Bearbeitetes Argument: unter %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
@@ -1322,8 +1331,17 @@ msgstr "Nicht mehr folgen"
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
 
+msgid "Category"
+msgstr "Kategorie"
+
+msgid "Title"
+msgstr "Titel"
+
 msgid "One line summary"
 msgstr "Kurzbeschreibung (eine Zeile)"
+
+msgid "Description"
+msgstr "Beschreibung"
 
 msgid "Submit"
 msgstr "Abschicken"
@@ -1451,6 +1469,9 @@ msgstr "Willkommen bei %s!"
 
 msgid "Please choose a password:"
 msgstr "Bitte wählen Sie ein Passwort:"
+
+msgid "Please pick a secure password"
+msgstr "Bitte wählen Sie ein sicheres Passwort"
 
 msgid "Set Password"
 msgstr "Passwort setzen"
@@ -1726,27 +1747,6 @@ msgstr "Diese Benutzer konnten nicht erstellt werden:"
 msgid "These users where created, but we could not send out mails:"
 msgstr "Diese Benutzer wurden erstellt, wir konnten jedoch keine E-Mails versenden:"
 
-msgid "Add instance badge"
-msgstr "Füge Gruppen-Badge hinzu"
-
-msgid "Add user badge"
-msgstr "Badge für Benutzer hinzufügen"
-
-msgid "Add delegateable badge"
-msgstr "Badge für Vorschläge hinzufügen"
-
-msgid "Add category badge"
-msgstr "Kategorie hinzufügen"
-
-msgid "Edit user badge"
-msgstr "Badge für Benutzer bearbeiten"
-
-msgid "Edit delegateable badge"
-msgstr "Badge für Vorschlag bearbeiten"
-
-msgid "Edit category badge"
-msgstr "Kategorie bearbeiten"
-
 msgid "Badge title"
 msgstr "Titel des Badges"
 
@@ -1761,6 +1761,12 @@ msgstr "'#a4a4a4' liken"
 
 msgid "Preview:"
 msgstr "Vorschau:"
+
+msgid "Delete current thumbnail image"
+msgstr "Lösche aktuelles Miniaturbild"
+
+msgid "Upload thumbnail icon. This is used instead of color to show the badge"
+msgstr "Miniaturbild hochladen. Dieses wird verwendet anstatt Farbe um Badges darzustellen."
 
 msgid "Check to hide badge in user interface"
 msgstr "Auswählen, um Badge im User Interface zu verstecken"
@@ -1817,12 +1823,6 @@ msgstr "Bearbeiten"
 msgid "No badges added yet."
 msgstr "Bisher wurden keine Badges hinzugefügt."
 
-msgid "Title"
-msgstr "Titel"
-
-msgid "Description"
-msgstr "Beschreibung"
-
 msgid "Color"
 msgstr "Farbe"
 
@@ -1858,6 +1858,9 @@ msgstr "Badges für Vorschläge"
 
 msgid "Proposal Category Badges"
 msgstr "Kategorien von Vorschlägen"
+
+msgid "Proposal Thumbnail Badges"
+msgstr "Miniaturbild Badges dieses Vorschlags"
 
 msgid "Instance Badges"
 msgstr "Gruppen-Badge"
@@ -2230,6 +2233,12 @@ msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern
 msgid "Extra CSS"
 msgstr "Extra CSS"
 
+msgid "Thumbnail badges width"
+msgstr "Miniaturbild Badges Breite"
+
+msgid "Thumbnail badges height"
+msgstr "Miniaturbild Badges Höhe"
+
 msgid "Use Norms"
 msgstr "Beschlüsse verwenden"
 
@@ -2241,6 +2250,9 @@ msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbrin
 
 msgid "Use milestones"
 msgstr "Termine verwenden"
+
+msgid "Use thumbnail badges"
+msgstr "Verwende Miniaturbild Badges"
 
 msgid "Hide global categories"
 msgstr "Verstecke globale Kategorien"
@@ -2382,13 +2394,13 @@ msgstr "Benachrichtigung versenden"
 msgid ""
 "Please note that only users with verified email addresses and activated "
 "newsservice will receive this message per email."
-msgstr "Bitte beachten Sie, dass nur User mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
+msgstr "Bitte beachten Sie, dass nur Benutzer mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
 
 msgid "Filter users ..."
 msgstr "Benutzer filtern ..."
 
 msgid "... by instance:"
-msgstr ".. nach Gruppe"
+msgstr ".. nach Gruppe:"
 
 msgid "... by badge:"
 msgstr ".. nach Badge:"
@@ -2413,7 +2425,7 @@ msgid "You're about to send the following message to %s recipients:"
 msgstr "Sie sind dabei, die folgende Nachricht an %s Empfänger/innen zu senden:"
 
 msgid "The message will go to the following users:"
-msgstr "Die Nachricht wird an die folgende User gesendet:"
+msgstr "Die Nachricht wird an die folgenden Benutzer gesendet:"
 
 #, python-format
 msgid "Message %s"
@@ -2457,9 +2469,6 @@ msgstr "Datum des Termins"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
-msgid "Category"
-msgstr "Kategorie"
-
 msgid "Create a new milestone."
 msgstr "Einen neuen Termin anlegen."
 
@@ -2497,7 +2506,7 @@ msgid "Associated Norms"
 msgstr "Verknüpfte Beschlüsse"
 
 msgid "No norms are connected to this milestone"
-msgstr "Mit diesem Termin sind keie Beschlüsse verknüpft"
+msgstr "Mit diesem Termin sind keine Beschlüsse verknüpft"
 
 msgid "tutorial_milestone_details_follow"
 msgstr "Ist der Termin wichtig für Sie, können Sie ihn auch Ihrer Beobachtungsliste hinzufügen."
@@ -2817,6 +2826,12 @@ msgstr "Sie sind im Begriff, eine Abstimmung zu beginnen. Während der Abstimmun
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
+msgid "thumbnail badge"
+msgstr "Miniaturbild Badge"
+
+msgid "No Thumbnail Badge"
+msgstr "Kein Miniaturbild Badge"
+
 #, python-format
 msgid "Delegations: %s"
 msgstr "Delegationen: %s"
@@ -2889,7 +2904,7 @@ msgid "tutorial_proposal_overview_table"
 msgstr "Die Liste bietet einen Überblick aller bisher eingebrachter Vorschläge, welche nach mehreren Kriterien sortiert werden können."
 
 msgid "tutorial_proposal_overview_facets"
-msgstr "Sie können mit Hilfe des Suchfeldes Vorschläge nach Titel oder Inhalt duchsuchen und entsprechende Treffer nach verschiedenen Kategorien sortieren, z.B. größte Unterstützung, neuste Vorschläge oder alphabetisch."
+msgstr "Sie können mit Hilfe des Suchfeldes Vorschläge nach Titel oder Inhalt durchsuchen und entsprechende Treffer nach verschiedenen Kategorien sortieren, z.B. größte Unterstützung, neuste Vorschläge oder alphabetisch."
 
 msgid "tutorial_proposal_overview_new"
 msgstr "Ist Ihre Idee noch nicht vorhanden, können Sie einen eigenen, neuen Vorschlag anlegen."
@@ -3300,7 +3315,7 @@ msgid "Proposals in your instances"
 msgstr "Vorschläge in Ihren Gruppen"
 
 msgid "List all proposals"
-msgstr "Zeige alle "
+msgstr "Zeige alle Vorschläge"
 
 msgid "list all"
 msgstr "zeige alle"
