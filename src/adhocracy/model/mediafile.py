@@ -41,6 +41,18 @@ delegateable_mediafiles_table = Table(
 )
 
 
+comment_mediafiles_table = Table(
+    'comment_mediafiles', meta.data,
+    Column('id', Integer, primary_key=True),
+    Column('mediafile_id', Integer, ForeignKey('mediafile.id'),
+           nullable=False),
+    Column('comment_id', Integer, ForeignKey('comment.id'),
+           nullable=False),
+    Column('create_time', DateTime, default=datetime.utcnow),
+    Column('creator_id', Integer, ForeignKey('user.id'), nullable=False)
+)
+
+
 class MediaFile(object):
 
     def __init__(self, name, instance=None):
@@ -133,9 +145,14 @@ class MediaFile(object):
                     name=self.name,
                     instance=self.instance.id if self.instance else None)
 
-    def assign(self, delegateable, creator):
+    def assignDelegateable(self, delegateable, creator):
         DelegateableMediaFiles.create(delegateable, self, creator)
         meta.Session.refresh(delegateable)
+        meta.Session.refresh(self)
+
+    def assignComment(self, comment, creator):
+        CommentMediaFiles.create(comment, self, creator)
+        meta.Session.refresh(comment)
         meta.Session.refresh(self)
 
 
@@ -153,7 +170,8 @@ class BaseMediaFiles(object):
         title = self.mediafile.name.encode('ascii', 'replace')
         return "<%smediafiles(%s, mediafile %s/%s for %s %s)>"\
                % (self.assigned_entity_name, self.id, self.mediafile.id, title,
-                  self.assigned_entity_name,  self.delegateable.id)
+                  self.assigned_entity_name,
+                  getattr(self, self.assigned_entity_name).id)
 
     @classmethod
     def create(cls, entity, mediafile, creator):
@@ -174,6 +192,12 @@ class BaseMediaFiles(object):
 
 
 class DelegateableMediaFiles(BaseMediaFiles):
-    '''class for delegateable<->MediaFile relations'''
+    '''class for Delegateable<->MediaFile relations'''
 
     assigned_entity_name = "delegateable"
+
+
+class CommentMediaFiles(BaseMediaFiles):
+    '''class for Comment<->MediaFile relations'''
+
+    assigned_entity_name = "comment"
