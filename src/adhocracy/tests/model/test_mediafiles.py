@@ -19,6 +19,11 @@ class TestMediaFileController(TestController):
         self.assertEqual(len(MediaFile.all(instance=instance)), 1)
         self.assertEqual(len(MediaFile.all_q().all()), 2)
 
+    def test_repr_mediafile(self):
+        from adhocracy.model.mediafile import MediaFile
+        mediafile = MediaFile.create(u"name", instance=None)
+        self.assertEqual(mediafile.__repr__(), "<MediaFile(1,name)>")
+
 
 class TestDelegateableController(TestController):
 
@@ -41,11 +46,14 @@ class TestDelegateableController(TestController):
         creator, delegateable, mediafile = self._make_content()
         # create the delegateable mediafile
         mediafile.assign(delegateable, creator)
-        delegateablemediafiles = \
+        delegateablemediafile = \
             meta.Session.query(DelegateableMediaFiles).first()
-        self.assertTrue(delegateablemediafiles.creator is creator)
-        self.assertTrue(delegateablemediafiles.delegateable is delegateable)
-        self.assertTrue(delegateablemediafiles.mediafile is mediafile)
+        self.assertTrue(delegateablemediafile.creator is creator)
+        self.assertTrue(delegateablemediafile.delegateable is delegateable)
+        self.assertTrue(delegateablemediafile.mediafile is mediafile)
+        self.assertEqual(delegateablemediafile.__repr__(),
+                         '<delegateablemediafiles(1, mediafile 1/name for '
+                         'delegateable 2)>')
         # test the references on the mediafiled delegateable
         self.assertEqual(delegateable.mediafiles, [mediafile])
         # test the references on the mediafile
