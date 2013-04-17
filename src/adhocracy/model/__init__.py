@@ -26,9 +26,11 @@ from adhocracy.model.badge import (
 )
 from adhocracy.model.mediafile import (
     MediaFile,
-    DelegateableMediaFiles,
     mediafile_table,
+    DelegateableMediaFiles,
     delegateable_mediafiles_table,
+    CommentMediaFiles,
+    comment_mediafiles_table,
 )
 from adhocracy.model.group import Group, group_table
 from adhocracy.model.permission import (Permission, group_permission_table,
@@ -92,6 +94,21 @@ mapper(DelegateableMediaFiles, delegateable_mediafiles_table,
            'mediafile': relation(MediaFile)})
 
 
+mapper(CommentMediaFiles, comment_mediafiles_table,
+       properties={
+           'creator': relation(
+               User, lazy=True,
+               primaryjoin=(comment_mediafiles_table.c.creator_id ==
+                            user_table.c.id),
+               backref=backref('commentmediafiles_created')),
+           'comment': relation(
+               Comment, lazy=True,
+               primaryjoin=(comment_mediafiles_table.c.comment_id ==
+                            comment_table.c.id),
+               backref=backref('commentsmediafiles')),
+           'mediafile': relation(MediaFile)})
+
+
 mapper(MediaFile, mediafile_table,
        properties={
            'instance': relation(
@@ -105,6 +122,15 @@ mapper(MediaFile, mediafile_table,
                             delegateable_mediafiles_table.c.mediafile_id),
                secondaryjoin=(delegateable_mediafiles_table.c.delegateable_id ==
                               delegateable_table.c.id),
+               backref=backref('mediafiles', lazy='joined'),
+               lazy=False),
+           'comments': relation(
+               Comment,
+               secondary=comment_mediafiles_table,
+               primaryjoin=(mediafile_table.c.id ==
+                            comment_mediafiles_table.c.mediafile_id),
+               secondaryjoin=(comment_mediafiles_table.c.comment_id ==
+                              comment_table.c.id),
                backref=backref('mediafiles', lazy='joined'),
                lazy=False)})
 
