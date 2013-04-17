@@ -26,7 +26,6 @@ OPTIONS:
    -u      Install only superuser parts
    -U      Set the username adhocracy should run as
    -b      Branch to check out
-   -R      Rebuild everything, do not use any caches
 EOF
 }
 
@@ -39,7 +38,6 @@ adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
 branch=feature-#241-buildout2
-always_rebuild=false
 compile_python=true
 
 if [ -n "$SUDO_USER" ]; then
@@ -60,7 +58,6 @@ do
     U)    adhoc_user=$OPTARG;;
     c)    buildout_cfg_file=$OPTARG;;
     b)    branch=$OPTARG;;
-    R)    always_rebuild=true;;
     ?)    usage
           exit 2;;
     *)    echo "Invalid option $name!"
@@ -282,19 +279,14 @@ if $compile_python; then
 fi
 # Install adhocracy
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
-if $always_rebuild; then
-    # bootstrap buildout
-    if [ '!' -f bin/buildout ]; then
-        bin/python bootstrap.py -c buildout_current.cfg
-    else  
-        bin/buildout -c buildout_current.cfg bootstrap
-    fi
-    # run buildout in newest mode to make upgrading work smooth
-    bin/buildout -nc buildout_current.cfg
-else 
-    # run buildout in non newest mode
-    bin/buildout -c buildout_current.cfg
+# bootstrap buildout
+if [ '!' -f bin/buildout ]; then
+    bin/python bootstrap.py -c buildout_current.cfg
+else  
+    bin/buildout -c buildout_current.cfg bootstrap
 fi
+# run buildout in newest mode to make upgrading work smooth
+bin/buildout -nc buildout_current.cfg
 
 # Install adhocracy interactive script
 echo '#!/bin/sh
