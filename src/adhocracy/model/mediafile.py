@@ -30,7 +30,7 @@ mediafile_table = Table(
 
 
 delegateable_mediafiles_table = Table(
-    'proposal_mediafiles', meta.data,
+    'delegateable_mediafiles', meta.data,
     Column('id', Integer, primary_key=True),
     Column('mediafile_id', Integer, ForeignKey('mediafile.id'),
            nullable=False),
