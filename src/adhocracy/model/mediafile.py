@@ -139,26 +139,28 @@ class MediaFile(object):
         meta.Session.refresh(self)
 
 
-class DelegateableMediaFiles(object):
-    '''class for delegateable<->MediaFile relations'''
+class BaseMediaFiles(object):
+    '''class for entity<->MediaFile relations'''
 
-    def __init__(self, delegateable, mediafile, creator):
-        self.delegateable = delegateable
+    assigned_entity_name = "dummyentity"
+
+    def __init__(self, entity, mediafile, creator):
+        setattr(self, self.assigned_entity_name, entity)
         self.mediafile = mediafile
         self.creator = creator
 
     def __repr__(self):
-        title = self.mediafilee.name.encode('ascii', 'replace')
-        return \
-            "<delegateablemediafiles(%s, mediafile %s/%s for delegateable%s)>"\
-            % (self.id, self.mediafile.id, title, self.delegateable.id)
+        title = self.mediafile.name.encode('ascii', 'replace')
+        return "<%smediafiles(%s, mediafile %s/%s for %s %s)>"\
+               % (self.assigned_entity_name, self.id, self.mediafile.id, title,
+                  self.assigned_entity_name,  self.delegateable.id)
 
     @classmethod
-    def create(cls, delegateable, mediafile, creator):
-        delegateablemediafile = cls(delegateable, mediafile, creator)
-        meta.Session.add(delegateablemediafile)
+    def create(cls, entity, mediafile, creator):
+        entitymediafile = cls(entity, mediafile, creator)
+        meta.Session.add(entitymediafile)
         meta.Session.flush()
-        return delegateablemediafile
+        return entitymediafile
 
     def delete(self):
         meta.Session.delete(self)
@@ -169,3 +171,9 @@ class DelegateableMediaFiles(object):
         q = meta.Session.query(cls)
         q = q.filter(cls.id == id)
         return q.limit(1).first()
+
+
+class DelegateableMediaFiles(BaseMediaFiles):
+    '''class for delegateable<->MediaFile relations'''
+
+    assigned_entity_name = "delegateable"
