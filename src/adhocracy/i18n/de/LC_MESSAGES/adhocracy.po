@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-04-16 13:50+0200\n"
-"PO-Revision-Date: 2013-04-17 09:36+0000\n"
+"PO-Revision-Date: 2013-04-17 10:10+0000\n"
 "Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1860,7 +1860,7 @@ msgid "Proposal Category Badges"
 msgstr "Kategorien von Vorschlägen"
 
 msgid "Proposal Thumbnail Badges"
-msgstr "Miniaturbild Badges dieses Vorschlags"
+msgstr "Miniaturbild-Badges dieses Vorschlags"
 
 msgid "Instance Badges"
 msgstr "Gruppen-Badge"
@@ -2234,10 +2234,10 @@ msgid "Extra CSS"
 msgstr "Extra CSS"
 
 msgid "Thumbnail badges width"
-msgstr "Miniaturbild Badges Breite"
+msgstr "Miniaturbild-Badges Breite"
 
 msgid "Thumbnail badges height"
-msgstr "Miniaturbild Badges Höhe"
+msgstr "Miniaturbild-Badges Höhe"
 
 msgid "Use Norms"
 msgstr "Beschlüsse verwenden"
@@ -2252,7 +2252,7 @@ msgid "Use milestones"
 msgstr "Termine verwenden"
 
 msgid "Use thumbnail badges"
-msgstr "Verwende Miniaturbild Badges"
+msgstr "Verwende Miniaturbild-Badges"
 
 msgid "Hide global categories"
 msgstr "Verstecke globale Kategorien"
@@ -2394,7 +2394,7 @@ msgstr "Benachrichtigung versenden"
 msgid ""
 "Please note that only users with verified email addresses and activated "
 "newsservice will receive this message per email."
-msgstr "Bitte beachten Sie, dass nur Benutzer mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
+msgstr "Bitte beachten Sie, dass nur Benutzer/innen mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
 
 msgid "Filter users ..."
 msgstr "Benutzer filtern ..."
@@ -2827,10 +2827,10 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
 msgid "thumbnail badge"
-msgstr "Miniaturbild Badge"
+msgstr "Miniaturbild-Badge"
 
 msgid "No Thumbnail Badge"
-msgstr "Kein Miniaturbild Badge"
+msgstr "Kein Miniaturbild-Badge"
 
 #, python-format
 msgid "Delegations: %s"
