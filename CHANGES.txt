@@ -32,7 +32,7 @@ adhocracy Changelog
   
   Or use the build script to install Adhocracy:
 
-  * sh build.sh -sR
+  * sh build.sh -s
   [joka]
 
 - Replace RabbitMQ/amqp with redis/rq. This means that you have to
