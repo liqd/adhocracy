@@ -83,6 +83,7 @@ Compile python and PIL with the included python buildout::
     $ cd python
     $ python boostrap.py
     $ bin/buildout
+    $ cd ..
 
 ## Install and start Adhocracy
 
