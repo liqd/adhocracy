@@ -17,6 +17,7 @@ from webob.multidict import MultiDict
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib.helpers import base_url
+from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.helpers.badge_helper import get_parent_badges
 from adhocracy.lib.event.stats import user_activity, user_rating
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
@@ -449,6 +450,7 @@ class SolrFacet(SolrIndexer):
     show_empty = False
     show_current_empty = True
     template = '/pager.html'
+    template_def = 'facet'
     _response = None
 
     def __init__(self, param_prefix, request, **kwargs):
@@ -473,11 +475,18 @@ class SolrFacet(SolrIndexer):
     def response(self, response):
         self._response = response
 
+    def get_thumbnail(self, entity):
+        '''
+        Returns a string with an img tag for the entity.
+        Override to make use of this.
+        '''
+        return ''
+
     def add_to_queries(self, query, counts_query, exclusive_queries):
         '''
         Add the facet to the queries *query* and *counts_query*.
         The difference is that the *query* will be limited to facet values
-        used in the the request.
+        used in the request.
 
         Returns: the modified queries as a (query, counts_query) tuple
         '''
@@ -642,6 +651,7 @@ class SolrFacet(SolrIndexer):
             item['children'] = []
             item['open'] = False
             item['hide_checkbox'] = False
+            item['thumbnail'] = self.get_thumbnail(entity)
 
         if self.exclusive:
             lower, top = split_filter(lambda x: '/' in x, facet_items.keys())
@@ -742,7 +752,7 @@ class SolrFacet(SolrIndexer):
         return items
 
     def render(self):
-        return render_def(self.template, 'facet', facet=self)
+        return render_def(self.template, self.template_def, facet=self)
 
 
 class UserBadgeFacet(SolrFacet):
@@ -812,6 +822,27 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
             return
         data[cls.solr_field] = [entity_to_solr_token(b)
                                 for b in entity.categories]
+
+
+class DelegateableBadgeThumbnailFacet(SolrFacet):
+    """Index all delegateable badge thumbnails"""
+
+    name = 'delegateablebadgethumbnail'
+    entity_type = model.Badge
+    title = lazy_ugettext(u'Thumbnails')
+    solr_field = 'facet.delegateable.badgethumbnail'
+    show_current_empty = False
+    exclusive = True
+
+    def get_thumbnail(self, entity):
+        return generate_thumbnail_tag(entity, 16, 16)
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if not isinstance(entity, model.Delegateable):
+            return
+        data[cls.solr_field] = [entity_to_solr_token(badge) for
+                                badge in entity.thumbnails]
 
 
 class DelegateableBadgeFacet(SolrFacet):
@@ -1045,7 +1076,7 @@ class InstanceUserRatingIndexer(SolrIndexer):
 
 class SolrPager(PagerMixin):
     '''
-    An pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
+    A pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
     '''
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
@@ -1392,6 +1423,7 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
                               DelegateableMilestoneFacet,
                               DelegateableBadgeFacet,
                               DelegateableAddedByBadgeFacet,
+                              DelegateableBadgeThumbnailFacet,
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager

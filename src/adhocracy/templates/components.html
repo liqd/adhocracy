@@ -298,16 +298,16 @@ ${caller.body()}
           <fieldset>
             <legend>${_(u'Send us your feedback')}</legend>
             %if h.feedback.get_categories():
-                <label>${(u'Category')}</label>
+                <label>${_(u'Category')}</label>
                 <select name="category">
                 %for category in h.feedback.get_categories():
                 <option value="${category.id}">${category.title}</option>
                 %endfor
                 </select>
             %endif
-            <label>${(u'Title')}</label>
+            <label>${_(u'Title')}</label>
             <input type="text" placeholder="${_(u'One line summary')}" name="label">
-            <label>${(u'Description')}</label>
+            <label>${_(u'Description')}</label>
             <textarea rows="8" name="text"></textarea>
             <button type="submit" class="btn">${_(u'Submit')}</button>
           </fieldset>

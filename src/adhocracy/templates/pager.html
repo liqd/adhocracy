@@ -145,6 +145,8 @@ ${facet_items(facet.current_items)}
             %endif
         %endif
 
+        ${h.literal(item['thumbnail'])}
+
         %if item["children"]:
         <a class="expand_arrow"></a>
         ${facet_items(item["children"], indent=not item['hide_checkbox'])}

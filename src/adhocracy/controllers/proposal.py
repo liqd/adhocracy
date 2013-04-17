@@ -22,6 +22,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json
 from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.queue import update_entity
+from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
 from adhocracy.lib.geo import format_json_feature_to_geotag
@@ -82,6 +83,7 @@ class ProposalFilterForm(formencode.Schema):
 class DelegateableBadgesForm(formencode.Schema):
     allow_extra_fields = True
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
+    thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
 
 
 class ProposalController(BaseController):
@@ -514,22 +516,52 @@ class ProposalController(BaseController):
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
 
+    @classmethod
+    def _editable_thumbnailbadges(cls, proposal):
+        '''
+        Return the thumbnailbadges editable that can be assigned by the current
+        user.
+        '''
+        thumbnailbadges = []
+        if can.badge.edit_instance():
+            thumbnailbadges.extend(model.ThumbnailBadge.all(instance=
+                                                            c.instance))
+        if can.badge.edit_global():
+            thumbnailbadges.extend(model.ThumbnailBadge.all(instance=
+                                                            None))
+        thumbnailbadges = sorted(thumbnailbadges,
+                                 key=lambda badge: badge.title)
+        return thumbnailbadges
+
     @guard.perm("instance.admin")
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         c.badges = self._editable_badges(c.proposal)
-        defaults = {
-            'badge': [str(badge.id) for badge in c.proposal.badges],
-            '_tok': csrf.token_id()
-        }
+        c.thumbnailbadges = self._editable_thumbnailbadges(c.proposal)
+        default_thumbnail = c.proposal.thumbnails and \
+            c.proposal.thumbnails[0].id or ''
+        defaults = {'badge': [str(badge.id) for badge in c.proposal.badges],
+                    '_tok': csrf.token_id(),
+                    'thumbnailbadge': default_thumbnail,
+                    }
         if format == 'ajax':
             checked = [badge.id for badge in c.proposal.badges]
+            checked_thumbnail = default_thumbnail
             json = {'title': c.proposal.title,
                     'badges': [{
                         'id': badge.id,
                         'description': badge.description,
                         'title': badge.title,
-                        'checked': badge.id in checked} for badge in c.badges]}
+                        'thumbnail': '',
+                        'checked': badge.id in checked} for badge in c.badges],
+                    'thumbnailbadges': [{
+                        'id': badge.id,
+                        'description': badge.description,
+                        'title': badge.title,
+                        'thumbnail': generate_thumbnail_tag(badge),
+                        'checked': badge.id == checked_thumbnail} for badge in
+                        c.thumbnailbadges]
+                    }
             return render_json(json)
 
         return formencode.htmlfill.render(
@@ -543,22 +575,29 @@ class ProposalController(BaseController):
     def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)
         editable_badges = self._editable_badges(proposal)
+        editable_badges.extend(self._editable_thumbnailbadges(c.proposal))
         badges = self.form_result.get('badge')
+        thumbnailbadges = self.form_result.get('thumbnailbadge')
         redirect_to_proposals = self.form_result.get('redirect_to_proposals')
-
         added = []
         removed = []
 
-        for badge in proposal.badges:
+        for badge in proposal.badges + proposal.thumbnails:
             if badge not in editable_badges:
                 # the user can not edit the badge, so we don't remove it
                 continue
+
+        for badge in proposal.badges:
             if badge not in badges:
                 removed.append(badge)
                 proposal.badges.remove(badge)
+        for badge in proposal.thumbnails:
+            if badge not in thumbnailbadges:
+                removed.append(badge)
+                proposal.thumbnails.remove(badge)
 
-        for badge in badges:
-            if badge not in proposal.badges:
+        for badge in badges + thumbnailbadges:
+            if badge not in proposal.badges + proposal.thumbnails:
                 badge.assign(proposal, c.user)
                 added.append(badge)
 
@@ -567,8 +606,13 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         update_entity(proposal, model.UPDATE)
         if format == 'ajax':
-            obj = {'html': render_def('/badge/tiles.html', 'badges',
-                                      badges=proposal.badges)}
+            obj = {'badges_html': render_def('/badge/tiles.html', 'badges',
+                                             badges=proposal.badges),
+                   'thumbnailbadges_html': render_def('/badge/tiles.html',
+                                                      'badges',
+                                                      badges=
+                                                      proposal.thumbnails),
+                   }
             return render_json(obj)
         if redirect_to_proposals:
             redirect("/proposal")

@@ -1,4 +1,4 @@
-${e.user.name} bearbeitete ${"die Variante %s von" % e.rev.variant if e.rev.variant != e.rev.HEAD else ""} ${e.rev.title}.
+${c.e.user.name} bearbeitete ${"die Variante %s von" % c.e.rev.variant if c.e.rev.variant != c.e.rev.HEAD else ""} ${c.e.rev.title}.
 
 Der aktuelle Text lautet:
-${e.rev.text}
+${c.e.rev.text}

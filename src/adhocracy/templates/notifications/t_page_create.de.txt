@@ -1,6 +1,6 @@
-${e.user.name} hat eine neue Seite angelegt, ${e.rev.title}.  
+${c.e.user.name} hat eine neue Seite angelegt, ${c.e.rev.title}.  
 
-%if e.rev.text:
+%if c.e.rev.text:
 Die Seite lautet: 
-${e.rev.text}
+${c.e.rev.text}
 %endif

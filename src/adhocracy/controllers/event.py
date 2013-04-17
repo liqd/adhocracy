@@ -15,9 +15,10 @@ log = logging.getLogger(__name__)
 class EventController(BaseController):
 
     def all(self, format='html'):
-        query = model.meta.Session.query(model.Event)
-        query = query.order_by(model.Event.time.desc())
-        query = query.limit(50)
+        query = model.meta.Session.query(model.Event)\
+            .join(model.Instance).filter(model.Instance.hidden == False)\
+            .order_by(model.Event.time.desc())\
+            .limit(50)
 
         if format == 'rss':
             events = query.all()

@@ -1,5 +1,5 @@
-${e.user.name} has updated his or her profile. 
-%if e.user.bio: 
+${c.e.user.name} has updated his or her profile. 
+%if c.e.user.bio: 
 User bio: 
-${e.user.bio}  
+${c.e.user.bio}  
 %endif

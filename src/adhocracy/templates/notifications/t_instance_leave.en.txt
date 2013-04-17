@@ -1,1 +1,1 @@
-${e.user.name} has left ${e.instance.label}.
+${c.e.user.name} has left ${c.e.instance.label}.

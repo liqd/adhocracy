@@ -33,6 +33,34 @@
         </tbody>
     </table>
 
+    <label for="thumbanilbadge">Thubmnail Badges</label>
+    <table>
+        <thead>
+            <th></th>
+            <th>${_("thumbnail badge")}</th>
+        </thead>
+        <tbody>
+            %if c.thumbnailbadges:
+            <tr>
+                <td>
+                    <input type="radio" value="" 
+                           name="thumbnailbadge" />
+                </td>
+                <td>${_('No Thumbnail Badge')}</td>
+            %endif 
+            </tr> 
+            %for badge in c.thumbnailbadges:
+            <tr>
+                <td>
+                    <input type="radio" value="${badge.id}" 
+                           name="thumbnailbadge" />
+                </td>
+                <td>${badge_tiles.badge(badge)}</td>
+            </tr>
+            %endfor
+        </tbody>
+    </table> 
+
     <div style="clear:both;"></div>
 
     ${components.savebox(h.base_url("/proposal/%s" % c.proposal.id))}

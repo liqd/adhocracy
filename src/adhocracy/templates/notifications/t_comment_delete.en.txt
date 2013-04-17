@@ -1,1 +1,1 @@
-${e.user.name|n} has deleted a comment regarding ${e.comment.topic.label|n}.
+${c.e.user.name|n} has deleted a comment regarding ${c.e.comment.topic.label|n}.

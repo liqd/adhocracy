@@ -504,12 +504,85 @@ $(document).ready(function () {
 
     var page_stats_baseurl = $('body').data('stats-baseurl');
     if (page_stats_baseurl) {
-        var window_is_active = true;
-        $(window).focus(function() { window_is_active = true });
-        $(window).blur( function() { window_is_active = false });
+
+        var stats_extended = $('body').attr('data-stats-extended');
+        if (stats_extended === "enabled") {
+            var start_time = new Date();
+            var page_stats_data = new Array();
+
+            var add_to_page_stats = function(type, data) {
+                var timestamp = new Date() - start_time;
+                var event = {"time": timestamp, "type": type};
+                if (data) {
+                    event.data = data;
+                }
+                page_stats_data.push(event);
+            };
+        
+            var get_path = function(element) {
+                return $(element).parentsUntil('body').andSelf().map(function() {
+                    if (this.id) {
+                        return this.nodeName + '#' + this.id;
+                    } else {
+                        var number = $(this.nodeName).index();
+                        if (number == -1) {
+                            return this.nodeName;
+                        } else {
+                            return this.nodeName + '[' + number + ']'; 
+                        }
+                    }
+                }).get().join('>');
+            };
+
+            $(document).on("keydown", function(e) {
+                // Anonymize [a-Z][0-9] to prevent recording confidential data
+                if ((e.keyCode >= 65 && e.keyCode <= 90) || 
+                    (e.keyCode >= 48 && e.keyCode <=57)) {
+                    add_to_page_stats(e.type);
+                } else {
+                    add_to_page_stats(e.type, e.keyCode);
+                }
+            });
+
+            $(document).on("mousemove", function(e) {
+                add_to_page_stats("mousemove", {"x": e.clientX, "y": e.clientY});
+            });
+
+            $(document).on("click", function(e) {
+                add_to_page_stats("click", {"x": e.clientX, "y": e.clientY,
+                    "button": e.which, "path": get_path(e.target)});
+            });
+
+            $(window).on("focus blur", function(e) {
+                add_to_page_stats(e.type);
+            });
+
+            $(window).on("resize", function() {
+                add_to_page_stats("resize", {"x": window.innerHeight,
+                    "y": window.innerWidth});
+            });
+
+            $(window).on("beforeunload", function(e) {
+                add_to_page_stats(e.type);
+                sendOnPagePing();
+            });
+
+            add_to_page_stats("initialsize",{"x": window.innerHeight,
+                    "y": window.innerWidth}); 
+        }
+
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href) + '&window_is_active=' + window_is_active,
+            if (stats_extended) { 
+                var append_string = '&data=' + JSON.stringify(page_stats_data);
+                page_stats_data = new Array();
+                add_to_page_stats("current_size", {"x": window.innerHeight,
+                    "y": window.innerWidth});
+            } else {
+                var append_string = "";
+            }
+            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
+                    + append_string,
                     null, setOnPageTimeout);
         };
         var setOnPageTimeout = function() {

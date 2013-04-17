@@ -10,8 +10,8 @@ audio[controls],canvas,video {display: inline-block; *display: inline; zoom: 1}
 
 /* fonts */
 h1, h2, h3, h4, h5, h6, legend {
-  font-family: 'ColaborateRegular', Arial, sans-serif; 
-  line-height: 1.2; 
+  font-family: 'ColaborateRegular', Arial, sans-serif;
+  line-height: 1.2;
   text-transform: none
 }
 h1 { font-size: 34px; margin: 27px 23px; font-weight: normal; }
@@ -266,7 +266,7 @@ a.button_small.off:active, a.button_small.off.active {
   display: inline-block;
 }
 .nobullet {
-  list-style: none; 
+  list-style: none;
   margin-left: 0
 }
 .content_list {
@@ -281,7 +281,7 @@ a.button_small.off:active, a.button_small.off.active {
 #col3 .content_list h3 {
     font-size: 16px;
 }
- 
+
 .content_list .level-1 {
   padding-left: 1.5em;
 }
@@ -377,7 +377,7 @@ margin: 0;
 }
 
 .pager_wrapper .sort_group {
-  float: left; 
+  float: left;
   padding: 0 2em 0 1em;
 }
 
@@ -1073,8 +1073,8 @@ background-image: none !important;
 }
 
 .vote_wrapper .or {
-  display: inline-block; 
-  vertical-align: top; 
+  display: inline-block;
+  vertical-align: top;
   padding-top: 6px
 }
 
@@ -1290,7 +1290,7 @@ form p.info { margin-bottom: 10px; color: #666; }
 
 textarea {
   width: 100%;
-  min-height: 128px; 
+  min-height: 128px;
 }
 
 input[type=checkbox], input[type=radio] { vertical-align: text-top; }
@@ -1502,7 +1502,7 @@ margin-bottom: 0;
 
 /* Permissions table */
 
-#permissions th.group { vertical-align: bottom; 
+#permissions th.group { vertical-align: bottom;
     padding-bottom: 15px;
     vertical-align: bottom;
 }
@@ -1581,6 +1581,11 @@ body.compact .only-anon {
   margin-left: 1em;
   border-left: 1px dotted #ccc;
   height: 28px;
+}
+.thumbnailbadges {
+  float: left;
+  margin-top: 8px;
+  margin-right: 5px
 }
 
 .sp-replacer {

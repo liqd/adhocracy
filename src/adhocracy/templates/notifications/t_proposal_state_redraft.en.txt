@@ -1,3 +1,3 @@
-${e.user.name} cancelled an ongoing vote on the proposal ${e.proposal.title}. 
+${c.e.user.name} cancelled an ongoing vote on the proposal ${c.e.proposal.title}. 
 
 All votes gathered during the current poll have been invalidated, once a new poll is started, you'll have to vote again.

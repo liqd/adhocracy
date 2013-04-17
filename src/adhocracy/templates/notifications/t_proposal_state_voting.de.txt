@@ -1,3 +1,3 @@
-${e.user.name} hat eine Abstimmung zum Vorschlag ${e.proposal.title} initiiert.  
+${c.e.user.name} hat eine Abstimmung zum Vorschlag ${c.e.proposal.title} initiiert.  
 
 Wenn Du möchtest, gib Deine Stimme ab oder überprüfe, ob Du Deine Stimme zum Thema passend delegiert hast.

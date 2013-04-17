@@ -1,3 +1,3 @@
-${e.admin.name} forced you to leave ${e.instance.label}. 
+${c.e.admin.name} forced you to leave ${c.e.instance.label}. 
 
-This could be as a consequence of misbehaviour, but it is not a ban (i.e. you can re-join at any time).
+This could be as a consequence of misbehaviour, but it is not a ban (i.c.e. you can re-join at any time).

@@ -60,7 +60,7 @@ def clear_tag(tag):
         pass  # when app_globals isn't there yet
 
 
-def memoize(iden, time=0):
+def memoize(iden, time=0, make_key=make_key):
     try:
         from pylons import tmpl_context as c
         iden = c.instance.key + '.' + iden if c.instance else iden
@@ -90,8 +90,8 @@ def memoize(iden, time=0):
                     cache.set(key, res, time=time)
                     tag_fn(key, a, kw)
                 #else:
-                    #print "Cache hit", key + iden
-                if res == NoneResult:
+                # print "Cache hit", key + iden
+                if res is NoneResult:
                     res = None
             return res
         return new_fn
