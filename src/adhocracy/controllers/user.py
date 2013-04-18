@@ -523,6 +523,7 @@ class UserController(BaseController):
                 to_email=support_email,
                 subject=_('Registration attempt on %s') % h.site.name(),
                 body=body,
+                decorate_body=False,
             )
             data = {
                 'email': login,
