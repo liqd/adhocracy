@@ -282,6 +282,9 @@ piwik.id =
 # INSTALL: Allow administrators to let users log in from an invitation email
 # adhocracy.enable_welcome = True
 
+# INSTALL: Hide individual votes and only show aggregate results (EXPERIMENTAL)
+# adhocracy.secret_voting = true
+
 # INSTALL: Allow users to lock themselves out of adhocracy
 # adhocracy.allow_self_deletion = true
 

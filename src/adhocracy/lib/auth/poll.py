@@ -1,3 +1,5 @@
+from paste.deploy.converters import asbool
+from pylons import tmpl_context as c, config
 import user
 
 
@@ -8,6 +10,8 @@ def index(check):
 def show(check, p):
     check.perm('poll.show')
     check.other('poll_has_ended', p.has_ended())
+    secret_voting = asbool(config.get('adhocracy.secret_voting', 'false'))
+    check.other('secret_voting', secret_voting)
 
 
 def create(check):
