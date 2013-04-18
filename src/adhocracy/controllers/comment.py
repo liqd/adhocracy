@@ -1,14 +1,18 @@
+from cgi import FieldStorage
 import logging
 
 import formencode
-from formencode import htmlfill, Invalid, validators
+from formencode import htmlfill, Invalid, validators, All
 
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy import forms, model
+from adhocracy.forms.common import ValidImageFileUpload
+from adhocracy.forms.common import ValidFileUpload
 from adhocracy.lib import democracy
 from adhocracy.lib import event, helpers as h, sorting, tiles
 from adhocracy.lib.auth import can, csrf, require, guard
@@ -30,6 +34,8 @@ class CommentNewForm(formencode.Schema):
                                  if_missing=False)
     variant = forms.VariantName(not_empty=False, if_empty=model.Text.HEAD,
                                 if_missing=model.Text.HEAD)
+    image = All(ValidImageFileUpload(not_empty=False, if_missing=None),
+                ValidFileUpload(not_empty=False),)
 
 
 class CommentCreateForm(CommentNewForm):
@@ -60,6 +66,12 @@ class CommentPurgeForm(formencode.Schema):
 class CommentController(BaseController):
 
     identifier = "comments"
+
+    def __init__(self):
+        super(CommentController, self).__init__()
+        c.api = h.adhocracy_service.RESTAPI()
+        c.allow_mediafiles = config.get_bool(
+            'adhocracy.delegateable_mediafiles')
 
     @RequireInstance
     @guard.comment.index()
@@ -132,6 +144,13 @@ class CommentController(BaseController):
             sentiment=self.form_result.get('sentiment'),
             with_vote=can.user.vote())
 
+        image = self.form_result.get('image')
+        if isinstance(image, FieldStorage):
+            response = c.api.add_image(image.filename, image.file.read())
+            name = response.json()["name"]
+            mediafile = model.MediaFile.create(name)
+            mediafile.assignComment(comment, c.user)
+
         # watch comments by default!
         model.Watch.create(c.user, comment)
         model.meta.Session.commit()
@@ -149,9 +168,18 @@ class CommentController(BaseController):
     def edit(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
-        extra_vars = {'comment': c.comment}
+
+        image = c.comment.mediafiles[0].name if c.comment.mediafiles else u""
+        c.image_src = (u"%s/%s" % (c.api.images_get.url, image)
+                       if image else u"")
+        extra_vars = {
+            'comment': c.comment,
+            'allow_mediafiles': c.allow_mediafiles,
+            'image_src': c.image_src,
+        }
         if c.came_from != u'':
             extra_vars[u'came_from'] = c.came_from
+
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
                               extra_vars=extra_vars)
@@ -175,6 +203,18 @@ class CommentController(BaseController):
             decision = democracy.Decision(c.user, c.comment.poll)
             if not decision.result == model.Vote.YES:
                 decision.make(model.Vote.YES)
+        if 'delete_image' in self.form_result:
+            del(c.comment.mediafiles[0])
+        image = self.form_result.get('image')
+        if isinstance(image, FieldStorage):
+            # delete old image (assume there is only one)
+            if c.comment.mediafiles:
+                del(c.comment.mediafiles[0])
+            #add new image
+            response = c.api.add_image(image.filename, image.file.read())
+            name = response.json()["name"]
+            mediafile = model.MediaFile.create(name)
+            mediafile.assignComment(c.comment, c.user)
         model.meta.Session.commit()
 
         # do not modify watch state as comments are always watched
@@ -310,6 +350,7 @@ class CommentController(BaseController):
         template_args = dict(parent=parent,
                              topic=topic,
                              variant=variant,
+                             allow_mediafiles=c.allow_mediafiles,
                              # format="ajax",
                              came_from=came_from,
                              )

@@ -1,9 +1,12 @@
+from paste.deploy.converters import asbool
 from pylons import tmpl_context as c
+from pylons import config
 
 from adhocracy.lib import text
 from adhocracy.lib.auth import can
 from adhocracy.lib.auth.csrf import token_id
 from adhocracy.lib.tiles.util import render_tile, BaseTile
+from adhocracy.lib import helpers as h
 
 
 class CommentTile(BaseTile):
@@ -13,6 +16,9 @@ class CommentTile(BaseTile):
         self.__topic_outbound = None
         self.__score = None
         self.__num_child = None
+        self.api = h.adhocracy_service.RESTAPI()
+        image = self.comment.mediafiles[0].name if self.comment.mediafiles else u""
+        self.image_src = u"%s/%s" % (self.api.images_get.url, image) if image else u""
 
     @property
     def text(self):
@@ -59,20 +65,22 @@ def header(comment, tile=None, active='comment'):
 
 
 def list(topic, root=None, comments=None, variant=None, recurse=True,
-         came_from=''):
+         came_from='', allow_mediafiles=False):
     cached = c.user is None
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None,
                        comments=comments, topic=topic,
                        variant=variant, root=root, recurse=recurse,
-                       cached=cached, came_from=came_from)
+                       cached=cached, came_from=came_from,
+                       allow_mediafiles=allow_mediafiles)
 
 
-def show(comment, recurse=True, came_from=''):
+def show(comment, recurse=True, came_from='', allow_mediafiles=False):
     can_edit = can.comment.edit(comment)
     groups = sorted(c.user.groups if c.user else [])
     return render_tile('/comment/tiles.html', 'show', CommentTile(comment),
                        comment=comment, cached=True, can_edit=can_edit,
                        groups=groups, came_from=came_from, recurse=recurse,
-                       cache_csrf_token=token_id())
+                       cache_csrf_token=token_id(),
+                       allow_mediafiles=allow_mediafiles)
