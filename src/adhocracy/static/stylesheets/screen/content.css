@@ -1857,3 +1857,5 @@ form[name="login"] input[type="password"] {
   text-align: right;
   padding-right: 0;
 }
+
+.staticpage_edit {float: right;}
