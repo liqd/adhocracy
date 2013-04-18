@@ -19,6 +19,10 @@ def name():
     return config.get('adhocracy.site.name', _("Adhocracy"))
 
 
+def relative_urls():
+    return asbool(config.get('adhocracy.relative_urls', 'false'))
+
+
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
              append_slash=False, config=config):
     """
@@ -37,7 +41,7 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     if instance == CURRENT_INSTANCE:
         instance = ifilter.get_instance()
 
-    if asbool(config.get('adhocracy.relative_urls', 'false')):
+    if relative_urls():
 
         if instance is None:
             prefix = ''
