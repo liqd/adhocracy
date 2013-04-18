@@ -11,12 +11,12 @@
     ${h.field_token()|n}
     <div class="mainbar">
         ${_("In order to retrieve your login, you will have to enter your email address.")}
-        <br/><br/>  
-        <label for="email">${_("E-Mail:")}</label>
-        <input name="email" />
-        
-        <br/>
-        <input type="submit" value="${_('Reset')}" />
+        <br/><br/>
+        <label>
+        ${_("E-Mail:")} <input name="email" type="email" required="required" autofocus="autofocus" />
+        </label>
+
+        <input type="submit" value="${_('Reset')}" style="padding: 5px 10px;" />
     </div>
 </form>
 </%block>
