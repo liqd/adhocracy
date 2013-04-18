@@ -97,7 +97,7 @@ delegate_url = url if can.delegation.create() else None
                   ## :class:`adhocracy.model.Page`
                   ## proposal descriptions have no other variant than head.
                   ${tiles.comment.list(c.proposal.description, 
-                                       variant=c.proposal.description.head.variant)}
+                                       variant=c.proposal.description.head.variant, allow_mediafiles=c.allow_mediafiles)}
             </div>
             </section>
             
