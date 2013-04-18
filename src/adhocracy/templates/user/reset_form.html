@@ -3,7 +3,11 @@
 
 <%block name="headline">
 <h1 class="page_title">${_("Password reset")}</h1>
-<p>${_("You will be sent an activation link that, when opened, will cause the system to email you a new password.")}</p>
+%if not lib.auth.welcome.welcome_enabled():
+${_("You will be sent an activation link that, when opened, will cause the system to email you a new password.")}
+%else
+${_("You will be sent an activation link that, when opened, will allow you pick a new password.")}
+%endif
 </%block>
 
 <%block name="main_content">
