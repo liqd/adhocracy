@@ -19,7 +19,7 @@
 </%def>
 
 
-<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True, ret_url='')">
+<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True, ret_url='', allow_mediafiles=False)">
     <%
     _comments = h.comments_sorted(comments, root=root, variant=variant)
     %>
@@ -41,7 +41,7 @@
              id="${target}"
              data-cancel=".cancel">
             <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url, show_cancel=(len(comments) != 0))}
+                ${create_form(None, topic, variant=variant, ret_url=ret_url, show_cancel=(len(comments) != 0), allow_mediafiles=allow_mediafiles)}
             </div>
         </div>
         %if hide_form:
@@ -102,12 +102,11 @@
         %for comment, tile in _comments:
         %if tile.show:
         <li>
-            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url)}
+            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url, allow_mediafiles=allow_mediafiles)}
 
             %if recurse:
-            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, ret_url=ret_url)}
+            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, ret_url=ret_url, allow_mediafiles=allow_mediafiles)}
             %endif
-
         </li>
         %endif
         %endfor
@@ -116,7 +115,7 @@
 </%def>
 
 
-<%def name="show(tile, comment, ret_url='')">
+<%def name="show(tile, comment, ret_url='', allow_mediafiles=False)">
     <%
     if not tile.show:
         return
@@ -220,10 +219,14 @@
                 %endif
             </div>
         </div>
+
+        %if tile.image_src and allow_mediafiles:
+        <img src="${tile.image_src}/middle" />
+        %endif
     </div>
 </%def>
 
-<%def name="edit_form(comment, ret_url='')">
+<%def name="edit_form(comment, ret_url='', allow_mediafiles=False, image_src=u'')">
 
 <%
 
@@ -240,7 +243,7 @@ klass_neutral = klass(0)
 klass_con = klass(-1)
 %>
     <form name="new_comment" class="comment_form"
-          method="POST" action="${h.entity_url(comment, comment_page=True)}">
+          method="POST" action="${h.entity_url(comment, comment_page=True)}" accept-charset="utf-8" enctype="multipart/form-data">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="ret_url" value="${ret_url}" />
@@ -266,6 +269,19 @@ klass_con = klass(-1)
               <input type="hidden" name="sentiment"
                      value="${str(comment.latest.sentiment)}" />
             </div>
+            %if allow_mediafiles: 
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper">
+                %if image_src:
+                <img src="${image_src}/logo" />
+                <button name="delete_image" value="1">
+                   <i class="icon-remove"></i>${_('Delete image')}
+                </button>     
+                %endif
+              <label for="image">${_('Add image to this comment.')}</label>
+              <input id="image" name="image" type="file" accept="image/jpeg">   
+            </div>  
+            %endif
             <hr />
             <div class="input_wrapper submit">
               <input type="submit" value="${_('Save')}" />&nbsp;
@@ -280,7 +296,7 @@ klass_con = klass(-1)
 </%def>
 
 
-<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None, show_cancel=True)">
+<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None, show_cancel=True, allow_mediafiles=False)">
 
 <%
 if format is None:
@@ -292,7 +308,7 @@ if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
     <form name="new_comment" class="comment_form"
-        method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
+        method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}" accept-charset="utf-8" enctype="multipart/form-data">
       ${h.field_token()|n}
       <input type="hidden" name="topic" value="${topic.id}" />
       <input type="hidden" name="ret_url" value="${ret_url}" />
@@ -329,6 +345,13 @@ if wiki is None:
                   ${_("Allow others to edit this comment.") if h.comment.wording() else _("Allow others to edit this argument.")}
               </label>
             </div>
+            %if allow_mediafiles: 
+            <div class="hr"><hr /></div>
+            <div class="input_wrapper">
+              <label for="image">${_('Add image to this comment.')}</label>
+              <input id="image" name="image" type="file" accept="image/jpeg">   
+            </div>
+            %endif        
             <hr />
             <div class="input_wrapper submit">
               <input type="submit" value="${_('Save')}" />&nbsp;

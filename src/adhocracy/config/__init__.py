@@ -12,6 +12,7 @@ DEFAULTS = {
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
+    'adhocracy.delegateable_mediafiles': False,
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,
     'adhocracy.feedback_check_instance': True,
