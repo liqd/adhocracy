@@ -1,6 +1,6 @@
 
-${e.user.name} has modified ${e.instance.label}. The rules of voting and participation may have changed. 
-%if e.instance.description: 
+${c.e.user.name} has modified ${c.e.instance.label}. The rules of voting and participation may have changed. 
+%if c.e.instance.description: 
 Description: 
-${e.instance.description}  
+${c.e.instance.description}  
 %endif

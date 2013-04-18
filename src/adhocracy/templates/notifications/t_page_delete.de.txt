@@ -1,1 +1,1 @@
-${e.user.name} entfernte die Seite ${e.page.title}.  
+${c.e.user.name} entfernte die Seite ${c.e.page.title}.  

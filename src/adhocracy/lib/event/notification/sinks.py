@@ -1,5 +1,6 @@
 import logging
 
+from pylons import config
 from webhelpers import text
 
 from adhocracy.lib import mail, microblog
@@ -17,9 +18,11 @@ def log_sink(pipeline):
 
 
 def twitter_sink(pipeline):
+    twitter_enabled = bool(config.get('adhocracy.twitter.username', ''))
     for notification in pipeline:
         user = notification.user
-        if user.twitter and (notification.priority >= user.twitter.priority):
+        if (twitter_enabled and user.twitter
+           and notification.priority >= user.twitter.priority):
             notification.language_context()
             short_url = microblog.shorten_url(notification.link)
             remaining_length = TWITTER_LENGTH - \

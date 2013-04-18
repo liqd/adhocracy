@@ -1,3 +1,3 @@
-${e.user.name} hat eine laufende Abstimmung über den Vorschlag ${e.proposal.title} unterbrochen. 
+${c.e.user.name} hat eine laufende Abstimmung über den Vorschlag ${c.e.proposal.title} unterbrochen. 
 
 Alle während der Abstimmung abgegebenen Stimmen sind dadurch ungültig. Wenn eine neue Abstimmung gestartet wird, müssen Sie Ihre Stimme erneut abgeben.

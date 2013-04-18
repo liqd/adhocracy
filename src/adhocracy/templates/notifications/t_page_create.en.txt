@@ -1,6 +1,6 @@
-${e.user.name} has created a new page, ${e.rev.title}.  
+${c.e.user.name} has created a new page, ${c.e.rev.title}.  
 
-%if e.rev.text:
+%if c.e.rev.text:
 Here's the page text: 
-${e.rev.text}
+${c.e.rev.text}
 %endif

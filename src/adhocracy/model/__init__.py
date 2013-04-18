@@ -498,18 +498,13 @@ def before_commit(session):
         return
 
     for operation, entities in session._object_cache.items():
-        for entity in entities:
+        while len(entities) > 0:
+            entity = entities.pop()
+
+            if operation in [UPDATE, DELETE]:
+                cache.invalidate(entity)
+
             post_update(entity, operation)
-
-    #for entity in session._object_cache[INSERT]:
-
-    for entity in session._object_cache[UPDATE]:
-        cache.invalidate(entity)
-
-    for entity in session._object_cache[DELETE]:
-        cache.invalidate(entity)
-
-    del session._object_cache
 
 
 def post_update(entity, operation):

@@ -1,4 +1,4 @@
-${e.user.name} edited the proposal ${e.proposal.title}.  
+${c.e.user.name} edited the proposal ${c.e.proposal.title}.  
 
 Here's the current description: 
-${e.proposal.description.head.text}
+${c.e.proposal.description.head.text}

@@ -1,6 +1,6 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-Your delegate, ${e.vote.delegation.agent.name}, voted ${common.vote(e.vote)} the ${e.poll.scope.label}. 
+Your delegate, ${c.e.vote.delegation.agent.name}, voted ${common.vote(c.e.vote)} the ${c.e.poll.scope.label}. 
 
 This conflicts with a vote from one of your other delegates. As a consequence of this conflict, you're currently abstaining on the proposal.    
 

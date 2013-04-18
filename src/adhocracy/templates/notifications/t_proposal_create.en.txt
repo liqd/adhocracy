@@ -1,4 +1,4 @@
-${e.user.name} has created a new proposal, ${e.proposal.title}.  
+${c.e.user.name} has created a new proposal, ${c.e.proposal.title}.  
 
 Here's the initial description: 
-${e.proposal.description.head.text}
+${c.e.proposal.description.head.text}

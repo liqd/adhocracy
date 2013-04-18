@@ -1,1 +1,1 @@
-${e.user.name} hat ${e.instance.label} entfernt.
+${c.e.user.name} hat ${c.e.instance.label} entfernt.

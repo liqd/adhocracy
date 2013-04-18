@@ -1,3 +1,3 @@
-${e.user.name|n} has delegated voting on ${e.scope.title|n} to ${e.agent.name|n}.
+${c.e.user.name|n} has delegated voting on ${c.e.scope.title|n} to ${c.e.agent.name|n}.
 
-Delegate page: ${h.base_url(None, path="/user/%s" % e.agent.user_name)}
+Delegate page: ${h.base_url(None, path="/user/%s" % c.e.agent.user_name)}

@@ -1,3 +1,3 @@
-${e.user.name|n} delegierte das Stimmrecht zu ${e.scope.label|n} an ${e.agent.name|n}.
+${c.e.user.name|n} delegierte das Stimmrecht zu ${c.e.scope.label|n} an ${c.e.agent.name|n}.
 
-Seite des Delegaten: ${h.base_url(None, path="/user/%s" % e.agent.user_name)}
+Seite des Delegaten: ${h.base_url(None, path="/user/%s" % c.e.agent.user_name)}

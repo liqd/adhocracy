@@ -1,6 +1,6 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-${e.user.name|n} hat einen Kommentar modifiziert, den Sie betreffs ${e.comment.topic.title|n} eingestellt haben. Dieser lautet nun:
+${c.e.user.name|n} hat einen Kommentar modifiziert, den Sie betreffs ${c.e.comment.topic.title|n} eingestellt haben. Dieser lautet nun:
 
-${e.rev.text|n}
-${common.quotecomment(e.comment.reply)}
+${c.e.rev.text|n}
+${common.quotecomment(c.e.comment.reply)}

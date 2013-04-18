@@ -1,1 +1,1 @@
-${e.user.name} hat die Instanz ${e.instance.label} verlassen.
+${c.e.user.name} hat die Instanz ${c.e.instance.label} verlassen.

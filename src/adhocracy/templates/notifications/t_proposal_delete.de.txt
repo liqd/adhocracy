@@ -1,1 +1,1 @@
-${e.user.name} entfernte den Vorschlag ${e.proposal.title}.  
+${c.e.user.name} entfernte den Vorschlag ${c.e.proposal.title}.  

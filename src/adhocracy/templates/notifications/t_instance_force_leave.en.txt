@@ -1,3 +1,3 @@
-${e.user.name}s membership in ${e.instance.label} was revoked by ${e.admin.name}. 
+${c.e.user.name}s membership in ${c.e.instance.label} was revoked by ${c.e.admin.name}. 
 
-This could be as a consequence of misbehaviour, but it is not a ban (i.e. ${e.user.name} can re-join at any time).
+This could be as a consequence of misbehaviour, but it is not a ban (i.c.e. ${c.e.user.name} can re-join at any time).

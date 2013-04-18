@@ -1,7 +1,7 @@
 
-${e.user.name} hat eine neue Instanz angelegt, ${e.instance.label}.
-%if e.instance.description: 
+${c.e.user.name} hat eine neue Instanz angelegt, ${c.e.instance.label}.
+%if c.e.instance.description: 
 
 Beschreibung: 
-${e.instance.description}  
+${c.e.instance.description}  
 %endif

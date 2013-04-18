@@ -1,5 +1,5 @@
 <%namespace name="common" file="/notifications/common.txt"/>
 
-This message confirms your vote on ${e.poll.scope.label}. You voted ${common.vote(e.vote)} the proposal.   
+This message confirms your vote on ${c.e.poll.scope.label}. You voted ${common.vote(c.e.vote)} the proposal.   
 
 If you'd like to review your choice, visit the poll page.
