@@ -20,6 +20,7 @@ from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth.welcome import welcome_enabled, welcome_url
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
@@ -311,20 +312,38 @@ class UserController(BaseController):
         if c.page_user is None:
             msg = _("There is no user registered with that email address.")
             return htmlfill.render(self.reset_form(), errors=dict(email=msg))
-        c.page_user.reset_code = random_token()
-        model.meta.Session.add(c.page_user)
-        model.meta.Session.commit()
-        url = h.base_url("/user/%s/reset?c=%s" % (c.page_user.user_name,
-                                                  c.page_user.reset_code),
-                         absolute=True)
-        body = (
-            _("you have requested that your password be reset. In order "
-              "to confirm the validity of your claim, please open the "
-              "link below in your browser:") +
-            "\r\n\r\n  " + url + "\n\n" +
-            _("Your user name to login is: %s") % c.page_user.user_name)
 
-        libmail.to_user(c.page_user, _("Reset your password"), body)
+        if welcome_enabled():
+            welcome_code = (c.page_user.welcome_code
+                            if c.page_user.welcome_code
+                            else random_token())
+            c.page_user.reset_code = u'welcome!' + welcome_code
+            model.meta.Session.add(c.page_user)
+            model.meta.Session.commit()
+            url = welcome_url(c.page_user, welcome_code)
+            body = (
+                _("you have requested that your password be reset. In order "
+                  "to confirm the validity of your claim, please open the "
+                  "link below in your browser:") +
+                "\n\n  " + url + "\n")
+            libmail.to_user(c.page_user,
+                            _("Login for %s") % h.site.name(),
+                            body)
+        else:
+            c.page_user.reset_code = random_token()
+            model.meta.Session.add(c.page_user)
+            model.meta.Session.commit()
+            url = h.base_url("/user/%s/reset?c=%s" % (c.page_user.user_name,
+                                                      c.page_user.reset_code),
+                             absolute=True)
+            body = (
+                _("you have requested that your password be reset. In order "
+                  "to confirm the validity of your claim, please open the "
+                  "link below in your browser:") +
+                "\r\n\r\n  " + url + "\n" +
+                _("Your user name to login is: %s") % c.page_user.user_name)
+
+            libmail.to_user(c.page_user, _("Reset your password"), body)
         return render("/user/reset_pending.html")
 
     @validate(schema=UserCodeForm(), form="reset_form", post_only=False,
