@@ -2,6 +2,7 @@
 
 
 def test_validate_image_data_valid(dummy_request):
+    # dummy_request is a pytest fixture from conftest
     from adhocracy_kotti.validate import validate_image_data
     dummy_request.validated = {"data": b"binary_base64"}
     validate_image_data(dummy_request)
@@ -40,6 +41,7 @@ def test_validate_api_token_missing(dummy_request):
 
 
 def test_validate_image_name_exists_valid(root, dummy_request):
+    # root is a pytest fixture from kotti.tests
     from adhocracy_kotti.validate import validate_image_name_exists
     from adhocracy_kotti.utils import get_image_folder
     from kotti.resources import Image
