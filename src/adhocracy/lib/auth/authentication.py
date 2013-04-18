@@ -14,20 +14,25 @@ from authorization import InstanceGroupSourceAdapter
 from instance_auth_tkt import InstanceAuthTktCookiePlugin
 
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
-import repoze.who.plugins.sa
 from pylons import config
 from webob import Request
 
 log = logging.getLogger(__name__)
 
+
 def allowed_login_types():
-    login = config.get('adhocracy.login_type', 'openid,username+password,email+password')
+    login = config.get('adhocracy.login_type',
+                       'openid,username+password,email+password')
     login = login.split(',')
     return login
 
 
 class _EmailBaseSQLAlchemyPlugin(object):
-    default_translations = {'user_name': "user_name", 'email': 'email', 'validate_password': "validate_password"}
+    default_translations = {
+        'user_name': 'user_name',
+        'email': 'email',
+        'validate_password': 'validate_password'
+    }
 
     def get_user(self, login):
         login_configuration = allowed_login_types()
@@ -44,7 +49,7 @@ class _EmailBaseSQLAlchemyPlugin(object):
                 login_type = u'email'
             else:
                 return None
-        
+
         login_attr = getattr(self.user_class, self.translations[login_type])
         query = self.dbsession.query(self.user_class)
         query = query.filter(login_attr == login)
@@ -56,8 +61,9 @@ class _EmailBaseSQLAlchemyPlugin(object):
             # verify that there's only _one_ matching userid.
             return None
 
+
 class EmailSQLAlchemyAuthenticatorPlugin(_EmailBaseSQLAlchemyPlugin,
-          repoze.who.plugins.sa.SQLAlchemyAuthenticatorPlugin):
+                                         SQLAlchemyAuthenticatorPlugin):
 
     def authenticate(self, environ, identity):
         if not ("login" in identity and "password" in identity):
@@ -69,10 +75,12 @@ class EmailSQLAlchemyAuthenticatorPlugin(_EmailBaseSQLAlchemyPlugin,
             validator = getattr(user, self.translations['validate_password'])
             if validator(identity['password']):
                 return user.user_name
-                
+
+
 class EmailSQLAlchemyUserMDPlugin(_EmailBaseSQLAlchemyPlugin,
-          repoze.who.plugins.sa.SQLAlchemyUserMDPlugin):
+                                  SQLAlchemyUserMDPlugin):
     pass
+
 
 class AlternateLoginFriendlyFormPlugin(FriendlyFormPlugin):
     def __init__(self, get_user, *args, **kwargs):
@@ -112,20 +120,21 @@ def setup_auth(app, config):
         secure=config.get('adhocracy.protocol', 'http') == 'https'
     )
 
-    sqlauth = EmailSQLAlchemyAuthenticatorPlugin(model.User, model.meta.Session)
+    sqlauth = EmailSQLAlchemyAuthenticatorPlugin(model.User,
+                                                 model.meta.Session)
     sql_user_md = SQLAlchemyUserMDPlugin(model.User, model.meta.Session)
 
     login_urls = [
-            '/login',
-            '/perform_login',
-            '/post_login',
-            '/logout',
-            '/post_logout',
+        '/login',
+        '/perform_login',
+        '/post_login',
+        '/logout',
+        '/post_logout',
     ]
     login_options = dict(
-            login_counter_name='_login_tries',
-            rememberer_name='auth_tkt',
-            charset='utf-8'
+        login_counter_name='_login_tries',
+        rememberer_name='auth_tkt',
+        charset='utf-8',
     )
     if config.get('adhocracy.login_style') == 'alternate':
         form = AlternateLoginFriendlyFormPlugin(sqlauth.get_user,

@@ -84,6 +84,7 @@ class UserResetApplyForm(formencode.Schema):
     allow_extra_fields = True
     email = validators.Email(not_empty=True)
 
+
 class UserGroupmodForm(formencode.Schema):
     allow_extra_fields = True
     to_group = forms.ValidInstanceGroup()
@@ -105,6 +106,7 @@ class UserBadgesForm(formencode.Schema):
 class UserSetPasswordForm(formencode.Schema):
     allow_extra_fields = True
     password = validators.String(not_empty=False)
+
 
 class NoPasswordForm(formencode.Schema):
     allow_extra_fields = True
@@ -511,9 +513,11 @@ class UserController(BaseController):
 
         support_email = config.get('adhocracy.registration_support_email')
         if support_email:
-            body = _('A user tried to register on %s with the email address %s. '
-                    'Please contact them at %s .') % (h.site.name(), login,
-                    h.base_url('/', absolute=True))
+            body = (_('A user tried to register on %s with the email address'
+                      ' %s. Please contact them at %s .') %
+                    (h.site.name(),
+                     login,
+                     h.base_url('/', absolute=True)))
             libmail.to_mail(
                 to_name=h.site.name(),
                 to_email=support_email,
