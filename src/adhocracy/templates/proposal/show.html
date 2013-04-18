@@ -104,7 +104,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
         ## :class:`adhocracy.model.Page`
         ## proposal descriptions have no other variant than head.
         ${tiles.comment.list(c.proposal.description,
-                             variant=c.proposal.description.head.variant)}
+                             variant=c.proposal.description.head.variant, allow_mediafiles=c.allow_mediafiles)}
     </div>
 </section>
 
