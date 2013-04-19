@@ -19,9 +19,10 @@ Add a new test
 Run unit tests
 ---------------
 
-In an `adhocracy.buildout`_ you have ``bin/test``. Alternatively you can call::
+In an `adhocracy.buildout`_ you have ``bin/py.test``. The default config is
+set in .coveragerc and setup.cfg.
 
-  (adhocracy)$ bin/nosetests --with-pylons=etc/test.ini src/adhocracy/adhocracy/tests``
+  (adhocracy)$ bin/py.test
 
 
 Add functional doctests tests
@@ -36,8 +37,4 @@ Run one test file
 
 ::
 
-  (adhocracy)/src/adhocracy/$ ../../bin/nosetest -s adhocracy.tests.test_module
-
-The -s option enables stdout, so you can use pdb/ipdb statements in your code.
-
-.. _adhocracy.buildout: https://bitbucket.org/liqd/adhocracy.buildout
+  (adhocracy)$ bin/py.test -k test_comment
