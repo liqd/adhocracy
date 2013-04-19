@@ -40,6 +40,11 @@ def test_validate_api_token_missing(dummy_request):
     assert(len(dummy_request.errors) == 1)
 
 
+def test_validate_querystring_list_value_valid(dummy_request):
+    pass
+    #TODO
+
+
 def test_validate_image_name_exists_valid(root, dummy_request):
     # root is a pytest fixture from kotti.tests
     from adhocracy_kotti.validate import validate_image_name_exists

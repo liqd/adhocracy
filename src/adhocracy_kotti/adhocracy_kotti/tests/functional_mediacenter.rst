@@ -40,14 +40,20 @@ The response body gives us the name to identifiy the image::
 
 Now we can get the image ::
 
-    >>> resp = app.get("/images/%s" % str(name), headers=[('X-API-Token', API_TOKEN)])
+    >>> resp = app.get("/images/%s" % str(name))
     >>> resp
     <200 OK image/jpeg body='\x...
 
 or a specific image scale ::
 
-    >>> app.get("/images/%s/large" % str(name), headers=[('X-API-Token', API_TOKEN)])
+    >>> app.get("/images/%s/large" % str(name))
     <200 OK image/jpeg body='\x...
+
+TODO not working
+..or get all images with a special tag::
+
+    ..>>> app.get("/images", {"tags": ["tag1", "tag2"]},  headers=[('X-API-Token', API_TOKEN)])
+
 
 We can also delete the image::
 

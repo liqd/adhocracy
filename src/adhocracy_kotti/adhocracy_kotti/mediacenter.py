@@ -46,8 +46,9 @@ def images_post(request):
             "status": "succeeded"}
 
 
-@images.get(schema=schemata.TagsList, accept="text/json",
-            validators=(validate.validate_api_token,))
+@images.get(validators=(validate.validate_api_token,
+                        validate.validate_querystring_list_value_tags,
+                        ))
 def images_get(request):
     """Get all Images
 
@@ -64,7 +65,7 @@ def images_get(request):
     return imagesdata
 
 
-@imagescale.get(schema=schemata.ImageGETDATA, accept="text/json",)
+@imagescale.get(schema=schemata.ImageGETDATA)
 def imagescale_get(request):
     """Get the image binary with specific scale
 

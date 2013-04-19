@@ -1,6 +1,7 @@
 """Rest web service validators"""
 import base64
 import binascii
+import simplejson as json
 
 from adhocracy_kotti import utils
 
@@ -25,6 +26,19 @@ def validate_api_token(request):
         if token != valid_token:
             request.errors.add('header', 'X-API-Token',
                                'The token is invalid')
+
+
+def validate_querystring_list_value(attributename, request):
+    """Cornice does not support querystring json validation.
+       This validator loads all GET data attributename keys.
+    """
+    attr_items = [i[1] for i in request.GET.items()
+                  if i[0] == attributename]
+    request.validated[attributename] = attr_items
+
+
+def validate_querystring_list_value_tags(request):
+    validate_querystring_list_value("tags", request)
 
 
 def validate_image_name_exists(request):
