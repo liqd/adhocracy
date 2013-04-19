@@ -1,5 +1,5 @@
 from paste.deploy.converters import asbool
-from pylons import tmpl_context as c, config
+from pylons import config
 import user
 
 
