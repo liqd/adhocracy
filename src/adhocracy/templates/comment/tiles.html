@@ -289,7 +289,7 @@ else:
 if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
-  <h4>${_(u'Add comment')}</h4>
+  <h4>${_(u'Enter comment text:')}</h4>
   <div class="comment_form">
     <form name="new_comment" class="comment_form"
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
