@@ -8,8 +8,10 @@ from adhocracy.tests import TestController
 import adhocracy.tests.testtools as testtools
 from adhocracy import model
 
+
 class _MockResponse(object):
     pass
+
 
 class ImportExportTest(TestController):
     def setUp(self):
@@ -24,7 +26,9 @@ class ImportExportTest(TestController):
         )
         self.u2 = testtools.tt_make_user()
         self.badge.assign(user=self.u1, creator=self.u2)
-        self.instance = testtools.tt_make_instance(u'export_test', label=u'export_test', creator=self.u2)
+        self.instance = testtools.tt_make_instance(u'export_test',
+                                                   label=u'export_test',
+                                                   creator=self.u2)
 
     def test_transforms(self):
         tfs = importexport.transforms.gen_all({})
@@ -33,7 +37,6 @@ class ImportExportTest(TestController):
         tfs = importexport.transforms.gen_active({})
         self.assertEqual(len(tfs), 0)
 
-
     def test_export_basic(self):
         e = importexport.export_data({})
         self.assertEqual(len(e), 1)
@@ -41,12 +44,17 @@ class ImportExportTest(TestController):
         self.assertTrue(e['metadata']['version'] >= 3)
 
     def test_export_user(self):
-        e = importexport.export_data(dict(include_user=True, user_personal=True, user_password=True))
+        e = importexport.export_data(dict(include_user=True,
+                                          user_personal=True,
+                                          user_password=True))
         users = e['user'].values()
         self.assertTrue(len(users) >= 2)
-        self.assertTrue(any(u['user_name'] == self.u1.user_name for u in users))
-        self.assertTrue(any(u['email'] == self.u2.email for u in users))
-        self.assertTrue(any(u['adhocracy_password'] == self.u1.password for u in users))
+        self.assertTrue(any(u['user_name'] == self.u1.user_name
+                            for u in users))
+        self.assertTrue(any(u['email'] == self.u2.email
+                            for u in users))
+        self.assertTrue(any(u['adhocracy_password'] == self.u1.password
+                            for u in users))
         self.assertTrue(all(u'_' in u['locale'] for u in users))
         u1 = next(u for u in users if u['email'] == self.u1.email)
         self.assertEqual(u1['gender'], 'f')
@@ -63,9 +71,11 @@ class ImportExportTest(TestController):
 
     def test_export_instance(self):
         ed = importexport.export_data(dict(include_instance=True,
-                                         include_user=True, user_personal=True))
+                                           include_user=True,
+                                           user_personal=True))
         # Test that we don't spill non-representable objects by accident
-        ex = importexport.formats.render(ed, 'json', '(title)', response=_MockResponse())
+        ex = importexport.formats.render(ed, 'json', '(title)',
+                                         response=_MockResponse())
         e = importexport.formats.read_data(io.BytesIO(ex))
 
         self.assertTrue('instance' in e)
@@ -91,7 +101,7 @@ class ImportExportTest(TestController):
         idata = e['instance'][p.instance.key]
         self.assertTrue('proposals' in idata)
         pdata = idata['proposals'][str(p.id)]
-        assert 'comments' not in pdata 
+        assert 'comments' not in pdata
         self.assertEqual(pdata['title'], p.title)
         self.assertEqual(pdata['description'], p.description)
         self.assertEqual(pdata['adhocracy_type'], 'proposal')
@@ -104,12 +114,14 @@ class ImportExportTest(TestController):
         ))
         bdata = e['badge']
         assert len(bdata) >= 1
-        mykey,myb = next((bkey,bd) for bkey,bd in bdata.items() if bd['title'] == self.badge.title)
+        mykey, myb = next((bkey, bd) for bkey, bd in bdata.items()
+                          if bd['title'] == self.badge.title)
         self.assertEqual(myb['color'], self.badge.color)
         self.assertTrue(myb['visible'])
         self.assertEqual(myb['description'], self.badge.description)
         self.assertEqual(myb['adhocracy_badge_type'], 'user')
-        myu1 = next(u for u in e['user'].values() if u['email'] == self.u1.email)
+        myu1 = next(u for u in e['user'].values()
+                    if u['email'] == self.u1.email)
         self.assertEqual(myu1['badges'], [mykey])
 
     def test_export_comments(self):
@@ -156,10 +168,13 @@ class ImportExportTest(TestController):
         self.assertEqual(cdata2['sentiment'], -1)
         self.assertEqual(cdata2['adhocracy_type'], 'comment')
 
-
     def test_rendering(self):
-        e = importexport.export_data(dict(include_user=True, user_personal=True,
-            user_password=True, include_badge=True))
+        e = importexport.export_data({
+            'include_user': True,
+            'user_personal': True,
+            'user_password': True,
+            'include_badge': True,
+        })
         self.assertEqual(set(e.keys()), set(['metadata', 'user', 'badge']))
 
         formats = importexport.formats
@@ -167,7 +182,8 @@ class ImportExportTest(TestController):
         response = _MockResponse()
         zdata = formats.render(e, 'zip', 'test', response=response)
         with contextlib.closing(zipfile.ZipFile(io.BytesIO(zdata), 'r')) as zf:
-            self.assertEqual(set(zf.namelist()), set(['metadata.json', 'user.json', 'badge.json']))
+            expected_files = set(['metadata.json', 'user.json', 'badge.json'])
+            self.assertEqual(set(zf.namelist()), expected_files)
         zio = io.BytesIO(zdata)
         self.assertEqual(formats.detect_format(zio), 'zip')
         self.assertEqual(zio.read(), zdata)
@@ -177,7 +193,8 @@ class ImportExportTest(TestController):
         response = _MockResponse()
         jdata = formats.render(e, 'json', 'test', response=response)
         response = _MockResponse()
-        jdata_dl = formats.render(e, 'json_download', 'test', response=response)
+        jdata_dl = formats.render(e, 'json_download', 'test',
+                                  response=response)
         self.assertEqual(jdata, jdata_dl)
         self.assertTrue(isinstance(jdata, bytes))
         jio = io.BytesIO(jdata)
@@ -186,7 +203,8 @@ class ImportExportTest(TestController):
         self.assertEqual(e, formats.read_data(io.BytesIO(jdata), 'json'))
         self.assertEqual(e, formats.read_data(io.BytesIO(jdata), 'detect'))
 
-        self.assertRaises(ValueError, formats.render, e, 'invalid', 'test', response=response)
+        self.assertRaises(ValueError, formats.render, e, 'invalid', 'test',
+                          response=response)
         self.assertRaises(ValueError, formats.read_data, zdata, 'invalid')
 
         self.assertEqual(formats.detect_format(io.BytesIO()), 'unknown')
@@ -255,9 +273,7 @@ class ImportExportTest(TestController):
         self.assertTrue(not b.visible)
         self.assertEqual(b.description, 'test badge')
 
-
     def test_legacy(self):
         # Version 2 had 'users' instead of 'user'
         v2data = {'users': {}, 'metadata': {'version': 2}}
         self.assertTrue('users' in importexport.convert_legacy(v2data))
-
