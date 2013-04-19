@@ -10,6 +10,11 @@
 
       (function() {
         var u="${config.get('piwik.site')}";
+        %if not h.site.relative_urls():
+        _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+        _paq.push(["setCookieDomain", "*.${h.site.domain()}"]);
+        _paq.push(["setDomains", ["*.${h.site.domain()}"]]);
+        %endif
         _paq.push(["setTrackerUrl", u+"piwik.php"]);
         _paq.push(["setSiteId", "${config.get('piwik.id')}"]);
         var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
