@@ -2,14 +2,14 @@
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
-# rosangela <rosangelabochicchio@gmail.com>, 2013.
+# rosangela <rosangelabochicchio@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-16 13:50+0200\n"
-"PO-Revision-Date: 2013-04-16 11:51+0000\n"
-"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
+"POT-Creation-Date: 2013-04-19 02:22+0200\n"
+"PO-Revision-Date: 2013-04-19 00:23+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Thank you for helping."
-msgstr "Grazie per l'aiuto offerto."
+msgstr "Ti ringraziamo per l'aiuto offertoci."
 
 msgid "Please insert a subject for the mail we will send to the users."
 msgstr "Ti preghiamo di inserire l'oggetto della e-mail che invieremo agli utenti."
@@ -93,7 +93,7 @@ msgid "Cannot access delegation %(id)s"
 msgstr "La delegazione non è al momento disponibile %(id)s"
 
 msgid "The delegation is now revoked."
-msgstr "La delega è stata ora revocata."
+msgstr "La delegazione è stata ora revocata."
 
 #, python-format
 msgid "Error %s"
@@ -267,7 +267,7 @@ msgstr "Hai già richiesto questo OpenID."
 
 #, python-format
 msgid "OpenID %s already belongs to %s."
-msgstr "OpenID %s appartiene già a %s."
+msgstr "L'OpenID %s appartiene già a %s."
 
 msgid "Successfully added OpenID to user account."
 msgstr "OpenID aggiunto all'account utente con successo"
@@ -294,10 +294,10 @@ msgid "tutorial_norms_overview_tab"
 msgstr "Anteprima relativa ai decreti del gruppo. La lista mostra non soltanto\ni decreti suggeriti dai membri del gruppo, bensì anche il numero di proposte e di commenti riguardanti l'argomento di cui si sta discutendo."
 
 msgid "No proposal has been specified"
-msgstr "Non è stato indicata nessuna proposta."
+msgstr "Non è stata fatta nessuna proposta."
 
 msgid "You cannot create a new norm"
-msgstr "Non sei autorizzato a creare un nuovo decreto"
+msgstr "Impossibile creare una nuova delibera."
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -343,10 +343,10 @@ msgid "No such text revision."
 msgstr "La versione del testo che stai cercando non esiste."
 
 msgid "Cannot compare identical text revisions."
-msgstr "Le revisioni di testi identici non possono essere confrontate."
+msgstr "Impossibile confrontare le revisioni di testi identici."
 
 msgid "Cannot compare versions of different texts."
-msgstr "Le versioni di testi diversi non possono essere confrontate."
+msgstr "Impossibile confrontare le versioni di testi diversi."
 
 #, python-format
 msgid "The variant %s has been deleted."
@@ -367,22 +367,22 @@ msgid "Invalid text ID %s for this page/variant!"
 msgstr "Testo ID non valido %s per questa pagina/versione!"
 
 msgid "This is not an adoption poll."
-msgstr "Questo non è un sondaggio di adozione."
+msgstr "Questo non è un voto di risoluzione."
 
 msgid "This is not a rating poll."
-msgstr "Questo non è uno scrutinio di valutazione."
+msgstr "Questo non è un voto di consenso."
 
 msgid "The poll has ended."
-msgstr "Il sondaggio si è concluso."
+msgstr "La votazione si è conclusa."
 
 msgid "The proposal is not undergoing a poll."
-msgstr "La proposta non verrà sottoposta a sondaggio."
+msgstr "La proposta non verrà sottoposta a votazione."
 
 msgid "tutorial_proposal_overview_tab"
 msgstr "Antreprima relativa alle proposte suggerite fino ad oggi. Qui hai la possiblità di creare le proposte..."
 
 msgid "Please select norm and propose a change to it."
-msgstr "Ti preghiamo di selezionare un decreto e di proporre una modifica."
+msgstr "Ti preghiamo di selezionare una delibera e di proporne una modifica."
 
 msgid "tutorial_proposal_show_tab"
 msgstr "Sul sito dettagliato di una proposta troverai non soltanto le informazioni più importanti, bensí anche le infinite possibilità di partecipare attivamente a questa iniziativa."
@@ -393,7 +393,7 @@ msgstr "Proposta: %s"
 
 #, python-format
 msgid "Activity on the %s proposal"
-msgstr "Attività riguardo alla proposta %s"
+msgstr "Attività riguardanti la proposta %s"
 
 #, python-format
 msgid "The proposal %s has been deleted."
@@ -473,7 +473,7 @@ msgid "your password has been reset. It is now:"
 msgstr "la tua password è stata modificata. Ora sarà la seguente:"
 
 msgid "Please login and change the password in your user settings."
-msgstr "Ti preghiamo di accedere e di modificare la tua password nell'account utente."
+msgstr "Ti preghiamo di accedere al tuo profilo e di modificare la tua password nell'account utente."
 
 msgid "Your new password"
 msgstr "La tua nuova password"
@@ -548,7 +548,7 @@ msgid "You already have a password - use that to log in."
 msgstr "Possiedi già una password - utilizzala per accedere."
 
 msgid "A watchlist entry for this entity already exists."
-msgstr "Esiste giá una voce lista di riferimento per questa entità."
+msgstr "Esiste giá una voce nella lista di riferimento per questa entità."
 
 #, python-format
 msgid "You're not authorized to delete %s's watchlist entries."
@@ -567,7 +567,7 @@ msgid "That username already exists"
 msgstr "Il nome utente esiste già"
 
 msgid "That email is already registered"
-msgstr "Questo indirizzo email è stato giá registrato"
+msgstr "Questo indirizzo email è stato giá registrato da un altro utente"
 
 msgid "That email is already used by another account"
 msgstr "Questa email risulta già essere stata usata da un altro account"
@@ -597,7 +597,7 @@ msgstr "Il codice statico inserito non é valido"
 
 #, python-format
 msgid "No entity with ID '%s' exists"
-msgstr "Impossibile trovare l'entitá con l'ID '%s'"
+msgstr "Impossibile trovare la voce con l'ID '%s'"
 
 #, python-format
 msgid "No proposal with ID '%s' exists"
@@ -644,7 +644,7 @@ msgstr "Non sei autorizzato a creare dei cicli!"
 
 #, python-format
 msgid "No revision with ID '%s' exists"
-msgstr "Impossibile trovare la revisione con l'ID '%s'"
+msgstr "Impossibile trovare la versione con l'ID '%s'"
 
 #, python-format
 msgid "No comment with ID '%s' exists"
@@ -682,15 +682,15 @@ msgid "Invalid page function: %s"
 msgstr "Funzione di pagina non valida: '%s'"
 
 msgid "No variant name is given."
-msgstr "Non é stato dato nessun nome alla variante."
+msgstr "Non é stato dato nessun nome alla versione."
 
 #, python-format
 msgid "Invalid variant name: %s"
-msgstr "Nome della variante non valido: %s"
+msgstr "Nome della versione non valido: %s"
 
 #, python-format
 msgid "Variant name cannot be purely numeric: %s"
-msgstr "Il nome della variante non può essere semplicemente a caratteri numerici: %s"
+msgstr "Il nome della versione non può essere semplicemente a caratteri numerici: %s"
 
 msgid "An entry with this title already exists"
 msgstr "Esiste già una voce con questo titolo"
@@ -733,10 +733,10 @@ msgid ""
 msgstr "Devi inserire il seguente segnaposto nel testo: %s"
 
 msgid "This is not a valid image file"
-msgstr ""
+msgstr "Questo non è un'immagine valida"
 
 msgid "The file is too big (>1MB)"
-msgstr ""
+msgstr "Questo file é troppo grande (<1MB)"
 
 msgid "Please select at least one instance"
 msgstr "Tu preghiamo di scegliere almeno un gruppo"
@@ -779,7 +779,7 @@ msgid ""
 "A liquid democracy platform for making decisions in distributed, open groups"
 " by cooperatively creating proposals and voting on them to establish their "
 "support."
-msgstr "Si tratta di una piattaforma creata da Liquid Democracy dove diversi gruppi distribuiti apertamente possono collaborare insieme ad elaborare ed a votare le proprie proposte. "
+msgstr "Si tratta di una piattaforma creata da Liquid Democracy dove diversi gruppi distribuiti apertamente possono collaborare insieme, elaborare e votare le proprie proposte. "
 
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
@@ -821,7 +821,7 @@ msgstr "%s <%s>"
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
-msgstr "Questa email ti è stata inviata allo scopo di verificare il tuo indirizzo email. Per confermare l'indirizzo email seguente, ti preghiamo di cliccare su questo link nel tuo browser:"
+msgstr "Questa email ti è stata inviata allo scopo di verificare il tuo indirizzo email. Per confermare l seguente indirizzo email, ti preghiamo di cliccare su questo link nel tuo browser:"
 
 msgid "Confirm your email address"
 msgstr "Conferma il tuo indirizzo email"
@@ -866,7 +866,7 @@ msgid "Categories"
 msgstr "Categorie"
 
 msgid "Thumbnails"
-msgstr ""
+msgstr "Anteprima"
 
 msgid "Created by"
 msgstr "Creato da"
@@ -936,7 +936,7 @@ msgstr "Proposte più recenti"
 
 #, python-format
 msgid "Could not find the entity '%s'"
-msgstr "L'entità %s' non puó essere trovata"
+msgstr "Impossibile trovare l'entità  '%s'"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Ci dispiace, ma sembra che tu non disponga di alcuna autorizzazione a procedere."
@@ -947,7 +947,7 @@ msgstr "Ci dispiace, sembra che si sia verificato un errore (CSRF-allarme). Ti p
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
-msgstr "variante %(variant)s della %(page)s"
+msgstr "versione %(variant)s della %(page)s"
 
 msgid "is for"
 msgstr "é per"
@@ -1025,7 +1025,7 @@ msgstr "si è disconnesso %(instance)s "
 
 #, python-format
 msgid "%(instance)s: %(user)s was forced to leave"
-msgstr "%(instance)s: %(user)s è stato obbligato a disconnettersi"
+msgstr "%(instance)s: %(user)s è stato costretto a disconnettersi"
 
 #, python-format
 msgid "was forced to leave %(instance)s by %(admin)s"
@@ -1089,7 +1089,7 @@ msgstr "è stata creata %(page)s"
 
 #, python-format
 msgid "Edit page: %(page)s"
-msgstr "Modifica a pagina: %(page)s"
+msgstr "Modifica la pagina: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
@@ -1129,7 +1129,7 @@ msgstr "elimina commento da %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
-msgstr "Nuova delega: %(user)s ha delegato %(scope)s a %(agent)s"
+msgstr "Nuova delegazione: %(user)s ha delegato %(scope)s a %(agent)s"
 
 #, python-format
 msgid "delegated voting on %(scope)s to %(agent)s"
@@ -1157,11 +1157,11 @@ msgstr "Scrutinio: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Variants: %(user)s %(vote)s %(poll)s"
-msgstr "Varianti: %(user)s %(vote)s %(poll)s"
+msgstr "Versioni: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Adhocracy says hello: %(test)s"
-msgstr "Adhocracy è lieta di salutarti: %(test)s"
+msgstr "Adhocracy è lieta di darti il benvenuto: %(test)s"
 
 #, python-format
 msgid "test %(test)s"
@@ -1193,7 +1193,7 @@ msgstr "Il tuo delegato %(agent)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Delegation conflict regarding %(poll)s"
-msgstr "Conflitto di delega per quanto riguarda %(poll)s"
+msgstr "Conflitto di delegazione per quanto riguarda %(poll)s"
 
 #, python-format
 msgid "Comment Reply: %(topic)s"
@@ -1422,7 +1422,7 @@ msgid "Overview"
 msgstr "Anteprima"
 
 msgid "Norms"
-msgstr "Decreti"
+msgstr "Delibere"
 
 msgid "Members"
 msgstr "Membri"
@@ -1460,7 +1460,7 @@ msgid "Please choose a password:"
 msgstr "Ti preghiamo di scegliere una password:"
 
 msgid "Please pick a secure password"
-msgstr ""
+msgstr "Ti preghiamo di scegliere una password sicura"
 
 msgid "Set Password"
 msgstr "Imposta password"
@@ -1540,6 +1540,9 @@ msgstr "Voti del gruppo utenti"
 
 msgid "Shortlink"
 msgstr "Breve collegamento"
+
+msgid "Edit this page"
+msgstr ""
 
 msgid "Report abuse"
 msgstr "Report di abuso"
@@ -1752,10 +1755,10 @@ msgid "Preview:"
 msgstr "Anteprima"
 
 msgid "Delete current thumbnail image"
-msgstr ""
+msgstr "Elimina anteprima attuale"
 
 msgid "Upload thumbnail icon. This is used instead of color to show the badge"
-msgstr ""
+msgstr "Carica l'anteprima. Questa verrá usata invece del funzione \"colore\" per visualizzare i Badge. "
 
 msgid "Check to hide badge in user interface"
 msgstr "Controlla per nascondere il badge nell'interfaccia utente"
@@ -1849,7 +1852,7 @@ msgid "Proposal Category Badges"
 msgstr "Categorie delle proposte"
 
 msgid "Proposal Thumbnail Badges"
-msgstr ""
+msgstr "Anteprima dei Badges di questa proposta"
 
 msgid "Instance Badges"
 msgstr "Badge del gruppo"
@@ -1945,7 +1948,7 @@ msgid "Join instance to reply"
 msgstr "Iscriviti al gruppo per inserire un nuovo commento"
 
 msgid "Login to reply"
-msgstr "Entra per lasciare un commento"
+msgstr "Entra per inserire un commento"
 
 msgid "Validate email in order to reply"
 msgstr "Conferma la tua email per poter rispondere"
@@ -1975,6 +1978,9 @@ msgstr "neutrale"
 
 msgid "Con"
 msgstr "contro"
+
+msgid "Enter comment text:"
+msgstr ""
 
 msgid "Allow others to edit this comment."
 msgstr "Permetti agli altri di modificare questo commento."
@@ -2023,7 +2029,7 @@ msgid "Delegate: %s"
 msgstr "Delegare: %s"
 
 msgid "Delegation"
-msgstr "Delega"
+msgstr "Delegazione"
 
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
@@ -2063,12 +2069,12 @@ msgid "revoked %s"
 msgstr "revocato  %s"
 
 msgid "The delegation can be overridden or revoked at any time."
-msgstr "La delega può essere ignorata o revocata in qualsiasi momento."
+msgstr "La delegazione può essere ignorata o revocata in qualsiasi momento."
 
 msgid ""
 "No decisions have been based on this delegation yet. As soon as this "
 "delegation leads to any decisions, they will be listed here."
-msgstr "Nessuna decisione si è basata finora sulla delega. Non appena questa delega porterá a delle decisioni, le seguenti verrano elencate qui."
+msgstr "Nessuna decisione é stata basata finora sulla delegazione. Non appena questa delegazione porterá a delle decisioni, le seguenti verrano poi elencate qui di seguito."
 
 msgid "track record"
 msgstr "protocollo"
@@ -2097,7 +2103,7 @@ msgstr "Disponi di un'altra possibilità di voto."
 
 #, python-format
 msgid "You hold %s additional votes."
-msgstr "Disponi di %s altre possiblità di voto."
+msgstr "Disponi di %s ulteriori possiblità di voto."
 
 msgid ""
 "If this error continues to occur, please <a class='staticlink_imprint' "
@@ -2137,7 +2143,7 @@ msgstr "Informazioni..."
 
 #, python-format
 msgid "Create a proposal to start debating in %(instance)s."
-msgstr "Crea una proposta per poter iniziare un dibattito nel %(instance)s."
+msgstr "Suggerisci una proposta per poter iniziare un dibattito nel %(instance)s."
 
 msgid "Delete"
 msgstr "Elimina"
@@ -2146,7 +2152,7 @@ msgid "Delete instance"
 msgstr "Elimina gruppo"
 
 msgid "Are you sure you want to delete this instance?"
-msgstr "Sei sicuro di voler eliminae questo gruppo?"
+msgstr "Sei sicuro di voler eliminare questo gruppo?"
 
 msgid "Leave"
 msgstr "Abbandona"
@@ -2154,7 +2160,7 @@ msgstr "Abbandona"
 msgid ""
 "Are you sure you want to leave this instance? You will no longer be able to "
 "write contributions or to vote."
-msgstr "Sei sicuro di voler abbandonare questo gruppo? In tal caso ti sará più permesso di scrivere dei commenti o di votare."
+msgstr "Sei sicuro di voler abbandonare questo gruppo? In tal caso non ti sará più permesso di scrivere dei commenti o di votare."
 
 #, python-format
 msgid "Edit badges for %s"
@@ -2223,10 +2229,10 @@ msgid "Extra CSS"
 msgstr "Extra CSS"
 
 msgid "Thumbnail badges width"
-msgstr ""
+msgstr "Larghezza dell'anteprima dei Badges"
 
 msgid "Thumbnail badges height"
-msgstr ""
+msgstr "Altezza dell'anterpima dei Badges"
 
 msgid "Use Norms"
 msgstr "Utilizza decreti"
@@ -2241,7 +2247,7 @@ msgid "Use milestones"
 msgstr "Utilizza eventi"
 
 msgid "Use thumbnail badges"
-msgstr ""
+msgstr "Utilizza anteprima dei Badges"
 
 msgid "Hide global categories"
 msgstr "Nascondi categorie globali"
@@ -2816,10 +2822,10 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "Sei sicuro di voler eliminare questa proposta?"
 
 msgid "thumbnail badge"
-msgstr ""
+msgstr "Anteprima dei Badge"
 
 msgid "No Thumbnail Badge"
-msgstr ""
+msgstr "Non esiste un'anteprima del Badge"
 
 #, python-format
 msgid "Delegations: %s"
