@@ -1859,3 +1859,8 @@ form[name="login"] input[type="password"] {
 }
 
 .staticpage_edit {float: right;}
+
+form.password-reset input[type="submit"] {
+  padding: 5px 10px;
+}
+
