@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import contextlib
+import datetime
 import io
 import zipfile
 
@@ -30,6 +31,33 @@ class ImportExportTest(TestController):
         self.instance = testtools.tt_make_instance(u'export_test',
                                                    label=u'export_test',
                                                    creator=self.u2)
+        self.instance.label = u'test"\'/\\ä↭𝕐'
+        self.instance.description = u'test"\'/\\ä↭𝕐'
+        self.instance.required_majority = 0.42
+        self.instance.activation_delay = 5
+        self.instance.create_time = datetime.datetime.now()
+        self.instance.access_time = datetime.datetime.now()
+        self.instance.delete_time = None
+        self.instance.default_group_id = 42
+        self.instance.allow_adopt = False
+        self.instance.allow_delegate = False
+        self.instance.allow_propose = False
+        self.instance.allow_index = False
+        self.instance.hidden = False
+        self.instance.locale = u'fr_FR'
+        self.instance.css = u'test"\'/\\ä↭𝕐'
+        self.instance.frozen = True
+        self.instance.milestones = True
+        self.instance.use_norms = False
+        self.instance.require_selection = True
+        self.instance.is_authenticated = True
+        self.instance.hide_global_categories = True
+        self.instance.editable_comments_default = False
+        self.instance.require_valid_email = False
+        self.instance.allow_thumbnailbadges = True
+        self.instance.thumbnailbadges_height = 42
+        self.instance.thumbnailbadges_width = 42
+
 
     def test_transforms(self):
         tfs = importexport.transforms.gen_all({})
@@ -71,9 +99,11 @@ class ImportExportTest(TestController):
         self.assertTrue('gender' not in u1)
 
     def test_export_instance(self):
-        ed = importexport.export_data(dict(include_instance=True,
-                                           include_user=True,
-                                           user_personal=True))
+        ed = importexport.export_data({
+            'include_instance': True,
+           'include_user': True,
+           'user_personal': True,
+        })
         # Test that we don't spill non-representable objects by accident
         ex = importexport.formats.render(ed, 'json', '(title)',
                                          response=_MockResponse())
@@ -91,6 +121,38 @@ class ImportExportTest(TestController):
         self.assertTrue(isinstance(user_id, (str, unicode)))
         self.assertEqual(e['user'][user_id]['user_name'], self.u2.user_name)
         self.assertEqual(idata['adhocracy_type'], 'instance')
+
+    def test_importexport_instance(self):
+        opts = {
+            'include_instance': True
+        }
+        ed = importexport.export_data(opts)
+
+        testdata = ed['instance'][self.instance.key]
+        testdata['key'] += testtools.tt_make_str() + 'A' # Test for uppercase
+        ed['instance'] = {testdata['key']: testdata}
+
+        importexport.import_data(opts, ed)
+        imported_instance = model.Instance.find(testdata['key'])
+        self.assertTrue(imported_instance)
+        
+        INSTANCE_PROPS = [
+            'label', 'creator', 'description', 'required_majority',
+            'activation_delay', 'create_time', 'access_time', 'delete_time',
+            'default_group_id', 'allow_adopt', 'allow_delegate',
+            'allow_propose', 'allow_index', 'hidden', 'locale', 'css',
+            'frozen', 'milestones', 'use_norms', 'require_selection',
+            'is_authenticated', 'hide_global_categories',
+            'editable_comments_default', 'require_valid_email',
+            'allow_thumbnailbadges',
+            'thumbnailbadges_height', 'thumbnailbadges_width',
+        ]
+        for p in INSTANCE_PROPS:
+            imported = getattr(imported_instance, p)
+            expected = getattr(self.instance, p)
+            msg = (u'Instance.%s: Got %r, but expected %r' %
+                   (p, imported, expected))
+            self.assertEqual(expected, imported, msg)
 
     def test_export_proposal(self):
         p = testtools.tt_make_proposal(creator=self.u1)
@@ -278,3 +340,15 @@ class ImportExportTest(TestController):
         # Version 2 had 'users' instead of 'user'
         v2data = {'users': {}, 'metadata': {'version': 2}}
         self.assertTrue('users' in importexport.convert_legacy(v2data))
+
+    def test_time_encoding(self):
+        from adhocracy.lib.importexport import transforms
+        t1 = transforms.decode_time('2013-04-19T11:27:13Z')
+        self.assertEqual(t1.microsecond, 0)
+        t1_reencoded = transforms.decode_time(transforms.encode_time(t1))
+        self.assertEqual(t1, t1_reencoded)
+
+        t2 = transforms.decode_time('2013-04-19T11:27:23.123456')
+        self.assertEqual(t2.microsecond, 123456)
+        t2_reencoded = transforms.decode_time(transforms.encode_time(t2))
+        self.assertEqual(t2, t2_reencoded)
