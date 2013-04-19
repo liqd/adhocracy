@@ -13,6 +13,7 @@ images = Service(
     name='images',
     path='/images',
     description="Service to get images or add new ones")
+images.default_filters = []
 
 image = Service(
     name='image',
@@ -46,15 +47,15 @@ def images_post(request):
             "status": "succeeded"}
 
 
-@images.get(validators=(validate.validate_api_token,
-                        validate.validate_querystring_list_value_tags,
+@images.get(schema=schemata.TagsList,
+            validators=(validate.validate_api_token,
                         ))
 def images_get(request):
     """Get all Images
 
        returns: Sequence of ImageGET
     """
-    tags = request.validated["tags"]
+    tags = request.validated.get("tags")
     images = []
     if not tags:
         image_folder = utils.get_image_folder()
