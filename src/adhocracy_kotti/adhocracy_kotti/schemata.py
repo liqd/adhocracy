@@ -8,7 +8,7 @@ class Tags(colander.SequenceSchema):
 
 class TagsList(colander.MappingSchema):
 
-    tags = Tags(missing=[], default=[])
+    tags = Tags(missing=[], default=[], location="querystring")
 
 
 class Identifier(colander.SchemaNode):
