@@ -1,3 +1,4 @@
+# coding: utf-8
 
 import contextlib
 import io
@@ -19,7 +20,7 @@ class ImportExportTest(TestController):
         self.u1 = testtools.tt_make_user()
         self.u1.gender = 'f'
         self.badge = model.UserBadge.create(
-            title=u'importexport_badge',
+            title=u'importexport_badge"\'/\\ä↭𝕐',
             color=u'#ff00ff',
             visible=True,
             description=u'This badge tests',

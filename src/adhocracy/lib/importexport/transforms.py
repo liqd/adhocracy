@@ -50,7 +50,7 @@ class _Transform(object):
         return res
 
     def _compute_key(self, o):
-        return str(getattr(o, self._ID_KEY))
+        return unicode(getattr(o, self._ID_KEY))
 
     def export_all(self):
         return dict((self._compute_key(o), self._export(o))
