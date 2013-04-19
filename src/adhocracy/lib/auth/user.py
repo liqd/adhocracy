@@ -54,11 +54,7 @@ show_watchlist = show_dashboard
 
 
 def delete(check, u):
-    if has('user.manage'):
-        return
-    show(check, u)
-    check.other('user_not_self', u != c.user)
-    check.other(NOT_LOGGED_IN, not c.user)
+    edit(check, u)
     allowed = asbool(config.get('adhocracy.self_deletion_allowed', 'true'))
     check.other('self_deletion_allowed', not allowed)
 
