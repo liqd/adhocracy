@@ -17,7 +17,7 @@ def generate_image_name(binarydata):
 def to_appstruct(context, schema):
     """transform an image object to dictionary"""
     appstruct = schema.deserialize(context.__dict__)
-    appstruct["tags"] = context.tags
+    appstruct["tags"] = context.tags.copy()
     return appstruct
 
 
