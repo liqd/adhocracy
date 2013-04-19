@@ -32,13 +32,23 @@
 
       <fieldset>
         <legend>${_("Subject")}</legend>
-        <input name="subject" />
+        <input name="subject" required="required" />
       </fieldset>
 
       <fieldset>
         <legend>${_("Body")}</legend>
-        <textarea name="body"></textarea>
+        <textarea name="body" required="required"></textarea>
         <div>${_('Use {email}, {name}, {salutation} to address the user directly.')}</div>
+
+        %if lib.auth.authorization.has('global.admin'):
+          <label title="${_('Add a note about why the user got this message, and how to unsubscribe.') + u'\n' + _('Uncheck if user management is centralized.')}">
+          <input type="checkbox" name="include_footer" /> ${_('Include footer')}
+          </label>
+        %else:
+          ## Just for reference; this will be set to true anyways unless user gains
+          ## global.admin privileges in between rendering this form and submission
+          <input type="hidden" name="include_footer" checked="checked" />
+        %endif
       </fieldset>
 
       <fieldset>
