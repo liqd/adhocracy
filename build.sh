@@ -262,20 +262,20 @@ fi
 
 if [ '!' -e adhocracy_buildout/.git ]; then
     git clone "$GIT_URL" adhocracy_buildout
-    (cd adhocracy_buildout && git checkout -q "$branch")
-    (cd adhocracy_buildout && git submodule init)
-    (cd adhocracy_buildout && git submodule update)
+    (cd adhocracy_buildout; git checkout -q "$branch")
+    (cd adhocracy_buildout; git submodule init)
+    (cd adhocracy_buildout; git submodule update)
 fi
 
 cd adhocracy_buildout
 # Compile python
 if $compile_python; then
     if [ '!' -f python/bin/buildout ]; then
-        (cd python && python bootstrap.py)
+        (cd python; python bootstrap.py)
     else
-        (cd python && bin/buildout bootstrap)
+        (cd python; bin/buildout bootstrap)
     fi
-    (cd python && bin/buildout -N) 
+    (cd python; bin/buildout -N) 
 fi
 # Install adhocracy
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
