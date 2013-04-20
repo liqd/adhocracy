@@ -2,7 +2,7 @@ adhocracy medicenter REST-API browser tests
 ============================================
 
 Setup
------
+------
 
     >>> import base64
     >>> import copy
@@ -40,13 +40,13 @@ The response body gives us the name to identifiy the image::
 
 Now we can get the image ::
 
-    >>> resp = app.get("/images/%s" % str(name), headers=[('X-API-Token', API_TOKEN)])
+    >>> resp = app.get("/images/%s" % str(name))
     >>> resp
     <200 OK image/jpeg body='\x...
 
 or a specific image scale ::
 
-    >>> app.get("/images/%s/large" % str(name), headers=[('X-API-Token', API_TOKEN)])
+    >>> app.get("/images/%s/large" % str(name))
     <200 OK image/jpeg body='\x...
 
 We can list all images with a special tag::
