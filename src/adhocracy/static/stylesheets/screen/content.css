@@ -1864,6 +1864,12 @@ form.password-reset input[type="submit"] {
   padding: 5px 10px;
 }
 
+form.inline-form {
+  background: inherit;
+  padding: 0;
+  display: inline-block;
+}
+
 form[name="login"].login-alternate input[type="email"],
 form[name="login"].login-alternate input[type="text"],
 form[name="login"].login-alternate input[type="password"] {

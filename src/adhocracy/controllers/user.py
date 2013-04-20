@@ -21,6 +21,7 @@ from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth.welcome import can_welcome, welcome_url
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
@@ -210,7 +211,15 @@ class UserController(BaseController):
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
-        login = self.form_result.get("user_name")
+        login_configuration = h.allowed_login_types()
+        if 'username+password' in login_configuration:
+            login = self.form_result.get("user_name")
+        elif 'email+password' in login_configuration:
+            login = self.form_result.get("email")
+        else:
+            raise Exception('We have no way of authenticating the newly'
+                            'created user %s; check adhocracy.login_type' %
+                            credentials['login'])
         credentials = {
             'login': login,
             'password': self.form_result.get("password")
@@ -226,7 +235,8 @@ class UserController(BaseController):
                 session.save()
                 location = came_from
             else:
-                location = h.base_url('/user/%s/dashboard' % login)
+                location = h.base_url('/user/%s/dashboard' %
+                                      self.form_result.get("user_name"))
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -882,3 +892,22 @@ class UserController(BaseController):
         h.flash(_('You already have a password - use that to log in.'),
                 'error')
         return redirect(h.base_url('/login'))
+
+    @RequireInternalRequest(methods=['POST'])
+    @guard.perm('global.admin')
+    def generate_welcome_link(self, id):
+        if not can_welcome():
+            return ret_abort(_("Requested generation of welcome codes, but "
+                               "welcome functionality"
+                               "(adhocracy.enable_welcome) is not enabled."),
+                             code=403)
+
+        page_user = get_entity_or_abort(model.User, id,
+                                        instance_filter=False)
+        if not page_user.welcome_code:
+            page_user.welcome_code = random_token()
+            model.meta.Session.add(page_user)
+            model.meta.Session.commit()
+        url = welcome_url(page_user, page_user.welcome_code)
+        h.flash(_('The user can now log in via %s') % url, 'success')
+        redirect(h.entity_url(page_user))
