@@ -263,6 +263,9 @@ fi
 if [ '!' -e adhocracy_buildout/.git ]; then
     git clone "$GIT_URL" adhocracy_buildout
     (cd adhocracy_buildout; git checkout -q "$branch")
+fi
+
+if [ '!' -e adhocracy_buildout/python/buildout.python/src ]; then
     (cd adhocracy_buildout; git submodule init)
     (cd adhocracy_buildout; git submodule update)
 fi
