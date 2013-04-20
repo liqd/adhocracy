@@ -1,24 +1,31 @@
-<div id="piwik">
 %if config.get('piwik.site'):
     %if c.debug:
     <!-- Piwik: deactivated in debug mode -->
     %else:
     <!-- Piwik -->
     <script type="text/javascript">
-    var pkBaseURL = (("https:" == document.location.protocol) ? "${config.get('piwik.site')}" : "${config.get('piwik.site')}");
-    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-    </script><script type="text/javascript">
-    try {
-    var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", ${config.get('piwik.id')});
-    piwikTracker.trackPageView();
-    piwikTracker.enableLinkTracking();
-    } catch( err ) {}
-    </script><noscript><p><img src="${config.get('piwik.site')}piwik.php?idsite=${config.get('piwik.id')}" style="border:0" alt=""/></p></noscript>
-    <!-- End Piwik Tag -->
+      var _paq = _paq || [];
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+
+      (function() {
+        var u="${config.get('piwik.site')}";
+        %if not h.site.relative_urls():
+        _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+        _paq.push(["setCookieDomain", "*.${h.site.domain()}"]);
+        _paq.push(["setDomains", ["*.${h.site.domain()}"]]);
+        %endif
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "${config.get('piwik.id')}"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><img src="${config.get('piwik.site')}piwik.php?idsite=${config.get('piwik.id')}&amp;rec=1" style="border:0" alt="" /></noscript>
+    <!-- End Piwik Code -->
     %endif
 %else:
    %if c.debug:
    <!-- Piwik: no piwik site -->
    %endif
 %endif
-</div>

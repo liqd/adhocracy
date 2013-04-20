@@ -73,11 +73,11 @@ class PollController(BaseController):
         require.poll.vote(c.poll)
         decision = democracy.Decision(c.user, c.poll)
         votes = decision.make(self.form_result.get("position"))
+        model.meta.Session.commit()
 
         for vote in votes:
             event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance,
                        topics=[c.poll.scope], vote=vote, poll=c.poll)
-        model.meta.Session.commit()
 
         if format == 'json':
             return render_json(dict(decision=decision,

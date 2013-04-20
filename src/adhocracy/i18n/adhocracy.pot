@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 4eb5266\n"
+"Project-Id-Version: adhocracy 6742df8\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-16 13:50+0200\n"
+"POT-Creation-Date: 2013-04-19 02:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1503,6 +1503,9 @@ msgstr ""
 msgid "Shortlink"
 msgstr ""
 
+msgid "Edit this page"
+msgstr ""
+
 msgid "Report abuse"
 msgstr ""
 
@@ -1924,6 +1927,9 @@ msgid "Neutral"
 msgstr ""
 
 msgid "Con"
+msgstr ""
+
+msgid "Enter comment text:"
 msgstr ""
 
 msgid "Allow others to edit this comment."

@@ -204,7 +204,15 @@ class UserController(BaseController):
         # api. This is done here and not with an redirect to the login
         # to omit the generic welcome message
         who_api = get_api(request.environ)
-        login = self.form_result.get("user_name")
+        login_configuration = h.allowed_login_types()
+        if 'username+password' in login_configuration:
+            login = self.form_result.get("user_name")
+        elif 'email+password' in login_configuration:
+            login = self.form_result.get("email")
+        else:
+            raise Exception('We have no way of authenticating the newly'
+                            'created user %s; check adhocracy.login_type' %
+                            credentials['login'])
         credentials = {
             'login': login,
             'password': self.form_result.get("password")
@@ -220,7 +228,8 @@ class UserController(BaseController):
                 session.save()
                 location = came_from
             else:
-                location = h.base_url('/user/%s/dashboard' % login)
+                location = h.base_url('/user/%s/dashboard' %
+                                      self.form_result.get("user_name"))
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '

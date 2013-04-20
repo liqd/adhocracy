@@ -21,27 +21,27 @@ message_table = Table(
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('sender_email', Unicode(255), nullable=False),
+    Column('include_footer', Boolean, default=True, nullable=False),
 )
 
 
 class Message(meta.Indexable):
 
-    def __init__(self, subject, body, creator, sender_email):
+    def __init__(self, subject, body, creator, sender_email,
+                 include_footer=True):
         self.subject = subject
         self.body = body
         self.creator = creator
         self.sender_email = sender_email
+        self.include_footer = include_footer
 
     @classmethod
-    def create(cls, subject, body, creator, sender_email):
-        message = cls(subject, body, creator, sender_email)
+    def create(cls, subject, body, creator, sender_email,
+               include_footer=True):
+        message = cls(subject, body, creator, sender_email, include_footer)
         meta.Session.add(message)
         meta.Session.flush()
         return message
-
-    def render_body(self, user):
-        import adhocracy.lib.message
-        return adhocracy.lib.message.render_body(self.body, user)
 
 
 message_recipient_table = Table(
@@ -73,17 +73,11 @@ class MessageRecipient(object):
         if (self.recipient.is_email_activated() and
            self.recipient.email_messages):
 
-            from adhocracy.lib import helpers as h
             from adhocracy.lib import mail
-            from adhocracy.lib.templating import render
+            from adhocracy.lib.message import render_body
 
-            body = render("/massmessage/body.txt", {
-                'body': self.message.render_body(self.recipient),
-                'page_url': config.get('adhocracy.domain').strip(),
-                'settings_url': h.entity_url(self.recipient,
-                                             member='edit',
-                                             absolute=True),
-            })
+            body = render_body(self.message.body, self.recipient,
+                               self.message.include_footer)
 
             mail.to_user(self.recipient,
                          self.message.subject,

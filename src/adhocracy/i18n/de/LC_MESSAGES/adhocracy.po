@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-16 13:50+0200\n"
-"PO-Revision-Date: 2013-04-17 10:10+0000\n"
-"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
+"POT-Creation-Date: 2013-04-19 02:22+0200\n"
+"PO-Revision-Date: 2013-04-19 00:25+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1552,6 +1552,9 @@ msgstr "Stimmen nach Benutzergruppe"
 msgid "Shortlink"
 msgstr "Kurzlink"
 
+msgid "Edit this page"
+msgstr "Seite bearbeiten"
+
 msgid "Report abuse"
 msgstr "Missbrauch melden"
 
@@ -1919,7 +1922,7 @@ msgid "Join instance to comment."
 msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
 
 msgid "Add comment"
-msgstr "Geben Sie hier ihren Text ein:"
+msgstr "Neue Diskussion beginnen"
 
 msgid "Login to comment."
 msgstr "Loggen Sie sich ein um ein Argument hinzuzufügen."
@@ -1986,6 +1989,9 @@ msgstr "neutral"
 
 msgid "Con"
 msgstr "gegen"
+
+msgid "Enter comment text:"
+msgstr "Geben Sie hier Ihren Text ein:"
 
 msgid "Allow others to edit this comment."
 msgstr "Andere dürfen dieses Argument bearbeiten."

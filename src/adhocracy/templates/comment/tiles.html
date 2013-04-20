@@ -72,7 +72,7 @@
         %if hide_form:
         <div class="list_button">
             <a class="button highlight showhide_button" 
-               href="${h.base_url('comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
+               href="${h.base_url('/comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
                data-target="#${target}"
                id="start-discussion-button">
                 ${_('Start new Discussion')}
@@ -289,7 +289,7 @@ else:
 if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
-  <h4>${_(u'Add comment')}</h4>
+  <h4>${_(u'Enter comment text:')}</h4>
   <div class="comment_form">
     <form name="new_comment" class="comment_form"
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
