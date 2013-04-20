@@ -20,6 +20,7 @@ from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth.welcome import can_welcome, welcome_url
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
@@ -833,3 +834,22 @@ class UserController(BaseController):
         h.flash(_('You already have a password - use that to log in.'),
                 'error')
         return redirect(h.base_url('/login'))
+
+    @RequireInternalRequest(methods=['POST'])
+    @guard.perm('global.admin')
+    def generate_welcome_link(self, id):
+        if not can_welcome():
+            return ret_abort(_("Requested generation of welcome codes, but "
+                               "welcome functionality"
+                               "(adhocracy.enable_welcome) is not enabled."),
+                             code=403)
+
+        page_user = get_entity_or_abort(model.User, id,
+                                        instance_filter=False)
+        if not page_user.welcome_code:
+            page_user.welcome_code = random_token()
+            model.meta.Session.add(page_user)
+            model.meta.Session.commit()
+        url = welcome_url(page_user, page_user.welcome_code)
+        h.flash(_('The user can now log in via %s') % url, 'success')
+        redirect(h.entity_url(page_user))
