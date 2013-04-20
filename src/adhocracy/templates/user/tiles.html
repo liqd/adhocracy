@@ -79,6 +79,13 @@
         %if c.user and user != c.user:
             ${components.watch(user)}
         %endif
+
+        %if lib.auth.welcome.can_welcome():
+        <form method="post" class="inline-form" action="${h.entity_url(user, instance=c.instance, member='generate_welcome_link')}">
+        ${h.field_token()|n}
+        <input type="submit" class="button generate_welcome_link" value="${_('Generate welcome link')}" />
+        </form>
+        %endif
     </div>
 
 

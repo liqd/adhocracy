@@ -12,6 +12,12 @@ from webob.exc import HTTPFound
 from zope.interface import implements
 
 
+def welcome_url(user, code):
+    from adhocracy.lib.helpers import base_url
+    return base_url("/welcome/%s/%s" % (user.user_name, code),
+                    absolute=True)
+
+
 def welcome_enabled(config=pylons.config):
     return asbool(config.get('adhocracy.enable_welcome', 'False'))
 
@@ -36,7 +42,7 @@ class WelcomeRepozeWho(object):
         if not m:
             return None
         u = model.User.find(m.group('id'))
-        if not u or not u.welcome_code or u.password:
+        if not u or not u.welcome_code:
             return None
         if u.welcome_code != m.group('code'):
             return None
