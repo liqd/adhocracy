@@ -260,5 +260,4 @@ N_COMMENT_EDIT = NotificationType(
     text=lambda e: e.rev.text if e.rev else None)
 
 
-# The funny thing about this line is: YOU DO NOT SEE IT!
-TYPES = filter(lambda n: isinstance(n, NotificationType), map(eval, dir()))
+TYPES = [v for v in locals().values() if isinstance(v, NotificationType)]
