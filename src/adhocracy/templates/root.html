@@ -36,7 +36,7 @@
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
-    %if c.user and c.user.welcome_code and not c.user.password:
+    %if c.user and c.user.welcome_code:
       <form id="user_welcome" action="${h.entity_url(c.user, member='set_password')}" method="post" data-success-message="${_('Password has been set. Have fun!')}">
       ${h.field_token()|n}
       <label><span>${_('Welcome back!') if c.user.password else _('Welcome to %s!') % h.site.name()} ${_('Please choose a password:')}</span>
