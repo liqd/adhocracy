@@ -283,7 +283,7 @@ piwik.id =
 # adhocracy.enable_welcome = True
 
 # INSTALL: Hide individual votes and only show aggregate results (EXPERIMENTAL)
-# adhocracy.secret_voting = true
+# adhocracy.hide_individual_votes = true
 
 # INSTALL: Allow users to lock themselves out of adhocracy
 # adhocracy.allow_self_deletion = true

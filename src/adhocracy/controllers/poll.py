@@ -77,7 +77,7 @@ class PollController(BaseController):
         votes = decision.make(self.form_result.get("position"))
         model.meta.Session.commit()
 
-        if not asbool(config.get('adhocracy.secret_voting', 'false')):
+        if not asbool(config.get('adhocracy.hide_individual_votes', 'false')):
             for vote in votes:
                 event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance,
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
@@ -118,7 +118,7 @@ class PollController(BaseController):
                       }.get(c.poll.action)
         model.meta.Session.commit()
 
-        if not asbool(config.get('adhocracy.secret_voting', 'false')):
+        if not asbool(config.get('adhocracy.hide_individual_votes', 'false')):
             for vote in votes:
                 event.emit(event_type, vote.user, instance=c.instance,
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
