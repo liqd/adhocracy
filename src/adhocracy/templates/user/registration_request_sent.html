@@ -1,0 +1,18 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Registration request sent")}</%def>
+
+<%block name="headline">
+<h1 class="page_title">${_("Registration request sent")}</h1>
+</%block>
+
+<%block name="main_content">
+<div class="sidebar">
+    &nbsp;
+</div>
+<div class="mainbar">
+    <div class="infobox">
+        ${_("Our support team has been notified of your registration request for %s."
+        	"We will verify your request and contact you as soon as possible.") % c.email}
+    </div>
+</div>
+</%block>

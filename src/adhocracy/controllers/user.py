@@ -1,4 +1,5 @@
 import logging
+import re
 
 import formencode
 from formencode import ForEach, htmlfill, validators
@@ -20,7 +21,8 @@ from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
-from adhocracy.lib.auth.welcome import welcome_enabled, can_welcome, welcome_url
+from adhocracy.lib.auth.welcome import (welcome_enabled, can_welcome,
+                                        welcome_url)
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
@@ -108,6 +110,11 @@ class UserSetPasswordForm(formencode.Schema):
     password = validators.String(not_empty=False)
 
 
+class NoPasswordForm(formencode.Schema):
+    allow_extra_fields = True
+    login = validators.String(not_empty=False)
+
+
 class UserController(BaseController):
 
     def __init__(self):
@@ -135,7 +142,7 @@ class UserController(BaseController):
         c.users_pager = solr_global_users_pager()
         return render("/user/all.html")
 
-    def new(self):
+    def new(self, defaults=None):
         if not h.allow_user_registration():
             return ret_abort(
                 _("Sorry, registration has been disabled by administrator."),
@@ -150,7 +157,8 @@ class UserController(BaseController):
             session['came_from'] = request.params.get('came_from',
                                                       h.base_url())
             session.save()
-            return render("/user/register.html")
+            return htmlfill.render(render("/user/register.html"),
+                                   defaults=defaults)
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserCreateForm(), form="new", post_only=True)
@@ -317,10 +325,14 @@ class UserController(BaseController):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserResetApplyForm(), form="reset_form", post_only=True)
     def reset_request(self):
-        c.page_user = model.User.find_by_email(self.form_result.get('email'))
-        if c.page_user is None:
+        user = model.User.find_by_email(self.form_result.get('email'))
+        if user is None:
             msg = _("There is no user registered with that email address.")
             return htmlfill.render(self.reset_form(), errors=dict(email=msg))
+        return self._handle_reset(user)
+
+    def _handle_reset(self, user):
+        c.page_user = user
 
         if welcome_enabled():
             welcome_code = (c.page_user.welcome_code
@@ -503,6 +515,53 @@ class UserController(BaseController):
     def post_logout(self):
         session.delete()
         redirect(h.base_url())
+
+    @validate(schema=NoPasswordForm(), post_only=True)
+    def nopassword(self):
+        """ (Alternate login) User clicked "I have no password" """
+
+        assert config.get('adhocracy.login_style') == 'alternate'
+        user = request.environ['_adhocracy_nopassword_user']
+        if user:
+            return self._handle_reset(user)
+
+        login = self.form_result.get('login')
+        if u'@' not in login:
+            msg = _("Please use a valid email address.")
+            return htmlfill.render(render('/user/login.html'),
+                                   errors=dict(login=msg),
+                                   defaults=dict(request.params))
+
+        if h.allow_user_registration():
+            handle = login.partition(u'@')[0]
+            defaults = {
+                'email': login,
+                'user_name': re.sub('[^0-9a-zA-Z_-]', '', handle),
+            }
+            return self.new(defaults=defaults)
+
+        support_email = config.get('adhocracy.registration_support_email')
+        if support_email:
+            body = (_('A user tried to register on %s with the email address'
+                      ' %s. Please contact them at %s .') %
+                    (h.site.name(),
+                     login,
+                     h.base_url('/', absolute=True)))
+            libmail.to_mail(
+                to_name=h.site.name(),
+                to_email=support_email,
+                subject=_('Registration attempt on %s') % h.site.name(),
+                body=body,
+                decorate_body=False,
+            )
+            data = {
+                'email': login,
+            }
+            return render('/user/registration_request_sent.html', data=data)
+
+        return ret_abort(
+            _("Sorry, registration has been disabled by administrator."),
+            category='error', code=403)
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''
