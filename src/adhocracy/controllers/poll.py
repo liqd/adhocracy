@@ -136,7 +136,7 @@ class PollController(BaseController):
         c.poll = get_entity_or_abort(model.Poll, id)
 
         # cover over data inconsistency because of a bug where pages (norms)
-        # where deleted when a proposal was deleted.
+        # were deleted when a proposal was deleted.
         # Fixes http://trac.adhocracy.de/ticket/262
         if (c.poll.action == model.Poll.SELECT and
                 c.poll.selection is None):
