@@ -155,7 +155,7 @@ fi
 if ! $not_use_sudo_commands; then
     case $distro in
         debian )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libsqlite3-dev openjdk-6-jre libpq-dev'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libssl-dev libsqlite3-dev openjdk-6-jre libpq-dev'
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
 
     if $install_mysql_client; then
