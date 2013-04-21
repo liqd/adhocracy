@@ -42,9 +42,24 @@ class WelcomeRepozeWho(object):
         if not m:
             return None
         u = model.User.find(m.group('id'))
-        if not u or not u.welcome_code:
+        if not u:
             return None
-        if u.welcome_code != m.group('code'):
+        is_correct = False
+        if u.welcome_code:
+            if u.welcome_code == m.group('code'):
+                is_correct = True
+        if not is_correct and (
+                u.reset_code and u.reset_code.startswith(u'welcome!')):
+            correct_code = u.reset_code.partition(u'welcome!')[2]
+            if m.group('code') == correct_code:
+                # At this point, we're sure the user really wanted to reset her
+                # password, so set the actual welcome code.
+                u.welcome_code = correct_code
+                u.reset_code = None
+                model.meta.Session.add(u)
+                model.meta.Session.commit()
+                is_correct = True
+        if not is_correct:
             return None
 
         from adhocracy.lib.helpers import base_url

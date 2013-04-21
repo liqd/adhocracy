@@ -194,6 +194,8 @@ class User(meta.Indexable):
             hashed_password = hashed_password.decode('utf-8')
         self._password = hashed_password
 
+        # Invalidate temporary password recovery codes
+        self.reset_code = None
         self.welcome_code = None
 
     def _get_password(self):
