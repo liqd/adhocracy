@@ -1,17 +1,10 @@
 from adhocracy.i18n import _
-from adhocracy.lib.helpers import base_url
-
 from pylons import config
-
-
-def _make_welcome_link(user):
-    return base_url("/welcome/%s/%s" % (user.user_name, user.welcome_code),
-                    absolute=True)
-
 
 def render_body(body, recipient, include_footer):
     from adhocracy.lib import helpers as h
     from adhocracy.lib.templating import render
+    from adhocracy.lib.auth.welcome import welcome_url
 
     if recipient.gender == 'f':
         salutation = _('Dear Ms.')
@@ -21,9 +14,9 @@ def render_body(body, recipient, include_footer):
         salutation = _('Dear')
 
     rendered_body = body.format(**{
-        'name': recipient.name,
-        'email': recipient.email,
-        'welcome_link': _make_welcome_link(recipient),
+        'name': user.name,
+        'email': user.email,
+        'welcome_link': welcome_url(user, user.welcome_code),
         'salutation': salutation,
     })
 
