@@ -276,6 +276,10 @@ piwik.id =
 # INSTALL: Allow registration
 #adhocracy.allow_registration = true
 
+# INSTALL: If registration is disabled above, and adhocracy.login_style is
+# "alternate", notify this address on registration attempts.
+# adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
+
 # INSTALL: How can users login?
 #adhocracy.login_type = openid,username+password,email+password
 
@@ -326,6 +330,9 @@ adhocracy.startpage.proposals.list_length = 0
 
 # Source for imprint, details etc. ("database" or "filesystem" (default))
 #adhocracy.staticpage_backend = database
+
+# Ask the user for email and then password, instead of form + links
+# adhocracy.login_style = alternate
 
 
 # Logging configuration
