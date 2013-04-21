@@ -14,9 +14,9 @@ def render_body(body, recipient, include_footer):
         salutation = _('Dear')
 
     rendered_body = body.format(**{
-        'name': user.name,
-        'email': user.email,
-        'welcome_link': welcome_url(user, user.welcome_code),
+        'name': recipient.name,
+        'email': recipient.email,
+        'welcome_link': welcome_url(recipient, recipient.welcome_code),
         'salutation': salutation,
     })
 
