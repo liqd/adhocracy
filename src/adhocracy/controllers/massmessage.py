@@ -158,7 +158,7 @@ class MassmessageController(BaseController):
         if recipients_list:
             try:
                 rendered_body = render_body(body, recipients_list[0],
-                                            include_footer)
+                                            include_footer, is_preview=True)
             except (KeyError, ValueError) as e:
                 rendered_body = _('Could not render message: %s') % str(e)
         else:
