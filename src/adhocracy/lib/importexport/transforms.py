@@ -1,5 +1,6 @@
 
 import babel.core
+import datetime
 import hashlib
 import os
 import re
@@ -15,13 +16,30 @@ def _set_optional(o, data, key, export_prefix=''):
         setattr(o, key, data[external_key])
 
 
-def _encode_locale(locale):
+def encode_locale(locale):
+    if locale is None:
+        return None
     return '_'.join(filter(None, (locale.language, locale.script,
                                   locale.territory, locale.variant)))
 
 
-def _decode_locale(ldata):
+def decode_locale(ldata):
     return ldata
+
+
+def encode_time(dt):
+    return dt.isoformat()
+
+
+def decode_time(s):
+    strptime = datetime.datetime.strptime
+    try:
+        return strptime(s, '%Y-%m-%dT%H:%M:%S.%f')
+    except ValueError:
+        try:
+            return strptime(s, '%Y-%m-%dT%H:%M:%SZ')
+        except ValueError:
+            return strptime(s, '%Y-%m-%dT%H:%M:%S')
 
 
 class _Transform(object):
@@ -50,7 +68,7 @@ class _Transform(object):
         return res
 
     def _compute_key(self, o):
-        return str(getattr(o, self._ID_KEY))
+        return unicode(getattr(o, self._ID_KEY))
 
     def export_all(self):
         return dict((self._compute_key(o), self._export(o))
@@ -133,6 +151,7 @@ class UserTransform(_Transform):
             self._ID_KEY = 'email'
         else:
             self._ID_KEY = 'id'
+            self._get_by_key = self._model_class.find
         self._opt_password = self._options.get('user_password', False)
         self._opt_badges = self._options.get('include_badge', False)
         self._opt_welcome = self._options.get('welcome', False)
@@ -154,7 +173,7 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'email')
             _set_optional(o, data, 'gender')
             if 'locale' in data:
-                o.locale = _decode_locale(data['locale'])
+                o.locale = decode_locale(data['locale'])
         if self._opt_password:
             _set_optional(o, data, 'activation_code', 'adhocracy_')
             _set_optional(o, data, 'reset_code', 'adhocracy_')
@@ -174,7 +193,7 @@ class UserTransform(_Transform):
                 'bio': o.bio,
                 'email': o.email,
                 'gender': o.gender,
-                'locale': _encode_locale(o.locale),
+                'locale': encode_locale(o.locale),
             })
         if self._opt_password:
             res.update({
@@ -202,7 +221,35 @@ class InstanceTransform(_ExportOnlyTransform):
             'adhocracy_type': 'instance',
             'key': obj.key,
             'label': obj.label,
-            'creator': self._user_transform._compute_key(obj.creator)
+            'creator': self._user_transform._compute_key(obj.creator),
+            'description': obj.description,
+            'adhocracy_required_majority': obj.required_majority,
+            'adhocracy_activation_delay': obj.activation_delay,
+            'create_time': encode_time(obj.create_time),
+            'adhocracy_access_time': encode_time(obj.access_time),
+            'adhocracy_delete_time': (encode_time(obj.delete_time)
+                                      if obj.delete_time
+                                      else None),
+            'adhocracy_default_group_id': obj.default_group_id,
+            'adhocracy_allow_adopt': obj.allow_adopt,
+            'adhocracy_allow_delegate': obj.allow_delegate,
+            'adhocracy_allow_propose': obj.allow_propose,
+            'adhocracy_allow_index': obj.allow_index,
+            'adhocracy_hidden': obj.hidden,
+            'locale': encode_locale(obj.locale),
+            'adhocracy_css': obj.css,
+            'frozen': obj.frozen,
+            'adhocracy_milestones': obj.milestones,
+            'adhocracy_use_norms': obj.use_norms,
+            'adhocracy_require_selection': obj.require_selection,
+            'adhocracy_is_authenticated': obj.is_authenticated,
+            'adhocracy_hide_global_categories': obj.hide_global_categories,
+            'adhocracy_editable_comments_default':
+                obj.editable_comments_default,
+            'adhocracy_require_valid_email': obj.require_valid_email,
+            'adhocracy_allow_thumbnailbadges': obj.allow_thumbnailbadges,
+            'adhocracy_thumbnailbadges_height': obj.thumbnailbadges_height,
+            'adhocracy_thumbnailbadges_width': obj.thumbnailbadges_width,
         }
         if self._options.get('include_instance_proposals'):
             ptransform = ProposalTransform(self._options, obj,
@@ -210,6 +257,59 @@ class InstanceTransform(_ExportOnlyTransform):
             res['proposals'] = ptransform.export_all()
 
         return res
+
+    def _create(self, data):
+        btype = data.get('adhocracy_type', 'instance')
+        if btype == 'instance':
+            return model.Instance.create(
+                data['key'].lower(),
+                data['label'],
+                self._user_transform._get_by_key(data['creator']))
+        else:
+            raise NotImplementedError()
+
+    def _modify(self, o, data):
+        _set_optional(o, data, 'label')
+        if 'creator' in data:
+            o.creator = self._user_transform._get_by_key(data['creator'])
+        _set_optional(o, data, 'description')
+        _set_optional(o, data, 'required_majority', 'adhocracy_')
+        _set_optional(o, data, 'activation_delay', 'adhocracy_')
+        if 'create_time' in data:
+            o.create_time = decode_time(data['create_time'])
+        if 'adhocracy_access_time' in data:
+            o.access_time = decode_time(data['adhocracy_access_time'])
+        if 'adhocracy_delete_time' in data:
+            if data['adhocracy_delete_time'] is None:
+                o.delete_time = None
+            else:
+                o.delete_time = decode_time(data['adhocracy_delete_time'])
+        _set_optional(o, data, 'default_group_id', 'adhocracy_')
+        _set_optional(o, data, 'allow_adopt', 'adhocracy_')
+        _set_optional(o, data, 'allow_delegate', 'adhocracy_')
+        _set_optional(o, data, 'allow_propose', 'adhocracy_')
+        _set_optional(o, data, 'allow_index', 'adhocracy_')
+        _set_optional(o, data, 'hidden', 'adhocracy_')
+        if 'locale' in data:
+            if data['locale'] is None:
+                o.locale = data['locale']
+            else:
+                o.locale = decode_locale(data['locale'])
+        _set_optional(o, data, 'css', 'adhocracy_')
+        _set_optional(o, data, 'frozen')
+        _set_optional(o, data, 'milestones', 'adhocracy_')
+        _set_optional(o, data, 'use_norms', 'adhocracy_')
+        _set_optional(o, data, 'require_selection', 'adhocracy_')
+        _set_optional(o, data, 'is_authenticated', 'adhocracy_')
+        _set_optional(o, data, 'hide_global_categories', 'adhocracy_')
+        _set_optional(o, data, 'editable_comments_default', 'adhocracy_')
+        _set_optional(o, data, 'require_valid_email', 'adhocracy_')
+        _set_optional(o, data, 'allow_thumbnailbadges', 'adhocracy_')
+        _set_optional(o, data, 'thumbnailbadges_height', 'adhocracy_')
+        _set_optional(o, data, 'thumbnailbadges_width', 'adhocracy_')
+
+    def _get_by_key(self, key):
+        return self._model_class.find(key)
 
 
 class ProposalTransform(_ExportOnlyTransform):

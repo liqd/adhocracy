@@ -1,5 +1,7 @@
+# coding: utf-8
 
 import contextlib
+import datetime
 import io
 import zipfile
 
@@ -8,8 +10,10 @@ from adhocracy.tests import TestController
 import adhocracy.tests.testtools as testtools
 from adhocracy import model
 
+
 class _MockResponse(object):
     pass
+
 
 class ImportExportTest(TestController):
     def setUp(self):
@@ -17,14 +21,43 @@ class ImportExportTest(TestController):
         self.u1 = testtools.tt_make_user()
         self.u1.gender = 'f'
         self.badge = model.UserBadge.create(
-            title=u'importexport_badge',
+            title=u'importexport_badge"\'/\\ä↭𝕐',
             color=u'#ff00ff',
             visible=True,
             description=u'This badge tests',
         )
         self.u2 = testtools.tt_make_user()
         self.badge.assign(user=self.u1, creator=self.u2)
-        self.instance = testtools.tt_make_instance(u'export_test', label=u'export_test', creator=self.u2)
+        self.instance = testtools.tt_make_instance(u'export_test',
+                                                   label=u'export_test',
+                                                   creator=self.u2)
+        self.instance.label = u'test"\'/\\ä↭𝕐'
+        self.instance.description = u'test"\'/\\ä↭𝕐'
+        self.instance.required_majority = 0.42
+        self.instance.activation_delay = 5
+        self.instance.create_time = datetime.datetime.now()
+        self.instance.access_time = datetime.datetime.now()
+        self.instance.delete_time = None
+        self.instance.default_group_id = 42
+        self.instance.allow_adopt = False
+        self.instance.allow_delegate = False
+        self.instance.allow_propose = False
+        self.instance.allow_index = False
+        self.instance.hidden = False
+        self.instance.locale = u'fr_FR'
+        self.instance.css = u'test"\'/\\ä↭𝕐'
+        self.instance.frozen = True
+        self.instance.milestones = True
+        self.instance.use_norms = False
+        self.instance.require_selection = True
+        self.instance.is_authenticated = True
+        self.instance.hide_global_categories = True
+        self.instance.editable_comments_default = False
+        self.instance.require_valid_email = False
+        self.instance.allow_thumbnailbadges = True
+        self.instance.thumbnailbadges_height = 42
+        self.instance.thumbnailbadges_width = 42
+
 
     def test_transforms(self):
         tfs = importexport.transforms.gen_all({})
@@ -33,7 +66,6 @@ class ImportExportTest(TestController):
         tfs = importexport.transforms.gen_active({})
         self.assertEqual(len(tfs), 0)
 
-
     def test_export_basic(self):
         e = importexport.export_data({})
         self.assertEqual(len(e), 1)
@@ -41,12 +73,17 @@ class ImportExportTest(TestController):
         self.assertTrue(e['metadata']['version'] >= 3)
 
     def test_export_user(self):
-        e = importexport.export_data(dict(include_user=True, user_personal=True, user_password=True))
+        e = importexport.export_data(dict(include_user=True,
+                                          user_personal=True,
+                                          user_password=True))
         users = e['user'].values()
         self.assertTrue(len(users) >= 2)
-        self.assertTrue(any(u['user_name'] == self.u1.user_name for u in users))
-        self.assertTrue(any(u['email'] == self.u2.email for u in users))
-        self.assertTrue(any(u['adhocracy_password'] == self.u1.password for u in users))
+        self.assertTrue(any(u['user_name'] == self.u1.user_name
+                            for u in users))
+        self.assertTrue(any(u['email'] == self.u2.email
+                            for u in users))
+        self.assertTrue(any(u['adhocracy_password'] == self.u1.password
+                            for u in users))
         self.assertTrue(all(u'_' in u['locale'] for u in users))
         u1 = next(u for u in users if u['email'] == self.u1.email)
         self.assertEqual(u1['gender'], 'f')
@@ -62,10 +99,14 @@ class ImportExportTest(TestController):
         self.assertTrue('gender' not in u1)
 
     def test_export_instance(self):
-        ed = importexport.export_data(dict(include_instance=True,
-                                         include_user=True, user_personal=True))
+        ed = importexport.export_data({
+            'include_instance': True,
+           'include_user': True,
+           'user_personal': True,
+        })
         # Test that we don't spill non-representable objects by accident
-        ex = importexport.formats.render(ed, 'json', '(title)', response=_MockResponse())
+        ex = importexport.formats.render(ed, 'json', '(title)',
+                                         response=_MockResponse())
         e = importexport.formats.read_data(io.BytesIO(ex))
 
         self.assertTrue('instance' in e)
@@ -81,6 +122,38 @@ class ImportExportTest(TestController):
         self.assertEqual(e['user'][user_id]['user_name'], self.u2.user_name)
         self.assertEqual(idata['adhocracy_type'], 'instance')
 
+    def test_importexport_instance(self):
+        opts = {
+            'include_instance': True
+        }
+        ed = importexport.export_data(opts)
+
+        testdata = ed['instance'][self.instance.key]
+        testdata['key'] += testtools.tt_make_str() + 'A' # Test for uppercase
+        ed['instance'] = {testdata['key']: testdata}
+
+        importexport.import_data(opts, ed)
+        imported_instance = model.Instance.find(testdata['key'])
+        self.assertTrue(imported_instance)
+        
+        INSTANCE_PROPS = [
+            'label', 'creator', 'description', 'required_majority',
+            'activation_delay', 'create_time', 'access_time', 'delete_time',
+            'default_group_id', 'allow_adopt', 'allow_delegate',
+            'allow_propose', 'allow_index', 'hidden', 'locale', 'css',
+            'frozen', 'milestones', 'use_norms', 'require_selection',
+            'is_authenticated', 'hide_global_categories',
+            'editable_comments_default', 'require_valid_email',
+            'allow_thumbnailbadges',
+            'thumbnailbadges_height', 'thumbnailbadges_width',
+        ]
+        for p in INSTANCE_PROPS:
+            imported = getattr(imported_instance, p)
+            expected = getattr(self.instance, p)
+            msg = (u'Instance.%s: Got %r, but expected %r' %
+                   (p, imported, expected))
+            self.assertEqual(expected, imported, msg)
+
     def test_export_proposal(self):
         p = testtools.tt_make_proposal(creator=self.u1)
         e = importexport.export_data({
@@ -91,7 +164,7 @@ class ImportExportTest(TestController):
         idata = e['instance'][p.instance.key]
         self.assertTrue('proposals' in idata)
         pdata = idata['proposals'][str(p.id)]
-        assert 'comments' not in pdata 
+        assert 'comments' not in pdata
         self.assertEqual(pdata['title'], p.title)
         self.assertEqual(pdata['description'], p.description)
         self.assertEqual(pdata['adhocracy_type'], 'proposal')
@@ -104,12 +177,14 @@ class ImportExportTest(TestController):
         ))
         bdata = e['badge']
         assert len(bdata) >= 1
-        mykey,myb = next((bkey,bd) for bkey,bd in bdata.items() if bd['title'] == self.badge.title)
+        mykey, myb = next((bkey, bd) for bkey, bd in bdata.items()
+                          if bd['title'] == self.badge.title)
         self.assertEqual(myb['color'], self.badge.color)
         self.assertTrue(myb['visible'])
         self.assertEqual(myb['description'], self.badge.description)
         self.assertEqual(myb['adhocracy_badge_type'], 'user')
-        myu1 = next(u for u in e['user'].values() if u['email'] == self.u1.email)
+        myu1 = next(u for u in e['user'].values()
+                    if u['email'] == self.u1.email)
         self.assertEqual(myu1['badges'], [mykey])
 
     def test_export_comments(self):
@@ -156,10 +231,13 @@ class ImportExportTest(TestController):
         self.assertEqual(cdata2['sentiment'], -1)
         self.assertEqual(cdata2['adhocracy_type'], 'comment')
 
-
     def test_rendering(self):
-        e = importexport.export_data(dict(include_user=True, user_personal=True,
-            user_password=True, include_badge=True))
+        e = importexport.export_data({
+            'include_user': True,
+            'user_personal': True,
+            'user_password': True,
+            'include_badge': True,
+        })
         self.assertEqual(set(e.keys()), set(['metadata', 'user', 'badge']))
 
         formats = importexport.formats
@@ -167,7 +245,8 @@ class ImportExportTest(TestController):
         response = _MockResponse()
         zdata = formats.render(e, 'zip', 'test', response=response)
         with contextlib.closing(zipfile.ZipFile(io.BytesIO(zdata), 'r')) as zf:
-            self.assertEqual(set(zf.namelist()), set(['metadata.json', 'user.json', 'badge.json']))
+            expected_files = set(['metadata.json', 'user.json', 'badge.json'])
+            self.assertEqual(set(zf.namelist()), expected_files)
         zio = io.BytesIO(zdata)
         self.assertEqual(formats.detect_format(zio), 'zip')
         self.assertEqual(zio.read(), zdata)
@@ -177,7 +256,8 @@ class ImportExportTest(TestController):
         response = _MockResponse()
         jdata = formats.render(e, 'json', 'test', response=response)
         response = _MockResponse()
-        jdata_dl = formats.render(e, 'json_download', 'test', response=response)
+        jdata_dl = formats.render(e, 'json_download', 'test',
+                                  response=response)
         self.assertEqual(jdata, jdata_dl)
         self.assertTrue(isinstance(jdata, bytes))
         jio = io.BytesIO(jdata)
@@ -186,7 +266,8 @@ class ImportExportTest(TestController):
         self.assertEqual(e, formats.read_data(io.BytesIO(jdata), 'json'))
         self.assertEqual(e, formats.read_data(io.BytesIO(jdata), 'detect'))
 
-        self.assertRaises(ValueError, formats.render, e, 'invalid', 'test', response=response)
+        self.assertRaises(ValueError, formats.render, e, 'invalid', 'test',
+                          response=response)
         self.assertRaises(ValueError, formats.read_data, zdata, 'invalid')
 
         self.assertEqual(formats.detect_format(io.BytesIO()), 'unknown')
@@ -255,9 +336,19 @@ class ImportExportTest(TestController):
         self.assertTrue(not b.visible)
         self.assertEqual(b.description, 'test badge')
 
-
     def test_legacy(self):
         # Version 2 had 'users' instead of 'user'
         v2data = {'users': {}, 'metadata': {'version': 2}}
         self.assertTrue('users' in importexport.convert_legacy(v2data))
 
+    def test_time_encoding(self):
+        from adhocracy.lib.importexport import transforms
+        t1 = transforms.decode_time('2013-04-19T11:27:13Z')
+        self.assertEqual(t1.microsecond, 0)
+        t1_reencoded = transforms.decode_time(transforms.encode_time(t1))
+        self.assertEqual(t1, t1_reencoded)
+
+        t2 = transforms.decode_time('2013-04-19T11:27:23.123456')
+        self.assertEqual(t2.microsecond, 123456)
+        t2_reencoded = transforms.decode_time(transforms.encode_time(t2))
+        self.assertEqual(t2, t2_reencoded)
