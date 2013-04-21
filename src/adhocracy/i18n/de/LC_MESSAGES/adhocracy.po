@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-19 02:22+0200\n"
-"PO-Revision-Date: 2013-04-19 00:25+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-04-21 14:56+0200\n"
+"PO-Revision-Date: 2013-04-21 13:09+0000\n"
+"Last-Translator: phihag <phihag@phihag.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -474,6 +474,10 @@ msgid ""
 msgstr "Sie haben ein neues Passwort für Adhocracy angefordert. Um den Prozess abzuschließen, muss der folgende Link in Ihrem Browser geöffnet werden."
 
 #, python-format
+msgid "Login for %s"
+msgstr "Login für %s"
+
+#, python-format
 msgid "Your user name to login is: %s"
 msgstr "Ihr Benutzername zum Anmelden lautet: %s"
 
@@ -524,6 +528,19 @@ msgstr "Ungültiger Benutzername oder falsches Passwort."
 msgid "Invalid email or password"
 msgstr "Ungültige E-Mail oder falsches Passwort."
 
+msgid "Please use a valid email address."
+msgstr "Bitte verwenden Sie eine gültige E-Mail-Adresse."
+
+#, python-format
+msgid ""
+"A user tried to register on %s with the email address %s. Please contact "
+"them at %s ."
+msgstr "Ein Benutzer wollte sich auf %s mit der E-Mail-Adresse %s registrieren. Bitte %s kontaktieren."
+
+#, python-format
+msgid "Registration attempt on %s"
+msgstr "Registrierungswunsch für %s"
+
 msgid "tutorial_dashboard_title"
 msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über eingebrachte Vorschläge und Beschlüsse, Ihre Gruppen und über Ihre Beobachtungsliste."
 
@@ -557,6 +574,10 @@ msgstr "%s ist aus dem System ausgeschlossen."
 
 msgid "You already have a password - use that to log in."
 msgstr "Sie haben bereits ein Passwort - nutzen Sie dieses, um sich einzuloggen."
+
+#, python-format
+msgid "The user can now log in via %s"
+msgstr "Der Benutzer kann sich nun mit %s einloggen"
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Hierfür existiert bereits ein Eintrag auf der Beobachtungsliste."
@@ -1462,6 +1483,9 @@ msgstr "zurücksetzen"
 
 msgid "Sort:"
 msgstr "Sortieren:"
+
+msgid "Welcome back!"
+msgstr "Willkommen zurück!"
 
 #, python-format
 msgid "Welcome to %s!"
@@ -2419,6 +2443,16 @@ msgstr "Hauptteil"
 
 msgid "Use {email}, {name}, {salutation} to address the user directly."
 msgstr "Verwenden Sie {email}, {name}, {salutation}, um den Benutzer direkt anzusprechen."
+
+msgid ""
+"Add a note about why the user got this message, and how to unsubscribe."
+msgstr "Füge einen Hinweis hinzu, warum der Benutzer die Nachricht erhalten hat, und wie er weitere Nachrichten abbestellen kann."
+
+msgid "Uncheck if user management is centralized."
+msgstr "Wählen Sie diese Option ab, wenn die Benutzerliste zentral verwaltet wird."
+
+msgid "Include footer"
+msgstr "Signatur einfügen"
 
 msgid "Sender identity"
 msgstr "Versender Identität"
@@ -3505,8 +3539,33 @@ msgstr "Benutzername:"
 msgid "Email:"
 msgstr "E-Mail:"
 
+msgid "Forgot your password?"
+msgstr "Kennwort vergessen?"
+
 msgid "Register new account"
 msgstr "Registrieren"
+
+msgid "What is your email address?"
+msgstr "Was ist Ihre E-Mail-Adresse?"
+
+msgid "My email:"
+msgstr "Meine E-Mail:"
+
+msgid "What is your user name?"
+msgstr "Was ist Ihr Benutzername?"
+
+msgid "My user name:"
+msgstr "Mein Benutzername:"
+
+#, python-format
+msgid "Do you have a password for %s?"
+msgstr "Haben Sie ein Kennwort für %s?"
+
+msgid "No, I do not have a password, or I forgot it."
+msgstr "Nein, ich habe kein Kennwort, oder habe es vergessen."
+
+msgid "Yes, I do have a password:"
+msgstr "Ja, ich habe ein Kennwort:"
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
@@ -3537,6 +3596,15 @@ msgstr "Nutzungsbedingungen"
 msgid "leave empty"
 msgstr "frei lassen"
 
+msgid "Registration request sent"
+msgstr "Registrierungswunsch gesendet"
+
+#, python-format
+msgid ""
+"Our support team has been notified of your registration request for %s.We "
+"will verify your request and contact you as soon as possible."
+msgstr "Unser Support-Team wurde mit ihrem Registrierungswunsch auf %s benachrichtigt . Wir wenden uns schnellstmöglich an Sie."
+
 msgid "Password reset"
 msgstr "Passwort zurücksetzen"
 
@@ -3544,6 +3612,11 @@ msgid ""
 "You will be sent an activation link that, when opened, will cause the system"
 " to email you a new password."
 msgstr "Ihnen wird ein Link zugesandt. Wenn Sie diesen öffnen, wird Ihnen Adhocracy ein neues Kennwort zusenden."
+
+msgid ""
+"You will be sent an activation link that, when opened, will allow you pick a"
+" new password."
+msgstr "Ihnen wird ein Link zugesandt. Öffnen Sie diesen, um ein neues Kennwort zu wählen."
 
 msgid ""
 "In order to retrieve your login, you will have to enter your email address."
@@ -3597,6 +3670,9 @@ msgstr "verbannen"
 
 msgid "Delete this user."
 msgstr "Benutzer löschen"
+
+msgid "Generate welcome link"
+msgstr "Generiere Einladungs-Link"
 
 #, python-format
 msgid "Watchlist: %s"
