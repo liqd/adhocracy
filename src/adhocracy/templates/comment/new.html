@@ -1,14 +1,14 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="t" file="/comment/tiles.html"/>
-<%def name="title()">${_("New comment")}</%def>
+<%def name="title()">${_("New comment") if h.comment.wording() else _("New argument")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("New comment")}
+    ${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("New comment") if h.comment.wording() else _("New argument")}
 </%def>
 
 <%block name="headline">
-<h1>${_("Comment on: %s") % h.delegateable.link(c.topic)|n}</h1>
+<h1>${(_("Comment on: %s") if h.comment.wording() else _("Argument about: %s")) % h.delegateable.link(c.topic)|n}</h1>
 </%block>
 <%block name="main_content">
     ${t.create_form(c.reply, c.topic, wiki=c.wiki, can_wiki=True, variant=c.variant)}

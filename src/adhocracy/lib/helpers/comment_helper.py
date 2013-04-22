@@ -3,6 +3,8 @@ from adhocracy.lib import cache
 from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import text_helper as text
 from adhocracy.lib.helpers import url as _url
+from paste.deploy.converters import asbool
+from pylons import config
 
 
 @cache.memoize('comment_url')
@@ -20,3 +22,6 @@ def url(comment, member=None, format=None, comment_page=False, **kwargs):
                     '#c' + str(comment.id))
     return _url.build(comment.topic.instance, 'comment',
                       comment.id, member=member, format=format, **kwargs)
+
+def wording(config=config):
+    return asbool(config.get('adhocracy.comment_wording', False))
