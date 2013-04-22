@@ -1,14 +1,14 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="t" file="/comment/tiles.html"/>
-<%def name="title()">${_("Edit comment")}</%def>
+<%def name="title()">${_("Edit comment") if h.comment.wording() else _("Edit argument")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment")}
+    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Edit comment") if h.comment.wording() else _("Edit argument")}
 </%def>
 
 <%block name="headline">
-<h1>${_("Comment on: %s") % h.delegateable.link(c.comment.topic)|n}</h1>
+<h1>${(_("Comment on: %s") if h.comment.wording() else _("Argument about: %s")) % h.delegateable.link(c.comment.topic)|n}</h1>
 </%block>
 
 <%block name="main_content">

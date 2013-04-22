@@ -1,9 +1,9 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Comment")}</%def>
+<%def name="title()">${_("Comment") if h.comment.wording() else _("Argument")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
+    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment") if h.comment.wording() else _("Argument")}
 </%def>
 
 <%block name="headline">

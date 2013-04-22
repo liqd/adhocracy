@@ -1,13 +1,13 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Comment")}</%def>
+<%def name="title()">${_("Comment") if h.comment.wording() else _("Argument")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment")}
+    ${h.delegateable.breadcrumbs(c.comment.topic)|n} &raquo; ${_("Comment") if h.comment.wording() else _("Argument")}
 </%def>
 
 <%block name="headline">
-<h1>${_("Comment on %s") % h.delegateable.link(c.comment.topic)|n}</h1>
+<h1>${(_("Comment on %s") if h.comment.wording() else _("Argument about %s")) % h.delegateable.link(c.comment.topic)|n}</h1>
 </%block>
 
 <%block name="main_content">
@@ -18,7 +18,7 @@
     <div class="sidebar">&nbsp;</div>
     <div class="mainbar">
         <div class="warning_box">
-            ${_("Are you sure you want to delete this comment?")|n}
+            ${_("Are you sure you want to delete this comment?") if h.comment.wording() else _("Are you sure you want to delete this argument?")|n}
         </div>
         <center>
             <input type="submit" class="delete" value="${_('Confirm')}" />
