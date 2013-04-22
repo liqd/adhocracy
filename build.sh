@@ -37,7 +37,7 @@ not_use_user_commands=false
 adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
-branch=feature-#241-buildout2
+branch=$DEFAULT_BRANCH
 compile_python=true
 
 if [ -n "$SUDO_USER" ]; then
