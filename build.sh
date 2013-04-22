@@ -283,11 +283,7 @@ fi
 # Install adhocracy
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 # bootstrap buildout
-if [ '!' -f bin/buildout ]; then
-    bin/python bootstrap.py -c buildout_current.cfg
-else  
-    bin/buildout -c buildout_current.cfg bootstrap
-fi
+bin/python bootstrap.py -c buildout_current.cfg
 # run buildout in newest mode to make upgrading work smooth
 bin/buildout -nc buildout_current.cfg
 
