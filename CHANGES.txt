@@ -13,6 +13,9 @@ adhocracy Changelog
 - The default way to isolate your python environment is to compile 
   python and PIL now instead of using virtualenv. 
   
+  Upgrade manual installation:
+  ----------------------------
+
   Checkout python buildout
   
   * git submodule init
@@ -23,16 +26,20 @@ adhocracy Changelog
   * cd python
   * python boostrap.py && bin/buildout
   
-  Reinstall Adhocracy manually:
+  Reinstall Adhocracy:
 
   * cd ../
   * rm -rf eggs/*   
   * bin/python bootrap.py
   * bin/buildout
   
-  Or use the build script to install Adhocracy:
+  Upgrade build.sh:
+  -----------------
 
+  * rm -rf eggs/*
+  * sh build.sh -u
   * sh build.sh -s
+
   [joka]
 
 - Replace RabbitMQ/amqp with redis/rq. This means that you have to
