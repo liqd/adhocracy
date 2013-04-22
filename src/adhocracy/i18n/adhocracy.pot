@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy a47b1ba\n"
+"Project-Id-Version: adhocracy d3b20f0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-21 14:56+0200\n"
+"POT-Creation-Date: 2013-04-22 21:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1094,7 +1094,15 @@ msgid "New comment: in %(topic)s"
 msgstr ""
 
 #, python-format
-msgid "commented %(topic)s"
+msgid "New argument: in %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "commented on %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "discussed %(topic)s"
 msgstr ""
 
 #, python-format
@@ -1102,7 +1110,15 @@ msgid "Edited comment: in %(topic)s"
 msgstr ""
 
 #, python-format
+msgid "Edited argument: in %(topic)s"
+msgstr ""
+
+#, python-format
 msgid "edited comment on %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "edited argument about %(topic)s"
 msgstr ""
 
 #, python-format
@@ -1110,7 +1126,15 @@ msgid "Deleted comment: in %(topic)s"
 msgstr ""
 
 #, python-format
+msgid "Deleted argument: in %(topic)s"
+msgstr ""
+
+#, python-format
 msgid "deleted comment from %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "deleted argument from %(topic)s"
 msgstr ""
 
 #, python-format
@@ -1832,11 +1856,21 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
+msgid "Argument"
+msgstr ""
+
 #, python-format
 msgid "Comment on %s"
 msgstr ""
 
+#, python-format
+msgid "Argument about %s"
+msgstr ""
+
 msgid "Are you sure you want to delete this comment?"
+msgstr ""
+
+msgid "Are you sure you want to delete this argument?"
 msgstr ""
 
 msgid "Confirm"
@@ -1845,14 +1879,27 @@ msgstr ""
 msgid "Edit comment"
 msgstr ""
 
+msgid "Edit argument"
+msgstr ""
+
 #, python-format
 msgid "Comment on: %s"
+msgstr ""
+
+#, python-format
+msgid "Argument about: %s"
 msgstr ""
 
 msgid "Comment History"
 msgstr ""
 
+msgid "Argument History"
+msgstr ""
+
 msgid "New comment"
+msgstr ""
+
+msgid "New argument"
 msgstr ""
 
 #, python-format
@@ -1876,19 +1923,34 @@ msgstr ""
 msgid "No comments were made yet."
 msgstr ""
 
-msgid "Start new Discussion"
-msgstr ""
-
-msgid "Join instance to comment."
+msgid "No discussions were started yet."
 msgstr ""
 
 msgid "Add comment"
 msgstr ""
 
+msgid "Start new discussion"
+msgstr ""
+
+msgid "Join instance to comment."
+msgstr ""
+
+msgid "Join instance to discuss."
+msgstr ""
+
+msgid "Add argument"
+msgstr ""
+
 msgid "Login to comment."
 msgstr ""
 
+msgid "Login to discuss."
+msgstr ""
+
 msgid "Validate email in order to comment."
+msgstr ""
+
+msgid "Validate email in order to discuss."
 msgstr ""
 
 msgid "is pro"
@@ -1903,14 +1965,24 @@ msgstr ""
 msgid "This comment has been deleted."
 msgstr ""
 
+msgid "This argument has been deleted."
+msgstr ""
+
 msgid "edit"
 msgstr ""
 
 msgid "1 Comment"
 msgstr ""
 
+msgid "1 Argument"
+msgstr ""
+
 #, python-format
 msgid "%s Comments"
+msgstr ""
+
+#, python-format
+msgid "%s Arguments"
 msgstr ""
 
 msgid "reply"
@@ -1942,6 +2014,9 @@ msgstr ""
 msgid "Comment is..."
 msgstr ""
 
+msgid "Argument is..."
+msgstr ""
+
 msgid "Pro"
 msgstr ""
 
@@ -1954,7 +2029,17 @@ msgstr ""
 msgid "Enter comment text:"
 msgstr ""
 
+msgid "Enter argument text:"
+msgstr ""
+
 msgid "Allow others to edit this comment."
+msgstr ""
+
+msgid "Allow others to edit this argument."
+msgstr ""
+
+#, python-format
+msgid "Comments on %s"
 msgstr ""
 
 #, python-format
@@ -2876,6 +2961,9 @@ msgstr ""
 
 #, python-format
 msgid "%s Proposed Implementations"
+msgstr ""
+
+msgid "Comments"
 msgstr ""
 
 msgid "Discussions"
