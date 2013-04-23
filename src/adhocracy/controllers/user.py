@@ -20,7 +20,7 @@ from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
 from adhocracy.lib.auth.authorization import has
-from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth.csrf import RequireInternalRequest, token_id
 from adhocracy.lib.auth.welcome import (welcome_enabled, can_welcome,
                                         welcome_url)
 from adhocracy.lib.base import BaseController
@@ -157,6 +157,9 @@ class UserController(BaseController):
             session['came_from'] = request.params.get('came_from',
                                                       h.base_url())
             session.save()
+            if defaults is None:
+                defaults = {}
+            defaults['_tok'] = token_id()
             return htmlfill.render(render("/user/register.html"),
                                    defaults=defaults)
 
