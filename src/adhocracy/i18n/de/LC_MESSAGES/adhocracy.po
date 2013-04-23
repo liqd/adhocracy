@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-22 21:44+0200\n"
-"PO-Revision-Date: 2013-04-22 20:33+0000\n"
-"Last-Translator: phihag <phihag@phihag.de>\n"
+"POT-Creation-Date: 2013-04-23 12:43+0200\n"
+"PO-Revision-Date: 2013-04-23 10:55+0000\n"
+"Last-Translator: Wawe <transifex.com@jroene.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1637,7 +1637,7 @@ msgid "Include proposals"
 msgstr "Vorschläge hinzufügen"
 
 msgid "Include comments"
-msgstr "Neue Diskussion beginnen"
+msgstr "Kommentar hinzufügen"
 
 msgid "Export format:"
 msgstr "Export-Format:"
@@ -1990,7 +1990,7 @@ msgid "No discussions were started yet."
 msgstr "\"Bisher wurden keine Argumente hinzugefügt."
 
 msgid "Add comment"
-msgstr "Neue Diskussion beginnen"
+msgstr "Kommentar hinzufügen"
 
 msgid "Start new discussion"
 msgstr "Neue Diskussion anlegen"
@@ -2002,13 +2002,13 @@ msgid "Join instance to discuss."
 msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
 
 msgid "Add argument"
-msgstr "Neue Diskussion beginnen"
+msgstr "Argument hinzufügen"
 
 msgid "Login to comment."
 msgstr "Loggen Sie sich ein um einen Kommentar hinzuzufügen."
 
 msgid "Login to discuss."
-msgstr "Loggen Sie sich ein um ein Argument hinzuzufügen."
+msgstr "Loggen Sie sich ein um einen Kommentar hinzuzufügen."
 
 msgid "Validate email in order to comment."
 msgstr "Verifizieren Sie Ihre Email-Adresse, um zu kommentieren."
@@ -2049,16 +2049,25 @@ msgid "%s Arguments"
 msgstr "%s Argumente"
 
 msgid "reply"
-msgstr "Neues Argument hinzufügen"
+msgstr "antworten"
 
 msgid "Join instance to reply"
-msgstr "Gruppe beitreten um alle Argumente zu zeigen"
+msgstr "Gruppe beitreten um zu antworten"
+
+msgid "Join instance to argue"
+msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
 
 msgid "Login to reply"
-msgstr "Anmelden, um alle Argumente zu zeigen"
+msgstr "Anmelden, um zu antworten"
+
+msgid "Login to argue"
+msgstr "Loggen Sie sich ein um ein Argument hinzuzufügen."
 
 msgid "Validate email in order to reply"
 msgstr "Verifizieren Sie Ihre Email-Adresse, um zu antworten"
+
+msgid "Validate email in order to argue"
+msgstr "Verifizieren Sie Ihre Email-Adresse, um ein Argument hinzuzufügen."
 
 msgid "report"
 msgstr "melden"

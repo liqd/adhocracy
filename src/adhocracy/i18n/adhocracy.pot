@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy d3b20f0\n"
+"Project-Id-Version: adhocracy c81e906\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-22 21:44+0200\n"
+"POT-Creation-Date: 2013-04-23 12:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1991,10 +1991,19 @@ msgstr ""
 msgid "Join instance to reply"
 msgstr ""
 
+msgid "Join instance to argue"
+msgstr ""
+
 msgid "Login to reply"
 msgstr ""
 
+msgid "Login to argue"
+msgstr ""
+
 msgid "Validate email in order to reply"
+msgstr ""
+
+msgid "Validate email in order to argue"
 msgstr ""
 
 msgid "report"
