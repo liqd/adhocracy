@@ -22,7 +22,8 @@ OPTIONS:
    -c file Use the given buildout config file
    -A      Do not start now
    -S      Do not configure system services
-   -s      Install only non-superuser parts
+   -s      Install/Reinstall only non-superuser parts
+   -o      Reinstall only non-superuser parts in offline mode
    -u      Install only superuser parts
    -U      Set the username adhocracy should run as
    -b      Branch to check out
@@ -39,6 +40,7 @@ install_mysql_client=false
 arch_install=false
 branch=$DEFAULT_BRANCH
 compile_python=true
+buildout_offlinemode=false
 
 if [ -n "$SUDO_USER" ]; then
     adhoc_user=$SUDO_USER
@@ -47,13 +49,14 @@ fi
 PKGS_TO_INSTALL=''
 PKG_INSTALL_CMD=''
 
-while getopts DpMmASsuc:U:b:R name
+while getopts DpMmASsuc:U:b:R:o name
 do
     case $name in
     M)    install_mysql_client=true;;
     A)    autostart=false;;
     S)    setup_services=false;;
     s)    not_use_sudo_commands=true;;
+    o)    not_use_sudo_commands=true; buildout_offlinemode=true;;
     u)    not_use_user_commands=true;;
     U)    adhoc_user=$OPTARG;;
     c)    buildout_cfg_file=$OPTARG;;
@@ -272,20 +275,28 @@ fi
 
 cd adhocracy_buildout
 # Compile python
-if $compile_python; then
+if $buildout_offlinemode && $compile_python; then
+    (cd python; bin/buildout -o) 
+fi
+if ! $buildout_offlinemode && $compile_python; then
     if [ '!' -f python/bin/buildout ]; then
         (cd python; python bootstrap.py)
     else
         (cd python; bin/buildout bootstrap)
     fi
-    (cd python; bin/buildout -N) 
+    (cd python; bin/buildout -N)
 fi
 # Install adhocracy
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
-# bootstrap buildout
-bin/python bootstrap.py -c buildout_current.cfg
-# run buildout in newest mode to make upgrading work smooth
-bin/buildout -nc buildout_current.cfg
+if $buildout_offlinemode; then
+    # run buildout in offline mode for fast reinstallation
+    bin/buildout -oc buildout_current.cfg
+else 
+    # bootstrap buildout
+    bin/python bootstrap.py -c buildout_current.cfg
+    # run buildout in newest mode to make upgrading work smooth
+    bin/buildout -nc buildout_current.cfg
+fi
 
 # Install adhocracy interactive script
 echo '#!/bin/sh
