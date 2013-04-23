@@ -23,6 +23,8 @@ adhocracy/*_theme
 var
 parts
 bin
+local
+lib
 /src/*
 !/src/adhocracy/
 lib64
