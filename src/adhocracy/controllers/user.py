@@ -519,6 +519,7 @@ class UserController(BaseController):
         session.delete()
         redirect(h.base_url())
 
+    @RequireInternalRequest(methods=['POST'])
     @validate(schema=NoPasswordForm(), post_only=True)
     def nopassword(self):
         """ (Alternate login) User clicked "I have no password" """
@@ -531,9 +532,10 @@ class UserController(BaseController):
         login = self.form_result.get('login')
         if u'@' not in login:
             msg = _("Please use a valid email address.")
+            defaults = dict(request.params)
             return htmlfill.render(render('/user/login.html'),
                                    errors=dict(login=msg),
-                                   defaults=dict(request.params))
+                                   defaults=defaults)
 
         if h.allow_user_registration():
             handle = login.partition(u'@')[0]
