@@ -131,7 +131,7 @@ def proposal_controversy(entities):
         num_for = proposal.rate_poll.tally.num_for
         num_against = proposal.rate_poll.tally.num_against
         if min(num_for, num_against) > 0:
-            controversy = (max(num_for, num_against) / 
+            controversy = (float(max(num_for, num_against)) / 
                            min(num_for, num_against) / (num_for + num_against))
         else:
             controversy = 1
