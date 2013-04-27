@@ -28,8 +28,8 @@ Adhocracy is known to run on current Linux systems, such as Debian Squeeze. It
 might run on FreeBSD or OS X, but this hasn't been tested recently.
 
 Installation is usually done through buildout or through an installer script
-for Debian based systems. In either case, read `INSTALLATION.md
-<INSTALLATION.md>`_.
+for Debian based systems. In either case, read `INSTALLATION.rst
+<INSTALLATION.rst>`_.
 
 
 Development
