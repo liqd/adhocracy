@@ -32,6 +32,33 @@ class RESTAPI(object):
                                               url=self.api_address + "images",
                                               headers=self.headers)
 
+    def staticpages_get(self, languages):
+        request = requests.Request("GET",
+                                   url='%s%s' % (
+                                       self.api_address,
+                                       "staticpages",
+                                   ),
+                                   params={
+                                       'lang': languages,
+                                   },
+                                   headers=self.headers)
+
+        return self.session.send(request.prepare())
+
+    def staticpage_get(self, path, languages):
+        request = requests.Request("GET",
+                                   url='%s%s/%s' % (
+                                       self.api_address,
+                                       "staticpages",
+                                       path,
+                                   ),
+                                   params={
+                                       'lang': languages,
+                                   },
+                                   headers=self.headers)
+
+        return self.session.send(request.prepare())
+
     def add_image(self, filename, binarydata):
         """Post image data to the mediacenter
 
