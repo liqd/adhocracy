@@ -66,30 +66,23 @@ _BACKENDS = {
 STATICPAGE_KEY = re.compile(r'^[a-z0-9_-]+$')
 
 
-class all_locales(object):
+def all_locales(include_preferences=False):
 
-    def __init__(self, include_preferences=False):
-        self.done = set([])
-        self.include_preferences = include_preferences
-        self.locales = self.next_locales()
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        value = self.locales.next()
-        if value in self.done:
-            return self.next()
-        else:
-            self.done.add(value)
-            return value
-
-    def next_locales(self):
-        if self.include_preferences:
+    def all_locales_mult():
+        if include_preferences:
             yield c.locale
             yield i18n.get_default_locale()
         for l in i18n.LOCALES:
             yield l
+
+    done = set()
+
+    for value in all_locales_mult():
+        if value in done:
+            continue
+        else:
+            done.add(value)
+            yield value
 
 
 def all_languages(include_preferences=False):
