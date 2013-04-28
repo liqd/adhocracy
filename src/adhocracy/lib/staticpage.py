@@ -4,6 +4,7 @@ import re
 
 import adhocracy.model
 from adhocracy import i18n
+from adhocracy.lib.helpers.adhocracy_service import RESTAPI
 from adhocracy.lib import util
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.outgoing_link import rewrite_urls
@@ -86,9 +87,22 @@ class FileStaticPage(StaticPageBase):
                 return FileStaticPage(key, lang, tostring(body), title)
         return None
 
+
+class KottiStaticPage(StaticPageBase):
+
+    @staticmethod
+    def get(key, languages):
+        api = RESTAPI()
+        result = api.staticpage_get(key, languages)
+        page = result.json()
+        if page is None:
+            return None
+        return KottiStaticPage(key, page['lang'], page['body'], page['title'])
+
 _BACKENDS = {
     'filesystem': FileStaticPage,
     'database': adhocracy.model.StaticPage,
+    'kotti': KottiStaticPage,
 }
 
 STATICPAGE_KEY = re.compile(r'^[a-z0-9_-]+$')
