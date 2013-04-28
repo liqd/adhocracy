@@ -80,7 +80,7 @@ class StaticController(BaseController):
     @guard_perms
     def edit(self, key, lang, errors=None, format=u'html'):
         backend = get_backend()
-        sp = backend.get(key, lang)
+        sp = backend.get(key, [lang])
         if not sp:
             return ret_abort(_('Cannot find static page to edit'), code=404)
         data = {'staticpage': sp}
@@ -98,7 +98,7 @@ class StaticController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     def update(self, key, lang):
         backend = get_backend()
-        sp = backend.get(key, lang)
+        sp = backend.get(key, [lang])
         if not sp:
             return ret_abort(_('Cannot find static page to edit'), code=404)
 
