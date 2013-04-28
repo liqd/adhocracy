@@ -391,6 +391,9 @@ adhocracy.startpage.proposals.list_length = 0
 # Source for imprint, details etc. ("database", "kotti" or "filesystem" (default))
 #adhocracy.staticpage_backend = database
 
+# Use kotti API call to render navigation
+adhocracy.use_kotti_navigation = false
+
 # Configure paths to static content which is inserted
 
 # Static content path for start page (default: index)
