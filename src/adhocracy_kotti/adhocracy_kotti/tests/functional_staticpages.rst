@@ -36,14 +36,15 @@ First we go to the right language folder::
 to add some Documents::
 
     >>> browser.getLink("Document").click()
-    >>> ctrl("Title").value = "Document de"
+    >>> ctrl("Title").value = "Document"
+    >>> ctrl("Body").value = "Dokument auf deutsch"
     >>> ctrl("save").click()
     >>> "alert-succes" in browser.contents
     True
 
-    >>> browser.open("/de/document-de"))
+    >>> browser.open("/de/document")
     >>> browser.getLink("Document").click()
-    >>> ctrl("Title").value = "Child Document de"
+    >>> ctrl("Title").value = "Child Document"
     >>> ctrl("save").click()
     >>> "alert-succes" in browser.contents
     True
@@ -55,7 +56,8 @@ Now we add a translation::
     'http://localhost:6543/en'
 
     >>> browser.getLink("Document").click()
-    >>> ctrl("Title").value = "Document en"
+    >>> ctrl("Title").value = "Document"
+    >>> ctrl("Body").value = "Document in English"
     >>> ctrl("save").click()
     >>> "alert-succes" in browser.contents
     True
@@ -64,31 +66,27 @@ Now we add a translation::
 Use the restapi to retrieve Pages
 ----------------------------------
 
-We can get all documents from the medicenter::
+We can get all documents from through the API::
 
-    >>> resp = app.get("/staticpages", {"lang": "de", "lang_fallbacks": '["en", "fr"]'})
+    >>> resp = app.get("/staticpages?lang=de&lang=en")
     >>> resp.status
     '200 OK'
 
     >>> json.loads(resp.body)
-    [{u"name": u"document-de", u"title": u"Document de", u"description": u"", "lang": "de"},
-     {u"name": u"document-de/child-document-de", u"title": u"Child Document de", u"description": u"", "lang": "de"}]
+    {u'title': u'DE translations', u'children': [{u'title': u'Mainmenu', u'children': [], u'name': u'mainmennu'}, {u'title': u'Footer', u'children': [], u'name': u'footer'}, {u'title': u'Document', u'children': [{u'title': u'Child Document', u'children': [], u'name': u'child-document'}], u'name': u'document'}], u'name': u'de'}
 
-TODO ist Seitenstruktur in allen Sprachen identisch oder nicht?  Bekommt man als Fallback nur eine Sprache?
 
 to choose one we want the body from::
 
-    >>> resp = app.get("/staticpages/document-de", {"lang": "de", "lang_fallback": '["en", "fr"]' })
+    >>> resp = app.get("/staticpages/document?lang=de&lang=en&lang=fr")
     >>> json.loads(resp.body)
-    [{u"name": u"document-de", u"title": u"Document de", u"description": u"", body=u""}, "lang":"de"]
+    {u'lang': u'de', u'path': u'document', u'body': u'Dokument auf deutsch', u'description': u'', u'title': u'Document'}
 
 If the language folder does not exists, we get the fallback::
 
-    >>> resp = app.get("/staticpages/document-de", {"lang": "unknown", "lang_fallback": '["en", "fr"]'})
+    >>> resp = app.get("/staticpages/document?lang=fr&lang=en&lang=de")
     >>> json.loads(resp.body)
-    [{u"name": u"document-en", u"title": u"Document en", u"description": u"", body=u"", "lang":"en"}]
+    {u'lang': u'en', u'path': u'document', u'body': u'Document in English', u'description': u'', u'title': u'Document'}
 
 
 TODO: how to handle relative links
-
-FUTURE: Fallback Fallback languages

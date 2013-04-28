@@ -6,6 +6,10 @@ from kotti.resources import (
 )
 
 
+class NoSuchLanguageException(Exception):
+    pass
+
+
 def generate_image_name(binarydata):
     """find a valid name based on the binarydata hash"""
     name_uid = uuid.uuid3(uuid.NAMESPACE_DNS, binarydata)
@@ -26,3 +30,10 @@ def get_image_folder():
     if not "mediacenter" in root:
         root["mediacenter"] = Document(title="mediacenter")
     return root["mediacenter"]
+
+
+def get_lang_folder(lang):
+    root = get_root()
+    if not lang in root:
+        raise NoSuchLanguageException()
+    return root[lang]
