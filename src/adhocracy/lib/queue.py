@@ -56,16 +56,16 @@ class async(object):
         '''
         Call this with the args and kwargs of the function you want
         to enqueue. It will queue the function and return a Job if
-        a queue is available, or call the function syncronously
+        a queue is available, or call the function synchronously
         and return a FakeJob if not.
 
         Returns:
 
         :class:`FakeJob`
-          where `.return_value` will be the return value if *_force_sync*
+          where `.result` will be the return value if *_force_sync*
           is True or we have no configured redis connection.
         :class:`rq.Job`
-          if we do asyncronous processing.
+          if we do asynchronous processing.
         '''
 
         if rq_config.in_worker:
