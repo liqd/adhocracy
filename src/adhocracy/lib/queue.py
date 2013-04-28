@@ -195,6 +195,10 @@ class FakeJob(Job):
     """
     FakeJob is meant to be used in settings where no redis queue is configured.
     It fakes the signature of a rq Job, but is executed synchronously.
+
+    rq could also do synchronous processing by passing `async=False` to the
+    `Queue` constructor, but this would still needs a running Redis process,
+    thus we implemented our own way to do this.
     """
 
     _result = None
