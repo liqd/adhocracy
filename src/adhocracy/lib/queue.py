@@ -187,13 +187,10 @@ class FakeJob(Job):
     """
     FakeJob is meant to be used in settings where no redis queue is configured.
     It fakes the signature of a rq Job, but is executed synchronously.
-
-    FIXME: This isn't working, as the signature of rq.job.Job constructor and
-    other methods has changed.
     """
 
     _result = None
 
-    @property
-    def return_value(self):
-        '''Override function to not connect to redis'''
+    def __init__(self):
+        """Override constructor in order to not connect to redis"""
+        pass
