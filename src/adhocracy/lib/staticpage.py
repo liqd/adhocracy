@@ -66,21 +66,32 @@ _BACKENDS = {
 STATICPAGE_KEY = re.compile(r'^[a-z0-9_-]+$')
 
 
+def all_locales(include_preferences=False):
+
+    def all_locales_mult():
+        if include_preferences:
+            yield c.locale
+            yield i18n.get_default_locale()
+        for l in i18n.LOCALES:
+            yield l
+
+    done = set()
+
+    for value in all_locales_mult():
+        if value in done:
+            continue
+        else:
+            done.add(value)
+            yield value
+
+
 def all_languages(include_preferences=False):
-    if include_preferences:
-        yield c.locale.language
-        yield i18n.get_default_locale().language
-    for l in i18n.LOCALES:
-        yield l.language
+    return (l.language for l in all_locales(include_preferences))
 
 
 def all_language_infos(include_preferences=False):
-    if include_preferences:
-        yield {'id': c.locale.language, 'name': c.locale.display_name}
-        def_locale = i18n.get_default_locale()
-        yield {'id': def_locale.language, 'name': def_locale.display_name}
-    for l in i18n.LOCALES:
-        yield {'id': l.language, 'name': l.display_name}
+    return ({'id': l.language, 'name': l.display_name}
+            for l in all_locales(include_preferences))
 
 
 def get_backend():
