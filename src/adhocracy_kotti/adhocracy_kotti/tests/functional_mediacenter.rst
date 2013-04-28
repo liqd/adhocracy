@@ -50,7 +50,7 @@ or a specific image scale ::
     <200 OK image/jpeg body='\x...
 
 We can list all images with a special tag::
-    >>> resp =  app.get("/images", {"tags": ["tag1", "tag2"]},  headers=[('X-API-Token', API_TOKEN)])
+    >>> resp =  app.get("/images?tags=tag1&tags=tag2", headers=[('X-API-Token', API_TOKEN)])
     >>> resp.body
     '[{"mimetype": "", "size": 0, "filename": "", "name": "urn-uuid-f477dcfc-6da0-37d0-9f53", "tags": ["tag1", "tag2"]}]'
 
