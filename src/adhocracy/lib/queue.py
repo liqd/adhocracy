@@ -83,9 +83,14 @@ class async(object):
                 meta.Session.commit()
                 meta.Session.remove()
         else:
-            log.debug('enqueuing job: %s, args: %s, kwargs: %s' % (
-                self.func.__name__, str(args), str(kwargs)))
-            return self.enqueue(*args, **kwargs)
+            job = self.enqueue(*args, **kwargs)
+            if isinstance(job, FakeJob):
+                log.debug('fake job execution: %s, args: %s, kwargs: %s'
+                          % (self.func.__name__, str(args), str(kwargs)))
+            else:
+                log.debug('enqueuing job: %s, args: %s, kwargs: %s' % (
+                    self.func.__name__, str(args), str(kwargs)))
+            return job
 
 
 # --[ Redis configuration ]-------------------------------------------------
