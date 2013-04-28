@@ -15,7 +15,8 @@ from pylons import tmpl_context as c, config
 log = logging.getLogger(__name__)
 
 
-class FileStaticPage(object):
+class StaticPageBase(object):
+
     def __init__(self, key, lang, body, title):
         self.key = key
         self.lang = lang
@@ -59,6 +60,31 @@ class FileStaticPage(object):
     @staticmethod
     def is_editable():
         return False
+
+
+class FileStaticPage(StaticPageBase):
+
+    @staticmethod
+    def get(key, languages):
+
+        for lang in languages:
+            fn = os.path.basename(key) + '.' + lang + '.html'
+            filename = util.get_path('page', fn)
+            if filename is not None:
+                try:
+                    root = parse(filename)
+                except IOError:
+                    return None
+                try:
+                    body = root.find('.//body')
+                    title = root.find('.//title').text
+                except AttributeError:
+                    log.debug(
+                        u'Failed to parse static document ' + filename)
+                    return None
+                body.tag = 'span'
+                return FileStaticPage(key, lang, tostring(body), title)
+        return None
 
 _BACKENDS = {
     'filesystem': FileStaticPage,
@@ -114,12 +140,8 @@ def render_body(body):
 def get_static_page(key, language=None):
     backend = get_backend()
     if language is None:
-        for lang in all_languages(include_preferences=True):
-            page = backend.get(key, lang)
-            if page is not None:
-                return page
-        return None
-    return backend.get(key, lang)
+        return backend.get(key, all_languages(include_preferences=True))
+    return backend.get(key, [language])
 
 
 def add_static_content(data, config_key, title_key=u'title',
