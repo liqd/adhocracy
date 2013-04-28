@@ -31,7 +31,7 @@ class async(object):
     proxy object (or a :class:`FakeJob` if no queue is available).
 
       >>> retval = afunc.enqueue('myarg')
-    >>> isinstance(retval, job)
+      >>> isinstance(retval, Job)
     """
     def __init__(self, func):
         self.func = func
