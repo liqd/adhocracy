@@ -59,3 +59,18 @@ class ImageGETDATA(colander.MappingSchema):
 
     name = Identifier(location="path")
     scale = ImageScale(missing=u"large", default=u"large", location="path",)
+
+
+class LangList(colander.SequenceSchema):
+    _ = colander.SchemaNode(colander.String())
+
+
+class StaticPageGET(colander.MappingSchema):
+
+    path = Identifier(location="path")
+    lang = LangList(location="querystring")
+
+
+class StaticPagesGET(colander.MappingSchema):
+
+    lang = LangList(location="querystring")
