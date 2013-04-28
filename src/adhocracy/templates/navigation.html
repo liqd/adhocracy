@@ -46,6 +46,11 @@
                            text=_("Watchlist"),
                            id_="nav_watchlist")}
                 %endif
+
+                %if h.staticpage.use_kotti_navigation():
+                ${h.staticpage.render_kotti_navigation() | n}
+                %else:
+
                 ${nav_link(href=h.base_url('/static/about.html', None),
                            text=_('About'),
                            a_class='staticlink_about',
@@ -58,6 +63,7 @@
                            a_class='staticlink_help',
                            li_class=_class('help'),
                            id_="nav_help")}
+                %endif
 
                 %if c.user is None:
                 ${nav_link(href=h.login_redirect_url(),
