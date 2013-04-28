@@ -18,7 +18,7 @@ Technology
 
 Adhocracy is mostly written in Python 2. It's built on top of many free
 software projects, such as the Pylons web framework, the Solr search platform,
-Memcached, RabbitMQ, many Python libraries and more.
+Memcached, Redis, many Python libraries and more.
 
 
 Installing
