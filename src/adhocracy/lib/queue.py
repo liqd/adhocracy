@@ -2,6 +2,7 @@ from collections import defaultdict
 import json
 from logging import getLogger
 
+from paste.deploy.converters import asbool
 from redis import Redis
 from rq import Queue
 from rq.job import Job
@@ -103,23 +104,24 @@ rq_config = None
 
 class RQConfig(object):
 
-    force_sync = False
     in_worker = False
-    connection = None
 
-    def __init__(self, host, port, queue_name):
-        if not host or not port or not queue_name:
-            log.warn(('You have not configured redis for adhocracy. '
-                     'You should. Current configuration values:'
-                      'host: %s, port: %s, name: %s') %
-                     (host, port, queue_name))
-            self.force_sync = True
+    def __init__(self, async, host, port, queue_name):
+        if host and port and queue_name:
+            self.host = host
+            self.port = int(port)
+            self.queue_name = queue_name
+            self.use_redis = True
+        else:
             self.use_redis = False
-            return
-        self.host = host
-        self.port = int(port)
-        self.queue_name = queue_name
-        self.use_redis = True
+
+            if async:
+                log.warn(('You have not configured redis for adhocracy. '
+                          'You should. Current configuration values:'
+                          'host: %s, port: %s, name: %s') %
+                         (host, port, queue_name))
+
+        self.force_sync = not async
         self.connection = self.new_connection()
 
     def new_connection(self):
@@ -129,7 +131,7 @@ class RQConfig(object):
 
     @property
     def queue(self):
-        if self.force_sync:
+        if not self.use_redis or (not self.in_worker and self.force_sync):
             return None
         return Queue(self.queue_name, connection=self.connection)
 
@@ -140,10 +142,11 @@ class RQConfig(object):
 
     @classmethod
     def from_config(cls, config):
+        async = asbool(config.get('adhocracy.background_processing', 'true'))
         host = config.get('adhocracy.redis.host')
         port = config.get('adhocracy.redis.port')
         name = config.get('adhocracy.redis.queue')
-        return cls(host, port, name)
+        return cls(async, host, port, name)
 
 
 # --[ async methods ]-------------------------------------------------------
