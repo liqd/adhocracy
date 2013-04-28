@@ -128,13 +128,6 @@ class RQConfig(object):
             return None
         return Queue(self.queue_name, connection=self.connection)
 
-    @property
-    def enqueue(self):
-        queue = self.queue()
-        if queue is None:
-            return self.fake_job
-        return queue.enqueue
-
     @classmethod
     def setup_from_config(cls, config):
         global rq_config
