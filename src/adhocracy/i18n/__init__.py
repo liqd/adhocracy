@@ -46,7 +46,9 @@ def handle_request():
     from pylons import request, tmpl_context as c
 
     try:
-        request_languages = request.languages
+        al = request.accept_language
+        request_languages = [lang for lang, q in
+                             sorted(al._parsed, key=lambda lq: -lq[1])]
     except AttributeError:
         # request.languages fails if no accept_language is set
         # becaues of incompatibility between WebOb >= 1.1.1 and Paste-1.7.5.1
