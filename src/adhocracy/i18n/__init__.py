@@ -7,7 +7,7 @@ import babel
 from babel import Locale
 import babel.dates
 import formencode
-from pylons.i18n import _, add_fallback, set_lang
+from pylons.i18n import add_fallback, set_lang
 from pylons import config, tmpl_context as c
 
 

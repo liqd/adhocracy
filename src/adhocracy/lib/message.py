@@ -1,4 +1,4 @@
-from adhocracy.i18n import _
+from pylons.i18n import _
 from pylons import config
 
 
