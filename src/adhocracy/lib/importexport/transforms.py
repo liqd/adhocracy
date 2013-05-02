@@ -183,8 +183,9 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'banned', 'adhocracy_')
             _set_optional(o, data, 'welcome_code', 'adhocracy_')
         if self._opt_badges:
-            o.badges = list(map(self._badge_transform._get_by_key,
-                                data['badges']))
+            if 'badges' in data:
+                o.badges = list(map(self._badge_transform._get_by_key,
+                                    data['badges']))
 
     def _export(self, o):
         res = {}
