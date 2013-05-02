@@ -56,13 +56,19 @@
         <div class="input_wrapper">
           %for (key, value) in c.sender_options.iteritems():
           <label>
-            <input type="radio" name="sender" value=${key} ${'checked="checked"' if value['checked'] else '' | n} ${'disabled="disabled"' if not value['enabled'] else '' | n} />${value['email']}
+            <input type="radio" name="sender_email" value=${key} ${'checked="checked"' if value['checked'] else '' | n} ${'disabled="disabled"' if not value['enabled'] else '' | n} />${value['email']}
             %if not value['enabled']:
             <em>${value['reason']}</em>
             %endif
           </label>
           %endfor
         </div>
+
+        %if lib.auth.authorization.has('global.admin'):
+          <label>
+            ${'Customize sender name: '} <input type="text" name="sender_name" />
+          </label>
+        %endif
       </fieldset>
       
       <div class="mainbar">

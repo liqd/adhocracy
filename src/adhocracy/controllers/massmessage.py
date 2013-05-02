@@ -35,26 +35,33 @@ class MassmessageForm(formencode.Schema):
     body = validators.String(min=2, not_empty=True)
     filter_instances = forms.MessageableInstances()
     filter_badges = forms.ValidUserBadges()
-    sender = validators.String(not_empty=True)
+    sender_email = validators.String(not_empty=True)
+    sender_name = validators.String()
     include_footer = formencode.validators.StringBoolean(if_missing=False)
 
 
 def _get_options(func):
     """ Decorator that calls the functions with the following parameters:
-        sender    - Email address of the sender
-        subject   - Subject of the message
-        body      - Body of the message
-        recipients- A list of users the email is going to
+        sender_email - Email address of the sender
+        sender_name  - Name of the sender
+        subject      - Subject of the message
+        body         - Body of the message
+        recipients   - A list of users the email is going to
     """
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=MassmessageForm(), form='new')
     def wrapper(self):
         allowed_sender_options = self.get_allowed_sender_options(c.user)
-        sender = self.form_result.get('sender')
-        if ((sender not in allowed_sender_options) or
-                (not allowed_sender_options[sender]['enabled'])):
+        sender_email = self.form_result.get('sender_email')
+        if ((sender_email not in allowed_sender_options) or
+                (not allowed_sender_options[sender_email]['enabled'])):
             return ret_abort(_("Sorry, but you're not allowed to set these "
                                "message options"), code=403)
+        sender_name = None
+        if has('global.message'):
+            sender_name = self.form_result.get('sender_name')
+        if not sender_name:
+            sender_name = config.get('adhocracy.site.name')
 
         recipients = User.all_q()
         filter_instances = self.form_result.get('filter_instances')
@@ -72,7 +79,8 @@ def _get_options(func):
             include_footer = True
 
         return func(self,
-                    allowed_sender_options[sender]['email'],
+                    allowed_sender_options[sender_email]['email'],
+                    sender_name,
                     self.form_result.get('subject'),
                     self.form_result.get('body'),
                     recipients,
@@ -153,7 +161,8 @@ class MassmessageController(BaseController):
                                force_defaults=False)
 
     @_get_options
-    def preview(self, sender, subject, body, recipients, include_footer):
+    def preview(self, sender_email, sender_name, subject, body, recipients,
+                include_footer):
         recipients_list = sorted(list(recipients), key=lambda r: r.name)
         if recipients_list:
             try:
@@ -165,7 +174,8 @@ class MassmessageController(BaseController):
             rendered_body = body
 
         data = {
-            'sender': sender,
+            'sender_email': sender_email,
+            'sender_name': sender_name,
             'subject': subject,
             'body': rendered_body,
             'recipients': recipients_list,
@@ -176,11 +186,12 @@ class MassmessageController(BaseController):
         return render('/massmessage/preview.html', data)
 
     @_get_options
-    def create(self, sender, subject, body, recipients, include_footer):
+    def create(self, sender_email, sender_name, subject, body, recipients, include_footer):
         message = Message.create(subject,
                                  body,
                                  c.user,
-                                 sender,
+                                 sender_email,
+                                 sender_name,
                                  include_footer)
 
         for count, user in enumerate(recipients, start=1):
