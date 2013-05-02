@@ -158,7 +158,7 @@ class ImportExportTest(TestController):
         p = testtools.tt_make_proposal(creator=self.u1)
         e = importexport.export_data({
             "include_instance": True,
-            "include_instance_proposals": True,
+            "include_instance_proposal": True,
             "include_users": True,
         })
         idata = e['instance'][p.instance.key]
@@ -209,7 +209,7 @@ class ImportExportTest(TestController):
 
         e = importexport.export_data({
             "include_instance": True,
-            "include_instance_proposals": True,
+            "include_instance_proposal": True,
             "include_instance_proposal_comments": True,
             "include_users": True,
         })
