@@ -20,6 +20,8 @@ else:
     field_type =  'text'
 %>
 <form class="login-alternate" name="login" method="POST" action="/perform_login">
+  ${h.field_token()|n}
+
   <form:error name="login"></form:error>
   <div class="login-alternate-question">
     ${field_question}
