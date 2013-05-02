@@ -41,11 +41,12 @@ skip_setupentities = True
 adhocracy.redis.host = ${parts.domains.redis}
 adhocracy.redis.port = ${parts.ports.redis}
 adhocracy.redis.queue = ${parts.adhocracy.queue}
+adhocracy.background_processing = false
 
 # memcached 
 memcached.server = 127.0.0.1:${parts.ports.memcached}
 
-#sorl
+#solr
 adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 
 # beaker
