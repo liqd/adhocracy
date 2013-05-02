@@ -122,8 +122,10 @@
                     next_select.append(opt);
                 });
                 next_select.change(change_handler);
-                next_select.children(':first').attr('selected', 'selected');
-                next_select.trigger('change');
+                if (!initial_text) {
+                    next_select.children(':first').attr('selected', 'selected');
+                    next_select.trigger('change');
+                }
 
                 new_header = $('<div>').addClass('select_header').text(node['header']);
 
@@ -154,6 +156,7 @@
 
         if (initial_text) {
             preselect(initial_text, 1);
+            initial_text = null;
         } else {
             root_select.children(':first').attr('selected', 'selected');
             root_select.trigger('change');
