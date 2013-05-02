@@ -31,7 +31,7 @@ class async(object):
     proxy object (or a :class:`FakeJob` if no queue is available).
 
       >>> retval = afunc.enqueue('myarg')
-    >>> isinstance(retval, job)
+      >>> isinstance(retval, Job)
     """
     def __init__(self, func):
         self.func = func
@@ -56,16 +56,16 @@ class async(object):
         '''
         Call this with the args and kwargs of the function you want
         to enqueue. It will queue the function and return a Job if
-        a queue is available, or call the function syncronously
+        a queue is available, or call the function synchronously
         and return a FakeJob if not.
 
         Returns:
 
         :class:`FakeJob`
-          where `.return_value` will be the return value if *_force_sync*
+          where `.result` will be the return value if *_force_sync*
           is True or we have no configured redis connection.
         :class:`rq.Job`
-          if we do asyncronous processing.
+          if we do asynchronous processing.
         '''
 
         if rq_config.in_worker:
@@ -127,13 +127,6 @@ class RQConfig(object):
         if self.force_sync:
             return None
         return Queue(self.queue_name, connection=self.connection)
-
-    @property
-    def enqueue(self):
-        queue = self.queue()
-        if queue is None:
-            return self.fake_job
-        return queue.enqueue
 
     @classmethod
     def setup_from_config(cls, config):

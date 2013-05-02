@@ -9,7 +9,7 @@ from adhocracy.lib.helpers import site_helper as site
 BREAD_SEP = " &raquo; "
 
 
-def append_member_and_format(url, member=None, format=None):
+def append_member_and_format(url, member=None, format=None, **kwargs):
     '''
     Add *member* as the last path segment to the url and
     add the extension .<format> if *format* exists.

@@ -1859,3 +1859,29 @@ form[name="login"] input[type="password"] {
   text-align: right;
   padding-right: 0;
 }
+
+.staticpage_edit {float: right;}
+
+form.password-reset input[type="submit"] {
+  padding: 5px 10px;
+}
+
+form.inline-form {
+  background: inherit;
+  padding: 0;
+  display: inline-block;
+}
+
+form[name="login"].login-alternate input[type="email"],
+form[name="login"].login-alternate input[type="text"],
+form[name="login"].login-alternate input[type="password"] {
+  display: inline;
+}
+form[name="login"].login-alternate label {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+form[name="login"].login-alternate label>span {
+  vertical-align: text-top;
+}
+

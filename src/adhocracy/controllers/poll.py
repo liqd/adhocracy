@@ -3,7 +3,9 @@ import logging
 import formencode
 from formencode import validators
 
-from pylons import tmpl_context as c
+from paste.deploy.converters import asbool
+
+from pylons import tmpl_context as c, config
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -73,11 +75,12 @@ class PollController(BaseController):
         require.poll.vote(c.poll)
         decision = democracy.Decision(c.user, c.poll)
         votes = decision.make(self.form_result.get("position"))
-
-        for vote in votes:
-            event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance,
-                       topics=[c.poll.scope], vote=vote, poll=c.poll)
         model.meta.Session.commit()
+
+        if not asbool(config.get('adhocracy.hide_individual_votes', 'false')):
+            for vote in votes:
+                event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance,
+                           topics=[c.poll.scope], vote=vote, poll=c.poll)
 
         if format == 'json':
             return render_json(dict(decision=decision,
@@ -113,10 +116,12 @@ class PollController(BaseController):
         event_type = {model.Poll.RATE: event.T_RATING_CAST,
                       model.Poll.SELECT: event.T_SELECT_VARIANT
                       }.get(c.poll.action)
-        for vote in votes:
-            event.emit(event_type, vote.user, instance=c.instance,
-                       topics=[c.poll.scope], vote=vote, poll=c.poll)
         model.meta.Session.commit()
+
+        if not asbool(config.get('adhocracy.hide_individual_votes', 'false')):
+            for vote in votes:
+                event.emit(event_type, vote.user, instance=c.instance,
+                           topics=[c.poll.scope], vote=vote, poll=c.poll)
 
         if format == 'json':
             return render_json(dict(decision=decision,
@@ -136,7 +141,7 @@ class PollController(BaseController):
         c.poll = get_entity_or_abort(model.Poll, id)
 
         # cover over data inconsistency because of a bug where pages (norms)
-        # where deleted when a proposal was deleted.
+        # were deleted when a proposal was deleted.
         # Fixes http://trac.adhocracy.de/ticket/262
         if (c.poll.action == model.Poll.SELECT and
                 c.poll.selection is None):

@@ -4,7 +4,7 @@
 <%def name="row(tile, comment)">
     <div class="tile">
         <div>
-            <h3><a href="${h.entity_url(comment)}">${_("Comment")}</a> 
+            <h3><a href="${h.entity_url(comment)}">${_("Comment") if h.comment.wording() else _("Argument")}</a> 
                 ${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
             <div class="meta">
                 ${h.user.link(comment.creator, scope=comment.topic)|n}
@@ -28,7 +28,7 @@
         %if not len(_comments):
             <div class="comment_wrapper">
                 <div class="comment empty">
-                    ${_("No comments were made yet.")}
+                    ${_("No comments were made yet.") if h.comment.wording() else _("No discussions were started yet.")}
                 </div>
             </div>
         %endif
@@ -72,20 +72,21 @@
         %if hide_form:
         <div class="list_button">
             <a class="button highlight showhide_button" 
-               href="${h.base_url('comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
+               href="${h.base_url('/comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
                data-target="#${target}"
                id="start-discussion-button">
-                ${_('Start new Discussion')}
+               ${_('Add comment') if h.comment.wording() else _('Start new discussion')}
             </a>
         </div>
         %endif
 
         %elif auth.propose_join():
-        <a class="button add ttip" title="${_('Join instance to comment.')}" rel="#overlay-join-button">${_("Add comment")}</a>
+        <a class="button add ttip" title="${_('Join instance to comment.') if h.comment.wording() else _('Join instance to discuss.')}" rel="#overlay-join-button">${_("Add comment") if h.comment.wording() else _('Add argument')}</a>
+
         %elif auth.propose_login():
-        <a class="button add ttip" title="${_('Login to comment.')}" rel="#overlay-login-button">${_("Add comment")}</a>
+         <a class="button add ttip" title="${_('Login to comment.') if h.comment.wording() else _('Login to discuss.')}" rel="#overlay-login-button">${_("Add comment") if h.comment.wording() else _('Add argument')}</a>
         %elif auth.propose_validate_email():
-        <a class="button add ttip" title="${_('Validate email in order to comment.')}" rel="#overlay-validate-button">${_("Add comment")}</a>
+        <a class="button add ttip" title="${_('Validate email in order to comment.') if h.comment.wording() else _('Validate email in order to discuss.')}" rel="#overlay-validate-button">${_("Add comment") if h.comment.wording() else _("Add argument")}</a>
         %endif
 
     %endif
@@ -120,7 +121,7 @@
         %if not comment.is_deleted():
         ${tile.text|n}
         %else:
-        <span class="hint">${_("This comment has been deleted.")}</span>
+        <span class="hint">${_("This comment has been deleted.") if h.comment.wording() else _("This argument has been deleted.")}</span>
         %endif
 
         %if can.comment.edit(comment):
@@ -148,29 +149,29 @@
                 %if tile.num_children > 0:
                     %if tile.num_children == 1:
                     <a class="show_comments" href="#">
-                        ${_('1 Comment')}
+                        ${_('1 Comment') if h.comment.wording() else _('1 Argument')}
                     </a>
                     %else:
                     <a class="show_comments" href="#">
-                        ${_('%s Comments') % tile.num_children}
+                        ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
                     </a>
                     %endif
                 %else:
                     <span class="show_comments" href="#">
-                        ${_('%s Comments') % tile.num_children}
+                        ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
                     </span>
                 %endif
 
                 ## Reply button
                 <% auth = check.comment.reply(comment) %>
                 %if auth and recurse:
-                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id))}" href="#">${_('reply')}</a>
+                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id))}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_join():
-                <a class="new_comment" title="${_('Join instance to reply')}" rel="#overlay-join-button">${_('reply')}</a>
+                <a class="new_comment" title="${_('Join instance to reply') if h.comment.wording() else _('Join instance to argue')}" rel="#overlay-join-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_login():
-                <a class="new_comment" title="${_('Login to reply')}" rel="#overlay-login-button">${_('reply')}</a>
+                <a class="new_comment" title="${_('Login to reply') if h.comment.wording() else _('Login to argue')}" rel="#overlay-login-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_validate_email():
-                <a class="new_comment" title="${_('Validate email in order to reply')}" rel="#overlay-validate-button">${_('reply')}</a>
+                <a class="new_comment" title="${_('Validate email in order to reply') if h.comment.wording() else _('Validate email in order to argue')}" rel="#overlay-validate-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %endif
 
             </div>
@@ -251,7 +252,7 @@ klass_con = klass(-1)
         <div class="c40r">
           <div class="subcr comment_settings">
             <div class="input_wrapper comment_status only-js">
-              ${_(u'Comment is...')}<br />
+              ${_(u'Comment is...') if h.comment.wording() else _(u'Argument is...')}<br />
               <a class="${klass_pro}" 
                  data-status="1" href="#">${_('Pro')}</a>
               <a class="${klass_neutral}" 
@@ -289,7 +290,7 @@ else:
 if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
-  <h4>${_(u'Add comment')}</h4>
+  <h4>${_(u'Enter comment text:') if h.comment.wording() else _(u'Enter argument text:')}</h4>
   <div class="comment_form">
     <form name="new_comment" class="comment_form"
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
@@ -312,7 +313,7 @@ if wiki is None:
         <div class="c40r">
           <div class="subcr comment_settings">
             <div class="input_wrapper comment_status only-js">
-              ${_(u'Comment is...')}<br />
+              ${_(u'Comment is...') if h.comment.wording() else _(u'Argument is...')}<br />
               <a class="button_small" data-status="1" href="#">${_('Pro')}</a>
               <a class="button_small" data-status="0" href="#">${_('Neutral')}</a>
               <a class="button_small" data-status="-1" href="#">${_('Con')}</a>
@@ -323,7 +324,7 @@ if wiki is None:
               <label>
                   <input id="editable" name="wiki" type="checkbox" 
                          ${'checked="checked"' if wiki else ''}/> 
-                  ${_("Allow others to edit this comment.")}
+                  ${_("Allow others to edit this comment.") if h.comment.wording() else _("Allow others to edit this argument.")}
               </label>
             </div>
             <div class="hr"><hr /></div>
@@ -357,13 +358,14 @@ if wiki is None:
     </div>
 
     <h1 class="page_title">
-        ${_("Discussion on %s") % h.delegateable.link(comment.topic)|n}</h1>
-    
+         ${(_("Comments on %s") if h.comment.wording() else _("Discussion on %s") \
+           ) % h.delegateable.link(comment.topic)|n}</h1>
+
     <div class="panel ${active}">
         <ul class="menu">
             <li><a href="${h.entity_url(comment)}">${_("Context")}</a></li>
             <li><a href="${h.entity_url(comment, comment_page=True)}" 
-                class="discussion">${_("Comment")}</a></li> 
+                class="discussion">${_("Comment") if h.comment.wording() else _("Argument")}</a></li> 
             <li><a href="${h.entity_url(comment, member='history')}" 
                 class="history">${_("History")} (${len(comment.revisions)})</a></li>
             <li><a href="${h.entity_url(comment.poll, member='votes')}" 
@@ -375,7 +377,7 @@ if wiki is None:
 <%def name="form(display=False)">
   <!-- new comment form -->
   <div id="comment_form_template" ${'style="display: none;"' if display == False else ''}>
-    <h4>${_(u'Add comment')}</h4>
+    <h4>${_(u'Add comment') if h.comment.wording() else _(u'Add argument')}</h4>
     <form name="new_comment" class="comment_form" 
         method="POST" action="${h.base_url('/comment')}">
 
@@ -397,7 +399,7 @@ if wiki is None:
         <div class="c40r">
           <div class="subcr comment_settings">
             <div class="input_wrapper comment_status">
-              ${_(u'Comment is...')}<br />
+              ${_(u'Comment is...') if h.comment.wording() else _(u'Argument is...')}<br />
               <a class="button_small" status="pro" href="#">${_('Pro')}</a>
               <a class="button_small" status="neutral" href="#">${_('Neutral')}</a>
               <a class="button_small" status="contra" href="#">${_('Con')}</a>

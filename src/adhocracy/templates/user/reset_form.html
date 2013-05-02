@@ -3,19 +3,23 @@
 
 <%block name="headline">
 <h1 class="page_title">${_("Password reset")}</h1>
-<p>${_("You will be sent an activation link that, when opened, will cause the system to email you a new password.")}</p>
+%if not lib.auth.welcome.welcome_enabled():
+${_("You will be sent an activation link that, when opened, will cause the system to email you a new password.")}
+%else:
+${_("You will be sent an activation link that, when opened, will allow you pick a new password.")}
+%endif
 </%block>
 
 <%block name="main_content">
-<form name="settings" class="inplace" method="POST" action="/reset">
+<form name="settings" class="inplace password-reset" method="POST" action="/reset">
     ${h.field_token()|n}
     <div class="mainbar">
         ${_("In order to retrieve your login, you will have to enter your email address.")}
-        <br/><br/>  
-        <label for="email">${_("E-Mail:")}</label>
-        <input name="email" />
-        
-        <br/>
+        <br/><br/>
+        <label>
+        ${_("E-Mail:")} <input name="email" type="email" required="required" autofocus="autofocus" />
+        </label>
+
         <input type="submit" value="${_('Reset')}" />
     </div>
 </form>

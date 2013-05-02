@@ -95,7 +95,9 @@ delegate_url = url if can.delegation.create() else None
                   data-stats-baseurl="${c.monitor_comment_url}"
                   %endif
               >
-                  <h3 id="discussions">${_('Discussions')}</h3>
+              <h3 id="discussions">
+                  ${_('Comments') if h.comment.wording() else _('Discussions')}
+              </h3>
                   ## comments are attached to the description which is a
                   ## :class:`adhocracy.model.Page`
                   ## proposal descriptions have no other variant than head.

@@ -31,7 +31,7 @@ setup(
     ],
     long_description='\n'.join([open(f).read() for f in [
         "README.rst",
-        "INSTALLATION.md",
+        "INSTALLATION.rst",
         "CHANGES.txt",
         "AUTHORS.txt",
     ]]),

@@ -134,12 +134,14 @@
 
         var preselect = function (initial_text, level) { 
             var sel = $('.drilldown-'+level);
-            
+
             sel.children('option').each(function () {
                 var text = $(this).text();
+                $(this).attr('selected', false);
 
                 if (text === initial_text) {
                     $(this).attr('selected', 'selected');
+                    sel.trigger('change');
                 } else {
                     var text1 = text + options.separator;
                     if (initial_text.substr(0, text1.length) == text1) {

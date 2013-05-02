@@ -317,5 +317,5 @@ if $autostart; then
     echo
     echo "Type  ${ROOTDIR_FROM_CALLER}bin/adhocracy_interactive.sh  to run the interactive paster daemon."
     echo "Then, navigate to  http://127.0.0.1:${ADHOCRACY_PORT}/  to see adhocracy!"
-    echo "Use the username \"admin\" and password \"password\" to login."
+    echo "Use the email \"admin@adhocracy.lan\" and password \"password\" to login."
 fi

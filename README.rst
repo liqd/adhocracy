@@ -18,7 +18,7 @@ Technology
 
 Adhocracy is mostly written in Python 2. It's built on top of many free
 software projects, such as the Pylons web framework, the Solr search platform,
-Memcached, RabbitMQ, many Python libraries and more.
+Memcached, Redis, many Python libraries and more.
 
 
 Installing
@@ -28,8 +28,8 @@ Adhocracy is known to run on current Linux systems, such as Debian Squeeze. It
 might run on FreeBSD or OS X, but this hasn't been tested recently.
 
 Installation is usually done through buildout or through an installer script
-for Debian based systems. In either case, read `INSTALLATION.md
-<INSTALLATION.md>`_.
+for Debian based systems. In either case, read `INSTALLATION.rst
+<INSTALLATION.rst>`_.
 
 
 Development

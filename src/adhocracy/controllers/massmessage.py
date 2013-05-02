@@ -36,6 +36,7 @@ class MassmessageForm(formencode.Schema):
     filter_instances = forms.MessageableInstances()
     filter_badges = forms.ValidUserBadges()
     sender = validators.String(not_empty=True)
+    include_footer = formencode.validators.StringBoolean(if_missing=False)
 
 
 def _get_options(func):
@@ -65,12 +66,17 @@ def _get_options(func):
                                          UserBadges.user_id == User.id)
             recipients = recipients.filter(
                 UserBadges.badge_id.in_([fb.id for fb in filter_badges]))
+        if has('global.admin'):
+            include_footer = self.form_result.get('include_footer')
+        else:
+            include_footer = True
 
         return func(self,
                     allowed_sender_options[sender]['email'],
                     self.form_result.get('subject'),
                     self.form_result.get('body'),
                     recipients,
+                    include_footer,
                     )
     return wrapper
 
@@ -133,6 +139,7 @@ class MassmessageController(BaseController):
             template = '/instance/settings_massmessage.html'
 
         defaults = dict(request.params)
+        defaults.setdefault('include_footer', 'on')
 
         data = {
             'instances': self.get_allowed_instances(c.user),
@@ -146,11 +153,12 @@ class MassmessageController(BaseController):
                                force_defaults=False)
 
     @_get_options
-    def preview(self, sender, subject, body, recipients):
+    def preview(self, sender, subject, body, recipients, include_footer):
         recipients_list = sorted(list(recipients), key=lambda r: r.name)
         if recipients_list:
             try:
-                rendered_body = render_body(body, recipients[0])
+                rendered_body = render_body(body, recipients_list[0],
+                                            include_footer, is_preview=True)
             except (KeyError, ValueError) as e:
                 rendered_body = _('Could not render message: %s') % str(e)
         else:
@@ -163,15 +171,17 @@ class MassmessageController(BaseController):
             'recipients': recipients_list,
             'recipients_count': len(recipients_list),
             'params': request.params,
+            'include_footer': include_footer,
         }
         return render('/massmessage/preview.html', data)
 
     @_get_options
-    def create(self, sender, subject, body, recipients):
+    def create(self, sender, subject, body, recipients, include_footer):
         message = Message.create(subject,
                                  body,
                                  c.user,
-                                 sender)
+                                 sender,
+                                 include_footer)
 
         for count, user in enumerate(recipients, start=1):
             MessageRecipient.create(message, user, notify=True)

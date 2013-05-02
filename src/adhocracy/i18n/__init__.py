@@ -7,7 +7,7 @@ import babel
 from babel import Locale
 import babel.dates
 import formencode
-from pylons.i18n import _, add_fallback, set_lang
+from pylons.i18n import add_fallback, set_lang
 from pylons import config, tmpl_context as c
 
 
@@ -17,6 +17,7 @@ log = logging.getLogger(__name__)
 LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('en', 'US'),
            babel.Locale('fr', 'FR'),
+           babel.Locale('it', 'IT'),
            babel.Locale('nl', 'NL'),
            babel.Locale('pl', 'PL'),
            babel.Locale('ro', 'RO'),
@@ -45,7 +46,9 @@ def handle_request():
     from pylons import request, tmpl_context as c
 
     try:
-        request_languages = request.languages
+        al = request.accept_language
+        request_languages = [lang for lang, q in
+                             sorted(al._parsed, key=lambda lq: -lq[1])]
     except AttributeError:
         # request.languages fails if no accept_language is set
         # becaues of incompatibility between WebOb >= 1.1.1 and Paste-1.7.5.1

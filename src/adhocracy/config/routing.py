@@ -52,7 +52,8 @@ def make_map(config):
                                          'reset': 'GET',
                                          'activate': 'GET',
                                          'resend': 'GET',
-                                         'set_password': 'POST'},
+                                         'set_password': 'POST',
+                                         'generate_welcome_link': 'POST'},
                  collection={'complete': 'GET',
                              'filter': 'GET'})
 
@@ -71,7 +72,6 @@ def make_map(config):
     map.connect('/message/new', controller='massmessage', action='new')
     map.connect('/message/preview', controller='massmessage', action='preview')
     map.connect('/message/create', controller='massmessage', action='create')
-
 
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
