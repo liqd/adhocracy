@@ -265,7 +265,7 @@ class InstanceController(BaseController):
         c.all_proposals_pager = None
         if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
                              'false')):
-            c.all_proposals_pager = pager.proposals(proposals)
+            c.all_proposals_pager = pager.proposals(proposals, size=-1)
 
         c.stats = None
         if asbool(config.get('adhocracy.show_instance_overview_stats',
