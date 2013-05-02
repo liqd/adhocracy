@@ -224,6 +224,9 @@ adhocracy.redis.host = ${parts.domains.redis}
 adhocracy.redis.port = ${parts.ports.redis}
 adhocracy.redis.queue = ${parts.adhocracy.queue}
 
+# Background processing can be disabled entirely
+adhocracy.background_processing = true
+
 # INSTALL: If you want to use recaptcha uncomment these lines 
 #recaptcha.public_key = 6LcICcgSAAAAAKNYq9iM4lIpB_GSjYItF21wS4NS
 #recaptcha.private_key = 6LcICcgSAAAAAEJL1zhVbX6N0TGb0zVXD_g2lXSo
