@@ -1,5 +1,4 @@
 """Pylons middleware initialization"""
-from beaker.middleware import CacheMiddleware, SessionMiddleware
 from fanstatic import Fanstatic
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
@@ -16,6 +15,10 @@ from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
 from adhocracy.lib.requestlog import RequestLogger
 from adhocracy.lib.helpers.site_helper import base_url
+
+from beaker.middleware import CacheMiddleware
+from beaker.middleware import SessionMiddleware as BeakerSessionMiddleware
+from adhocracy.lib.session import SessionMiddleware as RESTSessionMiddleware
 
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
@@ -53,8 +56,12 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'])
-    app = SessionMiddleware(app, config)
-    app = CacheMiddleware(app, config)
+
+    if config.get("adhocracy.session_implementation", "beaker") == "rest":
+        app = RESTSessionMiddleware(app, config)
+    else:
+        app = BeakerSessionMiddleware(app, config)
+        app = CacheMiddleware(app, config)
 
     #app = make_profile_middleware(app, config, log_filename='profile.log.tmp')
 
