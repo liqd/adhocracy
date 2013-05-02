@@ -52,6 +52,8 @@ class ImportForm(formencode.Schema):
     include_user = formencode.validators.StringBoolean(if_missing=False)
     welcome = formencode.validators.StringBoolean(if_missing=False)
     include_badge = formencode.validators.StringBoolean(if_missing=False)
+    include_instance = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal = formencode.validators.StringBoolean(if_missing=False)
     filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
     importfile = formencode.validators.FieldStorageUploadConverter()
     replacement = formencode.validators.OneOf(['update', 'skip'])

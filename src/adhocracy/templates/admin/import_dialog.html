@@ -32,20 +32,20 @@
             ${_("Import badges")}
         </label>
     </div>
-<!--
-    The following are not yet implemented
     <div>
         <label>
-            <input type="checkbox" name="instances_enabled" checked="checked" />
+            <input type="checkbox" name="include_instance" checked="checked" />
             ${_("Import content (instances)")}
         </label>
 
         <div class="importexport_settings">
             <div>
                 <label>
-                    <input type="checkbox" name="include_proposals" checked="checked" />
+                    <input type="checkbox" name="include_instance_proposal" checked="checked" />
                     ${_("Include proposals")}
                 </label>
+                <!--
+                Not yet implemented
                 <div class="importexport_settings">
                     <div>
                         <label>
@@ -54,36 +54,29 @@
                         </label>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </div>
--->
 
     <div>
-        <br/>
-        <br/>
-        <strong>${_("Replacement strategy")}</strong>
-        <br/>
+        <h6>${_("Replacement strategy")}</h6>
         <label>
             <input type="radio" name="replacement" value="update" checked="checked" />
             ${_("Update duplicate entries")}
         </label>
-        <br/>
         <label>
             <input type="radio" name="replacement" value="skip" />
             ${_("Skip duplicate entries")}
         </label>
     </div>
-    <br/>
-    <br/>
+    
     <div>
-        <label>
-            ${_('File to import:')}<br/>
-            <input type="file" name="importfile"/>
-        </label>
+        <h6>File to import:</h6>
+        <input type="file" name="importfile"/>
 
         <div>
-            <div>
+            <div>Type:
                 <label>
                     <input type="radio" name="filetype" value="detect" checked="checked" />
                     ${_('Detect')}

@@ -61,6 +61,8 @@ class _Transform(object):
     def _get_by_key(self, k):
         """ Returns None if the object cannot be found,
         and the local object in database otherwise. """
+        if k is None:
+            return None
         findm = getattr(self._model_class, 'find_by_' + self._ID_KEY)
         res = findm(k)
         if res is not None:
@@ -81,7 +83,7 @@ class _Transform(object):
         return dict((k, self._import(data)) for k, data in odict.items())
 
     def _import(self, data):
-        obj = self._get_by_key(data[self._ID_KEY])
+        obj = self._get_by_key(data.get(self._ID_KEY))
         if obj:
             doUpdate = self._replacement_strategy == 'update'
         else:
@@ -251,7 +253,7 @@ class InstanceTransform(_ExportOnlyTransform):
             'adhocracy_thumbnailbadges_height': obj.thumbnailbadges_height,
             'adhocracy_thumbnailbadges_width': obj.thumbnailbadges_width,
         }
-        if self._options.get('include_instance_proposals'):
+        if self._options.get('include_instance_proposal'):
             ptransform = ProposalTransform(self._options, obj,
                                            self._user_transform)
             res['proposals'] = ptransform.export_all()
@@ -308,6 +310,12 @@ class InstanceTransform(_ExportOnlyTransform):
         _set_optional(o, data, 'thumbnailbadges_height', 'adhocracy_')
         _set_optional(o, data, 'thumbnailbadges_width', 'adhocracy_')
 
+        if self._options.get('include_instance_proposal'):
+            ptransform = ProposalTransform(self._options, o,
+                                           self._user_transform)
+            ptransform.import_all(data.get('proposals', []))
+
+
     def _get_by_key(self, key):
         return self._model_class.find(key)
 
@@ -322,6 +330,29 @@ class ProposalTransform(_ExportOnlyTransform):
 
     def _get_all(self):
         return self._model_class.all_q(self._instance)
+
+    def _create(self, data):
+        btype = data.get('adhocracy_type', 'proposal')
+        if btype == 'proposal':
+            creator = self._user_transform._get_by_key(data['creator'])
+            assert creator
+            label = data['title']
+            desc = data['description']
+            o = self._model_class.create(self._instance, label, creator)
+            description = model.Page.create(self._instance,
+                                label,
+                                desc,
+                                creator,
+                                function=model.Page.DESCRIPTION,
+                                formatting=True)
+            description.parents = [o]
+            o.description = description
+            return o
+        else:
+            raise NotImplementedError()
+
+    def _modify(self, o, data):
+        pass
 
     def _export(self, obj):
         res = {
