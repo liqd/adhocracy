@@ -138,7 +138,6 @@
             sel.children('option').each(function () {
                 var text = $(this).text();
                 $(this).attr('selected', false);
-                sel.trigger('change');
 
                 if (text === initial_text) {
                     $(this).attr('selected', 'selected');
