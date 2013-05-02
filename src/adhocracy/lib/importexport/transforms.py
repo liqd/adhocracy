@@ -264,17 +264,20 @@ class InstanceTransform(_ExportOnlyTransform):
     def _create(self, data):
         btype = data.get('adhocracy_type', 'instance')
         if btype == 'instance':
+            creator = self._user_transform._get_by_key(data['creator'])
             return model.Instance.create(
                 data['key'].lower(),
                 data['label'],
-                self._user_transform._get_by_key(data['creator']))
+                creator)
         else:
             raise NotImplementedError()
 
     def _modify(self, o, data):
         _set_optional(o, data, 'label')
         if 'creator' in data:
-            o.creator = self._user_transform._get_by_key(data['creator'])
+            creator = self._user_transform._get_by_key(data['creator'])
+            if creator:
+                o.creator = creator
         _set_optional(o, data, 'description')
         _set_optional(o, data, 'required_majority', 'adhocracy_')
         _set_optional(o, data, 'activation_delay', 'adhocracy_')
