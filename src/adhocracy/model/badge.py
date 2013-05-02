@@ -366,10 +366,14 @@ class ThumbnailBadge(DelegateableBadge):
         return badge
 
     def __repr__(self):
+        from hashlib import md5
+        data_repr = (md5(self.thumbnail).hexdigest()[:8]
+                     if self.thumbnail
+                     else None)
         return "<%s(%s,%s,%s,%s)>" % (self.__class__.__name__,
                                       self.id,
                                       self.title.encode('ascii', 'replace'),
-                                      hash(self.thumbnail or ''),
+                                      data_repr,
                                       self.color)
 
     def to_dict(self):
