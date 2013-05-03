@@ -31,6 +31,10 @@ threadpool_workers = 20
 
 [composite:main]
 use = egg:Paste#urlmap
+{% if parts.get("adhocracy_service_conf", False) %}
+/cms = adhocracy_service
+/api = adhocracy_service
+{% end %} 
 / = default
 
 [pipeline:default]
@@ -43,6 +47,10 @@ pipeline = content
 
 [composite:main]
 use = egg:Paste#urlmap
+{% if parts.get("adhocracy_service_conf", False) %}
+/cms = adhocracy_service
+/api = adhocracy_service
+{% end %}  
 /static_theme = static
 /_wordpress = wordpress_pipe
 / = default
@@ -433,7 +441,71 @@ adhocracy.static_index_path = index
 ## adhocracy.user.optional_attributes.foo =
 
 
-# Logging configuration
+{% if parts.get("adhocracy_service_conf", False) %}
+
+# token to access the rest api (use it for header "X-API-Token")
+adhocracy_service.rest_api_token = ${parts.adhocracy_service_conf.rest_api_token}
+
+# rest api url 
+adhocracy_service.rest_api_address = ${parts.adhocracy_service_conf.rest_api_address} 
+
+######################################################
+#  adhocracy_service rest api backend and kotti cms  #
+######################################################
+
+[app:kotti]
+use = egg:kotti
+
+# kotti.site_title: your site's title
+kotti.site_title = Adhocracy static pages and media center
+
+
+# kotti.secret: defines the initial password of the 'admin' user
+kotti.secret = ${parts.adhocracy_service_conf.kotti_secret}
+
+
+# sqlalchemy.url: the database that you want to use, defaults to SQLite
+# see http://www.sqlalchemy.org/docs/core/engines.html#database-urls
+sqlalchemy.url = ${parts.adhocracy_service_conf.sqlalchemy_url}
+
+# mail.default_sender: configure the 'from' address of emails sent by Kotti
+mail.default_sender = yourname@yourhost
+
+# kotti.configurators: another hook for add-ons
+# kotti_tinymce should always be present (unless you don't want WYSIWYG editing)
+kotti.configurators = kotti_tinymce.kotti_configure adhocracy_kotti.kotti_configure
+
+# kotti.populators : create initial content
+kotti.populators = ${parts.adhocracy_service_conf.kotti_populate}
+
+# kotti.asset_overrides: override Kotti's templates and resources; an example:
+# kotti.asset_overrides = mypackage:kotti-overrides/
+
+# token to access the rest api (use it for header "X-API-Token")
+rest_api_token = ${parts.adhocracy_service_conf.rest_api_token}
+
+# pyramid.default_locale_name: set the user interface language
+pyramid.default_locale_name = en
+
+pyramid.includes =
+  pyramid_tm
+#  pyramid_debugtoolbar
+  adhocracy_kotti
+
+
+[filter:fanstatic]
+use = egg:fanstatic#fanstatic
+
+[pipeline:adhocracy_service]
+pipeline =
+    fanstatic
+    kotti
+{% end %} 
+ 
+###########################
+#  Logging configuration  #
+###########################
+
 [loggers]
 keys = root, adhocracy, sqlalchemy
 
