@@ -67,45 +67,41 @@
                            id_="nav_login")}
                 %else:
                 <li id="user_menu" class="${_class('user')}">
-                    <ul>
+                    <a class="icon_link show_me" 
+                       href="${h.entity_url(c.user, member='dashboard')}">${c.user.name}</a>
+                    <ul class="children">
                         <li>
-                            <a class="icon_link show_me" 
-                               href="${h.entity_url(c.user, member='dashboard')}">${c.user.name}</a>
-                            <ul class="children">
-                                <li>
-                                    <a href="${h.entity_url(c.user, member='dashboard')}">
-                                        ${_('Dashboard')}
-                                    </a>
-                                </li>
-
-                                %if h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')):
-                                <li>
-                                    <a href="${h.entity_url(c.user, member='watchlist')}">
-                                        ${_('Watchlist')}
-                                    </a>
-                                </li>
-                                %endif
-
-                                <li>
-                                    <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
-                                        ${_('Edit Profile')}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="${h.entity_url(c.user, instance=c.instance)}">
-                                        ${_('View Profile')}
-                                    </a>
-                                </li>
-                               	%if h.has_permission("global.admin"):
-                                <li>
-                                    <a href="${h.base_url('/admin', None)}">
-                                        ${_('Administrate Site')}
-                                    </a>
-                                </li>
-                                %endif
-                                <li><a href="/logout">${_("Logout")}</a></li>
-                            </ul>
+                            <a href="${h.entity_url(c.user, member='dashboard')}">
+                                ${_('Dashboard')}
+                            </a>
                         </li>
+
+                        %if h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')):
+                        <li>
+                            <a href="${h.entity_url(c.user, member='watchlist')}">
+                                ${_('Watchlist')}
+                            </a>
+                        </li>
+                        %endif
+
+                        <li>
+                            <a href="${h.entity_url(c.user, instance=c.instance, member='edit')}">
+                                ${_('Edit Profile')}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${h.entity_url(c.user, instance=c.instance)}">
+                                ${_('View Profile')}
+                            </a>
+                        </li>
+                        %if h.has_permission("global.admin"):
+                        <li>
+                            <a href="${h.base_url('/admin', None)}">
+                                ${_('Administrate Site')}
+                            </a>
+                        </li>
+                        %endif
+                        <li><a href="/logout">${_("Logout")}</a></li>
                     </ul>
                 </li>
                 %endif
