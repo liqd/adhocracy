@@ -291,9 +291,13 @@ ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 if $buildout_offlinemode; then
     # run buildout in offline mode for fast reinstallation
     bin/buildout -oc buildout_current.cfg
-else 
-    # bootstrap buildout
-    bin/python bootstrap.py -c buildout_current.cfg
+else
+    # bootstrap buildout if buildout is outdated or not available
+    HAVE_BUILDOUT_VERSION=`bin/buildout --version 2&>1 | cut -d ' ' -f 3`
+    WANT_BUILDOUT_VERSION=`bin/buildout annotate | grep zc.buildout | cut -d ' ' -f 2`
+    if test "$HAVE_BUILDOUT_VERSION" != "$WANT_BUILDOUT_VERSION"; then
+        bin/python bootstrap.py -c buildout_current.cfg
+    fi
     # run buildout in newest mode to make upgrading work smooth
     bin/buildout -nc buildout_current.cfg
 fi
