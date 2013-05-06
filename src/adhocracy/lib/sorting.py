@@ -121,11 +121,14 @@ def proposal_mixed(entities):
 def proposal_controversy(entities):
     '''
     First case if num_for and num_against are larger then zero
-        then set controversy to max *sum /min this gets larger if max is larger
+        then set controversy to max/min*(max+min) 
+        if max and min are almost eqaul controversy converges to zero 
+        if the gap between num_for  and num_against gets bigger controversy
+        converges against one
     Secound case if num_for or num_against are zero
         then set controversy to one and secondary to zero if bouth are zero
-        or 1 / (num_for + num_against) this makes the nummber smaller for bigger 
-        differences between num_for and num_against 
+        or 1 / (num_for + num_against) this converges against zero for bigger
+        gaps between num_for and num_against
     '''
     def proposal_controversy_key(proposal):
         num_for = proposal.rate_poll.tally.num_for
