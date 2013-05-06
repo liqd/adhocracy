@@ -125,8 +125,8 @@ def proposal_controversy(entities):
         if max and min are almost eqaul controversy converges to zero 
         if the gap between num_for  and num_against gets bigger controversy
         converges against one
-    Secound case if num_for or num_against are zero
-        then set controversy to one and secondary to zero if bouth are zero
+    Second case if num_for or num_against are zero
+        then set controversy to one and secondary to zero if both are zero
         or 1 / (num_for + num_against) this converges against zero for bigger
         gaps between num_for and num_against
     '''
