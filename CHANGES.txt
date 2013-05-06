@@ -3,6 +3,45 @@ adhocracy Changelog
 
 1.2beta2dev
 -----------
+
+- Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with: 
+    "bin/buildout -n".
+  If you have versions conflicts with distribute delete the old one: 
+    "rm -r eggs/distribute..".
+  [joka]
+
+- The default way to isolate your python environment is to compile 
+  python and PIL now instead of using virtualenv. 
+  
+  Upgrade manual installation:
+  ----------------------------
+
+  Checkout python buildout
+  
+  * git submodule init
+  * git submodule update
+
+  Compile python:
+
+  * cd python
+  * python boostrap.py && bin/buildout
+  
+  Reinstall Adhocracy:
+
+  * cd ../
+  * rm -rf eggs/*   
+  * bin/python bootrap.py
+  * bin/buildout
+  
+  Upgrade build.sh:
+  -----------------
+
+  * rm -rf eggs/*
+  * sh build.sh -u
+  * sh build.sh -s
+
+  [joka]
+
 - Replace RabbitMQ/amqp with redis/rq. This means that you have to
   provide a working redis instance if you want to use asyncronous
   jobs (highly recommended in production).

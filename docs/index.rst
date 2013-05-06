@@ -6,8 +6,8 @@
 Welcome to Adhocracy's documentation!
 =====================================
 
-Adhocracy is a web-based platform that allows disperse groups to engage in 
-a constructive process to draft proposals which will then represent the 
+Adhocracy is a web-based platform that allows disperse groups to engage in
+a constructive process to draft proposals which will then represent the
 group's opinions and eventually its decisions regarding a given subject.
 
 Contents:
@@ -22,13 +22,14 @@ Development documentation
    development/api
    development/translations
    development/tests
+   development/maintain_versions.rst
 
 
 REST interface (outdated)
 -------------------------
 
 .. WARNING::
-  This is the documentation for the REST interface. Unfortunately 
+  This is the documentation for the REST interface. Unfortunately
   it is outdated and parts of the interface may not work anymore.
 
 .. toctree::
