@@ -7,43 +7,17 @@
     margin: 0px;
     padding-top: 19px;
     float: left;
-
     li {
         height: 36px;
         line-height: 36px;
-        @include button-background($button-color);
-        &:hover {
-            a {
-                color: #fff;
-            }
-        }
+
         a {
-            color: #fff;
-            text-decoration: none;
-            padding: 0 19px;
-            display: block;
+            @include button($button-color);
         }
         &.current {
-            @include button-background(#fff);
-
             a {
                 color: $black;
-            }
-        }
-        &.settings {
-            font-weight: normal;
-            font-size: 13px;
-            margin-left: 15px;
-            background-color: $border;
-            @include background-image(linear-gradient(170deg, lighten($border, 7%), $border));
-
-            a {
-                color: $black;
-                padding: 0 15px;
-            }
-            &:hover {
-                background-color: darken($border, 7%);
-                @include background-image(linear-gradient(170deg, $border, darken($border, 7%)));
+                @include button-background(#fff)
             }
         }
     }
