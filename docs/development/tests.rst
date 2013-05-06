@@ -12,7 +12,7 @@ sessions and reside inside the functional tests directory.
 Add a new test
 --------------
 
-``Go to (adhocracy)/src/adhocracy/adhocracy/tests and add you test
+``Go to (adhocracy)/src/adhocracy/tests and add your test
   (http://pylonsbook.com/en/1.1/testing.html).
 
 
@@ -28,8 +28,8 @@ set in .coveragerc and setup.cfg.
 Add functional doctests tests
 ---------------------------------
 
-The doctest directory is src/adhocracy/adhocracy/test/use_cases.
-To add the tests start solr and set "run_integrationtests = true" in src/adhocracy/test.ini.
+The doctest directory is src/adhocracy/tests/use_cases.
+To add the tests start solr and set "run_integrationtests = true" in etc/test.ini.
 
 
 Run one test file
