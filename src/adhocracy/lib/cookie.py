@@ -14,7 +14,9 @@ def get_cookies(values, max_age=None, secure=False, config=config):
 def get_cookie(name, value, max_age=None, secure=False, config=config):
     assert _COOKIE_VALUE_RE.match(value)
 
-    if max_age is not None:
+    if max_age == 'delete':
+        max_age = '; Expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    elif max_age is not None:
         now = datetime.datetime.utcnow()
         later = now + datetime.timedelta(seconds=int(max_age))
         # Wdy, DD-Mon-YY HH:MM:SS GMT
