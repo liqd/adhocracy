@@ -1,5 +1,5 @@
 """Pylons middleware initialization"""
-from beaker.middleware import CacheMiddleware, SessionMiddleware
+import beaker.middleware
 from fanstatic import Fanstatic
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
@@ -17,6 +17,7 @@ from adhocracy.config.environment import load_environment
 from adhocracy.lib.requestlog import RequestLogger
 from adhocracy.lib.helpers.site_helper import base_url
 
+from adhocracy.lib.session import CookieSessionMiddleware
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -53,8 +54,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'])
-    app = SessionMiddleware(app, config)
-    app = CacheMiddleware(app, config)
+    if config.get('adhocracy.session.implementation', 'beaker') == 'cookie':
+        app = CookieSessionMiddleware(app, config)
+    else:
+        app = beaker.middleware.SessionMiddleware(app, config)
+        app = beaker.middleware.CacheMiddleware(app, config)
 
     #app = make_profile_middleware(app, config, log_filename='profile.log.tmp')
 
