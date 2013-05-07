@@ -19,14 +19,11 @@ bundestag.ini
 data/*
 docs/build/*
 site/*
-adhocracy/*_theme
 var
 parts
 bin
 local
-lib
-/src/*
-!/src/adhocracy/
+/src/*_theme
 lib64
 eggs
 develop-eggs
