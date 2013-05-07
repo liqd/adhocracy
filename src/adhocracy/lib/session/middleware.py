@@ -2,6 +2,7 @@ from pylons import session as pylons_session
 
 from .session import Session
 
+
 class CookieSessionMiddleware(object):
     def __init__(self, app, config):
         self._app = app
@@ -23,4 +24,3 @@ class CookieSessionMiddleware(object):
             return start_response(status, headers, exc_info)
 
         return self._app(environ, session_start_response)
-

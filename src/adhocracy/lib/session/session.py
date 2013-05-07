@@ -1,8 +1,6 @@
-import collections
-import datetime
 try:
     from http.cookies import SimpleCookie
-except ImportError: # Python < 3
+except ImportError:  # Python < 3
     from Cookie import SimpleCookie
 import logging
 
@@ -10,16 +8,17 @@ from adhocracy.lib.cookie import get_cookies
 from adhocracy.lib.session.converter import SignedValueConverter
 
 log = logging.getLogger(name=__name__)
+_PREFIX = u'adhocracy_session_'
+
 
 def get_secret(config):
-    for k in ['adhocracy.session.secret',
+    for k in ('adhocracy.session.secret',
               'beaker.session.secret',
-              'adhocracy.auth.secret',]:
+              'adhocracy.auth.secret'):
         if k in config:
             return config[k]
     raise Exception('No secret configured!')
 
-_PREFIX = u'adhocracy_session_'
 
 class Session(dict):
     """ Stores session specific values on the client site.
@@ -56,7 +55,7 @@ class Session(dict):
     def _load_from_cookie(self, environ):
         cookie = SimpleCookie(environ.get("HTTP_COOKIE"))
         if cookie:
-            for key,c in cookie.items():
+            for key, c in cookie.items():
                 if not key.startswith(_PREFIX):
                     continue
                 key = key[len(_PREFIX):]
@@ -83,4 +82,3 @@ class Session(dict):
             values are saved by the client.
         """
         pass
-

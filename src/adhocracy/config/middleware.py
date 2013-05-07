@@ -16,8 +16,8 @@ from adhocracy.lib.util import get_site_path
 from adhocracy.config.environment import load_environment
 from adhocracy.lib.requestlog import RequestLogger
 from adhocracy.lib.helpers.site_helper import base_url
-
 from adhocracy.lib.session import CookieSessionMiddleware
+
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
