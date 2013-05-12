@@ -154,6 +154,17 @@ def setup_auth(app, config):
     log_stream = None
     #log_stream = sys.stdout
 
+    # If a webserver already sets a HTTP_REMOTE_USER environment variable,
+    # repoze.who merely acts as a pass through and doesn't set up the proper
+    # environment (e.g. environ['repoze.who.api'] is missing).
+    #
+    # This happens for example in the case of Shibboleth based authentication -
+    # we weren't able to prevent mod_shibboleth from setting the header.
+    # Therefore the remote user key to look for is not set to HTTP_REMOTE_USER,
+    # but to the non-existing DONT_USE_HTTP_REMOTE_USER environment variable.
+
+    REMOTE_USER_KEY = 'DONT_USE_HTTP_REMOTE_USER'
+
     return setup_what(app, group_adapters, permission_adapters,
                       identifiers=identifiers,
                       authenticators=authenticators,
@@ -163,4 +174,4 @@ def setup_auth(app, config):
                       log_level=logging.DEBUG,
                       # kwargs passed to repoze.who.plugins.testutils:
                       skip_authentication=config.get('skip_authentication'),
-                      remote_user_key='HTTP_REMOTE_USER')
+                      remote_user_key=REMOTE_USER_KEY)
