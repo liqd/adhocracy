@@ -20,7 +20,28 @@ log = logging.getLogger(__name__)
 KEY = "_tok"
 
 
-def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
+ALL_METHODS = ['POST', 'GET', 'PUT', 'DELETE']
+
+
+def check_csrf(methods=ALL_METHODS):
+
+    method = request.environ.get('REQUEST_METHOD').upper()
+    if method in methods:
+
+        identifier = request.environ.get(
+            'repoze.who.identity', {}).get('identifier')
+        if (identifier is not None and
+                isinstance(identifier, BasicAuthPlugin)):
+            return
+        if request.params.get(KEY) == token_id():
+            return
+
+    from adhocracy.lib.templating import ret_abort
+    ret_abort(_("I'm sorry, it looks like we made a mistake "
+                "(CSRF alert). Please try again."), code=403)
+
+
+def RequireInternalRequest(methods=ALL_METHODS):
     """
     CSRF Spoof Filter
 
@@ -29,27 +50,8 @@ def RequireInternalRequest(methods=['POST', 'GET', 'PUT', 'DELETE']):
     token to execute the request.
     """
     def _decorate(f, *a, **kw):
-        def check():
-
-            method = request.environ.get('REQUEST_METHOD').upper()
-            if not method in methods:
-                return False
-
-            identifier = request.environ.get(
-                'repoze.who.identity', {}).get('identifier')
-            if (identifier is not None and
-                    isinstance(identifier, BasicAuthPlugin)):
-                return True
-            if request.params.get(KEY) == token_id():
-                return True
-
-            return False
-        if check():
-            return f(*a, **kw)
-        else:
-            from adhocracy.lib.templating import ret_abort
-            ret_abort(_("I'm sorry, it looks like we made a mistake "
-                        "(CSRF alert). Please try again."), code=403)
+        check_csrf(methods)
+        return f(*a, **kw)
     return decorator(_decorate)
 
 
