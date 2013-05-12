@@ -1,13 +1,13 @@
 <%
-login_titleandtype = h.allowed_login_types()
-if 'username+password' in login_titleandtype and 'email+password' in login_titleandtype:
+login_types = h.allowed_login_types()
+if 'username+password' in login_types and 'email+password' in login_types:
     field_title = _('Email or username:')
     field_type = 'text'
 else:
     field_title = _('Login:')
     field_type =  'text'
-    if 'email+password' in login_titleandtype and \
-            'username+password' not in login_titleandtype:
+    if 'email+password' in login_types and \
+            'username+password' not in login_types:
         field_title = _('Email:')
         field_type = 'email'
 %>
@@ -36,7 +36,7 @@ else:
   <script>
       $('input[name=login]').focus();
   </script>
-  %if 'openid' in login_titleandtype:
+  %if 'openid' in login_types:
       <%
       c.openid_scenario = "login"
       %>
