@@ -29,10 +29,10 @@ adhocracy Changelog
   Reinstall Adhocracy:
 
   * cd ../
-  * rm -rf eggs/*   
-  * bin/python bootrap.py
+  * rm -rf eggs/*
+  * bin/python bootstrap.py
   * bin/buildout
-  
+
   Upgrade build.sh:
   -----------------
 
