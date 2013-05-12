@@ -31,7 +31,7 @@ adhocracy.site.dir = ${parts.buildout.directory}/var/testdata/site
 adhocracy.domain = test.lan
 
 skip_migration = True
-skip_authentication = True
+skip_authentication = False
 skip_setupentities = True
 
 # Redis is used to build a task queue that will be processed by the
