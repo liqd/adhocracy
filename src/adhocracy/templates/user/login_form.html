@@ -11,6 +11,11 @@ else:
         field_title = _('Email:')
         field_type = 'email'
 %>
+
+%if 'shibboleth' in login_types:
+<a href="/shibboleth/request_auth${query_string}">Login via Shibboleth</a>
+%endif
+
 <div class="form_wrapper">
   <form name="login" method="POST" action="/perform_login${h.camefrom_querystring()}">
     <div class="input_wrapper">
