@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-23 12:43+0200\n"
-"PO-Revision-Date: 2013-04-25 11:38+0000\n"
-"Last-Translator: rosangela <rosangelabochicchio@gmail.com>\n"
+"POT-Creation-Date: 2013-05-13 14:46+0200\n"
+"PO-Revision-Date: 2013-05-13 12:47+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1667,9 +1667,6 @@ msgstr "Aggiorna le doppie entrate"
 msgid "Skip duplicate entries"
 msgstr "Salta le doppie entrate"
 
-msgid "File to import:"
-msgstr "File da importare:"
-
 msgid "Detect"
 msgstr "Rileva"
 
@@ -2501,6 +2498,12 @@ msgid_plural "%s norms"
 msgstr[0] "una:  %s delibera"
 msgstr[1] "altre:  %s delibere"
 
+#, python-format
+msgid ""
+"You receive this message because you're signed in to the news service on %s."
+" You can change your subscription settings on the following page: %s"
+msgstr ""
+
 msgid "Send mass message"
 msgstr "Invia messaggio"
 
@@ -2549,6 +2552,20 @@ msgstr "Stai per inviare il seguento messaggio ai %s destinatari:"
 
 msgid "The message will go to the following users:"
 msgstr "Il messaggio verrà inviato ai seguenti utenti:"
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr ""
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr ""
+
+#, python-format
+msgid ""
+"Unfortunately, %s has not left an email address. You will not be able to "
+"reply directly."
+msgstr ""
 
 #, python-format
 msgid "Message %s"
@@ -2645,6 +2662,13 @@ msgstr "Vedi altro"
 
 msgid "(unknown)"
 msgstr "(sconosciuto)"
+
+msgid "with an abstention on"
+msgstr ""
+
+#, python-format
+msgid "On %s, %s wrote:"
+msgstr ""
 
 msgid "Add an OpenID"
 msgstr "Aggiungi un OpenID"
