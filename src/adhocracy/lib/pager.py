@@ -1016,7 +1016,7 @@ class ProposalVotesYesIndexer(SolrIndexer):
 
 class ProposalVotesNoIndexer(SolrIndexer):
 
-    solr_field = 'order.proposal.novotes'  
+    solr_field = 'order.proposal.novotes'
 
     @classmethod
     def add_data_to_index(cls, entity, data):
