@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy c81e906\n"
+"Project-Id-Version: adhocracy 493be49\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-23 12:43+0200\n"
+"POT-Creation-Date: 2013-05-13 14:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1627,9 +1627,6 @@ msgstr ""
 msgid "Skip duplicate entries"
 msgstr ""
 
-msgid "File to import:"
-msgstr ""
-
 msgid "Detect"
 msgstr ""
 
@@ -2429,6 +2426,10 @@ msgid_plural "%s norms"
 msgstr[0] ""
 msgstr[1] ""
 
+#, python-format
+msgid "You receive this message because you're signed in to the news service on %s. You can change your subscription settings on the following page: %s"
+msgstr ""
+
 msgid "Send mass message"
 msgstr ""
 
@@ -2473,6 +2474,18 @@ msgid "You're about to send the following message to %s recipients:"
 msgstr ""
 
 msgid "The message will go to the following users:"
+msgstr ""
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr ""
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr ""
+
+#, python-format
+msgid "Unfortunately, %s has not left an email address. You will not be able to reply directly."
 msgstr ""
 
 #, python-format
@@ -2567,6 +2580,13 @@ msgid "See more"
 msgstr ""
 
 msgid "(unknown)"
+msgstr ""
+
+msgid "with an abstention on"
+msgstr ""
+
+#, python-format
+msgid "On %s, %s wrote:"
 msgstr ""
 
 msgid "Add an OpenID"
