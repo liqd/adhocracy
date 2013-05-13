@@ -39,7 +39,6 @@ adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
 branch=$DEFAULT_BRANCH
-compile_python=true
 buildout_offlinemode=false
 
 if [ -n "$SUDO_USER" ]; then
@@ -275,10 +274,10 @@ fi
 
 cd adhocracy_buildout
 # Compile python
-if $buildout_offlinemode && $compile_python; then
+if $buildout_offlinemode; then
     (cd python; bin/buildout -o) 
 fi
-if ! $buildout_offlinemode && $compile_python; then
+if ! $buildout_offlinemode; then
     if [ '!' -f python/bin/buildout ]; then
         (cd python; python bootstrap.py)
     else
