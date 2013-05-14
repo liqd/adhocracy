@@ -1,8 +1,7 @@
 from glob import glob
 import doctest
-from doctest import DocFileSuite
+from doctest import DocFileTest
 from os.path import dirname
-import unittest
 
 import mock
 
@@ -40,18 +39,27 @@ globs = {"browser": make_browser(),
          }
 
 
-class DoctestTestCase(unittest.TestCase):
+def test_doctests():
+    """
+    Executes doctests found in `use_cases` one after the other,
+    as py.test supports generator based test cases.
 
-    def __new__(self, test):
-        return getattr(self, test)()
+    FIXME: to be replaced by proper py.test doctest discovery.
+    """
 
-    @classmethod
-    def test_suite(self):
-        return DocFileSuite(
-            *use_cases,
+    def perform_doctest(path):
+        test = DocFileTest(
+            path,
             #add here aditional testfiles
             setUp=ADHOCRACY_LAYER.setUp,
             tearDown=ADHOCRACY_LAYER.tearDown,
             globs=globs,
             optionflags=flags
         )
+        result = test.defaultTestResult()
+        test.run(result)
+        for t in (result.failures + result.errors):
+            raise Exception(t[1])
+
+    for path in use_cases:
+        yield (perform_doctest, path)

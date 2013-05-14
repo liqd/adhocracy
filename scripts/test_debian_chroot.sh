@@ -46,8 +46,8 @@ set -e
 cd /home/adhocracy/adhocracy_buildout
 . bin/activate
 
-# Run nosetest
-bin/test
+# Run test suite
+bin/py.test
 
 bin/supervisorctl shutdown>/dev/null
 python ./adhocracy.buildout/etc/check_port_free.py -g 10 --kill-pid 5001 $SUPERVISOR_PORTS
