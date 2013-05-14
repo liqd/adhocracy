@@ -3,6 +3,7 @@ try:
 except ImportError:  # Python < 3
     from Cookie import SimpleCookie
 import logging
+import time
 
 from adhocracy.lib.cookie import get_cookie
 from adhocracy.lib.session.converter import SignedValueConverter
@@ -62,6 +63,10 @@ class Session(dict):
             return
         assert isinstance(val, dict)
 
+        if val['__creation'] + self._max_age < time.time():
+            # Session has expired
+            val = {}
+
         self.clear()
         self.update(val)
         self._changed = False
@@ -69,6 +74,7 @@ class Session(dict):
     def set_cookies_in(self, headers):
         if not self._changed:
             return
+        self['__creation'] = int(time.time())
         val = self._converter.encode(self)
         c = get_cookie(COOKIE_KEY, val, max_age=self._max_age)
         headers.append(c)
