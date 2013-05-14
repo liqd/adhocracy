@@ -12,23 +12,24 @@ sessions and reside inside the functional tests directory.
 Add a new test
 --------------
 
-``Go to (adhocracy)/src/adhocracy/adhocracy/tests and add you test
+``Go to (adhocracy)/src/adhocracy/tests and add your test
   (http://pylonsbook.com/en/1.1/testing.html).
 
 
 Run unit tests
 ---------------
 
-In an `adhocracy.buildout`_ you have ``bin/test``. Alternatively you can call::
+In an `adhocracy.buildout`_ you have ``bin/py.test``. The default config is
+set in .coveragerc and setup.cfg.
 
-  (adhocracy)$ bin/nosetests --with-pylons=etc/test.ini src/adhocracy/adhocracy/tests``
+  (adhocracy)$ bin/py.test
 
 
 Add functional doctests tests
 ---------------------------------
 
-The doctest directory is src/adhocracy/adhocracy/test/use_cases.
-To add the tests start solr and set "run_integrationtests = true" in src/adhocracy/test.ini.
+The doctest directory is src/adhocracy/tests/use_cases.
+To add the tests start solr and set "run_integrationtests = true" in etc/test.ini.
 
 
 Run one test file
@@ -36,8 +37,4 @@ Run one test file
 
 ::
 
-  (adhocracy)/src/adhocracy/$ ../../bin/nosetest -s adhocracy.tests.test_module
-
-The -s option enables stdout, so you can use pdb/ipdb statements in your code.
-
-.. _adhocracy.buildout: https://bitbucket.org/liqd/adhocracy.buildout
+  (adhocracy)$ bin/py.test -k test_comment
