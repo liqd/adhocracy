@@ -51,11 +51,11 @@ class Session(dict):
         cookie = SimpleCookie(environ.get("HTTP_COOKIE"))
         if not cookie:
             return
-        cookieval = cookie.get(COOKIE_KEY)
-        if not cookieval:
+        morsel = cookie.get(COOKIE_KEY)
+        if not morsel:
             return
 
-        val = self._converter.decode(cookieval)
+        val = self._converter.decode(morsel.value)
         if not val:
             return
         assert isinstance(val, dict)
@@ -77,6 +77,7 @@ class Session(dict):
         headers.append(c)
 
     def delete(self):
+        self._changed = True
         self.clear()
 
     def save(self):
