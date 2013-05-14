@@ -114,7 +114,10 @@ class VoteFormatter(ObjectFormatter):
 class CommentFormatter(ObjectFormatter):
 
     def unicode(self, comment):
-        return _("comment on %s" % comment.topic.title)
+        if h.comment.wording():
+            return _("comment on %s" % comment.topic.title)
+        else:
+            return _("argument on %s" % comment.topic.title)
 
     def html(self, comment):
         if comment.delete_time:
