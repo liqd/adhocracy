@@ -15,7 +15,7 @@ def get_secret(config):
     for k in ('adhocracy.session.secret',
               'beaker.session.secret',
               'adhocracy.auth.secret'):
-        if k in config:
+        if config.get(k):
             return config[k]
     raise Exception('No secret configured!')
 
