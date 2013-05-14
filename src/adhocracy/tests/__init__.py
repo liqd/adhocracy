@@ -17,7 +17,6 @@ from decorator import decorator
 
 from mock import patch
 from nose.plugins.skip import SkipTest
-from paste.deploy import loadapp
 from paste.deploy.converters import asbool
 from paste.script.appinstall import SetupCommand
 
@@ -31,7 +30,6 @@ from webtest import TestApp
 
 from adhocracy.lib.app_globals import Globals
 from adhocracy.model import Instance, meta
-from adhocracy.websetup import _setup
 
 SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
 
@@ -129,7 +127,7 @@ def is_integrationtest():
     '''
     from pylons import config
     if asbool(os.environ.get('ADHOCRACY_RUN_INTEGRATION_TESTS', 'false')):
-        return # Run the tests in any case if environment variable is set
+        return  # Run the tests in any case if environment variable is set
     if not asbool(config.get('run_integrationtests', 'false')):
         raise SkipTest('This test needs all services adhocracy depends on. '
                        'If they are running and configured in test.ini '
@@ -173,10 +171,7 @@ class TestControllerBase(TestCase):
         meta.Session.remove()
 
     def __init__(self, *args, **kwargs):
-        if pylons.test.pylonsapp:
-            wsgiapp = pylons.test.pylonsapp
-        else:
-            wsgiapp = loadapp('config:%s' % config['__file__'])
+        wsgiapp = pylons.test.pylonsapp
         config = wsgiapp.config
         self.app = TestApp(wsgiapp)
         url._push_object(URLGenerator(config['routes.map'], environ))
