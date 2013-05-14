@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-13 14:46+0200\n"
-"PO-Revision-Date: 2013-05-13 12:47+0000\n"
+"POT-Creation-Date: 2013-05-14 12:48+0200\n"
+"PO-Revision-Date: 2013-05-14 10:48+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -981,6 +981,14 @@ msgstr "onthoudt zich van stemming op"
 
 msgid "is against"
 msgstr "is tegen"
+
+#, python-format
+msgid "comment on %s"
+msgstr ""
+
+#, python-format
+msgid "argument on %s"
+msgstr ""
 
 msgid "(Undefined)"
 msgstr "(onbepaald)"
@@ -2505,7 +2513,7 @@ msgstr[1] "%s reglementen"
 msgid ""
 "You receive this message because you're signed in to the news service on %s."
 " You can change your subscription settings on the following page: %s"
-msgstr ""
+msgstr "U ontvangt dit bericht omdat u bent aangemeld bij de nieuwsdienst van %s. U kunt uw abonnementsinstellingen op de volgende pagina wijzigen: %s"
 
 msgid "Send mass message"
 msgstr "Verstuur massa bericht"
@@ -2558,17 +2566,17 @@ msgstr "Dit bericht gaat naar de volgende gebruikers:"
 
 #, python-format
 msgid "The following message was sent to you by %s:"
-msgstr ""
+msgstr "Het volgende bericht is naar u gestuurd door %s:"
 
 #, python-format
 msgid "You can reply to %s by sending mail to: %s"
-msgstr ""
+msgstr "U kunt reageren op %s door een e-mail te sturen naar: %s"
 
 #, python-format
 msgid ""
 "Unfortunately, %s has not left an email address. You will not be able to "
 "reply directly."
-msgstr ""
+msgstr "Helaas, %s heeft geen e-mailadres achtergelaten. U kunt niet direct reageren."
 
 #, python-format
 msgid "Message %s"
@@ -2667,11 +2675,11 @@ msgid "(unknown)"
 msgstr "(onbekend)"
 
 msgid "with an abstention on"
-msgstr ""
+msgstr "met een onthouding op"
 
 #, python-format
 msgid "On %s, %s wrote:"
-msgstr ""
+msgstr "Op %s, schreef %s:"
 
 msgid "Add an OpenID"
 msgstr "Voeg een OpenID toe"

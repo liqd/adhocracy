@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-13 14:46+0200\n"
-"PO-Revision-Date: 2013-05-13 12:47+0000\n"
+"POT-Creation-Date: 2013-05-14 12:48+0200\n"
+"PO-Revision-Date: 2013-05-14 10:48+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -981,6 +981,14 @@ msgstr "se abtine"
 
 msgid "is against"
 msgstr "este impotriva"
+
+#, python-format
+msgid "comment on %s"
+msgstr ""
+
+#, python-format
+msgid "argument on %s"
+msgstr ""
 
 msgid "(Undefined)"
 msgstr "(Nedefinit)"

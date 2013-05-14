@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-13 14:46+0200\n"
-"PO-Revision-Date: 2013-05-13 12:53+0000\n"
+"POT-Creation-Date: 2013-05-14 12:48+0200\n"
+"PO-Revision-Date: 2013-05-14 10:49+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -989,6 +989,14 @@ msgstr "enthält sich bei"
 
 msgid "is against"
 msgstr "ist gegen"
+
+#, python-format
+msgid "comment on %s"
+msgstr "Kommentar zu %s"
+
+#, python-format
+msgid "argument on %s"
+msgstr "Argument zu %s"
 
 msgid "(Undefined)"
 msgstr "(nicht definiert)"
