@@ -278,6 +278,8 @@ if [ '!' -x bin/python ]; then
     fi
     (cd python && bin/buildout)
 fi
+# Fix until https://github.com/collective/buildout.python/pull/31 is accepted
+find python/buildout.python/ -name *pyc -delete
 
 # Set up adhocracy configuration
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
