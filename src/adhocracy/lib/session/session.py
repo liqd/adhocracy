@@ -30,11 +30,9 @@ class Session(dict):
     def __init__(self, environ, config, converter_class=None):
         if converter_class is None:
             converter_class = SignedValueConverter
-
-        if 'adhocracy.session.lifetime' in config:
-            self._max_age = int(config['adhocracy.session.lifetime'])
-        else:
-            self._max_age = None
+        
+        self._max_age = int(config.get('adhocracy.session.lifetime',
+                                       60 * 60 * 24 * 365))
 
         self._changed = False
 
