@@ -30,10 +30,9 @@ class Session(dict):
     def __init__(self, environ, config, converter_class=None):
         if converter_class is None:
             converter_class = SignedValueConverter
-        
+
         self._max_age = int(config.get('adhocracy.session.lifetime',
                                        60 * 60 * 24 * 365))
-
         self._changed = False
 
         secret = get_secret(config)
@@ -78,7 +77,6 @@ class Session(dict):
         headers.append(c)
 
     def delete(self):
-        self._deleted.update(self.keys())
         self.clear()
 
     def save(self):
