@@ -23,7 +23,6 @@ OPTIONS:
    -A      Do not start now
    -S      Do not configure system services
    -s      Install/Reinstall only non-superuser parts
-   -o      Reinstall only non-superuser parts in offline mode
    -u      Install only superuser parts
    -U      Set the username adhocracy should run as
    -b      Branch to check out
@@ -39,7 +38,6 @@ adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
 branch=$DEFAULT_BRANCH
-buildout_offlinemode=false
 
 if [ -n "$SUDO_USER" ]; then
     adhoc_user=$SUDO_USER
@@ -55,7 +53,6 @@ do
     A)    autostart=false;;
     S)    setup_services=false;;
     s)    not_use_sudo_commands=true;;
-    o)    not_use_sudo_commands=true; buildout_offlinemode=true;;
     u)    not_use_user_commands=true;;
     U)    adhoc_user=$OPTARG;;
     c)    buildout_cfg_file=$OPTARG;;
@@ -264,42 +261,36 @@ fi
 
 if [ '!' -e adhocracy_buildout/.git ]; then
     git clone "$GIT_URL" adhocracy_buildout
-    (cd adhocracy_buildout; git checkout -q "$branch")
-fi
-
-if [ '!' -e adhocracy_buildout/python/buildout.python/src ]; then
-    (cd adhocracy_buildout; git submodule init)
-    (cd adhocracy_buildout; git submodule update)
+    (cd adhocracy_buildout && git checkout -q "$branch")
 fi
 
 cd adhocracy_buildout
-# Compile python
-if $buildout_offlinemode; then
-    (cd python; bin/buildout -o) 
+
+if [ '!' -e python/buildout.python/src ]; then
+    git submodule init
+    git submodule update
 fi
-if ! $buildout_offlinemode; then
+
+# Install local python if necessary
+if [ '!' -x bin/python ]; then
     if [ '!' -f python/bin/buildout ]; then
-        (cd python; python bootstrap.py)
-    else
-        (cd python; bin/buildout bootstrap)
+        (cd python && python bootstrap.py)
     fi
-    (cd python; bin/buildout -N)
+    (cd python && bin/buildout)
 fi
-# Install adhocracy
+
+# Set up adhocracy configuration
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
-if $buildout_offlinemode; then
-    # run buildout in offline mode for fast reinstallation
-    bin/buildout -oc buildout_current.cfg
-else
-    # bootstrap buildout if buildout is outdated or not available
-    HAVE_BUILDOUT_VERSION=`bin/buildout --version 2&>1 | cut -d ' ' -f 3`
-    WANT_BUILDOUT_VERSION=`bin/buildout annotate | grep zc.buildout | cut -d ' ' -f 2`
-    if test "$HAVE_BUILDOUT_VERSION" != "$WANT_BUILDOUT_VERSION"; then
-        bin/python bootstrap.py -c buildout_current.cfg
-    fi
-    # run buildout in newest mode to make upgrading work smooth
-    bin/buildout -nc buildout_current.cfg
+
+# bootstrap our buildout if it is outdated or not available
+HAVE_BUILDOUT_VERSION=$(bin/buildout --version 2>&1 | cut -d ' ' -f 3)
+WANT_BUILDOUT_VERSION=$(sed -n 's#zc\.buildout = ##p' versions.cfg)
+if test "$HAVE_BUILDOUT_VERSION" "!=" "$WANT_BUILDOUT_VERSION"; then
+    bin/python bootstrap.py -c buildout_current.cfg
 fi
+
+# Install adhocracy
+bin/buildout -c buildout_current.cfg
 
 # Install adhocracy interactive script
 echo '#!/bin/sh
