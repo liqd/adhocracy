@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-23 12:43+0200\n"
-"PO-Revision-Date: 2013-04-23 10:55+0000\n"
-"Last-Translator: Wawe <transifex.com@jroene.de>\n"
+"POT-Creation-Date: 2013-05-13 14:46+0200\n"
+"PO-Revision-Date: 2013-05-13 12:53+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1678,9 +1678,6 @@ msgstr "Ersetze Duplikate"
 msgid "Skip duplicate entries"
 msgstr "Überspringe Duplikate"
 
-msgid "File to import:"
-msgstr "Zu importierende Datei:"
-
 msgid "Detect"
 msgstr "Erkennen"
 
@@ -2512,6 +2509,12 @@ msgid_plural "%s norms"
 msgstr[0] "%s Beschluss"
 msgstr[1] "%s Beschlüsse"
 
+#, python-format
+msgid ""
+"You receive this message because you're signed in to the news service on %s."
+" You can change your subscription settings on the following page: %s"
+msgstr "Sie erhalten diese Nachricht, da Sie den Benachrichtigungsdienst auf %s aktiviert haben. Sie können Ihre Benachrichtigungseinstellungen auf der folgenden Seite verändern: %s"
+
 msgid "Send mass message"
 msgstr "Benachrichtigung versenden"
 
@@ -2560,6 +2563,20 @@ msgstr "Sie sind dabei, die folgende Nachricht an %s Empfänger/innen zu senden:
 
 msgid "The message will go to the following users:"
 msgstr "Die Nachricht wird an die folgenden Benutzer gesendet:"
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr "Die folgende Nachricht wurde Ihnen gesendet von %s:"
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr "Sie können %s antworten, indem Sie eine Email an %s schreiben."
+
+#, python-format
+msgid ""
+"Unfortunately, %s has not left an email address. You will not be able to "
+"reply directly."
+msgstr "Leider hat %s keine Email-Adresse angegeben. Sie können daher nicht direkt antworten."
 
 #, python-format
 msgid "Message %s"
@@ -2656,6 +2673,13 @@ msgstr "Mehr erfahren"
 
 msgid "(unknown)"
 msgstr "(unbekannt)"
+
+msgid "with an abstention on"
+msgstr "mit Enthaltung bei"
+
+#, python-format
+msgid "On %s, %s wrote:"
+msgstr "Am %s hat %s geschrieben:"
 
 msgid "Add an OpenID"
 msgstr "Eine OpenID hinzufügen"

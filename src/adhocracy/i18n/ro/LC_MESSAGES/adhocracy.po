@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-19 02:22+0200\n"
-"PO-Revision-Date: 2013-04-19 00:23+0000\n"
+"POT-Creation-Date: 2013-05-13 14:46+0200\n"
+"PO-Revision-Date: 2013-05-13 12:47+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgid "Badges"
 msgstr "Title"
 
 msgid "Mass message service"
-msgstr ""
+msgstr "Trimitere mesaje in masa"
 
 msgid "Members import"
 msgstr "Import membrii"
@@ -200,7 +200,7 @@ msgid "You cannot manipulate one instance from within another instance."
 msgstr "Nu poti modifica o comunitate din alta comunitate."
 
 msgid "Sorry, but you're not allowed to set these message options"
-msgstr ""
+msgstr "Ne pare rau dar nu ai drepturi sa setezi optiunile mesajelor"
 
 msgid "Email isn't activated"
 msgstr "Adresa de email nu este activata"
@@ -287,7 +287,7 @@ msgid ""
 "belongs to a different user account. Please login with that account or use "
 "the forgot password functionality, and add the OpenID in your user profile "
 "settings afterwards. Sorry for the inconvenience."
-msgstr ""
+msgstr "Adresa de email %scare a fost returnata de OpenID apartine deja unui alt cont de utilizator. Te rugam sa te loghezi cu acel utilizator sau sa folsesti functia de reamintire a parolei, si sa adaugi OpenID in setarile contului de utilizator"
 
 #, python-format
 msgid "Successfully created new user account %s"
@@ -417,7 +417,7 @@ msgid "Page not Found"
 msgstr "Pagina nu a fost gasita."
 
 msgid "Page does already exist. Select another key or language."
-msgstr ""
+msgstr "Pagina deja exista. Selecteaza o alta cheie sau limba."
 
 msgid "Page updated"
 msgstr "Pagina modificata"
@@ -464,6 +464,10 @@ msgid ""
 "you have requested that your password be reset. In order to confirm the "
 "validity of your claim, please open the link below in your browser:"
 msgstr "ai cerut ca parola ta sa fie resetata. Pentru a confirma validitatea cererii, deschide linkul de mai jos in browserul tau internet:"
+
+#, python-format
+msgid "Login for %s"
+msgstr ""
 
 #, python-format
 msgid "Your user name to login is: %s"
@@ -516,6 +520,19 @@ msgstr "Nume de utilizator sau parola incorecta."
 msgid "Invalid email or password"
 msgstr "Adresa de email sau parola gresite"
 
+msgid "Please use a valid email address."
+msgstr ""
+
+#, python-format
+msgid ""
+"A user tried to register on %s with the email address %s. Please contact "
+"them at %s ."
+msgstr ""
+
+#, python-format
+msgid "Registration attempt on %s"
+msgstr ""
+
 msgid "tutorial_dashboard_title"
 msgstr "Tutorial: Pagina principala"
 
@@ -549,6 +566,10 @@ msgstr "%s este blocat in sistem."
 
 msgid "You already have a password - use that to log in."
 msgstr "Exista o parola deja setata - foloseste-o pentru a te loga."
+
+#, python-format
+msgid "The user can now log in via %s"
+msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Entitatea aceasta este deja in lista de entitati favorite."
@@ -593,7 +614,7 @@ msgid "An instance with that key already exists"
 msgstr "O comunitate cu acelasi nume exista deja"
 
 msgid "No static key is given"
-msgstr ""
+msgstr "Nu a fost furnizata nici o cheie statica"
 
 msgid "The static key is invalid"
 msgstr "Cheia statica este gresita"
@@ -625,11 +646,11 @@ msgid "No Badge ID '%s' exists"
 msgstr "Nu exista nici un titlu cu ID-ul '%s'"
 
 msgid "Duplicates in input set of user badge IDs"
-msgstr ""
+msgstr "Duplicate in ID-urile titlurilor introduse"
 
 #, python-format
 msgid "Could not find badges %s"
-msgstr ""
+msgstr "Nu am gaist titlurile %s"
 
 #, python-format
 msgid "Cannot use global category %s in this instance"
@@ -640,7 +661,7 @@ msgid "Badge with ID '%s' not valid in this instance"
 msgstr "Titlul cu ID  '%s'  nu este valid pentru aceasta comunitate."
 
 msgid "Parent and child category instance have to match"
-msgstr ""
+msgstr "Categoriile comunitatii parinte si a celei copil trebuie sa fie identice"
 
 msgid "You shall not create cycles!"
 msgstr ""
@@ -742,7 +763,7 @@ msgid "The file is too big (>1MB)"
 msgstr ""
 
 msgid "Please select at least one instance"
-msgstr ""
+msgstr "Selecteaza cel putin o instanta"
 
 msgid "Disallowed instance selected"
 msgstr ""
@@ -1111,24 +1132,48 @@ msgid "New comment: in %(topic)s"
 msgstr "Comentariu nou: in %(topic)s"
 
 #, python-format
-msgid "commented %(topic)s"
-msgstr "a comentat %(topic)s"
+msgid "New argument: in %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "commented on %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "discussed %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
 msgstr "A fost editat comentariul: in %(topic)s"
 
 #, python-format
+msgid "Edited argument: in %(topic)s"
+msgstr ""
+
+#, python-format
 msgid "edited comment on %(topic)s"
 msgstr "a modificat comentariul %(topic)s"
+
+#, python-format
+msgid "edited argument about %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
 msgstr "A sters comentariu: in %(topic)s"
 
 #, python-format
+msgid "Deleted argument: in %(topic)s"
+msgstr ""
+
+#, python-format
 msgid "deleted comment from %(topic)s"
 msgstr "a sters comentariul %(topic)s"
+
+#, python-format
+msgid "deleted argument from %(topic)s"
+msgstr ""
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
@@ -1450,10 +1495,13 @@ msgid "Filter list"
 msgstr "Lista filtre"
 
 msgid "reset"
-msgstr ""
+msgstr "reseteaza"
 
 msgid "Sort:"
 msgstr "Sortare:"
+
+msgid "Welcome back!"
+msgstr ""
 
 #, python-format
 msgid "Welcome to %s!"
@@ -1622,9 +1670,6 @@ msgstr "Update dubluri"
 msgid "Skip duplicate entries"
 msgstr "Nu afisa duplicate"
 
-msgid "File to import:"
-msgstr "Fisier de import:"
-
 msgid "Detect"
 msgstr "Detecteaza"
 
@@ -1667,10 +1712,10 @@ msgid "Update Search Index"
 msgstr "Updateaza indexul de cautare"
 
 msgid "Static Pages"
-msgstr ""
+msgstr "Pagini statice"
 
 msgid "Send an email to users"
-msgstr ""
+msgstr "Trimite email la utilizatori"
 
 msgid "Site administration"
 msgstr "Administrare site"
@@ -1799,7 +1844,7 @@ msgid "No Parent Badge"
 msgstr ""
 
 msgid "Global categories"
-msgstr ""
+msgstr "Categorii globale"
 
 msgid "Local instance categories"
 msgstr ""
@@ -1863,12 +1908,22 @@ msgstr "Titlurile Comunitatii"
 msgid "Comment"
 msgstr "Comentariu"
 
+msgid "Argument"
+msgstr ""
+
 #, python-format
 msgid "Comment on %s"
 msgstr "Comenteaza %s"
 
+#, python-format
+msgid "Argument about %s"
+msgstr ""
+
 msgid "Are you sure you want to delete this comment?"
 msgstr "Esti sigur ca vrei sa stergi comentariul?"
+
+msgid "Are you sure you want to delete this argument?"
+msgstr ""
 
 msgid "Confirm"
 msgstr "Confirma"
@@ -1876,15 +1931,28 @@ msgstr "Confirma"
 msgid "Edit comment"
 msgstr "Modifica comentariu"
 
+msgid "Edit argument"
+msgstr ""
+
 #, python-format
 msgid "Comment on: %s"
 msgstr "Comentariu pentru: %s"
 
+#, python-format
+msgid "Argument about: %s"
+msgstr ""
+
 msgid "Comment History"
 msgstr "Istoric Comentarii"
 
+msgid "Argument History"
+msgstr ""
+
 msgid "New comment"
 msgstr "Comentariu nou"
+
+msgid "New argument"
+msgstr ""
 
 #, python-format
 msgid "created %s"
@@ -1907,20 +1975,35 @@ msgstr "a editat %s"
 msgid "No comments were made yet."
 msgstr "Nici un comentariu deocamdata."
 
-msgid "Start new Discussion"
-msgstr "Incepe o discutie noua"
-
-msgid "Join instance to comment."
-msgstr "Alatura-te comunitatii pentru a comenta."
+msgid "No discussions were started yet."
+msgstr ""
 
 msgid "Add comment"
 msgstr "Adauga un comentariu"
 
+msgid "Start new discussion"
+msgstr ""
+
+msgid "Join instance to comment."
+msgstr "Alatura-te comunitatii pentru a comenta."
+
+msgid "Join instance to discuss."
+msgstr ""
+
+msgid "Add argument"
+msgstr ""
+
 msgid "Login to comment."
 msgstr "Logheaza-te pentru a comenta."
 
+msgid "Login to discuss."
+msgstr ""
+
 msgid "Validate email in order to comment."
 msgstr "Valideaza adresa de email pentru a aduga comentarii."
+
+msgid "Validate email in order to discuss."
+msgstr ""
 
 msgid "is pro"
 msgstr "este pentru"
@@ -1934,15 +2017,25 @@ msgstr "(sters)"
 msgid "This comment has been deleted."
 msgstr "Acest comentariu a fost sters."
 
+msgid "This argument has been deleted."
+msgstr ""
+
 msgid "edit"
 msgstr "modifica"
 
 msgid "1 Comment"
 msgstr "1 Comentariu"
 
+msgid "1 Argument"
+msgstr ""
+
 #, python-format
 msgid "%s Comments"
 msgstr "%s Comentarii"
+
+#, python-format
+msgid "%s Arguments"
+msgstr ""
 
 msgid "reply"
 msgstr "raspunde"
@@ -1950,11 +2043,20 @@ msgstr "raspunde"
 msgid "Join instance to reply"
 msgstr "Intra in comunitate pentru a raspunde la comentariu"
 
+msgid "Join instance to argue"
+msgstr ""
+
 msgid "Login to reply"
 msgstr "Logheaza-te pentru a raspunde la comentariu"
 
+msgid "Login to argue"
+msgstr ""
+
 msgid "Validate email in order to reply"
 msgstr "Valideaza adresa de email pentru a aduga comentarii."
+
+msgid "Validate email in order to argue"
+msgstr ""
 
 msgid "report"
 msgstr "raport"
@@ -1973,6 +2075,9 @@ msgstr "editat %s de catre %s"
 msgid "Comment is..."
 msgstr "Comentariul este..."
 
+msgid "Argument is..."
+msgstr ""
+
 msgid "Pro"
 msgstr "Pro"
 
@@ -1985,8 +2090,18 @@ msgstr "Contra"
 msgid "Enter comment text:"
 msgstr ""
 
+msgid "Enter argument text:"
+msgstr ""
+
 msgid "Allow others to edit this comment."
 msgstr "Permite celorlalti sa editeze acest comentariu"
+
+msgid "Allow others to edit this argument."
+msgstr ""
+
+#, python-format
+msgid "Comments on %s"
+msgstr ""
 
 #, python-format
 msgid "Discussion on %s"
@@ -2328,7 +2443,7 @@ msgid "Login to create a new proposal."
 msgstr "Logheaza-te pentru a creea o noua propunere."
 
 msgid "Validate email in order to create a new proposal."
-msgstr ""
+msgstr "Valideaza adresa de email pentru a putea crea o propunere."
 
 msgid "show a list of proposals"
 msgstr "afiseaza lista de propuneri"
@@ -2388,6 +2503,12 @@ msgstr[0] "un: %s document"
 msgstr[1] "cateva: %s documente"
 msgstr[2] "alte: %s documente"
 
+#, python-format
+msgid ""
+"You receive this message because you're signed in to the news service on %s."
+" You can change your subscription settings on the following page: %s"
+msgstr ""
+
 msgid "Send mass message"
 msgstr ""
 
@@ -2414,6 +2535,16 @@ msgstr ""
 msgid "Use {email}, {name}, {salutation} to address the user directly."
 msgstr ""
 
+msgid ""
+"Add a note about why the user got this message, and how to unsubscribe."
+msgstr ""
+
+msgid "Uncheck if user management is centralized."
+msgstr ""
+
+msgid "Include footer"
+msgstr ""
+
 msgid "Sender identity"
 msgstr ""
 
@@ -2425,6 +2556,20 @@ msgid "You're about to send the following message to %s recipients:"
 msgstr ""
 
 msgid "The message will go to the following users:"
+msgstr ""
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr ""
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr ""
+
+#, python-format
+msgid ""
+"Unfortunately, %s has not left an email address. You will not be able to "
+"reply directly."
 msgstr ""
 
 #, python-format
@@ -2523,6 +2668,13 @@ msgstr "Afiseaza mai mult"
 msgid "(unknown)"
 msgstr "(necunoscut)"
 
+msgid "with an abstention on"
+msgstr ""
+
+#, python-format
+msgid "On %s, %s wrote:"
+msgstr ""
+
 msgid "Add an OpenID"
 msgstr "Adauga un OpenID"
 
@@ -2560,7 +2712,7 @@ msgid ""
 "A unique user name is required for you complete sign up and login. The user "
 "name \"%s\" received from your OpenID provider is invalid or already used. "
 "Please provide a different, unique user name."
-msgstr ""
+msgstr "Un nume unic de utilizator este necesar pentru a completa procesul de inregistrare si a te loga. Numele de utilizator \"%s\" trimis de providerul tu OpenID nu este valid sau este deja utilizat. Te rugam sa alegi un nume utilizator diferit si unic."
 
 msgid "Username:"
 msgstr "Nume utilizator:"
@@ -2946,6 +3098,9 @@ msgstr "%s Discutii"
 msgid "%s Proposed Implementations"
 msgstr "%s Implementari propuse"
 
+msgid "Comments"
+msgstr ""
+
 msgid "Discussions"
 msgstr "Discutii"
 
@@ -2962,7 +3117,7 @@ msgid "Join instance to propose to change a norm"
 msgstr "Intra in comunitate pentru a propune modificarea unui document"
 
 msgid "Validate email in order to propose to change a norm"
-msgstr ""
+msgstr "Trebuie sa validezi adresa de email pentru a propune o modificare"
 
 msgid "tutorial_proposal_show_vote"
 msgstr "Voturile primite de propunere"
@@ -3500,8 +3655,33 @@ msgstr "Login:"
 msgid "Email:"
 msgstr "Email:"
 
+msgid "Forgot your password?"
+msgstr ""
+
 msgid "Register new account"
 msgstr "Creeaza un cont nou"
+
+msgid "What is your email address?"
+msgstr ""
+
+msgid "My email:"
+msgstr ""
+
+msgid "What is your user name?"
+msgstr ""
+
+msgid "My user name:"
+msgstr ""
+
+#, python-format
+msgid "Do you have a password for %s?"
+msgstr ""
+
+msgid "No, I do not have a password, or I forgot it."
+msgstr ""
+
+msgid "Yes, I do have a password:"
+msgstr ""
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
@@ -3532,6 +3712,15 @@ msgstr "Termeni si Conditii"
 msgid "leave empty"
 msgstr "lasa necompletat"
 
+msgid "Registration request sent"
+msgstr ""
+
+#, python-format
+msgid ""
+"Our support team has been notified of your registration request for %s.We "
+"will verify your request and contact you as soon as possible."
+msgstr ""
+
 msgid "Password reset"
 msgstr "Resetare parola"
 
@@ -3539,6 +3728,11 @@ msgid ""
 "You will be sent an activation link that, when opened, will cause the system"
 " to email you a new password."
 msgstr "Vei primi un link de activare, care odata deschis, va permite sistemului sa-ti trimita o parola noua."
+
+msgid ""
+"You will be sent an activation link that, when opened, will allow you pick a"
+" new password."
+msgstr ""
 
 msgid ""
 "In order to retrieve your login, you will have to enter your email address."
@@ -3592,6 +3786,9 @@ msgstr "blocat"
 
 msgid "Delete this user."
 msgstr "Sterge utilizator."
+
+msgid "Generate welcome link"
+msgstr ""
 
 #, python-format
 msgid "Watchlist: %s"

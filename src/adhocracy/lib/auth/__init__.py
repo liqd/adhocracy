@@ -35,10 +35,9 @@ def login_user(user, request, response):
 
     api = get_api(request.environ)
     for name, identifier in api.identifiers:
-        if identity is not None:
-            headers = identifier.remember(request.environ, identity)
-            if headers is not None:
-                response.headerlist.extend(headers)
+        headers = identifier.remember(request.environ, identity)
+        if headers is not None:
+            response.headerlist.extend(headers)
 
 
 class AuthModuleWrapper(object):

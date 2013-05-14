@@ -100,6 +100,7 @@ setup(
     message_extractors={'src/adhocracy': [
         ('**.py', 'python', None),
         ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
+        ('templates/**.txt', 'mako', {'input_encoding': 'utf-8'}),
         ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'adhocracy_Pylons'],
