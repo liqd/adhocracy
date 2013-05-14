@@ -36,6 +36,14 @@ from adhocracy.websetup import _setup
 SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
 
 
+# supress deprecation warnings caused by old Pylons with new WebOb
+import warnings
+warnings.filterwarnings(action='ignore', category=DeprecationWarning,
+                        module='webob.request')
+warnings.filterwarnings(action='ignore', category=DeprecationWarning,
+                        module='pylons.controllers.util')
+
+
 # --[ Mock and configure context variables used by adhocracy       ]----
 # --[ outside the request                                          ]----
 
