@@ -55,3 +55,8 @@ beaker.session.cookie_domain = test.lan
 session.domain = test.lan
 beaker.cache.data_dir = ${parts.buildout.directory}/var/testdata/cache
 beaker.session.data_dir = ${parts.buildout.directory}/var/testdata/sessions
+
+adhocracy.login_type = openid,username+password,email+password,shibboleth
+adhocracy.shibboleth.userbadge_mapping =
+    editor attribute_equals shib-user-role editor 
+    staff attribute_equals shib-user-role staff
