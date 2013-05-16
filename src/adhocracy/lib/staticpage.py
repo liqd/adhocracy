@@ -11,7 +11,7 @@ from adhocracy.lib.outgoing_link import rewrite_urls
 
 
 from lxml.html import parse, tostring
-from pylons import tmpl_context as c, config
+from pylons import config
 
 log = logging.getLogger(__name__)
 
@@ -93,7 +93,7 @@ class KottiStaticPage(StaticPageBase):
     @staticmethod
     def get(key, languages):
         api = RESTAPI()
-        result = api.staticpage_get(key, languages)
+        result = api.staticpage_get(key)
         page = result.json()
         if page is None:
             return None
@@ -106,34 +106,6 @@ _BACKENDS = {
 }
 
 STATICPAGE_KEY = re.compile(r'^[a-z0-9_-]+$')
-
-
-def all_locales(include_preferences=False):
-
-    def all_locales_mult():
-        if include_preferences:
-            yield c.locale
-            yield i18n.get_default_locale()
-        for l in i18n.LOCALES:
-            yield l
-
-    done = set()
-
-    for value in all_locales_mult():
-        if value in done:
-            continue
-        else:
-            done.add(value)
-            yield value
-
-
-def all_languages(include_preferences=False):
-    return (l.language for l in all_locales(include_preferences))
-
-
-def all_language_infos(include_preferences=False):
-    return ({'id': l.language, 'name': l.display_name}
-            for l in all_locales(include_preferences))
 
 
 def get_backend():
@@ -154,8 +126,10 @@ def render_body(body):
 def get_static_page(key, language=None):
     backend = get_backend()
     if language is None:
-        return backend.get(key, all_languages(include_preferences=True))
-    return backend.get(key, [language])
+        page = backend.get(key, i18n.all_languages(include_preferences=True))
+    else:
+        page = backend.get(key, [language])
+    return page
 
 
 def add_static_content(data, config_key, title_key=u'title',
