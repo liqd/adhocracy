@@ -55,6 +55,34 @@ def get_default_locale():
         return babel.Locale.parse('en_US')
 
 
+def all_locales(include_preferences=False):
+
+    def all_locales_mult():
+        if include_preferences:
+            yield c.locale
+            yield get_default_locale()
+        for l in LOCALES:
+            yield l
+
+    done = set()
+
+    for value in all_locales_mult():
+        if value in done:
+            continue
+        else:
+            done.add(value)
+            yield value
+
+
+def all_languages(include_preferences=False):
+    return (l.language for l in all_locales(include_preferences))
+
+
+def all_language_infos(include_preferences=False):
+    return ({'id': l.language, 'name': l.display_name}
+            for l in all_locales(include_preferences))
+
+
 def handle_request():
     """
     Given a request, try to determine the appropriate locale to use for the
