@@ -96,7 +96,7 @@ class ExternalStaticPage(StaticPageBase):
         api = RESTAPI()
         result = api.staticpage_get(key)
         page = result.json()
-        if page is None:
+        if page is None or 'errors' in page:
             return None
         return ExternalStaticPage(key, page['lang'], page['body'], page['title'])
 
