@@ -7,7 +7,6 @@ from paste.deploy.converters import asbool
 from adhocracy.lib import cache, staticpage
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
-from adhocracy.lib.staticpage import all_languages
 
 log = logging.getLogger(__name__)
 
@@ -40,8 +39,7 @@ def use_kotti_navigation():
 
 def render_kotti_navigation():
     api = RESTAPI()
-    languages = all_languages(include_preferences=True)
-    result = api.staticpages_get(languages)
+    result = api.staticpages_get()
     nav = result.json()
     if nav is None:
         log.error('Kotti based navigation not found for configured languages')

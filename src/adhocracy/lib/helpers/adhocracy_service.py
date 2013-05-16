@@ -4,6 +4,7 @@ import requests
 import magic
 
 from pylons import config
+from adhocracy import i18n
 
 
 class RESTAPI(object):
@@ -32,20 +33,25 @@ class RESTAPI(object):
                                               url=self.api_address + "images",
                                               headers=self.headers)
 
-    def staticpages_get(self, languages):
+    def staticpages_get(self, languages=None):
+        if languages is None:
+            languages = i18n.all_languages(include_preferences=True)
+        params = {
+            'lang': languages
+        }
         request = requests.Request("GET",
                                    url='%s%s' % (
                                        self.api_address,
                                        "staticpages",
                                    ),
-                                   params={
-                                       'lang': languages,
-                                   },
+                                   params=params,
                                    headers=self.headers)
 
         return self.session.send(request.prepare())
 
-    def staticpage_get(self, path, languages):
+    def staticpage_get(self, path, languages=None):
+        if languages is None:
+            languages = i18n.all_languages(include_preferences=True)
         request = requests.Request("GET",
                                    url='%s%s' % (
                                        self.api_address,
