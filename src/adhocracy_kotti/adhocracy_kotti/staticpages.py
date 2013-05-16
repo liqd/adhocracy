@@ -25,18 +25,21 @@ def get_children_tree(node):
     }
 
 
-def get_staticpages(languages):
+def get_staticpages(base, languages):
 
     lang = languages.pop(0)
     try:
         lang_folder = utils.get_lang_folder(lang)
-        return get_children_tree(lang_folder)
+        base_node = traversal.find_resource(lang_folder, base)
+        return get_children_tree(base_node)
 
     except utils.NoSuchLanguageException:
         pass
+    except KeyError:
+        return None
 
     if languages:
-        return get_staticpages(languages)
+        return get_staticpages(base, languages)
 
     return None
 
@@ -44,7 +47,7 @@ def get_staticpages(languages):
 @staticpages.get(schema=schemata.StaticPagesGET)
 def staticpages_get(request):
     data = request.validated
-    return get_staticpages(data['lang'])
+    return get_staticpages(data['base'], data['lang'])
 
 
 def get_staticpage(path, languages):
