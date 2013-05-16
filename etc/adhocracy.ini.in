@@ -308,6 +308,9 @@ adhocracy.show_overview_map_on_index = True
 adhocracy.show_overview_map_on_instance_index = False
 {% end %}
 
+# show tutorials
+adhocracy.show_tutorials = True
+
 # hide instance list in main navigation
 adhocracy.hide_instance_list_in_navigation = False
 
