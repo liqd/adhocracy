@@ -5,7 +5,6 @@ from adhocracy import config
 from adhocracy.lib import cache, staticpage
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
-from adhocracy.lib.staticpage import all_languages
 
 log = logging.getLogger(__name__)
 
@@ -56,8 +55,7 @@ def use_external_navigation():
 
 def render_external_navigation():
     api = RESTAPI()
-    languages = all_languages(include_preferences=True)
-    result = api.staticpages_get(languages)
+    result = api.staticpages_get()
     nav = result.json()
     if nav is None or not nav.get('children'):
         log.error('External navigation not found for configured languages')
