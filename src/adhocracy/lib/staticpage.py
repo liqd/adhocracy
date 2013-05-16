@@ -12,6 +12,7 @@ from adhocracy.lib.outgoing_link import rewrite_urls
 
 from lxml.html import parse, tostring
 from pylons import config
+from pylons.controllers.util import abort
 
 log = logging.getLogger(__name__)
 
@@ -95,7 +96,7 @@ class KottiStaticPage(StaticPageBase):
         api = RESTAPI()
         result = api.staticpage_get(key)
         page = result.json()
-        if page is None:
+        if page is None or 'errors' in page:
             return None
         return KottiStaticPage(key, page['lang'], page['body'], page['title'])
 
