@@ -10,8 +10,8 @@ staticpages = Service(name='staticpages',
                       description="Service to retrieve Kotti static pages")
 
 staticpage = Service(name='staticpage',
-                     path='/staticpages/{path}',
-                     description="Service to retriev a single HTML page")
+                     path='/staticpages/single',
+                     description="Service to retrieve a single HTML page")
 
 
 def get_children_tree(node):

@@ -47,12 +47,12 @@ class RESTAPI(object):
 
     def staticpage_get(self, path, languages):
         request = requests.Request("GET",
-                                   url='%s%s/%s' % (
+                                   url='%s%s' % (
                                        self.api_address,
-                                       "staticpages",
-                                       path,
+                                       'staticpages/single',
                                    ),
                                    params={
+                                       'path': path,
                                        'lang': languages,
                                    },
                                    headers=self.headers)

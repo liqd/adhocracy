@@ -19,7 +19,12 @@ class Identifier(colander.SchemaNode):
        Example value: bluABC_1-23
     """
     schema_type = colander.String
-    validator = colander.Regex(u'^[a-zA-Z0-9_-]+$')
+    validator = colander.Regex(u'^[a-zA-Z0-9_\-/]+$')
+
+
+class Path(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.Regex(u'^[a-zA-Z0-9_\-/]+$')
 
 
 class ImageScale(colander.SchemaNode):
@@ -67,7 +72,7 @@ class LangList(colander.SequenceSchema):
 
 class StaticPageGET(colander.MappingSchema):
 
-    path = Identifier(location="path")
+    path = Path(location="querystring")
     lang = LangList(location="querystring")
 
 

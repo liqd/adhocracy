@@ -76,15 +76,21 @@ We can get all documents from through the API::
     {u'title': u'DE translations', u'children': [{u'title': u'Mainmenu', u'children': [], u'name': u'mainmennu'}, {u'title': u'Footer', u'children': [], u'name': u'footer'}, {u'title': u'Document', u'children': [{u'title': u'Child Document', u'children': [], u'name': u'child-document'}], u'name': u'document'}], u'name': u'de'}
 
 
-to choose one we want the body from::
+And retrieve a single document::
 
-    >>> resp = app.get("/staticpages/document?lang=de&lang=en&lang=fr")
+    >>> resp = app.get("/staticpages/single?path=document&lang=de&lang=en&lang=fr")
     >>> json.loads(resp.body)
     {u'lang': u'de', u'path': u'document', u'body': u'Dokument auf deutsch', u'description': u'', u'title': u'Document'}
 
+Retrieve the child document::
+
+    >>> resp = app.get("/staticpages/single?path=document/child-document&lang=de&lang=en&lang=fr")
+    >>> json.loads(resp.body)
+    {u'lang': u'de', u'path': u'document/child-document', u'body': u'', u'description': u'', u'title': u'Child Document'}
+
 If the language folder does not exists, we get the fallback::
 
-    >>> resp = app.get("/staticpages/document?lang=fr&lang=en&lang=de")
+    >>> resp = app.get("/staticpages/single?path=document&lang=fr&lang=en&lang=de")
     >>> json.loads(resp.body)
     {u'lang': u'en', u'path': u'document', u'body': u'Document in English', u'description': u'', u'title': u'Document'}
 
