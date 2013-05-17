@@ -44,7 +44,6 @@ else:
     <input type="submit" value="${_('Login')}" tabindex="4" />
   </div>
 </form>
-<script src="${h.base_url('/javascripts/alternate_login.js')}"></script>
 %if 'openid' in login_titleandtype:
     <%
     c.openid_scenario = "login"
