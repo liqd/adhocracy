@@ -1871,8 +1871,7 @@ form.inline-form {
 }
 
 form[name="login"].login-alternate input[type="email"],
-form[name="login"].login-alternate input[type="text"],
-form[name="login"].login-alternate input[type="password"] {
+form[name="login"].login-alternate input[type="text"] {
   display: inline;
 }
 form[name="login"].login-alternate label {
@@ -1882,4 +1881,6 @@ form[name="login"].login-alternate label {
 form[name="login"].login-alternate label>span {
   vertical-align: text-top;
 }
-
+form[name="login"].login-alternate input[type="password"] {
+  display: block; margin-bottom: 10px; margin-left: 40px;
+}
