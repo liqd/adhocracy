@@ -1042,7 +1042,7 @@ class ProposalControversyIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if isinstance(entity, model.Proposal):
-            date[cls.solr_field] = sorting.proposal_controversy(entity)
+            date[cls.solr_field] = sorting.proposal_controversy_key(entity)
 
 
 class InstanceUserActivityIndexer(SolrIndexer):
@@ -1397,6 +1397,7 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
                       facets=[UserBadgeFacet, InstanceFacet]
                       )
     return pager
+
 
 def solr_instance_pager():
     # override default sort
