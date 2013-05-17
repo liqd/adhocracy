@@ -13,7 +13,7 @@ else:
 %>
 
 %if 'shibboleth' in login_types:
-<a href="/shibboleth/request_auth${query_string}">Login via Shibboleth</a>
+<a href="/shibboleth/request_auth${h.camefrom_querystring()}">Login via Shibboleth</a>
 %endif
 
 <div class="form_wrapper">
