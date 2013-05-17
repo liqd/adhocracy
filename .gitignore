@@ -47,3 +47,4 @@ RELEASE-VERSION
 dist
 buildout_current.cfg
 /python
+/.cache
