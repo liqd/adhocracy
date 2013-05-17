@@ -288,6 +288,8 @@ piwik.id =
 # adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
 
 # INSTALL: How can users login?
+# Available options are openid, username+password, email+password, shibboleth
+# Note that shibboleth needs additional configuration
 #adhocracy.login_type = openid,username+password,email+password
 
 # INSTALL: Allow administrators to let users log in from an invitation email
