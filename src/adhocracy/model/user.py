@@ -91,6 +91,10 @@ class User(meta.Indexable):
     def email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
 
+    def get_badge(self, badge_title):
+        badges = dict((b.title, b) for b in self.badges)
+        return badges.get(badge_title)
+
     def badge_groups(self):
         groups = []
         for badge in self.badges:
