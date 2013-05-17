@@ -3,7 +3,7 @@ import logging
 from repoze.who.plugins.basicauth import BasicAuthPlugin
 from repoze.who.plugins.sa import SQLAlchemyAuthenticatorPlugin
 from repoze.who.plugins.sa import SQLAlchemyUserMDPlugin
-from repoze.who.plugins.friendlyform import FriendlyFormPlugin
+from adhocracy.lib.auth.loginform import FriendlyFormPlugin
 
 from repoze.what.middleware import setup_auth as setup_what
 from repoze.what.plugins.sql.adapters import SqlPermissionsAdapter
