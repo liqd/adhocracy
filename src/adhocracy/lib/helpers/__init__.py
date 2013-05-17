@@ -166,6 +166,15 @@ def help_link(text, page, anchor=None):
             u">%s</a>") % (page, full_url, text)
 
 
+def camefrom_querystring():
+    came_from = request.params.get('came_from', '')
+    query_string = u''
+    if came_from:
+        encoded = urllib.urlencode({'came_from': came_from.encode('utf-8')})
+        query_string = u'?' + encoded
+    return query_string
+
+
 def login_redirect_url(entity=None, **kwargs):
     '''
     Builds an ".../login?came_from=http...." pointing to the /login

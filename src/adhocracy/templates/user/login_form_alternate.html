@@ -1,11 +1,4 @@
 <%
-from urllib import urlencode
-
-came_from = request.params.get('came_from', '')
-query_string = ''
-if came_from:
-    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
-    
 login_titleandtype = h.allowed_login_types()
 if 'email+password' in login_titleandtype:
     field_question = _('What is your email address?')
@@ -19,7 +12,7 @@ else:
     field_title = _('My user name:')
     field_type =  'text'
 %>
-<form class="login-alternate" name="login" method="POST" action="/perform_login">
+<form class="login-alternate" name="login" method="POST" action="/perform_login${h.camefrom_querystring()}">
   ${h.field_token()|n}
 
   <form:error name="login"></form:error>

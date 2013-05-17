@@ -154,9 +154,6 @@ class UserController(BaseController):
             captacha_enabled = config.get('recaptcha.public_key', "")
             c.recaptcha = captacha_enabled and h.recaptcha.displayhtml(
                 use_ssl=True)
-            session['came_from'] = request.params.get('came_from',
-                                                      h.base_url())
-            session.save()
             if defaults is None:
                 defaults = {}
             defaults['_tok'] = token_id()
@@ -233,10 +230,8 @@ class UserController(BaseController):
             # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
-            came_from = session.get('came_from', None)
-            if came_from is not None:
-                del session['came_from']
-                session.save()
+            came_from = request.params.get('came_from')
+            if came_from:
                 location = came_from
             else:
                 location = h.base_url('/user/%s/dashboard' %
@@ -474,9 +469,8 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
-            session['came_from'] = request.params.get('came_from',
-                                                      h.base_url())
-            session.save()
+            if 'came_from' not in request.params:
+                request.params['came_from'] = h.base_url()
             return self._render_loginform()
 
     def _render_loginform(self, errors=None, defaults=None):
@@ -497,10 +491,8 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            came_from = session.get('came_from', None)
+            came_from = request.params.get('came_from', None)
             if came_from is not None:
-                del session['came_from']
-                session.save()
                 redirect(came_from)
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
@@ -581,12 +573,9 @@ class UserController(BaseController):
             c.fresh_logged_in = True
             c.suppress_attention_getter = True
             del session['logged_in']
-            if 'came_from' in session:
-                c.came_from = session.get('came_from')
-                del session['came_from']
-                if isinstance(c.came_from, str):
-                    c.came_from = unicode(c.came_from, 'utf-8')
-            session.save()
+            came_from = request.params.get('came_from')
+            if came_from:
+                c.came_from = came_from
 
         #user object
         c.page_user = get_entity_or_abort(model.User, id,

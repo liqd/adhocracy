@@ -1,5 +1,5 @@
 <div class="form_wrapper">
-  <form name="create_user" method="POST" action="/user">
+  <form name="create_user" method="POST" action="/user${h.camefrom_querystring()}">
     ${h.field_token()|n}
 
     <fieldset>
