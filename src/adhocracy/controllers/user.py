@@ -477,7 +477,18 @@ class UserController(BaseController):
             session['came_from'] = request.params.get('came_from',
                                                       h.base_url())
             session.save()
-            return render('/user/login.html')
+            return self._render_loginform()
+
+    def _render_loginform(self, errors=None, defaults=None):
+        if defaults is None:
+            defaults = dict(request.params)
+            defaults.setdefault('have_password', 'true')
+            if '_login_value' in request.environ:
+                defaults['login'] = request.environ['_login_value']
+            defaults['_tok'] = token_id()
+        return htmlfill.render(render('/user/login.html'),
+                               errors=errors,
+                               defaults=defaults)
 
     def perform_login(self):
         pass  # managed by repoze.who
@@ -508,9 +519,7 @@ class UserController(BaseController):
                 if 'email+password' in login_configuration:
                     error_message = _("Invalid email or password")
 
-            return formencode.htmlfill.render(
-                render("/user/login.html"),
-                errors={"login": error_message})
+            return self._render_loginform(errors={"login": error_message})
 
     def logout(self):
         pass  # managed by repoze.who
@@ -532,10 +541,7 @@ class UserController(BaseController):
         login = self.form_result.get('login')
         if u'@' not in login:
             msg = _("Please use a valid email address.")
-            defaults = dict(request.params)
-            return htmlfill.render(render('/user/login.html'),
-                                   errors=dict(login=msg),
-                                   defaults=defaults)
+            return self._render_loginform(errors={'login': msg})
 
         if h.allow_user_registration():
             handle = login.partition(u'@')[0]
