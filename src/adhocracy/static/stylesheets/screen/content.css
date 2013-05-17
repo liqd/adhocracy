@@ -1247,6 +1247,14 @@ a.show_comments.open:hover:after, a.new_comment.open:hover:after {
   padding-bottom: 18px;
 }
 
+.form_inline_wrapper {
+  padding-bottom: 0px;
+}
+
+.form_inline_wrapper form, #searbox form {
+  margin: 0px;
+}
+
 .form_wrapper form, #searchbox form {
   margin: 0px;
 }

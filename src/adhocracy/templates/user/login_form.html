@@ -1,11 +1,15 @@
+<%page args="embed=False" />
 <%
 from urllib import urlencode
+from pylons import session
 
-came_from = request.params.get('came_from', '')
-query_string = ''
-if came_from:
-    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
-    
+came_from = h.base_url()
+div_class = 'form_inline_wrapper' if embed else 'form_wrapper'
+
+query_string = '?' + urlencode({'came_from': came_from.encode('utf-8')})
+
+session['came_from'] = came_from
+
 login_titleandtype = h.allowed_login_types()
 if 'username+password' in login_titleandtype and 'email+password' in login_titleandtype:
     field_title = _('Email or username:')
@@ -17,8 +21,8 @@ else:
             'username+password' not in login_titleandtype:
         field_title = _('Email:')
         field_type = 'email'
-%>
-<div class="form_wrapper">
+%> 
+<div class="${div_class}">
   <form name="login" method="POST" action="/perform_login">
     <div class="input_wrapper">
       <label>${field_title}
