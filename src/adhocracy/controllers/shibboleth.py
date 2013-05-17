@@ -8,11 +8,14 @@ from adhocracy import forms
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.csrf import check_csrf
+from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
+from adhocracy.lib.auth.shibboleth import USERBADGE_MAPPERS
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 from adhocracy.lib.templating import ret_abort
 from adhocracy.model import meta
 from adhocracy.model.user import User
+from adhocracy.model.badge import UserBadge
 
 
 class ShibbolethRegisterForm(formencode.Schema):
@@ -76,6 +79,8 @@ class ShibbolethController(BaseController):
         return request.environ.get('HTTP_PERSISTENT_ID', None)
 
     def _login(self, user):
+        self._update_userbadges(user)
+
         login_user(user, request, response)
 
         came_from = request.GET.get('came_from', '/')
@@ -118,3 +123,30 @@ class ShibbolethController(BaseController):
 
         except formencode.Invalid, i:
             return self._register_form(errors=i.unpack_errors())
+
+    def _update_userbadges(self, user):
+
+        tuples = get_userbadge_mapping()
+
+        is_modified = False
+
+        for t in tuples:
+            badge_name = t[0]
+            function_name = t[1]
+            args = t[2:]
+
+            badge = UserBadge.find(badge_name)
+            want_badge = USERBADGE_MAPPERS[function_name](request, *args)
+            has_badge = badge in user.badges
+
+            if want_badge and not has_badge:
+                # assign badge
+                badge.assign(user=user, creator=user)
+                is_modified = True
+            elif has_badge and not want_badge:
+                # unassign badge
+                user.badges.remove(badge)
+                is_modified = True
+
+        if is_modified:
+            meta.Session.commit()

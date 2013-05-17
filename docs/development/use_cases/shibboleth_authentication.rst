@@ -13,6 +13,10 @@ The following is needed if we're using the standard pytest doctest runner.
     >>> from pylons import config
     >>> config['adhocracy.login_type']='shibboleth'
     >>> config['adhocracy.shibboleth.institution']=SHIB_IDP_INSTITUTION
+    >>> config['adhocracy.shibboleth.userbadge_mapping']="""
+    ...     editor attribute_equals shib-user-role editor 
+    ...     staff attribute_equals shib-user-role staff
+    ... """
 
 Configuring the config here doesn't have any effect as setup_what has already
 been executed before. It's just here for documentation purpose.
@@ -52,6 +56,7 @@ Apache mod_shibboleth sets the appropriate HTTP headers.
     >>> hugo_headers = {
     ...     'Persistent-Id': 'https://dummy_idp!http://test.lan/shibboleth!KJOPDPm4QA7NCwTWol9p2MsQGOA=',
     ...     'shib-email': 'hugo@example.com',
+    ...     'shib-user-role': 'editor',
     ... }
 
     >>> add_headers(browser, hugo_headers)
@@ -102,6 +107,15 @@ This is required to make the test suite happy.
     >>> is_logged_in(browser)
     True
 
+Check that the user exists in the database and has the right user badges set:
+
+    >>> from adhocracy.model import User
+    >>> hugo = User.find('hugo')
+    >>> hugo.email
+    u'hugo@example.com'
+    >>> hugo.badges
+    [<UserBadge(1,editor)>]
+
 Fine! Let's logout!
 
     >>> browser.open(app_url + '/logout')
@@ -119,3 +133,30 @@ and see: We're logged in!
     >>> browser.open(ANY_URL)
     >>> is_logged_in(browser)
     True
+
+Logout again.
+
+    >>> browser.open(app_url + '/logout')
+    >>> is_logged_in(browser)
+    False
+
+Hugo has lost his `editor` status. Make sure the model is updated.
+
+    >>> new_hugo_headers = {
+    ...     'Persistent-Id': 'https://dummy_idp!http://test.lan/shibboleth!KJOPDPm4QA7NCwTWol9p2MsQGOA=',
+    ...     'shib-email': 'hugo@example.com',
+    ... }
+    >>> browser2 = make_browser()
+    >>> set_no_redirect(browser2)
+    >>> add_headers(browser2, new_hugo_headers)
+    >>> browser2.open(POST_AUTH_URL + '?came_from=' + ANY_URL)
+    >>> browser2.open(ANY_URL)
+    >>> is_logged_in(browser2)
+    True
+
+    >>> from adhocracy.model import User
+    >>> hugo = User.find('hugo')
+    >>> hugo.email
+    u'hugo@example.com'
+    >>> hugo.badges
+    []

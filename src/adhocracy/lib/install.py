@@ -1,6 +1,7 @@
 import logging
 
 import adhocracy.model as model
+from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.helpers.site_helper import get_domain_part
 
 from paste.deploy.converters import asbool
@@ -158,5 +159,12 @@ def setup_entities(config, initial_setup):
                 fb.allow_delegate = False
                 fb.hide_global_categories = True
                 fb.require_valid_email = False
+
+    if 'shibboleth' in allowed_login_types():
+        from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
+        for mapping in get_userbadge_mapping():
+            title = mapping[0]
+            if model.UserBadge.find(title) is None:
+                model.UserBadge.create(mapping[0], u'#000000', True, u'')
 
     model.meta.Session.commit()
