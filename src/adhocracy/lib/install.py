@@ -160,9 +160,9 @@ def setup_entities(config, initial_setup):
                 fb.hide_global_categories = True
                 fb.require_valid_email = False
 
-    if 'shibboleth' in allowed_login_types():
+    if 'shibboleth' in allowed_login_types(config):
         from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
-        for mapping in get_userbadge_mapping():
+        for mapping in get_userbadge_mapping(config):
             title = mapping[0]
             if model.UserBadge.find(title) is None:
                 model.UserBadge.create(mapping[0], u'#000000', True, u'')

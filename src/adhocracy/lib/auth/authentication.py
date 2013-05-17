@@ -20,7 +20,7 @@ from webob import Request
 log = logging.getLogger(__name__)
 
 
-def allowed_login_types():
+def allowed_login_types(config=config):
     login = config.get('adhocracy.login_type',
                        'openid,username+password,email+password')
     login = login.split(',')
