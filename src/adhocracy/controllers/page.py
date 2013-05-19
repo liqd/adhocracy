@@ -14,6 +14,7 @@ from pylons.i18n import _
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h
 from adhocracy.lib import pager, sorting, tiles, watchlist
+from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -92,9 +93,9 @@ class PageController(BaseController):
         c.active_subheader_nav = 'norms'
 
     @RequireInstance
+    @guard.page.index()
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
-        require.page.index()
         pages = model.Page.all(instance=c.instance,
                                functions=model.Page.LISTED)
         if request.params.get('pages_sort', '4') == '4':
@@ -116,8 +117,8 @@ class PageController(BaseController):
         return render("/page/index.html")
 
     @RequireInstance
+    @guard.page.create()
     def new(self, errors=None):
-        require.page.create()
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
@@ -138,8 +139,8 @@ class PageController(BaseController):
 
     @RequireInstance
     @RequireInternalRequest(methods=['POST'])
+    @guard.page.create()
     def create(self, format='html'):
-        require.page.create()
         try:
             self.form_result = PageCreateForm().to_python(request.params)
             # a proposal that this norm should be integrated with
@@ -315,7 +316,7 @@ class PageController(BaseController):
                     is_head=(right.variant == model.Text.HEAD))
 
     @classmethod
-    def selection_urls(cls, selection):
+    def _selection_urls(cls, selection):
         urls = {}
         for (variant, poll) in selection.variant_polls:
             urls[variant] = {
@@ -324,17 +325,17 @@ class PageController(BaseController):
         return {'urls': urls}
 
     @classmethod
-    def selections_details(cls, page, variant, current_selection=None):
+    def _selections_details(cls, page, variant, current_selection=None):
         try:
             selections = model.Selection.by_variant(page, variant)
         except IndexError:
             selections = []
-        return [cls.selection_details(selection, variant,
-                                      current_selection=current_selection)
+        return [cls._selection_details(selection, variant,
+                                       current_selection=current_selection)
                 for selection in selections]
 
     @classmethod
-    def selection_details(cls, selection, variant, current_selection=None):
+    def _selection_details(cls, selection, variant, current_selection=None):
         try:
             score = selection.variant_poll(variant).tally.score
         except:
@@ -354,7 +355,7 @@ class PageController(BaseController):
                 }
 
     @classmethod
-    def variant_details(cls, page, variant):
+    def _variant_details(cls, page, variant):
         '''
         Return details for a variant including diff information
         and details about the proposals that selected this variant.
@@ -372,7 +373,7 @@ class PageController(BaseController):
             if details[key].strip() == '':
                 details[key] = message
 
-        selections = cls.selections_details(page, variant)
+        selections = cls._selections_details(page, variant)
         if variant == model.Text.HEAD:
             is_head = True
             votewidget_url = ''
@@ -387,7 +388,7 @@ class PageController(BaseController):
                 votewidget_url = ''
         details.update(
             {'variant': variant,
-             'display_title': cls.variant_display_title(variant),
+             'display_title': cls._variant_display_title(variant),
              'history_url': h.entity_url(variant_text, member='history'),
              'history_count': len(variant_text.history),
              'selections': selections,
@@ -399,13 +400,13 @@ class PageController(BaseController):
         return details
 
     @classmethod
-    def variant_display_title(cls, variant):
+    def _variant_display_title(cls, variant):
         if variant == model.Text.HEAD:
             return _('Original version')
         return _(u'Variant: "%s"') % variant
 
     @classmethod
-    def variant_item(cls, page, variant):
+    def _variant_item(cls, page, variant):
         '''
         Return a `dict` with information about the variant.
         '''
@@ -418,7 +419,7 @@ class PageController(BaseController):
                 'variant': variant}
 
     @classmethod
-    def variant_items(self, page, selection=None):
+    def _variant_items(self, page, selection=None):
         '''
         Return a `list` of `dicts` with information about the variants.
         '''
@@ -426,13 +427,13 @@ class PageController(BaseController):
         for variant in page.variants:
             if selection and (variant not in selection.variants):
                 continue
-            item = self.variant_item(page, variant)
+            item = self._variant_item(page, variant)
             items.append(item)
 
         return items
 
     @classmethod
-    def insert_variant_score_and_sort(self, items, score_func):
+    def _insert_variant_score_and_sort(self, items, score_func):
         '''
         Insert the score into the items and sort the variant items based
         on their *score* with mode.Text.HEAD as the first item.
@@ -470,13 +471,13 @@ class PageController(BaseController):
 
         c.category = c.page.category
         # variant details and returning them as json when requested.
-        c.variant_details = self.variant_details(c.page, c.variant)
+        c.variant_details = self._variant_details(c.page, c.variant)
         if 'variant_json' in request.params:
             return render_json(c.variant_details)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
 
         # Make a list of variants to render the vertical tab navigation
-        variant_items = self.variant_items(c.page)
+        variant_items = self._variant_items(c.page)
 
         def get_score(item):
             selections = model.Selection.by_variant(c.page,
@@ -486,8 +487,8 @@ class PageController(BaseController):
             else:
                 return 0
 
-        variant_items = self.insert_variant_score_and_sort(variant_items,
-                                                           get_score)
+        variant_items = self._insert_variant_score_and_sort(variant_items,
+                                                            get_score)
 
         # filter out all but the highest rated variant from a proposal
         c.variant_items = []
@@ -546,6 +547,8 @@ class PageController(BaseController):
     def diff(self):
         left = self.form_result.get('left')
         right = self.form_result.get('right')
+        require.page.show(left.page)
+        require.page.show(right.page)
         options = [right.page.variant_head(v) for v in right.page.variants]
         return self._differ(left, right, options=options)
 
@@ -555,7 +558,6 @@ class PageController(BaseController):
             redirect(h.entity_url(right))
         c.left, c.right = (left, right)
         c.left_options = options
-        require.page.show(c.right.page)
         if c.left.page != c.right.page:
             h.flash(_("Cannot compare versions of different texts."), 'notice')
             redirect(h.entity_url(c.right))

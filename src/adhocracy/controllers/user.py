@@ -122,9 +122,9 @@ class UserController(BaseController):
         c.active_subheader_nav = 'members'
 
     @RequireInstance
+    @guard.user.index()
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
-        require.user.index()
 
         default_sorting = config.get(
             'adhocracy.listings.instance_user.sorting', 'ACTIVITY')
@@ -137,8 +137,8 @@ class UserController(BaseController):
         c.tutorial = 'user_index'
         return render("/user/index.html")
 
+    @guard.perm('user.index_all')
     def all(self):
-        require.user.index()
         c.users_pager = solr_global_users_pager()
         return render("/user/all.html")
 
@@ -161,6 +161,7 @@ class UserController(BaseController):
                                    defaults=defaults)
 
     @RequireInternalRequest(methods=['POST'])
+    @guard.user.create()
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
         if not h.allow_user_registration():
@@ -168,7 +169,6 @@ class UserController(BaseController):
                 _("Sorry, registration has been disabled by administrator."),
                 category='error', code=403)
 
-        require.user.create()
         if self.email_is_blacklisted(self.form_result['email']):
             return ret_abort(_("Sorry, but we don't accept registrations with "
                                "this email address."), category='error',
@@ -732,8 +732,8 @@ class UserController(BaseController):
                               add_canonical=True)
         return render("/user/instances.html")
 
+    @guard.watch.index()
     def watchlist(self, id, format='html'):
-        require.watch.index()
         c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -813,9 +813,9 @@ class UserController(BaseController):
         else:
             redirect(h.site.base_url(instance=None))
 
+    @guard.user.index()
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
-        require.user.index()
         query = self.form_result.get('users_q')
         users = libsearch.query.run(query + u"*", entity_type=model.User,
                                     instance_filter=True)

@@ -221,6 +221,7 @@ class ValidUserBadge(formencode.FancyValidator):
                 value, state)
         return badge
 
+
 class ValidUserBadges(formencode.FancyValidator):
     """ Check for a set of user badges, inputted by ID """
 
@@ -248,6 +249,7 @@ class ValidUserBadges(formencode.FancyValidator):
                 _("Could not find badges %s") % ','.join(map(str, missing)),
                 value, state)
         return badges
+
 
 class ValidInstanceBadge(formencode.FancyValidator):
 
@@ -688,7 +690,7 @@ class MessageableInstances(formencode.FancyValidator):
 
         from adhocracy.controllers.massmessage import MassmessageController
         allowed_ids = (i.id for i in
-                       MassmessageController.get_allowed_instances(c.user))
+                       MassmessageController._get_allowed_instances(c.user))
         if any(int(i) not in allowed_ids for i in value):
             raise formencode.Invalid(
                 _('Disallowed instance selected'), value, state)

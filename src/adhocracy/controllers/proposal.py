@@ -165,8 +165,8 @@ class ProposalController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
+    @guard.proposal.create()
     def create(self, format='html'):
-        require.proposal.create()
 
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)

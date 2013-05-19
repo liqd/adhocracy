@@ -73,6 +73,8 @@ def setup_entities(config, initial_setup):
     }
 
     default_permission_groups = {
+        u'abuse.report': anonymous,
+        u'badge.index': anonymous,
         u'comment.create': advisor,
         u'comment.delete': moderator,
         u'comment.edit': advisor,
@@ -82,6 +84,7 @@ def setup_entities(config, initial_setup):
         u'delegation.delete': voter,
         u'delegation.show': anonymous,
         u'delegation.view': anonymous,
+        u'event.index_all': anonymous,
         u'global.admin': admins,
         u'global.member': admins,
         u'global.message': admins,
@@ -114,11 +117,13 @@ def setup_entities(config, initial_setup):
         u'proposal.edit': advisor,
         u'proposal.show': anonymous,
         u'proposal.view': anonymous,
+        u'static.show': anonymous,
         u'tag.create': advisor,
         u'tag.delete': advisor,
         u'tag.show': anonymous,
         u'tag.view': anonymous,
         u'user.edit': default,
+        u'user.index_all': anonymous,
         u'user.manage': admins,
         u'user.message': advisor,
         u'user.show': anonymous,

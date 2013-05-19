@@ -60,8 +60,8 @@ class CommentPurgeForm(formencode.Schema):
 class CommentController(BaseController):
 
     @RequireInstance
+    @guard.comment.index()
     def index(self, format='html'):
-        require.comment.index()
         comments = model.Comment.all()
         c.comments_pager = NamedPager(
             'comments', comments, tiles.comment.row, count=10,
@@ -95,8 +95,8 @@ class CommentController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
+    @guard.comment.create()
     def create(self, format='html'):
-        require.comment.create()
         try:
             self.form_result = CommentCreateForm().to_python(request.params)
         except Invalid, i:

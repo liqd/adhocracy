@@ -11,6 +11,7 @@ from pylons.i18n import _
 from adhocracy import model
 import adhocracy.forms as forms
 from adhocracy.lib import helpers as h
+from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -32,10 +33,10 @@ class WatchDeleteForm(formencode.Schema):
 class WatchController(BaseController):
 
     @RequireInternalRequest()
+    @guard.watch.create()
     @validate(schema=WatchCreateForm(), form='bad_request', post_only=False,
               on_get=True)
     def create(self, format='html'):
-        require.watch.create()
         entity = self.form_result.get('ref')
         if model.Watch.find_by_entity(c.user, entity):
             h.flash(_("A watchlist entry for this entity already exists."),

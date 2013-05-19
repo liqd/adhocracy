@@ -307,6 +307,9 @@ class OpenidauthController(BaseController):
         Called when the nickname proposed by the OpenID identity provider is
         unavailable locally.
         """
+        if not openid_login_allowed():
+            ret_abort(_("OpenID login has been disabled on this installation"),
+                      code=403)
         if 'openid_req' in session:
             (openid, c.openid_username, email) = session['openid_req']
             if request.method == "POST":
