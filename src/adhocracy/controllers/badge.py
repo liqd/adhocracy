@@ -300,8 +300,8 @@ class BadgeController(BaseController):
 
     def _get_badge_or_redirect(self, id):
         '''
-        Get a badge. Redirect if it does not exist. Redirect if it
-        if the badge is not from the current instance, but the user is
+        Get a badge. Redirect if it does not exist. Redirect if
+        the badge is not from the current instance, but the user is
         only an instance admin, not a global admin
         '''
         badge = Badge.by_id(id, instance_filter=False)

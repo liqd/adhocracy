@@ -151,8 +151,8 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
-            captacha_enabled = config.get('recaptcha.public_key', "")
-            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml(
+            captcha_enabled = config.get('recaptcha.public_key', "")
+            c.recaptcha = captcha_enabled and h.recaptcha.displayhtml(
                 use_ssl=True)
             if defaults is None:
                 defaults = {}
@@ -175,8 +175,8 @@ class UserController(BaseController):
                              code=403)
 
         # SPAM protection recaptcha
-        captacha_enabled = config.get('recaptcha.public_key', "")
-        if captacha_enabled:
+        captcha_enabled = config.get('recaptcha.public_key', "")
+        if captcha_enabled:
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
                 c.recaptcha = h.recaptcha.displayhtml(

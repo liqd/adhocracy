@@ -426,8 +426,8 @@ class InstanceController(BaseController):
         '''
         Sets a redirect code and location header, stores a flash
         message and returns the message. If *message* is not None, a
-        message is choosen depending on the boolean value of
-        *updated*. The redirect *location* URL is choosen based on the
+        message is chosen depending on the boolean value of
+        *updated*. The redirect *location* URL is chosen based on the
         instance and *setting_name*.
 
         This method will *not raise an redirect exception* but set the
