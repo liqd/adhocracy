@@ -186,7 +186,8 @@ class MassmessageController(BaseController):
         return render('/massmessage/preview.html', data)
 
     @_get_options
-    def create(self, sender_email, sender_name, subject, body, recipients, include_footer):
+    def create(self, sender_email, sender_name, subject, body, recipients,
+               include_footer):
         message = Message.create(subject,
                                  body,
                                  c.user,
