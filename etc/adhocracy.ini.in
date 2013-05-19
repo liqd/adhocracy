@@ -346,6 +346,10 @@ adhocracy.startpage.proposals.list_length = 0
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
 
+# Automatically set new permissions their default value. This should be
+# set to false in restrictive environments.
+# adhocracy.autoassign_permissions = true
+
 
 # Logging configuration
 [loggers]

@@ -23,15 +23,14 @@ def mk_group(name, code):
     return group
 
 
-def mk_perm(name, set_groups, *groups):
+def mk_perm(name):
     perm = model.Permission.find(name)
     if perm is None:
         log.debug("Creating permission: %s" % name)
         perm = model.Permission(name)
         model.meta.Session.add(perm)
-    if set_groups:
-        perm.groups = list(groups)
-    return perm
+        return perm
+    return None
 
 
 def setup_entities(config, initial_setup):
@@ -53,79 +52,95 @@ def setup_entities(config, initial_setup):
 
     model.meta.Session.commit()
 
-    # ADD EACH NEW PERMISSION HERE
-    mk_perm("comment.create", initial_setup, advisor)
-    mk_perm("comment.delete", initial_setup, moderator)
-    mk_perm("comment.edit", initial_setup, advisor)
-    mk_perm("comment.show", initial_setup, anonymous)
-    mk_perm("comment.view", initial_setup, anonymous)
-    mk_perm("delegation.create", initial_setup, voter)
-    mk_perm("delegation.delete", initial_setup, voter)
-    mk_perm("delegation.show", initial_setup, anonymous)
-    mk_perm("delegation.view", initial_setup, anonymous)
-    mk_perm("global.admin", initial_setup, admins)
-    mk_perm("global.member", initial_setup, admins)
-    mk_perm("global.message", initial_setup, admins)
-    mk_perm("global.organization", initial_setup, organization)
-    mk_perm("global.staticpage", initial_setup, admins)
-    mk_perm("instance.admin", initial_setup, supervisor)
-    mk_perm("instance.create", initial_setup, admins)
-    mk_perm("instance.delete", initial_setup, admins)
-    mk_perm("instance.index", initial_setup, anonymous)
-    mk_perm("instance.join", initial_setup, default)
-    mk_perm("instance.leave", initial_setup, default)
-    mk_perm("instance.news", initial_setup, anonymous)
-    mk_perm("instance.show", initial_setup, anonymous)
-    mk_perm("instance.message", initial_setup, admins)
-    mk_perm("milestone.create", initial_setup, supervisor)
-    mk_perm("milestone.delete", initial_setup, supervisor)
-    mk_perm("milestone.edit", initial_setup, supervisor)
-    mk_perm("milestone.show", initial_setup, anonymous)
-    mk_perm("page.create", initial_setup, advisor)
-    mk_perm("page.delete", initial_setup, moderator)
-    mk_perm("page.delete_history", initial_setup, moderator)
-    mk_perm("page.edit", initial_setup, advisor)
-    mk_perm("page.show", initial_setup, anonymous)
-    mk_perm("page.view", initial_setup, anonymous)
-    mk_perm("poll.create", initial_setup, moderator)
-    mk_perm("poll.delete", initial_setup, moderator)
-    mk_perm("poll.show", initial_setup, anonymous)
-    mk_perm("proposal.create", initial_setup, advisor)
-    mk_perm("proposal.delete", initial_setup, moderator)
-    mk_perm("proposal.edit", initial_setup, advisor)
-    mk_perm("proposal.show", initial_setup, anonymous)
-    mk_perm("proposal.view", initial_setup, anonymous)
-    mk_perm("tag.create", initial_setup, advisor)
-    mk_perm("tag.delete", initial_setup, advisor)
-    mk_perm("tag.show", initial_setup, anonymous)
-    mk_perm("tag.view", initial_setup, anonymous)
-    mk_perm("user.edit", initial_setup, default)
-    mk_perm("user.manage", initial_setup, admins)
-    mk_perm("user.message", initial_setup, advisor)
-    mk_perm("user.show", initial_setup, anonymous)
-    mk_perm("user.view", initial_setup, anonymous)
-    mk_perm("vote.cast", initial_setup, voter)
-    mk_perm("vote.prohibit", initial_setup, organization)
-    mk_perm("watch.create", initial_setup, observer)
-    mk_perm("watch.delete", initial_setup, observer)
-    mk_perm("watch.show", initial_setup, anonymous)
+    # To simplify initial configuration, we allow to define permission
+    # includes, e.g. permissions granted to observers are automatically granted
+    # to advisors and organizations as well. This is resolved recursively.
+    # Note that this applies only to the initial setup.
+
+    def included_groups(group):
+        groups = set([group])
+        for include in perm_includes.get(group, []):
+            groups = groups.union(included_groups(include))
+        return list(groups)
+
+    perm_includes = {
+        anonymous: [observer],
+        observer: [advisor, organization],
+        advisor: [voter],
+        voter: [moderator, addressee],
+        moderator: [supervisor],
+        supervisor: [admins],
+    }
+
+    default_permission_groups = {
+        u'comment.create': advisor,
+        u'comment.delete': moderator,
+        u'comment.edit': advisor,
+        u'comment.show': anonymous,
+        u'comment.view': anonymous,
+        u'delegation.create': voter,
+        u'delegation.delete': voter,
+        u'delegation.show': anonymous,
+        u'delegation.view': anonymous,
+        u'global.admin': admins,
+        u'global.member': admins,
+        u'global.message': admins,
+        u'global.organization': organization,
+        u'global.staticpage': admins,
+        u'instance.admin': supervisor,
+        u'instance.create': admins,
+        u'instance.delete': admins,
+        u'instance.index': anonymous,
+        u'instance.join': default,
+        u'instance.leave': default,
+        u'instance.news': anonymous,
+        u'instance.show': anonymous,
+        u'instance.message': admins,
+        u'milestone.create': supervisor,
+        u'milestone.delete': supervisor,
+        u'milestone.edit': supervisor,
+        u'milestone.show': anonymous,
+        u'page.create': advisor,
+        u'page.delete': moderator,
+        u'page.delete_history': moderator,
+        u'page.edit': advisor,
+        u'page.show': anonymous,
+        u'page.view': anonymous,
+        u'poll.create': moderator,
+        u'poll.delete': moderator,
+        u'poll.show': anonymous,
+        u'proposal.create': advisor,
+        u'proposal.delete': moderator,
+        u'proposal.edit': advisor,
+        u'proposal.show': anonymous,
+        u'proposal.view': anonymous,
+        u'tag.create': advisor,
+        u'tag.delete': advisor,
+        u'tag.show': anonymous,
+        u'tag.view': anonymous,
+        u'user.edit': default,
+        u'user.manage': admins,
+        u'user.message': advisor,
+        u'user.show': anonymous,
+        u'user.view': anonymous,
+        u'vote.cast': voter,
+        u'vote.prohibit': organization,
+        u'watch.create': observer,
+        u'watch.delete': observer,
+        u'watch.show': anonymous,
+    }
+
+    autoupdate = asbool(config.get('adhocracy.autoassign_permissions', 'true'))
+    assign_perms = initial_setup or autoupdate
+
+    for perm_name, group in default_permission_groups.items():
+        new_perm = mk_perm(perm_name)
+        if assign_perms and new_perm is not None:
+            groups = included_groups(group)
+            log.debug("Assigning to groups: %s" % groups)
+            new_perm.groups = included_groups(group)
 
     model.meta.Session.commit()
-    # END PERMISSIONS LIST
-
-    if initial_setup:
-
-        observer.permissions = observer.permissions + anonymous.permissions
-        advisor.permissions = advisor.permissions + observer.permissions
-        voter.permissions = voter.permissions + advisor.permissions
-        moderator.permissions = moderator.permissions + voter.permissions
-        supervisor.permissions = list(set(supervisor.permissions
-                                          + moderator.permissions
-                                          + advisor.permissions))
-        admins.permissions = admins.permissions + supervisor.permissions
-        organization.permissions = list(set(organization.permissions
-                                            + observer.permissions))
-        addressee.permissions = voter.permissions
 
     admin = model.User.find(u"admin")
     if not admin:
