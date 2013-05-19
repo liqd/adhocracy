@@ -220,7 +220,7 @@ class UserController(BaseController):
         else:
             raise Exception('We have no way of authenticating the newly'
                             'created user %s; check adhocracy.login_type' %
-                            credentials['login'])
+                            login)
         credentials = {
             'login': login,
             'password': self.form_result.get("password")
