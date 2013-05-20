@@ -21,6 +21,6 @@ class EventTile():
     text = property(_get_text)
 
 
-def row(event):
+def row(event, **kwargs):
     return render_tile('/event/tiles.html', 'row',
                        EventTile(event), event=event, cached=True)

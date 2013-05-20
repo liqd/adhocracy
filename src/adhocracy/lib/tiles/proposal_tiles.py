@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from pylons import tmpl_context as c
+from adhocracy.lib.helpers.proposal_helper import monitor_clicks
 
 from adhocracy.lib.auth import authorization
 from adhocracy.lib.democracy import Decision
@@ -7,10 +8,13 @@ from adhocracy.lib.tiles.util import render_tile
 from adhocracy.lib.tiles.delegateable_tiles import DelegateableTile
 
 
+
 class ProposalTile(DelegateableTile):
 
-    def __init__(self, proposal):
+    def __init__(self, proposal, loop=None, sort=None):
         self.proposal = proposal
+        self.loop = loop
+        self.sort = sort
         self.__poll = None
         self.__decision = None
         self.__num_principals = None
@@ -50,12 +54,15 @@ class ProposalTile(DelegateableTile):
         return self.__num_principals
 
 
-def row(proposal):
+def row(proposal, **kwargs):
     global_admin = authorization.has('global.admin')
     if not proposal:
         return ""
-    return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal),
-                       proposal=proposal, cached=True,
+    # if adhocracy.monitor_clicks is set, caching must be turned off
+    # otherwise the index of the clicked linked is cached and does not change
+    # with different sorts
+    return render_tile('/proposal/tiles.html', 'row', ProposalTile(proposal, kwargs.get('loop'), kwargs.get('sort')),
+                       proposal=proposal, cached=not monitor_clicks(),
                        badgesglobal_admin=global_admin)
 
 

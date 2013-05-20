@@ -182,7 +182,7 @@ def booth(poll):
                        PollTile(poll), poll=poll, user=c.user, cached=True)
 
 
-def row(poll):
+def row(poll, **kwargs):
     return render_tile('/poll/tiles.html', 'row',
                        PollTile(poll), poll=poll, user=c.user, cached=True)
 

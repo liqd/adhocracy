@@ -46,7 +46,7 @@ class CommentTile(BaseTile):
         return self.score <= -1
 
 
-def row(comment):
+def row(comment, **kwargs):
     return render_tile('/comment/tiles.html', 'row', CommentTile(comment),
                        comment=comment)
 

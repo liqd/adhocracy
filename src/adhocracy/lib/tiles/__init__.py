@@ -21,13 +21,13 @@ import user_tiles as user
 log = logging.getLogger(__name__)
 
 
-def dispatch_row_with_comments(entity):
+def dispatch_row_with_comments(entity, **kwargs):
     if isinstance(entity, model.Comment):
         return comment.row(entity)
     return dispatch_row(entity)
 
 
-def dispatch_row(entity):
+def dispatch_row(entity, **kwargs):
     if isinstance(entity, model.User):
         return user.row(entity)
     elif isinstance(entity, model.Instance):

@@ -7,7 +7,7 @@ class TagTile(BaseTile):
         self.tag = tag
 
 
-def row(tag):
+def row(tag, **kwargs):
     return render_tile('/tag/tiles.html', 'row', TagTile(tag),
                        tag=tag, cached=True)
 

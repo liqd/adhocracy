@@ -23,6 +23,8 @@ from adhocracy.lib.queue import update_entity
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
+from urlparse import urlparse, urlunparse, parse_qs
+from urllib import urlencode
 
 import adhocracy.lib.text as text
 
@@ -295,6 +297,18 @@ class ProposalController(BaseController):
 
     @RequireInstance
     def show(self, id, format='html'):
+        if h.proposal.monitor_clicks() and request.params.get('monitor_clicks_index'):
+            #remove monitor_clicks_* params from query string
+            parts = urlparse(request.url)
+            query = parse_qs(parts.query, keep_blank_values=True)
+            del query['monitor_clicks_index']
+            del query['monitor_clicks_sort']
+            # join URL path, params, altered query, fragment
+            relative_url = urlunparse( ('', '', parts.path, parts.params, urlencode(query, doseq=True), parts.fragment) )
+            url = h.base_url(relative_url)
+            # redirect to cleaned up URL
+            redirect(url)
+
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)
 

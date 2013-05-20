@@ -21,7 +21,7 @@ def outbound(delegation):
                        user=c.user, cached=True)
 
 
-def row(delegation):
+def row(delegation, **kwargs):
     return render_tile('/delegation/tiles.html', 'row',
                        DelegationTile(delegation), delegation=delegation)
 

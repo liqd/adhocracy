@@ -10,7 +10,7 @@ class PageTile(DelegateableTile):
         DelegateableTile.__init__(self, page)
 
 
-def row(page):
+def row(page, **kwargs):
     return render_tile('/page/tiles.html', 'row', PageTile(page),
                        page=page, cached=True)
 

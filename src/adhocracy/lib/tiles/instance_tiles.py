@@ -58,7 +58,7 @@ class InstanceTile(BaseTile):
         return show_fallback or logo.exists(self.instance.key)
 
 
-def row(instance):
+def row(instance, **kwargs):
     return render_tile('/instance/tiles.html', 'row', InstanceTile(instance),
                        instance=instance, user=c.user, cached=True)
 

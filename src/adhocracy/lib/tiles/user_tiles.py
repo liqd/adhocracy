@@ -69,7 +69,7 @@ class UserTile(BaseTile):
         return ', '.join(translated_names)
 
 
-def row(user):
+def row(user, **kwargs):
     if not user:
         return ""
     return render_tile('/user/tiles.html', 'row', UserTile(user),

@@ -1,5 +1,8 @@
 import cgi
 
+from paste.deploy.converters import asbool
+
+from pylons import config
 from pylons.i18n import _
 
 from adhocracy.lib import cache
@@ -33,3 +36,6 @@ def breadcrumbs(proposal):
     if proposal is not None:
         bc += bc_entity(proposal)
     return bc
+
+def monitor_clicks(config=config):
+    return asbool(config.get('adhocracy.monitor_proposal_clicks', False))

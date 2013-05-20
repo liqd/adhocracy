@@ -78,7 +78,7 @@ class SelectionTile(BaseTile):
         return can.norm.edit(self.selection.page, 'any')
 
 
-def row(selection):
+def row(selection, **kwargs):
     if not selection or selection.is_deleted():
                 return ""
     tile = SelectionTile(selection)

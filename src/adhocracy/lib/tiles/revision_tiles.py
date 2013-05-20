@@ -9,6 +9,6 @@ class RevisionTile(BaseTile):
         self.comment_tile = CommentTile(revision.comment)
 
 
-def row(revision):
+def row(revision, **kwargs):
     return render_tile('/comment/revision_tiles.html', 'row',
                        RevisionTile(revision), revision=revision)

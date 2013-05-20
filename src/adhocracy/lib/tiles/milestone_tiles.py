@@ -20,7 +20,7 @@ class MilestoneTile(BaseTile):
         return ""
 
 
-def row(milestone):
+def row(milestone, **kwargs):
     return render_tile('/milestone/tiles.html', 'row',
                        MilestoneTile(milestone),
                        milestone=milestone, cached=True)
