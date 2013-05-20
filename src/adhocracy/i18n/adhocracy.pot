@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy d9f1b54\n"
+"Project-Id-Version: adhocracy f841764\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-21 00:09+0200\n"
+"POT-Creation-Date: 2013-05-21 00:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1554,7 +1554,11 @@ msgid "disable_all_tutorials"
 msgstr ""
 
 #, python-format
-msgid "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and %(against)s nays"
+msgid "A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and %(against)s nays"
+msgstr ""
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 msgstr ""
 
 msgid "Votes"
