@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 18ebb09\n"
+"Project-Id-Version: adhocracy d9f1b54\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-14 12:48+0200\n"
+"POT-Creation-Date: 2013-05-21 00:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,6 +396,12 @@ msgid "The inclusion of %s has been deleted."
 msgstr ""
 
 msgid "Page not Found"
+msgstr ""
+
+msgid "Shibboleth authentication not enabled"
+msgstr ""
+
+msgid "This URL shouldn't be called directly"
 msgstr ""
 
 msgid "Page does already exist. Select another key or language."
@@ -832,6 +838,9 @@ msgid "most support"
 msgstr ""
 
 msgid "mixed"
+msgstr ""
+
+msgid "controversy"
 msgstr ""
 
 msgid "by date"
@@ -3202,6 +3211,15 @@ msgstr ""
 msgid "compare"
 msgstr ""
 
+msgid "Complete registration"
+msgstr ""
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr ""
+
+msgid "Email:"
+msgstr ""
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr ""
@@ -3526,9 +3544,6 @@ msgid "Email or username:"
 msgstr ""
 
 msgid "Login:"
-msgstr ""
-
-msgid "Email:"
 msgstr ""
 
 msgid "Forgot your password?"
