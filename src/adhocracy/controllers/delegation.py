@@ -33,8 +33,8 @@ class DelegationCreateForm(DelegationNewForm):
 class DelegationController(BaseController):
 
     @RequireInstance
+    @guard.delegation.index()
     def index(self, format='html'):
-        require.delegation.index()
         c.delegations = model.Delegation.all(instance=c.instance)
         if format == 'dot':
             c.users = model.User.all(instance=c.instance)
@@ -46,18 +46,18 @@ class DelegationController(BaseController):
         return self.not_implemented(format=format)
 
     @RequireInstance
+    @guard.delegation.create()
     @validate(schema=DelegationNewForm(), form="bad_request",
               post_only=False, on_get=True)
     def new(self):
-        require.delegation.create()
         c.scope = self.form_result.get('scope')
         return render("/delegation/new.html")
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=["POST"])
+    @guard.delegation.create()
     @validate(schema=DelegationCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
-        require.delegation.create()
         c.scope = self.form_result.get('scope')
         agents = filter(lambda f: f is not None, self.form_result.get('agent'))
         if not len(agents) or agents[0] == c.user:

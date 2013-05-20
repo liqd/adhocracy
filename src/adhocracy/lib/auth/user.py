@@ -14,10 +14,7 @@ def show(check, u):
 
 
 def create(check):
-    check.other('user_logged_in', c.user)
-
-    # previously, there was the following comment:
-    # return not c.user  # has('user.create')
+    check.other('user_logged_in', c.user is not None)
 
 
 def edit(check, u):

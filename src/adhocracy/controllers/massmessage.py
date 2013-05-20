@@ -51,7 +51,7 @@ def _get_options(func):
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=MassmessageForm(), form='new')
     def wrapper(self):
-        allowed_sender_options = self.get_allowed_sender_options(c.user)
+        allowed_sender_options = self._get_allowed_sender_options(c.user)
         sender_email = self.form_result.get('sender_email')
         if ((sender_email not in allowed_sender_options) or
                 (not allowed_sender_options[sender_email]['enabled'])):
@@ -96,7 +96,7 @@ class MassmessageController(BaseController):
     """
 
     @classmethod
-    def get_allowed_instances(cls, user):
+    def _get_allowed_instances(cls, user):
         """
         returns all instances in which the given user has permission to send a
         message to all users
@@ -110,7 +110,7 @@ class MassmessageController(BaseController):
                         and 'instance.message' in m.group.permissions)]
 
     @classmethod
-    def get_allowed_sender_options(cls, user):
+    def _get_allowed_sender_options(cls, user):
         sender_options = {
             'user': {
                 'email': user.email,
@@ -142,16 +142,16 @@ class MassmessageController(BaseController):
         else:
             c.page_instance = InstanceController._get_current_instance(id)
             require.message.create(c.page_instance)
-            c.settings_menu = InstanceController.settings_menu(c.page_instance,
-                                                               'massmessage')
+            c.settings_menu = InstanceController._settings_menu(
+                c.page_instance, 'massmessage')
             template = '/instance/settings_massmessage.html'
 
         defaults = dict(request.params)
         defaults.setdefault('include_footer', 'on')
 
         data = {
-            'instances': self.get_allowed_instances(c.user),
-            'sender_options': self.get_allowed_sender_options(c.user),
+            'instances': self._get_allowed_instances(c.user),
+            'sender_options': self._get_allowed_sender_options(c.user),
             'userbadges': UserBadge.all(instance=c.instance,
                                         include_global=True)
         }
@@ -186,7 +186,8 @@ class MassmessageController(BaseController):
         return render('/massmessage/preview.html', data)
 
     @_get_options
-    def create(self, sender_email, sender_name, subject, body, recipients, include_footer):
+    def create(self, sender_email, sender_name, subject, body, recipients,
+               include_footer):
         message = Message.create(subject,
                                  body,
                                  c.user,

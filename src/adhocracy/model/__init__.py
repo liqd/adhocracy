@@ -7,6 +7,7 @@ import meta
 
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
+from adhocracy.model.shibboleth import Shibboleth, shibboleth_table
 from adhocracy.model.twitter import Twitter, twitter_table
 from adhocracy.model.badge import (
     badge_table,
@@ -206,6 +207,13 @@ mapper(OpenID, openid_table, properties={
     'user': relation(User, lazy=False,
                      primaryjoin=openid_table.c.user_id == user_table.c.id,
                      backref=backref('_openids', cascade='delete'))
+})
+
+
+mapper(Shibboleth, shibboleth_table, properties={
+    'user': relation(User, lazy=False,
+                     primaryjoin=shibboleth_table.c.user_id == user_table.c.id,
+                     backref=backref('_shibboleths', cascade='delete'))
 })
 
 

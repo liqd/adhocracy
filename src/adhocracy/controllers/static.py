@@ -110,6 +110,7 @@ class StaticController(BaseController):
         helpers.flash(_('Page updated'), 'notice')
         return redirect(helpers.base_url('/static/'))
 
+    @guard.perm('static.show')
     def serve(self, key, format='html'):
         page = get_static_page(key)
         if page is None:

@@ -288,6 +288,8 @@ piwik.id =
 # adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
 
 # INSTALL: How can users login?
+# Available options are openid, username+password, email+password, shibboleth
+# Note that shibboleth needs additional configuration
 #adhocracy.login_type = openid,username+password,email+password
 
 # INSTALL: Allow administrators to let users log in from an invitation email
@@ -343,6 +345,10 @@ adhocracy.startpage.proposals.list_length = 0
 
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
+
+# Automatically set new permissions their default value. This should be
+# set to false in restrictive environments.
+# adhocracy.autoassign_permissions = true
 
 
 # Logging configuration

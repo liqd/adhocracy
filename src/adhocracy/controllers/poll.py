@@ -154,7 +154,7 @@ class PollController(BaseController):
         require.poll.show(c.poll)
         decisions = democracy.Decision.for_poll(c.poll)
         if (hasattr(self, 'form_result') and
-                self.form_result.get('result') != None):
+                self.form_result.get('result') is not None):
             result_form = self.form_result.get('result')
             decisions = filter(lambda d: d.result == result_form, decisions)
         c.decisions_pager = pager.scope_decisions(decisions)
@@ -195,4 +195,5 @@ class PollController(BaseController):
         if format is None:
             format = ''
         poll = get_entity_or_abort(model.Poll, id)
+        require.poll.show(poll)
         return tiles.poll.widget(poll, cls=format)

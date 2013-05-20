@@ -290,6 +290,14 @@ class User(meta.Indexable):
             .limit(1).first()
 
     @classmethod
+    def find_by_shibboleth(cls, persistent_id, include_deleted=False):
+        from shibboleth import Shibboleth
+        return cls.all_q(None, include_deleted)\
+            .join(Shibboleth)\
+            .filter(Shibboleth.persistent_id == persistent_id)\
+            .limit(1).first()
+
+    @classmethod
     def find_all(cls, unames, instance_filter=True, include_deleted=False):
         from membership import Membership
         q = meta.Session.query(User)
@@ -398,10 +406,10 @@ class User(meta.Indexable):
 
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
-               openid_identity=None, global_admin=False, display_name=None):
+               openid_identity=None, global_admin=False, display_name=None,
+               shibboleth_persistent_id=None):
         from group import Group
         from membership import Membership
-        from openid import OpenID
 
         import adhocracy.lib.util as util
         if password is None:
@@ -440,8 +448,14 @@ class User(meta.Indexable):
             meta.Session.add(admin_membership)
 
         if openid_identity is not None:
+            from adhocracy.model.openid import OpenID
             openid = OpenID(unicode(openid_identity), user)
             meta.Session.add(openid)
+
+        if shibboleth_persistent_id is not None:
+            from adhocracy.model.shibboleth import Shibboleth
+            shib = Shibboleth(shibboleth_persistent_id, user)
+            meta.Session.add(shib)
 
         meta.Session.flush()
         return user

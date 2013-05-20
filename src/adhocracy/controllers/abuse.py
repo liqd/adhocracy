@@ -8,6 +8,7 @@ from pylons.controllers.util import redirect
 from pylons.i18n import _
 
 from adhocracy.lib import helpers as h
+from adhocracy.lib.auth import guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
@@ -25,6 +26,7 @@ class AbuseReportForm(formencode.Schema):
 
 class AbuseController(BaseController):
 
+    @guard.perm('abuse.report')
     def new(self, format='html', errors={}):
         c.url = request.params.get('url', request.environ.get('HTTP_REFERER'))
         #require.user.message(c.page_user)
@@ -33,6 +35,7 @@ class AbuseController(BaseController):
                                errors=errors, force_defaults=False)
 
     @RequireInternalRequest()
+    @guard.perm('abuse.report')
     def report(self, format='html'):
         try:
             self.form_result = AbuseReportForm().to_python(request.params)
