@@ -322,8 +322,6 @@ def make_map(config):
 
     map.connect('/stats/', controller='stats')
 
-    # API
-    map.connect('/api/{action}', controller='api')
     map.connect('/admin', controller='admin', action="index")
     map.connect('/admin/users/import', controller='admin',
                 action="user_import", conditions=dict(method=['POST']))
