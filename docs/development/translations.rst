@@ -69,8 +69,9 @@ Extract new messages
      (adhocracy)$ git commit adhocracy/i18n/adhocracy.pot \
      > -m 'i18n: extract new messages'
 
-Update the translations
+Add/Update translations
 '''''''''''''''''''''''
+
 1. Go to the transifex project and use the the online translation
    editor to translate and continue with 4.
 
@@ -103,10 +104,12 @@ Update the translations
    This will also show you errors in the ``.po`` files and statistics
    about the translation.
 
-6. Commit the .po and .mo files of the language(s) you translated, e.g.::
+6. If you add a new language, add a line for it in
+   ``src/adhocracy/i18n/__init__.py``.
+
+7. Commit the .po and .mo files of the language(s) you translated, e.g.::
 
      (adhocracy)$ git commit adhocracy/i18n/de' -m 'i18n: ...'
-
 
 Troubleshooting
 '''''''''''''''
