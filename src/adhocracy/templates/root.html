@@ -50,20 +50,11 @@
       <a class="close"></a>
       <div class="contentWrap">
          <div class="register">
-             <p class="patch_description">
-             %if h.allow_user_registration():
-                 ${_('Get an account to participate in the discussion.')}
+             %if config.get('adhocracy.login_style', 'default') == 'alternate':
+                 <%include file="/user/login_form_alternate.html"/>
              %else:
-                 ${_('Log in to participate in the discussion.')}
+                 <%include file="/user/login_form.html"/>
              %endif
-             </p>
-             %if h.allow_user_registration():
-             <a href="${h.base_url('/register')}" 
-                class="button patch_camefrom">${_('Register')}</a> 
-             ${_("or")} 
-             %endif
-             <a href="${h.base_url('/login')}" 
-                class="icon_link more_uppercase patch_camefrom">${_('Log in')}</a>
          </div>
       </div>
     </div>    

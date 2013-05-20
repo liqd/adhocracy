@@ -75,16 +75,22 @@ var adhocracy = adhocracy || {};
         if (came_from === undefined) {
             came_from = window.location.pathname;
         }
-        this.getOverlay().find(".patch_camefrom")
-            .attr('href', function (i, href) {
-                var separator;
-                if (href.indexOf('?') !== -1) {
-                    separator = '&';
-                } else {
-                    separator = '?';
-                }
-                return href + separator + 'came_from=' + came_from;
-            });
+        var patch_camefrom = function (i, val) {
+            if (val === undefined) {
+                return undefined;
+            }
+            var separator;
+            if (val.indexOf('?') !== -1) {
+                separator = '&';
+            } else {
+                separator = '?';
+            }
+            return val + separator + 'came_from=' + came_from;
+        };
+        this.getOverlay().find('.patch_camefrom').attr({
+            'action': patch_camefrom,
+            'href': patch_camefrom
+        });
     };
     adhocracy.overlay.rewriteDescription = function () {
         var description = this.getTrigger().data('description');

@@ -13,11 +13,11 @@ else:
 %>
 
 %if 'shibboleth' in login_types:
-<a href="/shibboleth/request_auth${h.camefrom_querystring()}">Login via Shibboleth</a>
+<a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="patch_camefrom">Login via Shibboleth</a>
 %endif
 
 <div class="form_wrapper">
-  <form name="login" method="POST" action="/perform_login${h.camefrom_querystring()}">
+  <form name="login" method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom">
     <div class="input_wrapper">
       <label>${field_title}
         <input type="${field_type}" name="login" autofocus="autofocus" />
@@ -33,7 +33,7 @@ else:
       <input type="submit" value="${_('Login')}" />
     %if h.allow_user_registration():
         ${_("or")} 
-        <a href="/register${h.camefrom_querystring()}" class="icon_link more_uppercase">
+        <a href="/register${h.camefrom_querystring()}" class="icon_link more_uppercase patch_camefrom">
             ${_("Register new account")|n}</a>
     %endif
     </div>

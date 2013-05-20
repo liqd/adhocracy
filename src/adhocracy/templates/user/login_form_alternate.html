@@ -12,7 +12,7 @@ else:
     field_title = _('My user name:')
     field_type =  'text'
 %>
-<form class="login-alternate" name="login" method="POST" action="/perform_login${h.camefrom_querystring()}">
+<form class="login-alternate patch_camefrom" name="login" method="POST" action="/perform_login${h.camefrom_querystring()}">
   ${h.field_token()|n}
 
   <form:error name="login"></form:error>
@@ -30,7 +30,7 @@ else:
     <span>${_('No, I do not have a password, or I forgot it.')}</span>
   </label>
   <label>
-    <input type="radio" name="have_password" value="true" tabindex="3" />
+    <input type="radio" name="have_password" value="true" tabindex="3" checked="checked" />
     <span>${_('Yes, I do have a password:')}</span></label>
   <input type="password" name="password" tabindex="2" />
   <div class="input_wrapper submit">        
