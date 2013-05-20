@@ -470,7 +470,7 @@ class UserController(BaseController):
             redirect('/')
         else:
             if 'came_from' not in request.params:
-                request.params['came_from'] = h.base_url()
+                request.GET['came_from'] = h.base_url()
             return self._render_loginform()
 
     def _render_loginform(self, errors=None, defaults=None):
