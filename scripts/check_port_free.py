@@ -47,7 +47,7 @@ def _parseIpPort(kernelStr):
         ))
     return ip,port
 
-class NoProcessException(BaseException):
+class NoProcessException(Exception):
     pass
 
 def netstat(includePrograms=True, sourceFiles=_NETSTAT_FILES_TCP):
