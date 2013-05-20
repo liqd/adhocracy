@@ -158,7 +158,7 @@ class OpenidauthController(BaseController):
 
     def connect(self):
         if not openid_login_allowed():
-            ret_abort(_("Connection not allowed, OpenID has been disabled on"
+            ret_abort(_("Connection not allowed, OpenID has been disabled on "
                         "this installation"), code=403)
         require.user.edit(c.user)
         if not c.user:
@@ -170,7 +170,7 @@ class OpenidauthController(BaseController):
     def revoke(self):
         if not openid_login_allowed():
             ret_abort(_("Removal not allowed, OpenID has been disabled on "
-                        "installation"), code=403)
+                        "this installation"), code=403)
         require.user.edit(c.user)
         id = request.params.get('id')
         openid = model.OpenID.by_id(id)
