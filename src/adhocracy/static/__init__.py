@@ -5,39 +5,20 @@ from js.jquery_joyride import joyride
 from js.socialshareprivacy import socialshareprivacy
 
 
-# --[ yaml ]----------------------------------------------------------------
-
-yaml_library = Library('yaml', 'yaml', version="3.2.1")
-yaml_base = Resource(yaml_library, 'core/base.css')
-yaml_print = Resource(yaml_library, 'print/print_draft.css',
-                      depends=[yaml_base])
-yaml = Group([yaml_base, yaml_print])
-
-
 # --[ twitter bootstrap ]---------------------------------------------------
 
 bootstrap_library = Library('bootstrap', 'bootstrap', version="2.1.1")
 bootstrap_js = Resource(bootstrap_library, 'js/bootstrap.js',
                         minified='js/bootstrap.min.js',
                         depends=[jquery])
-bootstrap_css = Resource(bootstrap_library, 'css/bootstrap.css',
-                         minified='css/bootstrap.min.css',
-                         depends=[yaml])  # include it after yaml
-bootstrap = Group([bootstrap_js, bootstrap_css])
+bootstrap = Group([bootstrap_js])
 
 
 # --[ stylesheets ]---------------------------------------------------------
 
 stylesheets_library = Library('stylesheets', 'stylesheets')
-fonts = Resource(stylesheets_library, 'screen/fonts.css',
-                 depends=[yaml, bootstrap_css])
-basemod = Resource(stylesheets_library, 'screen/basemod.css',
-                   depends=[fonts])
-content = Resource(stylesheets_library, 'screen/content.css',
-                   depends=[basemod])
-style = Resource(stylesheets_library, 'style.css',
-                 depends=[content])
-stylesheets = Group([yaml, fonts, basemod, content, style])
+style = Resource(stylesheets_library, 'adhocracy.css')
+stylesheets = Group([style])
 
 
 # --[ jquery.autocomplete ]-------------------------------------------------
