@@ -560,7 +560,20 @@ $(document).ready(function () {
             });
 
             add_to_page_stats("initialsize",{"x": window.innerHeight,
-                    "y": window.innerWidth}); 
+                    "y": window.innerWidth});
+
+        }
+        var page_timings_data = null;
+        var stats_extended = $('body').attr('data-stats-page-performance');
+        if (stats_extended === "enabled") {
+            page_timings_data = {};
+            if(window.performance && window.performance.timing) {
+                for(var timing in window.performance.timing) {
+                    if(typeof(window.performance.timing[timing]) == "number") {
+                        page_timings_data[timing] = window.performance.timing[timing];
+                    }
+                }
+            }
         }
 
         var stats_interval = $('body').data('stats-interval');
@@ -573,9 +586,15 @@ $(document).ready(function () {
             } else {
                 var append_string = "";
             }
-            $.get(page_stats_baseurl + '?page=' + encodeURIComponent(location.href)
-                    + append_string,
-                    null, setOnPageTimeout);
+            var url = page_stats_baseurl
+                              + '?page='
+                              + encodeURIComponent(location.href)
+                              + append_string;
+            if(page_timings_data != null) {
+                url += "&timings=" + JSON.stringify(page_timings_data);
+                page_timings_data = null;
+            }
+            $.get(url, null, setOnPageTimeout);
         };
         var setOnPageTimeout = function() {
             window.setTimeout(sendOnPagePing, stats_interval);
