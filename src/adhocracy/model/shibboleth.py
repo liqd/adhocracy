@@ -15,7 +15,7 @@ shibboleth_table = Table(
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('persistent_id', Unicode(1024), nullable=False, unique=True,
+    Column('persistent_id', Unicode(255), nullable=False, unique=True,
            index=True),
 )
 
