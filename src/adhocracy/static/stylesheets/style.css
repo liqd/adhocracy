@@ -100,3 +100,13 @@ Please define your styles before this section.
 
 
 .staticpages_index tr>td>a {display: block; width: 100%; height: 100%;}
+
+a.ie-message {
+  display: block;
+  line-height: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  background: red;
+}

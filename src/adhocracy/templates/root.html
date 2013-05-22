@@ -15,6 +15,9 @@
       %endif
   </head>
 
+<!--[if lte IE 7]>
+      <a href="http://www.browser-update.org/update.html" class="ie-message">${_('Bitte aktualisieren Sie Ihren Browser (Anleitung)!')}</a>
+<![endif]-->
 
 <body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}"
     %if c.monitor_page_time_interval:
