@@ -1334,6 +1334,9 @@ PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
 PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
 PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
                             description=L_('Age and Support'))
+PROPOSAL_CONTROVERSY = SortOption('-order.proposal.controversy',
+                                  L_('Controversy'),
+                                  func=sorting.proposal_controversy)
 
 
 def get_user_sorts(instance=None, default='ACTIVITY'):
@@ -1370,7 +1373,8 @@ INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
 PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
                                              PROPOSAL_YES_VOTES,
-                                             PROPOSAL_NO_VOTES)],
+                                             PROPOSAL_NO_VOTES,
+                                             PROPOSAL_CONTROVERSY)],
                             [L_('Date'), (NEWEST(old=1,
                                                  label=L_('Newest Proposals')),
                                           NEWEST_COMMENT)],
