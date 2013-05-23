@@ -374,7 +374,6 @@ var adhocracy = adhocracy || {};
 }());
 
 var send_page_timings = function() {
-    var page_stats_baseurl = $('body').data('stats-baseurl');
     var page_timings_data = {};
 
     if(window.performance && window.performance.timing) {
@@ -383,12 +382,10 @@ var send_page_timings = function() {
                 page_timings_data[timing] = window.performance.timing[timing];
             }
         }
-        var url = page_stats_baseurl
-                  + '?page='
-                  + encodeURIComponent(location.href)
-                  + "&timings="
-                  + JSON.stringify(page_timings_data);
-        $.get(url, null);
+        $.get($('body').data('stats-baseurl'),
+                { 'page': location.href,
+                  'timings': JSON.stringify(page_timings_data) },
+                null);
     }
 }
 
