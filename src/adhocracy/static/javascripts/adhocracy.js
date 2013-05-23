@@ -382,10 +382,10 @@ var send_page_timings = function() {
                 page_timings_data[timing] = window.performance.timing[timing];
             }
         }
-        $.get($('body').data('stats-baseurl'),
-                { 'page': location.href,
-                  'timings': JSON.stringify(page_timings_data) },
-                null);
+        $.get($('body').data('stats-baseurl'), {
+                  'page': location.href,
+                  'timings': JSON.stringify(page_timings_data)
+                });
     }
 }
 
