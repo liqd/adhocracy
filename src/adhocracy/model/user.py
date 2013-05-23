@@ -285,7 +285,6 @@ class User(meta.Indexable):
     @classmethod
     def find_by_email(cls, email, include_deleted=False):
         return cls.all_q(None, include_deleted)\
-            .filter(User.email == unicode(email).lower())\
             .filter(func.lower(User.email) == unicode(email).lower())\
             .limit(1).first()
 
