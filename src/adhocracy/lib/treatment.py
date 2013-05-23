@@ -7,10 +7,9 @@ def _iter_assignments_by_source_badge(treatment):
                     for aul in treatment.get_assigned_users()]
 
     for b in treatment.source_badges:
-        all_users = list(b.users)
         current_assignment = [[] for i in range(len(assigned_ids))]
         unassigned = []
-        for u in all_users:
+        for u in b.users:
             for uids, assignment in zip(assigned_ids, current_assignment):
                 if u.id in uids:
                     assignment.append(u)
@@ -26,7 +25,7 @@ def get_assignments_by_source_badge(treatment):
 
 def pick_user_assignments(treatment):
     for source_badge, current_assignment, unassigned in (
-            get_assignments_by_source_badge(treatment)):
+            _iter_assignments_by_source_badge(treatment)):
 
         # Determine how often we should pick from which variants
         possible_assignments = []

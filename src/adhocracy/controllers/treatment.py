@@ -76,7 +76,7 @@ class TreatmentController(BaseController):
                 'variants': current_assignment,
             }
             for source_badge, current_assignment, unassigned in (
-                et_assignments_by_source_badge(treatment))]
+                get_assignments_by_source_badge(treatment))]
 
         data = {
             'assignments': assignments,
