@@ -57,6 +57,9 @@ class BaseController(WSGIController):
         if asbool(config.get('adhocracy.monitor_page_performance', 'False')):
             c.monitor_page_performance = "enabled"
 
+        if asbool(config.get('adhocracy.monitor_pager_clicks', 'False')):
+            c.monitor_pager_clicks = "enabled"
+
         h.add_rss("%s News" % h.site.name(),
                   h.base_url('/feed.rss', None))
         if c.instance:

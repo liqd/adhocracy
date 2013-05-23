@@ -33,6 +33,9 @@
     %if c.monitor_external_links_url:
     data-stats-monitor_external_links_url="${c.monitor_external_links_url}"
     %endif
+    %if c.monitor_pager_clicks:
+    data-stats-pager-clicks="${c.monitor_pager_clicks}"
+    %endif
     >
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
