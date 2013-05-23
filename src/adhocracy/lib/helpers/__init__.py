@@ -41,6 +41,8 @@ from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
+from adhocracy.lib.helpers import treatment_helper as treatment
+
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
 from adhocracy.lib.helpers import feedback_helper as feedback
@@ -236,6 +238,8 @@ def entity_url(entity, **kwargs):
         return tag.url(entity, **kwargs)
     elif isinstance(entity, model.StaticPage):
         return staticpage.url(entity, **kwargs)
+    elif isinstance(entity, model.Treatment):
+        return treatment.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

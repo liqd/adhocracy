@@ -1,0 +1,54 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Treatments")}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.breadcrumbs.generate_breadcrumbs(_("Treatments"))|n}
+</%def>
+
+<h1>${_("Treatments")}</h1>
+
+<table>
+<thead><tr>
+    <th>${_('Treatment')}</th><th>${_('Source Badges')}</th><th>${_('Actions')}</th>
+</tr></thead>
+<tbody>
+%for t in c.treatments:
+    <tr>
+    <th>${t.key}</th>
+    <td>
+    %for b in t.source_badges:
+        <span class="treatment_badge">${b.title}</span>
+    %endfor
+    </td>
+    <td>
+    <form class="inline-form" method="post" action="${h.entity_url(t, member='assign')}">
+        ${h.field_token()|n}
+
+        <input type="submit" value="${_('Assign users')}" />
+    </form>
+
+    <a href="${h.entity_url(t, member='assigned')}">${_('See assigned users')}</a>
+    </td>
+    </tr>
+%endfor
+</tbody>
+</table>
+
+<h2>${_('Create a new treatment')}</h2>
+<form action="" method="POST">
+    ${h.field_token()|n}
+
+    <label>${_('Name:')} <input name="key" required="required" /></label>
+    <label><div>${_('Select users to treat by their badges:')}</div>
+        <form:error name="source_badges"></form:error>
+        ${tiles.badge.badge_selector(c.userbadges, 'source_badges')}
+    </label>
+    <label>${_('Number of variants:')} <input type="number" name="variant_count" value="2" min="2" size="1" /></label>
+
+    <input type="submit" value="${_('Create treatment')}" />
+</form>
+
+
+<h2><a class="static_home" href="/">${_("back to main page")}</a></h2>
