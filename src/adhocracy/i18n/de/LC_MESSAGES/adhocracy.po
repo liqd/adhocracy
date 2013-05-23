@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-21 00:50+0200\n"
-"PO-Revision-Date: 2013-05-20 22:57+0000\n"
-"Last-Translator: phihag <phihag@phihag.de>\n"
+"POT-Creation-Date: 2013-05-23 09:22+0200\n"
+"PO-Revision-Date: 2013-05-23 07:52+0000\n"
+"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1526,6 +1526,9 @@ msgstr "zurücksetzen"
 msgid "Sort:"
 msgstr "Sortieren:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr "Sie benutzen einen veralteten Browser. Klicken Sie hier zum aktualisieren."
+
 msgid "Welcome back!"
 msgstr "Willkommen zurück!"
 
@@ -1541,18 +1544,6 @@ msgstr "Bitte wählen Sie ein sicheres Passwort"
 
 msgid "Set Password"
 msgstr "Passwort setzen"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
-
-msgid "Log in to participate in the discussion."
-msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
-
-msgid "Register"
-msgstr "Registrieren"
-
-msgid "Log in"
-msgstr "Anmelden"
 
 msgid "Join this instance to start contributing."
 msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
@@ -1575,6 +1566,15 @@ msgstr "Profil editieren"
 
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Diese Gruppe ist eingefroren - Bearbeiten oder Hinzufügen von neuen Beiträgen ist nicht möglich."
+
+msgid "Register"
+msgstr "Registrieren"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
+
+msgid "Log in to participate in the discussion."
+msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
 
 msgid ""
 "You need to set an email in your profile in order to contribute to this "

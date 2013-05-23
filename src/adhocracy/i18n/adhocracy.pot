@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy f841764\n"
+"Project-Id-Version: adhocracy 3124e2c\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-21 00:50+0200\n"
+"POT-Creation-Date: 2013-05-23 09:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1479,6 +1479,9 @@ msgstr ""
 msgid "Sort:"
 msgstr ""
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -1493,18 +1496,6 @@ msgid "Please pick a secure password"
 msgstr ""
 
 msgid "Set Password"
-msgstr ""
-
-msgid "Get an account to participate in the discussion."
-msgstr ""
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid "Register"
-msgstr ""
-
-msgid "Log in"
 msgstr ""
 
 msgid "Join this instance to start contributing."
@@ -1527,6 +1518,15 @@ msgid "Edit profile"
 msgstr ""
 
 msgid "This instance has been frozen - you can not edit or post anything."
+msgstr ""
+
+msgid "Register"
+msgstr ""
+
+msgid "Get an account to participate in the discussion."
+msgstr ""
+
+msgid "Log in to participate in the discussion."
 msgstr ""
 
 msgid "You need to set an email in your profile in order to contribute to this instance."
