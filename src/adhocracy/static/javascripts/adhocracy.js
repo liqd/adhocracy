@@ -376,8 +376,31 @@ var adhocracy = adhocracy || {};
         el.attr('class', 'alert alert-' + category);
         el.text(message);
         container.append(el);
-    }; 
+    };
 }());
+
+var send_page_timings = function() {
+    var page_timings_data = {};
+
+    if(window.performance && window.performance.timing) {
+        for(var timing in window.performance.timing) {
+            if(typeof(window.performance.timing[timing]) == "number") {
+                page_timings_data[timing] = window.performance.timing[timing];
+            }
+        }
+        $.get($('body').data('stats-baseurl'), {
+                  'page': location.href,
+                  'timings': JSON.stringify(page_timings_data)
+                });
+    }
+}
+
+$(window).load(function() {
+    var stats_page_performance = $('body').attr('data-stats-page-performance');
+    if (stats_page_performance === "enabled") {
+      window.setTimeout(send_page_timings, 10);
+    }
+});
 
 $(document).ready(function () {
 
@@ -516,7 +539,7 @@ $(document).ready(function () {
                 }
                 page_stats_data.push(event);
             };
-        
+
             var get_path = function(element) {
                 return $(element).parentsUntil('body').andSelf().map(function() {
                     if (this.id) {
@@ -526,7 +549,7 @@ $(document).ready(function () {
                         if (number == -1) {
                             return this.nodeName;
                         } else {
-                            return this.nodeName + '[' + number + ']'; 
+                            return this.nodeName + '[' + number + ']';
                         }
                     }
                 }).get().join('>');
@@ -534,7 +557,7 @@ $(document).ready(function () {
 
             $(document).on("keydown", function(e) {
                 // Anonymize [a-Z][0-9] to prevent recording confidential data
-                if ((e.keyCode >= 65 && e.keyCode <= 90) || 
+                if ((e.keyCode >= 65 && e.keyCode <= 90) ||
                     (e.keyCode >= 48 && e.keyCode <=57)) {
                     add_to_page_stats(e.type);
                 } else {
@@ -566,12 +589,12 @@ $(document).ready(function () {
             });
 
             add_to_page_stats("initialsize",{"x": window.innerHeight,
-                    "y": window.innerWidth}); 
+                    "y": window.innerWidth});
         }
 
         var stats_interval = $('body').data('stats-interval');
         var sendOnPagePing = function() {
-            if (stats_extended) { 
+            if (stats_extended) {
                 var append_string = '&data=' + JSON.stringify(page_stats_data);
                 page_stats_data = new Array();
                 add_to_page_stats("current_size", {"x": window.innerHeight,
