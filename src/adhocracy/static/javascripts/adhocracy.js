@@ -383,19 +383,19 @@ var send_page_timings = function() {
                 page_timings_data[timing] = window.performance.timing[timing];
             }
         }
+        var url = page_stats_baseurl
+                  + '?page='
+                  + encodeURIComponent(location.href)
+                  + "&timings="
+                  + JSON.stringify(page_timings_data);
+        $.get(url, null);
     }
-    var url = page_stats_baseurl
-              + '?page='
-              + encodeURIComponent(location.href)
-              + "&timings="
-              + JSON.stringify(page_timings_data);
-    $.get(url, null);
 }
 
-$(document).load(function() {
+$(window).load(function() {
     var stats_page_performance = $('body').attr('data-stats-page-performance');
     if (stats_page_performance === "enabled") {
-      window.setTimeout(send_page_timings, 500);
+      window.setTimeout(send_page_timings, 10);
     }
 });
 
