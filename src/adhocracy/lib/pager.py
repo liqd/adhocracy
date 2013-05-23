@@ -1422,6 +1422,8 @@ def solr_instance_pager():
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
     extra_filter = {'instance': instance.key}
     sorts = PROPOSAL_SORTS
+    if default_sorting is None:
+        default_sorting = get_def_proposal_sort_order()
     if default_sorting is not None:
         sorts = copy.copy(sorts)
         sorts.default = default_sorting
@@ -1438,6 +1440,13 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
+
+
+def get_def_proposal_sort_order():
+    default_sorting = None
+    if c.user and c.user.proposal_sort_order:
+        default_sorting = c.user.proposal_sort_order
+    return default_sorting
 
 
 INDEX_DATA_FINDERS = [v for v in globals().values() if
