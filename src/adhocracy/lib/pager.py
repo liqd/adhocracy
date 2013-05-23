@@ -275,6 +275,11 @@ def instances(instances):
 
 def proposals(proposals, default_sort=None, **kwargs):
     if default_sort is None:
+        def_sort_id = get_def_proposal_sort_order()
+        if def_sort_id is not None:
+            default_sort = PROPOSAL_SORTS.by_value[def_sort_id].func
+
+    if default_sort is None:
         default_sort = sorting.proposal_mixed
     sorts = {_("newest"): sorting.entity_newest,
              _("newest comment"): sorting.delegateable_latest_comment,
@@ -1322,18 +1327,22 @@ class NamedSort(object):
 
 
 OLDEST = SortOption('+create_time', L_("Oldest"))
-NEWEST = SortOption('-create_time', L_("Newest"))
-NEWEST_COMMENT = SortOption('-order.newestcomment', L_("Newest Comment"))
+NEWEST = SortOption('-create_time', L_("Newest"), func=sorting.entity_newest)
+NEWEST_COMMENT = SortOption('-order.newestcomment', L_("Newest Comment"),
+                            func=sorting.delegateable_latest_comment)
 ACTIVITY = SortOption('-activity', L_("Activity"))
-ALPHA = SortOption('order.title', L_("Alphabetically"))
+ALPHA = SortOption('order.title', L_("Alphabetically"),
+                   func=sorting.delegateable_label)
 PROPOSAL_SUPPORT = SortOption('-order.proposal.support', L_("Most Support"),
-                              description=L_('Yays - nays'))
+                              description=L_('Yays - nays'),
+                              func=sorting.proposal_support)
 PROPOSAL_VOTES = SortOption('-order.proposal.votes', L_("Most Votes"),
                             description=L_('Yays + nays'))
 PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
 PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
 PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
-                            description=L_('Age and Support'))
+                            description=L_('Age and Support'),
+                            func=sorting.proposal_mixed)
 PROPOSAL_CONTROVERSY = SortOption('-order.proposal.controversy',
                                   L_('Controversy'),
                                   func=sorting.proposal_controversy)
