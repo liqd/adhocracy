@@ -226,12 +226,20 @@ class ValidUserBadges(formencode.FancyValidator):
     """ Check for a set of user badges, inputted by ID """
 
     accept_iterator = True
-    if_missing = []
+
+    def __init__(self, not_empty=False):
+        super(formencode.FancyValidator, self).__init__()
+        self.not_empty = not_empty
+        if not not_empty:
+            self.if_missing = []
 
     def _to_python(self, value, state):
         from adhocracy.model import UserBadge
 
         if value is None:
+            if self.not_empty:
+                raise formencode.Invalid(_('No badges selected'), value, state)
+
             return []
 
         if isinstance(value, (str, unicode)):
@@ -239,8 +247,11 @@ class ValidUserBadges(formencode.FancyValidator):
 
         if len(value) != len(set(value)):
             raise formencode.Invalid(
-                _("Duplicates in input set of user badge IDs") % value,
+                _("Duplicates in input set of user badge IDs"),
                 value, state)
+
+        if self.not_empty and not value:
+            raise formencode.Invalid(_('No badges selected'), value, state)
 
         badges = UserBadge.findall_by_ids(value)
         if len(badges) != len(value):

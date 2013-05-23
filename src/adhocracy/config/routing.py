@@ -335,6 +335,17 @@ def make_map(config):
                 controller='admin', action='import_dialog')
     map.connect('/admin/import/do',
                 controller='admin', action='import_do')
+    map.connect('/admin/treatment/',
+                controller='treatment', action='index',
+                conditions={'method': 'GET'},)
+    map.connect('/admin/treatment/',
+                controller='treatment', action='create',
+                conditions={'method': 'POST'},)
+    map.connect('/admin/treatment/{key}/assign',
+                controller='treatment', action='assign',
+                conditions={'method': 'POST'},)
+    map.connect('/admin/treatment/{key}/assigned',
+                controller='treatment', action='assigned')
 
     map.connect('/static/', controller='static', action='index',
                 conditions=dict(method=['GET', 'HEAD']))
