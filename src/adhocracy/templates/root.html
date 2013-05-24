@@ -20,8 +20,8 @@
 <![endif]-->
 
 <body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}"
+    data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
-    data-stats-baseurl="${c.monitor_page_time_url}"
     data-stats-interval="${c.monitor_page_time_interval}"
     %if c.monitor_extended:
     data-stats-extended="${c.monitor_extended}"
@@ -32,6 +32,9 @@
     %endif
     %if c.monitor_external_links_url:
     data-stats-monitor_external_links_url="${c.monitor_external_links_url}"
+    %endif
+    %if c.monitor_pager_clicks:
+    data-stats-pager-clicks="${c.monitor_pager_clicks}"
     %endif
     >
     <div class="overlay" id="overlay-default">

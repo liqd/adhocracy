@@ -263,7 +263,11 @@ param = sorts.pager.sort_param
         %endif
         <ul class="nobullet">
             %for sort in options:
-            <li>
+            <li data-sort-key="${sort.value}"
+                %if sort is selected:
+                class="active_sort"
+                %endif
+            >
                 %if sort is selected:
                 <em>${sort.label}</em>
                 %else:
