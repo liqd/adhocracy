@@ -401,6 +401,7 @@ $(window).load(function() {
         var cookie_val = document.cookie.match(regex);
         if (cookie_val) {
             data.pager_click = decodeURIComponent(cookie_val[1]);
+            // delete the cookie by setting expiration date to the past
             document.cookie = 'click_monitor=x; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
         }
     }
