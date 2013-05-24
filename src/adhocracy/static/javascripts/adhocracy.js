@@ -397,8 +397,7 @@ $(window).load(function() {
     }
 
     if (stats_pager_clicks === "enabled") {
-        var regex = new RegExp('click_monitor=([^;]*)');
-        var cookie_val = document.cookie.match(regex);
+        var cookie_val = document.cookie.match(/click_monitor=([^;]*)/);
         if (cookie_val) {
             data.pager_click = decodeURIComponent(cookie_val[1]);
             // delete the cookie by setting expiration date to the past
