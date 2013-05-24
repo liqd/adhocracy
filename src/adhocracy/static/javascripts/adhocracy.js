@@ -405,7 +405,7 @@ $(window).load(function() {
         }
     }
 
-    if (data.timings || data.pager_click) {
+    if (!$.isEmptyObject(data)) {
         window.setTimeout(function() {
             data.page = location.href;
             $.get($('body').data('stats-baseurl'), data);
