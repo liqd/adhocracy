@@ -20,8 +20,8 @@
 <![endif]-->
 
 <body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}"
+    data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
-    data-stats-baseurl="${c.monitor_page_time_url}"
     data-stats-interval="${c.monitor_page_time_interval}"
     %if c.monitor_extended:
     data-stats-extended="${c.monitor_extended}"
