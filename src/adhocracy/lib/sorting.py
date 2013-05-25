@@ -5,7 +5,6 @@ import math
 import re
 import unicodedata
 
-from adhocracy.lib.event import stats as estats
 from adhocracy.lib.util import timedelta2seconds, datetime2seconds
 
 
@@ -199,11 +198,13 @@ def entity_stable(entities):
 
 
 def instance_activity(instances):
+    from adhocracy.lib.event import stats as estats
     return sorted(instances, key=lambda i: estats.instance_activity(i),
                   reverse=True)
 
 
 def user_activity(instance, users):
+    from adhocracy.lib.event import stats as estats
     return sorted(users, key=lambda u: estats.user_activity(instance, u),
                   reverse=True)
 
