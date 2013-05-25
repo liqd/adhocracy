@@ -707,3 +707,14 @@ class MessageableInstances(formencode.FancyValidator):
                 _('Disallowed instance selected'), value, state)
 
         return value
+
+
+def ProposalSortOrder():
+    from adhocracy.lib.pager import PROPOSAL_SORTS
+    return formencode.validators.OneOf(
+        [''] +
+        [
+            v.value
+            for g in PROPOSAL_SORTS.by_group.values()
+            for v in g
+        ])

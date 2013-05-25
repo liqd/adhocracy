@@ -70,11 +70,7 @@ class UserUpdateForm(formencode.Schema):
                                     if_missing=3)
     email_messages = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
-    proposal_sort_order = validators.OneOf([''] + [
-        v.value
-        for g in PROPOSAL_SORTS.by_group.values()
-        for v in g
-    ])
+    proposal_sort_order = forms.ProposalSortOrder()
 
 
 class UserCodeForm(formencode.Schema):

@@ -13,3 +13,4 @@ from common import ExistingUserName, VariantName, UnusedTitle
 from common import FORBIDDEN_NAMES
 from common import ValidDate
 from common import MessageableInstances
+from common import ProposalSortOrder
