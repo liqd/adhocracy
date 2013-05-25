@@ -15,7 +15,7 @@
 <%block name="main_content">
 
 <div class="form_wrapper">
-  <form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}"autocomplete="off">
+  <form name="settings" class="inplace" method="POST" action="/user/${c.page_user.user_name}" autocomplete="off">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
 
