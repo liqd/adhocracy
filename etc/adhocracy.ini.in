@@ -348,6 +348,8 @@ adhocracy.startpage.proposals.list_length = 0
 # set to false in restrictive environments.
 # adhocracy.autoassign_permissions = true
 
+# Turn on badge-specific UI modifications
+# adhocracy.enable_behavior = True
 
 # Logging configuration
 [loggers]
