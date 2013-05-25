@@ -169,19 +169,9 @@
         <label for="page_size">${_("Hide help messages:")}</label>
         <input type="checkbox" name="no_help" value="true" ${'checked="checked"' if c.page_user.no_help else ''} />
       </div>
-      <label for="proposal_sort_order">${_("Change default sorting order for proposals:")}</label>
-        <select name="proposal_sort_order">
-        % if c.page_user.proposal_sort_order == None:
-          <option selected></option>
-        % endif
-        % for group in c.sorting_orders.groups:
-          <optgroup label="${group}">
-          % for sorting_order in c.sorting_orders.by_group[group]:
-            <option value="${sorting_order.value}" ${'selected' if sorting_order.value == c.page_user.proposal_sort_order else ''}>${sorting_order.label}</option>
-          % endfor
-          </optgroup>
-        % endfor
-        </select>
+      <label>${_("Change default sorting order for proposals:")}
+        ${components.proposal_sort_order('proposal_sort_order', c.sorting_orders, default=c.page_user.proposal_sort_order, include_empty=False)}
+      </label>
     </fieldset>
     <div class="input_wrapper submit">
       ${components.savebox(h.base_url("/user/%s" % c.page_user.user_name))}
