@@ -48,6 +48,14 @@ class Session(dict):
         self._changed = True
         super(Session, self).__delitem__(key)
 
+    def setdefault(self, *args, **kwargs):
+        self._changed = True
+        return super(Session, self).setdefault(*args, **kwargs)
+
+    def pop(self, *args, **kwargs):
+        self._changed = True
+        return super(Session, self).pop(*args, **kwargs)
+
     def _load_from_cookie(self, environ):
         cookie = SimpleCookie(environ.get("HTTP_COOKIE"))
         if not cookie:
