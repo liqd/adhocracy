@@ -125,6 +125,15 @@ ${self.form()}
            value="" />
     %endif
 
+    %if c.badge_type == 'user':
+    %if lib.behavior.behavior_enabled():
+    <h3>Behaviors</h3>
+    <label>${('Default proposal sort order:')}
+        ${components.proposal_sort_order('behavior_proposal_sort_order', c.sorting_orders, include_empty=True)}
+    </label>
+    %endif
+    %endif
+
     <div class="mainbar">
       ${components.savebox(c.base_url, _('Save Badge'))}
     </div>

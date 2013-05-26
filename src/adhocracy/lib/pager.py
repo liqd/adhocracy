@@ -16,6 +16,7 @@ from webob.multidict import MultiDict
 
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
+from adhocracy.lib.behavior import get_behavior
 from adhocracy.lib.helpers import base_url
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.helpers.badge_helper import get_parent_badges
@@ -1459,6 +1460,10 @@ def get_def_proposal_sort_order():
     default_sorting = None
     if c.user and c.user.proposal_sort_order:
         default_sorting = c.user.proposal_sort_order
+    else:
+        bso = get_behavior(c.user, 'proposal_sort_order')
+        if bso:
+            default_sorting = bso
     return default_sorting
 
 
