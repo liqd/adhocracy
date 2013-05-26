@@ -1,0 +1,130 @@
+# test the mediacenter webservice
+import copy
+import pytest
+from webtest import AppError
+
+
+IMAGEDATA_APPSTRUCT = {"filename": u"test_image",
+             "mimetype": u"image/jpeg",
+             "tags": [u"tag1", u"tag2"],
+             "data": u"binary",
+         }
+
+
+def test_images_post_one(root, request):  # pytest public fixture: conftest.py
+    from adhocracy_kotti.mediacenter import images_post
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    request.validated = data
+    result = images_post(request)
+    assert result == {'status': 'succeeded', 'name': u'test_image'}
+    assert root["mediacenter"]["test_image"].tags == [u'tag1', u'tag2']
+    assert root["mediacenter"]["test_image"].size == 6
+
+
+def test_images_post_multiple(root, request):  # pytest public fixture: conftest.py
+    import transaction
+    from adhocracy_kotti.mediacenter import images_post
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    data["tags"] = [u"tag1", u"tag2"]
+    request.validated = data
+    result1 = images_post(request)
+    data["tags"] = [u"tag1"]
+    result2 = images_post(request)
+    data["tags"] = []
+    result3 = images_post(request)
+    transaction.commit()
+    assert result1 == {'status': 'succeeded', 'name': u'test_image'}
+    assert result2 == {'status': 'succeeded', 'name': u'test_image-1'}
+    assert result3 == {'status': 'succeeded', 'name': u'test_image-2'}
+
+
+def test_functional_images_post_valid(testapp, root):  # pytest public fixture: conftest.py
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    testapp.post_json("/images", data)
+    assert "test_image" in root["mediacenter"].keys()
+
+
+def test_functional_images_post_invalid_missing_fields(testapp, root):
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    del data["data"]
+    with pytest.raises(AppError) as err:
+        testapp.post_json("/images", data)
+    assert err.value.args[0].splitlines()[1] ==\
+        u'{"status": "error", "errors": '\
+        u'[{"location": "body", '\
+        u'"name": "data", "description": "data is missing"}]}'
+    assert err.value.args[0].splitlines()[0].startswith(
+        u'Bad response: 400')
+    assert data["filename"] not in root["mediacenter"].keys()
+
+
+def test_images_get(root, request):
+    #TODO Kotti is buggy, test multiple items with the same tag
+    from kotti.resources import Image
+    from adhocracy_kotti import utils
+    from adhocracy_kotti.mediacenter import images_get
+    images = utils.get_image_folder()
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    data["size"] = 6
+    data["tags"] = [u"tag1", u"tag2"]
+    images["test_image"] = Image(**data)
+    data["tags"] = [u"tag3"]
+    images["test_image-1"] = Image(**data)
+    data["tags"] = []
+    images["test_image-2"] = Image(**data)
+
+    request.validated = {"tags": []}
+    result = images_get(request)
+    assert len(result) == 3
+    assert result[1] == {'filename': u'test_image',
+                         'mimetype': u'image/jpeg',
+                         'name': u'test_image-1',
+                         'size': 6,
+                         'tags': [u'tag3']}
+
+
+
+def test_images_get_tags(root, dummy_request):
+    #TODO more more DRY
+    from kotti.resources import Image
+    from adhocracy_kotti.mediacenter import images_get
+    images = root["mediacenter"] = Image(title="mediacenter")
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    data["tags"] = [u"tag1", u"tag2"]
+    images["test_image"] = Image(**data)
+    data["tags"] = [u"tag3"]
+    images["test_image-1"] = Image(**data)
+    data["tags"] = []
+    images["test_image-2"] = Image(**data)
+
+    dummy_request.validated = {"tags": [u"tag2", u"tag1"]}
+    result = images_get(dummy_request)
+    assert len(result) == 1
+    assert isinstance(result[0], dict)
+
+
+def test_image_get(root, request):
+    from kotti.resources import Image
+    from adhocracy_kotti import utils
+    from adhocracy_kotti.mediacenter import image_get
+    images = utils.get_image_folder()
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    images["test_image"] = Image(**data)
+
+    request.validated = {"name": u"test_image", "scale": ""}
+    request.subpath = u""
+    response = image_get(request)
+    assert response.content_type == "image/jpeg"
+
+
+def test_image_get_scale(root, request):
+    from kotti.resources import Image
+    from adhocracy_kotti import utils
+    from adhocracy_kotti.mediacenter import image_get
+    images = utils.get_image_folder()
+    data = copy.deepcopy(IMAGEDATA_APPSTRUCT)
+    images["test_image"] = Image(**data)
+
+    request.validated = {"name": u"test_image", "scale": "large"}
+    response = image_get(request)
+    assert response.content_type == "image/jpeg"

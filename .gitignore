@@ -14,6 +14,8 @@
 *~
 .*~
 .#*
+.cache
+.doctrees
 
 bundestag.ini
 data/*
@@ -25,6 +27,12 @@ bin
 local
 /src/*
 !/src/adhocracy/
+!/src/adhocracy_kotti
+/src/adhocracy_kotti/bin
+/src/adhocracy_kotti/develop-eggs
+/src/adhocracy_kotti/lib
+/src/adhocracy_kotti/parts
+/src/adhocracy_kotti/src
 !/src/adhocracy_kotti_theme
 /lib
 /lib64
