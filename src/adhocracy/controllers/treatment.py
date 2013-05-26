@@ -42,6 +42,7 @@ class TreatmentController(BaseController):
             self.form_result['source_badges'],
             self.form_result['variant_count'],
         )
+        model.meta.Session.commit()
         h.flash(_("Treatment has been created."), 'success')
         return redirect(h.base_url('/admin/treatment/'))
 
