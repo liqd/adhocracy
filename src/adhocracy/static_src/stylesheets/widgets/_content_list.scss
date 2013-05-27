@@ -62,7 +62,7 @@ li.content_box .base {
 
 .tile.event {
     padding: 10px 0 2px 0;
-    /*border-bottom: 1px dotted #cccccc;*/
+    /*border-bottom: 1px dotted $border;*/
     background: url('/images/line_dotted_3.png') repeat-x top left;
 }
 
@@ -76,7 +76,7 @@ li.content_box .base {
     padding: 0 !important;
     font-size: small !important;
     background: none !important;
-    /*color: #666666 !important;*/
+    /*color: $fg1 !important;*/
     font-variant: none !important;
 }
 .event_text li {

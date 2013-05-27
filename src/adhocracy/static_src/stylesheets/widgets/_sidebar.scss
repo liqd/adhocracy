@@ -1,11 +1,11 @@
 .sidebar_box {
-    background: #f4f4f4;
+    background: $bg1;
     padding: 1.5em;
 }
 
 #col3 h3 {
     font-size: 25px;
-    border-bottom: 1px dotted #ccc;
+    border-bottom: 1px dotted $border;
     margin: 0.3em 0;
     padding-bottom: 0.1em;
 }

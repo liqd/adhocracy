@@ -1,5 +1,5 @@
 body {
-    color: #2d3441;
+    color: $black;
     font-family: Arial, sans-serif;
     font-size: 13px;
     line-height: 1.5;
@@ -7,7 +7,7 @@ body {
 
 /* fonts */
 h1, h2, h3, h4, h5, a, legend, .tabnav li a.active, .tabnav li a:hover {
-    color: #446191;
+    color: $primary-color;
 }
 
 h1, h2, h3, h4, h5, h6, legend {
@@ -22,7 +22,7 @@ h2 { font-size: 30px; margin-bottom: 10px; font-weight: normal; }
 h3 { font-size: 25px; margin-bottom: 10px; font-weight: normal; }
 h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
-h6 { font-size: 14px; font-weight: normal; color: #666; }
+h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
 p {
     margin-bottom: 20px;
@@ -59,12 +59,12 @@ table td.line_number {
   width: 20px;
   padding-right: 10px;
   text-align: right;
-  color: #666;
+  color: $fg1;
   line-height: 1.5em;
 }
 
 table td.line_text {
-  color: #000;
+  color: $black;
   text-align: bottom;
   font-family: Menlo, Monaco, 'Courier New', monospace;
 }
@@ -97,5 +97,5 @@ a.follow:hover {
 }
 
 .pro, .con { font-size: 14px; }
-.pro, ins { color: darkgreen; }
-.con, del, .countdown.highlight { color: darkred; }
+.pro, ins { color: $green; }
+.con, del, .countdown.highlight { color: $red; }

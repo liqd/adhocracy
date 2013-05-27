@@ -34,7 +34,7 @@ form div.prototype {
 
 form p.info {
     margin-bottom: 10px;
-    color: #666;
+    color: $fg1;
 }
 
 .input_wrapper {
@@ -89,11 +89,11 @@ form .error { border-color: darkred; }
 
 /* comment form */
 .comment_form {
-    background: none #E6E6E6;
+    background: none $bg2;
     padding: 3px;
 }
 form.new_comment {
-    background: none repeat scroll 0 0 #E5E6E8;
+    background: none repeat scroll 0 0 $bg2;
     margin-bottom: 20px;
     padding: 5px;
 }

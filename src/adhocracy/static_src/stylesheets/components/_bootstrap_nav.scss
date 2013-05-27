@@ -85,7 +85,7 @@
 .nav-list > .active > a:focus {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  background-color: #0088cc;
+  background-color: $primary-color;
 }
 .nav-list [class^="icon-"],
 .nav-list [class*=" icon-"] {
@@ -168,7 +168,7 @@
 .nav-pills > .active > a:hover,
 .nav-pills > .active > a:focus {
   color: #ffffff;
-  background-color: #0088cc;
+  background-color: $primary-color;
 }
 .nav-stacked > li {
   float: none;
@@ -223,8 +223,8 @@
   border-radius: 6px;
 }
 .nav .dropdown-toggle .caret {
-  border-top-color: #0088cc;
-  border-bottom-color: #0088cc;
+  border-top-color: $primary-color;
+  border-bottom-color: $primary-color;
   margin-top: 6px;
 }
 .nav .dropdown-toggle:hover .caret,

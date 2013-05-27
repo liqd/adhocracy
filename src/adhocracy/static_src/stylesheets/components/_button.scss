@@ -145,7 +145,7 @@ a.follow_paper, div.skip_follow {
 
 a.follow_paper {
     background: url('/images/sprite_buttons.png') no-repeat 0 -1px;
-    color: #2D3441;
+    color: $black;
 }
 
 a.follow_paper:hover {
@@ -175,7 +175,7 @@ a.button.delegate {
 
 a.button.delegate {
     background: url('/images/sprite_buttons.png') no-repeat -35px -1px;
-    color: #2D3441;
+    color: $black;
 }
 
 a.button.delegate:hover {

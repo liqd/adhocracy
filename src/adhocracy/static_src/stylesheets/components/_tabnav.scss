@@ -7,13 +7,13 @@
 .tabnav li a {
     padding: 5px 15px;
     display: block;
-    color: #000;
+    color: $black;
     border-bottom: 1px solid #fff;
 }
 .tabnav li a.active, .tabnav li a:hover {
-    background: #F2F6F6;
+    background: $bg1;
     text-decoration: none;
 
     // not sure where this came from
-    color: #446191;
+    color: $primary-color;
 }

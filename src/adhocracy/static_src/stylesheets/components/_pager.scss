@@ -18,24 +18,24 @@
 
 /* filter / pager */
 .filter h2 {
-  float: left;
-  width: 50%;
+    float: left;
+    width: 50%;
 }
 .filter_box {
-  float: right;
-  text-align: right;
-  color: #666;
-  margin: 0 0 15px 0;
+    float: right;
+    text-align: right;
+    color: $fg1;
+    margin: 0 0 15px 0;
 }
 .filter .filter_box {
-  width: 50%;
-  margin: 15px 0 0 0;
+    width: 50%;
+    margin: 15px 0 0 0;
 }
 .filter_box a.selected {
-  color: #666;
+    color: $fg1;
 }
 .filter_box select {
-  width: auto;
+    width: auto;
 }
 
 .pager {
@@ -50,7 +50,7 @@
     padding: 4px 10px;
     background: #f0f0f0;
     margin: 0 2px;
-    color: #666;
+    color: $fg1;
 }
 .pager a:hover {
     background: url('/images/sprite_buttons.png') repeat-x 0 -201px;

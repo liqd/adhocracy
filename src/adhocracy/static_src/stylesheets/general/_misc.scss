@@ -53,7 +53,7 @@ a.icon_link {
 }
 .register a.link_more_info,
 .register a.link_more_info:hover {
-    color: #446191;
+    color: $primary-color;
 }
 .register a.link_register_now,
 .register a.link_about_info {
@@ -74,7 +74,7 @@ a.icon_link {
 }
 
 .meta, .utility {
-    color: #666;
+    color: $fg1;
     font-size: 11px;
     margin-bottom: 10px;
 }
@@ -123,7 +123,7 @@ Added during template integration
 #stats {
     font-size: 20px;
     text-align: center;
-    border-top: 1px dotted #cccccc;
+    border-top: 1px dotted $border;
     padding-top: 14px;
 }
 
