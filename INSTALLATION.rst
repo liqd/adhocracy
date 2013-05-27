@@ -81,7 +81,7 @@ no other system-packages.
 Compile python and PIL with the included python buildout::
 
     $ cd python
-    $ python boostrap.py
+    $ python bootstrap.py
     $ bin/buildout
     $ cd ..
 
