@@ -18,7 +18,7 @@
 }
 
 .vote_count.neutral {
-    color: #888;
+    color: $button-color;
 }
 .vote_count.negative {
     background-position: 0 -50px;
@@ -29,7 +29,7 @@
 }
 
 .vote_up, .vote_down {
-    border-left: 1px solid #ccc;
+    border-left: 1px solid $border;
     padding: 0 10px;
     height: 14px;
     width: 10px;

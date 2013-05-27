@@ -13,7 +13,7 @@
 .massmessage_filter>div:not(:first-of-type) {
     padding-left: 1em;
     margin-left: 1em;
-    border-left: 1px solid #ddd;
+    border-left: 1px solid $border;
 }
 .massmessage_preview {background: inherit;}
 .massmessage_preview dl {margin: 0;}
@@ -22,6 +22,6 @@
 /* Override bootstrap mis-definitions */
 .massmessage_preview dt, .massmessage_preview dd {line-height: inherit;}
 
-.message_preview_body {background: #ccc; white-space: pre-wrap; margin-bottom: 0.5em;}
+.message_preview_body {background: $bg2; white-space: pre-wrap; margin-bottom: 0.5em;}
 
 .importexport_settings {margin-left: 30px;}

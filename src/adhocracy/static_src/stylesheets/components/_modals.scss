@@ -59,7 +59,7 @@
     border-radius: 10px;
     border: 1px solid #d4d4d4;
     background: #fffde4;
-    box-shadow: 0 0 10px 5px #666;
+    box-shadow: 0 0 10px 5px $fg1;
 }
 
 #overlay-big.overlay {
@@ -91,7 +91,7 @@
 
     width:675px;
     min-height:200px;
-    border:1px solid #666;
+    border:1px solid $fg1;
 
     box-shadow: 0 0 90px #000;
 }

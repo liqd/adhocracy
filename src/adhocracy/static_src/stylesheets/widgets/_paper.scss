@@ -1,12 +1,12 @@
 #paper_box, #selection_box {
-    background: #f2f6f6;
+    background: $bg1;
 }
 #paper_box .paper_header, #paper_box .paper_text, #paper_box .paper_comments, #selection_box .paper_header, #selection_box .paper_text, #selection .paper_comments {
     padding: 20px 20px 0;
     border-bottom: 1px solid #fff;
 }
 #paper_box .paper_text h4, #paper_box .paper_comments h3, #paper_box .paper_comments h4, #selection_box .paper_text h4, #selection_box .paper_comments h3, #selection_box .paper_comments h4 {
-    color: #2d3441;
+    color: $black;
     font-size: 16px;
 }
 #paper_box .paper_comments, #selection_box .paper_comments {
@@ -115,4 +115,4 @@
 .changes_switch span { float: left; }
 .changes_switch .switch_buttons { float: right; }
 
-.inactive.changes_switch { color: #ccc; }
+.inactive.changes_switch { color: $border; }

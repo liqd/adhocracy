@@ -23,7 +23,7 @@
     display: block;
 }
 #subnav li.current a {
-    color: #2D3441;
+    color: $black;
 }
 #subnav li.current {
     background: url('/images/sprite_tab_navigation.png') repeat-x 0 -10px;
@@ -41,7 +41,7 @@
     background: url('/images/sprite_tab_navigation.png') repeat-x 0 -162px;
 }
 #subnav li.settings a {
-    color: #2D3441;
+    color: $black;
     padding: 0 15px;
 }
 #subnav li.settings:hover {
