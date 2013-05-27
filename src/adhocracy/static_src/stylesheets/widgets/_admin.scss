@@ -1,45 +1,38 @@
 /* Permissions table */
-#permissions th.group {
-    vertical-align: bottom;
-    padding-bottom: 15px;
-    vertical-align: bottom;
-
-    p {
-        @include rotate(-75deg);
+#permissions {
+    td {
+        text-align: center;
+    }
+    th.group {
+        vertical-align: bottom;
+        padding-bottom: 15px;
+        p {
+            @include rotate(-75deg);
+        }
     }
 }
 
 .massmessage_filter > div {
     float: left;
 
-    &:not(:first-of-type) {
+    &:not(:first-child) {
         padding-left: 1em;
         margin-left: 1em;
         border-left: 1px solid $border;
     }
 }
-
 .massmessage_preview {
-    background: inherit;
-
-    dl {
-        margin: 0;
-    }
     dt {
         float: left;
         min-width: 5em;
     }
-    dt, dd {
-        margin: 0;
-        /* Override bootstrap mis-definitions */
-        line-height: inherit;
-    }
+    dl, dt, dd {margin: 0;}
 }
-
 .message_preview_body {
     background: $bg2;
     white-space: pre-wrap;
-    margin-bottom: 0.5em;
+    margin: 0.5em 0;
+    padding: 0.5em;
 }
 
 .importexport_settings {
