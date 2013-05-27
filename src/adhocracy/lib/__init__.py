@@ -1,3 +1,4 @@
+import behavior
 import democracy
 import text
 import search

@@ -14,6 +14,7 @@ from adhocracy.forms.common import ValidFileUpload
 from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import ValidateNoCycle
+from adhocracy.forms.common import ProposalSortOrder
 from adhocracy.model import meta
 from adhocracy.model import Badge
 from adhocracy.model import Group
@@ -27,7 +28,9 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.templating import render
+from adhocracy.lib.pager import PROPOSAL_SORTS
 
 
 class BadgeForm(formencode.Schema):
@@ -37,6 +40,8 @@ class BadgeForm(formencode.Schema):
     description = validators.String(max=255)
     color = ValidHTMLColor()
     instance = ValidBadgeInstance()
+    if behavior_enabled():
+        behavior_proposal_sort_order = ProposalSortOrder()
 
 
 class CategoryBadgeForm(BadgeForm):
@@ -314,21 +319,28 @@ class BadgeController(BaseController):
     @guard.instance.any_admin()
     def edit(self, id, errors=None):
         badge = self._get_badge_or_redirect(id)
-        c.badge_type = self._get_badge_type(badge)
-        c.badge_thumbnail = None
-        if getattr(badge, "thumbnail", None):
-            c.badge_thumbnail = h.badge_helper.generate_thumbnail_tag(badge)
-        c.form_type = 'update'
+        data = {
+            'badge_type': self._get_badge_type(badge),
+            'badge_thumbnail': (
+                h.badge_helper.generate_thumbnail_tag(badge)
+                if getattr(badge, "thumbnail", None)
+                else None
+            ),
+            'form_type': 'update',
+            'sorting_orders': PROPOSAL_SORTS,
+        }
         self._set_parent_categories(exclude=badge)
 
         # Plug in current values
         instance_default = badge.instance.key if badge.instance else ''
-        defaults = dict(title=badge.title,
-                        description=badge.description,
-                        color=badge.color,
-                        visible=badge.visible,
-                        display_group=badge.display_group,
-                        instance=instance_default)
+        defaults = dict(
+            title=badge.title,
+            description=badge.description,
+            color=badge.color,
+            visible=badge.visible,
+            display_group=badge.display_group,
+            instance=instance_default,
+            behavior_proposal_sort_order=badge.behavior_proposal_sort_order)
         if isinstance(badge, UserBadge):
             c.groups = Group.all_instance()
             defaults['group'] = badge.group and badge.group.code or ''
@@ -337,7 +349,7 @@ class BadgeController(BaseController):
             defaults['select_child_description'] =\
                 badge.select_child_description
 
-        return htmlfill.render(render(self.form_template),
+        return htmlfill.render(render(self.form_template, data),
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)
@@ -370,6 +382,9 @@ class BadgeController(BaseController):
         badge.description = description
         badge.instance = instance
         badge.display_group = display_group
+        if behavior_enabled():
+            badge.behavior_proposal_sort_order = self.form_result.get(
+                'behavior_proposal_sort_order')
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
