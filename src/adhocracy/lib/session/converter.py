@@ -2,11 +2,20 @@ import base64
 import json
 import hashlib
 import logging
+import pylons.i18n.translation
 
 
 __all__ = ["SignedValueConverter"]
 
 log = logging.getLogger(name=__name__)
+
+
+def _encode_json(o):
+    def default(o):
+        if isinstance(o, pylons.i18n.translation.LazyString):
+            return o.eval()
+        return o
+    return json.dumps(o, default=default)
 
 
 class SignedValueConverter(object):
@@ -18,7 +27,7 @@ class SignedValueConverter(object):
         return getattr(hashlib, u'sha256')(b).hexdigest()
 
     def encode(self, value):
-        enc_value = base64.b64encode(json.dumps(value))
+        enc_value = base64.b64encode(_encode_json(value))
         signature = self._sign(enc_value)
         return signature + u'!' + enc_value
 
