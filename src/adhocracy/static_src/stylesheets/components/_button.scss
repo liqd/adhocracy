@@ -62,7 +62,7 @@ a.button_small {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -250px;
     height: 14px;
     line-height: 14px;
-    border-radius: 7px;
+    @include border-radius(7px);
     overflow: hidden;
     display: inline-block;
     padding: 0 10px;
@@ -73,7 +73,7 @@ a.button_small:hover {
 }
 a.button_small:active, a.button_small.active {
     background-position: 0 -400px;
-    box-shadow: 1px 1px 1px #333 inset;
+    @include box-shadow(1px 1px 1px #333 inset);
 }
 a.button_small.on:hover {
     background-position: 0 -150px;
@@ -90,7 +90,7 @@ a.button_small.off:active, a.button_small.off.active {
 
 .inactive a.button_small {
     background-position: 0 -450px !important;
-    box-shadow: none;
+    @include box-shadow(none);
 }
 
 .show_comments, .new_comment {
@@ -131,7 +131,7 @@ a.show_comments.open:hover:after, a.new_comment.open:hover:after {
 a.follow_paper, div.skip_follow {
     height: 26px;
     line-height: 26px;
-    border-radius: 13px;
+    @include border-radius(13px);
     overflow: hidden;
     display: inline-block;
     font-weight: bold;
@@ -164,7 +164,7 @@ a.follow_paper.active:hover {
 a.button.delegate {
     height: 26px;
     line-height: 26px;
-    border-radius: 13px;
+    @include border-radius(13px);
     overflow: hidden;
     display: inline-block;
     margin: 0 0 20px;

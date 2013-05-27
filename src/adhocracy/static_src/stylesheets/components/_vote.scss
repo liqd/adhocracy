@@ -2,7 +2,7 @@
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -300px;
     height: 14px;
     line-height: 14px;
-    border-radius: 7px;
+    @include border-radius(7px);
     overflow: hidden;
     display: inline-block;
     font-weight: bold;
@@ -41,7 +41,7 @@
 }
 .vote_up:active, .vote_up.active {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -200px;
-    box-shadow: 1px 1px 1px #333 inset;
+    @include box-shadow(1px 1px 1px #333 inset);
 }
 .vote_down:hover {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -50px;
@@ -49,7 +49,7 @@
 }
 .vote_down:active, .vote_down.active {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -100px;
-    box-shadow: 1px 1px 1px #333 inset;
+    @include box-shadow(1px 1px 1px #333 inset);
 }
 .vote_up span {
     background: url('/images/sprite_icons.png') no-repeat -19px -206px;
@@ -74,7 +74,7 @@
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -450px;
     height: 26px;
     line-height: 26px;
-    border-radius: 13px;
+    @include border-radius(13px);
     overflow: hidden;
     display: inline-block;
     margin: 0 0 20px;
@@ -107,7 +107,7 @@
 }
 .vote.big .vote_up:active, .vote.big .vote_up.active {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -550px;
-    box-shadow: 1px 1px 1px #333 inset;
+    @include box-shadow(1px 1px 1px #333 inset);
 }
 .vote.big .vote_down:hover {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -600px;
@@ -115,7 +115,7 @@
 }
 .vote.big .vote_down:active, .vote.big .vote_down.active {
     background: url('/images/sprite_buttons_small.png') repeat-x 0 -650px;
-    box-shadow: 1px 1px 1px #333 inset;
+    @include box-shadow(1px 1px 1px #333 inset);
 }
 .vote.big .vote_up span {
     background: url('/images/sprite_icons.png') no-repeat -15px -401px;
@@ -138,7 +138,7 @@
 .vote.deactivated .vote_up,
 .vote.deactivated .vote_down {
     background-position: 0 -450px !important;
-    box-shadow: none !important;
+    @include box-shadow(none !important);
 }
 .vote.deactivated .vote_up span,
 .vote.deactivated .vote_down span {
