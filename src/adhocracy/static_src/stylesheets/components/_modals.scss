@@ -29,7 +29,7 @@
 .info_box {
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 10px;
+    @include border-radius(10px);
     border: 1px solid #d4d4d4;
     background: #fffde4;
     font-style: italic;
@@ -56,10 +56,10 @@
     /* styling */
     width: 500px;
     padding: 20px;
-    border-radius: 10px;
+    @include border-radius(10px);
     border: 1px solid #d4d4d4;
     background: #fffde4;
-    box-shadow: 0 0 10px 5px $fg1;
+    @include box-shadow(0 0 10px 5px $fg1);
 }
 
 #overlay-big.overlay {
@@ -93,7 +93,7 @@
     min-height:200px;
     border:1px solid $fg1;
 
-    box-shadow: 0 0 90px #000;
+    @include box-shadow(0 0 90px #000);
 }
 
 .info_box .close_button, .overlay a.close {

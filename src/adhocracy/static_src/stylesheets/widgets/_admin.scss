@@ -6,7 +6,7 @@
 }
 
 #permissions th.group p {
-    transform: rotate(-75deg);
+    @include rotate(-75deg);
 }
 
 .massmessage_filter>div {float: left;}
