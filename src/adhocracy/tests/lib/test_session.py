@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from adhocracy.lib.session.converter import SignedValueConverter
 from adhocracy.tests import TestController
 
@@ -8,6 +10,17 @@ class SessionTest(TestController):
         encoded = c.encode({'x': [1]})
         decoded = c.decode(encoded)
         self.assertEqual(decoded, {'x': [1]})
+
+        c2 = SignedValueConverter(b'shh!')
+        encoded2 = c.encode({'x': [1]})
+        self.assertEqual(encoded2, encoded)
+
+    def test_umlauts(self):
+        v = {u'"\'/\\ä↭𝕐': u'"\'/\\ä↭𝕐'}
+        c = SignedValueConverter(u'"\'/\\ä↭𝕐'.encode('utf-8'))
+        encoded = c.encode(v)
+        decoded = c.decode(encoded)
+        self.assertEqual(decoded, v)
 
     # https://github.com/hhucn/adhocracy.hhu_theme/issues/305
     def test_lazystring(self):
