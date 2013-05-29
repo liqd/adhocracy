@@ -380,37 +380,55 @@ var adhocracy = adhocracy || {};
 }());
 
 $(window).load(function() {
-    var stats_page_performance = $('body').data('stats-page-performance');
-    var stats_pager_clicks = $('body').data('stats-pager-clicks');
-    var data = {};
-
-    if (stats_page_performance === "enabled") {
-        var page_timings_data = {};
-        if(window.performance && window.performance.timing) {
-            for(var timing in window.performance.timing) {
-                if(typeof(window.performance.timing[timing]) == "number") {
-                    page_timings_data[timing] = window.performance.timing[timing];
+    monitor = {
+        data: {},
+        data_collectors: {},
+        url: null,
+        send_data: function() {
+            if(monitor.url){
+                for(var data_collector in monitor.data_collectors) {
+                    var result = monitor.data_collectors[data_collector]();
+                    if(result != null)
+                        monitor.data[data_collector] = result;
+                }
+                if (!$.isEmptyObject(monitor.data)) {
+                    monitor.data.page = location.href;
+                    $.get(monitor.url, monitor.data);
                 }
             }
-            data.timings = JSON.stringify(page_timings_data);
         }
+    };
+
+    if ($('body').data('stats-page-performance') === "enabled") {
+        monitor.data_collectors.timings = function() {
+            var page_timings_data = {};
+            if(window.performance && window.performance.timing) {
+                for(var timing in window.performance.timing) {
+                    if(typeof(window.performance.timing[timing]) == "number") {
+                        page_timings_data[timing] = window.performance.timing[timing];
+                    }
+                }
+                return JSON.stringify(page_timings_data);
+            }
+            return null;
+        };
     }
 
-    if (stats_pager_clicks === "enabled") {
-        var cookie_val = document.cookie.match(/click_monitor=([^;]*)/);
-        if (cookie_val) {
-            data.pager_click = decodeURIComponent(cookie_val[1]);
-            // delete the cookie by setting expiration date to the past
-            document.cookie = 'click_monitor=x; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-        }
+    if ($('body').data('stats-pager-clicks') === "enabled") {
+        monitor.data_collectors.pager_click = function(){
+            var cookie_val = document.cookie.match(/click_monitor=([^;]*)/);
+            if (cookie_val) {
+                var pager_click = decodeURIComponent(cookie_val[1]);
+                // delete the cookie by setting expiration date to the past
+                document.cookie = 'click_monitor=x; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+                return pager_click;
+            }
+            return null;
+        };
     }
 
-    if (!$.isEmptyObject(data)) {
-        window.setTimeout(function() {
-            data.page = location.href;
-            $.get($('body').data('stats-baseurl'), data);
-        }, 10);
-    }
+    monitor.url = $('body').data('stats-baseurl');
+    window.setTimeout(monitor.send_data, 10);
 });
 
 $(document).ready(function () {
