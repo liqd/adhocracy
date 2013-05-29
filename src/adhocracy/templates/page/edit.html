@@ -37,7 +37,7 @@
     <label for="text">${_("Text")}</label>
     <textarea tabindex="2" rows="${c.text_rows}" 
               cols="${model.Text.LINE_LENGTH}" 
-              name="text">${c.text.text}</textarea>
+              name="text">${c.text.text if c.text.text is not None else ''}</textarea>
 
 
     %if can.page.manage(c.page):
