@@ -114,31 +114,30 @@ class SelectionController(BaseController):
     def details(self, proposal_id, selection_id, format='html'):
         '''
         '''
-        selection = get_entity_or_abort(model.Selection, selection_id)
+        c.selection = get_entity_or_abort(model.Selection, selection_id)
         require.selection.show(c.selection)
         proposal = get_entity_or_abort(model.Proposal, proposal_id)
-        if selection.proposal is not proposal:
+        if c.selection.proposal is not proposal:
             ret_abort(_('Page not Found'), code=404)
-        c.page = selection.page
-        variant_polls = dict(selection.variant_polls)
-        variant_to_show = selection.selected
+        c.page = c.selection.page
+        variant_polls = dict(c.selection.variant_polls)
+        variant_to_show = c.selection.selected
         if not variant_to_show:
             variant_to_show = model.Text.HEAD
 
         variant_items = PageController._variant_items(c.page,
-                                                      selection=selection)
+                                                      selection=c.selection)
         get_score = lambda item: \
-            selection.variant_poll(item['variant']).tally.score
+            c.selection.variant_poll(item['variant']).tally.score
         c.variant_items = PageController._insert_variant_score_and_sort(
             variant_items, get_score)
 
         c.variant_details = PageController._variant_details(
             c.page, variant_to_show)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
-        c.selection_details = PageController._selection_urls(selection)
+        c.selection_details = PageController._selection_urls(c.selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)
         c.current_variant_poll = variant_polls[variant_to_show]
-        c.selection = selection
         if format == 'overlay':
             return render('/proposal/details.html', overlay=True)
         return render('/proposal/details.html')
