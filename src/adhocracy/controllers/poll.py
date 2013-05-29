@@ -195,5 +195,4 @@ class PollController(BaseController):
         if format is None:
             format = ''
         poll = get_entity_or_abort(model.Poll, id)
-        require.poll.show(poll)
         return tiles.poll.widget(poll, cls=format)
