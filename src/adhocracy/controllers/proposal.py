@@ -93,8 +93,8 @@ class ProposalController(BaseController):
         # FIXME: Add tag filtering again (now solr based)
         # FIXME: Live filtering ignores selected facets.
         c.proposals_pager = pager.solr_proposal_pager(
-                                c.instance,
-                                {'text': query})
+            c.instance,
+            {'text': query})
 
         if format == 'json':
             return render_json(c.proposals_pager)
@@ -205,7 +205,7 @@ class ProposalController(BaseController):
             var_val = forms.VariantName()
             variant = var_val.to_python(self.form_result.get('label'))
             if not can.norm.edit(page, variant) or \
-                    not can.selection.create(proposal):
+               not can.selection.create(proposal):
                 continue
             model.Text.create(page, variant, c.user,
                               page.head.title,
@@ -331,7 +331,7 @@ class ProposalController(BaseController):
             c.monitor_comment_url = '%s?%s' % (
                 h.base_url('/stats/read_comments'),
                 urllib.urlencode({'path':
-                    h.entity_url(c.proposal).encode('utf-8')}))
+                                  h.entity_url(c.proposal).encode('utf-8')}))
         return render("/proposal/show.html")
 
     @RequireInstance
