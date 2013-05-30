@@ -70,7 +70,7 @@ class _Transform(object):
             key_val = getattr(res, self._ID_KEY)
             assert key_val == k, (
                    u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
-                   (self._model_class.__name__, self._ID_KEY, key_val, k))
+                   (self._model_class.__name__, self._ID_KEY, k, key_val))
         return res
 
     def _compute_key(self, o):
