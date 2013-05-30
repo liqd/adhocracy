@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-14 12:48+0200\n"
-"PO-Revision-Date: 2013-05-14 10:48+0000\n"
+"POT-Creation-Date: 2013-05-30 16:06+0200\n"
+"PO-Revision-Date: 2013-05-30 14:07+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -240,13 +240,13 @@ msgid "No OpenID given!"
 msgstr "Er is geen OpenID opgegeven!"
 
 msgid "Connection not allowed, OpenID has been disabled on this installation"
-msgstr "Verbinding niet toegestaan, OpenID is uitgeschakeld op deze installatie"
+msgstr ""
 
 msgid "No OpenID was entered."
 msgstr "Er is geen OpenID ingevuld."
 
 msgid "Removal not allowed, OpenID has been disabled on this installation"
-msgstr "Verwijdering niet toegestaan, OpenID is uitgeschakeld op deze installatie"
+msgstr ""
 
 #, python-format
 msgid "No OpenID with ID '%s' exists."
@@ -416,6 +416,12 @@ msgstr "De opname van %s is verwijderd."
 msgid "Page not Found"
 msgstr "Pagina niet Gevonden"
 
+msgid "Shibboleth authentication not enabled"
+msgstr ""
+
+msgid "This URL shouldn't be called directly"
+msgstr ""
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Pagina bestaat al. Selecteer een andere key of taal."
 
@@ -431,6 +437,19 @@ msgstr "De opgevraagde pagina is niet gevonden"
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Tag \"%s\" is verwijderd van %s \"%s\"."
+
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "Kan entiteit '%s' niet vinden"
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
+msgstr ""
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -644,6 +663,9 @@ msgstr "U mag de algemene badges niet aanpassen"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Er bestaat geen badge met het ID '%s'"
+
+msgid "No badges selected"
+msgstr ""
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Er zijn duplicaten in de ingevoerde set van gebruikersbadge IDs"
@@ -871,6 +893,9 @@ msgstr "meeste steun"
 msgid "mixed"
 msgstr "gemengd"
 
+msgid "controversy"
+msgstr ""
+
 msgid "by date"
 msgstr "op datum"
 
@@ -940,6 +965,9 @@ msgstr "Gemengd"
 msgid "Age and Support"
 msgstr "Leeftijd en Steun"
 
+msgid "Controversy"
+msgstr ""
+
 msgid "Rating"
 msgstr "Beoordeling"
 
@@ -957,10 +985,6 @@ msgstr "Steun"
 
 msgid "Newest Proposals"
 msgstr "Nieuwste Voorstellen"
-
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "Kan entiteit '%s' niet vinden"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sorry, maar het lijkt erop dat u niet de rechten heeft om verder te gaan."
@@ -984,11 +1008,11 @@ msgstr "is tegen"
 
 #, python-format
 msgid "comment on %s"
-msgstr ""
+msgstr "reactie op %s"
 
 #, python-format
 msgid "argument on %s"
-msgstr ""
+msgstr "argument voor %s"
 
 msgid "(Undefined)"
 msgstr "(onbepaald)"
@@ -1312,6 +1336,9 @@ msgstr "Klik om vóór te stemmen"
 msgid "Click to vote con"
 msgstr "Klik om tegen te stemmen"
 
+msgid "Your current vote is already con"
+msgstr ""
+
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Het stemmen is geëindigd. Klik om de lijst met stemmen te zien. "
 
@@ -1508,6 +1535,9 @@ msgstr "reset"
 msgid "Sort:"
 msgstr "Sorteer:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr "Welkom terug!"
 
@@ -1523,18 +1553,6 @@ msgstr "Kies alstublieft een veilig wachtwoord"
 
 msgid "Set Password"
 msgstr "Stel Wachtwoord In"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Maak een account aan om mee te doen aan de discussie."
-
-msgid "Log in to participate in the discussion."
-msgstr "Log in om deel te nemen aan de discussie."
-
-msgid "Register"
-msgstr "Aanmelden"
-
-msgid "Log in"
-msgstr "Inloggen"
 
 msgid "Join this instance to start contributing."
 msgstr "Word lid van deze groep om er aan bij te dragen."
@@ -1557,6 +1575,15 @@ msgstr "Bewerk profiel"
 
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Deze groep is bevroren - u kunt geen aanpassingen maken of nieuwe inhoud plaatsen."
+
+msgid "Register"
+msgstr "Aanmelden"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Maak een account aan om mee te doen aan de discussie."
+
+msgid "Log in to participate in the discussion."
+msgstr "Log in om deel te nemen aan de discussie."
 
 msgid ""
 "You need to set an email in your profile in order to contribute to this "
@@ -1587,9 +1614,13 @@ msgstr "Verberg alle tutorials"
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr "Totaal <a href=\"%(url)s\">%(votes)s Stemmen</a>, waarvan %(for)s voor en %(against)s tegen"
+msgstr ""
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr ""
 
 msgid "Votes"
 msgstr "Stemmen"
@@ -1724,6 +1755,9 @@ msgstr "Statische Pagina's"
 
 msgid "Send an email to users"
 msgstr "Stuur een e-mail naar gebruikers"
+
+msgid "Assign treatment badges"
+msgstr ""
 
 msgid "Site administration"
 msgstr "Site administratie"
@@ -2812,9 +2846,6 @@ msgstr "Reglement inhoud"
 msgid "Tag and classify"
 msgstr "Tags en Eigenschappen"
 
-msgid "Tags to describe the subject"
-msgstr "Tags die het onderwerp beschrijven"
-
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "Het nieuwe reglement wordt ondergebracht in het geselecteerde reglement. "
 
@@ -3313,6 +3344,15 @@ msgstr "bekijk"
 msgid "compare"
 msgstr "vergelijken"
 
+msgid "Complete registration"
+msgstr ""
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr ""
+
+msgid "Email:"
+msgstr "E-mail:"
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr "Bewerk %(key)s (%(langname)s)"
@@ -3407,6 +3447,43 @@ msgstr "%s door %s"
 
 msgid "Compare"
 msgstr "Vergelijken"
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
+msgstr ""
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle leden op deze Adhocracy Server"
@@ -3656,9 +3733,6 @@ msgstr "E-mail of gebruikersnaam:"
 
 msgid "Login:"
 msgstr "Log in:"
-
-msgid "Email:"
-msgstr "E-mail:"
 
 msgid "Forgot your password?"
 msgstr "Wachtwoord vergeten?"

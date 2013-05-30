@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-14 12:48+0200\n"
-"PO-Revision-Date: 2013-05-14 10:48+0000\n"
+"POT-Creation-Date: 2013-05-30 16:06+0200\n"
+"PO-Revision-Date: 2013-05-30 14:07+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -418,6 +418,12 @@ msgstr "Вставка в %s удалена"
 msgid "Page not Found"
 msgstr "Страница не найдена"
 
+msgid "Shibboleth authentication not enabled"
+msgstr ""
+
+msgid "This URL shouldn't be called directly"
+msgstr ""
+
 msgid "Page does already exist. Select another key or language."
 msgstr ""
 
@@ -432,6 +438,19 @@ msgstr "Искомая страница не найдена. "
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr ""
+
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "Невоможно найти объект'%s' "
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
 msgstr ""
 
 msgid ""
@@ -646,6 +665,9 @@ msgstr "Вы не можете редактировать глобальные �
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Не существует ярлыка с ID '%s'."
+
+msgid "No badges selected"
+msgstr ""
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr ""
@@ -873,6 +895,9 @@ msgstr "самые поддерживаемые"
 msgid "mixed"
 msgstr "разное"
 
+msgid "controversy"
+msgstr ""
+
 msgid "by date"
 msgstr "по дням"
 
@@ -942,6 +967,9 @@ msgstr "Смешано"
 msgid "Age and Support"
 msgstr ""
 
+msgid "Controversy"
+msgstr ""
+
 msgid "Rating"
 msgstr "Рейтинг"
 
@@ -959,10 +987,6 @@ msgstr "Поддержка"
 
 msgid "Newest Proposals"
 msgstr "Последние предложения"
-
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "Невоможно найти объект'%s' "
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Извините, но Вам не достает прав для продолжения. "
@@ -1314,6 +1338,9 @@ msgstr "Нажмите чтобы проголосовать \"За\""
 msgid "Click to vote con"
 msgstr "Нажмите чтобы проголосовать \"Против\""
 
+msgid "Your current vote is already con"
+msgstr ""
+
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Голосование закончено. Нажмите чтобы посмотреть список голосования."
 
@@ -1510,6 +1537,9 @@ msgstr ""
 msgid "Sort:"
 msgstr "Сортировка:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -1525,18 +1555,6 @@ msgstr ""
 
 msgid "Set Password"
 msgstr ""
-
-msgid "Get an account to participate in the discussion."
-msgstr "Завести аккаунт для участие в обсуждении"
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid "Register"
-msgstr "Зарегистрироваться"
-
-msgid "Log in"
-msgstr "Войти"
 
 msgid "Join this instance to start contributing."
 msgstr "Присоединиться к организации, чтобы принять в ней участие."
@@ -1558,6 +1576,15 @@ msgid "Edit profile"
 msgstr "Редактировать профиль"
 
 msgid "This instance has been frozen - you can not edit or post anything."
+msgstr ""
+
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Завести аккаунт для участие в обсуждении"
+
+msgid "Log in to participate in the discussion."
 msgstr ""
 
 msgid ""
@@ -1589,9 +1616,13 @@ msgstr ""
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr "Сумма <a href=\"%(url)s\">%(votes)s голосований </a>, из них %(for)s За and %(against)s Против"
+msgstr ""
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr ""
 
 msgid "Votes"
 msgstr "Голоса"
@@ -1725,6 +1756,9 @@ msgid "Static Pages"
 msgstr ""
 
 msgid "Send an email to users"
+msgstr ""
+
+msgid "Assign treatment badges"
 msgstr ""
 
 msgid "Site administration"
@@ -2816,9 +2850,6 @@ msgstr "Новое содержание"
 msgid "Tag and classify"
 msgstr "Внести в теги и классифицировать "
 
-msgid "Tags to describe the subject"
-msgstr "Тег для обозначения темы"
-
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "Новый документ будет классифицирована в соответствии с исходной страницей. "
 
@@ -3318,6 +3349,15 @@ msgstr "посмотреть"
 msgid "compare"
 msgstr "сравнить"
 
+msgid "Complete registration"
+msgstr ""
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr ""
+
+msgid "Email:"
+msgstr ""
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr ""
@@ -3412,6 +3452,43 @@ msgstr "%s от %s"
 
 msgid "Compare"
 msgstr "Сравнить"
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
+msgstr ""
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Все пользователи этого сервера Adhocracy "
@@ -3661,9 +3738,6 @@ msgstr ""
 
 msgid "Login:"
 msgstr "Логин:"
-
-msgid "Email:"
-msgstr ""
 
 msgid "Forgot your password?"
 msgstr ""

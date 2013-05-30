@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-23 09:22+0200\n"
-"PO-Revision-Date: 2013-05-23 07:52+0000\n"
-"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
+"POT-Creation-Date: 2013-05-30 16:06+0200\n"
+"PO-Revision-Date: 2013-05-30 14:12+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -447,6 +447,19 @@ msgstr "Die angeforderte Seite wurde nicht gefunden."
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Tag \"%s\" wurde entfernt von %s \"%s\"."
 
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "'%s' konnte nicht gefunden werden. "
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
+msgstr ""
+
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
 msgstr "Sie wurden abgemeldet, während Sie sich bei Twitter angemeldet hatten. Bitte versuchen Sie es erneut."
@@ -659,6 +672,9 @@ msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Das Badge '%s' existiert nicht."
+
+msgid "No badges selected"
+msgstr "Keine Badges ausgewählt."
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Duplikate bei der Eingabe von Benutzer Badge IDs"
@@ -958,6 +974,9 @@ msgstr "gemischt"
 msgid "Age and Support"
 msgstr "Alter und Unterstützung"
 
+msgid "Controversy"
+msgstr "Kontroverse"
+
 msgid "Rating"
 msgstr "Bewertung"
 
@@ -975,10 +994,6 @@ msgstr "Unterstützung"
 
 msgid "Newest Proposals"
 msgstr "Neueste Vorschläge"
-
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "'%s' konnte nicht gefunden werden. "
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sie scheinen nicht die benötigten Rechte zu haben um fortzufahren."
@@ -1329,6 +1344,9 @@ msgstr "Zugunsten abstimmen"
 
 msgid "Click to vote con"
 msgstr "Dagegen abstimmen"
+
+msgid "Your current vote is already con"
+msgstr "Sie haben bereits mit \"dagegen\" abgestimmt"
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Die Abstimmung ist beendet. Klicken Sie hier für eine Übersicht über die abgegebenen Stimmen"
@@ -1746,6 +1764,9 @@ msgstr "Seiten"
 
 msgid "Send an email to users"
 msgstr "Senden Sie eine E-Mail an Benutzer"
+
+msgid "Assign treatment badges"
+msgstr ""
 
 msgid "Site administration"
 msgstr "Seiteneinstellungen"
@@ -2834,9 +2855,6 @@ msgstr "Inhalt des Beschlusses"
 msgid "Tag and classify"
 msgstr "Tags und Eigenschaften"
 
-msgid "Tags to describe the subject"
-msgstr "Tags um den Inhalt zu beschreiben"
-
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss  eingeordnet."
 
@@ -3438,6 +3456,43 @@ msgstr "%s von %s"
 
 msgid "Compare"
 msgstr "Vergleiche"
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
+msgstr ""
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle Benutzer auf diesem Adhocracy-Server"

@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-14 12:48+0200\n"
-"PO-Revision-Date: 2013-05-14 10:48+0000\n"
+"POT-Creation-Date: 2013-05-30 16:06+0200\n"
+"PO-Revision-Date: 2013-05-30 14:07+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -413,6 +413,12 @@ msgstr "Usunięto implementację %s."
 msgid "Page not Found"
 msgstr "Strona nie została odnaleziona."
 
+msgid "Shibboleth authentication not enabled"
+msgstr ""
+
+msgid "This URL shouldn't be called directly"
+msgstr ""
+
 msgid "Page does already exist. Select another key or language."
 msgstr ""
 
@@ -427,6 +433,19 @@ msgstr "Żądana strona nie została odnaleziona."
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr ""
+
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "Nie udało się odnaleźć %s"
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
 msgstr ""
 
 msgid ""
@@ -641,6 +660,9 @@ msgstr "Nie masz uprawnień, by edytować etykiety globalne."
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Nie istnieje etykieta o numerze %s."
+
+msgid "No badges selected"
+msgstr ""
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr ""
@@ -868,6 +890,9 @@ msgstr "największe wsparcie"
 msgid "mixed"
 msgstr "mieszane"
 
+msgid "controversy"
+msgstr ""
+
 msgid "by date"
 msgstr "według daty"
 
@@ -937,6 +962,9 @@ msgstr "mieszane"
 msgid "Age and Support"
 msgstr "Wiek i poparcie"
 
+msgid "Controversy"
+msgstr ""
+
 msgid "Rating"
 msgstr "Ocena"
 
@@ -954,10 +982,6 @@ msgstr "Poparcie"
 
 msgid "Newest Proposals"
 msgstr "Najnowsze propozycje"
-
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "Nie udało się odnaleźć %s"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Nie masz uprawnień, by kontynuować."
@@ -1309,6 +1333,9 @@ msgstr "Kliknij, by oddać głos \"za\""
 msgid "Click to vote con"
 msgstr "Kliknij, by oddać głos \"przeciw\""
 
+msgid "Your current vote is already con"
+msgstr ""
+
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Głosowanie zakończone. Kliknij, by zobaczyć listę oddanych głosów."
 
@@ -1505,6 +1532,9 @@ msgstr ""
 msgid "Sort:"
 msgstr "Sortuj:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -1520,18 +1550,6 @@ msgstr ""
 
 msgid "Set Password"
 msgstr ""
-
-msgid "Get an account to participate in the discussion."
-msgstr "Zarejestruj się, by wziąć udział w dyskusji."
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid "Register"
-msgstr "Zarejestruj się"
-
-msgid "Log in"
-msgstr "Zaloguj się"
 
 msgid "Join this instance to start contributing."
 msgstr "Dołącz do tej grupy, by się zaangażować."
@@ -1553,6 +1571,15 @@ msgid "Edit profile"
 msgstr ""
 
 msgid "This instance has been frozen - you can not edit or post anything."
+msgstr ""
+
+msgid "Register"
+msgstr "Zarejestruj się"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Zarejestruj się, by wziąć udział w dyskusji."
+
+msgid "Log in to participate in the discussion."
 msgstr ""
 
 msgid ""
@@ -1584,9 +1611,13 @@ msgstr "Wyłącz wszystkie samouczki"
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr "Łącznie <a href=\"%(url)s\">%(votes)s głosów</a>, w tym %(for)s za i %(against)s przeciw."
+msgstr ""
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr ""
 
 msgid "Votes"
 msgstr "Głosy"
@@ -1720,6 +1751,9 @@ msgid "Static Pages"
 msgstr ""
 
 msgid "Send an email to users"
+msgstr ""
+
+msgid "Assign treatment badges"
 msgstr ""
 
 msgid "Site administration"
@@ -2811,9 +2845,6 @@ msgstr "Zawartość dokumentu"
 msgid "Tag and classify"
 msgstr "Tagi i ustawienia"
 
-msgid "Tags to describe the subject"
-msgstr "Tagi opisujące dokument"
-
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "Nowy dokument zostanie skategoryzowany pod wskazanym dokumentem nadrzędnym."
 
@@ -3313,6 +3344,15 @@ msgstr "pokaż"
 msgid "compare"
 msgstr "porównaj"
 
+msgid "Complete registration"
+msgstr ""
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr ""
+
+msgid "Email:"
+msgstr ""
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr ""
@@ -3407,6 +3447,43 @@ msgstr "%s przez %s"
 
 msgid "Compare"
 msgstr "Porównaj"
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
+msgstr ""
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Wszyscy użytkownicy tego serwera Adhocracy"
@@ -3656,9 +3733,6 @@ msgstr ""
 
 msgid "Login:"
 msgstr "Nazwa użytkownika:"
-
-msgid "Email:"
-msgstr ""
 
 msgid "Forgot your password?"
 msgstr ""

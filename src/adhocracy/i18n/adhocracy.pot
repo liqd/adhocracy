@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 3124e2c\n"
+"Project-Id-Version: adhocracy c561bea\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-23 09:22+0200\n"
+"POT-Creation-Date: 2013-05-30 16:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -420,6 +420,19 @@ msgstr ""
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr ""
 
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr ""
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
+msgstr ""
+
 msgid "You have been logged out while authenticating at twitter. Please try again."
 msgstr ""
 
@@ -621,6 +634,9 @@ msgstr ""
 
 #, python-format
 msgid "No Badge ID '%s' exists"
+msgstr ""
+
+msgid "No badges selected"
 msgstr ""
 
 msgid "Duplicates in input set of user badge IDs"
@@ -912,6 +928,9 @@ msgstr ""
 msgid "Age and Support"
 msgstr ""
 
+msgid "Controversy"
+msgstr ""
+
 msgid "Rating"
 msgstr ""
 
@@ -928,10 +947,6 @@ msgid "Support"
 msgstr ""
 
 msgid "Newest Proposals"
-msgstr ""
-
-#, python-format
-msgid "Could not find the entity '%s'"
 msgstr ""
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
@@ -1281,6 +1296,9 @@ msgid "Click to vote pro"
 msgstr ""
 
 msgid "Click to vote con"
+msgstr ""
+
+msgid "Your current vote is already con"
 msgstr ""
 
 msgid "Voting has ended. Click to view the list of votes"
@@ -1691,6 +1709,9 @@ msgid "Static Pages"
 msgstr ""
 
 msgid "Send an email to users"
+msgstr ""
+
+msgid "Assign treatment badges"
 msgstr ""
 
 msgid "Site administration"
@@ -2734,9 +2755,6 @@ msgstr ""
 msgid "Tag and classify"
 msgstr ""
 
-msgid "Tags to describe the subject"
-msgstr ""
-
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr ""
 
@@ -3314,6 +3332,43 @@ msgid "%s by %s"
 msgstr ""
 
 msgid "Compare"
+msgstr ""
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
 msgstr ""
 
 msgid "All Members on this Adhocracy Server"

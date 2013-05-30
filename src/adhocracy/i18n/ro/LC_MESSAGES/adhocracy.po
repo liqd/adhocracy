@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-14 12:48+0200\n"
-"PO-Revision-Date: 2013-05-14 10:48+0000\n"
+"POT-Creation-Date: 2013-05-30 16:06+0200\n"
+"PO-Revision-Date: 2013-05-30 14:07+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -416,6 +416,12 @@ msgstr "Includerea %s a fost stearsa."
 msgid "Page not Found"
 msgstr "Pagina nu a fost gasita."
 
+msgid "Shibboleth authentication not enabled"
+msgstr ""
+
+msgid "This URL shouldn't be called directly"
+msgstr ""
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Pagina deja exista. Selecteaza o alta cheie sau limba."
 
@@ -430,6 +436,19 @@ msgstr "Pagina nu a fost gasita."
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr ""
+
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "Nu am gasit entitatea  '%s'"
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
 msgstr ""
 
 msgid ""
@@ -644,6 +663,9 @@ msgstr "Nu ai permisiunea de a modifica titlurile global."
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Nu exista nici un titlu cu ID-ul '%s'"
+
+msgid "No badges selected"
+msgstr ""
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Duplicate in ID-urile titlurilor introduse"
@@ -871,6 +893,9 @@ msgstr "cele mai sustinute"
 msgid "mixed"
 msgstr "mixt"
 
+msgid "controversy"
+msgstr ""
+
 msgid "by date"
 msgstr "dupa data"
 
@@ -940,6 +965,9 @@ msgstr "Nesortate"
 msgid "Age and Support"
 msgstr "Vechime si sustinere"
 
+msgid "Controversy"
+msgstr ""
+
 msgid "Rating"
 msgstr "Rating"
 
@@ -957,10 +985,6 @@ msgstr "Sustinere"
 
 msgid "Newest Proposals"
 msgstr "Cele mai noi Propuneri"
-
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "Nu am gasit entitatea  '%s'"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Ne pare rau, dar se pare ca nu ai drepturi pentru a continua."
@@ -1312,6 +1336,9 @@ msgstr "Click pentru a vota pentru"
 msgid "Click to vote con"
 msgstr "Click pentru a vota contra"
 
+msgid "Your current vote is already con"
+msgstr ""
+
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Votarea s-a terminat. Click pentru lista de voturi"
 
@@ -1508,6 +1535,9 @@ msgstr "reseteaza"
 msgid "Sort:"
 msgstr "Sortare:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -1523,18 +1553,6 @@ msgstr ""
 
 msgid "Set Password"
 msgstr ""
-
-msgid "Get an account to participate in the discussion."
-msgstr "Fa-ti un cont pentru a participa la discutie."
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid "Register"
-msgstr "Inregistrare"
-
-msgid "Log in"
-msgstr "Logare"
 
 msgid "Join this instance to start contributing."
 msgstr "Alatura-te comunitatii pentru a putea contribui."
@@ -1556,6 +1574,15 @@ msgid "Edit profile"
 msgstr "Eidteaza profil"
 
 msgid "This instance has been frozen - you can not edit or post anything."
+msgstr ""
+
+msgid "Register"
+msgstr "Inregistrare"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Fa-ti un cont pentru a participa la discutie."
+
+msgid "Log in to participate in the discussion."
 msgstr ""
 
 msgid ""
@@ -1587,9 +1614,13 @@ msgstr "Nu mai afisa tutoriale"
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr "Un total <a href=\"%(url)s\">%(votes)s Voturi</a>, din care %(for)s pentru si %(against)s impotriva"
+msgstr ""
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr ""
 
 msgid "Votes"
 msgstr "Voturi"
@@ -1724,6 +1755,9 @@ msgstr "Pagini statice"
 
 msgid "Send an email to users"
 msgstr "Trimite email la utilizatori"
+
+msgid "Assign treatment badges"
+msgstr ""
 
 msgid "Site administration"
 msgstr "Administrare site"
@@ -2814,9 +2848,6 @@ msgstr "Continut document"
 msgid "Tag and classify"
 msgstr "Adauga etichete pentru a clasifica"
 
-msgid "Tags to describe the subject"
-msgstr "Etichete care descriu propunerea"
-
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "Noul document va fi salvat sub documentul initial."
 
@@ -3316,6 +3347,15 @@ msgstr "vizualizeaza"
 msgid "compare"
 msgstr "compara"
 
+msgid "Complete registration"
+msgstr ""
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr ""
+
+msgid "Email:"
+msgstr "Email:"
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr ""
@@ -3410,6 +3450,43 @@ msgstr "%s de %s"
 
 msgid "Compare"
 msgstr "Compara"
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
+msgstr ""
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Toti membrii acestui Server Adhocracy"
@@ -3659,9 +3736,6 @@ msgstr "Email sau nume utilizator:"
 
 msgid "Login:"
 msgstr "Login:"
-
-msgid "Email:"
-msgstr "Email:"
 
 msgid "Forgot your password?"
 msgstr ""
