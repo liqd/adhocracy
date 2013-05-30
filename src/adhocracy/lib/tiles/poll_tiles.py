@@ -25,7 +25,7 @@ action_class = {(model.Vote.YES, model.Vote.YES):
                      lambda: _('Click to change you vote to neutral')),
                 (model.Vote.NO, model.Vote.NO):
                     ('vote_down active disabled',
-                     lambda: _('Your current vote is already pro'))}
+                     lambda: _('Your current vote is already con'))}
 
 
 class PollTile(BaseTile):
