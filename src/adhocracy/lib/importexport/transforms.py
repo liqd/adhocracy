@@ -47,7 +47,8 @@ class _Transform(object):
     * _ID_KEY: The name of the property to be used as key
     * _export(self, obj): A method to export an object to JSON
     * import_all(self, data): The method to import an object from data
-    Instead of import_all, the class can also use the default implementation and define instead:
+    Instead of import_all, the class can also use the default implementation
+    and define instead:
     * _create(data) - Create a new object with the minimum set of properties
     * _modify(obj, data) - Modify an object to have the specified properties
     """
@@ -247,8 +248,8 @@ class InstanceTransform(_ExportOnlyTransform):
             'adhocracy_require_selection': obj.require_selection,
             'adhocracy_is_authenticated': obj.is_authenticated,
             'adhocracy_hide_global_categories': obj.hide_global_categories,
-            'adhocracy_editable_comments_default':
-                obj.editable_comments_default,
+            'adhocracy_editable_comments_default': (
+                obj.editable_comments_default),
             'adhocracy_require_valid_email': obj.require_valid_email,
             'adhocracy_allow_thumbnailbadges': obj.allow_thumbnailbadges,
             'adhocracy_thumbnailbadges_height': obj.thumbnailbadges_height,
@@ -319,7 +320,6 @@ class InstanceTransform(_ExportOnlyTransform):
                                            self._user_transform)
             ptransform.import_all(data.get('proposals', []))
 
-
     def _get_by_key(self, key):
         return self._model_class.find(key)
 
@@ -343,12 +343,13 @@ class ProposalTransform(_ExportOnlyTransform):
             label = data['title']
             desc = data['description']
             o = self._model_class.create(self._instance, label, creator)
-            description = model.Page.create(self._instance,
-                                label,
-                                desc,
-                                creator,
-                                function=model.Page.DESCRIPTION,
-                                formatting=True)
+            description = model.Page.create(
+                self._instance,
+                label,
+                desc,
+                creator,
+                function=model.Page.DESCRIPTION,
+                formatting=True)
             description.parents = [o]
             o.description = description
             return o
