@@ -30,7 +30,7 @@ class Treatment(object):
     @classmethod
     def find(cls, key):
         q = meta.Session.query(cls)
-        q.filter(cls.key == key)
+        q = q.filter(cls.key == key)
         return q.first()
 
     @classmethod
