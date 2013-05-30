@@ -22,7 +22,7 @@ class Treatment(object):
         entry = cls(key, source_badges, variant_count)
         for i in range(variant_count):
             UserBadge.create(title=u'treatment-%s-%s' % (key, i),
-                             color=u'#000', visible=False, description=u'')
+                             color=u'', visible=False, description=u'')
         meta.Session.add(entry)
         meta.Session.flush()
         return entry
