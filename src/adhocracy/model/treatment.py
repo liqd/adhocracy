@@ -50,6 +50,11 @@ class Treatment(object):
     def get_variant_badge(self, variant_id):
         return UserBadge.find('treatment-%s-%s' % (self.key, variant_id))
 
+    def __repr__(self):
+        return (u'<%s.%s(id=%r, key=%r, %r)>' %
+                (self.__module__, type(self).__name__,
+                self.id, self.key, self.variant_count))
+
 
 treatment_source_badges_table = Table(
     'treatment_source_badges', meta.data,
