@@ -185,8 +185,12 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'welcome_code', 'adhocracy_')
         if self._opt_badges:
             if 'badges' in data:
-                o.badges = list(map(self._badge_transform._get_by_key,
-                                    data['badges']))
+                old_badges = o.badges
+                new_badges = map(self._badge_transform._get_by_key,
+                                      data['badges'])
+                for b in new_badges:
+                    if b not in old_badges:
+                        b.assign(o, o)
 
     def _export(self, o):
         res = {}
