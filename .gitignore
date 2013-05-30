@@ -48,3 +48,5 @@ dist
 buildout_current.cfg
 /python
 /.cache
+.sass-cache
+src/adhocracy/static/stylesheets/adhocracy.css
