@@ -67,7 +67,10 @@ class _Transform(object):
         findm = getattr(self._model_class, 'find_by_' + self._ID_KEY)
         res = findm(k)
         if res is not None:
-            assert getattr(res, self._ID_KEY) == k
+            key_val = getattr(res, self._ID_KEY)
+            assert key_val == k, (
+                   u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
+                   (self._model_class.__name__, self._ID_KEY, key_val, k))
         return res
 
     def _compute_key(self, o):
