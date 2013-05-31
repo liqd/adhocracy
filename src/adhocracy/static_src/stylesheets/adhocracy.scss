@@ -6,16 +6,12 @@
 
 // global
 @import "general/utilities";
+@import "general/grid";
 
 // overwrite
 @import "overwrite";
 
 // legacy
-@import "yaml-base";
-@import "yaml-print";
-@import "bootstrap";
-@import "fonts";
-@import "basemod";
 @import "content";
 @import "style";
 @import "openid";
