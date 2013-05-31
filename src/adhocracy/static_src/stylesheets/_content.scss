@@ -142,56 +142,6 @@ ul.papers_list li {
   display: inline;
 }
 
-/* comments */
-ul.comments_list, .comment_wrapper {
-  background: url('/images/gradient_comments.jpg') repeat-y top left #e5e6e8;
-  margin: 0;
-  list-style: none;
-}
-ul.comments_list ul {
-  margin: 0;
-  list-style: none;
-}
-ul.comments_list li, .comment_wrapper .comment {
-  padding: 10px 0 0 20px;
-  border-top: 1px solid #fff;
-  cursor: pointer;
-}
-
-.comment_wrapper .comment {
-  padding: 10px 20px 20px 20px;
-}
-
-.comment_wrapper .comment.empty {
-  padding-top: 20px;
-  font-weight: bold;
-  font-style: italic;
-  color: #999;
-}
-ul.comments_list > li {
-  padding: 10px 20px 0 20px;
-}
-.comment_actions, .paper_actions {
-  padding-top: 10px;
-}
-.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment, .paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment, .paper_actions .participate {
-  float: left;
-  margin-right: 10px;
-  font-size: 11px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.comment_actions .vote_comment {
-  padding-left: 0;
-  padding-top: 1px;
-}
-.comment_actions .utility {
-  float: right;
-}
-.paper_actions .meta {
-  float: right;
-}
-
 /* instance */
 .content_list .logo {
   float: left;
