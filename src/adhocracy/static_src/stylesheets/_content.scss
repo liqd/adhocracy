@@ -170,56 +170,6 @@ section { margin-bottom: 40px; }
   margin-right: 0;
 }
 
-/* subnavi */
-#subnav {
-  clear: none;
-  height: 36px;
-  font-weight: bold;
-  font-size: 15px;
-  color: #fff;
-  margin: 0px;
-  padding-top: 19px;
-  float: left;
-}
-#subheader.logo #subnav {
-  padding-top: 29px;
-}
-#subnav li {
-  height: 36px;
-  line-height: 36px;
-  background: url('/images/sprite_tab_navigation.png') repeat-x 0 -60px;
-}
-#subnav li a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0 19px;
-  display: block;
-}
-#subnav li.current a {
-  color: #2D3441;
-}
-#subnav li.current {
-  background: url('/images/sprite_tab_navigation.png') repeat-x 0 -10px;
-}
-#subnav li:hover a {
-  color: #fff;
-}
-#subnav li:hover {
-  background: url('/images/sprite_tab_navigation.png') repeat-x 0 -111px;
-}
-#subnav li.settings {
-  font-weight: normal;
-  font-size: 13px;
-  margin-left: 15px;
-  background: url('/images/sprite_tab_navigation.png') repeat-x 0 -162px;
-}
-#subnav li.settings a {
-  color: #2D3441;
-  padding: 0 15px;
-}
-#subnav li.settings:hover {
-  background: url('/images/sprite_tab_navigation.png') repeat-x 0 -213px;
-}
 
 /* tab nav  */
 .tabnav {
