@@ -1,16 +1,3 @@
-.sidebar_box {
-  background: #f8f8f8;
-  padding: 0 15px 1px 22px;
-}
-
-#col3 h3 {
-  font-size: 25px;
-  background: url('/images/line_dotted.gif') repeat-x bottom left;
-  padding-top: 16px;
-  padding-bottom: 5px;
-  margin-left: -2px;
-}
-
 .plus:before {
 font-weight: bold;
 content: "+ ";
@@ -242,13 +229,6 @@ section { margin-bottom: 40px; }
 #sidebar_nav li a .meta {
   color: #fff;
   font-weight: normal;
-}
-
-/* Sidebar content summary */
-
-#col3 summary ol {
-  list-style-type: none;
-  margin-left: 0;
 }
 
 /* papers */
