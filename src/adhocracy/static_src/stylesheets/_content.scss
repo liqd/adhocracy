@@ -174,48 +174,6 @@ section { margin-bottom: 40px; }
   width: auto;
 }
 
-.pager_wrapper .floatbox {
-  padding: 5px 10px;
-  background: url("/images/gradient_form.jpg") repeat-y scroll left top #F3F3F3;
-}
-
-.pager_wrapper .filter_box {
-margin: 0;
-}
-
-.pager_wrapper .sort_group {
-  float: left;
-  padding: 0 2em 0 1em;
-}
-
-.pager_wrapper .hr {
-margin-bottom: 0;
-}
-
-.pager {
-  clear: both;
-  text-align: right;
-  margin: 0 0 15px 0;
-  padding-top: 10px;
-}
-.prev_page, .next_page { display: inline; }
-
-.prev_page a, .next_page a, .prev_page span, .next_page span, .pager a, .pager > span {
-  padding: 4px 10px;
-  background: #f0f0f0;
-  margin: 0 2px;
-  color: #666;
-}
-.pager a:hover {
-  background: url('/images/sprite_buttons.png') repeat-x 0 -201px;
-  color: #fff;
-  text-decoration: none;
-}
-.pager .current, .pager a:active {
-  background: url('/images/sprite_buttons.png') repeat-x 0 -251px;
-  color: #fff;
-}
-
 .full_teaser {
   padding: 0 23px;
 }
