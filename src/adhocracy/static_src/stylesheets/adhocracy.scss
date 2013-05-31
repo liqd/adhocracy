@@ -2,13 +2,20 @@
 @import "compass/css3";
 
 // reset
-@import "compass/reset";
+@import "general/normalize";
 
 // global
 @import "general/utilities";
 @import "general/grid";
 @import "general/fonts";
 @import "general/html5";
+
+// components
+@import "components/bootstrap_forms";
+@import "components/bootstrap_button";
+@import "components/bootstrap_nav";
+@import "components/bootstrap_alert";
+@import "components/bootstrap_pager";
 
 // overwrite
 @import "overwrite";
