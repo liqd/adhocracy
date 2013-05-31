@@ -1,0 +1,114 @@
+#flash_message {
+    background: #fffde4;
+}
+#flash_message .message, #flash_message .confirm, #flash_message .error {
+    padding: 20px 23px;
+    display: block;
+    overflow: hidden;
+}
+#flash_message .message p, #flash_message .error p {
+    margin-bottom: 0;
+}
+#flash_message .message .register {
+    float: right;
+}
+
+#flash_message p.register_msg {
+    line-height: 27px;
+}
+#flash_message .attention-frozen {
+    text-align: center;
+    font-size: 140%;
+    background: #fffbd0;
+    padding: 5px 0;
+}
+
+.info_box .flash_messages {
+    font-weight: bold;
+}
+.info_box {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #d4d4d4;
+    background: #fffde4;
+    font-style: italic;
+    margin-top: 30px;
+}
+.info_box p {
+    margin-bottom: 0;
+}
+.info_box .utility {
+    margin: 10px 0 0 0;
+    text-align: right;
+}
+.info_box.to_hide {
+    position: relative;
+}
+.overlay {
+
+    /* must be initially hidden */
+    display:none;
+
+    /* place overlay on top of other elements */
+    z-index:10000;
+
+    /* styling */
+    width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #d4d4d4;
+    background: #fffde4;
+    box-shadow: 0 0 10px 5px #666;
+}
+
+#overlay-big.overlay {
+    width: 1000px;
+    background-color: #fff;
+}
+
+#overlay-big .contentWrap {
+    width: 100%;
+    height: 100%;
+}
+
+#welcome_message .info_box {
+    margin-left: 23px;
+    margin-right: 23px;
+}
+
+/* the overlayed element */
+.simple_overlay {
+
+    /* must be initially hidden */
+    display:none;
+
+    /* place overlay on top of other elements */
+    z-index:10000;
+
+    /* styling */
+    background-color: #333;
+
+    width:675px;
+    min-height:200px;
+    border:1px solid #666;
+
+    box-shadow: 0 0 90px #000;
+}
+
+.info_box .close_button, .overlay a.close {
+    position: absolute;
+    top: -22px;
+    right: -22px;
+    width: 45px;
+    height: 45px;
+    display: block;
+    background: url('/images/sprite_icons.png') no-repeat center -607px;
+    text-indent: -900em;
+    cursor: pointer;
+    opacity: 1.0;
+}
+.info_box .close_button:hover, .overlay a.close:hover {
+    background-position: center -657px;
+}
+html.js .alert .close { display: block }
