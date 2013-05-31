@@ -51,28 +51,6 @@ a.show_me {
   line-height: 1.5em;
 }
 
-a.button {
-  text-decoration: none;
-  color: #fff;
-  background: url('/images/sprite_buttons.png') repeat-x 0 -200px;
-  height: 35px;
-  line-height: 35px;
-  overflow: hidden;
-  display: inline-block;
-  text-align: center;
-  font-weight: bold;
-  padding: 0 15px;
-}
-a.button:hover {
-  background-position: 0 -250px;
-}
-a.button.highlight {
-  background-position: 0 -300px;
-}
-a.button.highlight:hover {
-  background-position: 0 -350px;
-}
-
 .top_actions {
   padding-bottom: 1em;
 }
@@ -80,33 +58,6 @@ a.button.highlight:hover {
 .register {
   line-height: 27px;
   font-size:13px;
-}
-.register a.button {
-  color: #fff;
-  background-position: 0 -600px;
-  width: 150px;
-  height: 27px;
-  line-height: 27px;
-  float: left;
-  margin-right: 15px;
-  padding: 0;
-}
-.register a.button:hover {
-  background-position: 0 -650px;
-}
-.register a.button.large {
-  color: #fff;
-  background-position: 0 -500px;
-  /* hack: width is normally 240px, but then right-arrow is too far right */
-  width: 220px;
-  height: 27px;
-  line-height: 27px;
-  float: left;
-  margin-right: 15px;
-  padding: 0;
-}
-.register a.button.large:hover {
-  background-position: 0 -551px;
 }
 .register a.link_more_info,
 .register a.link_more_info:hover {
@@ -119,43 +70,6 @@ a.button.highlight:hover {
 .register a.link_register_now:hover,
 .register a.link_about_info:hover {
   background-position: 10px -650px;
-}
-
-a.button_small {
-  text-decoration: none;
-  color: #fff;
-  background: url('/images/sprite_buttons_small.png') repeat-x 0 -250px;
-  height: 14px;
-  line-height: 14px;
-  border-radius: 7px;
-  overflow: hidden;
-  display: inline-block;
-  padding: 0 10px;
-  font-size: 11px;
-}
-a.button_small:hover {
-  background-position: 0 -350px;
-}
-a.button_small:active, a.button_small.active  {
-  background-position: 0 -400px;
-  box-shadow: 1px 1px 1px #333 inset;
-}
-a.button_small.on:hover {
-  background-position: 0 -150px;
-}
-a.button_small.on:active, a.button_small.on.active {
-  background-position: 0 -200px;
-}
-a.button_small.off:hover {
-  background-position: 0 -50px;
-}
-a.button_small.off:active, a.button_small.off.active {
-  background-position: 0 -100px;
-}
-
-.inactive a.button_small {
-  background-position: 0 -450px !important;
-  box-shadow: none;
 }
 
 /* class helper */
@@ -692,7 +606,6 @@ body.logged_in #nav li a {
   text-decoration: none;
 }
 
-
 /* sidebar_nav */
 #sidebar_nav {
   background: url('/images/line_dotted.gif') repeat-x bottom left;
@@ -753,63 +666,6 @@ body.logged_in #nav li a {
 #col3 summary ol {
   list-style-type: none;
   margin-left: 0;
-}
-
-
-/* follow button */
-a.follow_paper, div.skip_follow {
-  height: 26px;
-  line-height: 26px;
-  border-radius: 13px;
-  overflow: hidden;
-  display: inline-block;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 0 20px 0 40px;
-}
-
-.sidebar_box a.follow_paper {
-  margin-top: 20px;
-}
-
-a.follow_paper {
-  background: url('/images/sprite_buttons.png') no-repeat 0 -1px;
-  color: #2D3441;
-}
-
-a.follow_paper:hover {
-  background-position: 0 -52px;
-  text-decoration: none;
-}
-a.follow_paper.active {
-  background-position: 0 -102px;
-}
-a.follow_paper.active:hover {
-  background-position: 0 -152px;
-}
-
-/* delegate button */
-
-a.button.delegate {
-  height: 26px;
-  line-height: 26px;
-  border-radius: 13px;
-  overflow: hidden;
-  display: inline-block;
-  margin: 0 0 20px;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 0 20px;
-}
-
-a.button.delegate {
-  background: url('/images/sprite_buttons.png') no-repeat -35px -1px;
-  color: #2D3441;
-}
-
-a.button.delegate:hover {
-  background-position: -35px -52px;
-  text-decoration: none;
 }
 
 /* vote */
@@ -1090,40 +946,6 @@ ul.comments_list > li {
   float: right;
 }
 
-.show_comments, .new_comment {
-  padding: 0 6px;
-}
-a.show_comments:after, a.new_comment:after {
-  content: "";
-  display: inline-block;
-  height: 10px;
-  width: 10px;
-  background: url('/images/sprite_icons.png') no-repeat -18px -59px;
-}
-.show_comments.open:after, .new_comment.open:after {
-  background-position: -18px -9px;
-}
-a.show_comments:hover, a.new_comment:hover, a.participate {
-  text-decoration: none;
-  color: #fff;
-  background: url('/images/sprite_buttons_small.png') repeat-x 0 -350px;
-  height: 14px;
-  line-height: 14px;
-  border-radius: 7px;
-  overflow: hidden;
-  display: inline-block;
-}
-a.show_comments:active, a.new_comment:active {
-  background-position: 0 -400px;
-  box-shadow: 1px 1px 1px #333 inset;
-}
-a.show_comments:hover:after, a.new_comment:hover:after {
-  background-position: -18px -159px;
-}
-a.show_comments.open:hover:after, a.new_comment.open:hover:after {
-  background-position: -18px -109px;
-}
-
 /* instance */
 .content_list .logo {
   float: left;
@@ -1214,14 +1036,6 @@ margin-bottom: 0;
     -o-transform: rotate(-75deg);
     -ms-transform: rotate(-75deg);
     transform: rotate(-75deg);
-}
-
-/* Button below lists that should left-align with the text inside
- * the list.
- */
-
-.list_button {
-  padding: 10px 10px;
 }
 
 .sp-replacer {
