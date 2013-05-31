@@ -40,13 +40,6 @@ ul.subpages li a:hover, ul.subpages li.current_page_item a, ul.subpages ul.child
 ul.subpages li, ul.subpages ul.children li {
   background: url('/images/line_subnavi.gif') repeat-x top center;
 }
-.submit input, .submit button {
-  background: url("/images/sprite_buttons.png") no-repeat scroll 0 -400px transparent;
-  color: #FFFFFF;
-}
-.submit input:hover, .submit button:hover {
-  background-position: 0 -450px;
-}
 .slider_content {
   background: url('/images/slideshow_text_bg.png');
 }
