@@ -1,0 +1,152 @@
+.vote {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -300px;
+    height: 14px;
+    line-height: 14px;
+    border-radius: 7px;
+    overflow: hidden;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 11px;
+}
+.vote_count, .vote_up, .vote_down {
+    display: inline-block;
+}
+.vote_count {
+    color: #fff;
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
+    padding: 0 5px;
+}
+
+.vote_count.neutral {
+    color: #888;
+}
+.vote_count.negative {
+    background-position: 0 -50px;
+}
+
+.vote_count.neutral {
+    background-position: 0 -300px;
+}
+
+.vote_up, .vote_down {
+    border-left: 1px solid #ccc;
+    padding: 0 10px;
+    height: 14px;
+    width: 10px;
+    display: inline-block;
+}
+.vote_up:hover {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
+    text-decoration: none;
+}
+.vote_up:active, .vote_up.active {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -200px;
+    box-shadow: 1px 1px 1px #333 inset;
+}
+.vote_down:hover {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -50px;
+    text-decoration: none;
+}
+.vote_down:active, .vote_down.active {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -100px;
+    box-shadow: 1px 1px 1px #333 inset;
+}
+.vote_up span {
+    background: url('/images/sprite_icons.png') no-repeat -19px -206px;
+    height: 14px;
+    width: 10px;
+    display: inline-block;
+}
+.vote_up:hover span, .vote_up.active span {
+    background-position: -19px -256px;
+}
+.vote_down span {
+    background: url('/images/sprite_icons.png') no-repeat -19px -306px;
+    height: 14px;
+    width: 10px;
+    display: inline-block;
+}
+.vote_down:hover span, .vote_down.active span {
+    background-position: -19px -356px;
+}
+
+.vote.big {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -450px;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 13px;
+    overflow: hidden;
+    display: inline-block;
+    margin: 0 0 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.vote.big .vote_count {
+    background-position: 0 -450px;
+    padding: 0 10px;
+}
+
+.vote.big .vote_count.positive {
+    background-position: 0 -500px;
+}
+
+.vote.big .vote_count.negative {
+    background-position: 0 -600px;
+}
+
+.vote.big .vote_up, .vote.big .vote_down {
+    padding: 0 15px;
+    height: 26px;
+    width: 15px;
+    display: inline-block;
+}
+.vote.big .vote_up:hover {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -500px;
+    text-decoration: none;
+}
+.vote.big .vote_up:active, .vote.big .vote_up.active {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -550px;
+    box-shadow: 1px 1px 1px #333 inset;
+}
+.vote.big .vote_down:hover {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -600px;
+    text-decoration: none;
+}
+.vote.big .vote_down:active, .vote.big .vote_down.active {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -650px;
+    box-shadow: 1px 1px 1px #333 inset;
+}
+.vote.big .vote_up span {
+    background: url('/images/sprite_icons.png') no-repeat -15px -401px;
+    height: 26px;
+    width: 15px;
+    display: inline-block;
+}
+.vote.big .vote_up:hover span, .vote.big .vote_up.active span {
+    background-position: -15px -451px;
+}
+.vote.big .vote_down span {
+    background: url('/images/sprite_icons.png') no-repeat -15px -551px;
+    height: 26px;
+    width: 15px;
+    display: inline-block;
+}
+.vote.big .vote_down:hover span, .vote.big .vote_down.active span {
+    background-position: -15px -501px;
+}
+.vote.deactivated .vote_up,
+.vote.deactivated .vote_down {
+    background-position: 0 -450px !important;
+    box-shadow: none !important;
+}
+.vote.deactivated .vote_up span,
+.vote.deactivated .vote_down span {
+    background-image: none !important;
+}
+
+.vote_wrapper .or {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 6px
+}
