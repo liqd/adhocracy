@@ -16,6 +16,28 @@
     margin-bottom: 0;
 }
 
+/* filter / pager */
+.filter h2 {
+  float: left;
+  width: 50%;
+}
+.filter_box {
+  float: right;
+  text-align: right;
+  color: #666;
+  margin: 0 0 15px 0;
+}
+.filter .filter_box {
+  width: 50%;
+  margin: 15px 0 0 0;
+}
+.filter_box a.selected {
+  color: #666;
+}
+.filter_box select {
+  width: auto;
+}
+
 .pager {
     clear: both;
     text-align: right;
