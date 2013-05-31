@@ -186,21 +186,6 @@ font-weight: bold;
 margin-bottom: 0;
 }
 
-/* Permissions table */
-
-#permissions th.group { vertical-align: bottom;
-    padding-bottom: 15px;
-    vertical-align: bottom;
-}
-
-#permissions th.group p {
-    -moz-transform: rotate(-75deg);
-    -webkit-transform: rotate(-75deg);
-    -o-transform: rotate(-75deg);
-    -ms-transform: rotate(-75deg);
-    transform: rotate(-75deg);
-}
-
 .sp-replacer {
   margin-bottom: 0.5em;
 }
@@ -290,23 +275,6 @@ iframe {
 }
 
 .languagelist label {margin: 0; padding: 0;}
-
-.massmessage_filter>div {float: left;}
-.massmessage_filter>div:not(:first-of-type) {
-  padding-left: 1em;
-  margin-left: 1em;
-  border-left: 1px solid #ddd;
-}
-.massmessage_preview {background: inherit;}
-.massmessage_preview dl {margin: 0;}
-.massmessage_preview dt {float: left; min-width: 5em;}
-.massmessage_preview dt, .massmessage_preview dd {margin: 0;}
-/* Override bootstrap mis-definitions */
-.massmessage_preview dt, .massmessage_preview dd {line-height: inherit;}
-
-.message_preview_body {background: #ccc; white-space: pre-wrap; margin-bottom: 0.5em;}
-
-.importexport_settings {margin-left: 30px;}
 
 .password-reset-link {
   display: inline-block;
