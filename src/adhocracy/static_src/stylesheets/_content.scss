@@ -1186,27 +1186,6 @@ float: right;
 padding: 0 30px;
 }
 
-/*Tooltips*/
-
-.tooltip {
-  display:none;
-  /*background:transparent url(../img/tooltip/black_arrow.png);*/
-  background: #95b2de;
-  textAlign: left;
-  lineHeight: 1.3em;
-  color: #333;
-  border: 1px solid #e7e5a3;
-  padding: 0.5em 1em;
-}
-.tooltip.bottom {
-  /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
-}
-
-.tooltip.top {
-  /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
-}
-
-
 /* Stats on the front page */
 #stats {
     font-size: 20px;
