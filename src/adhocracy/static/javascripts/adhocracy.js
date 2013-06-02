@@ -380,27 +380,27 @@ var adhocracy = adhocracy || {};
 }());
 
 $(window).load(function() {
-    monitor = {
+    adhocracy.monitor = {
         data: {},
         data_collectors: {},
         url: null,
         send_data: function() {
-            if(monitor.url){
-                for(var data_collector in monitor.data_collectors) {
-                    var result = monitor.data_collectors[data_collector]();
+            if(adhocracy.monitor.url){
+                for(var data_collector in adhocracy.monitor.data_collectors) {
+                    var result = adhocracy.monitor.data_collectors[data_collector]();
                     if(result != null)
-                        monitor.data[data_collector] = result;
+                        adhocracy.monitor.data[data_collector] = result;
                 }
-                if (!$.isEmptyObject(monitor.data)) {
-                    monitor.data.page = location.href;
-                    $.get(monitor.url, monitor.data);
+                if (!$.isEmptyObject(adhocracy.monitor.data)) {
+                    adhocracy.monitor.data.page = location.href;
+                    $.get(adhocracy.monitor.url, adhocracy.monitor.data);
                 }
             }
         }
     };
 
     if ($('body').data('stats-page-performance') === "enabled") {
-        monitor.data_collectors.timings = function() {
+        adhocracy.monitor.data_collectors.timings = function() {
             var page_timings_data = {};
             if(window.performance && window.performance.timing) {
                 for(var timing in window.performance.timing) {
@@ -415,7 +415,7 @@ $(window).load(function() {
     }
 
     if ($('body').data('stats-pager-clicks') === "enabled") {
-        monitor.data_collectors.pager_click = function(){
+        adhocracy.monitor.data_collectors.pager_click = function(){
             var cookie_val = document.cookie.match(/click_monitor=([^;]*)/);
             if (cookie_val) {
                 var pager_click = decodeURIComponent(cookie_val[1]);
@@ -427,8 +427,8 @@ $(window).load(function() {
         };
     }
 
-    monitor.url = $('body').data('stats-baseurl');
-    window.setTimeout(monitor.send_data, 10);
+    adhocracy.monitor.url = $('body').data('stats-baseurl');
+    window.setTimeout(adhocracy.monitor.send_data, 10);
 });
 
 $(document).ready(function () {
