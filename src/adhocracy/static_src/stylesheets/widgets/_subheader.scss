@@ -18,6 +18,22 @@
     overflow: hidden;
     padding-left: 23px;
     float: left;
+
+    img {
+        vertical-align: bottom;
+        margin-right: 10px;
+        max-height: 35px;
+    }
+    h2 {
+        color: #000;
+        font-size: 22px;
+        line-height: 28px;
+        margin-bottom: 0;
+        display: inline;
+    }
+    a:hover {
+        text-decoration: none;
+    }
 }
 
 #instance_settings {
@@ -27,21 +43,4 @@
 
 #subheader.logo #organisation_logo{
     height: 35px;
-}
-
-#organisation_logo img {
-    vertical-align: bottom;
-    margin-right: 10px;
-    max-height: 35px;
-}
-#organisation_logo h2 {
-    color: #000;
-    font-size: 22px;
-    line-height: 28px;
-    margin-bottom: 0;
-    display: inline;
-}
-
-#organisation_logo a:hover {
-    text-decoration: none;
 }

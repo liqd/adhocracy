@@ -6,9 +6,9 @@ a.ie-message {
     color: white;
     text-align: center;
     background: $red;
-}
 
-a.ie-message:hover {
-    color: white;
-    background: $red;
+    &:hover {
+        color: white;
+        background: $red;
+    }
 }

@@ -12,35 +12,37 @@
     color: $fg1;
     position: relative;
     background: url('/images/badge_bg.png') right top no-repeat;
-}
-.abadge:before {
-    content: '\25E4';
-    width: 12px;
-    height: 12px;
-    display: block;
-    position: absolute;
-    right: -1px;
-    bottom: -1px;
-    font-size: 14px;
-    line-height: 10px;
-    color: #bdbdbd;
-}
-.abadge:hover {
-    color: $black;
-    cursor: pointer;
-}
-.abadge.admin:before {
-    color: #f98c8c
-}
-.abadge.author:before {
-    color: #ebd973
-}
-.abadge.user:before {
-    color: #a8d37e
-}
 
-.abadge a:hover {
-    text-decoration: none;
+    &:before {
+        content: '\25E4';
+        width: 12px;
+        height: 12px;
+        display: block;
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+        font-size: 14px;
+        line-height: 10px;
+        color: #bdbdbd;
+    }
+
+    &:hover {
+        color: $black;
+        cursor: pointer;
+    }
+    &.admin:before {
+        color: #f98c8c
+    }
+    &.author:before {
+        color: #ebd973
+    }
+    &.user:before {
+        color: #a8d37e
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
 }
 
 #badge-preview {
@@ -49,6 +51,7 @@
     border-left: 1px dotted $border;
     height: 28px;
 }
+
 .thumbnailbadges {
     float: left;
     margin-top: 8px;

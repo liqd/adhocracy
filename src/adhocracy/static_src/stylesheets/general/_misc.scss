@@ -50,18 +50,19 @@ a.icon_link {
 .register {
     line-height: 27px;
     font-size:13px;
-}
-.register a.link_more_info,
-.register a.link_more_info:hover {
-    color: $primary-color;
-}
-.register a.link_register_now,
-.register a.link_about_info {
-    background-position: 10px -600px;
-}
-.register a.link_register_now:hover,
-.register a.link_about_info:hover {
-    background-position: 10px -650px;
+
+    a.link_more_info,
+    a.link_more_info:hover {
+        color: $primary-color;
+    }
+    a.link_register_now,
+    a.link_about_info {
+        background-position: 10px -600px;
+
+        &:hover {
+            background-position: 10px -650px;
+        }
+    }
 }
 
 /* class helper */

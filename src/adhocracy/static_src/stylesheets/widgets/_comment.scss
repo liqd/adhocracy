@@ -15,21 +15,24 @@ ul.comments_list li, .comment_wrapper .comment {
 
 .comment_wrapper .comment {
     padding: 10px 20px 20px 20px;
+
+    &.empty {
+        padding-top: 20px;
+        font-weight: bold;
+        font-style: italic;
+        color: #999;
+    }
 }
 
-.comment_wrapper .comment.empty {
-    padding-top: 20px;
-    font-weight: bold;
-    font-style: italic;
-    color: #999;
-}
 ul.comments_list > li {
     padding: 10px 20px 0 20px;
 }
 .comment_actions, .paper_actions {
     padding-top: 10px;
 }
-.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment, .paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment, .paper_actions .participate {
+
+.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment,
+.paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment, .paper_actions .participate {
     float: left;
     margin-right: 10px;
     font-size: 11px;
