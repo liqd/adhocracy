@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-30 16:06+0200\n"
-"PO-Revision-Date: 2013-05-30 14:12+0000\n"
+"POT-Creation-Date: 2013-06-03 16:45+0200\n"
+"PO-Revision-Date: 2013-06-03 14:46+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1329,6 +1329,12 @@ msgstr "Benutzer"
 
 msgid "This action is only available in an instance context."
 msgstr "Die Handlung ist nur innerhalb einer Gruppe verfügbar."
+
+msgid "show more"
+msgstr "mehr anzeigen"
+
+msgid "show less"
+msgstr "weniger anzeigen"
 
 msgid "(no milestone)"
 msgstr "(kein Termin)"
