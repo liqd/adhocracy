@@ -71,7 +71,7 @@ class FileStaticPage(StaticPageBase):
     def get(key, languages):
 
         for lang in languages:
-            fn = os.path.basename(key) + '.' + lang + '.html'
+            fn = key + '.' + lang + '.html'
             filename = util.get_path('page', fn)
             if filename is not None:
                 try:
@@ -107,7 +107,7 @@ _BACKENDS = {
     'kotti': KottiStaticPage,
 }
 
-STATICPAGE_KEY = re.compile(r'^[a-z0-9_-]+$')
+STATICPAGE_KEY = re.compile(r'^[a-z0-9_\-/]+$')
 
 
 def get_backend():
