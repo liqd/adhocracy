@@ -7,11 +7,11 @@
     color: $black;
     border: 1px solid $border;
     padding: 0.5em 1em;
-}
-.tooltip.bottom {
-    /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
-}
 
-.tooltip.top {
-    /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
+    &.bottom {
+        /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
+    }
+    &.top {
+        /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
+    }
 }

@@ -52,48 +52,48 @@ hr {
 
 /* table */
 table {
-  margin-bottom: 20px;
-}
+    margin-bottom: 20px;
 
-table td.line_number {
-  width: 20px;
-  padding-right: 10px;
-  text-align: right;
-  color: $fg1;
-  line-height: 1.5em;
-}
+    td.line_number {
+        width: 20px;
+        padding-right: 10px;
+        text-align: right;
+        color: $fg1;
+        line-height: 1.5em;
+    }
 
-table td.line_text {
-  color: $black;
-  text-align: bottom;
-  font-family: Menlo, Monaco, 'Courier New', monospace;
+    td.line_text {
+        color: $black;
+        text-align: bottom;
+        font-family: Menlo, Monaco, 'Courier New', monospace;
+    }
 }
 
 
 /* links */
 a {
     text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
+    &:hover {
+        text-decoration: underline;
+    }
 
-a.icon_link {
-    height: 18px;
-    line-height: 18px;
-    background-repeat: no-repeat;
-}
-a.view_all {
-    float: right;
-    margin-top: -10px;
-}
-a.follow {
-    background-position: right -254px;
-    padding-right: 23px;
-}
-a.follow:hover {
-    background-position: right -304px;
-    text-decoration: underline !important;
+    &.icon_link {
+        height: 18px;
+        line-height: 18px;
+        background-repeat: no-repeat;
+    }
+    &.view_all {
+        float: right;
+        margin-top: -10px;
+    }
+    &.follow {
+        background-position: right -254px;
+        padding-right: 23px;
+        &:hover {
+            background-position: right -304px;
+            text-decoration: underline !important;
+        }
+    }
 }
 
 .pro, .con { font-size: 14px; }

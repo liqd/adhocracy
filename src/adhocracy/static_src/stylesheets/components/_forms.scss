@@ -41,11 +41,11 @@ form p.info {
     width: 100%;
     margin-bottom: 10px;
     clear: both;
-}
 
-.input_wrapper.submit {
-    font-size: 11px;
-    line-height: 24px;
+    &.submit {
+        font-size: 11px;
+        line-height: 24px;
+    }
 }
 
 textarea {
@@ -53,7 +53,9 @@ textarea {
     min-height: 128px;
 }
 
-input[type=checkbox], input[type=radio] { vertical-align: text-top; }
+input[type=checkbox], input[type=radio] {
+    vertical-align: text-top;
+}
 
 .checkbox_inline label {
     display: block;
@@ -85,7 +87,9 @@ input[type=checkbox], input[type=radio] { vertical-align: text-top; }
 form .error-message {
     color: darkred;
 }
-form .error { border-color: darkred; }
+form .error {
+    border-color: darkred;
+}
 
 /* comment form */
 .comment_form {
@@ -166,31 +170,33 @@ form.new_comment {
 form#user_welcome {
     margin: 0;
     padding: 0;
-}
-form#user_welcome>label {
-    margin: 0;
-    padding: 5px 0;
-    text-align: center;
-    font-size: 22px;
-    line-height: normal;
-}
-form#user_welcome>label>* {
-    vertical-align: top;
-    font-size: inherit;
-    height: auto;
-    line-height: normal;
-}
-form#user_welcome>label>span {
-    display: inline-block;
-    padding-top: 3px;
-}
-form#user_welcome>label>input[type="password"] {
-    padding: 2px 5px;
-    margin: 0;
-    width: 5em;
-}
-form#user_welcome>label>input[type="submit"] {
-    padding: 2px 5px;
+
+    > label {
+        margin: 0;
+        padding: 5px 0;
+        text-align: center;
+        font-size: 22px;
+        line-height: normal;
+
+        > * {
+            vertical-align: top;
+            font-size: inherit;
+            height: auto;
+            line-height: normal;
+        }
+        > span {
+            display: inline-block;
+            padding-top: 3px;
+        }
+        > input[type="password"] {
+            padding: 2px 5px;
+            margin: 0;
+            width: 5em;
+        }
+        > input[type="submit"] {
+            padding: 2px 5px;
+        }
+    }
 }
 
 .login_form input[type="text"],

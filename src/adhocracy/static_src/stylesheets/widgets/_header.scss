@@ -15,9 +15,9 @@ body.logged_in #header .page_wrapper {
 }
 body.logged_in #logo {
     height: 40px;
-}
-body.logged_in #logo h1 {
-    text-indent: -900em;
+    h1 {
+        text-indent: -900em;
+    }
 }
 
 /* top navigation */
@@ -28,17 +28,19 @@ body.logged_in #logo h1 {
 #topnav {
     font-size: 11px;
     color: #969ba2;
-}
-#topnav a {
-    color: #969ba2;
-    text-decoration: none;
-}
-#topnav a:hover {
-    text-decoration: underline;
+
+    a {
+        color: #969ba2;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 .language_switch {
     padding: 0 10px;
 }
+
 /* navigation */
 #nav {
     clear: none;
@@ -48,12 +50,39 @@ body.logged_in #logo h1 {
     font-weight: bold;
     font-size: 15px;
     color: #fff;
+
+    body.logged_in & {
+        height: 40px;
+        padding-top: 0px;
+        font-weight: normal;
+
+        li {
+            height: 32px;
+            padding-top: 4px;
+            a {
+                height: 32px;
+            }
+        }
+    }
+
+    li {
+        height: 52px;
+        padding-top: 15px;
+        margin: 0 0 0 1px;
+        position: relative;
+
+        a {
+            color: #c1c4c9;
+        }
+        &.current {
+            background: url('/images/gradient_navi_highlight.jpg') repeat-x right bottom transparent;
+        }
+        &:hover {
+            background: url('/images/gradient_navi_hover.png') right top no-repeat transparent;
+        }
+    }
 }
-body.logged_in #nav {
-    height: 40px;
-    padding-top: 0px;
-    font-weight: normal;
-}
+
 #user_menu {
     display: inline-block;
     background: url("/images/line_header.jpg") no-repeat scroll left bottom transparent;
@@ -64,16 +93,9 @@ body.logged_in #nav {
 #about_menu ul,
 #user_menu ul {
     margin-left: 0;
-}
-#nav li {
-    height: 52px;
-    padding-top: 15px;
-    margin: 0 0 0 1px;
-    position: relative;
-}
-body.logged_in #nav li {
-    height: 32px;
-    padding-top: 4px;
+    li:hover a {
+        background: none;
+    }
 }
 #about_menu_link,
 #nav li a {
@@ -83,23 +105,7 @@ body.logged_in #nav li {
     height: 52px;
     display: block;
 }
-body.logged_in #nav li a {
-    height: 32px;
-}
-#nav li.current a {
-    color: #c1c4c9;
-}
-#nav li.current {
-    background: url('/images/gradient_navi_highlight.jpg') repeat-x right bottom transparent;
-}
-#nav li:hover {
-    background: url('/images/gradient_navi_hover.png') right top no-repeat transparent;
-}
 
-#about_menu li:hover a,
-#user_menu li:hover a {
-    background: none;
-}
 #nav li:hover ul.children {
     display: block;
 }
@@ -114,39 +120,42 @@ body.logged_in #nav li a {
     right: 0px;
     z-index: 100;
     font-size: 14px;
-}
-#nav ul.children li {
-    background: url('/images/line_navi_dropdown.jpg') repeat-x top center;
-    padding: 5px 2px 2px;
-    font-size: 14px;
-    line-height: 25px;
-    height: 25px;
-    display: block;
-}
-#nav ul.children li:first-child {
-    background: none;
-    padding-top: 2px;
-}
-#nav ul.children li a {
-    color: #fff;
-    font-weight: bold;
-    text-decoration: none;
-    height: auto;
-    padding: 0;
-}
-#nav ul.children li a:hover, #nav ul.children li.current a {
-    color: #c1c4c9;
+
+    li {
+        background: url('/images/line_navi_dropdown.jpg') repeat-x top center;
+        padding: 5px 2px 2px;
+        font-size: 14px;
+        line-height: 25px;
+        height: 25px;
+        display: block;
+
+        &:first-child {
+            background: none;
+            padding-top: 2px;
+        }
+        a {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            height: auto;
+            padding: 0;
+        }
+        a:hover, &.current a {
+            color: #c1c4c9;
+        }
+    }
 }
 
 a.show_me {
     background-position: right -350px;
     padding-right: 23px;
-}
-#topnav a.show_me {
-    background-position: right -352px;
-}
-#user_menu a.show_me {
-    background-position: right -348px;
-    padding: 0 23px 0 18px !important;
-    line-height: 1.5em;
+
+    #topnav & {
+        background-position: right -352px;
+    }
+    #user_menu & {
+        background-position: right -348px;
+        padding: 0 23px 0 18px !important;
+        line-height: 1.5em;
+    }
 }
