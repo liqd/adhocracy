@@ -265,10 +265,6 @@ a.button_small.off:active, a.button_small.off.active {
 .hlist li {
   display: inline-block;
 }
-.nobullet {
-  list-style: none;
-  margin-left: 0
-}
 .content_list {
   list-style: none;
   margin: 0;
@@ -407,9 +403,6 @@ margin-bottom: 0;
 .pager .current, .pager a:active {
   background: url('/images/sprite_buttons.png') repeat-x 0 -251px;
   color: #fff;
-}
-.pager .hidden {
-  display: none;
 }
 
 .full_teaser {
@@ -1458,10 +1451,6 @@ float: right;
 padding: 0 30px;
 }
 
-html.js .only-no-js, html.no-js .only-js {
-    display: none;
-}
-
 /*Tooltips*/
 
 .tooltip {
@@ -1519,10 +1508,6 @@ margin-bottom: 0;
 
 .list_button {
   padding: 10px 10px;
-}
-
-body.logged_in .only-anon {
-  display: none;
 }
 
 /*
