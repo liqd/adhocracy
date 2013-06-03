@@ -1,3 +1,6 @@
+from adhocracy_kotti.content import Document
+from adhocracy_kotti.content import SlugDocumentEditForm
+from adhocracy_kotti.content import SlugDocumentAddForm
 
 
 def kotti_configure(settings):
@@ -14,3 +17,17 @@ def includeme(config):
 
     config.include("cornice")
     config.scan(__name__)
+    config.add_view(
+        SlugDocumentEditForm,
+        context=Document,
+        name='edit',
+        permission='edit',
+        renderer='kotti:templates/edit/node.pt',
+    )
+
+    config.add_view(
+        SlugDocumentAddForm,
+        name=Document.type_info.add_view,
+        permission='add',
+        renderer='kotti:templates/edit/node.pt',
+    )
