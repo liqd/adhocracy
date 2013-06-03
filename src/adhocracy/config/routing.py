@@ -451,13 +451,13 @@ def make_map(config):
     map.connect('/static{.format}', controller='static', action='make_new',
                 conditions=dict(method=['POST']))
     map.connect('/static/new{.format}', controller='static', action='new')
-    map.connect('/static/{key}_{lang}',
+    map.connect('/static/edit/{lang}/*key',
                 controller='static', action='edit',
                 conditions=dict(method=['GET', 'HEAD']))
-    map.connect('/static/{key}_{lang}{.format}',
+    map.connect('/static/edit/{lang}/*(key){.format}',
                 controller='static', action='update',
                 conditions=dict(method=['POST']))
-    map.connect('/static/{key}{.format}', controller='static',
+    map.connect('/static/*(key){.format}', controller='static',
                 action='serve')
     map.connect('/outgoing_link/{url_enc}', controller='redirect',
                 action='outgoing_link',
