@@ -380,7 +380,7 @@ var adhocracy = adhocracy || {};
 }());
 
 $(window).load(function() {
-    monitor = {
+    var monitor = {
         data: {},
         data_collectors: {},
         url: null,
