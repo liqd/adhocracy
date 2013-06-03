@@ -1,22 +1,3 @@
-body {
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-/* fonts */
-h1, h2, h3, h4, h5, h6, legend {
-  font-family: 'ColaborateRegular', Arial, sans-serif;
-  line-height: 1.2;
-  text-transform: none
-}
-h1 { font-size: 34px; margin: 27px 23px; font-weight: normal; }
-h2 { font-size: 30px; margin-bottom: 10px; font-weight: normal; }
-h3 { font-size: 25px; margin-bottom: 10px; font-weight: normal; }
-h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
-h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
-h6 { font-size: 14px; font-weight: normal; color: #666; }
-
 .sidebar_box {
   background: #f8f8f8;
   padding: 0 15px 1px 22px;
@@ -28,43 +9,6 @@ h6 { font-size: 14px; font-weight: normal; color: #666; }
   padding-top: 16px;
   padding-bottom: 5px;
   margin-left: -2px;
-}
-
-p {
-  margin-bottom: 20px;
-}
-
-ul, ol, dl {
-  margin: 0 0 20px 20px;
-}
-li {
-  line-height: 1.5;
-  margin-left: 0;
-}
-
-.hr {
-  height: 1px;
-  background: url('/images/line_dotted.gif') repeat-x top left;
-  margin-bottom: 20px;
-}
-.hr hr { display: none; }
-
-table {
-  margin-bottom: 20px;
-}
-
-table td.line_number {
-  width: 20px;
-  padding-right: 10px;
-  text-align: right;
-  color: #666;
-  line-height: 1.5em;
-}
-
-table td.line_text {
-  color: #000;
-  text-align: bottom;
-  font-family: Menlo, Monaco, 'Courier New', monospace;
 }
 
 .plus:before {
@@ -94,31 +38,6 @@ content: "+ ";
   text-align: left;
 }
 
-/* links */
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-
-a.icon_link {
-  height: 18px;
-  line-height: 18px;
-  background-repeat: no-repeat;
-}
-a.view_all {
-  float: right;
-  margin-top: -10px;
-}
-a.follow {
-  background-position: right -254px;
-  padding-right: 23px;
-}
-a.follow:hover {
-  background-position: right -304px;
-  text-decoration: underline !important;
-}
 a.more {
   text-transform: uppercase;
   padding-left: 22px;
@@ -315,10 +234,6 @@ li.content_box .base {
   margin-right: 10px;
   margin-bottom: 0px;
 }
-
-.pro, .con { font-size: 14px; }
-.pro, ins { color: darkgreen; }
-.con, del, .countdown.highlight { color: darkred; }
 
 .close { display: none; }
 .open { display: block; }
