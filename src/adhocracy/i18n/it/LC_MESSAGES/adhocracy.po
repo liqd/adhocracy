@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-30 16:06+0200\n"
-"PO-Revision-Date: 2013-05-30 14:07+0000\n"
+"POT-Creation-Date: 2013-06-03 16:45+0200\n"
+"PO-Revision-Date: 2013-06-03 14:46+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -237,13 +237,13 @@ msgid "No OpenID given!"
 msgstr "Non è stato digitato nessun OpenID!"
 
 msgid "Connection not allowed, OpenID has been disabled on this installation"
-msgstr ""
+msgstr "Connessione non valida, l'OpenID é stato disattivato su questa installazione."
 
 msgid "No OpenID was entered."
 msgstr "Non è stato inserito alcun OpenID."
 
 msgid "Removal not allowed, OpenID has been disabled on this installation"
-msgstr ""
+msgstr "Rimozione non autorizzata, l'OpenID é stato disabilitato su questa installazione."
 
 #, python-format
 msgid "No OpenID with ID '%s' exists."
@@ -414,7 +414,7 @@ msgid "Page not Found"
 msgstr "Impossibile trovare la pagina."
 
 msgid "Shibboleth authentication not enabled"
-msgstr ""
+msgstr "Autenticazione Shibboleth non riuscita"
 
 msgid "This URL shouldn't be called directly"
 msgstr ""
@@ -662,7 +662,7 @@ msgid "No Badge ID '%s' exists"
 msgstr "Impossibile trovare l'etichetta con l'ID '%s'"
 
 msgid "No badges selected"
-msgstr ""
+msgstr "Non hai selezionato nessun badge."
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Duplicati nella serie di input del badge ID dell'utente"
@@ -891,7 +891,7 @@ msgid "mixed"
 msgstr "misto"
 
 msgid "controversy"
-msgstr ""
+msgstr "controversia"
 
 msgid "by date"
 msgstr "per data"
@@ -963,7 +963,7 @@ msgid "Age and Support"
 msgstr "Età e sostegno"
 
 msgid "Controversy"
-msgstr ""
+msgstr "Controversia"
 
 msgid "Rating"
 msgstr "valutazione"
@@ -1005,11 +1005,11 @@ msgstr "è contro"
 
 #, python-format
 msgid "comment on %s"
-msgstr ""
+msgstr "commento riguardo a %s"
 
 #, python-format
 msgid "argument on %s"
-msgstr ""
+msgstr "argomento riguardo a %s"
 
 msgid "(Undefined)"
 msgstr "(indefinito)"
@@ -1318,6 +1318,12 @@ msgstr "Utenti"
 msgid "This action is only available in an instance context."
 msgstr "Quest'azione è disponibile solo all'interno del gruppo."
 
+msgid "show more"
+msgstr ""
+
+msgid "show less"
+msgstr ""
+
 msgid "(no milestone)"
 msgstr "(nessun evento importante)"
 
@@ -1533,7 +1539,7 @@ msgid "Sort:"
 msgstr "Ordina per:"
 
 msgid "You are using an outdated web browser. Click here to update."
-msgstr ""
+msgstr "Stai utilizzando un web browser non aggiornato. Clicca qui per effettuare gli aggiornamenti."
 
 msgid "Welcome back!"
 msgstr "Bentornato!"
@@ -1613,11 +1619,11 @@ msgstr "Ignora tutti i tutorial"
 msgid ""
 "A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr ""
+msgstr "Un totale di <a href=\"%(url)s\">%(votes)s voti</a>, di cui %(for)s a favore e %(against)s contro"
 
 #, python-format
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
-msgstr ""
+msgstr "Un totale di %(votes)s voti, di cui %(for)s a favore e %(against)s contro"
 
 msgid "Votes"
 msgstr "Voti"
@@ -2597,17 +2603,17 @@ msgstr "Il messaggio verrà inviato ai seguenti utenti:"
 
 #, python-format
 msgid "The following message was sent to you by %s:"
-msgstr ""
+msgstr "%s ti ha inviato il seguente messaggio:"
 
 #, python-format
 msgid "You can reply to %s by sending mail to: %s"
-msgstr ""
+msgstr "Puoi rispondere a %s scrivendo una mail a %s:"
 
 #, python-format
 msgid ""
 "Unfortunately, %s has not left an email address. You will not be able to "
 "reply directly."
-msgstr ""
+msgstr "Purtroppo, %s non ha inserito un indirizzo email valido. Non potrai rispondere  al messaggio."
 
 #, python-format
 msgid "Message %s"
@@ -2706,11 +2712,11 @@ msgid "(unknown)"
 msgstr "(sconosciuto)"
 
 msgid "with an abstention on"
-msgstr ""
+msgstr "con l'astensione da"
 
 #, python-format
 msgid "On %s, %s wrote:"
-msgstr ""
+msgstr "Su %s, %s ha scritto:"
 
 msgid "Add an OpenID"
 msgstr "Aggiungi un OpenID"
@@ -3342,10 +3348,10 @@ msgid "compare"
 msgstr "confronta"
 
 msgid "Complete registration"
-msgstr ""
+msgstr "Registrazione completata con successo"
 
 msgid "Please complete the Shibboleth based user registration"
-msgstr ""
+msgstr "Ti preghiamo di completare la registrazione Shibboleth riferendoti al nome utente."
 
 msgid "Email:"
 msgstr "Email"
@@ -3462,22 +3468,22 @@ msgid "Source Badges"
 msgstr ""
 
 msgid "Assign users"
-msgstr ""
+msgstr "Utenti assegnati"
 
 msgid "See assigned users"
-msgstr ""
+msgstr "Vedi utenti assegnati"
 
 msgid "Create a new treatment"
 msgstr ""
 
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 msgid "Select users to treat by their badges:"
 msgstr ""
 
 msgid "Number of variants:"
-msgstr ""
+msgstr "Numero di versioni:"
 
 msgid "Create treatment"
 msgstr ""

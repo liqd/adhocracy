@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-30 16:06+0200\n"
-"PO-Revision-Date: 2013-05-30 14:07+0000\n"
+"POT-Creation-Date: 2013-06-03 16:45+0200\n"
+"PO-Revision-Date: 2013-06-03 14:46+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -240,13 +240,13 @@ msgid "No OpenID given!"
 msgstr "Er is geen OpenID opgegeven!"
 
 msgid "Connection not allowed, OpenID has been disabled on this installation"
-msgstr ""
+msgstr "Verbinding niet toegestaan, OpenID is uitgeschakeld in deze omgeving"
 
 msgid "No OpenID was entered."
 msgstr "Er is geen OpenID ingevuld."
 
 msgid "Removal not allowed, OpenID has been disabled on this installation"
-msgstr ""
+msgstr "Verwijdering niet toegestaan, OpenID is uitgeschakeld in deze omgeving"
 
 #, python-format
 msgid "No OpenID with ID '%s' exists."
@@ -417,10 +417,10 @@ msgid "Page not Found"
 msgstr "Pagina niet Gevonden"
 
 msgid "Shibboleth authentication not enabled"
-msgstr ""
+msgstr "Shibboleth authenticate niet ingeschakeld"
 
 msgid "This URL shouldn't be called directly"
-msgstr ""
+msgstr "Deze URL hoort niet direct aangeroepen te worden"
 
 msgid "Page does already exist. Select another key or language."
 msgstr "Pagina bestaat al. Selecteer een andere key of taal."
@@ -439,17 +439,17 @@ msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Tag \"%s\" is verwijderd van %s \"%s\"."
 
 msgid "Treatment has been created."
-msgstr ""
+msgstr "Behandeling is aangemaakt."
 
 #, python-format
 msgid "Could not find the entity '%s'"
 msgstr "Kan entiteit '%s' niet vinden"
 
 msgid "All users have been assigned to their respective treatment badges."
-msgstr ""
+msgstr "Alle gebruikers zijn toegewezen aan hun respectievelijke behandeling badges."
 
 msgid "All users are already assigned to their respective treatment badges."
-msgstr ""
+msgstr "Alle gebruikers zijn al toegewezen aan hun respectievelijke behandeling badges."
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -665,7 +665,7 @@ msgid "No Badge ID '%s' exists"
 msgstr "Er bestaat geen badge met het ID '%s'"
 
 msgid "No badges selected"
-msgstr ""
+msgstr "Geen badges geselecteerd"
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Er zijn duplicaten in de ingevoerde set van gebruikersbadge IDs"
@@ -894,7 +894,7 @@ msgid "mixed"
 msgstr "gemengd"
 
 msgid "controversy"
-msgstr ""
+msgstr "controverse"
 
 msgid "by date"
 msgstr "op datum"
@@ -966,7 +966,7 @@ msgid "Age and Support"
 msgstr "Leeftijd en Steun"
 
 msgid "Controversy"
-msgstr ""
+msgstr "Controverse"
 
 msgid "Rating"
 msgstr "Beoordeling"
@@ -1321,6 +1321,12 @@ msgstr "Gebruikers"
 msgid "This action is only available in an instance context."
 msgstr "Deze actie is enkel beschikbaar in de context van een groep."
 
+msgid "show more"
+msgstr ""
+
+msgid "show less"
+msgstr ""
+
 msgid "(no milestone)"
 msgstr "(geen mijlpaal)"
 
@@ -1337,7 +1343,7 @@ msgid "Click to vote con"
 msgstr "Klik om tegen te stemmen"
 
 msgid "Your current vote is already con"
-msgstr ""
+msgstr "Uw stem is al tegen"
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Het stemmen is geëindigd. Klik om de lijst met stemmen te zien. "
@@ -1536,7 +1542,7 @@ msgid "Sort:"
 msgstr "Sorteer:"
 
 msgid "You are using an outdated web browser. Click here to update."
-msgstr ""
+msgstr "U gebruikt een verouderde webbrowser. Klik hier om te updaten."
 
 msgid "Welcome back!"
 msgstr "Welkom terug!"
@@ -1616,11 +1622,11 @@ msgstr "Verberg alle tutorials"
 msgid ""
 "A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr ""
+msgstr "Een totaal van <a href=\"%(url)s\">%(votes)s stemmen</a>, waarvan %(for)s voor en %(against)s tegen"
 
 #, python-format
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
-msgstr ""
+msgstr "Een totaal van %(votes)s stemmen, waarvan %(for)s voor en %(against)s tegen"
 
 msgid "Votes"
 msgstr "Stemmen"
@@ -1757,7 +1763,7 @@ msgid "Send an email to users"
 msgstr "Stuur een e-mail naar gebruikers"
 
 msgid "Assign treatment badges"
-msgstr ""
+msgstr "Wijs behandeling badge toe"
 
 msgid "Site administration"
 msgstr "Site administratie"
@@ -3345,10 +3351,10 @@ msgid "compare"
 msgstr "vergelijken"
 
 msgid "Complete registration"
-msgstr ""
+msgstr "Voltooi registratie"
 
 msgid "Please complete the Shibboleth based user registration"
-msgstr ""
+msgstr "Voltooi alstublieft de op Shibboleth gebaseerde gebruikersregistratie"
 
 msgid "Email:"
 msgstr "E-mail:"
@@ -3449,41 +3455,41 @@ msgid "Compare"
 msgstr "Vergelijken"
 
 msgid "Treatments"
-msgstr ""
+msgstr "Behandelingen"
 
 #, python-format
 msgid "User assignments of %(treatment_key)s"
-msgstr ""
+msgstr "Gebruiker toewijzingen van %(treatment_key)s"
 
 msgid "back to treatments"
-msgstr ""
+msgstr "terug naar behandelingen"
 
 msgid "Treatment"
-msgstr ""
+msgstr "Behandeling"
 
 msgid "Source Badges"
-msgstr ""
+msgstr "Bron Badges"
 
 msgid "Assign users"
-msgstr ""
+msgstr "Wijs gebruikers toe"
 
 msgid "See assigned users"
-msgstr ""
+msgstr "Bekijk toegewezen gebruikers"
 
 msgid "Create a new treatment"
-msgstr ""
+msgstr "Maak een nieuwe behandeling aan"
 
 msgid "Name:"
-msgstr ""
+msgstr "Naam:"
 
 msgid "Select users to treat by their badges:"
-msgstr ""
+msgstr "Selecteer de te behandelen gebruikers aan de hand van hun badges:"
 
 msgid "Number of variants:"
-msgstr ""
+msgstr "Aantal varianten:"
 
 msgid "Create treatment"
-msgstr ""
+msgstr "Maak behandeling aan"
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle leden op deze Adhocracy Server"

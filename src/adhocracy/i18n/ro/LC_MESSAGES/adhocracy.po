@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-30 16:06+0200\n"
-"PO-Revision-Date: 2013-05-30 14:07+0000\n"
+"POT-Creation-Date: 2013-06-03 16:45+0200\n"
+"PO-Revision-Date: 2013-06-03 14:46+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1320,6 +1320,12 @@ msgstr "Utilizatori"
 
 msgid "This action is only available in an instance context."
 msgstr "Actiunea este disponibila doar in cadrul unei comunitati."
+
+msgid "show more"
+msgstr ""
+
+msgid "show less"
+msgstr ""
 
 msgid "(no milestone)"
 msgstr "(fara data limita)"
