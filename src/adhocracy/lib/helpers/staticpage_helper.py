@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 @cache.memoize('staticpage_url')
 def url(staticpage, **kwargs):
-    pid = staticpage.key + '_' + staticpage.lang
+    pid = u'edit/%s/%s' % (staticpage.lang, staticpage.key)
     return _url.build(None, 'static', pid, **kwargs)
 
 
@@ -65,7 +65,9 @@ def render_kotti_navigation():
         else:
             path = item['name']
 
-        self_html = u'<a href="%s">%s</a>' % (path, item['title'])
+        url = '/static/%s.html' % path
+
+        self_html = u'<a href="%s">%s</a>' % (url, item['title'])
 
         if item['children']:
             children_html = u'\n<ul class="children">\n%s\n</ul>\n' % (
