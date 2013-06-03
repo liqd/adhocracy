@@ -69,7 +69,9 @@ def render_external_navigation():
         else:
             path = item['name']
 
-        self_html = u'<a href="%s">%s</a>' % (path, item['title'])
+        url = '/static/%s.html' % path
+
+        self_html = u'<a href="%s">%s</a>' % (url, item['title'])
 
         if item['children']:
             children_html = u'\n<ul class="children">\n%s\n</ul>\n' % (
