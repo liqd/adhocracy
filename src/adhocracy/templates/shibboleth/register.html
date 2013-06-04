@@ -1,0 +1,23 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Complete registration")}</%def>
+
+<%block name="headline">
+<h1>${_("Complete registration")}</h1>
+
+    <div class="infobox">
+      ${_('Please complete the Shibboleth based user registration')}
+    </div>
+
+    <div class="mainbar">
+        <form name="complete_registration" action="" method="POST">
+            ${h.field_token()|n}
+            <label>${_('Username:')}
+                <input name="username" type="text" />
+            </label>
+            <label>${_('Email:')}
+                <input name="email" type="email" />
+            </label>
+            <input type="submit" value="${_('Continue')}"/>
+        </form>
+    </div>
+</%block>

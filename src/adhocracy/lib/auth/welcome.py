@@ -63,8 +63,7 @@ class WelcomeRepozeWho(object):
             return None
 
         from adhocracy.lib.helpers import base_url
-        root_url = base_url('/', instance=None, absolute=True,
-                            config=self.config)
+        root_url = base_url('/', instance=None, config=self.config)
         environ['repoze.who.application'] = HTTPFound(location=root_url)
 
         return {
@@ -87,10 +86,10 @@ class WelcomeRepozeWho(object):
         return userid
 
 
-def setup_auth(config, idenitifiers, authenticators):
+def setup_auth(config, identifiers, authenticators):
     if not welcome_enabled(config):
         return
 
     welcome_rwho = WelcomeRepozeWho(config, 'auth_tkt')
-    idenitifiers.append(('welcome', welcome_rwho))
+    identifiers.append(('welcome', welcome_rwho))
     authenticators.append(('welcome', welcome_rwho))

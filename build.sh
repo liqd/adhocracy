@@ -22,11 +22,10 @@ OPTIONS:
    -c file Use the given buildout config file
    -A      Do not start now
    -S      Do not configure system services
-   -s      Install only non-superuser parts
+   -s      Install/Reinstall only non-superuser parts
    -u      Install only superuser parts
    -U      Set the username adhocracy should run as
    -b      Branch to check out
-   -R      Rebuild everything, do not use any caches
 EOF
 }
 
@@ -39,7 +38,6 @@ adhoc_user=$USER
 install_mysql_client=false
 arch_install=false
 branch=$DEFAULT_BRANCH
-always_rebuild=false
 
 if [ -n "$SUDO_USER" ]; then
     adhoc_user=$SUDO_USER
@@ -48,7 +46,7 @@ fi
 PKGS_TO_INSTALL=''
 PKG_INSTALL_CMD=''
 
-while getopts DpMmASsuc:U:b:R name
+while getopts DpMmASsuc:U:b:R:o name
 do
     case $name in
     M)    install_mysql_client=true;;
@@ -59,7 +57,6 @@ do
     U)    adhoc_user=$OPTARG;;
     c)    buildout_cfg_file=$OPTARG;;
     b)    branch=$OPTARG;;
-    R)    always_rebuild=true;;
     ?)    usage
           exit 2;;
     *)    echo "Invalid option $name!"
@@ -75,7 +72,6 @@ if which apt-get >/dev/null ; then
     PYTHON_CMD='python'
     PIP_CMD='pip'
     PKG_INSTALL_CMD='apt-get install -yqq'
-    VIRTUALENV_CMD='virtualenv'
 fi
 
 if which pacman >/dev/null ; then
@@ -83,7 +79,6 @@ if which pacman >/dev/null ; then
     PYTHON_CMD='python2'
     PIP_CMD='pip2'
     PKG_INSTALL_CMD='pacman -S --needed --noconfirm'
-    VIRTUALENV_CMD='virtualenv2'
 fi
 
 if [ -z "$distro" ] ; then
@@ -159,16 +154,18 @@ fi
 if ! $not_use_sudo_commands; then
     case $distro in
         debian )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libpng-dev libjpeg-dev gcc make build-essential bin86 unzip libpcre3-dev zlib1g-dev git mercurial python python-virtualenv python-dev libsqlite3-dev openjdk-6-jre libpq-dev'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python python-setuptools libssl-dev libbz2-dev libsqlite3-dev openjdk-6-jre libpq-dev'
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby rubygems'
 
     if $install_mysql_client; then
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient-dev'
     fi
     ;;
         arch )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libpng libjpeg gcc make base-devel bin86 unzip zlib git mercurial python2 python2-virtualenv python2-pip sqlite jre7-openjdk postgresql-libs'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make base-devel bin86 unzip git mercurial python2 sqlite jre7-openjdk postgresql-libs'
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh mutt'
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby'
 
         if $install_mysql_client; then
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient'
@@ -270,14 +267,40 @@ if [ '!' -e adhocracy_buildout/.git ]; then
 fi
 
 cd adhocracy_buildout
-BUILDOUT_VERSION=1.7.0
-cur_installed="$(find eggs -maxdepth 1 -name "zc.buildout-${BUILDOUT_VERSION}-*" -print -quit 2>/dev/null)"
-if $always_rebuild || test -z "$cur_installed"; then
-    python bootstrap.py "--version=$BUILDOUT_VERSION"
-fi
-ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
-bin/buildout -c "buildout_current.cfg"
 
+if [ '!' -e python/buildout.python/src ]; then
+    git submodule init
+    git submodule update
+fi
+
+# Install local python if necessary
+if [ '!' -x bin/python ]; then
+    if [ '!' -f python/bin/buildout ]; then
+        (cd python && python bootstrap.py)
+    fi
+    (cd python && bin/buildout)
+fi
+# Fix until https://github.com/collective/buildout.python/pull/31 is accepted
+find python/buildout.python/ -name *pyc -delete
+# Fix until https://github.com/collective/buildout.python/pull/32 is accepted
+if [ "$(strings bin/python | grep '^PyUnicodeUCS._DecodeLatin1$')" '!=' "$(strings eggs/lxml-*.egg/lxml/etree.so 2>/dev/null | grep '^PyUnicodeUCS._DecodeLatin1$')" ]; then
+    rm -rf -- eggs/lxml-*.egg
+fi
+
+# Set up adhocracy configuration
+ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
+
+# bootstrap our buildout if it is outdated or not available
+HAVE_BUILDOUT_VERSION=$(bin/buildout --version 2>&1 | cut -d ' ' -f 3)
+WANT_BUILDOUT_VERSION=$(sed -n 's#zc\.buildout = ##p' versions.cfg)
+if test "$HAVE_BUILDOUT_VERSION" "!=" "$WANT_BUILDOUT_VERSION"; then
+    bin/python bootstrap.py -c buildout_current.cfg
+fi
+
+# Install adhocracy
+bin/buildout -c buildout_current.cfg
+
+# Install adhocracy interactive script
 echo '#!/bin/sh
 set -e
 cd "$(dirname $(dirname $(readlink -f $0)))"
@@ -293,6 +316,7 @@ exec bin/paster serve --reload etc/adhocracy-interactive.ini
 ' > "bin/adhocracy_interactive.sh"
 chmod a+x "bin/adhocracy_interactive.sh"
 
+# Autostart adhocracy 
 if $autostart; then
     bin/supervisord
     echo "Use ${ROOTDIR_FROM_CALLER}bin/supervisorctl to control running services."

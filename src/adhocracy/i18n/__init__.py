@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import logging
 import pkgutil
 
@@ -7,6 +7,7 @@ import babel
 from babel import Locale
 import babel.dates
 import formencode
+from pylons.i18n import _
 from pylons.i18n import add_fallback, set_lang
 from pylons import config, tmpl_context as c
 

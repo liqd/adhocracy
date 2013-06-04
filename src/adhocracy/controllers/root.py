@@ -11,7 +11,7 @@ from adhocracy import model
 from adhocracy.controllers.event import EventController
 from adhocracy.lib import helpers as h
 from adhocracy.lib import pager, sorting, tiles
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.staticpage import get_static_page
 from adhocracy.lib.templating import render
@@ -25,9 +25,9 @@ log = logging.getLogger(__name__)
 
 class RootController(BaseController):
 
+    @guard.proposal.index()
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
-        require.proposal.index()
         if c.instance:
             redirect(h.entity_url(c.instance))
 
@@ -78,6 +78,7 @@ class RootController(BaseController):
                                   instance_filter=False)
         redirect(h.entity_url(dgb))
 
+    @guard.proposal.index()
     def sitemap_xml(self):
         if c.instance:
             redirect(h.base_url('/sitemap.xml', None))

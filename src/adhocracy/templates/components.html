@@ -267,10 +267,6 @@ $(document).ready(function () {
     %endif
     
     ${tiles.badge.badge_styles()}
-
-    <link rel="stylesheet" type="text/css" media="all" 
-          href="${h.base_url('/stylesheets/site.css', None)}" />
-    
 </%def>
 
 
@@ -337,4 +333,20 @@ ${caller.body()}
     <script type="text/javascript">
       $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
     </script>
+</%def>
+
+<%def name="proposal_sort_order(name, sorting_orders, include_empty=True, default=None)">
+<select name="${name}">
+    %if include_empty:
+    <option value=""></option>
+    %endif
+    %for group in sorting_orders.groups:
+      <optgroup label="${group}">
+      %for sorting_order in sorting_orders.by_group[group]:
+        <option value="${sorting_order.value}"${' selected="selected"' if default == sorting_order.value else ''}>${sorting_order.label}</option>
+      %endfor
+      </optgroup>
+    %endfor
+</select>
+
 </%def>

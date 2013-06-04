@@ -5,7 +5,6 @@ import math
 import re
 import unicodedata
 
-from adhocracy.lib.event import stats as estats
 from adhocracy.lib.util import timedelta2seconds, datetime2seconds
 
 
@@ -118,6 +117,39 @@ def proposal_mixed(entities):
     return sorted(entities, key=proposal_mixed_key, reverse=True)
 
 
+def proposal_controversy_calculate(num_for, num_against):
+    '''
+    Measure how disputed an issue is - 50 pro 50 contra should be way more
+    important than an issue that ranks 99 pro 1 contra.
+
+    Intuitively, min(pro, contra) / (pro + contra) should give the percentage
+    of voters that disagree with the majority, and therefore be a good
+    measurement.
+
+    At the same time, we want issues with more absolute votes to rank slightly
+    higher; 40 - 60 is way more important than 10 - 10. Therefore, we scale
+    the whole sorting key by the logarithm of the total number of votes.
+
+    See http://goo.gl/yZj2H for a plot of the function.
+    '''
+
+    if num_for + num_against == 0:
+        return -1
+
+    return (float(min(num_for, num_against))
+            / (num_for + num_against)
+            * math.log(num_for + num_against))
+
+
+def proposal_controversy_key(proposal):
+    tally = proposal.rate_poll.tally
+    return proposal_controversy_calculate(tally.num_for, tally.num_against)
+
+
+def proposal_controversy(entities):
+    return sorted(entities, key=proposal_controversy_key, reverse=True)
+
+
 def proposal_support(entities):
     return sorted(entities,
                   key=lambda p: p.rate_poll.tally.num_for, reverse=True)
@@ -166,11 +198,13 @@ def entity_stable(entities):
 
 
 def instance_activity(instances):
+    from adhocracy.lib.event import stats as estats
     return sorted(instances, key=lambda i: estats.instance_activity(i),
                   reverse=True)
 
 
 def user_activity(instance, users):
+    from adhocracy.lib.event import stats as estats
     return sorted(users, key=lambda u: estats.user_activity(instance, u),
                   reverse=True)
 

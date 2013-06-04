@@ -245,9 +245,9 @@ class TestThumbnailController(TestController):
     def test_thumbnailbadges_repr(self):
         creator, delegateable, badge = self._make_content()
         badge.thumbnail = None
-        no_thumb = "<ThumbnailBadge(1,testbadge,0,#ccc)>"
+        no_thumb = "<ThumbnailBadge(1,testbadge,None,#ccc)>"
         self.assertEqual(no_thumb, badge.__repr__())
-        with_thumb = "<ThumbnailBadge(1,testbadge,-1219949151,#ccc)>"
+        with_thumb = "<ThumbnailBadge(1,testbadge,9d7183f1,#ccc)>"
         badge.thumbnail = b"binary"
         self.assertEqual(with_thumb, badge.__repr__())
 

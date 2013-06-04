@@ -3,7 +3,11 @@
 tally = poll.tally
 num_votes = len(tally)
 url = h.entity_url(poll, member='votes')
-para = _('A total of <a href="%(url)s">%(votes)s Votes</a>, thereof %(for)s ayes and %(against)s nays') % {'url': url, 'for': tally.num_for, 'against': tally.num_against, 'votes': num_votes}
+if check.poll.show(poll):
+    tpl = _('A total of <a href="%(url)s">%(votes)s votes</a>, thereof %(for)s ayes and %(against)s nays')
+else:
+    tpl = _('A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays')
+para = tpl % {'url': url, 'for': tally.num_for, 'against': tally.num_against, 'votes': num_votes}
 %>
 
 <h6>${_('Votes')}</h6>

@@ -41,6 +41,8 @@ from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
+from adhocracy.lib.helpers import treatment_helper as treatment
+
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
 from adhocracy.lib.helpers import feedback_helper as feedback
@@ -168,6 +170,15 @@ def help_link(text, page, anchor=None):
             u">%s</a>") % (page, full_url, text)
 
 
+def camefrom_querystring():
+    came_from = request.params.get('came_from', '')
+    query_string = u''
+    if came_from:
+        encoded = urllib.urlencode({'came_from': came_from.encode('utf-8')})
+        query_string = u'?' + encoded
+    return query_string
+
+
 def login_redirect_url(entity=None, **kwargs):
     '''
     Builds an ".../login?came_from=http...." pointing to the /login
@@ -229,6 +240,8 @@ def entity_url(entity, **kwargs):
         return tag.url(entity, **kwargs)
     elif isinstance(entity, model.StaticPage):
         return staticpage.url(entity, **kwargs)
+    elif isinstance(entity, model.Treatment):
+        return treatment.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

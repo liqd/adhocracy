@@ -9,6 +9,7 @@ import meta
 
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
+from adhocracy.model.shibboleth import Shibboleth, shibboleth_table
 from adhocracy.model.twitter import Twitter, twitter_table
 from adhocracy.model.badge import (
     badge_table,
@@ -45,6 +46,8 @@ from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
 from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
+from adhocracy.model.treatment import (Treatment, treatment_table,
+                                       treatment_source_badges_table)
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.staticpage import StaticPage, staticpage_table
@@ -211,6 +214,13 @@ mapper(OpenID, openid_table, properties={
     'user': relation(User, lazy=False,
                      primaryjoin=openid_table.c.user_id == user_table.c.id,
                      backref=backref('_openids', cascade='delete'))
+})
+
+
+mapper(Shibboleth, shibboleth_table, properties={
+    'user': relation(User, lazy=False,
+                     primaryjoin=shibboleth_table.c.user_id == user_table.c.id,
+                     backref=backref('_shibboleths', cascade='delete'))
 })
 
 
@@ -446,6 +456,12 @@ mapper(Text, text_table, properties={
             '_texts', lazy=False,
             order_by=text_table.c.create_time.desc()),
         primaryjoin=text_table.c.page_id == page_table.c.id)
+})
+
+
+mapper(Treatment, treatment_table, properties={
+    'source_badges': relation(UserBadge, lazy=True,
+                              secondary=treatment_source_badges_table)
 })
 
 

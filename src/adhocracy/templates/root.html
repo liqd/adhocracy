@@ -15,21 +15,32 @@
       %endif
   </head>
 
-  <body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>"
+<!--[if lte IE 7]>
+      <a href="http://www.browser-update.org/update.html" class="ie-message">${_('You are using an outdated web browser. Click here to update.')}</a>
+<![endif]-->
+<body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>"
+    data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
-    data-stats-baseurl="${c.monitor_page_time_url}"
     data-stats-interval="${c.monitor_page_time_interval}"
+    %if c.monitor_extended:
     data-stats-extended="${c.monitor_extended}"
+    %endif
+    %if c.monitor_page_performance:
+    data-stats-page-performance="${c.monitor_page_performance}"
+    %endif
     %endif
     %if c.monitor_external_links_url:
     data-stats-monitor_external_links_url="${c.monitor_external_links_url}"
+    %endif
+    %if c.monitor_pager_clicks:
+    data-stats-pager-clicks="${c.monitor_pager_clicks}"
     %endif
     >
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
-    </div>    
+    </div>
     <div class="overlay" id="overlay-big">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
@@ -49,23 +60,14 @@
       <a class="close"></a>
       <div class="contentWrap">
          <div class="register">
-             <p class="patch_description">
-             %if h.allow_user_registration():
-                 ${_('Get an account to participate in the discussion.')}
+             %if config.get('adhocracy.login_style', 'default') == 'alternate':
+                 <%include file="/user/login_form_alternate.html"/>
              %else:
-                 ${_('Log in to participate in the discussion.')}
+                 <%include file="/user/login_form.html"/>
              %endif
-             </p>
-             %if h.allow_user_registration():
-             <a href="${h.base_url('/register')}" 
-                class="button patch_camefrom">${_('Register')}</a> 
-             ${_("or")} 
-             %endif
-             <a href="${h.base_url('/login')}" 
-                class="icon_link more_uppercase patch_camefrom">${_('Log in')}</a>
          </div>
       </div>
-    </div>    
+    </div>
     %elif c.instance and can.instance.join(c.instance):
     <div class="overlay" id="overlay-join">
       <a class="close"></a>
@@ -74,7 +76,7 @@
              <p class="patch_description">
                  ${_('Join this instance to start contributing.')}
              </p>
-             <a class="button patch_camefrom" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+             <a class="button patch_camefrom" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a>
          </div>
       </div>
     </div>
@@ -86,9 +88,9 @@
              <p class="patch_description">
                  ${_('Validate email to start contributing.')}
              </p>
-             <a class="button large patch_camefrom" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a> 
-             ${_("or")} 
-             <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a> 
+             <a class="button large patch_camefrom" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
+             ${_("or")}
+             <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
          </div>
       </div>
     </div>
@@ -134,12 +136,12 @@
                   %if c.user is None:
                   <div class="register">
                       %if h.allow_user_registration():
-                      <a href="${h.register_redirect_url()}" 
+                      <a href="${h.register_redirect_url()}"
                          ## rel="#overlay-ajax" FIXME: reactivate when ready.
-                         class="button">${_('Register')}</a> 
-                      ${_("or")} 
+                         class="button">${_('Register')}</a>
+                      ${_("or")}
                       %endif
-                      <a href="${h.login_redirect_url()}" 
+                      <a href="${h.login_redirect_url()}"
                          ## rel="#overlay-ajax" FIXME: reactivate.
                          class="icon_link more_uppercase">${_('Login')}</a>
                   </div>
@@ -152,7 +154,7 @@
                   </p>
                   %elif can.instance.join(c.instance):
                   <div class="register">
-                      <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a> 
+                      <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a>
                   </div>
                   <p>
                       ${_('Join this instance to start contributing.')}
@@ -160,16 +162,16 @@
                   %else:
                   %if c.user.email is None:
                   <div class="register">
-                      <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a> 
+                      <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
                   </div>
                   <p>
                       ${_('You need to set an email in your profile in order to contribute to this instance.')}
                   </p>
                   %else:
                   <div class="register">
-                      <a class="button large" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a> 
-                      ${_("or")} 
-                      <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a> 
+                      <a class="button large" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
+                      ${_("or")}
+                      <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
                   </div>
                   <p>
                   ${_('Please validate your email address in order to contribute to this instance.')}<br />
@@ -202,7 +204,7 @@
                   ${c.tutorial_intro|n}
               </div>
               %if not c.tutorial_hide_start_button:
-              <a id="start-tutorial-button" 
+              <a id="start-tutorial-button"
                  href="#"
                  class="button"
                  data-next="${_('Next')}"
@@ -230,7 +232,7 @@
   <%block name="main">
   </%block>
   </div>
-      
+
   <!-- Fixme: Here to render error pages -->
   ${self.body()}
 
@@ -242,7 +244,7 @@
 
     <!-- Dummy tag to merge in wordpress scripts -->
     <div id="external_scripts"></div>
-    
+
     %if h.config.get('adhocracy.debug.sql'):
     ${debug.queries()}
     %endif

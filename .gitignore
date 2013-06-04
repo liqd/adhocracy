@@ -19,12 +19,11 @@ bundestag.ini
 data/*
 docs/build/*
 site/*
-adhocracy/*_theme
 var
 parts
 bin
-/src/*
-!/src/adhocracy/
+local
+/src/*_theme
 lib64
 eggs
 develop-eggs
@@ -47,3 +46,7 @@ adhocracy-test-chroot
 RELEASE-VERSION
 dist
 buildout_current.cfg
+/python
+/.cache
+.sass-cache
+src/adhocracy/static/stylesheets/adhocracy.css

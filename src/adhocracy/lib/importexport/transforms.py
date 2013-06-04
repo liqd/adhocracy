@@ -47,7 +47,8 @@ class _Transform(object):
     * _ID_KEY: The name of the property to be used as key
     * _export(self, obj): A method to export an object to JSON
     * import_all(self, data): The method to import an object from data
-    Instead of import_all, the class can also use the default implementation and define instead:
+    Instead of import_all, the class can also use the default implementation
+    and define instead:
     * _create(data) - Create a new object with the minimum set of properties
     * _modify(obj, data) - Modify an object to have the specified properties
     """
@@ -66,7 +67,10 @@ class _Transform(object):
         findm = getattr(self._model_class, 'find_by_' + self._ID_KEY)
         res = findm(k)
         if res is not None:
-            assert getattr(res, self._ID_KEY) == k
+            key_val = getattr(res, self._ID_KEY)
+            assert key_val == k, (
+                   u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
+                   (self._model_class.__name__, self._ID_KEY, k, key_val))
         return res
 
     def _compute_key(self, o):
@@ -116,17 +120,17 @@ class BadgeTransform(_Transform):
         if btype == 'user':
             return model.UserBadge.create(
                 title=data['title'],
-                color=data['color'],
+                color=data.get('color', u''),
                 visible=data['visible'],
-                description=data['description'])
+                description=data.get('description', u''))
         else:
             raise NotImplementedError()
 
     def _modify(self, obj, data):
         obj.title = data['title']
-        obj.color = data['color']
+        _set_optional(obj, data, 'color')
         obj.visible = data['visible']
-        obj.description = data['description']
+        _set_optional(obj, data, 'description')
 
     def _export(self, obj):
         return {
@@ -184,8 +188,12 @@ class UserTransform(_Transform):
             _set_optional(o, data, 'welcome_code', 'adhocracy_')
         if self._opt_badges:
             if 'badges' in data:
-                o.badges = list(map(self._badge_transform._get_by_key,
-                                    data['badges']))
+                old_badges = o.badges
+                new_badges = map(self._badge_transform._get_by_key,
+                                      data['badges'])
+                for b in new_badges:
+                    if b not in old_badges:
+                        b.assign(o, o)
 
     def _export(self, o):
         res = {}
@@ -247,8 +255,8 @@ class InstanceTransform(_ExportOnlyTransform):
             'adhocracy_require_selection': obj.require_selection,
             'adhocracy_is_authenticated': obj.is_authenticated,
             'adhocracy_hide_global_categories': obj.hide_global_categories,
-            'adhocracy_editable_comments_default':
-                obj.editable_comments_default,
+            'adhocracy_editable_comments_default': (
+                obj.editable_comments_default),
             'adhocracy_require_valid_email': obj.require_valid_email,
             'adhocracy_allow_thumbnailbadges': obj.allow_thumbnailbadges,
             'adhocracy_thumbnailbadges_height': obj.thumbnailbadges_height,
@@ -264,17 +272,20 @@ class InstanceTransform(_ExportOnlyTransform):
     def _create(self, data):
         btype = data.get('adhocracy_type', 'instance')
         if btype == 'instance':
+            creator = self._user_transform._get_by_key(data['creator'])
             return model.Instance.create(
                 data['key'].lower(),
                 data['label'],
-                self._user_transform._get_by_key(data['creator']))
+                creator)
         else:
             raise NotImplementedError()
 
     def _modify(self, o, data):
         _set_optional(o, data, 'label')
         if 'creator' in data:
-            o.creator = self._user_transform._get_by_key(data['creator'])
+            creator = self._user_transform._get_by_key(data['creator'])
+            if creator:
+                o.creator = creator
         _set_optional(o, data, 'description')
         _set_optional(o, data, 'required_majority', 'adhocracy_')
         _set_optional(o, data, 'activation_delay', 'adhocracy_')
@@ -316,7 +327,6 @@ class InstanceTransform(_ExportOnlyTransform):
                                            self._user_transform)
             ptransform.import_all(data.get('proposals', []))
 
-
     def _get_by_key(self, key):
         return self._model_class.find(key)
 
@@ -340,12 +350,13 @@ class ProposalTransform(_ExportOnlyTransform):
             label = data['title']
             desc = data['description']
             o = self._model_class.create(self._instance, label, creator)
-            description = model.Page.create(self._instance,
-                                label,
-                                desc,
-                                creator,
-                                function=model.Page.DESCRIPTION,
-                                formatting=True)
+            description = model.Page.create(
+                self._instance,
+                label,
+                desc,
+                creator,
+                function=model.Page.DESCRIPTION,
+                formatting=True)
             description.parents = [o]
             o.description = description
             return o

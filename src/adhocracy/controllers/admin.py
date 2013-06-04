@@ -8,7 +8,7 @@ from pylons.controllers.util import redirect
 
 from adhocracy import model, forms
 from adhocracy.lib.auth import guard
-from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth.csrf import token_id, RequireInternalRequest
 from adhocracy.lib.auth.welcome import can_welcome
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import base_url, flash
@@ -53,9 +53,11 @@ class ImportForm(formencode.Schema):
     welcome = formencode.validators.StringBoolean(if_missing=False)
     include_badge = formencode.validators.StringBoolean(if_missing=False)
     include_instance = formencode.validators.StringBoolean(if_missing=False)
-    include_instance_proposal = formencode.validators.StringBoolean(if_missing=False)
+    include_instance_proposal = formencode.validators.StringBoolean(
+        if_missing=False)
     filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
-    importfile = formencode.validators.FieldStorageUploadConverter()
+    importfile = formencode.validators.FieldStorageUploadConverter(
+        not_empty=True)
     replacement = formencode.validators.OneOf(['update', 'skip'])
     _tok = formencode.validators.String()
 
@@ -110,7 +112,7 @@ class AdminController(BaseController):
                 self.form_result = UserImportForm().to_python(request.params)
                 # a proposal that this norm should be integrated with
                 return self._create_users(self.form_result)
-            except formencode.Invalid, i:
+            except formencode.Invalid as i:
                 return self.user_import_form(errors=i.unpack_errors())
         else:
             return self.user_import_form()
@@ -162,16 +164,27 @@ class AdminController(BaseController):
         return render("/admin/userimport_success.html", data)
 
     @guard.perm("global.admin")
-    def import_dialog(self):
+    def import_dialog(self, errors=None, defaults=None):
         data = {
             'welcome_enabled': can_welcome()
         }
-        return render('admin/import_dialog.html', data)
+        if defaults is None:
+            defaults = dict(request.POST)
+        tpl = render('admin/import_dialog.html', data)
+        return formencode.htmlfill.render(
+            tpl,
+            defaults=defaults,
+            errors=errors,
+            force_defaults=False)
 
     @RequireInternalRequest(methods=['POST'])
     @guard.perm("global.admin")
     def import_do(self):
-        options = ImportForm().to_python(dict(request.params))
+        try:
+            options = ImportForm().to_python(dict(request.params))
+        except formencode.Invalid as i:
+            return self.import_dialog(errors=i.unpack_errors())
+
         if not can_welcome() and options['welcome']:
             return ret_abort(_("Requested generation of welcome codes, but "
                                "welcome functionality"

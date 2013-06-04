@@ -221,16 +221,25 @@ class ValidUserBadge(formencode.FancyValidator):
                 value, state)
         return badge
 
+
 class ValidUserBadges(formencode.FancyValidator):
     """ Check for a set of user badges, inputted by ID """
 
     accept_iterator = True
-    if_missing = []
+
+    def __init__(self, not_empty=False):
+        super(formencode.FancyValidator, self).__init__()
+        self.not_empty = not_empty
+        if not not_empty:
+            self.if_missing = []
 
     def _to_python(self, value, state):
         from adhocracy.model import UserBadge
 
         if value is None:
+            if self.not_empty:
+                raise formencode.Invalid(_('No badges selected'), value, state)
+
             return []
 
         if isinstance(value, (str, unicode)):
@@ -238,8 +247,11 @@ class ValidUserBadges(formencode.FancyValidator):
 
         if len(value) != len(set(value)):
             raise formencode.Invalid(
-                _("Duplicates in input set of user badge IDs") % value,
+                _("Duplicates in input set of user badge IDs"),
                 value, state)
+
+        if self.not_empty and not value:
+            raise formencode.Invalid(_('No badges selected'), value, state)
 
         badges = UserBadge.findall_by_ids(value)
         if len(badges) != len(value):
@@ -248,6 +260,7 @@ class ValidUserBadges(formencode.FancyValidator):
                 _("Could not find badges %s") % ','.join(map(str, missing)),
                 value, state)
         return badges
+
 
 class ValidInstanceBadge(formencode.FancyValidator):
 
@@ -688,9 +701,20 @@ class MessageableInstances(formencode.FancyValidator):
 
         from adhocracy.controllers.massmessage import MassmessageController
         allowed_ids = (i.id for i in
-                       MassmessageController.get_allowed_instances(c.user))
+                       MassmessageController._get_allowed_instances(c.user))
         if any(int(i) not in allowed_ids for i in value):
             raise formencode.Invalid(
                 _('Disallowed instance selected'), value, state)
 
         return value
+
+
+def ProposalSortOrder():
+    from adhocracy.lib.pager import PROPOSAL_SORTS
+    return formencode.validators.OneOf(
+        [''] +
+        [
+            v.value
+            for g in PROPOSAL_SORTS.by_group.values()
+            for v in g
+        ])

@@ -23,5 +23,6 @@ def url(comment, member=None, format=None, comment_page=False, **kwargs):
     return _url.build(comment.topic.instance, 'comment',
                       comment.id, member=member, format=format, **kwargs)
 
+
 def wording(config=config):
     return asbool(config.get('adhocracy.comment_wording', False))

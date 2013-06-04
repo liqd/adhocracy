@@ -11,6 +11,7 @@ from pylons.i18n import _
 from adhocracy import forms, model
 from adhocracy.controllers.page import PageController
 from adhocracy.lib import helpers as h, tiles
+from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -33,8 +34,8 @@ class SelectionController(BaseController):
         return self.not_implemented()
 
     @RequireInstance
+    @guard.norm.propose()
     def propose(self, proposal_id, errors=None):
-        require.norm.propose()
         return self._new(proposal_id, '/selection/propose.html', errors)
 
     @RequireInstance
@@ -80,6 +81,7 @@ class SelectionController(BaseController):
     @RequireInstance
     def show(self, proposal_id, id, format='html'):
         c.selection = get_entity_or_abort(model.Selection, id)
+        require.selection.show(c.selection)
         redirect(h.selection.url(c.selection))
 
     @RequireInstance
@@ -112,30 +114,30 @@ class SelectionController(BaseController):
     def details(self, proposal_id, selection_id, format='html'):
         '''
         '''
-        selection = get_entity_or_abort(model.Selection, selection_id)
+        c.selection = get_entity_or_abort(model.Selection, selection_id)
+        require.selection.show(c.selection)
         proposal = get_entity_or_abort(model.Proposal, proposal_id)
-        if selection.proposal is not proposal:
+        if c.selection.proposal is not proposal:
             ret_abort(_('Page not Found'), code=404)
-        c.page = selection.page
-        variant_polls = dict(selection.variant_polls)
-        variant_to_show = selection.selected
+        c.page = c.selection.page
+        variant_polls = dict(c.selection.variant_polls)
+        variant_to_show = c.selection.selected
         if not variant_to_show:
             variant_to_show = model.Text.HEAD
 
-        variant_items = PageController.variant_items(c.page,
-                                                     selection=selection)
+        variant_items = PageController._variant_items(c.page,
+                                                      selection=c.selection)
         get_score = lambda item: \
-            selection.variant_poll(item['variant']).tally.score
-        c.variant_items = PageController.insert_variant_score_and_sort(
+            c.selection.variant_poll(item['variant']).tally.score
+        c.variant_items = PageController._insert_variant_score_and_sort(
             variant_items, get_score)
 
-        c.variant_details = PageController.variant_details(
+        c.variant_details = PageController._variant_details(
             c.page, variant_to_show)
         c.variant_details_json = json.dumps(c.variant_details, indent=4)
-        c.selection_details = PageController.selection_urls(selection)
+        c.selection_details = PageController._selection_urls(c.selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)
         c.current_variant_poll = variant_polls[variant_to_show]
-        c.selection = selection
         if format == 'overlay':
             return render('/proposal/details.html', overlay=True)
         return render('/proposal/details.html')

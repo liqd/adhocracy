@@ -11,6 +11,7 @@ from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import helpers as h, search as libsearch, sorting, tiles
+from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -53,8 +54,8 @@ class TaggingCompleteForm(formencode.Schema):
 class TagController(BaseController):
 
     @RequireInstance
+    @guard.tag.index()
     def index(self, format='html'):
-        require.tag.index()
         tags = model.Tag.popular_tags(limit=500)
         if format == 'json':
             return render_json(tags)
@@ -92,10 +93,10 @@ class TagController(BaseController):
         return render("/tag/show.html")
 
     @RequireInstance
+    @guard.tag.create()
     @validate(schema=TaggingCreateForm(), form="bad_request",
               post_only=False, on_get=True)
     def create(self, format='html'):
-        require.tag.create()
         delegateable = self.form_result.get('delegateable')
         for tag_text in text.tag_split(self.form_result.get('tags')):
             if not model.Tagging.find_by_delegateable_name_creator(
@@ -139,10 +140,10 @@ class TagController(BaseController):
             format=format)
 
     @RequireInstance
+    @guard.tag.index()
     @validate(schema=TaggingCompleteForm(), form="bad_request",
               post_only=False, on_get=True)
     def autocomplete(self):
-        require.tag.index()
         prefix = self.form_result.get('q')
         (base, prefix) = text.tag_split_last(prefix)
         results = []

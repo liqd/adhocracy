@@ -35,9 +35,6 @@ from pylons.i18n import _
 SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
                          re.MULTILINE | re.DOTALL)
 
-MORE_STRING = u'show more'
-LESS_STRING = u'show less'
-
 PRE_HTML = u'''
 <div class="showmore">
     <span class="showmore_collapsed">
@@ -78,10 +75,10 @@ class ShowmorePreprocessor(markdown.preprocessors.Preprocessor):
 
                 text = '%s%s%s%s%s' % (
                     text[:m.start()],
-                    self.markdown.htmlStash.store(PRE_HTML % _(MORE_STRING),
+                    self.markdown.htmlStash.store(PRE_HTML % _(u'show more'),
                                                   safe=True),
                     m.group('text'),
-                    self.markdown.htmlStash.store(POST_HTML % _(LESS_STRING),
+                    self.markdown.htmlStash.store(POST_HTML % _(u'show less'),
                                                   safe=True),
                     text[m.end():])
             else:

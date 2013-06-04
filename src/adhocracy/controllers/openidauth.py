@@ -158,7 +158,8 @@ class OpenidauthController(BaseController):
 
     def connect(self):
         if not openid_login_allowed():
-            ret_abort(_("Connection not allowed, OpenID has been disabled on this installation"), code=403)
+            ret_abort(_("Connection not allowed, OpenID has been disabled on "
+                        "this installation"), code=403)
         require.user.edit(c.user)
         if not c.user:
             h.flash(_("No OpenID was entered."), 'warning')
@@ -168,7 +169,8 @@ class OpenidauthController(BaseController):
     @RequireInternalRequest()
     def revoke(self):
         if not openid_login_allowed():
-            ret_abort(_("Removal not allowed, OpenID has been disabled on this installation"), code=403)
+            ret_abort(_("Removal not allowed, OpenID has been disabled on "
+                        "this installation"), code=403)
         require.user.edit(c.user)
         id = request.params.get('id')
         openid = model.OpenID.by_id(id)
@@ -187,8 +189,9 @@ class OpenidauthController(BaseController):
 
     def verify(self):
         if not openid_login_allowed():
-            ret_abort(_("OpenID login has been disabled on this installation"), code=403)
-        
+            ret_abort(_("OpenID login has been disabled on this installation"),
+                      code=403)
+
         self.consumer = create_consumer(self.openid_session)
         info = self.consumer.complete(request.params,
                                       h.base_url('/openid/verify',
@@ -307,6 +310,9 @@ class OpenidauthController(BaseController):
         Called when the nickname proposed by the OpenID identity provider is
         unavailable locally.
         """
+        if not openid_login_allowed():
+            ret_abort(_("OpenID login has been disabled on this installation"),
+                      code=403)
         if 'openid_req' in session:
             (openid, c.openid_username, email) = session['openid_req']
             if request.method == "POST":

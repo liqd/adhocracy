@@ -70,11 +70,7 @@ class UserUpdateForm(formencode.Schema):
                                     if_missing=3)
     email_messages = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
-    proposal_sort_order = validators.OneOf([''] + [
-        v.value
-        for g in PROPOSAL_SORTS.by_group.values()
-        for v in g
-    ])
+    proposal_sort_order = forms.ProposalSortOrder()
 
 
 class UserCodeForm(formencode.Schema):
@@ -122,9 +118,9 @@ class UserController(BaseController):
         c.active_subheader_nav = 'members'
 
     @RequireInstance
+    @guard.user.index()
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
-        require.user.index()
 
         default_sorting = config.get(
             'adhocracy.listings.instance_user.sorting', 'ACTIVITY')
@@ -137,8 +133,8 @@ class UserController(BaseController):
         c.tutorial = 'user_index'
         return render("/user/index.html")
 
+    @guard.perm('user.index_all')
     def all(self):
-        require.user.index()
         c.users_pager = solr_global_users_pager()
         return render("/user/all.html")
 
@@ -151,12 +147,9 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
-            captacha_enabled = config.get('recaptcha.public_key', "")
-            c.recaptcha = captacha_enabled and h.recaptcha.displayhtml(
+            captcha_enabled = config.get('recaptcha.public_key', "")
+            c.recaptcha = captcha_enabled and h.recaptcha.displayhtml(
                 use_ssl=True)
-            session['came_from'] = request.params.get('came_from',
-                                                      h.base_url())
-            session.save()
             if defaults is None:
                 defaults = {}
             defaults['_tok'] = token_id()
@@ -164,6 +157,7 @@ class UserController(BaseController):
                                    defaults=defaults)
 
     @RequireInternalRequest(methods=['POST'])
+    @guard.user.create()
     @validate(schema=UserCreateForm(), form="new", post_only=True)
     def create(self):
         if not h.allow_user_registration():
@@ -171,15 +165,14 @@ class UserController(BaseController):
                 _("Sorry, registration has been disabled by administrator."),
                 category='error', code=403)
 
-        require.user.create()
         if self.email_is_blacklisted(self.form_result['email']):
             return ret_abort(_("Sorry, but we don't accept registrations with "
                                "this email address."), category='error',
                              code=403)
 
         # SPAM protection recaptcha
-        captacha_enabled = config.get('recaptcha.public_key', "")
-        if captacha_enabled:
+        captcha_enabled = config.get('recaptcha.public_key', "")
+        if captcha_enabled:
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
                 c.recaptcha = h.recaptcha.displayhtml(
@@ -223,7 +216,7 @@ class UserController(BaseController):
         else:
             raise Exception('We have no way of authenticating the newly'
                             'created user %s; check adhocracy.login_type' %
-                            credentials['login'])
+                            login)
         credentials = {
             'login': login,
             'password': self.form_result.get("password")
@@ -233,10 +226,8 @@ class UserController(BaseController):
             # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
-            came_from = session.get('came_from', None)
-            if came_from is not None:
-                del session['came_from']
-                session.save()
+            came_from = request.params.get('came_from')
+            if came_from:
                 location = came_from
             else:
                 location = h.base_url('/user/%s/dashboard' %
@@ -474,10 +465,20 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
-            session['came_from'] = request.params.get('came_from',
-                                                      h.base_url())
-            session.save()
-            return render('/user/login.html')
+            if 'came_from' not in request.params:
+                request.GET['came_from'] = h.base_url()
+            return self._render_loginform()
+
+    def _render_loginform(self, errors=None, defaults=None):
+        if defaults is None:
+            defaults = dict(request.params)
+            defaults.setdefault('have_password', 'true')
+            if '_login_value' in request.environ:
+                defaults['login'] = request.environ['_login_value']
+            defaults['_tok'] = token_id()
+        return htmlfill.render(render('/user/login.html'),
+                               errors=errors,
+                               defaults=defaults)
 
     def perform_login(self):
         pass  # managed by repoze.who
@@ -486,10 +487,8 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            came_from = session.get('came_from', None)
+            came_from = request.params.get('came_from', None)
             if came_from is not None:
-                del session['came_from']
-                session.save()
                 redirect(came_from)
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
@@ -508,9 +507,7 @@ class UserController(BaseController):
                 if 'email+password' in login_configuration:
                     error_message = _("Invalid email or password")
 
-            return formencode.htmlfill.render(
-                render("/user/login.html"),
-                errors={"login": error_message})
+            return self._render_loginform(errors={"login": error_message})
 
     def logout(self):
         pass  # managed by repoze.who
@@ -532,10 +529,7 @@ class UserController(BaseController):
         login = self.form_result.get('login')
         if u'@' not in login:
             msg = _("Please use a valid email address.")
-            defaults = dict(request.params)
-            return htmlfill.render(render('/user/login.html'),
-                                   errors=dict(login=msg),
-                                   defaults=defaults)
+            return self._render_loginform(errors={'login': msg})
 
         if h.allow_user_registration():
             handle = login.partition(u'@')[0]
@@ -575,12 +569,9 @@ class UserController(BaseController):
             c.fresh_logged_in = True
             c.suppress_attention_getter = True
             del session['logged_in']
-            if 'came_from' in session:
-                c.came_from = session.get('came_from')
-                del session['came_from']
-                if isinstance(c.came_from, str):
-                    c.came_from = unicode(c.came_from, 'utf-8')
-            session.save()
+            came_from = request.params.get('came_from')
+            if came_from:
+                c.came_from = came_from
 
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
@@ -737,8 +728,8 @@ class UserController(BaseController):
                               add_canonical=True)
         return render("/user/instances.html")
 
+    @guard.watch.index()
     def watchlist(self, id, format='html'):
-        require.watch.index()
         c.active_global_nav = 'watchlist'
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -818,9 +809,9 @@ class UserController(BaseController):
         else:
             redirect(h.site.base_url(instance=None))
 
+    @guard.user.index()
     @validate(schema=UserFilterForm(), post_only=False, on_get=True)
     def filter(self):
-        require.user.index()
         query = self.form_result.get('users_q')
         users = libsearch.query.run(query + u"*", entity_type=model.User,
                                     instance_filter=True)

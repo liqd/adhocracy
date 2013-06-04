@@ -1,0 +1,35 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Treatments")}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.breadcrumbs.generate_breadcrumbs(_("Treatments"))|n}
+</%def>
+
+<h1>${_("User assignments of %(treatment_key)s") % {'treatment_key': c.treatment.key}}</h1>
+
+<table>
+<thead><tr>
+    <th></th>
+    %for i in range(c.treatment.variant_count):
+        <th>${i}</th>
+    %endfor
+</tr></thead>
+<tbody>
+%for a in c.assignments:
+    <tr>
+    <th>${a['source_badge'].title}</th>
+    %for variant in a['variants']:
+        <td>
+        %for user in variant:
+            <span class="treatment_user">${user.name}</span>
+        %endfor
+        </td>
+    %endfor
+    </tr>
+%endfor
+</tbody>
+</table>
+
+<a class="static_home" href="${h.base_url('/admin/treatment/')}">${_("back to treatments")}</a>

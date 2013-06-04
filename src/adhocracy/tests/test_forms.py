@@ -8,7 +8,7 @@ class TestValidators(TestController):
         from adhocracy.forms import ValidUserBadge
         from adhocracy.model import UserBadge
 
-        badge = UserBadge.create('testbadge', '#ccc', True, 'description')
+        badge = UserBadge.create(u'testbadge', u'#ccc', True, u'description')
         value = ValidUserBadge.to_python(badge.id, None)
         self.assertEqual(value, badge)
 
@@ -17,20 +17,20 @@ class TestValidators(TestController):
         from adhocracy.forms import ValidUserBadge
         from adhocracy.model import UserBadge
 
-        badge = UserBadge.create('testbadge', '#ccc', True, 'description')
+        badge = UserBadge.create(u'testbadge', u'#ccc', True, u'description')
         self.assertRaises(Invalid, ValidUserBadge.to_python,
                           badge.id + 1, state=None)
 
     def test_username_contains_char(self):
         from adhocracy.forms import ContainsChar
         validator = ContainsChar()
-        value = validator.to_python('ba12', None)
-        self.assertEqual(value, 'ba12')
+        value = validator.to_python(u'ba12', None)
+        self.assertEqual(value, u'ba12')
 
     def test_username_contains_no_char(self):
         from formencode import Invalid
         from adhocracy.forms import ContainsChar
-        self.assertRaises(Invalid, ContainsChar.to_python, '1234', None)
+        self.assertRaises(Invalid, ContainsChar.to_python, u'1234', None)
 
     def test_valid_category_badge(self):
         from formencode import Invalid
@@ -41,15 +41,15 @@ class TestValidators(TestController):
         # the current instance are valid.
         test_instance = tt_get_instance()
         self.assertEqual(test_instance, instance_filter.get_instance())
-        test_category = CategoryBadge.create('test_category', '#ccc', True,
-                                             'description', test_instance)
+        test_category = CategoryBadge.create(u'test_category', u'#ccc', True,
+                                             u'description', test_instance)
         value = ValidCategoryBadge.to_python(str(test_category.id))
         self.assertEqual(value, test_category)
 
         # from other instances they are not valid
-        other_instance = tt_make_instance('other', 'Other Instance')
-        other_category = CategoryBadge.create('other_category', '#ccc', True,
-                                              'description', other_instance)
+        other_instance = tt_make_instance(u'other', u'Other Instance')
+        other_category = CategoryBadge.create(u'other_category', u'#ccc', True,
+                                              u'description', other_instance)
         self.assertRaises(Invalid, ValidCategoryBadge.to_python,
                           str(other_category.id))
 
@@ -66,8 +66,8 @@ class TestValidators(TestController):
         from io import BytesIO
         value = FieldStorage()
         value.file = BytesIO(b"binarydata")
-        value.filename = "test.png"
-        value.name = "thumbs"
+        value.filename = u"test.png"
+        value.name = u"thumbs"
         self.assertRaises(Invalid, ValidImageFileUpload.to_python, value)
 
     def test_valid_file_upload(self):
@@ -78,6 +78,6 @@ class TestValidators(TestController):
         ValidFileUpload.max_size = 1
         value = FieldStorage()
         value.file = BytesIO(b"bi")
-        value.filename = "test.png"
-        value.name = "thumbs"
+        value.filename = u"test.png"
+        value.name = u"thumbs"
         self.assertRaises(Invalid, ValidFileUpload.to_python, value)

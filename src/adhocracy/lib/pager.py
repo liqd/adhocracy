@@ -16,6 +16,7 @@ from webob.multidict import MultiDict
 
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
+from adhocracy.lib.behavior import get_behavior
 from adhocracy.lib.helpers import base_url
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.helpers.badge_helper import get_parent_badges
@@ -275,11 +276,17 @@ def instances(instances):
 
 def proposals(proposals, default_sort=None, **kwargs):
     if default_sort is None:
+        def_sort_id = get_def_proposal_sort_order()
+        if def_sort_id is not None:
+            default_sort = PROPOSAL_SORTS.by_value[def_sort_id].func
+
+    if default_sort is None:
         default_sort = sorting.proposal_mixed
     sorts = {_("newest"): sorting.entity_newest,
              _("newest comment"): sorting.delegateable_latest_comment,
              _("most support"): sorting.proposal_support,
              _("mixed"): sorting.proposal_mixed,
+             _("controversy"): sorting.proposal_controversy,
              _("alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
@@ -1034,6 +1041,16 @@ class ProposalMixedIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_mixed_key(entity)
 
 
+class ProposalControversyIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.controversy'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            data[cls.solr_field] = sorting.proposal_controversy_key(entity)
+
+
 class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
@@ -1311,18 +1328,25 @@ class NamedSort(object):
 
 
 OLDEST = SortOption('+create_time', L_("Oldest"))
-NEWEST = SortOption('-create_time', L_("Newest"))
-NEWEST_COMMENT = SortOption('-order.newestcomment', L_("Newest Comment"))
+NEWEST = SortOption('-create_time', L_("Newest"), func=sorting.entity_newest)
+NEWEST_COMMENT = SortOption('-order.newestcomment', L_("Newest Comment"),
+                            func=sorting.delegateable_latest_comment)
 ACTIVITY = SortOption('-activity', L_("Activity"))
-ALPHA = SortOption('order.title', L_("Alphabetically"))
+ALPHA = SortOption('order.title', L_("Alphabetically"),
+                   func=sorting.delegateable_label)
 PROPOSAL_SUPPORT = SortOption('-order.proposal.support', L_("Most Support"),
-                              description=L_('Yays - nays'))
+                              description=L_('Yays - nays'),
+                              func=sorting.proposal_support)
 PROPOSAL_VOTES = SortOption('-order.proposal.votes', L_("Most Votes"),
                             description=L_('Yays + nays'))
 PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
 PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
 PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
-                            description=L_('Age and Support'))
+                            description=L_('Age and Support'),
+                            func=sorting.proposal_mixed)
+PROPOSAL_CONTROVERSY = SortOption('-order.proposal.controversy',
+                                  L_('Controversy'),
+                                  func=sorting.proposal_controversy)
 
 
 def get_user_sorts(instance=None, default='ACTIVITY'):
@@ -1359,7 +1383,8 @@ INSTANCE_SORTS = NamedSort([[None, (OLDEST(old=1),
 PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
                                              PROPOSAL_YES_VOTES,
-                                             PROPOSAL_NO_VOTES)],
+                                             PROPOSAL_NO_VOTES,
+                                             PROPOSAL_CONTROVERSY)],
                             [L_('Date'), (NEWEST(old=1,
                                                  label=L_('Newest Proposals')),
                                           NEWEST_COMMENT)],
@@ -1411,6 +1436,8 @@ def solr_instance_pager():
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
     extra_filter = {'instance': instance.key}
     sorts = PROPOSAL_SORTS
+    if default_sorting is None:
+        default_sorting = get_def_proposal_sort_order()
     if default_sorting is not None:
         sorts = copy.copy(sorts)
         sorts.default = default_sorting
@@ -1427,6 +1454,17 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
                               DelegateableTags],
                       wildcard_queries=wildcard_queries)
     return pager
+
+
+def get_def_proposal_sort_order():
+    default_sorting = None
+    if c.user and c.user.proposal_sort_order:
+        default_sorting = c.user.proposal_sort_order
+    else:
+        bso = get_behavior(c.user, 'proposal_sort_order')
+        if bso:
+            default_sorting = bso
+    return default_sorting
 
 
 INDEX_DATA_FINDERS = [v for v in globals().values() if

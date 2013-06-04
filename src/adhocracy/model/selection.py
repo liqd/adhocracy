@@ -78,8 +78,7 @@ class Selection(object):
     def by_variant(cls, page, variant, proposal=None):
         '''
         Return a list of selections for a *variant*. If a *proposal* is
-        given, only the selections for related to the *proposal* are
-        returned.
+        given, only the selections related to that *proposal* are returned.
 
         page:
             A :class:`adhocracy.model.page.Page` object

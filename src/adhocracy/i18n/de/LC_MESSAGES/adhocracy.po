@@ -11,6 +11,7 @@
 # Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013
 # oskarb <o.brabanski@gmail.com>, 2013
 # phihag <phihag@phihag.de>, 2013
+# rosangela <rosangelabochicchio@gmail.com>, 2013
 # cs <schroeder_carsten@gmx.de>, 2013
 # sicco <sicco@ddo.nl>, 2012
 # Wawe <transifex.com@jroene.de>, 2013
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-23 12:43+0200\n"
-"PO-Revision-Date: 2013-04-23 10:55+0000\n"
-"Last-Translator: Wawe <transifex.com@jroene.de>\n"
+"POT-Creation-Date: 2013-06-03 16:45+0200\n"
+"PO-Revision-Date: 2013-06-03 14:46+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -72,7 +73,7 @@ msgstr "neueste"
 
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Der Beitrag zu dem dieser Kommentar gehörthat keine Version %s"
+msgstr "Der Beitrag zu dem dieser Kommentar gehörthat keine Version %sargument"
 
 msgid "The comment has been deleted."
 msgstr "Dieser Kommentar wurde gelöscht."
@@ -433,6 +434,12 @@ msgstr "Die Einbindung von %s wurde gelöscht."
 msgid "Page not Found"
 msgstr "Die angeforderte Seite wurde nicht gefunden."
 
+msgid "Shibboleth authentication not enabled"
+msgstr "Shibboleth-Authentifizierung nicht aktiviert"
+
+msgid "This URL shouldn't be called directly"
+msgstr "Diese URL sollte nicht direkt aufgerufen werden"
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Die Seite existiert schon. Wählen Sie eine andere Kennung oder Sprache."
 
@@ -448,6 +455,19 @@ msgstr "Die angeforderte Seite wurde nicht gefunden."
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Tag \"%s\" wurde entfernt von %s \"%s\"."
+
+msgid "Treatment has been created."
+msgstr ""
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "'%s' konnte nicht gefunden werden. "
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr ""
+
+msgid "All users are already assigned to their respective treatment badges."
+msgstr ""
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try "
@@ -675,6 +695,9 @@ msgstr "Sie haben nicht die Rechte, um Installationsweite Badges zu bearbeiten"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "Das Badge '%s' existiert nicht."
+
+msgid "No badges selected"
+msgstr "Keine Badges ausgewählt."
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Duplikate bei der Eingabe von Benutzer Badge IDs"
@@ -914,8 +937,8 @@ msgstr "meiste Unterstützung"
 msgid "mixed"
 msgstr "gemischt"
 
-msgid "support"
-msgstr ""
+msgid "controversy"
+msgstr "Kontroversität"
 
 msgid "by date"
 msgstr "Früheste"
@@ -986,6 +1009,9 @@ msgstr "gemischt"
 msgid "Age and Support"
 msgstr "Alter und Unterstützung"
 
+msgid "Controversy"
+msgstr "Kontroverse"
+
 msgid "Rating"
 msgstr "Bewertung"
 
@@ -998,9 +1024,11 @@ msgstr "Nutzerverhalten"
 msgid "Other"
 msgstr "Sonstige"
 
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "'%s' konnte nicht gefunden werden. "
+msgid "Support"
+msgstr "Unterstützung"
+
+msgid "Newest Proposals"
+msgstr "Neueste Vorschläge"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sie scheinen nicht die benötigten Rechte zu haben um fortzufahren."
@@ -1022,6 +1050,14 @@ msgstr "enthält sich bei"
 
 msgid "is against"
 msgstr "ist gegen"
+
+#, python-format
+msgid "comment on %s"
+msgstr "Kommentar zu %s"
+
+#, python-format
+msgid "argument on %s"
+msgstr "Argument zu %s"
 
 msgid "(Undefined)"
 msgstr "(nicht definiert)"
@@ -1335,6 +1371,12 @@ msgstr "Benutzer"
 msgid "This action is only available in an instance context."
 msgstr "Die Handlung ist nur innerhalb einer Gruppe verfügbar."
 
+msgid "show more"
+msgstr "mehr anzeigen"
+
+msgid "show less"
+msgstr "weniger anzeigen"
+
 msgid "(no milestone)"
 msgstr "(kein Termin)"
 
@@ -1349,6 +1391,9 @@ msgstr "Zugunsten abstimmen"
 
 msgid "Click to vote con"
 msgstr "Dagegen abstimmen"
+
+msgid "Your current vote is already con"
+msgstr "Sie haben bereits mit \"dagegen\" abgestimmt"
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr ""
@@ -1587,6 +1632,9 @@ msgstr "zurücksetzen"
 msgid "Sort:"
 msgstr "Sortieren:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr "Sie benutzen einen veralteten Browser. Klicken Sie hier zum aktualisieren."
+
 msgid "Welcome back!"
 msgstr "Willkommen zurück!"
 
@@ -1602,18 +1650,6 @@ msgstr "Bitte wählen Sie ein sicheres Passwort"
 
 msgid "Set Password"
 msgstr "Passwort setzen"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
-
-msgid "Log in to participate in the discussion."
-msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
-
-msgid "Register"
-msgstr "Registrieren"
-
-msgid "Log in"
-msgstr "Anmelden"
 
 msgid "Join this instance to start contributing."
 msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
@@ -1636,6 +1672,15 @@ msgstr "Profil editieren"
 
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Diese Gruppe ist eingefroren - Bearbeiten oder Hinzufügen von neuen Beiträgen ist nicht möglich."
+
+msgid "Register"
+msgstr "Registrieren"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
+
+msgid "Log in to participate in the discussion."
+msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
 
 msgid ""
 "You need to set an email in your profile in order to contribute to this "
@@ -1666,11 +1711,13 @@ msgstr "Alle Tutorials ausschalten"
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes "
-"and %(against)s nays"
-msgstr ""
-"Insgesamt <a href=\"%(url)s\">%(votes)s Stimmen</a>, davon %(for)s dafür "
-"und %(against)s dagegen."
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
+" %(against)s nays"
+msgstr "Insgesamt <a href=\"%(url)s\">%(votes)s Stimmen</a>, davon %(for)s dafür und %(against)s dagegen."
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr "Insgesamt %(votes)s Stimmen, davon %(for)s dafür und %(against)s dagegen."
 
 msgid "Votes"
 msgstr "Stimmen"
@@ -1759,9 +1806,6 @@ msgstr "Ersetze Duplikate"
 msgid "Skip duplicate entries"
 msgstr "Überspringe Duplikate"
 
-msgid "File to import:"
-msgstr "Zu importierende Datei:"
-
 msgid "Detect"
 msgstr "Erkennen"
 
@@ -1808,6 +1852,9 @@ msgstr "Seiten"
 
 msgid "Send an email to users"
 msgstr "Senden Sie eine E-Mail an Benutzer"
+
+msgid "Assign treatment badges"
+msgstr ""
 
 msgid "Site administration"
 msgstr "Seiteneinstellungen"
@@ -2665,6 +2712,12 @@ msgid_plural "%s norms"
 msgstr[0] "%s Beschluss"
 msgstr[1] "%s Beschlüsse"
 
+#, python-format
+msgid ""
+"You receive this message because you're signed in to the news service on %s."
+" You can change your subscription settings on the following page: %s"
+msgstr "Sie erhalten diese Nachricht, da Sie den Benachrichtigungsdienst auf %s aktiviert haben. Sie können Ihre Benachrichtigungseinstellungen auf der folgenden Seite verändern: %s"
+
 msgid "Send mass message"
 msgstr "Benachrichtigung versenden"
 
@@ -2713,6 +2766,20 @@ msgstr "Sie sind dabei, die folgende Nachricht an %s Empfänger/innen zu senden:
 
 msgid "The message will go to the following users:"
 msgstr "Die Nachricht wird an die folgenden Benutzer gesendet:"
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr "Die folgende Nachricht wurde Ihnen gesendet von %s:"
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr "Sie können %s antworten, indem Sie eine Email an %s schreiben."
+
+#, python-format
+msgid ""
+"Unfortunately, %s has not left an email address. You will not be able to "
+"reply directly."
+msgstr "Leider hat %s keine Email-Adresse angegeben. Sie können daher nicht direkt antworten."
 
 #, python-format
 msgid "Message %s"
@@ -2820,6 +2887,13 @@ msgstr "Mehr erfahren"
 
 msgid "(unknown)"
 msgstr "(unbekannt)"
+
+msgid "with an abstention on"
+msgstr "mit Enthaltung bei"
+
+#, python-format
+msgid "On %s, %s wrote:"
+msgstr "Am %s hat %s geschrieben:"
 
 msgid "Add an OpenID"
 msgstr "Eine OpenID hinzufügen"
@@ -2953,9 +3027,6 @@ msgstr "Inhalt des Beschlusses"
 
 msgid "Tag and classify"
 msgstr "Tags und Eigenschaften"
-
-msgid "Tags to describe the subject"
-msgstr "Tags um den Inhalt zu beschreiben"
 
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss  eingeordnet."
@@ -3507,6 +3578,15 @@ msgstr "ansehen"
 msgid "compare"
 msgstr "vergleichen"
 
+msgid "Complete registration"
+msgstr "Registrierung abschließen"
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr "Bitte vervollständigen Sie die Shibboleth-basierte Registrierung"
+
+msgid "Email:"
+msgstr "E-Mail:"
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr "Bearbeite %(key)s (%(langname)s)"
@@ -3601,6 +3681,43 @@ msgstr "%s von %s"
 
 msgid "Compare"
 msgstr "Vergleiche"
+
+msgid "Treatments"
+msgstr ""
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr ""
+
+msgid "back to treatments"
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "Source Badges"
+msgstr ""
+
+msgid "Assign users"
+msgstr ""
+
+msgid "See assigned users"
+msgstr ""
+
+msgid "Create a new treatment"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Select users to treat by their badges:"
+msgstr ""
+
+msgid "Number of variants:"
+msgstr ""
+
+msgid "Create treatment"
+msgstr ""
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle Benutzer auf diesem Adhocracy-Server"
@@ -3874,9 +3991,6 @@ msgstr "E-Mail oder Benutzername:"
 
 msgid "Login:"
 msgstr "Benutzername:"
-
-msgid "Email:"
-msgstr "E-Mail:"
 
 msgid "Forgot your password?"
 msgstr "Kennwort vergessen?"

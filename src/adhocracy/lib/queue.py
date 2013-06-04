@@ -2,6 +2,7 @@ from collections import defaultdict
 import json
 from logging import getLogger
 
+from paste.deploy.converters import asbool
 from redis import Redis
 from rq import Queue
 from rq.job import Job
@@ -83,9 +84,14 @@ class async(object):
                 meta.Session.commit()
                 meta.Session.remove()
         else:
-            log.debug('enqueuing job: %s, args: %s, kwargs: %s' % (
-                self.func.__name__, str(args), str(kwargs)))
-            return self.enqueue(*args, **kwargs)
+            job = self.enqueue(*args, **kwargs)
+            if isinstance(job, FakeJob):
+                log.debug('fake job execution: %s, args: %s, kwargs: %s'
+                          % (self.func.__name__, str(args), str(kwargs)))
+            else:
+                log.debug('enqueuing job: %s, args: %s, kwargs: %s' % (
+                    self.func.__name__, str(args), str(kwargs)))
+            return job
 
 
 # --[ Redis configuration ]-------------------------------------------------
@@ -98,23 +104,24 @@ rq_config = None
 
 class RQConfig(object):
 
-    force_sync = False
     in_worker = False
-    connection = None
 
-    def __init__(self, host, port, queue_name):
-        if not host or not port or not queue_name:
-            log.warn(('You have not configured redis for adhocracy. '
-                     'You should. Current configuration values:'
-                      'host: %s, port: %s, name: %s') %
-                     (host, port, queue_name))
-            self.force_sync = True
+    def __init__(self, async, host, port, queue_name):
+        if host and port and queue_name:
+            self.host = host
+            self.port = int(port)
+            self.queue_name = queue_name
+            self.use_redis = True
+        else:
             self.use_redis = False
-            return
-        self.host = host
-        self.port = int(port)
-        self.queue_name = queue_name
-        self.use_redis = True
+
+            if async:
+                log.warn(('You have not configured redis for adhocracy. '
+                          'You should. Current configuration values:'
+                          'host: %s, port: %s, name: %s') %
+                         (host, port, queue_name))
+
+        self.force_sync = not async
         self.connection = self.new_connection()
 
     def new_connection(self):
@@ -124,7 +131,7 @@ class RQConfig(object):
 
     @property
     def queue(self):
-        if self.force_sync:
+        if not self.use_redis or (not self.in_worker and self.force_sync):
             return None
         return Queue(self.queue_name, connection=self.connection)
 
@@ -135,10 +142,11 @@ class RQConfig(object):
 
     @classmethod
     def from_config(cls, config):
+        async = asbool(config.get('adhocracy.background_processing', 'true'))
         host = config.get('adhocracy.redis.host')
         port = config.get('adhocracy.redis.port')
         name = config.get('adhocracy.redis.queue')
-        return cls(host, port, name)
+        return cls(async, host, port, name)
 
 
 # --[ async methods ]-------------------------------------------------------
@@ -188,12 +196,13 @@ class FakeJob(Job):
     FakeJob is meant to be used in settings where no redis queue is configured.
     It fakes the signature of a rq Job, but is executed synchronously.
 
-    FIXME: This isn't working, as the signature of rq.job.Job constructor and
-    other methods has changed.
+    rq could also do synchronous processing by passing `async=False` to the
+    `Queue` constructor, but this would still needs a running Redis process,
+    thus we implemented our own way to do this.
     """
 
     _result = None
 
-    @property
-    def return_value(self):
-        '''Override function to not connect to redis'''
+    def __init__(self):
+        """Override constructor in order to not connect to redis"""
+        pass

@@ -7,7 +7,7 @@ from pylons.decorators import validate
 from pylons.i18n import _
 
 from adhocracy.lib import search as libsearch, sorting, tiles
-from adhocracy.lib.auth import require
+from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import render
@@ -24,22 +24,21 @@ class SearchQueryForm(formencode.Schema):
 
 class SearchController(BaseController):
 
-    def search_form(self):
-        require.proposal.index()
+    def _search_form(self):
         return render("search/results.html")
 
-    @validate(schema=SearchQueryForm(), form="search_form",
+    @guard.proposal.index()
+    @validate(schema=SearchQueryForm(), form="_search_form",
               post_only=False, on_get=True)
     def query(self):
-        require.proposal.index()
         c.query = self.form_result.get("serp_q", u"*:*")
         self._query_pager()
         return formencode.htmlfill.render(render("search/results.html"),
                                           {'q': c.query, 'serp_q': c.query})
 
+    @guard.proposal.index()
     @validate(schema=SearchQueryForm(), post_only=False, on_get=True)
     def filter(self):
-        require.proposal.index()
         c.query = self.form_result.get("serp_q", '')
         self._query_pager()
         return c.entities_pager.here()

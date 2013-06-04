@@ -58,7 +58,7 @@ setup(
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
         "sunburnt==0.6",
-        "PIL>=1.1.6",
+        "Pillow",
         "Markdown>=2.3",
         "lxml>=2.2.6",
         "Mako>=0.7.3",
@@ -87,9 +87,9 @@ setup(
         'test': ['zope.testbrowser [wsgi]',
                  'repoze.tm2',
                  'mock >=0.8.0, <=0.8.99',
-                 'nose',
-                 'nose-cov',
-                 'nose-exclude',
+                 'pytest',
+                 'pytest-cov',
+                 'pytest-pep8',
                  'cssselect',
                  'decorator',
                  'pep8',]
@@ -100,6 +100,7 @@ setup(
     message_extractors={'src/adhocracy': [
         ('**.py', 'python', None),
         ('templates/**.html', 'mako', {'input_encoding': 'utf-8'}),
+        ('templates/**.txt', 'mako', {'input_encoding': 'utf-8'}),
         ('static/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'adhocracy_Pylons'],
@@ -117,7 +118,6 @@ setup(
         ],
         'fanstatic.libraries': [
             'stylesheets = adhocracy.static:stylesheets_library',
-            'yaml = adhocracy.static:yaml_library',
             'autocomplete = adhocracy.static:autocomplete_library',
             'placeholder = adhocracy.static:placeholder_library',
             'jquerytools = adhocracy.static:jquerytools_library',

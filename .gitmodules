@@ -1,0 +1,4 @@
+[submodule "python/buildout.python"]
+    path = python/buildout.python
+    url = https://github.com/collective/buildout.python
+    ignore = dirty

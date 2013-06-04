@@ -165,7 +165,8 @@ class AuthCheck(object):
         and if they would be resolved if the user joined or logged in.
         """
         return (self.permission_refusals
-                and not self.other_refusals
+                and (not self.other_refusals or
+                    (len(self.other_refusals) == 1 and NOT_LOGGED_IN in self.other_refusals))
                 and all(has_default_permission(perm).is_met(request.environ)
                         for perm in self.permission_refusals))
 

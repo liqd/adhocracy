@@ -14,6 +14,7 @@ from adhocracy.forms.common import ValidFileUpload
 from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import ValidateNoCycle
+from adhocracy.forms.common import ProposalSortOrder
 from adhocracy.model import meta
 from adhocracy.model import Badge
 from adhocracy.model import Group
@@ -27,7 +28,9 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.templating import render
+from adhocracy.lib.pager import PROPOSAL_SORTS
 
 
 class BadgeForm(formencode.Schema):
@@ -37,6 +40,8 @@ class BadgeForm(formencode.Schema):
     description = validators.String(max=255)
     color = ValidHTMLColor()
     instance = ValidBadgeInstance()
+    if behavior_enabled():
+        behavior_proposal_sort_order = ProposalSortOrder()
 
 
 class CategoryBadgeForm(BadgeForm):
@@ -111,6 +116,7 @@ class BadgeController(BaseController):
                                              path='/badge')
         return self.base_url_
 
+    @guard.perm('badge.index')
     def index(self, format='html'):
         c.badges = self._available_badges()
         c.badge_base_url = self.base_url
@@ -142,6 +148,7 @@ class BadgeController(BaseController):
                 [(b.id, b.get_key()) for b in global_categories],
                 key=lambda x: x[1])
 
+    @guard.instance.any_admin()
     def add(self, badge_type=None, errors=None):
         if badge_type is not None:
             c.badge_type = badge_type
@@ -159,7 +166,7 @@ class BadgeController(BaseController):
                                errors=errors,
                                force_defaults=False)
 
-    def dispatch(self, action, badge_type, id=None):
+    def _dispatch(self, action, badge_type, id=None):
         '''
         dispatch to a suiteable "create" or "edit" action
 
@@ -188,7 +195,7 @@ class BadgeController(BaseController):
     @guard.instance.any_admin()
     @RequireInternalRequest()
     def create(self, badge_type):
-        return self.dispatch('create', badge_type)
+        return self._dispatch('create', badge_type)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
@@ -293,13 +300,13 @@ class BadgeController(BaseController):
                 form_result.get('description').strip(),
                 instance)
 
-    def get_badge_type(self, badge):
+    def _get_badge_type(self, badge):
         return badge.polymorphic_identity
 
-    def get_badge_or_redirect(self, id):
+    def _get_badge_or_redirect(self, id):
         '''
-        Get a badge. Redirect if it does not exist. Redirect if it
-        if the badge is not from the current instance, but the user is
+        Get a badge. Redirect if it does not exist. Redirect if
+        the badge is not from the current instance, but the user is
         only an instance admin, not a global admin
         '''
         badge = Badge.by_id(id, instance_filter=False)
@@ -311,22 +318,29 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     def edit(self, id, errors=None):
-        badge = self.get_badge_or_redirect(id)
-        c.badge_type = self.get_badge_type(badge)
-        c.badge_thumbnail = None
-        if getattr(badge, "thumbnail", None):
-            c.badge_thumbnail = h.badge_helper.generate_thumbnail_tag(badge)
-        c.form_type = 'update'
+        badge = self._get_badge_or_redirect(id)
+        data = {
+            'badge_type': self._get_badge_type(badge),
+            'badge_thumbnail': (
+                h.badge_helper.generate_thumbnail_tag(badge)
+                if getattr(badge, "thumbnail", None)
+                else None
+            ),
+            'form_type': 'update',
+            'sorting_orders': PROPOSAL_SORTS,
+        }
         self._set_parent_categories(exclude=badge)
 
         # Plug in current values
         instance_default = badge.instance.key if badge.instance else ''
-        defaults = dict(title=badge.title,
-                        description=badge.description,
-                        color=badge.color,
-                        visible=badge.visible,
-                        display_group=badge.display_group,
-                        instance=instance_default)
+        defaults = dict(
+            title=badge.title,
+            description=badge.description,
+            color=badge.color,
+            visible=badge.visible,
+            display_group=badge.display_group,
+            instance=instance_default,
+            behavior_proposal_sort_order=badge.behavior_proposal_sort_order)
         if isinstance(badge, UserBadge):
             c.groups = Group.all_instance()
             defaults['group'] = badge.group and badge.group.code or ''
@@ -335,7 +349,7 @@ class BadgeController(BaseController):
             defaults['select_child_description'] =\
                 badge.select_child_description
 
-        return htmlfill.render(render(self.form_template),
+        return htmlfill.render(render(self.form_template, data),
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)
@@ -343,9 +357,9 @@ class BadgeController(BaseController):
     @guard.instance.any_admin()
     @RequireInternalRequest()
     def update(self, id):
-        badge = self.get_badge_or_redirect(id)
-        c.badge_type = self.get_badge_type(badge)
-        return self.dispatch('update', c.badge_type, id=id)
+        badge = self._get_badge_or_redirect(id)
+        c.badge_type = self._get_badge_type(badge)
+        return self._dispatch('update', c.badge_type, id=id)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
@@ -355,7 +369,7 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
 
-        badge = self.get_badge_or_redirect(id)
+        badge = self._get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
         group = self.form_result.get('group')
@@ -368,6 +382,9 @@ class BadgeController(BaseController):
         badge.description = description
         badge.instance = instance
         badge.display_group = display_group
+        if behavior_enabled():
+            badge.behavior_proposal_sort_order = self.form_result.get(
+                'behavior_proposal_sort_order')
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
@@ -379,7 +396,7 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
-        badge = self.get_badge_or_redirect(id)
+        badge = self._get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
 
@@ -399,7 +416,7 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
-        badge = self.get_badge_or_redirect(id)
+        badge = self._get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
 
@@ -421,7 +438,7 @@ class BadgeController(BaseController):
             self.form_result = CategoryBadgeUpdateForm().to_python(params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
-        badge = self.get_badge_or_redirect(id)
+        badge = self._get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
         child_descr = self.form_result.get("select_child_description")
@@ -448,7 +465,7 @@ class BadgeController(BaseController):
             self.form_result = ThumbnailBadgeForm().to_python(request.params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
-        badge = self.get_badge_or_redirect(id)
+        badge = self._get_badge_or_redirect(id)
         title, color, visible, description, instance = self._get_common_fields(
             self.form_result)
         thumbnail = self.form_result.get("thumbnail")

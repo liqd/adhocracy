@@ -1,25 +1,23 @@
 <%
-from urllib import urlencode
-
-came_from = request.params.get('came_from', '')
-query_string = ''
-if came_from:
-    query_string = '?%s' % urlencode({'came_from': came_from.encode('utf-8')})
-    
-login_titleandtype = h.allowed_login_types()
-if 'username+password' in login_titleandtype and 'email+password' in login_titleandtype:
+login_types = h.allowed_login_types()
+if 'username+password' in login_types and 'email+password' in login_types:
     field_title = _('Email or username:')
     field_type = 'text'
 else:
     field_title = _('Login:')
     field_type =  'text'
-    if 'email+password' in login_titleandtype and \
-            'username+password' not in login_titleandtype:
+    if 'email+password' in login_types and \
+            'username+password' not in login_types:
         field_title = _('Email:')
         field_type = 'email'
 %>
+
+%if 'shibboleth' in login_types:
+<a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="patch_camefrom">Login via Shibboleth</a>
+%endif
+
 <div class="form_wrapper">
-  <form name="login" method="POST" action="/perform_login">
+  <form name="login" method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom">
     <div class="input_wrapper">
       <label>${field_title}
         <input type="${field_type}" name="login" autofocus="autofocus" />
@@ -35,7 +33,7 @@ else:
       <input type="submit" value="${_('Login')}" />
     %if h.allow_user_registration():
         ${_("or")} 
-        <a href="/register${query_string}" class="icon_link more_uppercase">
+        <a href="/register${h.camefrom_querystring()}" class="icon_link more_uppercase patch_camefrom">
             ${_("Register new account")|n}</a>
     %endif
     </div>
@@ -43,7 +41,7 @@ else:
   <script>
       $('input[name=login]').focus();
   </script>
-  %if 'openid' in login_titleandtype:
+  %if 'openid' in login_types:
       <%
       c.openid_scenario = "login"
       %>

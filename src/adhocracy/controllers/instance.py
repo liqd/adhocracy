@@ -174,8 +174,8 @@ class InstanceSnameEditForm(formencode.Schema):
 
 class InstanceController(BaseController):
 
+    @guard.instance.index()
     def index(self, format="html"):
-        require.instance.index()
 
         c.active_global_nav = 'instances'
         c.instance_pager = pager.solr_instance_pager()
@@ -186,8 +186,8 @@ class InstanceController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         return render("/instance/index.html")
 
+    @guard.instance.create()
     def new(self):
-        require.instance.create()
 
         data = {}
         protocol = config.get('adhocracy.protocol', 'http').strip()
@@ -205,9 +205,9 @@ class InstanceController(BaseController):
         return render("/instance/new.html", data)
 
     @csrf.RequireInternalRequest(methods=['POST'])
+    @guard.instance.create()
     @validate(schema=InstanceCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
-        require.instance.create()
         instance = model.Instance.create(
             self.form_result.get('key'), self.form_result.get('label'),
             c.user, description=self.form_result.get('description'),
@@ -278,7 +278,8 @@ class InstanceController(BaseController):
         c.all_proposals_pager = None
         if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
                              'false')):
-            c.all_proposals_pager = pager.proposals(proposals)
+            c.all_proposals_pager = pager.proposals(proposals, size=100,
+                                                    initial_size=100)
 
         c.stats = None
         if asbool(config.get('adhocracy.show_instance_overview_stats',
@@ -387,7 +388,7 @@ class InstanceController(BaseController):
             return render_json(obj)
 
     @classmethod
-    def settings_menu(cls, instance, current):
+    def _settings_menu(cls, instance, current):
 
         class Menu(list):
             '''Subclass so we can attach attributes'''
@@ -434,12 +435,12 @@ class InstanceController(BaseController):
 
         return settings
 
-    def settings_result(self, updated, instance, setting_name, message=None):
+    def _settings_result(self, updated, instance, setting_name, message=None):
         '''
         Sets a redirect code and location header, stores a flash
         message and returns the message. If *message* is not None, a
-        message is choosen depending on the boolean value of
-        *updated*. The redirect *location* URL is choosen based on the
+        message is chosen depending on the boolean value of
+        *updated*. The redirect *location* URL is chosen based on the
         instance and *setting_name*.
 
         This method will *not raise an redirect exception* but set the
@@ -467,10 +468,11 @@ class InstanceController(BaseController):
             category = 'notice'
         h.flash(message, category=category)
         response.status_int = 303
-        url = self.settings_menu(instance, setting_name).url_for(setting_name)
+        url = self._settings_menu(instance, setting_name).url_for(setting_name)
         response.headers['location'] = url
         return unicode(message)
 
+    @guard.perm('instance.index')
     def icon(self, id, y=24, x=None):
         try:
             y = int(y)
@@ -489,9 +491,9 @@ class InstanceController(BaseController):
             redirect(h.instance.icon_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
-    def settings_general_form(self, id):
+    def _settings_general_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'general')
+        c.settings_menu = self._settings_menu(c.page_instance, 'general')
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
@@ -517,7 +519,7 @@ class InstanceController(BaseController):
     def settings_general(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        form_content = self.settings_general_form(id)
+        form_content = self._settings_general_form(id)
         return htmlfill.render(
             form_content,
             defaults={
@@ -533,7 +535,7 @@ class InstanceController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceGeneralEditForm(), form="settings_general_form",
+    @validate(schema=InstanceGeneralEditForm(), form="_settings_general_form",
               post_only=True, auto_error_formatter=formatter)
     def settings_general_update(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -557,15 +559,15 @@ class InstanceController(BaseController):
                 c.page_instance.locale = locale
                 updated = True
 
-        return self.settings_result(updated, c.page_instance, 'general')
+        return self._settings_result(updated, c.page_instance, 'general')
 
-    def settings_appearance_form(self, id):
+    def _settings_appearance_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.current_logo = None
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
             c.current_logo = h.instance.icon_url(c.page_instance, 48)
 
-        c.settings_menu = self.settings_menu(c.page_instance, 'appearance')
+        c.settings_menu = self._settings_menu(c.page_instance, 'appearance')
         return render("/instance/settings_appearance.html")
 
     @RequireInstance
@@ -573,7 +575,7 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         return htmlfill.render(
-            self.settings_appearance_form(id),
+            self._settings_appearance_form(id),
             defaults={
                 '_method': 'PUT',
                 'css': c.page_instance.css,
@@ -586,7 +588,7 @@ class InstanceController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceAppearanceEditForm(),
-              form="settings_appearance_form",
+              form="_settings_appearance_form",
               post_only=True, auto_error_formatter=formatter)
     def settings_appearance_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
@@ -595,7 +597,7 @@ class InstanceController(BaseController):
         # delete the logo if the button was pressed and exit
         if 'delete_logo' in self.form_result:
             logo.delete(c.page_instance)
-            return self.settings_result(
+            return self._settings_result(
                 True, c.page_instance, 'appearance',
                 message=_(u'The logo has been deleted.'))
 
@@ -617,11 +619,11 @@ class InstanceController(BaseController):
             log.debug(e)
             return self.settings_appearance(id)
 
-        return self.settings_result(updated, c.page_instance, 'appearance')
+        return self._settings_result(updated, c.page_instance, 'appearance')
 
-    def settings_contents_form(self, id):
+    def _settings_contents_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'contents')
+        c.settings_menu = self._settings_menu(c.page_instance, 'contents')
         return render("/instance/settings_contents.html")
 
     @RequireInstance
@@ -630,7 +632,7 @@ class InstanceController(BaseController):
         require.instance.edit(instance)
         c.page_instance = instance
         return htmlfill.render(
-            self.settings_contents_form(id),
+            self._settings_contents_form(id),
             defaults={
                 '_method': 'PUT',
                 'allow_propose': instance.allow_propose,
@@ -649,7 +651,7 @@ class InstanceController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceContentsEditForm(),
-              form="settings_contents_form",
+              form="_settings_contents_form",
               post_only=True)
     def settings_contents_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
@@ -661,11 +663,11 @@ class InstanceController(BaseController):
              'use_norms', 'use_maps', 'require_selection',
              'hide_global_categories', 'editable_comments_default',
              'show_norms_navigation', 'allow_thumbnailbadges'])
-        return self.settings_result(updated, c.page_instance, 'contents')
+        return self._settings_result(updated, c.page_instance, 'contents')
 
-    def settings_voting_form(self, id):
+    def _settings_voting_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'voting')
+        c.settings_menu = self._settings_menu(c.page_instance, 'voting')
         c.delay_options = []
         for delay in ((0, _("No delay")),
                       (1, _("1 Day")),
@@ -707,13 +709,13 @@ class InstanceController(BaseController):
             defaults['votedetail_badges'] = [
                 b.id for b in c.page_instance.votedetail_userbadges]
         return htmlfill.render(
-            self.settings_voting_form(id),
+            self._settings_voting_form(id),
             defaults=defaults)
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceVotingEditForm(),
-              form="settings_voting_form",
+              form="_settings_voting_form",
               post_only=True, auto_error_formatter=formatter)
     def settings_voting_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
@@ -731,7 +733,7 @@ class InstanceController(BaseController):
                 c.page_instance.votedetail_userbadges = new_badges
             updated = updated or updated_vd
 
-        return self.settings_result(updated, c.page_instance, 'voting')
+        return self._settings_result(updated, c.page_instance, 'voting')
 
     def badge_controller(self, instance):
         '''
@@ -749,41 +751,42 @@ class InstanceController(BaseController):
     def settings_badges(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        c.settings_menu = self.settings_menu(c.page_instance, 'badges')
+        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.index()
 
     @RequireInstance
     def settings_badges_add(self, id, badge_type):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'badges')
+        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.add(badge_type=badge_type)
 
     @RequireInstance
     def settings_badges_create(self, id, badge_type):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'badges')
+        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.create(badge_type=badge_type)
 
     @RequireInstance
     def settings_badges_edit(self, id, badge_id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'badges')
+        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.edit(badge_id)
 
     @RequireInstance
     def settings_badges_update(self, id, badge_id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'badges')
+        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.update(badge_id)
 
-    def settings_members_import_form(self, id):
+    def _settings_members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'members_import')
+        c.settings_menu = self._settings_menu(c.page_instance,
+                                              'members_import')
         return render("/instance/settings_members_import.html")
 
     @RequireInstance
@@ -791,7 +794,7 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         return htmlfill.render(
-            self.settings_members_import_form(id),
+            self._settings_members_import_form(id),
             defaults={
                 '_method': 'PUT',
                 '_tok': csrf.token_id()})
@@ -799,11 +802,12 @@ class InstanceController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=UserImportForm(),
-              form="settings_members_import_form",
+              form="_settings_members_import_form",
               post_only=True, auto_error_formatter=formatter)
     def settings_members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'members_import')
+        c.settings_menu = self._settings_menu(c.page_instance,
+                                              'members_import')
         require.instance.edit(c.page_instance)
         AdminController()._create_users(self.form_result)
         return(render("/instance/settings_members_import_success.html"))
@@ -812,7 +816,7 @@ class InstanceController(BaseController):
 
     def settings_sname_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self.settings_menu(c.page_instance, 'sname')
+        c.settings_menu = self._settings_menu(c.page_instance, 'sname')
         return render("/instance/settings_sname.html")
 
     @RequireInstance
@@ -835,7 +839,7 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
 
         updated = update_attributes(c.page_instance, self.form_result, [])
-        return self.settings_result(updated, c.page_instance, 'sname')
+        return self._settings_result(updated, c.page_instance, 'sname')
 
     @RequireInstance
     def style(self, id):
