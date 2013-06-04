@@ -132,8 +132,6 @@ adhocracy_geo_js = Resource(adhocracy_library, 'adhocracy.geo.js',
                             depends=[adhocracy, knockout_js, openlayers_js],
                             bottom=True)
 
-adhocracy_geo_css = Resource(stylesheets_library, 'adhocracy.geo.css')
-
 
 # the adhocracy_geo_i18n resources are needed with need_adhocracy_geo_i18n,
 # which automatically choses the right locale
