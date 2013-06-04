@@ -6,23 +6,26 @@
 </%def>
 
 <%block name="headline">
-<h1>
+<h2>
     %if c.instance:
         ${_("Search in %s") % c.instance.label}
     %else:
         ${_("Search")}
     %endif
-</h1>
+</h2>
 <p>${_("Search includes issues and proposals.")}</p>
 </%block>
 
 
 <%block name="main_content">
-    <form action="?" method="GET" autocomplete="off">
-        <input id="serp_q" name="serp_q" class="live_search"
-                value="${request.params.get('serp_q', '')}" 
-                tabindex="1" />
-    </form>
+    <div class="list_filter">
+        <form action="?" class="list_form" method="GET" autocomplete="off">
+            <input id="serp_q" name="serp_q" class="live_search q"
+                    value="${request.params.get('serp_q', '')}" 
+                    type="text" tabindex="1" />
+            <input type="submit" value="${_('Search')}" class="go" />
+        </form>
+    </div>
     <div id="serp_table" class="table">
         %if c.query:
             ${c.entities_pager.here()|n}
