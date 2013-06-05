@@ -34,7 +34,7 @@ instance_table = Table(
            nullable=False),
     Column('default_group_id', Integer, ForeignKey('group.id'),
            nullable=True),
-    Column('allow_adopt', Boolean, default=True),
+    Column('allow_adopt', Boolean, default=False),
     Column('allow_delegate', Boolean, default=True),
     Column('allow_propose', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
