@@ -23,7 +23,7 @@ selection_table = Table(
            name='selection_page', use_alter=True), nullable=True),
     Column('proposal_id', Integer, ForeignKey('proposal.id',
            name='selection_proposal', use_alter=True), nullable=True),
-    Column('variants', PickleType(comparator=are_elements_equal),
+    Column('variants', PickleType(mutable=True, comparator=are_elements_equal),
            nullable=True)
 )
 
