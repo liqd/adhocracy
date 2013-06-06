@@ -112,6 +112,7 @@ delegate_url = url if can.delegation.create() else None
               <div class="hr"><hr /></div>
               <ul class="papers_list">
                   %for selection in c.sorted_selections: 
+                  <% h.need.adhocracy_ko %>
                   ${tiles.selection.row(selection)}
                   %endfor
               </ul> 
