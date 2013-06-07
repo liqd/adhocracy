@@ -34,7 +34,7 @@ instance_table = Table(
            nullable=False),
     Column('default_group_id', Integer, ForeignKey('group.id'),
            nullable=True),
-    Column('allow_adopt', Boolean, default=True),
+    Column('allow_adopt', Boolean, default=False),
     Column('allow_delegate', Boolean, default=True),
     Column('allow_propose', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
@@ -43,7 +43,7 @@ instance_table = Table(
     Column('css', UnicodeText(), nullable=True),
     Column('frozen', Boolean, default=False),
     Column('milestones', Boolean, default=False),
-    Column('use_norms', Boolean, nullable=True, default=True),
+    Column('use_norms', Boolean, nullable=True, default=False),
     Column('require_selection', Boolean, nullable=True, default=False),
     Column('is_authenticated', Boolean, nullable=True, default=False),
     Column('hide_global_categories', Boolean, nullable=True, default=False),
@@ -52,6 +52,7 @@ instance_table = Table(
     Column('allow_thumbnailbadges', Boolean, default=False),
     Column('thumbnailbadges_height', Integer, nullable=True),
     Column('thumbnailbadges_width', Integer, nullable=True),
+    Column('show_norms_navigation', Boolean, nullable=True, default=True),
 )
 
 
