@@ -1,3 +1,4 @@
+from paste.deploy.converters import asbool
 from pylons import config, request, tmpl_context as c
 
 from adhocracy.lib.base import BaseController
@@ -37,3 +38,9 @@ class DebugController(BaseController):
         c.duration = float(request.params['duration'])
 
         return render('/debug/explain.html')
+
+    def components(self):
+        if not asbool(config.get('debug')):
+            raise ValueError('Not in debugging mode')
+        else:
+            return render('/debug/components.html')
