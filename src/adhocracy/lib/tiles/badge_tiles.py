@@ -1,7 +1,7 @@
 def badge(badge, force_visible=False):
     from adhocracy.lib.templating import render_def
     return render_def('/badge/tiles.html', 'badge', badge=badge,
-                        force_visible=force_visible, cached=True)
+                      force_visible=force_visible, cached=True)
 
 
 def badges(badges):
@@ -9,17 +9,19 @@ def badges(badges):
     return render_def('/badge/tiles.html', 'badges', badges=badges,
                       cached=True)
 
+
 def badge_selector(badges, field_name):
     from adhocracy.lib.templating import render_def
     return render_def('/badge/tiles.html', 'badge_selector',
-                    badges=badges, field_name=field_name)
+                      badges=badges, field_name=field_name)
 
-def badge_styles():
+
+def badge_styles(instance):
     '''
     Render a <style>-block with dyamic badge styles
     '''
     from adhocracy.lib.templating import render_def
     from adhocracy.model import Badge
-    badges = Badge.all_q().all()
+    badges = Badge.all(instance=instance, include_global=True)
     return render_def('/badge/tiles.html', 'badge_styles', badges=badges,
                       cached=True)

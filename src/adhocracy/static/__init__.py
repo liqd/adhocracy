@@ -80,7 +80,7 @@ adhocracy = Resource(adhocracy_library, 'adhocracy.js',
 
 # --[ knockout ]------------------------------------------------------------
 
-knockout_library = Library('knockoutjs', 'javascripts')
+knockout_library = Library('knockoutjs', 'javascripts', version="2.2.1")
 knockout_js = Resource(knockout_library, 'knockout.debug.js',
                        minified='knockout.js',
                        depends=[jquery])

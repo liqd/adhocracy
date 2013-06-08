@@ -15,9 +15,6 @@
       %endif
   </head>
 
-<!--[if lte IE 7]>
-      <a href="http://www.browser-update.org/update.html" class="ie-message">${_('You are using an outdated web browser. Click here to update.')}</a>
-<![endif]-->
 <body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>"
     data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
@@ -36,6 +33,9 @@
     data-stats-pager-clicks="${c.monitor_pager_clicks}"
     %endif
     >
+    <!--[if lte IE 7]>
+      <a href="http://www.browser-update.org/update.html" class="ie-message">${_('You are using an outdated web browser. Click here to update.')}</a>
+    <![endif]-->
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
