@@ -123,5 +123,5 @@ class StaticController(BaseController):
         if format == 'simple':
             ret = render('/plain_doc.html', data)
         else:
-            ret = render('/template_doc.html', data)
+            ret = render('/static/show.html', data)
         return ret

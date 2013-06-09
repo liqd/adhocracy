@@ -1,22 +1,16 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="map" file="/geo/map.html"/>
-<%def name="title()">${c.page.title}</%def>
 <%block name="body_class">global-startpage</%block>
+<%def name="title()">${c.title}</%def>
 
 <%def name="breadcrumbs()"></%def>
 
 <%block name="content_wrapper">
 
-<%doc>
-FIXME: AFAIK id=content is used as a marker for diazo theming
-and not part of our common markup anymor. Drop it at the end of
-the transition
-</%doc>
-
 <div id="content-top" class="size_normal clearfix">
   <div id="content-startpage" class="full_teaser">
-    <!--This is dummy tag and only useful to merge in wordpress content-->
+    ${c.body | n}
   </div>
 
   %if h.asbool(config.get('adhocracy.show_overview_map_on_index')):
