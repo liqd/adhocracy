@@ -64,16 +64,17 @@
 
             &:hover, &.current {
                 text-decoration: none;
-                background: url('/images/sidebar_active_hover.png') no-repeat -20px -14px;
+                background-color: darken($button-color, 14%);
+                @include background-image(linear-gradient(170deg, $button-color 40%, darken($button-color, 14%)));
 
                 &:before {
-                    width: 20px;
-                    height: 40px;
-                    display: block;
-                    background: url('/images/sidebar_active_hover.png') no-repeat 0px -14px;
+                    width: 0px;
+                    height: 0px;
+                    border: 20px solid transparent;
+                    border-right: 19px solid $button-color;
                     position: absolute;
                     top: 0px;
-                    left: -20px;
+                    left: -39px;
                     content: "";
                 }
             }
