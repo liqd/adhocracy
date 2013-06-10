@@ -85,7 +85,7 @@ body.logged_in #logo {
 
 #user_menu {
     display: inline-block;
-    background: url("/images/line_header.jpg") no-repeat scroll left bottom transparent;
+    border-left: 1px solid #444
 }
 #about_menu {
     display: inline-block;
@@ -122,16 +122,21 @@ body.logged_in #logo {
     font-size: 14px;
 
     li {
-        background: url('/images/line_navi_dropdown.jpg') repeat-x top center;
-        padding: 5px 2px 2px;
+        padding: 4px 2px 2px;
         font-size: 14px;
         line-height: 25px;
         height: 25px;
         display: block;
 
+        border-bottom: 1px solid darken(#3c3c3c, 10%);
+        border-top: 1px solid lighten(#3c3c3c, 10%);
+
         &:first-child {
-            background: none;
+            border-top: none;
             padding-top: 2px;
+        }
+        &:last-child {
+            border-bottom: none;
         }
         a {
             color: #fff;
