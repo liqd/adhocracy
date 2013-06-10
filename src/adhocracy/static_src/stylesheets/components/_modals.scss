@@ -76,20 +76,48 @@
     height: 100%;
 }
 
+// close button
 .info_box .close_button, .overlay a.close, .alert a.close {
+    display: none;
+    html.js & {
+        display: block;
+    }
+
+    /* Hide the text. */
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+
+    color: #fff;
     position: absolute;
-    top: -22px;
-    right: -22px;
-    width: 45px;
-    height: 45px;
+    top: -18px;
+    right: -18px;
+    width: 32px;
+    height: 32px;
     display: block;
-    background: url('/images/sprite_icons.png') no-repeat center -607px;
-    text-indent: -900em;
+    @include border-radius(50%);
+    border: 2px solid #fff;
+    @include box-shadow(#aaa 0 0 4px 1px);
     cursor: pointer;
     opacity: 1.0;
 
+    background-color: $primary-color;
+    @include background-image(linear-gradient(170deg, lighten($primary-color, 14%), $primary-color));
     &:hover {
-        background-position: center -657px;
+        background-color: darken($primary-color, 7%);
+        @include background-image(linear-gradient(170deg, lighten($primary-color, 7%), darken($primary-color, 7%)));
+        text-decoration: none;
+    }
+
+    &:after {
+        display: block;
+        position: absolute;
+        top: 0;
+        text-indent: 0;
+        width: 32px;
+        line-height: 32px;
+        font-size: 16px;
+        text-align: center;
+        content: "×";
     }
 }
-html.js .alert .close { display: block }
