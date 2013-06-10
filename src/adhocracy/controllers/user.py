@@ -223,15 +223,13 @@ class UserController(BaseController):
         }
         authenticated, headers = who_api.login(credentials)
         if authenticated:
-            # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
             came_from = request.params.get('came_from')
             if came_from:
                 location = came_from
             else:
-                location = h.base_url('/user/%s/dashboard' %
-                                      self.form_result.get("user_name"))
+                location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -465,8 +463,6 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
-            if 'came_from' not in request.params:
-                request.GET['came_from'] = h.base_url()
             return self._render_loginform()
 
     def _render_loginform(self, errors=None, defaults=None):
@@ -493,7 +489,7 @@ class UserController(BaseController):
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.
-            redirect(h.base_url(path='/user/%s/dashboard' % c.user.user_name))
+            redirect(h.user.post_login_url(c.user))
         else:
             login_configuration = h.allowed_login_types()
             error_message = _("Invalid login")

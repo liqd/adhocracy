@@ -299,6 +299,16 @@ piwik.id =
 # INSTALL: Allow users to lock themselves out of adhocracy
 # adhocracy.allow_self_deletion = true
 
+# In the case that no came_from parameter is set, users are redirected to the
+# locations defined in the following settings. You can leave any of these
+# commented out. If instance is given, the url of the given instance is used
+# to build the URL, otherwise the current instance is used.
+
+# adhocracy.post_register_url =
+# adhocracy.post_register_instance =
+# adhocracy.post_login_url = /proposal
+# adhocracy.post_login_instance = test
+
 # activate geo features
 
 {% if parts.adhocracy.geo == 'True' %}

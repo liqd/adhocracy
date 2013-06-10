@@ -1,10 +1,12 @@
 import cgi
 
 from pylons import tmpl_context as c
+from pylons import config
 from pylons.i18n import _
 
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import url as _url
+from adhocracy.model import Instance
 
 
 def link(user, size=16, scope=None, show_badges=True):
@@ -78,3 +80,30 @@ def breadcrumbs(user):
     if user is not None:
         bc += bc_entity(user)
     return bc
+
+
+def post_login_url(user):
+    from adhocracy.lib.helpers import base_url
+    url = config.get('adhocracy.post_login_url')
+    if url is None:
+        return base_url('/user/%s/dashboard' % user.user_name)
+
+    instance = config.get('adhocracy.post_login_instance')
+    if instance is None:
+        return base_url(url)
+    else:
+        return base_url(url, Instance.find(instance))
+
+
+def post_register_url(user):
+    from adhocracy.lib.helpers import base_url
+
+    url = config.get('adhocracy.post_register_url')
+    if url is None:
+        return base_url('/user/%s/dashboard' % user.user_name)
+
+    instance = config.get('adhocracy.post_register_instance')
+    if instance is None:
+        return base_url(url)
+    else:
+        return base_url(url, Instance.find(instance))
