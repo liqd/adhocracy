@@ -7,6 +7,7 @@ from pylons.i18n import _
 
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import url as _url
+from adhocracy.lib.helpers.site_helper import CURRENT_INSTANCE
 from adhocracy.model import Instance
 
 
@@ -48,7 +49,7 @@ def link(user, size=16, scope=None, show_badges=True):
     return _specific_link(user, c.instance, size, scope, c.user, show_badges)
 
 
-def url(user, instance=None, **kwargs):
+def url(user, instance=CURRENT_INSTANCE, **kwargs):
     '''
     Generate the url for a user. If *instance* is `None`, it will
     fallback to the current instance (taken from c.instance) for
@@ -56,17 +57,7 @@ def url(user, instance=None, **kwargs):
     the instance argument for all other urls so they are always in the
     main domain.
     '''
-    def url_(user, instance, **kwargs):
-        return _url.build(instance, 'user', user.user_name, **kwargs)
-
-    # Allow only some user urls to be in an instance
-    member = kwargs.get('member', None)
-    if member in ['votes', 'delegations', 'proposals', 'groupmod',
-                  'ban', 'unban', 'filter']:
-        if instance is None:
-            instance = c.instance
-
-    return url_(user, instance, **kwargs)
+    return _url.build(instance, 'user', user.user_name, **kwargs)
 
 
 @cache.memoize('user_bc')
