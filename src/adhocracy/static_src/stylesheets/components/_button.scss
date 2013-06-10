@@ -5,33 +5,31 @@ a.button {
         @include button-background($primary-color);
     }
     .register & {
-        // no gradients here because there is also an icon on the background image
-        background: url('/images/sprite_buttons.png') repeat-x 0 -600px;
+        @include button-background($register-color);
         color: #fff;
-        background-position: 0 -600px;
         width: 150px;
         height: 27px;
         line-height: 27px;
         float: left;
         margin-right: 15px;
-        padding: 0;
 
-        &:hover {
-            background-position: 0 -650px;
-        }
         &.large {
             color: #fff;
-            background-position: 0 -500px;
             /* hack: width is normally 240px, but then right-arrow is too far right */
             width: 220px;
             height: 27px;
             line-height: 27px;
             float: left;
             margin-right: 15px;
-            padding: 0;
-            &:hover {
-                background-position: 0 -551px;
-            }
+        }
+        &:after {
+            background: url('/images/sprite.png') no-repeat 0 -13*50px;
+            content: "";
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
         }
     }
 }
