@@ -175,34 +175,34 @@ ${self.badges_listing()}
 
 <%def name="badges_listing()">
   <h2>${_("User Badges")}   
-  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+  <a style="margin-bottom: 0.3em" class="button_small plus" 
      href="${c.badge_base_url}/user/add">${_("New")}</a>
   </span>
   </h2>
   ${render_tables(c.badges, 'user', c.groups, user_badges_table)}
 
   <h2>${_("Proposal Badges")}
-  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+  <a style="margin-bottom: 0.3em" class="button_small plus" 
      href="${c.badge_base_url}/delegateable/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'delegateable', c.groups, delegateable_badges_table)}
 
   <h2>${_("Proposal Category Badges")}
-  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+  <a style="margin-bottom: 0.3em" class="button_small plus" 
      href="${c.badge_base_url}/category/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
 
   %if c.instance and c.instance.allow_thumbnailbadges:
     <h2>${_("Proposal Thumbnail Badges")}
-      <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+      <a style="margin-bottom: 0.3em" class="button_small plus" 
          href="${c.badge_base_url}/thumbnail/add">${_("New")}</a>
     </h2>
     ${render_tables(c.badges, 'thumbnail', c.groups, thumbnail_badges_table)}
   %endif
   
   <h2>${_("Instance Badges")}
-  <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
+  <a style="margin-bottom: 0.3em" class="button_small plus" 
      href="${c.badge_base_url}/instance/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'instance', c.groups, instance_badges_table)} 
