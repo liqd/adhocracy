@@ -11,10 +11,8 @@
     li {
         height: 36px;
         line-height: 36px;
-        background: url('/images/sprite_tab_navigation.png') repeat-x 0 -60px;
+        @include button-background($button-color);
         &:hover {
-            background: url('/images/sprite_tab_navigation.png') repeat-x 0 -111px;
-
             a {
                 color: #fff;
             }
@@ -26,7 +24,7 @@
             display: block;
         }
         &.current {
-            background: url('/images/sprite_tab_navigation.png') repeat-x 0 -10px;
+            @include button-background(#fff);
 
             a {
                 color: $black;
@@ -36,14 +34,16 @@
             font-weight: normal;
             font-size: 13px;
             margin-left: 15px;
-            background: url('/images/sprite_tab_navigation.png') repeat-x 0 -162px;
+            background-color: $border;
+            @include background-image(linear-gradient(170deg, lighten($border, 7%), $border));
 
             a {
                 color: $black;
                 padding: 0 15px;
             }
             &:hover {
-                background: url('/images/sprite_tab_navigation.png') repeat-x 0 -213px;
+                background-color: darken($border, 7%);
+                @include background-image(linear-gradient(170deg, $border, darken($border, 7%)));
             }
         }
     }

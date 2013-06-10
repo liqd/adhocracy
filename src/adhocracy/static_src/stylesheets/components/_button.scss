@@ -1,25 +1,12 @@
 a.button {
-    text-decoration: none;
-    color: #fff;
-    background: url('/images/sprite_buttons.png') repeat-x 0 -200px;
-    height: 35px;
-    line-height: 35px;
-    overflow: hidden;
-    display: inline-block;
-    text-align: center;
-    font-weight: bold;
-    padding: 0 15px;
+    @include button($button-color);
 
-    &:hover {
-        background-position: 0 -250px;
-    }
     &.highlight {
-        background-position: 0 -300px;
-        &:hover {
-            background-position: 0 -350px;
-        }
+        @include button-background($primary-color);
     }
     .register & {
+        // no gradients here because there is also an icon on the background image
+        background: url('/images/sprite_buttons.png') repeat-x 0 -600px;
         color: #fff;
         background-position: 0 -600px;
         width: 150px;
@@ -28,7 +15,7 @@ a.button {
         float: left;
         margin-right: 15px;
         padding: 0;
-    
+
         &:hover {
             background-position: 0 -650px;
         }
@@ -49,54 +36,14 @@ a.button {
     }
 }
 
-.submit input, .submit button {
-    background: url("/images/sprite_buttons.png") no-repeat scroll 0 -400px transparent;
-    color: #FFFFFF;
-    &:hover {
-        background-position: 0 -450px;
-    }
+.submit input, .submit button, button[type="submit"] {
+    @include button($primary-color);
+    font-size: inherit;
 }
 
 a.button_small {
-    text-decoration: none;
     color: #fff;
-    background: url('/images/sprite_buttons_small.png') repeat-x 0 -250px;
-    height: 14px;
-    line-height: 14px;
-    @include border-radius(7px);
-    overflow: hidden;
-    display: inline-block;
-    padding: 0 10px;
-    font-size: 11px;
-
-    &:hover {
-        background-position: 0 -350px;
-    }
-    &:active, &.active {
-        background-position: 0 -400px;
-        @include box-shadow(1px 1px 1px #333 inset);
-    }
-    &.on {
-        &:hover {
-            background-position: 0 -150px;
-        }
-        &:active, &.active {
-            background-position: 0 -200px;
-        }
-    }
-    &.off {
-        &:hover {
-            background-position: 0 -50px;
-        }
-        &:active, &.active {
-            background-position: 0 -100px;
-        }
-    }
-
-    .inactive & {
-        background-position: 0 -450px !important;
-        @include box-shadow(none);
-    }
+    @include button-small($button-color, $primary-color);
 }
 
 a.show_comments, a.new_comment {
@@ -123,14 +70,8 @@ a.show_comments, a.new_comment {
     }
 }
 a.show_comments:hover, a.new_comment:hover, a.participate {
-    text-decoration: none;
     color: #fff;
-    background: url('/images/sprite_buttons_small.png') repeat-x 0 -350px;
-    height: 14px;
-    line-height: 14px;
-    border-radius: 7px;
-    overflow: hidden;
-    display: inline-block;
+    @include button-small($primary-color, $primary-color);
 }
 
 /* follow button */
@@ -145,8 +86,9 @@ a.follow_paper, div.skip_follow {
     padding: 0 20px 0 40px;
 }
 
-
+/* follow button */
 a.follow_paper {
+    // no gradients here because there is also an icon on the background image
     background: url('/images/sprite_buttons.png') no-repeat 0 -1px;
     color: $black;
 
@@ -168,29 +110,11 @@ a.follow_paper {
 
 /* delegate button */
 a.button.delegate {
-    height: 26px;
-    line-height: 26px;
-    @include border-radius(13px);
-    overflow: hidden;
-    display: inline-block;
     margin: 0 0 20px;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 0 20px;
-
-    background: url('/images/sprite_buttons.png') no-repeat -35px -1px;
-    color: $black;
-
-    &:hover {
-        background-position: -35px -52px;
-        text-decoration: none;
-    }
+    @include button-round;
 }
 
-/* Button below lists that should left-align with the text inside
- * the list.
- */
-
+/* Button below lists that should left-align with the text inside the list. */
 .list_button {
   padding: 10px 10px;
 }
