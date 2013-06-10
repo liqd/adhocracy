@@ -54,7 +54,6 @@ setup(
         "rq",
         "redis",
         "ordereddict",
-        "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
         "sunburnt==0.6",
