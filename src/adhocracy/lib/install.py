@@ -58,11 +58,14 @@ def setup_entities(config, initial_setup):
     # to advisors and organizations as well. This is resolved recursively.
     # Note that this applies only to the initial setup.
 
-    def included_groups(group):
-        groups = set([group])
-        for include in perm_includes.get(group, []):
-            groups = groups.union(included_groups(include))
-        return list(groups)
+    def included_groups(groups):
+        all_groups = set(groups)
+        includes = set()
+        for group in groups:
+            includes = includes.union(perm_includes.get(group, []))
+        for include in includes:
+            all_groups = all_groups.union(included_groups(includes))
+        return list(all_groups)
 
     perm_includes = {
         anonymous: [observer],
@@ -74,78 +77,78 @@ def setup_entities(config, initial_setup):
     }
 
     default_permission_groups = {
-        u'abuse.report': anonymous,
-        u'badge.index': anonymous,
-        u'comment.create': advisor,
-        u'comment.delete': moderator,
-        u'comment.edit': advisor,
-        u'comment.show': anonymous,
-        u'comment.view': anonymous,
-        u'delegation.create': voter,
-        u'delegation.delete': voter,
-        u'delegation.show': anonymous,
-        u'delegation.view': anonymous,
-        u'event.index_all': anonymous,
-        u'global.admin': admins,
-        u'global.member': admins,
-        u'global.message': admins,
-        u'global.organization': organization,
-        u'global.staticpage': admins,
-        u'instance.admin': supervisor,
-        u'instance.create': admins,
-        u'instance.delete': admins,
-        u'instance.index': anonymous,
-        u'instance.join': default,
-        u'instance.leave': default,
-        u'instance.news': anonymous,
-        u'instance.show': anonymous,
-        u'instance.message': admins,
-        u'milestone.create': supervisor,
-        u'milestone.delete': supervisor,
-        u'milestone.edit': supervisor,
-        u'milestone.show': anonymous,
-        u'page.create': advisor,
-        u'page.delete': moderator,
-        u'page.delete_history': moderator,
-        u'page.edit': advisor,
-        u'page.show': anonymous,
-        u'page.view': anonymous,
-        u'poll.create': moderator,
-        u'poll.delete': moderator,
-        u'poll.show': anonymous,
-        u'proposal.create': advisor,
-        u'proposal.delete': moderator,
-        u'proposal.edit': advisor,
-        u'proposal.freeze': supervisor,
-        u'proposal.show': anonymous,
-        u'proposal.view': anonymous,
-        u'static.show': anonymous,
-        u'tag.create': advisor,
-        u'tag.delete': advisor,
-        u'tag.show': anonymous,
-        u'tag.view': anonymous,
-        u'user.edit': default,
-        u'user.index_all': anonymous,
-        u'user.manage': admins,
-        u'user.message': advisor,
-        u'user.show': anonymous,
-        u'user.view': anonymous,
-        u'vote.cast': voter,
-        u'vote.prohibit': organization,
-        u'watch.create': observer,
-        u'watch.delete': observer,
-        u'watch.show': anonymous,
+        u'abuse.report': [anonymous],
+        u'badge.index': [anonymous],
+        u'comment.create': [advisor],
+        u'comment.delete': [moderator],
+        u'comment.edit': [advisor],
+        u'comment.show': [anonymous],
+        u'comment.view': [anonymous],
+        u'delegation.create': [voter],
+        u'delegation.delete': [voter],
+        u'delegation.show': [anonymous],
+        u'delegation.view': [anonymous],
+        u'event.index_all': [anonymous],
+        u'global.admin': [admins],
+        u'global.member': [admins],
+        u'global.message': [admins],
+        u'global.organization': [organization],
+        u'global.staticpage': [admins],
+        u'instance.admin': [supervisor],
+        u'instance.create': [admins],
+        u'instance.delete': [admins],
+        u'instance.index': [anonymous],
+        u'instance.join': [default],
+        u'instance.leave': [default],
+        u'instance.news': [anonymous],
+        u'instance.show': [anonymous],
+        u'instance.message': [admins],
+        u'milestone.create': [supervisor],
+        u'milestone.delete': [supervisor],
+        u'milestone.edit': [supervisor],
+        u'milestone.show': [anonymous],
+        u'page.create': [advisor],
+        u'page.delete': [moderator],
+        u'page.delete_history': [moderator],
+        u'page.edit': [advisor],
+        u'page.show': [anonymous],
+        u'page.view': [anonymous],
+        u'poll.create': [moderator],
+        u'poll.delete': [moderator],
+        u'poll.show': [anonymous],
+        u'proposal.create': [advisor],
+        u'proposal.delete': [moderator],
+        u'proposal.edit': [advisor],
+        u'proposal.freeze': [supervisor],
+        u'proposal.show': [anonymous],
+        u'proposal.view': [anonymous],
+        u'static.show': [anonymous],
+        u'tag.create': [advisor],
+        u'tag.delete': [advisor],
+        u'tag.show': [anonymous],
+        u'tag.view': [anonymous],
+        u'user.edit': [default],
+        u'user.index_all': [anonymous],
+        u'user.manage': [admins],
+        u'user.message': [advisor],
+        u'user.show': [anonymous],
+        u'user.view': [anonymous],
+        u'vote.cast': [voter],
+        u'vote.prohibit': [organization],
+        u'watch.create': [observer],
+        u'watch.delete': [observer],
+        u'watch.show': [anonymous],
     }
 
     autoupdate = asbool(config.get('adhocracy.autoassign_permissions', 'true'))
     assign_perms = initial_setup or autoupdate
 
-    for perm_name, group in default_permission_groups.items():
+    for perm_name, groups in default_permission_groups.items():
         new_perm = mk_perm(perm_name)
         if assign_perms and new_perm is not None:
-            groups = included_groups(group)
-            log.debug("Assigning to groups: %s" % groups)
-            new_perm.groups = included_groups(group)
+            assigned_groups = included_groups(groups)
+            log.debug("Assigning to groups: %s" % assigned_groups)
+            new_perm.groups = assigned_groups
 
     model.meta.Session.commit()
 
