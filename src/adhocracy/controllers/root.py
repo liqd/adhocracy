@@ -38,7 +38,12 @@ class RootController(BaseController):
         elif instances_in_root == -1:
             c.instances = model.Instance.all()
 
-        c.page = get_static_page('index')
+        page = get_static_page('index')
+        if page is None:
+            c.title = c.body = u''
+        else:
+            c.title = page.title
+            c.body = page.body
 
         proposals_number = asint(
             config.get('adhocracy.startpage.proposals.list_length', 0))

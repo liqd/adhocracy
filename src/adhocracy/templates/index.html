@@ -1,19 +1,13 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${c.page.title}</%def>
+<%def name="title()">${c.title}</%def>
 
 <%def name="breadcrumbs()"></%def>
 
 <%block name="content_wrapper">
 
-<%doc>
-FIXME: AFAIK id=content is used as a marker for diazo theming
-and not part of our common markup anymor. Drop it at the end of
-the transition
-</%doc>
-
 <div id="content-startpage" class="full_teaser">
-  <!--This is dummy tag and only usefull to merge in wordpress content-->
+  ${c.body | n}
 </div>
 
 <div class="full_teaser">
