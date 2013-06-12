@@ -45,7 +45,7 @@ class ExportForm(formencode.Schema):
     include_requestlog = formencode.validators.StringBoolean(if_missing=False)
     user_personal = formencode.validators.StringBoolean(if_missing=False)
     user_password = formencode.validators.StringBoolean(if_missing=False)
-    format = formencode.validators.OneOf(['json', 'csv'])
+    format = formencode.validators.OneOf(['json'])
     deliver = formencode.validators.OneOf(
             ['site', 'file', 'zip', 'gzip', 'tgz', 'tbz'])
     _tok = formencode.validators.String()
