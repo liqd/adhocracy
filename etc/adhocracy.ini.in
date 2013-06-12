@@ -32,7 +32,7 @@ threadpool_workers = 20
 [composite:main]
 use = egg:Paste#urlmap
 {% if parts.get("adhocracy_service_conf", False) %}
-/cms = adhocracy_service
+${parts.adhocracy_service_conf.cms_path} = adhocracy_service
 /api = adhocracy_service
 {% end %} 
 / = default
@@ -48,7 +48,7 @@ pipeline = content
 [composite:main]
 use = egg:Paste#urlmap
 {% if parts.get("adhocracy_service_conf", False) %}
-/cms = adhocracy_service
+${parts.adhocracy_service_conf.cms_path} = adhocracy_service
 /api = adhocracy_service
 {% end %}  
 /static_theme = static
@@ -486,12 +486,16 @@ pyramid.includes =
 #  pyramid_debugtoolbar
   adhocracy_kotti
 
+[filter:paste_prefix]
+use = egg:PasteDeploy#prefix
+prefix = ${parts.adhocracy_service_conf.cms_path}
 
 [filter:fanstatic]
 use = egg:fanstatic#fanstatic
 
 [pipeline:adhocracy_service]
 pipeline =
+    paste_prefix
     fanstatic
     kotti
 {% end %} 
