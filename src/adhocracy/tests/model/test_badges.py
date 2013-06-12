@@ -81,7 +81,7 @@ class TestUserController(TestController):
         # the created badge
         creator, badged_user, badge = self._make_one()
         queried_badge = meta.Session.query(Badge).first()
-        self.assertTrue(badge is queried_badge)
+        self.assertEqual(badge, queried_badge)
         self.assertEqual(queried_badge.title, 'testbadge')
         # references on the badged user
         self.assertEqual(badged_user.badges, [badge])
@@ -132,15 +132,15 @@ class TestDelegateableController(TestController):
         # create the delegateable badge
         badge.assign(delegateable, creator)
         delegateablebadges = meta.Session.query(DelegateableBadges).first()
-        self.assertTrue(delegateablebadges.creator is creator)
-        self.assertTrue(delegateablebadges.delegateable is delegateable)
-        self.assertTrue(delegateablebadges.badge is badge)
+        self.assertEqual(delegateablebadges.creator, creator)
+        self.assertEqual(delegateablebadges.delegateable, delegateable)
+        self.assertEqual(delegateablebadges.badge, badge)
         # test the references on the badged delegateable
         self.assertEqual(delegateable.badges, [badge])
         # test the references on the badge
-        self.assertTrue(delegateable.badges[0].delegateables
-                        == badge.delegateables
-                        == [delegateable])
+        self.assertEqual(delegateable.badges[0].delegateables,
+                        badge.delegateables,
+                        [delegateable])
 
     def test_remove_badge_from_delegateable(self):
         #setup
