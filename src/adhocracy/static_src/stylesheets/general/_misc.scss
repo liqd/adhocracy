@@ -3,22 +3,6 @@
 a.icon_link {
     background-image: url('/images/sprite.png');
 }
-.slider_content {
-    background: url('/images/slideshow_text_bg.png');
-}
-#slides .pagination {
-    background: url('/images/gradient_slideshow.jpg') bottom right repeat-x;
-}
-#slides .pagination li {
-    background: url('/images/sprite.png') left -1154px no-repeat;
-}
-#slides .pagination li span {
-    background: url('/images/sprite.png') left -1205px no-repeat;
-}
-
-#projects_slides #prev_link, #projects_slides #next_link, #projects_slides .prev, #projects_slides .next {
-    background-image: url('/images/sprite.png');
-}
 
 #register_input_css {
     margin-left: 3000px;
