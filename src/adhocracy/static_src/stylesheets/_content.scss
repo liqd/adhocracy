@@ -127,25 +127,6 @@ section { margin-bottom: 40px; }
   margin-right: 0;
 }
 
-
-/* tab nav  */
-.tabnav {
-  margin: 0;
-}
-.tabnav li {
-  margin-top: 10px;
-}
-.tabnav li a {
-  padding: 5px 15px;
-  display: block;
-  color: #000;
-  border-bottom: 1px solid #fff;
-}
-.tabnav li a.active, .tabnav li a:hover {
-  background: #F2F6F6;
-  text-decoration: none;
-}
-
 /* papers */
 ul.papers_list {
   margin: 0;
