@@ -1,0 +1,19 @@
+.tabnav {
+    margin: 0;
+}
+.tabnav li {
+    margin-top: 10px;
+}
+.tabnav li a {
+    padding: 5px 15px;
+    display: block;
+    color: #000;
+    border-bottom: 1px solid #fff;
+}
+.tabnav li a.active, .tabnav li a:hover {
+    background: #F2F6F6;
+    text-decoration: none;
+
+    // not sure where this came from
+    color: #446191;
+}
