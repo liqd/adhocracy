@@ -190,3 +190,7 @@ openid = {
     }
 };
 })(jQuery);
+
+$(function() {
+    openid.init();
+});

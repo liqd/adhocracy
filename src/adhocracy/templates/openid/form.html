@@ -27,13 +27,3 @@
 </form>
 <script type="text/javascript"
         src="${h.base_url('/javascripts/openid.js', None)}"></script>
-<script type="text/javascript">
-	var link = $("<link>");
-	link.attr({
-		type: 'text/css',
-		rel: 'stylesheet',
-		href: '/openid-selector/css/openid.css' 
-	});
-	$("head").append( link ); 
-	openid.init('openid');
-</script>
