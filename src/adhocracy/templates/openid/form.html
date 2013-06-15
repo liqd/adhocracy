@@ -1,6 +1,6 @@
-<form name="openid_login" id="openid_form" method="POST" action="/openid/init">
-   <label for="openid">${_('Alternative')}:</label>
-   <div id="openid_choice">
+<form name="openid_login" class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
+   <div>${_('Alternative')}:</div>
+   <div>
       %if c.openid_scenario and c.openid_scenario == "login":
          <span class="hint">
            %if h.allow_user_registration():
@@ -10,14 +10,14 @@
            %endif
          </span>
       %endif
-      <div id="openid_btns"></div>
+      <div class="openid_btns"></div>
    </div>
-   <div id="openid_input_area">
-      <input id="openid" name="openid" type="text" value="http://" />
+   <div class="openid_input_area">
+      <input class="openid" name="openid" type="text" value="http://" />
     %if c.openid_scenario and c.openid_scenario == "login":
-        <input id="openid_submit" type="submit" value="${_('Sign in')}"/>
+        <input class="openid_submit" type="submit" value="${_('Sign in')}"/>
     %else:
-        <input id="openid_subit" type="submit" value="${_('Continue')}"/>
+        <input class="openid_subit" type="submit" value="${_('Continue')}"/>
     %endif
    </div>
    <noscript>
@@ -25,10 +25,8 @@
          Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
    </noscript>
 </form>
- <script type="text/javascript"
-        src="${h.base_url('/openid-selector/js/openid-jquery.js', None)}"></script>
- <script type="text/javascript"
-        src="${h.base_url('/openid-selector/js/openid-%s.js' % c.locale.language, None)}"></script>
+<script type="text/javascript"
+        src="${h.base_url('/javascripts/openid.js', None)}"></script>
 <script type="text/javascript">
 	var link = $("<link>");
 	link.attr({
