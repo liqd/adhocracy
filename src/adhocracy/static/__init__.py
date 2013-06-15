@@ -57,6 +57,8 @@ spectrum = Resource(misc_library, 'spectrum/spectrum.js',
 select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
                             minified='jquery.select-hierarchy.min.js',
                             depends=[jquery])
+openid_selector = Resource(misc_library, 'openid.js',
+                            depends=[jquery])
 
 
 # --[ adhocracy ]-----------------------------------------------------------
@@ -64,7 +66,8 @@ select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
 adhocracy_library = Library('adhocracy', 'javascripts')
 adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery, bootstrap_js, elastic,
-                              placeholder, modernizr, jquerytools])
+                              placeholder, modernizr, jquerytools,
+                              openid_selector])
 
 
 # --[ knockout ]------------------------------------------------------------
