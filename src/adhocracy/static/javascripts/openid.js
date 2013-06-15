@@ -123,7 +123,7 @@ openid = {
             this.useInputBox($form, provider);
         } else {
             $form.find('.openid_input_area').empty();
-            var $hidden = $('<input type="hidden" class="openid_login_hidden" name="openid_login" />');
+            var $hidden = $('<input type="hidden" class="openid_login_hidden" name="openid" />');
             $hidden.attr('value', provider.url);
             $form.append($hidden);
             if (!onload) {
@@ -177,7 +177,7 @@ openid = {
             value = 'http://';
             style = 'background: #FFF url(' + this.img_path + 'openid-inputicon.gif) no-repeat scroll 0 50%; padding-left:18px;';
         }
-        $input_area.append($('<input type="text" style="' + style + '" name="openid_login" value="' + value + '" />'));
+        $input_area.append($('<input type="text" style="' + style + '" name="openid" value="' + value + '" />'));
         var $wrap = $('<div class="input_wrapper submit" />');
         var $submit = $('<input type="submit" />');
         $submit.attr('value', $form.attr('data-i18n-signin-text'));
