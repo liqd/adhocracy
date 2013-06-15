@@ -6,10 +6,6 @@
 	This code is licensed under the New BSD License.
 */
 
-.openid_form legend {
-	font-weight: bold;
-}
-
 .openid_input_area {
 	clear: left;
 }

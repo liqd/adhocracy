@@ -1,4 +1,4 @@
-<form name="openid_login" class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
+<form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
    <div>${_('Alternative')}:</div>
    <div>
       %if c.openid_scenario and c.openid_scenario == "login":
@@ -17,7 +17,7 @@
     %if c.openid_scenario and c.openid_scenario == "login":
         <input class="openid_submit" type="submit" value="${_('Sign in')}"/>
     %else:
-        <input class="openid_subit" type="submit" value="${_('Continue')}"/>
+        <input class="openid_submit" type="submit" value="${_('Continue')}"/>
     %endif
    </div>
    <noscript>

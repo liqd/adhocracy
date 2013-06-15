@@ -35,7 +35,7 @@ var providers_small = {};
 
 var providers;
 openid = {
-    version : '1.3', // version constant
+    version : '1.3-adhocracy', // version constant
     demo : false,
     cookie_expires : 6 * 30, // 6 months.
     cookie_name : 'openid_provider',
@@ -47,12 +47,7 @@ openid = {
     no_sprite : false, // don't use sprite image
     image_title : '{provider}', // for image title
 
-    /**
-     * Class constructor
-     * 
-     * @return {Void}
-     */
-    init : function(input_class) {
+    init : function() {
         providers = $.extend({}, providers_large, providers_small);
         var self = this;
 
