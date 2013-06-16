@@ -54,7 +54,7 @@ def sign(val, secret=None, salt=b''):
     assert isinstance(val, bytes)
     assert isinstance(salt, bytes)
 
-    return _sign(secret, val, salt) + b'!' + val
+    return _sign(val, secret, salt) + b'!' + val
 
 
 def verify(signed, secret=None, salt=b''):
@@ -65,7 +65,7 @@ def verify(signed, secret=None, salt=b''):
     assert isinstance(salt, bytes)
 
     signature, _, val = signed.partition(b'!')
-    correct_signature = _sign(secret, val, salt)
+    correct_signature = _sign(val, secret, salt)
     if compare_digest(signature, correct_signature):
         return val
     else:
