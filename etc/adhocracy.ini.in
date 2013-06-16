@@ -462,6 +462,13 @@ kotti.secret = ${parts.adhocracy_service_conf.kotti_secret}
 # see http://www.sqlalchemy.org/docs/core/engines.html#database-urls
 sqlalchemy.url = ${parts.adhocracy_service_conf.sqlalchemy_url}
 
+{% if parts.adhocracy_service_conf.database_type != 'sqlite' %}
+# INSTALL: The SQLAlchemy queue pool size should be at least the size of the
+# paster threads, multiplied with the number of processes.
+sqlalchemy.pool_size = 40
+sqlalchemy.max_overflow = 80
+{% end %}
+
 # mail.default_sender: configure the 'from' address of emails sent by Kotti
 mail.default_sender = yourname@yourhost
 
