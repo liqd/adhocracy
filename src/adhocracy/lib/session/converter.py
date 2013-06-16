@@ -26,12 +26,12 @@ class SignedValueConverter(object):
 
     def encode(self, value):
         byte_val = base64.b64encode(_encode_json(value))
-        encoded = sign(self._secret, byte_val, _SALT)
+        encoded = sign(byte_val, self._secret, _SALT)
         return encoded.decode('ascii')
 
     def decode(self, s):
         try:
-            byte_val = verify(self._secret, s.encode('ascii'), _SALT)
+            byte_val = verify(s.encode('ascii'), self._secret, _SALT)
             return json.loads(base64.b64decode(byte_val))
         except ValueError as e:
             log.debug(str(e))

@@ -1,6 +1,8 @@
 import hashlib
 import hmac
 
+from pylons import config
+
 try:
     from hmac import compare_digest
 except ImportError:  # Python < 3.3
@@ -21,7 +23,7 @@ except ImportError:  # Python < 3.3
         return res == 1
 
 
-def get_secret(config, key=None):
+def get_secret(config=config, key=None):
     search_keys = [
         'adhocracy.crypto.secret',
         'beaker.session.secret',
@@ -39,13 +41,15 @@ def get_secret(config, key=None):
     raise Exception('No secret configured!')
 
 
-def _sign(secret, val, salt):
+def _sign(val, secret, salt):
     hm = hmac.new(secret + salt, val, hashlib.sha256)
     digest = hm.hexdigest()
     return digest.encode('ascii')
 
 
-def sign(secret, val, salt=b''):
+def sign(val, secret=None, salt=b''):
+    if secret is None:
+        secret = get_secret()
     assert isinstance(secret, bytes)
     assert isinstance(val, bytes)
     assert isinstance(salt, bytes)
@@ -53,7 +57,9 @@ def sign(secret, val, salt=b''):
     return _sign(secret, val, salt) + b'!' + val
 
 
-def verify(secret, signed, salt=b''):
+def verify(signed, secret=None, salt=b''):
+    if secret is None:
+        secret = get_secret()
     assert isinstance(secret, bytes)
     assert isinstance(signed, bytes)
     assert isinstance(salt, bytes)

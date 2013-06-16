@@ -15,6 +15,11 @@ class SessionTest(TestController):
         encoded2 = c.encode({'x': [1]})
         self.assertEqual(encoded2, encoded)
 
+    def test_invalid(self):
+        c = SignedValueConverter(b'shh!')
+        self.assertEqual(c.decode('aaaaaaa!e30='), None)
+        self.assertEqual(c.decode('e30='), None)
+
     def test_umlauts(self):
         v = {u'"\'/\\ä↭𝕐': u'"\'/\\ä↭𝕐'}
         c = SignedValueConverter(u'"\'/\\ä↭𝕐'.encode('utf-8'))
