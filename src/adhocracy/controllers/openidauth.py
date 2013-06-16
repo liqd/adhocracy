@@ -116,10 +116,13 @@ class OpenidauthController(BaseController):
             h.flash(message, 'error')
             return redirect(h.entity_url(c.user, member='edit'))
         else:
-            loginhtml = render("/user/login.html")
-            return formencode.htmlfill.render(loginhtml,
+            loginhtml = render("/user/login_tile.html")
+            form = formencode.htmlfill.render(loginhtml,
                                               defaults={'openid': openid},
                                               errors={'openid': message})
+            return render('/user/login.html', {'login_form_code': form})
+
+
 
     def __before__(self):
         self.openid_session = session.get("openid_session", {})

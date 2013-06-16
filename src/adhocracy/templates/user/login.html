@@ -6,10 +6,8 @@
 </%block>
 
 <%block name="main_content">
-  <h3>${_("Login")}</h3>
-  %if config.get('adhocracy.login_style', 'default') == 'alternate':
-      <%include file="/user/login_form_alternate.html"/>
-  %else:
-      <%include file="/user/login_form.html"/>
-  %endif
+## The actual form is in login_tile.html, since it has to be handled by
+## htmlfill before pasting in here in order to allow multiple login forms
+## on a single page.
+${c.login_form_code|n}
 </%block>
