@@ -38,10 +38,12 @@ def get_secret(config, key=None):
             return res
     raise Exception('No secret configured!')
 
+
 def _sign(secret, val, salt):
     hm = hmac.new(secret + salt, val, hashlib.sha256)
     digest = hm.hexdigest()
     return digest.encode('ascii')
+
 
 def sign(secret, val, salt=b''):
     assert isinstance(secret, bytes)
@@ -49,6 +51,7 @@ def sign(secret, val, salt=b''):
     assert isinstance(salt, bytes)
 
     return _sign(secret, val, salt) + b'!' + val
+
 
 def verify(secret, signed, salt=b''):
     assert isinstance(secret, bytes)

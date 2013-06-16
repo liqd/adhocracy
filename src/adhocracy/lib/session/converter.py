@@ -11,12 +11,14 @@ __all__ = ["SignedValueConverter"]
 log = logging.getLogger(name=__name__)
 _SALT = b'cookie session'
 
+
 def _encode_json(o):
     def default(o):
         if isinstance(o, pylons.i18n.translation.LazyString):
             return o.eval()
         return o
     return json.dumps(o, default=default)
+
 
 class SignedValueConverter(object):
     def __init__(self, secret):

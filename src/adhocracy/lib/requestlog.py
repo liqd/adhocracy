@@ -55,9 +55,10 @@ class RequestLogger(object):
         url = (environ['PATH_INFO'].decode('utf-8', 'replace')
                + '?' + environ['QUERY_STRING'].decode('utf-8', 'replace'))
 
-        adhocracy.model.RequestLog.create(ip, url,
-                                    cookies=_get_field('HTTP_COOKIE'),
-                                    user_agent=_get_field('HTTP_USER_AGENT'),
-                                    referer=_get_field('HTTP_REFERER')
+        adhocracy.model.RequestLog.create(
+            ip, url,
+            cookies=_get_field('HTTP_COOKIE'),
+            user_agent=_get_field('HTTP_USER_AGENT'),
+            referer=_get_field('HTTP_REFERER'),
         )
         adhocracy.model.meta.Session.commit()
