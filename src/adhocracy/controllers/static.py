@@ -12,7 +12,8 @@ from adhocracy.lib import helpers
 from adhocracy.lib.auth import guard, csrf
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.staticpage import (get_static_page, get_backend,
-                                      all_languages, all_language_infos)
+                                      all_languages, all_language_infos,
+                                      render_body, decode_redirect)
 from adhocracy.lib.templating import render, ret_abort
 
 log = logging.getLogger(__name__)
@@ -118,6 +119,7 @@ class StaticController(BaseController):
 
         data = {
             'static': page,
+            'body_html': render_body(page.body),
             'active_global_nav': key,
         }
         if format == 'simple':
@@ -125,3 +127,7 @@ class StaticController(BaseController):
         else:
             ret = render('/static/show.html', data)
         return ret
+
+    def outgoing_link(self, url_enc):
+        url = decode_redirect(url_enc.decode('ascii'))
+        return redirect(url)
