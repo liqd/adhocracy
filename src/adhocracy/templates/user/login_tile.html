@@ -1,0 +1,6 @@
+<h3>${_("Login")}</h3>
+%if config.get('adhocracy.login_style', 'default') == 'alternate':
+  <%include file="/user/login_form_alternate.html"/>
+%else:
+  <%include file="/user/login_form.html"/>
+%endif
