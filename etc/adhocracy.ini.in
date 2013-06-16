@@ -479,7 +479,7 @@ kotti.populators = ${parts.adhocracy_service_conf.kotti_populate}
 rest_api_token = ${parts.adhocracy_service_conf.rest_api_token}
 
 # pyramid.default_locale_name: set the user interface language
-pyramid.default_locale_name = en
+pyramid.default_locale_name = ${parts.adhocracy.language}
 
 pyramid.includes =
   pyramid_tm
