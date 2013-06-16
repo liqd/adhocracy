@@ -17,7 +17,7 @@ else:
 %endif
 
 <div class="form_wrapper">
-  <form name="login" method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom">
+  <form method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom login_form">
     <div class="input_wrapper">
       <label>${field_title}
         <input type="${field_type}" name="login" autofocus="autofocus" />
