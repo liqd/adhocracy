@@ -472,9 +472,11 @@ class UserController(BaseController):
             if '_login_value' in request.environ:
                 defaults['login'] = request.environ['_login_value']
             defaults['_tok'] = token_id()
-        return htmlfill.render(render('/user/login.html'),
+        form = render('/user/login_tile.html')
+        form = htmlfill.render(form,
                                errors=errors,
                                defaults=defaults)
+        return render('/user/login.html', {'login_form_code': form})
 
     def perform_login(self):
         pass  # managed by repoze.who
