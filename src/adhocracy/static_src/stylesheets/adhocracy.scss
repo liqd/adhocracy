@@ -46,6 +46,7 @@
 @import "widgets/milestone";
 @import "widgets/proposal";
 @import "widgets/profile_settings";
+@import "widgets/openid";
 
 // overwrite
 @import "overwrite";
@@ -53,4 +54,3 @@
 // legacy
 @import "content";
 @import "style";
-@import "openid";
