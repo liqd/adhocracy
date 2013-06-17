@@ -256,7 +256,12 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         if self.form_result.get("password_change"):
-            c.page_user.password = self.form_result.get("password_change")
+            if h.user.can_change_password(c.page_user):
+                c.page_user.password = self.form_result.get("password_change")
+            else:
+                log.error(
+                    'Attempt to change password although disabled (user %s)' %
+                    c.page_user.user_name)
         c.page_user.display_name = self.form_result.get("display_name")
         c.page_user.page_size = self.form_result.get("page_size")
         c.page_user.no_help = self.form_result.get("no_help")

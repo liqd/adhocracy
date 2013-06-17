@@ -39,6 +39,7 @@
       </div>
     </fieldset>
 
+    %if h.user.can_change_password(c.page_user):
     <fieldset>
       <legend>${_("Password")}</legend>
       <p class="info">${_("Select a new password or leave the fields blank to keep your old one.")}</p>
@@ -51,6 +52,7 @@
         <input type="password" name="password_confirm" autocomplete="off">
       </div>
     </fieldset>
+    %endif
 
     %if c.enable_gender:
     <fieldset>
