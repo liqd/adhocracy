@@ -84,21 +84,6 @@ section { margin-bottom: 40px; }
   margin-right: 0;
 }
 
-/* papers */
-ul.papers_list {
-  margin: 0;
-  padding-bottom: 20px;
-  list-style: none;
-}
-ul.papers_list li {
-  cursor: pointer;
-}
-.paper_head h4 { float: left; }
-.paper_head a { float: right; }
-.paper p {
-  display: inline;
-}
-
 /*
 Added during template integration
 */
@@ -142,17 +127,6 @@ padding: 0 30px;
 }
 .more_arrow.less {
   background: url("/images/sprite_icons.png") no-repeat right 0px;
-}
-
-#proposal_list_header {
-  float: left;
-}
-
-.create_proposal_link {
-  float: right;
-  background: url("/images/sprite.png") no-repeat left 2px;
-  position: relative;
-  top: 25px;
 }
 
 /* Fixes for js.socialshareprivace */
