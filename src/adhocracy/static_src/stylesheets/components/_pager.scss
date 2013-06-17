@@ -1,0 +1,70 @@
+.pager_wrapper {
+    .floatbox {
+        padding: 5px 10px;
+        background: url("/images/gradient_form.jpg") repeat-y scroll left top #F3F3F3;
+    }
+    .filter_box {
+        margin: 0;
+    }
+    .sort_group {
+        float: left;
+        padding: 0 2em 0 1em;
+    }
+    .hr {
+        margin-bottom: 0;
+    }
+}
+
+/* filter / pager */
+.filter h2 {
+    float: left;
+    width: 50%;
+}
+.filter_box {
+    float: right;
+    text-align: right;
+    color: $fg1;
+    margin: 0 0 15px 0;
+
+    a.selected {
+        color: $fg1;
+    }
+    select {
+        width: auto;
+    }
+    .filter & {
+        width: 50%;
+        margin: 15px 0 0 0;
+    }
+}
+
+.pager {
+    clear: both;
+    text-align: right;
+    margin: 0 0 15px 0;
+    padding-top: 10px;
+
+    a:hover {
+        background: url('/images/sprite_buttons.png') repeat-x 0 -201px;
+        color: #fff;
+        text-decoration: none;
+    }
+    .current, a:active {
+        background: url('/images/sprite_buttons.png') repeat-x 0 -251px;
+        color: #fff;
+    }
+    .hidden {
+        display: none;
+    }
+}
+
+.prev_page, .next_page {
+    display: inline;
+}
+
+.prev_page a, .next_page a, .prev_page span, .next_page span, .pager a, .pager > span {
+    padding: 4px 10px;
+    background: #f0f0f0;
+    margin: 0 2px;
+    color: $fg1;
+}

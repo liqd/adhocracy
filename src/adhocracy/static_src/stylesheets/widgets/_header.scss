@@ -1,0 +1,161 @@
+#header .page_wrapper {
+    position: relative;
+    padding: 0 23px;
+    height: 90px;
+    overflow: visible; /*allow long popup menu */
+}
+body.logged_in #header .page_wrapper {
+    height: 40px;
+}
+#logo {
+    height: 70px;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+}
+body.logged_in #logo {
+    height: 40px;
+    h1 {
+        text-indent: -900em;
+    }
+}
+
+/* top navigation */
+#header #topnav {
+    right: 30px;
+    top: 0px;
+}
+#topnav {
+    font-size: 11px;
+    color: #969ba2;
+
+    a {
+        color: #969ba2;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+.language_switch {
+    padding: 0 10px;
+}
+
+/* navigation */
+#nav {
+    clear: none;
+    text-align: right;
+    height: 67px;
+    padding-top: 23px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #fff;
+
+    body.logged_in & {
+        height: 40px;
+        padding-top: 0px;
+        font-weight: normal;
+
+        li {
+            height: 32px;
+            padding-top: 4px;
+            a {
+                height: 32px;
+            }
+        }
+    }
+
+    li {
+        height: 52px;
+        padding-top: 15px;
+        margin: 0 0 0 1px;
+        position: relative;
+
+        a {
+            color: #c1c4c9;
+        }
+        &.current {
+            background: url('/images/gradient_navi_highlight.jpg') repeat-x right bottom transparent;
+        }
+        &:hover {
+            background: url('/images/gradient_navi_hover.png') right top no-repeat transparent;
+        }
+    }
+}
+
+#user_menu {
+    display: inline-block;
+    background: url("/images/line_header.jpg") no-repeat scroll left bottom transparent;
+}
+#about_menu {
+    display: inline-block;
+}
+#about_menu ul,
+#user_menu ul {
+    margin-left: 0;
+    li:hover a {
+        background: none;
+    }
+}
+#about_menu_link,
+#nav li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 13px 0 10px;
+    height: 52px;
+    display: block;
+}
+
+#nav li:hover ul.children {
+    display: block;
+}
+#nav ul.children {
+    display: none;
+    position: absolute;
+    background: url('/images/gradient_navi_dropdown.png') no-repeat right bottom transparent;
+    margin: 0px;
+    min-width: 200px;
+    text-align: left;
+    padding: 20px;
+    right: 0px;
+    z-index: 100;
+    font-size: 14px;
+
+    li {
+        background: url('/images/line_navi_dropdown.jpg') repeat-x top center;
+        padding: 5px 2px 2px;
+        font-size: 14px;
+        line-height: 25px;
+        height: 25px;
+        display: block;
+
+        &:first-child {
+            background: none;
+            padding-top: 2px;
+        }
+        a {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            height: auto;
+            padding: 0;
+        }
+        a:hover, &.current a {
+            color: #c1c4c9;
+        }
+    }
+}
+
+a.show_me {
+    background-position: right -350px;
+    padding-right: 23px;
+
+    #topnav & {
+        background-position: right -352px;
+    }
+    #user_menu & {
+        background-position: right -348px;
+        padding: 0 23px 0 18px !important;
+        line-height: 1.5em;
+    }
+}

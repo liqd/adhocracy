@@ -1,0 +1,30 @@
+// Toggling content
+.hide, .hidden {
+    display: none !important;
+}
+.show {
+    display: block;
+}
+
+// Visibility
+.invisible {
+    visibility: hidden;
+}
+
+// For Affix plugin
+.affix {
+    position: fixed;
+}
+
+.nobullet {
+    list-style: none;
+    margin-left: 0
+}
+
+html.js .only-no-js, html.no-js .only-js {
+    display: none;
+}
+
+body.logged_in .only-anon {
+  display: none;
+}
