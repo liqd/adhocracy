@@ -14,11 +14,11 @@ votedetail_table = Table(
 
 def calc_votedetail(instance, poll):
     from adhocracy.model import User, Badge
-    from adhocracy.lib.democracy import tally
+    from adhocracy.lib.democracy import tally as _tally
     res = []
     for badge in instance.votedetail_userbadges:
         uf = lambda q: q.join(User.badges).filter(Badge.id == badge.id)
-        tally = tally.make_from_poll(tally.SimpleTally, poll, user_filter=uf)
+        tally = _tally.make_from_poll(_tally.SimpleTally, poll, user_filter=uf)
         res.append((badge, tally))
     return res
 
