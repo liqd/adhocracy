@@ -17,6 +17,7 @@ else:
 %endif
 
 <div class="form_wrapper">
+  %if not c.hide_locallogin:
   <form method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom login_form">
     <div class="input_wrapper">
       <label>${field_title}
@@ -38,6 +39,7 @@ else:
     %endif
     </div>
   </form>
+  %endif
   <script>
       $('input[name=login]').focus();
   </script>

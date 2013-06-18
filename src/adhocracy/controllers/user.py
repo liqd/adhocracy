@@ -477,7 +477,11 @@ class UserController(BaseController):
             if '_login_value' in request.environ:
                 defaults['login'] = request.environ['_login_value']
             defaults['_tok'] = token_id()
-        form = render('/user/login_tile.html')
+        data = {}
+        data['hide_locallogin'] = (
+            asbool(config.get('adhocracy.hide_locallogin', 'false'))
+            and not 'locallogin' in request.GET)
+        form = render('/user/login_tile.html', data)
         form = htmlfill.render(form,
                                errors=errors,
                                defaults=defaults)
