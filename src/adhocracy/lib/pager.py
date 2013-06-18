@@ -266,10 +266,10 @@ def instances(instances):
     if configured_sort not in sorts:
         configured_sort = ACTIVITY
     return NamedPager('instances', instances, tiles.instance.row,
-                      sorts={_("oldest"): sorts[OLDEST],
-                             _("newest"): sorts[NEWEST],
-                             _("activity"): sorts[ACTIVITY],
-                             _("alphabetically"): sorts[ALPHA]},
+                      sorts={_("Oldest"): sorts[OLDEST],
+                             _("Newest"): sorts[NEWEST],
+                             _("Activity"): sorts[ACTIVITY],
+                             _("Alphabetically"): sorts[ALPHA]},
                       default_sort=sorts[configured_sort],
                       size=20)  # FIXME: hardcoded for enquetebeteiligung
 
@@ -282,12 +282,12 @@ def proposals(proposals, default_sort=None, **kwargs):
 
     if default_sort is None:
         default_sort = sorting.proposal_mixed
-    sorts = {_("newest"): sorting.entity_newest,
-             _("newest comment"): sorting.delegateable_latest_comment,
-             _("most support"): sorting.proposal_support,
-             _("mixed"): sorting.proposal_mixed,
-             _("controversy"): sorting.proposal_controversy,
-             _("alphabetically"): sorting.delegateable_label}
+    sorts = {_("Newest"): sorting.entity_newest,
+             _("Newest Comment"): sorting.delegateable_latest_comment,
+             _("Most Support"): sorting.proposal_support,
+             _("Mixed"): sorting.proposal_mixed,
+             _("Controversy"): sorting.proposal_controversy,
+             _("Alphabetically"): sorting.delegateable_label}
     return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
