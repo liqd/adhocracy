@@ -13,7 +13,7 @@ from adhocracy.lib.auth import guard, csrf
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.staticpage import (get_static_page, get_backend,
                                       all_languages, all_language_infos,
-                                      render_body, decode_redirect)
+                                      render_body)
 from adhocracy.lib.templating import render, ret_abort
 
 log = logging.getLogger(__name__)
@@ -127,7 +127,3 @@ class StaticController(BaseController):
         else:
             ret = render('/static/show.html', data)
         return ret
-
-    def outgoing_link(self, url_enc):
-        url = decode_redirect(url_enc.decode('ascii'))
-        return redirect(url)

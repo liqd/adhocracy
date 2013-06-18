@@ -269,8 +269,7 @@ adhocracy.behind_proxy = ${parts.adhocracy.behind_proxy}
 # -.. but log the full IP address ('none')
 #adhocracy.requestlog_ipanonymization = anonymize
 
-# INSTALL: Redirect outgoing links from static pages so that we can see when
-# a user leaves our site.
+# INSTALL: Redirect outgoing links so that we can see when a user leaves our site.
 # adhocracy.track_outgoing_links = True
 
 # Statistics via Piwik
