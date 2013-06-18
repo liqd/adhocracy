@@ -150,10 +150,14 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     def add(self, badge_type=None, errors=None):
+        data = {
+            'form_type': 'add',
+            'groups': Group.all_instance(),
+            'sorting_orders': PROPOSAL_SORTS,
+        }
         if badge_type is not None:
-            c.badge_type = badge_type
-        c.form_type = 'add'
-        c.groups = Group.all_instance()
+            data['badge_type'] = badge_type
+        
         defaults = {'visible': True,
                     'select_child_description': '',
                     }
@@ -161,7 +165,8 @@ class BadgeController(BaseController):
 
         self._set_parent_categories()
 
-        return htmlfill.render(render(self.form_template),
+        html = render(self.form_template, data)
+        return htmlfill.render(html,
                                defaults=defaults,
                                errors=errors,
                                force_defaults=False)

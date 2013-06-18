@@ -295,6 +295,9 @@ piwik.id =
 # Note that shibboleth needs additional configuration
 #adhocracy.login_type = openid,username+password,email+password
 
+# Allow password change for shibboleth users (default: false)
+# adhocracy.allow_shibboleth_password_change = false
+
 # INSTALL: Allow administrators to let users log in from an invitation email
 # adhocracy.enable_welcome = True
 

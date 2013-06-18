@@ -110,12 +110,12 @@
         css_cls = "active"
         text = _('Following')
         hover_text = _('Unfollow')
-        href = h.base_url('/watch/delete?watch=%s&amp;%s' % (watch.id,
+        href = h.base_url('/watch/delete?watch=%s&%s' % (watch.id,
                                                              h.url_token()))
     elif not watch and can.watch.create():
         css_cls = ""
         text = hover_text = follow_text
-        href = h.base_url('/watch/create?%s&amp;%s' % (h.make_watch(entity),
+        href = h.base_url('/watch/create?%s&%s' % (h.make_watch(entity),
                                                        h.url_token()))
     else:
         skip = True

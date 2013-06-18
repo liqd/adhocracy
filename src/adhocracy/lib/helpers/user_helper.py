@@ -1,5 +1,6 @@
 import cgi
 
+from paste.deploy.converters import asbool
 from pylons import tmpl_context as c
 from pylons import config
 from pylons.i18n import _
@@ -107,3 +108,10 @@ def post_register_url(user):
         return base_url(url)
     else:
         return base_url(url, Instance.find(instance))
+
+
+def can_change_password(user):
+    if user._shibboleths:
+        return asbool(config.get('adhocracy.allow_password_change', 'false'))
+    else:
+        return True

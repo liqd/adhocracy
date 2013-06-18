@@ -124,6 +124,12 @@ class MassmessageController(BaseController):
                 'enabled': asbool(config.get(
                     'allow_system_email_in_mass_messages', 'true')),
                 'reason': _("Not permitted in system settings"),
+            },
+            'support' : {
+                'email': config.get('adhocracy.registration_support_email'),
+                'checked': False,
+                'enabled': config.get('adhocracy.registration_support_email') is not None,
+                'reason': _("adhocracy.registration_support_email not set"),
             }
         }
 
