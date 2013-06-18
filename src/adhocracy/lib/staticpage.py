@@ -2,12 +2,14 @@ import logging
 import os.path
 import re
 
-from lxml.html import parse, tostring
 import adhocracy.model
 from adhocracy import i18n
 from adhocracy.lib import util
 from adhocracy.lib.auth.authorization import has
+from adhocracy.lib.outgoing_link import rewrite_urls
 
+
+from lxml.html import parse, tostring
 from pylons import tmpl_context as c, config
 
 log = logging.getLogger(__name__)
@@ -103,6 +105,10 @@ def can_edit():
     if not get_backend().is_editable():
         return False
     return has('global.staticpage')
+
+
+def render_body(body):
+    return rewrite_urls(body)
 
 
 def get_static_page(key, language=None):

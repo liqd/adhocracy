@@ -56,6 +56,10 @@ session.domain = test.lan
 beaker.cache.data_dir = ${parts.buildout.directory}/var/testdata/cache
 beaker.session.data_dir = ${parts.buildout.directory}/var/testdata/sessions
 
+# Turn on all the bells and whistles
+adhocracy.crypto.secret = geheim!
+adhocracy.track_outgoing_links = True
+
 adhocracy.login_type = openid,username+password,email+password,shibboleth
 adhocracy.shibboleth.userbadge_mapping =
     editor attribute_equals shib-user-role editor 

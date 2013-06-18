@@ -5,6 +5,7 @@ import markdown
 
 from adhocracy import model
 from adhocracy.lib.cache.util import memoize
+from adhocracy.lib.outgoing_link import rewrite_urls
 
 SUB_USER = re.compile("@([a-zA-Z0-9_\-]{3,255})")
 
@@ -75,6 +76,9 @@ def render(text, substitutions=True, safe_mode='escape',
         from lxml.html.clean import Cleaner
         text = Cleaner(embedded=False,
                        kill_tags=['embed', 'object']).clean_html(text)
+
+    text = rewrite_urls(text)
+
     return text
 
 
