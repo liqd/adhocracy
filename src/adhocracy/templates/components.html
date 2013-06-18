@@ -167,6 +167,7 @@
 
 
 <%def name="social_share_buttons(entity)">
+%if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()
@@ -179,7 +180,7 @@ $(document).ready(function () {
     '${base_url}', '.${h.site.domain()}');
 });
 </script>
-
+%endif
 </%def>
 
 
