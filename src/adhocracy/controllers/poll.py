@@ -82,9 +82,13 @@ class PollController(BaseController):
                 event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance,
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
 
+
         if format == 'json':
+            votedetail = model.votedetail.calc_votedetail_dict(c.instance, c.poll)\
+                         if model.votedetail.is_enabled() else None
             return render_json(dict(decision=decision,
-                                    score=c.poll.tally.score))
+                                    score=c.poll.tally.score,
+                                    votedetail=votedetail))
 
         redirect(h.entity_url(c.poll.subject))
 
@@ -124,8 +128,11 @@ class PollController(BaseController):
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
 
         if format == 'json':
+            votedetail = model.votedetail.calc_votedetail_dict(c.instance, c.poll)\
+                         if model.votedetail.is_enabled() else None
             return render_json(dict(decision=decision,
-                                    tally=tally.to_dict()))
+                                    tally=tally.to_dict(),
+                                    votedetail=votedetail))
 
         if format == 'overlay':
             return self.widget(id, format=self.form_result.get('cls'))

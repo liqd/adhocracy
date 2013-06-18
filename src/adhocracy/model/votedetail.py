@@ -22,6 +22,9 @@ def calc_votedetail(instance, poll):
         res.append((badge, tally))
     return res
 
+def calc_votedetail_dict(instance, poll):
+    return [{'badge' : b.to_dict(), 'tally' : t.to_dict()}
+            for b, t in calc_votedetail(instance, poll)]
 
 def is_enabled():
     from pylons import config
