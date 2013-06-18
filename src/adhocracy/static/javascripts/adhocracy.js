@@ -85,7 +85,7 @@ var adhocracy = adhocracy || {};
             } else {
                 separator = '?';
             }
-            return val + separator + 'came_from=' + came_from;
+            return val + separator + 'came_from=' + encodeURIComponent(came_from);
         };
         this.getOverlay().find('.patch_camefrom').attr({
             'action': patch_camefrom,
