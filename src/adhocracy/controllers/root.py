@@ -13,7 +13,7 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib import pager, sorting
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.staticpage import get_static_page
+from adhocracy.lib.staticpage import get_static_page, render_body
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -43,7 +43,7 @@ class RootController(BaseController):
             c.title = c.body = u''
         else:
             c.title = page.title
-            c.body = page.body
+            c.body = render_body(page.body)
 
         proposals_number = asint(
             config.get('adhocracy.startpage.proposals.list_length', 0))
