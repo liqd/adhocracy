@@ -25,7 +25,8 @@ def rewrite_urls(body):
 
             # Is it a link to our own site?
             base = base_url('/', instance=None)
-            if base != '/' and url.startswith(base):
+            if (url.startswith(base)
+                    and not(url.startswith('//') and base == '/')):
                 continue
 
             encoded_url = base64.urlsafe_b64encode(url.encode('utf-8'))
