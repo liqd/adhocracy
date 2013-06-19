@@ -4,8 +4,19 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
+- use virtualenv to create the python executable, uwsgi needs this.
+  
+  Upgrade manual installation:
+  ____________________________
+  
+  * cd python
+  * bin/buildout 
+  * cd ..
+  * bin/buildout
+  
 - run adhocarcy with uwsgi instead of paster to improve performance, 
   for development keep with paster [joka]
+
 
 - Readd bin/test to run tests (wrapper for py.test) [joka]
 
