@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy f8194e8\n"
+"Project-Id-Version: adhocracy 578e369\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-03 16:45+0200\n"
+"POT-Creation-Date: 2013-06-19 14:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,10 @@ msgid "Please insert a template for the mail we will send to the users."
 msgstr ""
 
 msgid "Solr index updated."
+msgstr ""
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
 msgstr ""
 
 msgid "Requested generation of welcome codes, but welcome functionality(adhocracy.enable_welcome) is not enabled."
@@ -195,6 +199,9 @@ msgid "Email isn't activated"
 msgstr ""
 
 msgid "Not permitted in system settings"
+msgstr ""
+
+msgid "adhocracy.registration_support_email not set"
 msgstr ""
 
 #, python-format
@@ -844,19 +851,28 @@ msgstr ""
 msgid "Dear"
 msgstr ""
 
-msgid "activity"
+msgid "Oldest"
 msgstr ""
 
-msgid "newest comment"
+msgid "Newest"
 msgstr ""
 
-msgid "most support"
+msgid "Activity"
 msgstr ""
 
-msgid "mixed"
+msgid "Alphabetically"
 msgstr ""
 
-msgid "controversy"
+msgid "Newest Comment"
+msgstr ""
+
+msgid "Most Support"
+msgstr ""
+
+msgid "Mixed"
+msgstr ""
+
+msgid "Controversy"
 msgstr ""
 
 msgid "by date"
@@ -866,6 +882,9 @@ msgid "most proposals"
 msgstr ""
 
 msgid "hierarchical"
+msgstr ""
+
+msgid "activity"
 msgstr ""
 
 msgid "Badge"
@@ -889,24 +908,6 @@ msgstr ""
 msgid "Milestones"
 msgstr ""
 
-msgid "Oldest"
-msgstr ""
-
-msgid "Newest"
-msgstr ""
-
-msgid "Newest Comment"
-msgstr ""
-
-msgid "Activity"
-msgstr ""
-
-msgid "Alphabetically"
-msgstr ""
-
-msgid "Most Support"
-msgstr ""
-
 msgid "Yays - nays"
 msgstr ""
 
@@ -922,13 +923,7 @@ msgstr ""
 msgid "Most Nays"
 msgstr ""
 
-msgid "Mixed"
-msgstr ""
-
 msgid "Age and Support"
-msgstr ""
-
-msgid "Controversy"
 msgstr ""
 
 msgid "Rating"
@@ -1368,6 +1363,12 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
+msgid "Disable email notifications."
+msgstr ""
+
+msgid "Receive email notifications if changes occur."
+msgstr ""
+
 msgid "Send us your feedback"
 msgstr ""
 
@@ -1594,9 +1595,6 @@ msgstr ""
 msgid "Shortlink"
 msgstr ""
 
-msgid "Edit this page"
-msgstr ""
-
 msgid "Report abuse"
 msgstr ""
 
@@ -1709,6 +1707,9 @@ msgid "Import Users"
 msgstr ""
 
 msgid "Update Search Index"
+msgstr ""
+
+msgid "Fix autojoin"
 msgstr ""
 
 msgid "Static Pages"
@@ -2337,6 +2338,9 @@ msgstr ""
 msgid "Require to propose a variant"
 msgstr ""
 
+msgid "Show norms navigation item"
+msgstr ""
+
 msgid "Use milestones"
 msgstr ""
 
@@ -2644,6 +2648,9 @@ msgid "Add OpenID"
 msgstr ""
 
 msgid "Enter the URL of your OpenID to connect the ID to your account. This will allow you to login using this OpenID in the future."
+msgstr ""
+
+msgid "Sign In"
 msgstr ""
 
 msgid "Alternative"
@@ -3282,6 +3289,9 @@ msgstr ""
 msgid "Add static page"
 msgstr ""
 
+msgid "Edit this page"
+msgstr ""
+
 msgid "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr ""
 
@@ -3609,6 +3619,9 @@ msgid "Email or username:"
 msgstr ""
 
 msgid "Login:"
+msgstr ""
+
+msgid "Login via Shibboleth"
 msgstr ""
 
 msgid "Forgot your password?"

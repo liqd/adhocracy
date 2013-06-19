@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-03 16:45+0200\n"
-"PO-Revision-Date: 2013-06-03 14:46+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-06-19 14:30+0200\n"
+"PO-Revision-Date: 2013-06-19 12:33+0000\n"
+"Last-Translator: Wawe <transifex.com@jroene.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,10 @@ msgstr "Please insert a template for the mail we will send to the users."
 
 msgid "Solr index updated."
 msgstr "Solr index updated."
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
+msgstr "Autojoin fixed - added %s memberships."
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -204,6 +208,9 @@ msgstr "Email isn't activated"
 
 msgid "Not permitted in system settings"
 msgstr "Not permitted in system settings"
+
+msgid "adhocracy.registration_support_email not set"
+msgstr "adhocracy.registration_support_email not set"
 
 #, python-format
 msgid "Could not render message: %s"
@@ -878,20 +885,29 @@ msgstr "Dear Mr."
 msgid "Dear"
 msgstr "Dear"
 
-msgid "activity"
-msgstr "activity"
+msgid "Oldest"
+msgstr "Oldest"
 
-msgid "newest comment"
-msgstr "newest comment"
+msgid "Newest"
+msgstr "Newest"
 
-msgid "most support"
-msgstr "most support"
+msgid "Activity"
+msgstr "Activity"
 
-msgid "mixed"
-msgstr "mixed"
+msgid "Alphabetically"
+msgstr "Alphabetically"
 
-msgid "controversy"
-msgstr "controversy"
+msgid "Newest Comment"
+msgstr "Newest Comment"
+
+msgid "Most Support"
+msgstr "Most Support"
+
+msgid "Mixed"
+msgstr "Mixed"
+
+msgid "Controversy"
+msgstr "Controversy"
 
 msgid "by date"
 msgstr "by date"
@@ -901,6 +917,9 @@ msgstr "most proposals"
 
 msgid "hierarchical"
 msgstr "hierarchical"
+
+msgid "activity"
+msgstr "activity"
 
 msgid "Badge"
 msgstr "Badge"
@@ -923,24 +942,6 @@ msgstr "Tags"
 msgid "Milestones"
 msgstr "Milestones"
 
-msgid "Oldest"
-msgstr "Oldest"
-
-msgid "Newest"
-msgstr "Newest"
-
-msgid "Newest Comment"
-msgstr "Newest Comment"
-
-msgid "Activity"
-msgstr "Activity"
-
-msgid "Alphabetically"
-msgstr "Alphabetically"
-
-msgid "Most Support"
-msgstr "Most Support"
-
 msgid "Yays - nays"
 msgstr "Yays - nays"
 
@@ -956,14 +957,8 @@ msgstr "Most Ayes"
 msgid "Most Nays"
 msgstr "Most Nays"
 
-msgid "Mixed"
-msgstr "Mixed"
-
 msgid "Age and Support"
 msgstr "Age and Support"
-
-msgid "Controversy"
-msgstr "Controversy"
 
 msgid "Rating"
 msgstr "Rating"
@@ -1403,6 +1398,12 @@ msgstr "Following"
 msgid "Unfollow"
 msgstr "Unfollow"
 
+msgid "Disable email notifications."
+msgstr "Disable email notifications."
+
+msgid "Receive email notifications if changes occur."
+msgstr "Receive email notifications if changes occur."
+
 msgid "Send us your feedback"
 msgstr "Send us your feedback"
 
@@ -1634,9 +1635,6 @@ msgstr "Votes by User Group"
 msgid "Shortlink"
 msgstr "Shortlink"
 
-msgid "Edit this page"
-msgstr "Edit this page"
-
 msgid "Report abuse"
 msgstr "Report abuse"
 
@@ -1752,6 +1750,9 @@ msgstr "Import Users"
 
 msgid "Update Search Index"
 msgstr "Update Search Index"
+
+msgid "Fix autojoin"
+msgstr "Fix autojoin"
 
 msgid "Static Pages"
 msgstr "Static Pages"
@@ -2406,6 +2407,9 @@ msgstr "Allow users to propose norms"
 msgid "Require to propose a variant"
 msgstr "Require to propose a variant"
 
+msgid "Show norms navigation item"
+msgstr "Show norms navigation item"
+
 msgid "Use milestones"
 msgstr "Use milestones"
 
@@ -2728,6 +2732,9 @@ msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
 msgstr "Enter the URL of your OpenID to connect the ID to your account. This will allow you to login using this OpenID in the future."
+
+msgid "Sign In"
+msgstr "Sign In"
 
 msgid "Alternative"
 msgstr "Alternative"
@@ -3390,6 +3397,9 @@ msgstr "Key:"
 msgid "Add static page"
 msgstr "Add static page"
 
+msgid "Edit this page"
+msgstr "Edit this page"
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Tags are keywords used to find, sort and filter proposals and documents."
@@ -3736,6 +3746,9 @@ msgstr "Email or username:"
 
 msgid "Login:"
 msgstr "Login:"
+
+msgid "Login via Shibboleth"
+msgstr "Login via Shibboleth"
 
 msgid "Forgot your password?"
 msgstr "Forgot your password?"
