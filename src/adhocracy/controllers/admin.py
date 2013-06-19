@@ -2,13 +2,13 @@ import logging
 
 import formencode
 import formencode.htmlfill
-from pylons import request
+from pylons import config, request
 from pylons.i18n import lazy_ugettext as L_, _
 from pylons.controllers.util import redirect
 
 from adhocracy import model, forms
 from adhocracy.lib.auth import guard
-from adhocracy.lib.auth.csrf import token_id, RequireInternalRequest
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth.welcome import can_welcome
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import base_url, flash
@@ -76,6 +76,36 @@ class AdminController(BaseController):
                     index.update(entity)
         flash(_('Solr index updated.'), 'success')
         redirect(base_url('/admin'))
+
+    @guard.perm("global.admin")
+    def fix_autojoin(self):
+        config_autojoin = config.get('adhocracy.instances.autojoin')
+        if not config_autojoin:
+            return ret_abort('autojoin is not enabled')
+
+        users = model.User.all()
+        instances = model.Instance.all()
+        added = 0
+        if config_autojoin != 'ALL':
+            instance_keys = [key.strip() for key in
+                             config_autojoin.split(",")]
+            instances = [instance for instance in instances
+                         if instance.key in instance_keys]
+        for user in users:
+            to_join = set(instances)
+            for m in user.memberships:
+                to_join.discard(m.instance)
+            for instance in to_join:
+                autojoin_membership = model.Membership(
+                    user, instance,
+                    instance.default_group)
+                model.meta.Session.add(autojoin_membership)
+                added += 1
+        if added > 0:
+            model.meta.Session.commit()
+
+        flash(_('Autojoin fixed - added %s memberships.') % added, 'success')
+        return redirect(base_url('/admin'))
 
     @RequireInternalRequest()
     @guard.perm("global.admin")
