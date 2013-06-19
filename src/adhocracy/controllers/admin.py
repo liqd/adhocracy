@@ -84,7 +84,7 @@ class AdminController(BaseController):
             return ret_abort('autojoin is not enabled')
 
         users = model.User.all()
-        instances = model.Instance.all()
+        instances = model.Instance.all(include_hidden=True)
         added = 0
         if config_autojoin != 'ALL':
             instance_keys = [key.strip() for key in

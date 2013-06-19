@@ -430,7 +430,7 @@ class User(meta.Indexable):
         # Autojoin the user in instances
         config_autojoin = config.get('adhocracy.instances.autojoin')
         if config_autojoin:
-            instances = Instance.all()
+            instances = Instance.all(include_hidden=True)
             if config_autojoin != 'ALL':
                 instance_keys = [key.strip() for key in
                                  config_autojoin.split(",")]
