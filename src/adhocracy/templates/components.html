@@ -110,11 +110,13 @@
         css_cls = "active"
         text = _('Following')
         hover_text = _('Unfollow')
+        tooltip = _('Disable email notifications.')
         href = h.base_url('/watch/delete?%s' % h.url_token(),
                           query_params={'watch': str(watch.id)})
     elif not watch and can.watch.create():
         css_cls = ""
         text = hover_text = follow_text
+        tooltip = _('Receive email notifications if changes occur.')
         href = h.base_url('/watch/create?%s' % h.url_token(),
                           query_params={'ref': str(h.make_watch(entity))})
     else:
@@ -130,7 +132,8 @@
     </div>
     %else:
     <a ${id_attr} class="follow_paper ${css_cls}" href="${href}"
-       data-text="${text}" data-hover-text="${hover_text}">${text}</a>
+       data-text="${text}" data-hover-text="${hover_text}"
+       title="${tooltip}">${text}</a>
     %endif
 
     %else:
