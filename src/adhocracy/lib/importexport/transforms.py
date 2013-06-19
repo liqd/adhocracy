@@ -121,7 +121,7 @@ class BadgeTransform(_Transform):
             return model.UserBadge.create(
                 title=data['title'],
                 color=data.get('color', u''),
-                visible=data['visible'],
+                visible=data.get('visible', False),
                 description=data.get('description', u''))
         else:
             raise NotImplementedError()
@@ -129,7 +129,7 @@ class BadgeTransform(_Transform):
     def _modify(self, obj, data):
         obj.title = data['title']
         _set_optional(obj, data, 'color')
-        obj.visible = data['visible']
+        _set_optional(obj, data, 'visible')
         _set_optional(obj, data, 'description')
 
     def _export(self, obj):
