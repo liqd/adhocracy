@@ -116,7 +116,7 @@
         css_cls = ""
         text = hover_text = follow_text
         href = h.base_url('/watch/create?%s' % h.url_token(),
-                          query_params={'watch': str(h.make_watch(entity))})
+                          query_params={'ref': str(h.make_watch(entity))})
     else:
         skip = True
     %>
