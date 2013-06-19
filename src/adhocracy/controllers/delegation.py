@@ -10,6 +10,7 @@ from adhocracy import forms, model
 from adhocracy.lib import democracy
 from adhocracy.lib import event, helpers as h, pager, sorting, tiles
 from adhocracy.lib.auth import csrf, require
+from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import (render, render_json, ret_abort,
