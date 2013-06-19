@@ -301,6 +301,9 @@ piwik.id =
 # The normal login can still be found under `/login?locallogin`
 # adhocracy.hide_locallogin = true
 
+# Pull static info into login page (default: false)
+# adhocracy.show_static_login_info = true
+
 # INSTALL: Allow administrators to let users log in from an invitation email
 # adhocracy.enable_welcome = True
 

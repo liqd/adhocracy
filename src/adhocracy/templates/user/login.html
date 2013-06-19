@@ -1,5 +1,5 @@
 <%inherit file="/template.html" />
-<%def name="title()">${_("Who are you, then?")}</%def>
+<%def name="title()">${_("Who are you, then?") if c.title is None else c.title}</%def>
 
 <%block name="attention_getter">
 ## disable the attention getter if somebody is about to log in.
