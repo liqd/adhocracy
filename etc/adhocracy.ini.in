@@ -7,8 +7,6 @@
 ############################################################## 
  
 [DEFAULT]
-{% if parts.adhocracy.debug == 'True' %}debug = True  {% end %}
-{% if parts.adhocracy.debug != 'True' %}debug = False {% end %}
 
 # Uncomment and replace with the address which should receive any error reports
 email_to = ${parts.adhocracy['email.to']}
@@ -24,7 +22,10 @@ port = ${parts.ports.main}
 {% if parts.adhocracy.debug != 'True' %}use_threadpool = True {% end %}
 threadpool_workers = 20
 
-
+{% if "uwsgi_conf" in parts %}
+[uwsgi]
+${parts.uwsgi_conf.conf}
+{% end %}
 
 {% if parts.adhocracy.themed == 'False' %}
 ###################not themed adhocracy ###################

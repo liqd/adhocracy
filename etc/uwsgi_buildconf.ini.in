@@ -1,0 +1,50 @@
+; this is mainly copied from the uwsgi buildconf/default.ini
+; trying to surface some of the build options to buildout
+; properties.
+[uwsgi]
+bin_name = ${:bin-name}
+plugin_dir = ${:plugin-dir}
+main_plugin = ${:main-plugin}
+xml = true 
+ini = true
+yaml = true
+json = auto
+sqlite3 = auto
+zeromq = auto
+snmp = true
+spooler = true
+embedded = true
+ssl = auto
+udp = true
+multicast = true
+threading = true
+minterpreters = true
+async = true
+ldap = auto
+pcre = auto
+routing = auto
+alarm = auto
+ipv6 = false
+debug = false
+unbit = false
+xml_implementation = libxml2
+yaml_implementation = auto
+malloc_implementation = libc
+extras =
+plugins =
+append_version =
+embedded_plugins = %(main_plugin)s, ping, cache, nagios, rrdtool, carbon, rpc, corerouter, fastrouter, http, ugreen, signal, syslog, rsyslog, logsocket, router_uwsgi, router_redirect, router_basicauth, zergpool, redislog, mongodblog, router_rewrite, router_http, logfile, router_cache, rawrouter
+as_shared_library = false
+
+locking = auto
+event = auto
+timer = auto
+filemonitor = auto
+
+blacklist =
+whitelist =
+
+embed_files =
+
+embed_config =
+

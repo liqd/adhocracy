@@ -70,13 +70,13 @@ Check out Adhocracy:
 
     $ git clone https://github.com/liqd/adhocracy
     $ cd adhocracy
-    
+
     $ git submodule init
     $ git submodule update
 
 ## Setup an isolated python environment to run Adhocracy
 
-To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but 
+To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but
 no other system-packages.
 
 Compile python and PIL with the included python buildout::
@@ -92,7 +92,7 @@ Run buildout:
 
 ::
 
-    $ bin/python bootstrap.py 
+    $ bin/python bootstrap.py
     $ bin/buildout
 
 Start Adhocracy and dependent servers:
@@ -108,6 +108,7 @@ have to setup the Adhocracy database manually:
 ::
 
     $ bin/paster setup-app etc/adhocracy.ini --name=content
+
 
 Run Adhocracy
 -------------
@@ -142,6 +143,12 @@ Start the Adhocracy server in foreground mode:
 
     $ bin/supervisorctl stop adhocracy
     $ bin/paster serve etc/adhocracy.ini
+
+To run adhocarcy with uwsgi instead of paster:
+
+::
+    $ bin/uwsgi --ini-paste etc/adhocracy.ini
+
 
 Buildout configuration
 ----------------------
