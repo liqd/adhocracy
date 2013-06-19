@@ -69,8 +69,8 @@ class _Transform(object):
         if res is not None:
             key_val = getattr(res, self._ID_KEY)
             assert key_val == k, (
-                   u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
-                   (self._model_class.__name__, self._ID_KEY, k, key_val))
+                u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
+                (self._model_class.__name__, self._ID_KEY, k, key_val))
         return res
 
     def _compute_key(self, o):
@@ -190,7 +190,7 @@ class UserTransform(_Transform):
             if 'badges' in data:
                 old_badges = o.badges
                 new_badges = map(self._badge_transform._get_by_key,
-                                      data['badges'])
+                                 data['badges'])
                 for b in new_badges:
                     if b not in old_badges:
                         b.assign(o, o)
