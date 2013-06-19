@@ -1,4 +1,4 @@
-<h3>${_("Login")}</h3>
+<h3>${_("Login") if c.title is None else c.title}</h3>
 %if c.static_content is not None:
 ${c.static_content|n}
 %endif
