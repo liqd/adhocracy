@@ -297,6 +297,10 @@ piwik.id =
 # Allow password change for shibboleth users (default: false)
 # adhocracy.allow_shibboleth_password_change = false
 
+# Hide local login form (e.g. when using Shibboleth or OpenID primarily)
+# The normal login can still be found under `/login?locallogin`
+# adhocracy.hide_locallogin = true
+
 # INSTALL: Allow administrators to let users log in from an invitation email
 # adhocracy.enable_welcome = True
 

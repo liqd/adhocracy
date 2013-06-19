@@ -57,8 +57,8 @@ class UserUpdateForm(formencode.Schema):
     email = formencode.All(validators.Email(not_empty=True),
                            forms.UniqueOtherEmail())
     locale = validators.String(not_empty=False)
-    password_change = validators.String(not_empty=False)
-    password_confirm = validators.String(not_empty=False)
+    password_change = validators.String(not_empty=False, if_missing=None)
+    password_confirm = validators.String(not_empty=False, if_missing=None)
     chained_validators = [validators.FieldsMatch(
         'password_change', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)
@@ -477,7 +477,11 @@ class UserController(BaseController):
             if '_login_value' in request.environ:
                 defaults['login'] = request.environ['_login_value']
             defaults['_tok'] = token_id()
-        form = render('/user/login_tile.html')
+        data = {}
+        data['hide_locallogin'] = (
+            asbool(config.get('adhocracy.hide_locallogin', 'false'))
+            and not 'locallogin' in request.GET)
+        form = render('/user/login_tile.html', data)
         form = htmlfill.render(form,
                                errors=errors,
                                defaults=defaults)
