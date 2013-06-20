@@ -408,12 +408,25 @@ class CommentTransform(_ExportOnlyTransform):
         res['comments'] = ct.export_all()
         return res
 
+class RequestLogTransform(_ExportOnlyTransform):
+    _ID_KEY = 'id'
+
+    def __init__(self, options):
+        super(RequestLogTransform, self).__init__(options)
+        self.logs = model.RequestLog.all()
+
+    def _export(self, obj):
+        res = obj.to_dict()
+        res['access_time'] = res['access_time'].isoformat()
+        return res
 
 def gen_all(options):
     badge_transform = BadgeTransform(options)
     user_transform = UserTransform(options, badge_transform)
     instance_transform = InstanceTransform(options, user_transform)
-    return [badge_transform, user_transform, instance_transform]
+    requestlog_transform = RequestLogTransform(options)
+    return [badge_transform, user_transform, instance_transform,
+            requestlog_transform]
 
 
 def gen_active(options):

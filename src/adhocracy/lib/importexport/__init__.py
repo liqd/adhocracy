@@ -32,7 +32,8 @@ def export(opts):
     timeStr = time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime())
     title = config.get('adhocracy.site.name', 'adhocracy') + '-' + timeStr
     format = opts.get('format', 'json')
-    return formats.render(export_data(opts), format, title)
+    deliver = opts.get('deliver', 'site')
+    return formats.render(export_data(opts), format, deliver, title)
 
 
 def import_(opts, f):
