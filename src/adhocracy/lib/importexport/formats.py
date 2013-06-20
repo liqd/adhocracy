@@ -1,10 +1,14 @@
 
 import contextlib
+import os
 import io
 import json
-import zipfile
+import tarfile
 
-from adhocracy.lib.templating import render_json
+from tempfile import NamedTemporaryFile
+from pprint import pformat
+from zipfile import ZipFile
+from gzip import GzipFile
 from pylons import response
 
 
@@ -17,21 +21,55 @@ def detect_format(f):
         return 'zip'
     return 'unknown'
 
+def _render_json(obj, encoding='utf-8'):
+    return json.dumps(obj, encoding)
 
-def _render_zip(data, filename, response=response):
-    with io.BytesIO() as fakeFile:
-        with contextlib.closing(zipfile.ZipFile(fakeFile, 'w')) as zf:
-            for k, v in data.items():
-                assert '/' not in k
-                zf.writestr(k + '.json', json.dumps(v))
-        res = fakeFile.getvalue()
+def _render_data(data, renderer=_render_json, encoding='utf-8'):
+    result = {}
+    for k, v in data.items():
+        assert '/' not in k
+        result[k] = renderer(v, encoding)
+    return result
 
-    if filename is not None:
-        response.content_disposition = 'attachment; filename="'\
-            + filename.replace('"', '_') + '"'
-    response.content_type = 'application/zip'
-    return res
+def _render_zip(data, renderer=_render_json, encoding='utf-8'):
+    with io.BytesIO() as fake_file:
+        with contextlib.closing(ZipFile(fake_file, 'a')) as zf:
+            for k, v in _render_data(data, renderer, encoding).items():
+                zf.writestr(k, v)
+        return fake_file.getvalue()
 
+def _render_tar(data, renderer=_render_json, encoding='utf-8', compression=None):
+    compression = "gz" if compression == "gzip" else "bz2"
+
+    with io.BytesIO() as t_fake_file:
+        if compression:
+            tf = tarfile.open(fileobj=t_fake_file, mode="w:{}".format(compression))
+        else:
+            tv = tarfile.open(fileobj=t_fake_file, mode="w")
+
+        for k, v in _render_data(data, renderer, encoding).iteritems():
+            with NamedTemporaryFile(delete=False) as v_file:
+                v_file.write(v)
+            with open(v_file.name) as f:
+                tarinfo = tf.gettarinfo(fileobj=f)
+                tarinfo.name = k
+                tf.addfile(tarinfo, f)
+            os.remove(v_file.name)
+
+        tf.close()
+        return t_fake_file.getvalue()
+
+def _render_tgz(data, renderer=_render_json, encoding='utf-8'):
+    return _render_tar(data, renderer, encoding, "gzip")
+
+def _render_tbz(data, renderer=_render_json, encoding='utf-8'):
+    return _render_tar(data, renderer, encoding, "bzip2")
+
+def _render_gzip(data, renderer=_render_json, encoding='utf-8'):
+    with io.BytesIO() as fake_file:
+        with GzipFile(fileobj=fake_file, mode="w") as zf:
+                zf.write(renderer(_render_data(data, renderer, encoding)))
+        return fake_file.getvalue()
 
 def _read_zip(f):
     res = {}
@@ -40,7 +78,6 @@ def _read_zip(f):
             if fn.endswith('.json') and '/' not in fn:
                 res[fn[:-len('.json')]] = json.loads(zf.read(fn))
     return res
-
 
 def read_data(f, format='detect'):
     if format == 'detect':
@@ -53,13 +90,39 @@ def read_data(f, format='detect'):
     else:
         raise ValueError('Invalid import format')
 
-
-def render(data, format, title, response=response):
-    if format == 'zip':
-        return _render_zip(data, filename=title + '.zip', response=response)
-    elif format == 'json_download':
-        return render_json(data, filename=title + '.json', response=response)
-    elif format == 'json':
-        return render_json(data, response=response)
-    else:
+def render(data, format, deliver, title, response=response):
+    try:
+        renderer = globals()["_render_{}".format(format)]
+    except KeyError:
         raise ValueError('Invalid export format')
+
+    if deliver in ["site", "file"]:
+        response.content_encoding = "utf-8"
+        result = pformat(_render_data(data, renderer))
+    else:
+        try:
+            result = globals()["_render_{}".format(deliver)](data, renderer)
+        except KeyError:
+            raise ValueError("Invalid deliver format")
+
+    if deliver != 'site':
+        if deliver == "file":
+            filename = "{0}.{1}".format(title.replace('"', '_'), format)
+            response.content_type = "text/{0}".format(format)
+        elif deliver == "gzip":
+            response.content_type = "application/x-gzip"
+            filename = "{0}.gz".format(title.replace('"', '_'))
+        elif deliver == "tgz":
+            filename = "{0}.{1}".format(title.replace('"', '_'), deliver)
+            response.content_type = "application/x-gzip"
+        elif deliver == "tbz":
+            filename = "{0}.{1}".format(title.replace('"', '_'), deliver)
+            response.content_type = "application/x-bzip"
+        else:
+            filename = "{0}.{1}".format(title.replace('"', '_'), deliver)
+            response.content_type = "application/{}".format(deliver)
+
+        response.content_disposition = 'attachment; filename="{0}"'.format(filename)
+
+    return result
+
