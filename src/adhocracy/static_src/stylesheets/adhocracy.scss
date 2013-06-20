@@ -4,6 +4,9 @@
 // reset
 @import "compass/reset";
 
+// overwrite
+@import "overwrite";
+
 // legacy
 @import "yaml-base";
 @import "yaml-print";
@@ -12,5 +15,4 @@
 @import "basemod";
 @import "content";
 @import "style";
-@import "site";
 @import "openid";
