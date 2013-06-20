@@ -36,7 +36,7 @@ else:
       <input type="submit" value="${_('Login')}" />
     %if h.allow_user_registration():
         ${_("or")} 
-        <a href="/register${h.camefrom_querystring()}" class="icon_link more_uppercase patch_camefrom">
+        <a href="/register${h.camefrom_querystring()}" class="more_uppercase patch_camefrom">
             ${_("Register new account")|n}</a>
     %endif
     </div>
