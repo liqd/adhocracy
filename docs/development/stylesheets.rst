@@ -104,7 +104,7 @@ the default theme and include it using diazo.
 Merging of the new stylesheet system broke the old theming because an `adhocracy.scss`
 file is required in every theme.
 
-So to migrate your theme to the new system simply copy `adhocracy.scss` form the default
+So to migrate your theme to the new system simply copy `adhocracy.scss` from the default
 theme to `${theme-dir}/static_src/adhocracy.scss`. You may also want to move
 `style_custom.css` to `${theme-dir}/static_src/_overwrite.scss` and remove the old diazo.
 
