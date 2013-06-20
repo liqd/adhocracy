@@ -149,6 +149,8 @@ To run adhocarcy with uwsgi instead of paster:
 ::
     $ bin/uwsgi --ini-paste etc/adhocracy.ini
 
+To run the ipdb python debuger with uwsgi use "IPDB()" instead of "ipdb.set_trace()".
+
 
 Buildout configuration
 ----------------------
