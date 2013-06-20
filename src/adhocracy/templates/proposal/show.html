@@ -67,20 +67,16 @@ delegate_url = url if can.delegation.create() else None
                 ${components.social_share_buttons(c.proposal)}
 
                 <div class="meta">
-                    <a href="#discussions">
-                        ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}
-                    </a>
+                    <a href="#discussions">${
+                        _("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)
+                    }</a>
                     %if c.show_selections:
                     · 
-                    <a href="#proposals">
-                        ${_("%s Proposed Implementations") % len(c.num_selections)}
-                    </a>
+                    <a href="#proposals">${_("%s Proposed Implementations") % len(c.num_selections)}</a>
                     %endif
                     %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
                     · 
-                    <a href="${h.abuse.for_entity(c.proposal)}">
-                        ${_("report")}
-                    </a>
+                    <a href="${h.abuse.for_entity(c.proposal)}">${_("report")}</a>
                     %endif
                     ·
                     <a href="${c.history_url}"
