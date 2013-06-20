@@ -38,12 +38,12 @@
     </p>
     %if can.tag.create():
     <div class="only-js" id="add_tags"> 
-        <a href="#" class="showhide_button button_small" 
+        <a href="#" class="showhide_button button_small"
            data-target="#tags_form">
             ${_("add tags...")}
         </a>
     </div>
-    <div class="close" id="tags_form" data-cancel=".cancel">
+    <div id="tags_form" data-cancel=".cancel" style="display: none">
         <form action="${h.base_url('/tag', delegateable.instance)}" method="POST">
             ${h.field_token()|n}
             <input name="delegateable" type="hidden" value="${delegateable.id}" />
