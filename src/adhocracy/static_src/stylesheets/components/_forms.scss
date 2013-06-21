@@ -1,0 +1,235 @@
+.form_wrapper {
+    background: url("/images/shadow_image_large.jpg") no-repeat scroll center bottom transparent;
+    padding-bottom: 18px;
+}
+
+.form_wrapper form, #searchbox form {
+    margin: 0px;
+}
+
+form {
+    background: url("/images/gradient_form.jpg") repeat-y scroll left top #f3f3f3;
+    padding: 30px;
+}
+
+form.list_filter {
+    background: none;
+}
+
+form.list_filter label {
+    font-size: 16px;
+}
+
+form .savebox {
+    padding-top: 0.5em;
+}
+
+#openid_form {
+    width: auto !important; /*do not know why there was a fixed value here [joka] */
+}
+form div.prototype {
+    display: none;
+}
+
+
+form p.info {
+    margin-bottom: 10px;
+    color: $fg1;
+}
+
+.input_wrapper {
+    width: 100%;
+    margin-bottom: 10px;
+    clear: both;
+
+    &.submit {
+        font-size: 11px;
+        line-height: 24px;
+    }
+}
+
+textarea {
+    width: 100%;
+    min-height: 128px;
+}
+
+input[type=checkbox], input[type=radio] {
+    vertical-align: text-top;
+}
+
+.checkbox_inline label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+.checkbox_inline input {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    margin:0;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
+.submit input, .submit button {
+    border: medium none;
+    cursor: pointer;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    height: 27px;
+    margin-right: 15px;
+    padding: 0 15px 3px;
+}
+
+form .error-message {
+    color: darkred;
+}
+form .error {
+    border-color: darkred;
+}
+
+/* comment form */
+.comment_form {
+    background: none $bg2;
+    padding: 3px;
+}
+form.new_comment {
+    background: none repeat scroll 0 0 $bg2;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.comment_settings .input_wrapper {
+    margin-bottom: 5px;
+}
+.comment_settings .hr {
+    margin-bottom: 10px;
+}
+
+/* searchform */
+#searchbox,
+.list_filter {
+    display: block;
+    overflow: hidden;
+    padding-top: 19px;
+    padding-right: 20px;
+}
+
+#subheader.logo #searchbox {
+    padding-top: 29px;
+}
+
+.list_filter {
+    padding: 5px 20px 16px 20px;
+}
+
+#searchform,
+.list_form {
+    float: right;
+    padding: 0;
+    background: none;
+    margin-bottom: 0;
+}
+
+.list_form label {
+    display: inline;
+}
+
+#searchform #s,
+.list_form input.q {
+    width: 225px;
+    padding: 0px 4px;
+    height: 24px;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.list_form input.q {
+    width: 350px;
+}
+
+#searchform #searchsubmit,
+.list_form input.go {
+    background: url('/images/button_grey.jpg') no-repeat top left;
+    padding: 0px 10px 2px;
+    height: 26px;
+    margin-left: -5px;
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    font-size: 13px;
+}
+#searchform #searchsubmit:hover,
+.list_form input.submit:hover {
+    cursor: pointer;
+}
+
+form#user_welcome {
+    margin: 0;
+    padding: 0;
+
+    > label {
+        margin: 0;
+        padding: 5px 0;
+        text-align: center;
+        font-size: 22px;
+        line-height: normal;
+
+        > * {
+            vertical-align: top;
+            font-size: inherit;
+            height: auto;
+            line-height: normal;
+        }
+        > span {
+            display: inline-block;
+            padding-top: 3px;
+        }
+        > input[type="password"] {
+            padding: 2px 5px;
+            margin: 0;
+            width: 5em;
+        }
+        > input[type="submit"] {
+            padding: 2px 5px;
+        }
+    }
+}
+
+.login_form input[type="text"],
+.login_form input[type="email"],
+.login_form input[type="password"] {
+    display: block;
+    width: 206px;
+}
+.login_form input[type="password"] {
+    margin-bottom: 0;
+}
+
+form.password-reset input[type="submit"] {
+  padding: 5px 10px;
+}
+
+form.inline-form {
+  background: inherit;
+  padding: 0;
+  display: inline-block;
+}
+
+.login_form.login-alternate input[type="email"],
+.login_form.login-alternate input[type="text"] {
+  display: inline;
+}
+.login_form.login-alternate label {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.login_form.login-alternate label>span {
+  vertical-align: text-top;
+}
+.login_form.login-alternate input[type="password"] {
+  display: block; margin-bottom: 10px; margin-left: 40px;
+}
