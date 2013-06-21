@@ -1,10 +1,6 @@
 
-import babel.core
 import datetime
-import hashlib
-import os
 import re
-import time
 
 from adhocracy import model
 
@@ -408,6 +404,7 @@ class CommentTransform(_ExportOnlyTransform):
         res['comments'] = ct.export_all()
         return res
 
+
 class RequestLogTransform(_ExportOnlyTransform):
     _ID_KEY = 'id'
 
@@ -417,8 +414,9 @@ class RequestLogTransform(_ExportOnlyTransform):
 
     def _export(self, obj):
         res = obj.to_dict()
-        res['access_time'] = res['access_time'].isoformat()
+        res['access_time'] = encode_time(res['access_time'])
         return res
+
 
 def gen_all(options):
     badge_transform = BadgeTransform(options)

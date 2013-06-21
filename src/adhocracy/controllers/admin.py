@@ -45,9 +45,10 @@ class ExportForm(formencode.Schema):
     include_requestlog = formencode.validators.StringBoolean(if_missing=False)
     user_personal = formencode.validators.StringBoolean(if_missing=False)
     user_password = formencode.validators.StringBoolean(if_missing=False)
-    format = formencode.validators.OneOf(['json'])
-    deliver = formencode.validators.OneOf(
-            ['site', 'file', 'zip', 'gzip', 'tgz', 'tbz'])
+    format = formencode.validators.OneOf(
+        ['json', 'json_download', 'json_gzip',
+         'zip',
+         'tar', 'tar_gz', 'tar_bz2'])
     _tok = formencode.validators.String()
 
 
@@ -238,4 +239,3 @@ class AdminController(BaseController):
         options = ExportForm().to_python(dict(request.params))
         return adhocracy.lib.importexport.export(options)
         # Above writes out a file; don't render anything
-

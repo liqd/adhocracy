@@ -61,42 +61,32 @@
     </div>
     <div>
         <label>
-            <input type="checkbox" name="include_requestlog" checked="checked" />
-            ${_("Export content (requestlog)")}
+            <input type="checkbox" name="include_requestlog" />
+            ${_("Export request log")}
         </label>
     </div>
 
     <div>
         ${_("Export format:")}
         <label>
-            <input type="radio" name="format" value="json" />${_('JSON')}
-        </label>
-    </div>
-    <div>
-        ${_("Deliver format:")}
-        <label>
-            <input type="radio" name="deliver" value="site" checked="checked" />
-            ${_('Present data on a page')}
+            <input type="radio" name="format" value="json" checked="checked" />
+            ${_('JSON')}
         </label>
         <label>
-            <input type="radio" name="deliver" value="file" checked="checked" />
-            ${_('Download data as file')}
+            <input type="radio" name="format" value="json_download" />
+            ${_('JSON file')}
         </label>
         <label>
-            <input type="radio" name="deliver" value="zip" />
-            ${_('Download data as zip compressed seperate files per data type')}
+            <input type="radio" name="format" value="json_gzip" />
+            ${_('JSON file, compressed with gzip')}
         </label>
         <label>
-            <input type="radio" name="deliver" value="gzip" />
-            ${_('Download data as gzip compressed file')}
+            <input type="radio" name="format" value="tar_bz2" />
+            ${_('Tar file, compressed with bz2')}
         </label>
         <label>
-            <input type="radio" name="deliver" value="tgz" />
-            ${_('Download data as tar archive with seperate files per data type compressed with gzip')}
-        </label>
-        <label>
-            <input type="radio" name="deliver" value="tbz" />
-            ${_('Download data as tar archive with seperate files per data type compressed with bzip2')}
+            <input type="radio" name="format" value="zip" />
+            ${_('Zip file')}
         </label>
     </div>
 
