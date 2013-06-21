@@ -28,8 +28,7 @@ from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager, PROPOSAL_SORTS)
-from adhocracy.lib.staticpage import get_static_page
-from adhocracy.lib.staticpage import render_body
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
@@ -483,16 +482,7 @@ class UserController(BaseController):
         data['hide_locallogin'] = (
             asbool(config.get('adhocracy.hide_locallogin', 'false'))
             and not 'locallogin' in request.GET)
-        static_path = config.get(u'adhocracy.static_login_path')
-        if static_path is not None:
-            page = get_static_page(static_path)
-            if page is None:
-                data['title'] = data['static_content'] = None
-            else:
-                data['title'] = page.title
-                data['static_content'] = render_body(page.body)
-        else:
-            data['title'] = data['static_content'] = None
+        add_static_content(data, u'adhocracy.static_login_path')
         form = render('/user/login_tile.html', data)
         form = htmlfill.render(form,
                                errors=errors,

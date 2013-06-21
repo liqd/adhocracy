@@ -13,7 +13,7 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib import pager, sorting
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.staticpage import get_static_page, render_body
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -28,26 +28,22 @@ class RootController(BaseController):
     @guard.proposal.index()
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
     def index(self, format='html'):
+
         if c.instance:
             redirect(h.entity_url(c.instance))
+
+        data = {}
 
         instances_in_root = asint(
             config.get('adhocracy.startpage.instances.list_length', 0))
         if instances_in_root > 0:
-            c.instances = model.Instance.all(limit=instances_in_root)
+            data['instances'] = model.Instance.all(limit=instances_in_root)
         elif instances_in_root == -1:
-            c.instances = model.Instance.all()
+            data['instances'] = model.Instance.all()
 
-        static_path = config.get(u'adhocracy.static_index_path')
-        if static_path is not None:
-            page = get_static_page(static_path)
-            if page is None:
-                c.title = c.body = u''
-            else:
-                c.title = page.title
-                c.body = render_body(page.body)
-        else:
-            c.title = c.body = u''
+        add_static_content(data, u'adhocracy.static_index_path')
+        if data['title'] is None:
+            data['title'] = config.get('adhocracy.site.name')
 
         proposals_number = asint(
             config.get('adhocracy.startpage.proposals.list_length', 0))
@@ -58,16 +54,16 @@ class RootController(BaseController):
                     model.Instance.key.in_(model.Instance.SPECIAL_KEYS)))\
                 .order_by(model.Proposal.create_time.desc())
 
-            c.new_proposals_pager = pager.proposals(
+            data['new_proposals_pager'] = pager.proposals(
                 proposals, size=proposals_number,
                 default_sort=sorting.entity_newest,
                 enable_pages=False,
                 enable_sorts=False)
         else:
-            c.new_proposals_pager = None
+            data['new_proposals_pager'] = None
 
         if asbool(config.get('adhocracy.show_stats_on_frontpage', 'true')):
-            c.stats_global = {
+            data['stats_global'] = {
                 "members": model.User.all_q().count(),
                 "comments": model.Comment.all_q().count(),
                 "proposals": model.Proposal.all_q().count(),
@@ -77,7 +73,7 @@ class RootController(BaseController):
         if format == 'rss':
             return EventController().all(format='rss')
 
-        return render('index.html')
+        return render('index.html', data)
 
     #@RequireInstance
     def dispatch_delegateable(self, id):
