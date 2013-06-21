@@ -1,16 +1,57 @@
 // mixins
 @import "compass/css3";
+@import "compass/utilities/general/clearfix";
 
 // reset
-@import "compass/reset";
+@import "general/normalize";
 
-// legacy
-@import "yaml-base";
-@import "yaml-print";
-@import "bootstrap";
-@import "fonts";
-@import "basemod";
-@import "content";
-@import "style";
-@import "site";
-@import "openid";
+// variables
+@import "variables";
+
+// global
+@import "general/utilities";
+@import "general/grid";
+@import "general/misc";
+@import "general/fonts";
+@import "general/html5";
+
+// components
+@import "components/bootstrap_forms";
+@import "components/forms";
+@import "components/type";
+@import "components/morelink";
+@import "components/showmore";
+@import "components/bootstrap_button";
+@import "components/bootstrap_nav";
+@import "components/bootstrap_alert";
+@import "components/bootstrap_pager";
+@import "components/tooltip";
+@import "components/badge";
+@import "components/button";
+@import "components/modals";
+@import "components/vote";
+@import "components/pager";
+@import "components/tabnav";
+@import "components/facet";
+@import "components/subpages";
+@import "components/tutorial";
+@import "components/ie_message";
+
+// widgets
+@import "widgets/header";
+@import "widgets/subheader";
+@import "widgets/subnav";
+@import "widgets/sidebar";
+@import "widgets/paper";
+@import "widgets/footer";
+@import "widgets/comment";
+@import "widgets/feedback";
+@import "widgets/admin";
+@import "widgets/content_list";
+@import "widgets/milestone";
+@import "widgets/proposal";
+@import "widgets/profile_settings";
+@import "widgets/openid";
+
+// overwrite
+@import "overwrite";
