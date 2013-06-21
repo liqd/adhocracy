@@ -370,6 +370,9 @@ adhocracy.static_index_path = index
 # Static content path for login page (default: empty)
 # adhocracy.static_login_path = login
 
+# Static content path for shibboleth register page (default: empty)
+# adhocracy.static_shibboleth_register_path = shibboleth_register
+
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
 
