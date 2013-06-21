@@ -42,9 +42,13 @@ class ExportForm(formencode.Schema):
         if_missing=False)
     include_instance_proposal_comment = formencode.validators.StringBoolean(
         if_missing=False)
+    include_requestlog = formencode.validators.StringBoolean(if_missing=False)
     user_personal = formencode.validators.StringBoolean(if_missing=False)
     user_password = formencode.validators.StringBoolean(if_missing=False)
-    format = formencode.validators.OneOf(['json_download', 'json', 'zip'])
+    format = formencode.validators.OneOf(
+        ['json', 'json_download', 'json_gzip',
+         'zip',
+         'tar', 'tar_gz', 'tar_bz2'])
     _tok = formencode.validators.String()
 
 

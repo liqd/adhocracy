@@ -104,9 +104,9 @@ class ImportExportTest(TestController):
             u'user_personal': True,
         })
         # Test that we don't spill non-representable objects by accident
-        ex = importexport.formats.render(ed, u'json', u'(title)',
-                                         response=_MockResponse())
-        e = importexport.formats.read_data(io.BytesIO(ex))
+        ex = importexport.render.render(ed, u'json', u'(title)',
+                                        response=_MockResponse())
+        e = importexport.parse.read_data(io.BytesIO(ex))
 
         self.assertTrue(u'instance' in e)
         self.assertTrue(len(e[u'instance']) >= 1)
@@ -240,39 +240,39 @@ class ImportExportTest(TestController):
         })
         self.assertEqual(set(e.keys()), set([u'metadata', u'user', u'badge']))
 
-        formats = importexport.formats
+        render = importexport.render.render
+        parse = importexport.parse
 
         response = _MockResponse()
-        zdata = formats.render(e, u'zip', u'test', response=response)
+        zdata = render(e, u'zip', u'test', response=response)
         bio = io.BytesIO(zdata)
         with contextlib.closing(zipfile.ZipFile(bio, u'r')) as zf:
             expected_files = set([u'metadata.json', u'user.json',
                                   u'badge.json'])
             self.assertEqual(set(zf.namelist()), expected_files)
         zio = io.BytesIO(zdata)
-        self.assertEqual(formats.detect_format(zio), u'zip')
+        self.assertEqual(parse.detect_format(zio), u'zip')
         self.assertEqual(zio.read(), zdata)
-        self.assertEqual(e, formats.read_data(io.BytesIO(zdata), u'zip'))
-        self.assertEqual(e, formats.read_data(io.BytesIO(zdata), u'detect'))
+        self.assertEqual(e, parse.read_data(io.BytesIO(zdata), u'zip'))
+        self.assertEqual(e, parse.read_data(io.BytesIO(zdata), u'detect'))
 
         response = _MockResponse()
-        jdata = formats.render(e, u'json', u'test', response=response)
+        jdata = render(e, u'json', u'test', response=response)
         response = _MockResponse()
-        jdata_dl = formats.render(e, u'json_download', u'test',
-                                  response=response)
+        jdata_dl = render(e, u'json_download', u'test', response=response)
         self.assertEqual(jdata, jdata_dl)
         self.assertTrue(isinstance(jdata, bytes))
         jio = io.BytesIO(jdata)
-        self.assertEqual(formats.detect_format(jio), u'json')
+        self.assertEqual(parse.detect_format(jio), u'json')
         self.assertEqual(jio.read(), jdata)
-        self.assertEqual(e, formats.read_data(io.BytesIO(jdata), u'json'))
-        self.assertEqual(e, formats.read_data(io.BytesIO(jdata), u'detect'))
+        self.assertEqual(e, parse.read_data(io.BytesIO(jdata), u'json'))
+        self.assertEqual(e, parse.read_data(io.BytesIO(jdata), u'detect'))
 
-        self.assertRaises(ValueError, formats.render, e, u'invalid', u'test',
+        self.assertRaises(ValueError, render, e, u'invalid', u'test',
                           response=response)
-        self.assertRaises(ValueError, formats.read_data, zdata, u'invalid')
+        self.assertRaises(ValueError, parse.read_data, zdata, u'invalid')
 
-        self.assertEqual(formats.detect_format(io.BytesIO()), u'unknown')
+        self.assertEqual(parse.detect_format(io.BytesIO()), u'unknown')
 
     def test_import_user(self):
         test_data = {

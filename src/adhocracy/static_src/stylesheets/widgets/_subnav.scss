@@ -1,0 +1,54 @@
+#subnav {
+    clear: none;
+    height: 36px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #fff;
+    margin: 0px;
+    padding-top: 19px;
+    float: left;
+
+    li {
+        height: 36px;
+        line-height: 36px;
+        background: url('/images/sprite_tab_navigation.png') repeat-x 0 -60px;
+        &:hover {
+            background: url('/images/sprite_tab_navigation.png') repeat-x 0 -111px;
+
+            a {
+                color: #fff;
+            }
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 19px;
+            display: block;
+        }
+        &.current {
+            background: url('/images/sprite_tab_navigation.png') repeat-x 0 -10px;
+
+            a {
+                color: $black;
+            }
+        }
+        &.settings {
+            font-weight: normal;
+            font-size: 13px;
+            margin-left: 15px;
+            background: url('/images/sprite_tab_navigation.png') repeat-x 0 -162px;
+
+            a {
+                color: $black;
+                padding: 0 15px;
+            }
+            &:hover {
+                background: url('/images/sprite_tab_navigation.png') repeat-x 0 -213px;
+            }
+        }
+    }
+}
+
+#subheader.logo #subnav {
+    padding-top: 29px;
+}

@@ -12,6 +12,7 @@ from adhocracy.lib.auth.csrf import check_csrf
 from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
 from adhocracy.lib.auth.shibboleth import USERBADGE_MAPPERS
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render
 from adhocracy.lib.templating import ret_abort
 from adhocracy.model import meta
@@ -90,8 +91,11 @@ class ShibbolethController(BaseController):
         return redirect('/Shibboleth.sso/Logout?%s' % qs)
 
     def _register_form(self, defaults=None, errors=None):
+
+        data = {}
+        add_static_content(data, u'static_shibboleth_register_path')
         return formencode.htmlfill.render(
-            render("/shibboleth/register.html"),
+            render("/shibboleth/register.html", data),
             defaults=defaults, errors=errors,
             force_defaults=False)
 

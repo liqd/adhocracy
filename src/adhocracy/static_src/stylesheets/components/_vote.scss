@@ -1,0 +1,159 @@
+.vote {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -300px;
+    height: 14px;
+    line-height: 14px;
+    @include border-radius(7px);
+    overflow: hidden;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 11px;
+}
+.vote_count, .vote_up, .vote_down {
+    display: inline-block;
+}
+.vote_count {
+    color: #fff;
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
+    padding: 0 5px;
+
+    &.neutral {
+        color: $button-color;
+        background-position: 0 -300px;
+    }
+    &.negative {
+        background-position: 0 -50px;
+    }
+}
+.vote_up, .vote_down {
+    border-left: 1px solid $border;
+    padding: 0 10px;
+    height: 14px;
+    width: 10px;
+    display: inline-block;
+}
+
+.vote_up {
+    &:hover {
+        background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
+        text-decoration: none;
+    }
+    &:active, &.active {
+        background: url('/images/sprite_buttons_small.png') repeat-x 0 -200px;
+        @include box-shadow(1px 1px 1px #333 inset);
+    }
+    span {
+        background: url('/images/sprite_icons.png') no-repeat -19px -206px;
+        height: 14px;
+        width: 10px;
+        display: inline-block;
+    }
+    &:hover span, &.active span {
+        background-position: -19px -256px;
+    }
+}
+
+.vote_down {
+    &:hover {
+        background: url('/images/sprite_buttons_small.png') repeat-x 0 -50px;
+        text-decoration: none;
+    }
+    &:active, &.active {
+        background: url('/images/sprite_buttons_small.png') repeat-x 0 -100px;
+        @include box-shadow(1px 1px 1px #333 inset);
+    }
+    span {
+        background: url('/images/sprite_icons.png') no-repeat -19px -306px;
+        height: 14px;
+        width: 10px;
+        display: inline-block;
+    }
+    &:hover span, &.active span {
+        background-position: -19px -356px;
+    }
+}
+
+
+.vote.big {
+    background: url('/images/sprite_buttons_small.png') repeat-x 0 -450px;
+    height: 26px;
+    line-height: 26px;
+    @include border-radius(13px);
+    overflow: hidden;
+    display: inline-block;
+    margin: 0 0 20px;
+    font-weight: bold;
+    font-size: 14px;
+
+    .vote_count {
+        background-position: 0 -450px;
+        padding: 0 10px;
+
+        &.positive {
+            background-position: 0 -500px;
+        }
+        &.negative {
+            background-position: 0 -600px;
+        }
+    }
+    .vote_up, .vote_down {
+        padding: 0 15px;
+        height: 26px;
+        width: 15px;
+        display: inline-block;
+    }
+    .vote_up {
+        &:hover {
+            background: url('/images/sprite_buttons_small.png') repeat-x 0 -500px;
+            text-decoration: none;
+        }
+        &:active, &.active {
+            background: url('/images/sprite_buttons_small.png') repeat-x 0 -550px;
+            @include box-shadow(1px 1px 1px #333 inset);
+        }
+        span {
+            background: url('/images/sprite_icons.png') no-repeat -15px -401px;
+            height: 26px;
+            width: 15px;
+            display: inline-block;
+        }
+        &:hover span, &.active span {
+            background-position: -15px -451px;
+        }
+    }
+    .vote_down {
+        &:hover {
+            background: url('/images/sprite_buttons_small.png') repeat-x 0 -600px;
+            text-decoration: none;
+        }
+        &:active, &.active {
+            background: url('/images/sprite_buttons_small.png') repeat-x 0 -650px;
+            @include box-shadow(1px 1px 1px #333 inset);
+        }
+        span {
+            background: url('/images/sprite_icons.png') no-repeat -15px -551px;
+            height: 26px;
+            width: 15px;
+            display: inline-block;
+        }
+        &:hover span, &.active span {
+            background-position: -15px -501px;
+        }
+    }
+}
+
+.vote.deactivated {
+    .vote_up, .vote_down {
+        background-position: 0 -450px !important;
+        @include box-shadow(none !important);
+
+        span {
+            background-image: none !important;
+        }
+    }
+}
+
+.vote_wrapper .or {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 6px
+}

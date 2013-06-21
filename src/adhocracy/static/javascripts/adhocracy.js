@@ -399,6 +399,24 @@ $(window).load(function() {
         }
     };
 
+    if($("body").data("stats-browser-values") === "enabled") {
+        monitor.data_collectors.browser_values = function() {
+            var data = {}
+            var _setProp = function(obj, key, val) {
+                if (typeof obj[key] != "undefined") {
+                    data[key] = obj[key];
+                }
+            }
+            _setProp(window, 'innerHeight');
+            _setProp(window, 'innerWidth');
+            _setProp(window, 'devicePixelRatio');
+            _setProp(window.screen, 'width');
+            _setProp(window.screen, 'height');
+            _setProp(window.screen, 'pixelDepth');
+            return JSON.stringify(data);
+        };
+    }
+
     if ($('body').data('stats-page-performance') === "enabled") {
         monitor.data_collectors.timings = function() {
             var page_timings_data = {};

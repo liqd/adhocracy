@@ -292,6 +292,17 @@ def proposals(proposals, default_sort=None, **kwargs):
                       default_sort=default_sort, **kwargs)
 
 
+def help_strings():
+    return {
+        _("Newest"): _('Sort by proposal creation date'),
+        _("Newest Comment"): _('Sort by date of the last comment'),
+        _("Most Support"): _('Sort by number of votes for the proposal'),
+        _("Mixed"): _('Sort by the difference between number of votes for and against, and prefer newer proposals'),
+        _("Controversy"): _('Prefer proposals where the gap between votes for and against is close'),
+        _("Alphabetically"): _('Sort by the characters of the proposal title'),
+    }
+
+
 def milestones(milestones, default_sort=None, **kwargs):
     if default_sort is None:
         default_sort = sorting.milestone_time
