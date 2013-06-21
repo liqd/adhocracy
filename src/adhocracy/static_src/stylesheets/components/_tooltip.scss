@@ -1,17 +1,9 @@
 .tooltip {
     display:none;
-    /*background:transparent url(../img/tooltip/black_arrow.png);*/
-    background: #95b2de;
+    background: $flash;
     text-align: left;
     line-height: 1.3em;
     color: $black;
     border: 1px solid $border;
     padding: 0.5em 1em;
-
-    &.bottom {
-        /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
-    }
-    &.top {
-        /*background:url(/tools/img/tooltip/black_arrow_bottom.png);*/
-    }
 }
