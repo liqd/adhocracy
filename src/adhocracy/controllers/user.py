@@ -44,8 +44,9 @@ class UserCreateForm(formencode.Schema):
     user_name = formencode.All(validators.PlainText(not_empty=True),
                                forms.UniqueUsername(),
                                forms.ContainsChar())
-    email = formencode.All(validators.Email(not_empty=True),
-                           forms.UniqueEmail())
+    email = formencode.All(validators.Email(
+        not_empty=asbool(config.get('adhocracy.require_email', 'true'))),
+        forms.UniqueOtherEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
@@ -55,8 +56,9 @@ class UserCreateForm(formencode.Schema):
 class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
     display_name = validators.String(not_empty=False)
-    email = formencode.All(validators.Email(not_empty=True),
-                           forms.UniqueOtherEmail())
+    email = formencode.All(validators.Email(
+        not_empty=asbool(config.get('adhocracy.require_email', 'true'))),
+        forms.UniqueOtherEmail())
     locale = validators.String(not_empty=False)
     password_change = validators.String(not_empty=False, if_missing=None)
     password_confirm = validators.String(not_empty=False, if_missing=None)
@@ -248,6 +250,8 @@ class UserController(BaseController):
         c.enable_gender = asbool(config.get('adhocracy.enable_gender',
                                             'false'))
         c.sorting_orders = PROPOSAL_SORTS
+        c.email_required = asbool(config.get('adhocracy.require_email',
+                                             'true'))
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -903,6 +907,8 @@ class UserController(BaseController):
 
     @classmethod
     def email_is_blacklisted(self, email):
+        if email is None:
+            return False
         listed = config.get('adhocracy.registration.email.blacklist', '')
         listed = listed.replace(',', ' ').replace('.', '').split()
         email = email.replace('.', '')

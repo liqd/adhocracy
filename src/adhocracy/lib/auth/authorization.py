@@ -1,5 +1,7 @@
 import logging
 
+from paste.deploy.converters import asbool
+from pylons import config
 from pylons import tmpl_context as c
 from pylons import request
 
@@ -142,6 +144,7 @@ class AuthCheck(object):
 
     def valid_email(self):
         if (c.instance is not None
+                and asbool(config.get('adhocracy.require_email', 'true'))
                 and c.user is not None
                 and c.instance.require_valid_email
                 and not c.user.is_email_activated()):
