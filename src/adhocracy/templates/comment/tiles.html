@@ -36,7 +36,8 @@
 
     %if _comments:
     <ul id="${root is not None and 'c%s_comments' % root.id or ''}"
-        class="${root is None and 'comments_list' or 'sub'}">
+        class="${root is None and 'comments_list' or 'sub'}"
+        style="${root is not None and 'display: none'}">
         %for comment, tile in _comments:
         %if tile.show:
         <li>
