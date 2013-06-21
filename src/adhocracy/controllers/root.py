@@ -32,6 +32,9 @@ class RootController(BaseController):
         if c.instance:
             redirect(h.entity_url(c.instance))
 
+        if format == 'rss':
+            return EventController().all(format='rss')
+
         data = {}
 
         instances_in_root = asint(
@@ -69,9 +72,6 @@ class RootController(BaseController):
                 "proposals": model.Proposal.all_q().count(),
                 "votes": model.Vote.all_q().count(),
             }
-
-        if format == 'rss':
-            return EventController().all(format='rss')
 
         return render('index.html', data)
 
