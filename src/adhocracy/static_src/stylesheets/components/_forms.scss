@@ -1,6 +1,11 @@
 .form_wrapper {
     background: url("/images/shadow_image_large.jpg") no-repeat scroll center bottom transparent;
     padding-bottom: 18px;
+
+    .overlay & {
+        background: none;
+        padding-bottom: 0;
+    }
 }
 
 .form_wrapper form, #searchbox form {
