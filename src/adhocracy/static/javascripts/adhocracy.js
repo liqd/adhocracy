@@ -514,13 +514,6 @@ $(document).ready(function () {
         comment_form.find('input[name="sentiment"]').attr('value', new_sentiment);
     });
 
-    (function () {
-        // function only to get a function local namespace
-        var second_level_comments = $('.comments_list > li > ul');
-        second_level_comments.hide();
-        second_level_comments.toggleClass('open');
-    }());
-
     var stats_baseurl = $('#main_comments').data('stats-baseurl');
     if (stats_baseurl) {
         $('.comment a.show_comments').one('click', function () {
