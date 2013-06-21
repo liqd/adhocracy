@@ -147,15 +147,13 @@
 
                 ## Number of replies
                 %if tile.num_children > 0:
-                    %if tile.num_children == 1:
-                    <a class="show_comments" href="#">
-                        ${_('1 Comment') if h.comment.wording() else _('1 Argument')}
+                    <a class="show_comments showhide_button" href="#" data-target-speed="" data-target="#c${comment.id}_comments" data-toggle-class="less">
+                        %if tile.num_children == 1:
+                            ${_('1 Comment') if h.comment.wording() else _('1 Argument')}
+                        %else:
+                            ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
+                        %endif
                     </a>
-                    %else:
-                    <a class="show_comments" href="#">
-                        ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
-                    </a>
-                    %endif
                 %else:
                     <span class="show_comments" href="#">
                         ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
@@ -165,7 +163,7 @@
                 ## Reply button
                 <% auth = check.comment.reply(comment) %>
                 %if auth and recurse:
-                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id))}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                <a class="new_comment showhide_button" data-target-speed="fast" data-target="#comment_form_c${comment.id}" data-toggle-class="less">${_('Add argument')}</a>
                 %elif auth.propose_join():
                 <a class="new_comment" title="${_('Join instance to reply') if h.comment.wording() else _('Join instance to argue')}" rel="#overlay-join-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_login():
@@ -216,6 +214,9 @@
             </div>
         </div>
 
+    </div>
+    <div id="comment_form_c${comment.id}" data-cancel=".cancel" style="display: none">
+        ${create_form(comment, comment.topic, getattr(topic, 'variant', None))}
     </div>
 
 </%def>

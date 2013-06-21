@@ -473,15 +473,16 @@ $(document).ready(function () {
         }
     );
 
-    $('.comment a.show_comments').click(function () {
+    /*$('.comment a.show_comments').click(function () {
         var c_id = $(this).closest('.comment').attr('id');
         $('#' + c_id + '_comments').toggle();
         $(this).toggleClass('open');
         return false;
-    });
+    });*/
 
     // get a comment reply form and insert it into the page
 
+    /*
     $('.comment a.new_comment').click(function (event) {
         event.preventDefault();
         var c_id = $(this).closest('.comment').attr('id');
@@ -507,6 +508,7 @@ $(document).ready(function () {
         }
         $(this).toggleClass('open');
     });
+    */
 
     // load the comment edit form into the page
 
