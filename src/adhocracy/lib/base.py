@@ -52,6 +52,8 @@ class BaseController(WSGIController):
         if asbool(config.get('adhocracy.monitor_external_links', 'False')):
             c.monitor_external_links_url = h.base_url('/stats/record_external')
 
+        if asbool(config.get('adhocracy.monitor_browser_values', 'False')):
+            c.monitor_browser_values = "enabled"
         if asbool(config.get('adhocracy.monitor_extended', 'False')):
             c.monitor_extended = "enabled"
         if asbool(config.get('adhocracy.monitor_page_performance', 'False')):

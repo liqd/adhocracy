@@ -1,0 +1,24 @@
+#proposal_list_header {
+    float: left;
+}
+.create_proposal_link {
+    float: right;
+    background: url("/images/sprite.png") no-repeat left 2px;
+    position: relative;
+    top: 25px;
+}
+
+/* papers */
+ul.papers_list {
+    margin: 0;
+    padding-bottom: 20px;
+    list-style: none;
+}
+ul.papers_list li {
+    cursor: pointer;
+}
+.paper_head h4 { float: left; }
+.paper_head a { float: right; }
+.paper p {
+    display: inline;
+}

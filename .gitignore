@@ -51,3 +51,4 @@ buildout_current.cfg
 /.cache
 .sass-cache
 src/adhocracy/static/stylesheets/adhocracy.css
+src/adhocracy/tests/loadtests/data  

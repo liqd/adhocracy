@@ -16,10 +16,10 @@
 	      Allow from all
     	</Proxy>
 
-	ProxyPass / http://127.0.0.1:${ports:main}/ retry=5
-	ProxyPassReverse / http://127.0.0.1:${ports:main}/
+	ProxyPass / http://127.0.0.1:${:port}/ retry=5
+	ProxyPassReverse / http://127.0.0.1:${:port}/
 
-	<Location />
+	<Location />                           :
 	     Order allow,deny
 	     Allow from all
 	</Location>

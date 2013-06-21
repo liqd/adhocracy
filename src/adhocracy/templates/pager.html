@@ -171,7 +171,10 @@ ${facet_items(facet.current_items)}
 
 %if len(sorts.keys()):
 
-<% zipped = zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1)) %>
+<%
+zipped = zip(pager.sorts.keys(), xrange(1, len(pager.sorts.keys()) + 1))
+help = lib.pager.help_strings()
+%>
 
 <div class="filter_box">
     <div class="only-js">
@@ -184,6 +187,7 @@ ${facet_items(facet.current_items)}
                     %if selected:
                     selected="selected"
                     %endif
+                    title='${help.get(sort, '')}'
                     data-url="${pager.build_url(sort=i)|n}">
                 ${sort}
             </option>
@@ -196,6 +200,9 @@ ${facet_items(facet.current_items)}
 </%def>
 
 <%def name="sort_dropdown(sorts)">
+<%
+help = lib.pager.help_strings()
+%>
 %if len(sorts):
 <div class="filter_box">
     <div class="only-js">
@@ -215,6 +222,7 @@ ${facet_items(facet.current_items)}
                 %>
                 <option value="${sort.value}"
                         ${selected_attr|n}
+                        title='${help.get(sort.label, '')}'
                         data-url="${sorts.pager.build_url(sort=sort.value)}">
                     ${sort.label}
                 </option>

@@ -7,7 +7,9 @@
 <%block name="content_wrapper">
 
 <div id="content-startpage" class="full_teaser">
+  %if c.body is not None:
   ${c.body | n}
+  %endif
 </div>
 
 <div class="full_teaser">

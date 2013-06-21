@@ -1,5 +1,5 @@
 <%inherit file="/template.html" />
-<%def name="title()">${_("Complete registration")}</%def>
+<%def name="title()">${c.title if c.title is not None else _("Complete registration")}</%def>
 
 <%block name="headline">
 <h1>${_("Complete registration")}</h1>
@@ -19,5 +19,8 @@
             </label>
             <input type="submit" value="${_('Continue')}"/>
         </form>
+        %if c.body is not None:
+        ${c.body|n}
+        %endif
     </div>
 </%block>

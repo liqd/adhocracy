@@ -1,0 +1,90 @@
+.content_list {
+    list-style: none;
+    margin: 0;
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    h3, #col3 & h3 {
+        font-size: 16px;
+    }
+
+    .level-1 {
+        padding-left: 1.5em;
+    }
+    .level-2 {
+        padding-left: 3em;
+    }
+    .level-3 {
+        padding-left: 4em;
+    }
+    .level-4 {
+        padding-left: 5.5em;
+    }
+    .level-5 {
+        padding-left: 7em;
+    }
+
+    .logo {
+        float: left;
+        margin: 0 10px 10px 0;
+    }
+}
+
+li.content_box {
+    padding: 10px 0 0 0;
+    margin-bottom: 0;
+    background: url('/images/list_bg.png') right top no-repeat;
+
+    h3, p, .meta {
+        padding-right: 20px;
+    }
+    .hr {
+        margin-bottom: 0;
+    }
+    .base {
+        padding-left: 47px;
+        background: no-repeat;
+    }
+}
+
+.content_box {
+    padding: 20px 5px;
+    margin-bottom: 20px;
+    background: url('/images/gradient_box_306.jpg') no-repeat bottom right;
+}
+
+.tile.text.history .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.tile.event:first-child {
+    background: none;
+    border-bottom: none;
+}
+
+.tile.event {
+    padding: 10px 0 2px 0;
+    /*border-bottom: 1px dotted $border;*/
+    background: url('/images/line_dotted_3.png') repeat-x top left;
+}
+
+.event_text {
+    padding: 3px 0;
+
+    /* force markdown created text to be small */
+    * {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: small !important;
+        background: none !important;
+        /*color: $fg1 !important;*/
+        font-variant: none !important;
+    }
+    li {
+        margin-left: 20px !important;
+    }
+}
