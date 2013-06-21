@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-19 14:30+0200\n"
-"PO-Revision-Date: 2013-06-19 12:43+0000\n"
-"Last-Translator: Wawe <transifex.com@jroene.de>\n"
+"POT-Creation-Date: 2013-06-21 05:25+0200\n"
+"PO-Revision-Date: 2013-06-21 03:38+0000\n"
+"Last-Translator: phihag <phihag@phihag.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +44,7 @@ msgstr "Solr Index aktualisiert."
 
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
-msgstr ""
+msgstr "Autojoin korrigiert - %s Mitgliedschaften hinzugefügt."
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -222,7 +222,7 @@ msgid "Not permitted in system settings"
 msgstr "Nicht erlaubt in den Systemeinstellungen."
 
 msgid "adhocracy.registration_support_email not set"
-msgstr ""
+msgstr "adhocracy.registration_support_email nicht gesetzt"
 
 #, python-format
 msgid "Could not render message: %s"
@@ -920,6 +920,26 @@ msgstr "gemischt"
 
 msgid "Controversy"
 msgstr "Kontroversität"
+
+msgid "Sort by proposal creation date"
+msgstr "Sortiere nach Erstellungsdatum des Vorschlags"
+
+msgid "Sort by date of the last comment"
+msgstr "Sortiere nach Zeitpunkt des letzten Kommentars"
+
+msgid "Sort by number of votes for the proposal"
+msgstr "Sortiere nach der Anzahl der Stimmen für diesen Vorschlag"
+
+msgid ""
+"Sort by the difference between number of votes for and against, and prefer "
+"newer proposals"
+msgstr "Sortiere nach der Differenz der Stimmen für und gegen den Vorschlag, und bevorzuge neuere Vorschläge"
+
+msgid "Prefer proposals where the gap between votes for and against is close"
+msgstr "Bevorzuge Vorschläge bei denen der Unterschied zwischen Dafür- und Dagegen-Stimmen knapp ist"
+
+msgid "Sort by the characters of the proposal title"
+msgstr "Sortiere nach den Buchstaben des Vorschlagstitels"
 
 msgid "by date"
 msgstr "Früheste"
@@ -1683,17 +1703,26 @@ msgstr "Vorschläge hinzufügen"
 msgid "Include comments"
 msgstr "Kommentar hinzufügen"
 
+msgid "Export request log"
+msgstr "Requestlog exportieren"
+
 msgid "Export format:"
 msgstr "Export-Format:"
-
-msgid "JSON download"
-msgstr "JSON-Download"
 
 msgid "JSON"
 msgstr "JSON"
 
-msgid "ZIP download"
-msgstr "ZIP-Download"
+msgid "JSON file"
+msgstr "JSON-Datei"
+
+msgid "JSON file, compressed with gzip"
+msgstr "JSON-Datei, mit gzip komprimiert"
+
+msgid "Tar file, compressed with bz2"
+msgstr "Tar-Datei, mit bz2 komprimiert"
+
+msgid "Zip file"
+msgstr "Zip-Datei"
 
 msgid "Export Now"
 msgstr "Jetzt exportieren"
@@ -1764,7 +1793,7 @@ msgid "Update Search Index"
 msgstr "Suchindex aktualisieren"
 
 msgid "Fix autojoin"
-msgstr ""
+msgstr "Autojoin korrigieren"
 
 msgid "Static Pages"
 msgstr "Seiten"
@@ -2420,7 +2449,7 @@ msgid "Require to propose a variant"
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbringen"
 
 msgid "Show norms navigation item"
-msgstr ""
+msgstr "Zeige \"Norm\"-Reiter"
 
 msgid "Use milestones"
 msgstr "Termine verwenden"
@@ -3474,7 +3503,7 @@ msgid "Compare"
 msgstr "Vergleiche"
 
 msgid "Treatments"
-msgstr ""
+msgstr "Treatments"
 
 #, python-format
 msgid "User assignments of %(treatment_key)s"
@@ -3484,31 +3513,31 @@ msgid "back to treatments"
 msgstr "zurück zu Treatments"
 
 msgid "Treatment"
-msgstr ""
+msgstr "Treatment"
 
 msgid "Source Badges"
-msgstr ""
+msgstr "Quell-Badges"
 
 msgid "Assign users"
 msgstr "Benutzer zuweisen"
 
 msgid "See assigned users"
-msgstr ""
+msgstr "Zugewiesene Benutzer"
 
 msgid "Create a new treatment"
 msgstr "Treatment erstellen"
 
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 msgid "Select users to treat by their badges:"
-msgstr ""
+msgstr "Wähle dem Treatment zuzuteilende Benutzer durch ihre Badges:"
 
 msgid "Number of variants:"
-msgstr ""
+msgstr "Anzahl der Varianten:"
 
 msgid "Create treatment"
-msgstr ""
+msgstr "Treatment erstellen"
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle Benutzer auf diesem Adhocracy-Server"
@@ -3760,7 +3789,7 @@ msgid "Login:"
 msgstr "Benutzername:"
 
 msgid "Login via Shibboleth"
-msgstr ""
+msgstr "Mit Shibboleth einloggen"
 
 msgid "Forgot your password?"
 msgstr "Kennwort vergessen?"
