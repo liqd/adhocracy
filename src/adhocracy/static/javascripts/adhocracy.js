@@ -473,43 +473,6 @@ $(document).ready(function () {
         }
     );
 
-    /*$('.comment a.show_comments').click(function () {
-        var c_id = $(this).closest('.comment').attr('id');
-        $('#' + c_id + '_comments').toggle();
-        $(this).toggleClass('open');
-        return false;
-    });*/
-
-    // get a comment reply form and insert it into the page
-
-    /*
-    $('.comment a.new_comment').click(function (event) {
-        event.preventDefault();
-        var c_id = $(this).closest('.comment').attr('id');
-        var comment_form_id = 'comment_form_' + c_id;
-        var comment_form = $('#' + comment_form_id).attr('comment_id');
-        if (!comment_form) {
-            var form_url = $(this).data('reply-url');
-            var comment_div = $('#' + c_id);
-            // create a container and load the form into it.
-            var form_div = comment_div.add('<div></div>').not(comment_div);
-            form_div.insertAfter(comment_div);
-            form_div.attr('comment_id', c_id);
-            form_div.attr('id', comment_form_id);
-            form_div.load(form_url, function () {
-                form_div.find('a.cancel').click(function (event) {
-                    // the cancel button removes the form from the dom
-                    form_div.remove();
-                    event.preventDefault();
-                });
-            });
-        } else {
-            $('#comment_form_' + c_id).remove();
-        }
-        $(this).toggleClass('open');
-    });
-    */
-
     // load the comment edit form into the page
 
     $('.comment a.edit_comment').click(function (event) {
@@ -698,29 +661,6 @@ $(document).ready(function () {
             });
         });
     }
-
-    $('.paper a.show_comments').click(function () {
-        var p_id = $(this).closest('.paper').attr('id');
-        $('#' + p_id + '_comments').toggle();
-        $(this).toggleClass('open');
-        return false;
-    });
-
-    $('.paper a.new_comment').click(function () {
-        var comment_form_html = $('#comment_form_template').html();
-        var p_id = $(this).closest('.paper').attr('id');
-        var comment_form = $('#comment_form_' + p_id).attr('comment_id');
-        if (!comment_form) {
-            $('#' + p_id).append('<div id="comment_form_' + p_id +
-                                 '" comment_id="' + p_id + '">' +
-                                 comment_form_html + '</div>');
-        } else {
-            $('#comment_form_' + p_id).remove();
-        }
-
-        $(this).toggleClass('open');
-        return false;
-    });
 
     $('.follow_paper').hover(
         function () {
