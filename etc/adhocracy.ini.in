@@ -301,9 +301,6 @@ piwik.id =
 # The normal login can still be found under `/login?locallogin`
 # adhocracy.hide_locallogin = true
 
-# Pull static info into login page (default: false)
-# adhocracy.show_static_login_info = true
-
 # INSTALL: Allow administrators to let users log in from an invitation email
 # adhocracy.enable_welcome = True
 
@@ -364,6 +361,14 @@ adhocracy.startpage.proposals.list_length = 0
 
 # Source for imprint, details etc. ("database" or "filesystem" (default))
 #adhocracy.staticpage_backend = database
+
+# Configure paths to static content which is inserted
+
+# Static content path for start page (default: index)
+adhocracy.static_index_path = index
+
+# Static content path for login page (default: empty)
+# adhocracy.static_login_path = login
 
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate

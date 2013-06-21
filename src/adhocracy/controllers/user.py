@@ -483,8 +483,9 @@ class UserController(BaseController):
         data['hide_locallogin'] = (
             asbool(config.get('adhocracy.hide_locallogin', 'false'))
             and not 'locallogin' in request.GET)
-        if asbool(config.get('adhocracy.show_static_login_info', 'false')):
-            page = get_static_page('login')
+        static_path = config.get(u'adhocracy.static_login_path')
+        if static_path is not None:
+            page = get_static_page(static_path)
             if page is None:
                 data['title'] = data['static_content'] = None
             else:
