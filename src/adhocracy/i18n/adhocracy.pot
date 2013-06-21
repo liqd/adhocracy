@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 578e369\n"
+"Project-Id-Version: adhocracy dbfedc1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-19 14:30+0200\n"
+"POT-Creation-Date: 2013-06-21 05:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -875,6 +875,24 @@ msgstr ""
 msgid "Controversy"
 msgstr ""
 
+msgid "Sort by proposal creation date"
+msgstr ""
+
+msgid "Sort by date of the last comment"
+msgstr ""
+
+msgid "Sort by number of votes for the proposal"
+msgstr ""
+
+msgid "Sort by the difference between number of votes for and against, and prefer newer proposals"
+msgstr ""
+
+msgid "Prefer proposals where the gap between votes for and against is close"
+msgstr ""
+
+msgid "Sort by the characters of the proposal title"
+msgstr ""
+
 msgid "by date"
 msgstr ""
 
@@ -1631,16 +1649,25 @@ msgstr ""
 msgid "Include comments"
 msgstr ""
 
-msgid "Export format:"
+msgid "Export request log"
 msgstr ""
 
-msgid "JSON download"
+msgid "Export format:"
 msgstr ""
 
 msgid "JSON"
 msgstr ""
 
-msgid "ZIP download"
+msgid "JSON file"
+msgstr ""
+
+msgid "JSON file, compressed with gzip"
+msgstr ""
+
+msgid "Tar file, compressed with bz2"
+msgstr ""
+
+msgid "Zip file"
 msgstr ""
 
 msgid "Export Now"
