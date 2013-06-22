@@ -14,9 +14,10 @@
         <div class="level-${str(level)}">
             %if c.is_hierarchical and level == 0 and len(page.subpages) > 0:
             <div class="more only-js">
-                <a href="#" class="showhide_button more_arrow"
+                <a href="#" class="showhide_button"
                    data-target="#${page.id}-sub"
                    data-toggle-class="less"
+                   data-target-speed="fast"
                    data-toggle-text="${_('hide sub-topics')}">
                 ${_('show sub-topics')}</a>
             </div>
