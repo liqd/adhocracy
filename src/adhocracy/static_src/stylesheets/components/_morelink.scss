@@ -1,25 +1,27 @@
-a.more {
-    text-transform: uppercase;
-    padding-left: 22px;
-    font-size: 11px;
-    background-position: left -51px;
-    height: 13px;
-    line-height: 13px;
+@mixin morelink() {
+    position: relative;
+    padding-left: 2em;
+    margin-left: 0.5em;
+    &:before {
+        content: "⟶";
+        text-decoration: none !important;
+        font-weight: normal !important;
+        position: absolute;
+        left: 0;
+        // HACK
+        line-height: 1em;
+        top: 50%;
+        margin-top: -0.55em;
+    }
 }
-a.more_uppercase {
-    background-position: left 0px;
-    padding-left: 25px;
+
+a.more, a.more_uppercase {
+    @include morelink();
     text-transform: uppercase;
     font-weight: bold;
 }
-
-.more_link, .create_proposal_link {
-    margin-left: 5px;
-    padding-left: 25px;
-    text-transform: lowercase;
-    font-variant: small-caps;
-}
-
-.more_link {
-    background: url("/images/sprite.png") no-repeat left -2px;
+a.more_link {
+    @include morelink();
+    text-transform: uppercase;
+    font-size: 0.8em;
 }

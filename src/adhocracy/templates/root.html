@@ -93,7 +93,7 @@
              </p>
              <a class="button large patch_camefrom" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
              ${_("or")}
-             <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
+             <a class="more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
          </div>
       </div>
     </div>
@@ -146,7 +146,7 @@
                       %endif
                       <a href="${h.login_redirect_url()}"
                          ## rel="#overlay-ajax" FIXME: reactivate.
-                         class="icon_link more_uppercase">${_('Login')}</a>
+                         class="more_uppercase">${_('Login')}</a>
                   </div>
                   <p class="register_msg">
                      %if h.allow_user_registration():
@@ -174,7 +174,7 @@
                   <div class="register">
                       <a class="button large" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
                       ${_("or")}
-                      <a class="icon_link more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
+                      <a class="more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
                   </div>
                   <p>
                   ${_('Please validate your email address in order to contribute to this instance.')}<br />
