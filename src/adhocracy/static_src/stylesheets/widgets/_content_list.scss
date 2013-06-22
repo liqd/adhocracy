@@ -61,15 +61,12 @@ li.content_box {
     margin-bottom: 0;
 }
 
-.tile.event:first-child {
-    background: none;
-    border-bottom: none;
-}
-
 .tile.event {
     padding: 10px 0 2px 0;
-    /*border-bottom: 1px dotted $border;*/
-    background: url('/images/line_dotted_3.png') repeat-x top left;
+    border-top: 1px dotted $border;
+    &:first-child {
+        border-top: none;
+    }
 }
 
 .event_text {

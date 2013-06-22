@@ -2,17 +2,28 @@
     padding: 40px 23px;
     background: url('/images/shadow_footer.jpg') no-repeat top center;
 }
-#footer_line {
-    background: url('/images/line_footer.gif') repeat-y 314px 20px;
-}
 #second_footer_line {
-    background: url('/images/line_footer.gif') repeat-y 643px 20px;
+    display: table;
 }
 
 .footer_content {
+    /* we use `display: table` to give all blocks (and
+     * therefore lines) same height */
+    display: table-cell;
+    float: none;
     padding: 0;
     margin-bottom: 0;
     background: none;
+
+    // lines
+    border-right: 1px solid darken($bg2, 10%);
+    border-left: 1px solid lighten($bg2, 10%);
+    &:last-child {
+        border-right: none;
+    }
+    &:first-child {
+        border-left: none;
+    }
 
     h3 {
         font-family: Arial, sans-serif;
