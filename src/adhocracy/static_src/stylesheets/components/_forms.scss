@@ -238,3 +238,8 @@ form.inline-form {
 .login_form.login-alternate input[type="password"] {
   display: block; margin-bottom: 10px; margin-left: 40px;
 }
+
+#tags_form form {
+    background: none;
+    padding: 0;
+}

@@ -195,19 +195,20 @@ a.button.delegate {
   padding: 10px 10px;
 }
 
-// Dropdown arrow/caret
-// --------------------
-.caret {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: top;
-    border-top: 4px solid #000;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-    content: "";
-}
-.btn .caret {
-    margin-top: 8px;
-    margin-left: 0;
+.showhide_button {
+    &:after {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        content: "";
+        vertical-align: middle;
+        margin-left: 0.2em;
+    }
+    &.less:after {
+        border-top: 0;
+        border-bottom: 4px solid;
+    }
 }
