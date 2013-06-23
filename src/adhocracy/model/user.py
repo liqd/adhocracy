@@ -356,6 +356,22 @@ class User(meta.Indexable):
         #    vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
 
+    def undelete(self):
+        from watch import Watch
+
+        for twitter in self.twitters:
+            twitter.delete_time = None
+        for openid in self.openids:
+            openid.delete_time = None
+        for comment in self.comments:
+            comment.delete_time = None
+        for membership in self.memberships:
+            membership.expire_time = None
+        for watch in Watch.all_by_user(self):
+            watch.delete_time = None
+
+        self.delete_time = None
+
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
