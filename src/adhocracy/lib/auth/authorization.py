@@ -1,7 +1,5 @@
 import logging
 
-from paste.deploy.converters import asbool
-from pylons import config
 from pylons import tmpl_context as c
 from pylons import request
 
@@ -13,6 +11,7 @@ from repoze.what.predicates import has_permission as what_has_permission
 from repoze.what.adapters import SourceError
 from repoze.what.plugins.sql.adapters import SqlGroupsAdapter
 
+from adhocracy import config
 import adhocracy.model as model
 
 
@@ -144,7 +143,7 @@ class AuthCheck(object):
 
     def valid_email(self):
         if (c.instance is not None
-                and asbool(config.get('adhocracy.require_email', 'true'))
+                and config.get_bool('adhocracy.require_email')
                 and c.user is not None
                 and c.instance.require_valid_email
                 and not c.user.is_email_activated()):

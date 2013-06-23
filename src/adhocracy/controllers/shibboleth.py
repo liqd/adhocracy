@@ -1,11 +1,10 @@
 from urllib import urlencode
 import formencode
-from paste.deploy.converters import asbool
-from pylons import config
 from pylons import request
 from pylons import response
 from pylons.controllers.util import redirect
 from pylons.i18n import _
+from adhocracy import config
 from adhocracy import forms
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import login_user
@@ -28,7 +27,7 @@ class ShibbolethRegisterForm(formencode.Schema):
                               forms.UniqueUsername(),
                               forms.ContainsChar())
     email = formencode.All(formencode.validators.Email(
-        not_empty=asbool(config.get('adhocracy.require_email', 'true'))),
+        not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueEmail())
     # store custom attributes checkboxes
 
@@ -95,8 +94,7 @@ class ShibbolethController(BaseController):
     def _register_form(self, defaults=None, errors=None):
 
         data = {
-            'email_required': asbool(config.get('adhocracy.require_email',
-                                                'true')),
+            'email_required': (config.get_bool('adhocracy.require_email')),
         }
         add_static_content(data, u'static_shibboleth_register_path')
         return formencode.htmlfill.render(

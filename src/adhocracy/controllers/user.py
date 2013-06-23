@@ -4,7 +4,7 @@ import re
 import formencode
 from formencode import ForEach, htmlfill, validators
 
-from pylons import config, request, response, session, tmpl_context as c
+from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -14,6 +14,7 @@ from webob.exc import HTTPFound
 
 from repoze.who.api import get_api
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
@@ -34,7 +35,6 @@ from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from paste.deploy.converters import asbool
 
 log = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ class UserCreateForm(formencode.Schema):
                                forms.UniqueUsername(),
                                forms.ContainsChar())
     email = formencode.All(validators.Email(
-        not_empty=asbool(config.get('adhocracy.require_email', 'true'))),
+        not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueOtherEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
@@ -57,7 +57,7 @@ class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
     display_name = validators.String(not_empty=False)
     email = formencode.All(validators.Email(
-        not_empty=asbool(config.get('adhocracy.require_email', 'true'))),
+        not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueOtherEmail())
     locale = validators.String(not_empty=False)
     password_change = validators.String(not_empty=False, if_missing=None)
@@ -247,11 +247,9 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
-        c.enable_gender = asbool(config.get('adhocracy.enable_gender',
-                                            'false'))
+        c.enable_gender = config.get_bool('adhocracy.enable_gender')
         c.sorting_orders = PROPOSAL_SORTS
-        c.email_required = asbool(config.get('adhocracy.require_email',
-                                             'true'))
+        c.email_required = config.get_bool('adhocracy.require_email')
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -484,7 +482,7 @@ class UserController(BaseController):
             defaults['_tok'] = token_id()
         data = {}
         data['hide_locallogin'] = (
-            asbool(config.get('adhocracy.hide_locallogin', 'false'))
+            config.get_bool('adhocracy.hide_locallogin')
             and not 'locallogin' in request.GET)
         add_static_content(data, u'adhocracy.static_login_path')
         form = render('/user/login_tile.html', data)
