@@ -62,6 +62,12 @@ class ShibbolethController(BaseController):
         and immediatly removed afterwards. The reason for this design decision
         is that Single-Sign-Off isn't recommended by Shibboleth as it is either
         very complicated or even impossible.
+
+        NOTE: There isn't one clear way on how to deal with user deletion in
+        environments with external user management. We now implemented the
+        following:
+        If a user logs in into a deleted account, this account is undeleted
+        on the fly.
         """
         if not 'shibboleth' in allowed_login_types():
             ret_abort(_("Shibboleth authentication not enabled"), code=403)
@@ -70,9 +76,14 @@ class ShibbolethController(BaseController):
         if persistent_id is None:
             ret_abort(_("This URL shouldn't be called directly"), code=403)
 
-        user = User.find_by_shibboleth(persistent_id)
+        user = User.find_by_shibboleth(persistent_id, include_deleted=True)
 
         if user is not None:
+            if user.is_deleted():
+                user.undelete()
+                meta.Session.commit()
+                h.flash(_("User %s has been undeleted") % user.user_name,
+                        'success')
             return self._login(user, h.user.post_login_url(user))
         else:
             return self._register(persistent_id)
