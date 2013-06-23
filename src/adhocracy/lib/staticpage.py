@@ -1,5 +1,4 @@
 import logging
-import os.path
 import re
 
 import adhocracy.model
@@ -12,7 +11,6 @@ from adhocracy.lib.outgoing_link import rewrite_urls
 
 from lxml.html import parse, tostring
 from pylons import config
-from pylons.controllers.util import abort
 
 log = logging.getLogger(__name__)
 
