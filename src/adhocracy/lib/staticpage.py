@@ -5,6 +5,7 @@ import adhocracy.model
 from adhocracy import i18n
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
 from adhocracy.lib import util
+from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.outgoing_link import rewrite_urls
 
@@ -17,11 +18,12 @@ log = logging.getLogger(__name__)
 
 class StaticPageBase(object):
 
-    def __init__(self, key, lang, body, title):
+    def __init__(self, key, lang, body, title, private=False):
         self.key = key
         self.lang = lang
         self.title = title
         self.body = body
+        self.private = private
 
     @staticmethod
     def get(key, lang):
@@ -60,6 +62,13 @@ class StaticPageBase(object):
     @staticmethod
     def is_editable():
         return False
+
+    def require_permission(self):
+        """
+        Backends can add additional permission checks.
+        """
+        if self.private:
+            require.perm('static.show_private')
 
 
 class FileStaticPage(StaticPageBase):
@@ -128,6 +137,8 @@ def get_static_page(key, language=None):
         page = backend.get(key, i18n.all_languages(include_preferences=True))
     else:
         page = backend.get(key, [language])
+    if page is not None:
+        page.require_permission()
     return page
 
 

@@ -124,6 +124,7 @@ def setup_entities(config, initial_setup):
         u'proposal.show': [anonymous],
         u'proposal.view': [anonymous],
         u'static.show': [anonymous],
+        u'static.show_private': [admins],
         u'tag.create': [advisor],
         u'tag.delete': [advisor],
         u'tag.show': [anonymous],
