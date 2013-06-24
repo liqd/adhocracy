@@ -24,7 +24,7 @@
     }
 }
 
-.info_box {
+.info_box, .alert {
     position: relative;
     padding: 20px;
     margin: 20px 0;
@@ -32,6 +32,15 @@
     border: 1px solid $border;
     background: $flash;
     font-style: italic;
+}
+.alert-success {
+    // original green looked ugly, so I tinkered with this one
+    background: hsl(hue($green), saturation($flash)*0.9, lightness($flash)*0.95);
+}
+
+.alert-danger,
+.alert-error {
+    background: hsl(hue($red), saturation($flash), lightness($flash));
 }
 
 #welcome_message .info_box {
@@ -70,7 +79,7 @@
     height: 100%;
 }
 
-.info_box .close_button, .overlay a.close {
+.info_box .close_button, .overlay a.close, .alert a.close {
     position: absolute;
     top: -22px;
     right: -22px;
