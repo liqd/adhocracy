@@ -39,20 +39,25 @@
     margin-right: 23px;
 }
 
-.overlay {
+// overlay
+.overlay, .simple_overlay {
     /* must be initially hidden */
-    display:none;
+    display: none;
 
     /* place overlay on top of other elements */
-    z-index:10000;
+    z-index: 10000;
 
     /* styling */
     width: 500px;
     padding: 20px;
     @include border-radius(10px);
-    border: 1px solid #d4d4d4;
-    background: #fffde4;
+    border: 1px solid $border;
+    background-color: $flash;
     @include box-shadow(0 0 10px 5px $fg1);
+}
+
+.simple_overlay {
+    background-color: #333;
 }
 
 #overlay-big.overlay {
@@ -63,24 +68,6 @@
 #overlay-big .contentWrap {
     width: 100%;
     height: 100%;
-}
-
-/* the overlayed element */
-.simple_overlay {
-    /* must be initially hidden */
-    display:none;
-
-    /* place overlay on top of other elements */
-    z-index:10000;
-
-    /* styling */
-    background-color: #333;
-
-    width:675px;
-    min-height:200px;
-    border:1px solid $fg1;
-
-    @include box-shadow(0 0 90px #000);
 }
 
 .info_box .close_button, .overlay a.close {
