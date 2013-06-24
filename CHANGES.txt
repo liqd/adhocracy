@@ -4,7 +4,7 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
-- use virtualenv to create the python executable, uwsgi needs this.
+- link python lib and inclue directories, uwsgi needs this.
   
   Upgrade manual installation:
   ____________________________
