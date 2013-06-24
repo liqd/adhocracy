@@ -17,7 +17,7 @@
                 </label>
             </div>
             <div class="input_wrapper">
-                <label>${_('Email:')}
+                <label>${_('Email:')} ${u'(%s)' % _(u'optional') if not c.email_required else u''}
                     <input name="email" type="email" ${u'required="required"' if c.email_required else u''} />
                 </label>
             </div>
