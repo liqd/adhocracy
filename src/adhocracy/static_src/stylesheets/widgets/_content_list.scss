@@ -37,6 +37,8 @@ li.content_box {
     margin-bottom: 0;
     background: url('/images/list_bg.png') right top no-repeat;
 
+    border-bottom: 1px dotted $border;
+
     h3, p, .meta {
         padding-right: 20px;
     }
