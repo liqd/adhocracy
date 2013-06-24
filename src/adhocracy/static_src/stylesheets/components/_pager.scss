@@ -45,24 +45,28 @@
     margin: 0 0 15px 0;
     padding-top: 10px;
 
+    .prev_page, .next_page {
+        display: inline;
+    }
+    .prev_page a, .next_page a, .prev_page span, .next_page span, a, > span {
+        display: inline-block;
+        padding: 0 8px;
+        line-height: 27px;
+        min-width: 11px;
+        text-align: center;
+        background: $bg1;
+        margin: 0 2px;
+        color: $fg1;
+        @include border-radius(15px);
+        border: 1px solid $border;
+    }
     a:hover {
-        background: url('/images/sprite_buttons.png') repeat-x 0 -201px;
         color: #fff;
+        background-color: lighten($button-color, 10%);
         text-decoration: none;
     }
     .current, a:active {
-        background: url('/images/sprite_buttons.png') repeat-x 0 -251px;
         color: #fff;
+        background-color: $button-color;
     }
-}
-
-.prev_page, .next_page {
-    display: inline;
-}
-
-.prev_page a, .next_page a, .prev_page span, .next_page span, .pager a, .pager > span {
-    padding: 4px 10px;
-    background: #f0f0f0;
-    margin: 0 2px;
-    color: $fg1;
 }
