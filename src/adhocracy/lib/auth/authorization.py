@@ -11,6 +11,7 @@ from repoze.what.predicates import has_permission as what_has_permission
 from repoze.what.adapters import SourceError
 from repoze.what.plugins.sql.adapters import SqlGroupsAdapter
 
+from adhocracy import config
 import adhocracy.model as model
 
 
@@ -142,6 +143,7 @@ class AuthCheck(object):
 
     def valid_email(self):
         if (c.instance is not None
+                and config.get_bool('adhocracy.require_email')
                 and c.user is not None
                 and c.instance.require_valid_email
                 and not c.user.is_email_activated()):

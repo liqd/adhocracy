@@ -4,6 +4,7 @@ from pylons import request
 from pylons import response
 from pylons.controllers.util import redirect
 from pylons.i18n import _
+from adhocracy import config
 from adhocracy import forms
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import login_user
@@ -25,9 +26,9 @@ class ShibbolethRegisterForm(formencode.Schema):
     username = formencode.All(formencode.validators.PlainText(not_empty=True),
                               forms.UniqueUsername(),
                               forms.ContainsChar())
-    email = formencode.All(formencode.validators.Email(not_empty=False),
-                           forms.UniqueEmail())
-    # store_email checkbox
+    email = formencode.All(formencode.validators.Email(
+        not_empty=config.get_bool('adhocracy.require_email')),
+        forms.UniqueEmail())
     # store custom attributes checkboxes
 
 
@@ -103,7 +104,9 @@ class ShibbolethController(BaseController):
 
     def _register_form(self, defaults=None, errors=None):
 
-        data = {}
+        data = {
+            'email_required': (config.get_bool('adhocracy.require_email')),
+        }
         add_static_content(data, u'static_shibboleth_register_path')
         return formencode.htmlfill.render(
             render("/shibboleth/register.html", data),

@@ -88,8 +88,9 @@
         
       <div class="input_wrapper">
         <label for="email">${_("E-Mail:")}</label>
-        <input type="text" name="email" value="${c.page_user.email}"/>
+        <input type="text" name="email" value="${c.page_user.email if c.page_user.email is not None else ''|n}" ${u'required="required"' if c.email_required else u''} />
       </div>
+      %if c.page_user.email is not None:
       <div class="input_wrapper">
           <table border="0" width="100%">
               <tr>
@@ -115,6 +116,7 @@
               </tr>
           </table>
       </div>
+      %endif
       <p class="info">${_("Receive occasional news from instance administrators.")}</p>
       <div class="input_wrapper">
         <label>${_("Receive news service")}</label>

@@ -285,6 +285,9 @@ piwik.id =
 # INSTALL: Allow registration
 #adhocracy.allow_registration = true
 
+# Require emails from users (default: true)
+# adhocracy.require_email = true
+
 # INSTALL: If registration is disabled above, and adhocracy.login_style is
 # "alternate", notify this address on registration attempts.
 # adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
