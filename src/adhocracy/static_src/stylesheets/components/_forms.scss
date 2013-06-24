@@ -80,17 +80,6 @@ input[type=checkbox], input[type=radio] {
     *overflow: hidden;
 }
 
-.submit input, .submit button {
-    border: medium none;
-    cursor: pointer;
-    float: left;
-    font-size: 13px;
-    font-weight: bold;
-    height: 27px;
-    margin-right: 15px;
-    padding: 0 15px 3px;
-}
-
 form .error-message {
     color: darkred;
 }
@@ -169,10 +158,6 @@ form.new_comment {
     text-transform: uppercase;
     border: none;
     font-size: 13px;
-}
-#searchform #searchsubmit:hover,
-.list_form input.submit:hover {
-    cursor: pointer;
 }
 
 form#user_welcome {
