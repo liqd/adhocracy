@@ -10,13 +10,14 @@ import json
 import urllib
 
 from paste.deploy.converters import asbool, asint
-from pylons import tmpl_context as c, config, request
+from pylons import tmpl_context as c, request
 from pylons.i18n import _
 from webhelpers.html import literal
 from webhelpers.html.tags import file
 from webhelpers.pylonslib import Flash as _Flash
 from webhelpers.text import truncate
 
+from adhocracy import config
 from adhocracy.lib import cache
 from adhocracy.lib import democracy
 from adhocracy.lib import sorting

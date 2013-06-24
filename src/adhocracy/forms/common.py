@@ -70,7 +70,8 @@ class UniqueOtherEmail(formencode.FancyValidator):
     Check if email is unused or belongs to the current user.
     """
     def _to_python(self, value, state):
-        if c.user.email.lower() == value.lower():
+        if (c.user is not None and c.user.email is not None
+           and c.user.email.lower() == value.lower()):
             return value
         from adhocracy.model import User
         if User.all_q()\
