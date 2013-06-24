@@ -159,21 +159,3 @@ iframe {
 }
 
 .staticpage_edit {float: right;}
-
-/* Profile page fixes */
-
-select[name="page_size"],
-select[name="proposal_sort_order"] {
-  float: right;
-}
-
-label[for="page_size"],
-label[for="proposal_sort_order"] {
-  line-height: 29px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-  margin-top: 2px;
-  margin-top: -1px \9;
-}
