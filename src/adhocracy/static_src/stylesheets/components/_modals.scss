@@ -1,25 +1,25 @@
 #flash_message {
-    background: #fffde4;
+    background: $flash;
 
     .message, .confirm, .error {
         padding: 20px 23px;
         display: block;
         overflow: hidden;
-    }
-    .message p, .error p {
-        margin-bottom: 0;
+
+        p {
+            margin-bottom: 0;
+        }
     }
     .message .register {
         float: right;
     }
 
     p.register_msg {
-        line-height: 27px;
+        line-height: 2;
     }
     .attention-frozen {
         text-align: center;
         font-size: 140%;
-        background: #fffbd0;
         padding: 5px 0;
     }
 }
