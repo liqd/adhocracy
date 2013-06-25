@@ -16,6 +16,12 @@ from adhocracy.lib.templating import render
 BODY_RE = re.compile("<br \/><br \/>(.*)<\/body", re.S)
 
 
+ERROR_MESSAGES = {
+    503: _(u"The system is currently down for maintenance. Please check back "
+           u"soon!"),
+}
+
+
 class ErrorController(BaseController):
 
     """Generates error documents as and when they are required.
@@ -59,6 +65,21 @@ class ErrorController(BaseController):
             c.trace_url = None
 
         return render("/error/http.html")
+
+    def show(self):
+        """
+        Force an error message.
+        """
+        status = request.GET.get('force_status')
+        if status is None:
+            raise abort(404)
+        data = {
+            'hide_code': 'hide_code' in request.GET,
+            'hide_notify': 'hide_notify' in request.GET,
+            'error_code': int(status),
+            'error_message': ERROR_MESSAGES.get(int(status)),
+        }
+        return render("/error/http.html", data)
 
     def img(self, id):
         """Serve Pylons' stock images"""
