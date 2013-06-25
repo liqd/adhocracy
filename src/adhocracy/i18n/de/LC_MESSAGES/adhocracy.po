@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-21 05:25+0200\n"
-"PO-Revision-Date: 2013-06-21 03:38+0000\n"
-"Last-Translator: phihag <phihag@phihag.de>\n"
+"POT-Creation-Date: 2013-06-25 13:34+0200\n"
+"PO-Revision-Date: 2013-06-25 11:50+0000\n"
+"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -437,6 +437,10 @@ msgstr "Shibboleth-Authentifizierung nicht aktiviert"
 
 msgid "This URL shouldn't be called directly"
 msgstr "Diese URL sollte nicht direkt aufgerufen werden"
+
+#, python-format
+msgid "User %s has been undeleted"
+msgstr "Benutzer %s wurde wiederhergestellt"
 
 msgid "Page does already exist. Select another key or language."
 msgstr "Die Seite existiert schon. Wählen Sie eine andere Kennung oder Sprache."
@@ -3404,6 +3408,9 @@ msgstr "Bitte vervollständigen Sie die Shibboleth-basierte Registrierung"
 msgid "Email:"
 msgstr "E-Mail:"
 
+msgid "optional"
+msgstr "optional"
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr "Bearbeite %(key)s (%(langname)s)"
@@ -3461,8 +3468,8 @@ msgstr "Tags"
 msgid "Not tagged yet"
 msgstr "Es wurden noch keine Tags angegeben"
 
-msgid "add tags..."
-msgstr "Tags hinzufügen..."
+msgid "add tags"
+msgstr "Tags hinzufügen"
 
 msgid "Multiple tags can be separated by commas or spaces."
 msgstr "Mehrere Tags können durch Kommas oder Leerzeichen getrennt werden."
@@ -3715,11 +3722,8 @@ msgstr "Nicht bestätigt."
 msgid "Re-send activation link"
 msgstr "Aktivierungslink erneut zusenden"
 
-msgid "Receive occasional news from instance administrators."
-msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen."
-
-msgid "Receive news service"
-msgstr "Neuigkeiten empfangen"
+msgid "Receive occasional news from instance administrators:"
+msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen:"
 
 msgid "OpenID"
 msgstr "OpenID"
@@ -3744,17 +3748,11 @@ msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr üb
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-msgid "The pre-set number of entries in listing pages."
-msgstr "Die voreingestellte Anzahl an Einträgen in Listen."
+msgid "The pre-set number of entries in listing pages:"
+msgstr "Die voreingestellte Anzahl an Einträgen in Listen:"
 
-msgid "List size:"
-msgstr "Listenlänge:"
-
-msgid "Disable help messages and links to the documentation."
-msgstr "Hilfenachrichten und Links zur Dokumentation abstellen."
-
-msgid "Hide help messages:"
-msgstr "Hinweise verbergen:"
+msgid "Disable help messages and links to the documentation:"
+msgstr "Hilfenachrichten und Links zur Dokumentation abstellen:"
 
 msgid "Change default sorting order for proposals:"
 msgstr "Standardsortierung von Vorschlägen ändern:"
