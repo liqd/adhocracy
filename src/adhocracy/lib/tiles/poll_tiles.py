@@ -1,4 +1,5 @@
 from pylons import tmpl_context as c
+from pylons import session
 from pylons.i18n import _
 
 from adhocracy import model
@@ -213,7 +214,7 @@ def widget(poll, cls='', deactivated=False, delegate_url=None):
     return render_tile('/poll/tiles.html', 'widget',
                        t, poll=poll, user=c.user, widget_class=cls,
                        delegate_url=delegate_url, deactivated=deactivated,
-                       cached=True)
+                       cached=True, cache_session=session.id)
 
 
 def header(poll, active=''):
