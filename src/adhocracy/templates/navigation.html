@@ -48,7 +48,7 @@
                 %endif
 
                 %if h.staticpage.use_kotti_navigation():
-                ${h.staticpage.render_kotti_navigation() | n}
+                ${h.staticpage.render_kotti_navigation(active) | n}
                 %else:
 
                 ${nav_link(href=h.base_url('/static/about.html', None),
