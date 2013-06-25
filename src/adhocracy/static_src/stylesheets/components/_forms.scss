@@ -60,6 +60,7 @@ textarea {
 
 input[type=checkbox], input[type=radio] {
     vertical-align: text-top;
+    margin-top: 1px;
 }
 
 .checkbox_inline label {
@@ -247,9 +248,4 @@ select[name="proposal_sort_order"] {
 label[for="page_size"],
 label[for="proposal_sort_order"] {
     line-height: 29px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-    margin-top: 1px;
 }
