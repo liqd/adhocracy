@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy dbfedc1\n"
+"Project-Id-Version: adhocracy e4ab078\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-21 05:25+0200\n"
+"POT-Creation-Date: 2013-06-25 13:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -409,6 +409,10 @@ msgid "Shibboleth authentication not enabled"
 msgstr ""
 
 msgid "This URL shouldn't be called directly"
+msgstr ""
+
+#, python-format
+msgid "User %s has been undeleted"
 msgstr ""
 
 msgid "Page does already exist. Select another key or language."
@@ -3282,6 +3286,9 @@ msgstr ""
 msgid "Email:"
 msgstr ""
 
+msgid "optional"
+msgstr ""
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr ""
@@ -3338,7 +3345,7 @@ msgstr ""
 msgid "Not tagged yet"
 msgstr ""
 
-msgid "add tags..."
+msgid "add tags"
 msgstr ""
 
 msgid "Multiple tags can be separated by commas or spaces."
@@ -3577,10 +3584,7 @@ msgstr ""
 msgid "Re-send activation link"
 msgstr ""
 
-msgid "Receive occasional news from instance administrators."
-msgstr ""
-
-msgid "Receive news service"
+msgid "Receive occasional news from instance administrators:"
 msgstr ""
 
 msgid "OpenID"
@@ -3604,16 +3608,10 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
-msgid "The pre-set number of entries in listing pages."
+msgid "The pre-set number of entries in listing pages:"
 msgstr ""
 
-msgid "List size:"
-msgstr ""
-
-msgid "Disable help messages and links to the documentation."
-msgstr ""
-
-msgid "Hide help messages:"
+msgid "Disable help messages and links to the documentation:"
 msgstr ""
 
 msgid "Change default sorting order for proposals:"
