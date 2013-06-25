@@ -209,11 +209,12 @@ def widget(poll, cls='', deactivated=False, delegate_url=None):
         An URL if a delegate button should be shown beside the vote
         widget. If *None* (default) no button will be shown.
     '''
+    cached = c.user is None
     t = PollTile(poll, deactivated, widget_class=cls)
     return render_tile('/poll/tiles.html', 'widget',
                        t, poll=poll, user=c.user, widget_class=cls,
                        delegate_url=delegate_url, deactivated=deactivated,
-                       cached=True)
+                       cached=cached)
 
 
 def header(poll, active=''):
