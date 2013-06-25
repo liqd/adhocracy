@@ -1,3 +1,4 @@
+from itertools import izip
 import logging
 import babel.core
 
@@ -37,7 +38,7 @@ def use_kotti_navigation():
     return asbool(config.get('adhocracy.use_kotti_navigation', 'false'))
 
 
-def render_kotti_navigation():
+def render_kotti_navigation(current_key):
     api = RESTAPI()
     base = config.get('adhocracy.kotti_navigation_base', None)
     result = api.staticpages_get(base=base)
@@ -46,7 +47,7 @@ def render_kotti_navigation():
         log.error('Kotti based navigation not found for configured languages')
         return ''
 
-    def render_navigation_item(item, path=''):
+    def render_navigation_item(item, path='', toplevel=False):
 
         if path != '':
             path = '%s/%s' % (path, item['name'])
@@ -57,14 +58,24 @@ def render_kotti_navigation():
 
         self_html = u'<a href="%s">%s</a>' % (url, item['title'])
 
+        contains_current = (path == current_key)
         if item['children']:
+            html_list, contained_list = izip(
+                *map(lambda child: render_navigation_item(child, path),
+                     item['children']))
             children_html = u'\n<ul class="children">\n%s\n</ul>\n' % (
-                '\n'.join(
-                    map(lambda child: render_navigation_item(child, path),
-                        item['children'])))
+                '\n'.join(html_list))
+            contains_current = contains_current or any(contained_list)
         else:
             children_html = ''
 
-        return '<li>%s%s</li>' % (self_html, children_html)
+        html = '<li%s>%s%s</li>' % (
+            ' class="current"' if toplevel and contains_current else '',
+            self_html,
+            children_html)
+        return (html, contains_current)
 
-    return '\n'.join(map(render_navigation_item, nav['children']))
+    html_list, _ = izip(
+        *map(lambda child: render_navigation_item(child, toplevel=True),
+             nav['children']))
+    return '\n'.join(html_list)
