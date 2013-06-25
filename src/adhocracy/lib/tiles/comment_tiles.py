@@ -60,7 +60,7 @@ def header(comment, tile=None, active='comment'):
 
 def list(topic, root=None, comments=None, variant=None, recurse=True,
          ret_url=''):
-    cached = True if c.user is None else False
+    cached = c.user is None
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None,
