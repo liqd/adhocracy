@@ -67,7 +67,7 @@ class UserUpdateForm(formencode.Schema):
     bio = validators.String(max=1000, min=0, not_empty=False)
     no_help = validators.StringBool(not_empty=False, if_empty=False,
                                     if_missing=False)
-    page_size = validators.Int(min=1, max=100, not_empty=False,
+    page_size = validators.Int(min=1, max=200, not_empty=False,
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
