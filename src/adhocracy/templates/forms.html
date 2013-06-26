@@ -1,4 +1,4 @@
-<%def name="input(label, name, tabindex, type='text', cls='', placeholder='', help=None)">
+<%def name="input(label, name, tabindex=None, type='text', cls='', placeholder='', help=None)">
 <%self:group name="${name}">
     <label for="${name}">${label}</label>
     %if help:
@@ -8,41 +8,41 @@
     ${caller.body()}
     %endif
     <input type="${type}" class="${cls}"
-           name="${name}" tabindex="${tabindex}"
-           ${'placeholder="%s"' % placeholder if placeholder else ''} />
+           name="${name}" ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}
+           ${'placeholder="%s"' % placeholder if placeholder else '' | n} />
 </%self:group>
 </%def>
 
-<%def name="radio(label, name, value, tabindex, cls='', help=None, checked=False)">
+<%def name="radio(label, name, value, tabindex=None, cls='', help=None, checked=False)">
 <%self:group name="${name}">
 <label class="radio ${cls}">
     <form:error name="field_name" />
     <input name="${name}" value="${value}" type="radio" 
-           tabindex="${tabindex}" ${'checked="checked"' if checked else ''} /> 
+           tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}" ${'checked="checked"' if checked else '' | n} /> 
     ${label}
 </label>
 </%self:group>
 </%def>
 
-<%def name="checkbox(label, name, tabindex, cls='', help=None, checked=False)">
+<%def name="checkbox(label, name, tabindex=None, cls='', help=None, checked=False)">
 <%self:group name="${name}">
 <label class="checkbox ${cls}">
     <form:error name="field_name" />
     <input name="${name}"  type="checkbox"
-           tabindex="${tabindex}" 
-           ${'checked="checked"' if checked else ''} /> ${label}
+           tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}" 
+           ${'checked="checked"' if checked else '' | n} /> ${label}
 </label>
 </%self:group>
 
 </%def>
 
-<%def name="checkboxes(label, name, checkboxes, tabindex, cls='', placeholder='', help=None)">
+<%def name="checkboxes(label, name, checkboxes, tabindex=None, cls='', placeholder='', help=None)">
 <label for="checkbox">
-    <input value="${value}" name="${name}" type="checkbox" tabindex="${tabindex}"/> ${label}
+    <input value="${value}" name="${name}" type="checkbox" tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}"/> ${label}
 </label>
 </%def>
  
-<%def name="textarea(label, name, value, tabindex, rows=3, cls='', help=None)">
+<%def name="textarea(label, name, value, tabindex=None, rows=3, cls='', help=None)">
 ## This renders a textarea like this:
 ## 
 ## <label />
@@ -60,7 +60,7 @@
 ${caller.before()}
 %endif
 <textarea class="${cls}" name="${name}" rows="${rows}" 
-          tabindex="${tabindex}">${value}</textarea>
+          tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}">${value}</textarea>
 %if hasattr(caller, 'after'):
 ${caller.after()}
 %endif
@@ -68,13 +68,13 @@ ${caller.body()}
 </%self:group>
 </%def>
 
-<%def name="select(label, name, values, tabindex, cls='', help=None)">
+<%def name="select(label, name, values, tabindex=None, cls='', help=None)">
 <%self:group name="${name}">
 <label for="${name}">${label}</lable>
-<select name="${name}" tabindex="${tabindex}">
+<select name="${name}" ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}>
     %for option in values:
     <option value="${option['value']}"
-            ${h.literal('selected="selected"') if option.get('selected') else ''}>
+            ${h.literal('selected="selected"') if option.get('selected') else '' | n}>
         ${option['label']}
     </option>
     %endfor
