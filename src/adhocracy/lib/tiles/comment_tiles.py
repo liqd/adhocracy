@@ -1,8 +1,8 @@
-from pylons import session
 from pylons import tmpl_context as c
 
 from adhocracy.lib import text
 from adhocracy.lib.auth import can
+from adhocracy.lib.auth.csrf import token_id
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
 
@@ -76,4 +76,4 @@ def show(comment, recurse=True, ret_url=''):
     return render_tile('/comment/tiles.html', 'show', CommentTile(comment),
                        comment=comment, cached=True, can_edit=can_edit,
                        groups=groups, ret_url=ret_url, recurse=recurse,
-                       cache_session=session.id)
+                       cache_csrf_token=token_id())
