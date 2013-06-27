@@ -103,7 +103,6 @@ class _Transform(object):
         return self._options.get('replacement_strategy', 'update')
 
 
-
 class BadgeTransform(_Transform):
     _ID_KEY = 'title'
 
