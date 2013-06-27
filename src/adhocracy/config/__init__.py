@@ -9,6 +9,7 @@ DEFAULTS = {
     'adhocracy.force_randomized_user_names': False,
     'adhocracy.hide_locallogin': False,
     'adhocracy.require_email': True,
+    'adhocracy.set_display_name_on_register': False,
 }
 
 

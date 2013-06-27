@@ -11,6 +11,15 @@
       </div>
     </fieldset>
     %endif
+    %if h.config.get_bool('adhocracy.set_display_name_on_register'):
+    <fieldset>
+      <legend>${_("Display name")}</legend>
+      <p class="info">${_("You can choose which name other users see.")}</p>
+      <div class="input_wrapper">
+        <input type="text" tabindex="1" class="title" name="display_name" />
+      </div>
+    </fieldset>
+    %endif
 
     <fieldset>
       <legend>${_("E-mail")}</legend>

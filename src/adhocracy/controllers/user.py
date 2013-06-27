@@ -45,6 +45,8 @@ class UserCreateForm(formencode.Schema):
         user_name = formencode.All(validators.PlainText(not_empty=True),
                                    forms.UniqueUsername(),
                                    forms.ContainsChar())
+    if config.get_bool('adhocracy.set_display_name_on_register'):
+        display_name = validators.String(not_empty=False, if_missing=None)
     email = formencode.All(validators.Email(
         not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueOtherEmail())
@@ -198,7 +200,8 @@ class UserController(BaseController):
             user_name,
             self.form_result.get("email"),
             password=self.form_result.get("password"),
-            locale=c.locale)
+            locale=c.locale,
+            display_name=self.form_result.get("display_name"))
         model.meta.Session.commit()
 
         event.emit(event.T_USER_CREATE, user)

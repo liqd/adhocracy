@@ -13,13 +13,20 @@
             ${h.field_token()|n}
             %if not h.config.get_bool('adhocracy.force_randomized_user_names'):
             <div class="input_wrapper">
-                <label>${_('Username:')}
+                <label>${_('Username')}:
                     <input type="text" name="username" autofocus="autofocus" required="required"/>
                 </label>
             </div>
             %endif
+            %if h.config.get_bool('adhocracy.set_display_name_on_register'):
             <div class="input_wrapper">
-                <label>${_('Email:')} ${u'(%s)' % _(u'optional') if not c.email_required else u''}
+                <label>${_('Display name')}:
+                    <input type="text" name="display_name" autofocus="autofocus" />
+                </label>
+            </div>
+            %endif
+            <div class="input_wrapper">
+                <label>${_('Email')}: ${u'(%s)' % _(u'optional') if not c.email_required else u''}
                     <input name="email" type="email" ${u'required="required"' if c.email_required else u''} />
                 </label>
             </div>

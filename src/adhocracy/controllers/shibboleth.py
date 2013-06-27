@@ -28,6 +28,9 @@ class ShibbolethRegisterForm(formencode.Schema):
             formencode.validators.PlainText(not_empty=True),
             forms.UniqueUsername(),
             forms.ContainsChar())
+    if config.get_bool('adhocracy.set_display_name_on_register'):
+        display_name = formencode.validators.String(not_empty=False,
+                                                    if_missing=None)
     email = formencode.All(formencode.validators.Email(
         not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueEmail())
@@ -137,6 +140,7 @@ class ShibbolethController(BaseController):
                 username = form_result['username']
             user = User.create(username,
                                form_result['email'],
+                               display_name=form_result['display_name'],
                                shibboleth_persistent_id=persistent_id)
 
             # NOTE: We might want to automatically join the current instance
