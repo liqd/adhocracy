@@ -43,6 +43,7 @@ class ExportForm(formencode.Schema):
     include_instance_proposal_comment = formencode.validators.StringBoolean(
         if_missing=False)
     include_requestlog = formencode.validators.StringBoolean(if_missing=False)
+    include_staticpage = formencode.validators.StringBoolean(if_missing=False)
     user_personal = formencode.validators.StringBoolean(if_missing=False)
     user_password = formencode.validators.StringBoolean(if_missing=False)
     format = formencode.validators.OneOf(
@@ -59,6 +60,7 @@ class ImportForm(formencode.Schema):
     include_instance = formencode.validators.StringBoolean(if_missing=False)
     include_instance_proposal = formencode.validators.StringBoolean(
         if_missing=False)
+    include_staticpage = formencode.validators.StringBoolean(if_missing=False)
     filetype = formencode.validators.OneOf(['detect', 'json', 'zip'])
     importfile = formencode.validators.FieldStorageUploadConverter(
         not_empty=True)

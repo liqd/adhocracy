@@ -72,6 +72,9 @@ class _Transform(object):
     def _compute_key(self, o):
         return unicode(getattr(o, self._ID_KEY))
 
+    def _compute_key_from_data(self, data):
+        return data[self._ID_KEY]
+
     def export_all(self):
         return dict((self._compute_key(o), self._export(o))
                     for o in self._get_all())
@@ -83,7 +86,7 @@ class _Transform(object):
         return dict((k, self._import(data)) for k, data in odict.items())
 
     def _import(self, data):
-        obj = self._get_by_key(data.get(self._ID_KEY))
+        obj = self._get_by_key(self._compute_key_from_data(data))
         if obj:
             doUpdate = self._replacement_strategy == 'update'
         else:
@@ -431,6 +434,48 @@ class RequestLogTransform(_Transform):
         return res
 
 
+class StaticPageTransform(_Transform):
+    def __init__(self, options, backend=None):
+        super(StaticPageTransform, self).__init__(options)
+        if backend is None:
+            from adhocracy.lib.staticpage import get_backend
+            backend = get_backend()
+        self._backend = backend
+
+    def _export(self, obj):
+        return {
+            'key': obj.key,
+            'lang': obj.lang,
+            'title': obj.title,
+            'body': obj.body
+        }
+
+    def _create(self, data):
+        return self._backend.create(
+            data['key'],
+            data['lang'],
+            data.get('title', u''),
+            data.get('body', u''))
+
+    def _modify(self, o, data):
+        _set_optional(o, data, 'key')
+        _set_optional(o, data, 'lang')
+        _set_optional(o, data, 'title')
+        _set_optional(o, data, 'body')
+
+    def _get_by_key(self, k):
+        key, _, lang = k.partition(u'_')
+        return self._backend.get(key, lang)
+
+    def _get_all(self):
+        return self._backend.all()
+
+    def _compute_key(self, obj):
+        return obj.key + u'_' + obj.lang
+
+    def _compute_key_from_data(self, data):
+        return data['key'] + u'_' + data['lang']
+
 
 def gen_all(options):
     badge_transform = BadgeTransform(options)
@@ -438,8 +483,9 @@ def gen_all(options):
     instance_transform = InstanceTransform(
         options, user_transform, badge_transform)
     requestlog_transform = RequestLogTransform(options)
+    staticpage_transform = StaticPageTransform(options)
     return [badge_transform, user_transform, instance_transform,
-            requestlog_transform]
+            requestlog_transform, staticpage_transform]
 
 
 def gen_active(options):
