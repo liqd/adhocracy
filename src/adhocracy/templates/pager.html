@@ -5,7 +5,9 @@
         <div class="floatbox">
             %if pager.enable_pages:
                 <span class="pager_items">
+                    %if len(pager.items):
                     ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
+                    %endif
                 </span>
             %endif
             %if hasattr(pager.sorts, 'render'):
