@@ -1,67 +1,67 @@
 #flash_message {
-    background: #fffde4;
+    background: $flash;
 
     .message, .confirm, .error {
         padding: 20px 23px;
         display: block;
         overflow: hidden;
-    }
-    .message p, .error p {
-        margin-bottom: 0;
+
+        p {
+            margin-bottom: 0;
+        }
     }
     .message .register {
         float: right;
     }
 
     p.register_msg {
-        line-height: 27px;
+        line-height: 2;
     }
     .attention-frozen {
         text-align: center;
         font-size: 140%;
-        background: #fffbd0;
         padding: 5px 0;
     }
 }
 
-.info_box .flash_messages {
-    font-weight: bold;
-}
-
-.info_box {
+.info_box, .alert {
+    position: relative;
     padding: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0;
     @include border-radius(10px);
-    border: 1px solid #d4d4d4;
-    background: #fffde4;
+    border: 1px solid $border;
+    background: $flash;
     font-style: italic;
-    margin-top: 30px;
-
-    p {
-        margin-bottom: 0;
-    }
-    .utility {
-        margin: 10px 0 0 0;
-        text-align: right;
-    }
-    &.to_hide {
-        position: relative;
-    }
+}
+.alert-success {
+    // original green looked ugly, so I tinkered with this one
+    background: hsl(hue($green), saturation($flash)*0.9, lightness($flash)*0.95);
 }
 
+.alert-danger,
+.alert-error {
+    background: hsl(hue($red), saturation($flash), lightness($flash));
+}
+
+#welcome_message .info_box {
+    margin-left: 23px;
+    margin-right: 23px;
+}
+
+// overlay
 .overlay {
     /* must be initially hidden */
-    display:none;
+    display: none;
 
     /* place overlay on top of other elements */
-    z-index:10000;
+    z-index: 10000;
 
     /* styling */
     width: 500px;
     padding: 20px;
     @include border-radius(10px);
-    border: 1px solid #d4d4d4;
-    background: #fffde4;
+    border: 1px solid $border;
+    background-color: $flash;
     @include box-shadow(0 0 10px 5px $fg1);
 }
 
@@ -75,30 +75,7 @@
     height: 100%;
 }
 
-#welcome_message .info_box {
-    margin-left: 23px;
-    margin-right: 23px;
-}
-
-/* the overlayed element */
-.simple_overlay {
-    /* must be initially hidden */
-    display:none;
-
-    /* place overlay on top of other elements */
-    z-index:10000;
-
-    /* styling */
-    background-color: #333;
-
-    width:675px;
-    min-height:200px;
-    border:1px solid $fg1;
-
-    @include box-shadow(0 0 90px #000);
-}
-
-.info_box .close_button, .overlay a.close {
+.info_box .close_button, .overlay a.close, .alert a.close {
     position: absolute;
     top: -22px;
     right: -22px;
