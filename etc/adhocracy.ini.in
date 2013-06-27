@@ -373,8 +373,11 @@ adhocracy.static_index_path = index
 # Static content path for login page (default: empty)
 # adhocracy.static_login_path = login
 
-# Static content path for shibboleth register page (default: empty)
-# adhocracy.static_shibboleth_register_path = shibboleth_register
+# Static content paths for shibboleth register page (default: empty)
+# Ontop defines the area on top of the form and the title of the page.
+# adhocracy.static_shibboleth_register_ontop_path = shibboleth_register_ontop
+# Below defines the area below the form, the title is ignored.
+# adhocracy.static_shibboleth_register_below_path = shibboleth_register
 
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate

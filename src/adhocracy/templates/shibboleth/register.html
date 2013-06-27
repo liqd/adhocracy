@@ -2,11 +2,15 @@
 <%def name="title()">${c.title if c.title is not None else _("Complete registration")}</%def>
 
 <%block name="headline">
-<h1>${_("Complete registration")}</h1>
+<h1>${c.title if c.title is not None else _("Complete registration")}</h1>
 
+    %if c.body_ontop is None:
     <div class="infobox">
       ${_('Please complete the Shibboleth based user registration')}
     </div>
+    %else:
+    ${c.body_ontop|n}
+    %endif
 
     <div class="mainbar">
         <form name="complete_registration" class="login_form" action="" method="POST">
@@ -35,8 +39,8 @@
             </div>
         </form>
  
-        %if c.body is not None:
-        ${c.body|n}
+        %if c.body_below is not None:
+        ${c.body_below|n}
         %endif
     </div>
 </%block>

@@ -112,7 +112,12 @@ class ShibbolethController(BaseController):
         data = {
             'email_required': (config.get_bool('adhocracy.require_email')),
         }
-        add_static_content(data, u'adhocracy.static_shibboleth_register_path')
+        add_static_content(data,
+                           u'adhocracy.static_shibboleth_register_ontop_path',
+                           body_key=u'body_ontop')
+        add_static_content(data,
+                           u'adhocracy.static_shibboleth_register_below_path',
+                           body_key=u'body_below', title_key=u'_ignored')
         return formencode.htmlfill.render(
             render("/shibboleth/register.html", data),
             defaults=defaults, errors=errors,
