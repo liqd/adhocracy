@@ -219,9 +219,14 @@ class UserTransform(_Transform):
 class InstanceTransform(_ExportOnlyTransform):
     _ID_KEY = 'key'
 
-    def __init__(self, options, user_transform):
+    def __init__(self, options, user_transform, badge_transform):
         super(InstanceTransform, self).__init__(options)
         self._user_transform = user_transform
+        self._badge_transform = (
+            badge_transform
+            if options.get('include_badge', False)
+            else None
+        )
 
     def _export(self, obj):
         res = {
@@ -262,6 +267,12 @@ class InstanceTransform(_ExportOnlyTransform):
             ptransform = ProposalTransform(self._options, obj,
                                            self._user_transform)
             res['proposals'] = ptransform.export_all()
+
+        if self._badge_transform and model.votedetail.is_enabled():
+            res['adhocracy_votedetail_userbadges'] = [
+                self._badge_transform._compute_key(b)
+                for b in obj.votedetail_userbadges
+            ]
 
         return res
 
@@ -322,6 +333,13 @@ class InstanceTransform(_ExportOnlyTransform):
             ptransform = ProposalTransform(self._options, o,
                                            self._user_transform)
             ptransform.import_all(data.get('proposals', {}))
+
+        if self._badge_transform and model.votedetail.is_enabled():
+            if 'adhocracy_votedetail_userbadges' in data:
+                o.votedetail_userbadges = [
+                    self._badge_transform._get_by_key(bid)
+                    for bid in data['adhocracy_votedetail_userbadges']
+                ]
 
     def _get_by_key(self, key):
         return self._model_class.find(key)
@@ -421,7 +439,8 @@ class RequestLogTransform(_ExportOnlyTransform):
 def gen_all(options):
     badge_transform = BadgeTransform(options)
     user_transform = UserTransform(options, badge_transform)
-    instance_transform = InstanceTransform(options, user_transform)
+    instance_transform = InstanceTransform(
+        options, user_transform, badge_transform)
     requestlog_transform = RequestLogTransform(options)
     return [badge_transform, user_transform, instance_transform,
             requestlog_transform]
