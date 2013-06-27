@@ -100,10 +100,6 @@ class _Transform(object):
         return self._options.get('replacement_strategy', 'update')
 
 
-class _ExportOnlyTransform(_Transform):
-    def import_(self, odict, replacement_strategy):
-        raise NotImplementedError()
-
 
 class BadgeTransform(_Transform):
     _ID_KEY = 'title'
@@ -216,7 +212,7 @@ class UserTransform(_Transform):
         return res
 
 
-class InstanceTransform(_ExportOnlyTransform):
+class InstanceTransform(_Transform):
     _ID_KEY = 'key'
 
     def __init__(self, options, user_transform, badge_transform):
@@ -345,7 +341,7 @@ class InstanceTransform(_ExportOnlyTransform):
         return self._model_class.find(key)
 
 
-class ProposalTransform(_ExportOnlyTransform):
+class ProposalTransform(_Transform):
     _ID_KEY = 'id'
 
     def __init__(self, options, instance, user_transform):
@@ -397,7 +393,7 @@ class ProposalTransform(_ExportOnlyTransform):
         return res
 
 
-class CommentTransform(_ExportOnlyTransform):
+class CommentTransform(_Transform):
     _ID_KEY = 'id'
 
     def __init__(self, options, all_comments, parent_comment, user_transform):
@@ -423,17 +419,17 @@ class CommentTransform(_ExportOnlyTransform):
         return res
 
 
-class RequestLogTransform(_ExportOnlyTransform):
+class RequestLogTransform(_Transform):
     _ID_KEY = 'id'
 
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
-        self.logs = model.RequestLog.all()
 
     def _export(self, obj):
         res = obj.to_dict()
         res['access_time'] = encode_time(res['access_time'])
         return res
+
 
 
 def gen_all(options):
