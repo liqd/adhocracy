@@ -321,7 +321,7 @@ class InstanceTransform(_ExportOnlyTransform):
         if self._options.get('include_instance_proposal'):
             ptransform = ProposalTransform(self._options, o,
                                            self._user_transform)
-            ptransform.import_all(data.get('proposals', []))
+            ptransform.import_all(data.get('proposals', {}))
 
     def _get_by_key(self, key):
         return self._model_class.find(key)
