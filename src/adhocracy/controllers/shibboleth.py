@@ -23,9 +23,11 @@ from adhocracy.model.badge import UserBadge
 
 class ShibbolethRegisterForm(formencode.Schema):
     allow_extra_fields = True
-    username = formencode.All(formencode.validators.PlainText(not_empty=True),
-                              forms.UniqueUsername(),
-                              forms.ContainsChar())
+    if not config.get_bool('adhocracy.force_randomized_user_names'):
+        username = formencode.All(
+            formencode.validators.PlainText(not_empty=True),
+            forms.UniqueUsername(),
+            forms.ContainsChar())
     email = formencode.All(formencode.validators.Email(
         not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueEmail())
@@ -129,7 +131,11 @@ class ShibbolethController(BaseController):
             form_result = ShibbolethRegisterForm().to_python(
                 request.params)
 
-            user = User.create(form_result['username'],
+            if config.get_bool('adhocracy.force_randomized_user_names'):
+                username = None
+            else:
+                username = form_result['username']
+            user = User.create(username,
                                form_result['email'],
                                shibboleth_persistent_id=persistent_id)
 

@@ -379,6 +379,9 @@ adhocracy.static_index_path = index
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
 
+# Force randomized user names (default: false)
+# adhocracy.force_randomized_user_names = true
+
 # Automatically set new permissions their default value. This should be
 # set to false in restrictive environments.
 # adhocracy.autoassign_permissions = true

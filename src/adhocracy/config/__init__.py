@@ -6,6 +6,7 @@ from pylons import config
 
 DEFAULTS = {
     'adhocracy.enable_gender': False,
+    'adhocracy.force_randomized_user_names': False,
     'adhocracy.hide_locallogin': False,
     'adhocracy.require_email': True,
 }

@@ -41,9 +41,10 @@ log = logging.getLogger(__name__)
 
 class UserCreateForm(formencode.Schema):
     allow_extra_fields = True
-    user_name = formencode.All(validators.PlainText(not_empty=True),
-                               forms.UniqueUsername(),
-                               forms.ContainsChar())
+    if not config.get_bool('adhocracy.force_randomized_user_names'):
+        user_name = formencode.All(validators.PlainText(not_empty=True),
+                                   forms.UniqueUsername(),
+                                   forms.ContainsChar())
     email = formencode.All(validators.Email(
         not_empty=config.get_bool('adhocracy.require_email')),
         forms.UniqueOtherEmail())
@@ -189,10 +190,15 @@ class UserController(BaseController):
             redirect("/")
 
         #create user
-        user = model.User.create(self.form_result.get("user_name"),
-                                 self.form_result.get("email"),
-                                 password=self.form_result.get("password"),
-                                 locale=c.locale)
+        if config.get_bool('adhocracy.force_randomized_user_names'):
+            user_name = None
+        else:
+            user_name = self.form_result.get("user_name")
+        user = model.User.create(
+            user_name,
+            self.form_result.get("email"),
+            password=self.form_result.get("password"),
+            locale=c.locale)
         model.meta.Session.commit()
 
         event.emit(event.T_USER_CREATE, user)
@@ -213,7 +219,7 @@ class UserController(BaseController):
         who_api = get_api(request.environ)
         login_configuration = h.allowed_login_types()
         if 'username+password' in login_configuration:
-            login = self.form_result.get("user_name")
+            login = user.user_name
         elif 'email+password' in login_configuration:
             login = self.form_result.get("email")
         else:

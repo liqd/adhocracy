@@ -2,6 +2,7 @@
   <form name="create_user" method="POST" action="/user${h.camefrom_querystring()}">
     ${h.field_token()|n}
 
+    %if not h.config.get_bool('adhocracy.force_randomized_user_names'):
     <fieldset>
       <legend>${_("User name")}</legend>
       <p class="info">${_("Can only contain letters and numbers.")}</p>
@@ -9,6 +10,7 @@
         <input type="text" tabindex="1" name="user_name" />
       </div>
     </fieldset>
+    %endif
 
     <fieldset>
       <legend>${_("E-mail")}</legend>
