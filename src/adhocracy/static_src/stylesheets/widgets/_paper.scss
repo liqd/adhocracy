@@ -64,13 +64,13 @@
 
             &:hover, &.current {
                 text-decoration: none;
-                background: url('/images/sidebar_active_hover.png') no-repeat -20px -14px;
+                background: url('/images/sidebar_active_hover.png') no-repeat -20px -16px;
 
                 &:before {
                     width: 20px;
                     height: 40px;
                     display: block;
-                    background: url('/images/sidebar_active_hover.png') no-repeat 0px -14px;
+                    background: url('/images/sidebar_active_hover.png') no-repeat 0px -16px;
                     position: absolute;
                     top: 0px;
                     left: -20px;
