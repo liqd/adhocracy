@@ -43,7 +43,8 @@
         padding-bottom: 15px;
     }
     ul {
-        background: url('/images/sidebar_navi_gradient.jpg') no-repeat right top transparent;
+        background-color: lighten($button-color, 3%);
+        @include background-image(linear-gradient(top left, lighten($button-color, 14%), lighten($button-color, 3%)));
         list-style: none;
         margin: 0;
         padding: 10px 0;

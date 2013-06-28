@@ -1,7 +1,8 @@
 .pager_wrapper {
     .floatbox {
         padding: 5px 10px;
-        background: url("/images/gradient_form.jpg") repeat-y scroll left top #F3F3F3;
+        background-color: $bg1;
+        @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     }
     .filter_box {
         margin: 0;

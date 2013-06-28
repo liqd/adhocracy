@@ -1,5 +1,6 @@
 ul.comments_list, .comment_wrapper {
-    background: url('/images/gradient_comments.jpg') repeat-y top left #e5e6e8;
+    background-color: $bg1;
+    @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     margin: 0;
     list-style: none;
 }

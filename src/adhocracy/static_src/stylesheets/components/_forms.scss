@@ -13,7 +13,8 @@
 }
 
 form {
-    background: url("/images/gradient_form.jpg") repeat-y scroll left top #f3f3f3;
+    background-color: $bg1;
+    @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     padding: 30px;
 }
 

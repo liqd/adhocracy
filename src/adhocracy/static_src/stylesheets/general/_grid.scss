@@ -310,10 +310,20 @@
 
     /* Layout Properties | Layout-Eigenschaften */
     .page_margins { width: 1004px; background: transparent; }
-    #header { position:relative; padding: 0; color: #000; background: url('/images/gradient_header.jpg') repeat-x #000; }
+    #header {
+        position:relative;
+        padding: 0;
+        color: #000;
+        background-color: mix(#272727, #303030);
+        @include background-image(linear-gradient(top, #272727, #303030));
+    }
     #topnav { text-align: right; color: #fff; background: transparent; }
     #main { margin: 10px 0 60px; background: #fff; }
-    #footer { padding: 0px; background: url('/images/gradient_footer.jpg') repeat-x top left #e5e6e8; }
+    #footer {
+        padding: 0px;
+        background-color: $bg1;
+        @include background-image(linear-gradient(top, $bg1, $bg2));
+    }
 
 
     /*-------------------------------------------------------------------------*/
