@@ -533,7 +533,33 @@ class UserController(BaseController):
         pass  # managed by repoze.who
 
     def post_logout(self):
+        login_type = session.get('login_type', None)
         session.delete()
+        # Note: This flash message only works with adhocracy cookie sessions
+        # and not with beaker sessions due to the way session deletion is
+        # handled in beaker.
+        if login_type == 'shibboleth':
+            logout_url = config.get('adhocracy.shibboleth_logout_url', None)
+            if logout_url is None:
+                target_msg = u''
+            else:
+                target_msg = (u"You can finish that session <a href='%s'>here"
+                              u"</a>." % logout_url)
+            h.flash(_(
+                u"<p>You have successfully logged out of Adhocracy. However "
+                u"you might still be logged in at the central identity "
+                u"provider. %s</p>"
+                u""
+                u"<p>If you're on a public computer, please close your "
+                u"browser to complete the logout.</p>") % target_msg,
+                'warning')
+        elif login_type == 'openid':
+            h.flash(_(
+                u"You have successfully logged out of Adhocracy. However you "
+                u"might still be logged in through your OpenID provider. "),
+                'warning')
+        else:
+            h.flash(_(u"Successfully logged out"), 'success')
         redirect(h.base_url())
 
     @RequireInternalRequest(methods=['POST'])

@@ -2,6 +2,7 @@ from urllib import urlencode
 import formencode
 from pylons import request
 from pylons import response
+from pylons import session
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 from adhocracy import config
@@ -101,6 +102,7 @@ class ShibbolethController(BaseController):
         self._update_userbadges(user)
 
         login_user(user, request, response)
+        session['login_type'] = 'shibboleth'
 
         came_from = request.GET.get('came_from', target)
         qs = urlencode({'return': came_from})
