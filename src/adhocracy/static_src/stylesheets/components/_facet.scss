@@ -14,24 +14,38 @@
 
     li {
         > a.expand_arrow {
-            width: 11px;
-            height: 11px;
+            width: 1em;
             display: inline-block;
-            background: url("/images/arrow-right-11.png") no-repeat 0px top;
+            text-align: center;
 
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
             }
+
+            &:after {
+                display: inline-block;
+                width: 0;
+                height: 0;
+                border-left: 0.45em solid;
+                border-top: 0.45em solid transparent;
+                border-bottom: 0.45em solid transparent;
+                content: "";
+            }
         }
+
         > ul {
             display: none;
         }
 
         &.expanded {
-            > a.expand_arrow {
-                background: url("/images/arrow-down-11.png") no-repeat 0px top;
+            > a.expand_arrow:after {
+                border-top: 0.45em solid;
+                border-left: 0.45em solid transparent;
+                border-right: 0.45em solid transparent;
+                margin-bottom: -0.2em;
             }
+
             > ul {
                 display: block;
             }
