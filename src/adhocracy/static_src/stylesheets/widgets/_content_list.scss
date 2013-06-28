@@ -35,7 +35,8 @@
 li.content_box {
     padding: 10px 0 0 0;
     margin-bottom: 0;
-    background: url('/images/list_bg.png') right top no-repeat;
+    background-color: #fff;
+    @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
 
     h3, p, .meta {
         padding-right: 20px;
@@ -52,7 +53,8 @@ li.content_box {
 .content_box {
     padding: 20px 5px;
     margin-bottom: 20px;
-    background: url('/images/gradient_box_306.jpg') no-repeat bottom right;
+    background-color: #fff;
+    @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
 }
 
 .tile.text.history .title {
