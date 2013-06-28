@@ -39,6 +39,7 @@
 }
 
 .alert-danger,
+.alert-warning,
 .alert-error {
     background: hsl(hue($red), saturation($flash), lightness($flash));
 }
