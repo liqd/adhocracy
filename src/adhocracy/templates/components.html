@@ -39,7 +39,7 @@
     %for message in messages:
     <div class="alert alert-${message.category}">
         <a class="close only-js" data-dismiss="alert" href="#">x</a>
-        ${message}
+        ${message.message|n}
     </div>
     %endfor
 %endif
