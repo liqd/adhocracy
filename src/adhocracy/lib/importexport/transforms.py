@@ -73,7 +73,7 @@ class _Transform(object):
         return unicode(getattr(o, self._ID_KEY))
 
     def _compute_key_from_data(self, data):
-        return data[self._ID_KEY]
+        return data.get(self._ID_KEY)
 
     def export_all(self):
         return dict((self._compute_key(o), self._export(o))
