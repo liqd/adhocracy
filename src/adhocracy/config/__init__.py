@@ -10,10 +10,11 @@ DEFAULTS = {
     'adhocracy.hide_locallogin': False,
     'adhocracy.require_email': True,
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.use_feedback_instance': False,
 }
 
 
-def get_value(key, converter, default=None):
+def get_value(key, converter, default=None, config=config):
 
     value = config.get(key)
 
@@ -29,17 +30,17 @@ def get_value(key, converter, default=None):
         return converter(value)
 
 
-def get_bool(key, default=None):
+def get_bool(key, default=None, config=config):
     return get_value(key, asbool, default)
 
 
-def get_int(key, default=None):
+def get_int(key, default=None, config=config):
     return get_value(key, asint, default)
 
 
-def get_list(key, default=None):
+def get_list(key, default=None, config=config):
     return get_value(key, aslist, default)
 
 
-def get(key, default=None):
+def get(key, default=None, config=config):
     return get_value(key, None, default)

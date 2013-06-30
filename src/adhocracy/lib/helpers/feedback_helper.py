@@ -1,11 +1,11 @@
-from pylons import config
 from paste.deploy.converters import asbool
+from adhocracy import config
 from adhocracy import model
 from adhocracy.lib.helpers import site_helper as _site
 
 
 def is_configured():
-    configured = asbool(config.get('adhocracy.use_feedback_instance'))
+    configured = config.get_bool('adhocracy.use_feedback_instance')
     available = get_feedback_instance() is not None
     return configured and available
 
