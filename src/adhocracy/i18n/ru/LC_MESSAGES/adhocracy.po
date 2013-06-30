@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-03 16:45+0200\n"
-"PO-Revision-Date: 2013-06-03 14:46+0000\n"
+"POT-Creation-Date: 2013-07-01 01:54+0200\n"
+"PO-Revision-Date: 2013-06-30 23:54+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,10 @@ msgid "Please insert a template for the mail we will send to the users."
 msgstr ""
 
 msgid "Solr index updated."
+msgstr ""
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
 msgstr ""
 
 msgid ""
@@ -100,6 +104,9 @@ msgstr "нет доступа к делегированию %(id)s"
 msgid "The delegation is now revoked."
 msgstr "делегирование отозвано"
 
+msgid "The system is currently down for maintenance. Please check back soon!"
+msgstr ""
+
 #, python-format
 msgid "Error %s"
 msgstr "ошибка %s"
@@ -112,7 +119,7 @@ msgstr "Новости %s"
 msgid "News from %s"
 msgstr "Новости от %s"
 
-msgid "The changes where saved."
+msgid "The changes were saved."
 msgstr ""
 
 msgid "No update required."
@@ -208,6 +215,9 @@ msgid "Email isn't activated"
 msgstr ""
 
 msgid "Not permitted in system settings"
+msgstr ""
+
+msgid "adhocracy.registration_support_email not set"
 msgstr ""
 
 #, python-format
@@ -424,6 +434,10 @@ msgstr ""
 msgid "This URL shouldn't be called directly"
 msgstr ""
 
+#, python-format
+msgid "User %s has been undeleted"
+msgstr ""
+
 msgid "Page does already exist. Select another key or language."
 msgstr ""
 
@@ -539,6 +553,25 @@ msgid "Invalid user name or password"
 msgstr "Недействительное имя пользователя или пароль. "
 
 msgid "Invalid email or password"
+msgstr ""
+
+#, python-format
+msgid "You can finish that session <a href='%s'>here</a>."
+msgstr ""
+
+#, python-format
+msgid ""
+"<p>You have successfully logged out of Adhocracy. However you might still be"
+" logged in at the central identity provider. %s</p><p>If you're on a public "
+"computer, please close your browser to complete the logout.</p>"
+msgstr ""
+
+msgid ""
+"You have successfully logged out of Adhocracy. However you might still be "
+"logged in through your OpenID provider. "
+msgstr ""
+
+msgid "Successfully logged out"
 msgstr ""
 
 msgid "Please use a valid email address."
@@ -883,19 +916,48 @@ msgstr ""
 msgid "Dear"
 msgstr ""
 
-msgid "activity"
-msgstr "активность"
+msgid "Oldest"
+msgstr "Старые"
 
-msgid "newest comment"
-msgstr "новейшие коментарии"
+msgid "Newest"
+msgstr "Новые"
 
-msgid "most support"
-msgstr "самые поддерживаемые"
+msgid "Activity"
+msgstr "Активность"
 
-msgid "mixed"
-msgstr "разное"
+msgid "Alphabetically"
+msgstr "По алфавиту"
 
-msgid "controversy"
+msgid "Newest Comment"
+msgstr "Последние комментарии"
+
+msgid "Most Support"
+msgstr "Самые поддерживаемые"
+
+msgid "Mixed"
+msgstr "Смешано"
+
+msgid "Controversy"
+msgstr ""
+
+msgid "Sort by proposal creation date"
+msgstr ""
+
+msgid "Sort by date of the last comment"
+msgstr ""
+
+msgid "Sort by number of votes for the proposal"
+msgstr ""
+
+msgid ""
+"Sort by the difference between number of votes for and against, and prefer "
+"newer proposals"
+msgstr ""
+
+msgid "Prefer proposals where the gap between votes for and against is close"
+msgstr ""
+
+msgid "Sort by the characters of the proposal title"
 msgstr ""
 
 msgid "by date"
@@ -906,6 +968,9 @@ msgstr ""
 
 msgid "hierarchical"
 msgstr ""
+
+msgid "activity"
+msgstr "активность"
 
 msgid "Badge"
 msgstr "Ярлык"
@@ -928,24 +993,6 @@ msgstr "теги"
 msgid "Milestones"
 msgstr "Сроки"
 
-msgid "Oldest"
-msgstr "Старые"
-
-msgid "Newest"
-msgstr "Новые"
-
-msgid "Newest Comment"
-msgstr "Последние комментарии"
-
-msgid "Activity"
-msgstr "Активность"
-
-msgid "Alphabetically"
-msgstr "По алфавиту"
-
-msgid "Most Support"
-msgstr "Самые поддерживаемые"
-
 msgid "Yays - nays"
 msgstr ""
 
@@ -961,13 +1008,7 @@ msgstr ""
 msgid "Most Nays"
 msgstr ""
 
-msgid "Mixed"
-msgstr "Смешано"
-
 msgid "Age and Support"
-msgstr ""
-
-msgid "Controversy"
 msgstr ""
 
 msgid "Rating"
@@ -1366,6 +1407,10 @@ msgstr "(Без названия)"
 msgid "Status Quo"
 msgstr "Статус-кво"
 
+#, python-format
+msgid "The random username %s has been assigned to you."
+msgstr ""
+
 msgid "formatting hints"
 msgstr "форматирование подсказки"
 
@@ -1407,6 +1452,12 @@ msgstr "Следует "
 
 msgid "Unfollow"
 msgstr "Не следует "
+
+msgid "Disable email notifications."
+msgstr ""
+
+msgid "Receive email notifications if changes occur."
+msgstr ""
 
 msgid "Send us your feedback"
 msgstr "Отправить отзыв"
@@ -1639,9 +1690,6 @@ msgstr ""
 msgid "Shortlink"
 msgstr "Короткая ссылка"
 
-msgid "Edit this page"
-msgstr ""
-
 msgid "Report abuse"
 msgstr "Сообщить о злоупотреблении. "
 
@@ -1678,17 +1726,29 @@ msgstr ""
 msgid "Include comments"
 msgstr ""
 
-msgid "Export format:"
+msgid "Export request log"
 msgstr ""
 
-msgid "JSON download"
+msgid "Export static pages"
+msgstr ""
+
+msgid "Export format:"
 msgstr ""
 
 msgid "JSON"
 msgstr ""
 
-msgid "ZIP download"
-msgstr "Скачать ZIP"
+msgid "JSON file"
+msgstr ""
+
+msgid "JSON file, compressed with gzip"
+msgstr ""
+
+msgid "Tar file, compressed with bz2"
+msgstr ""
+
+msgid "Zip file"
+msgstr ""
 
 msgid "Export Now"
 msgstr "НАЧАТЬ ЭКСПОРТ"
@@ -1706,6 +1766,9 @@ msgid "Import badges"
 msgstr "Импорт ярлыков"
 
 msgid "Import content (instances)"
+msgstr ""
+
+msgid "Import static pages"
 msgstr ""
 
 msgid "Replacement strategy"
@@ -1757,6 +1820,9 @@ msgstr "Импортировать список пользователей"
 
 msgid "Update Search Index"
 msgstr "Проиндексировать"
+
+msgid "Fix autojoin"
+msgstr ""
 
 msgid "Static Pages"
 msgstr ""
@@ -2411,6 +2477,9 @@ msgstr "Разрешить пользователям предлагать до�
 msgid "Require to propose a variant"
 msgstr "Требовать предложения варианта."
 
+msgid "Show norms navigation item"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Использовать сроки"
 
@@ -2735,6 +2804,9 @@ msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
 msgstr "Введите URL вашего OpenID, чтобы соедить ID со своим аккаунтом.С этого момента Вы сможете входить в систему, используя OpenID"
+
+msgid "Sign In"
+msgstr ""
 
 msgid "Alternative"
 msgstr "Альтернативно"
@@ -3361,7 +3433,16 @@ msgstr ""
 msgid "Please complete the Shibboleth based user registration"
 msgstr ""
 
-msgid "Email:"
+msgid "Username"
+msgstr ""
+
+msgid "Display name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "optional"
 msgstr ""
 
 #, python-format
@@ -3398,6 +3479,9 @@ msgstr ""
 msgid "Add static page"
 msgstr ""
 
+msgid "Edit this page"
+msgstr ""
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Теги являются ключевыми словами для нахождения, сортировки и фильтрации предложений и документов. "
@@ -3418,8 +3502,8 @@ msgstr "относится к тегу"
 msgid "Not tagged yet"
 msgstr "еще нет тегов"
 
-msgid "add tags..."
-msgstr "Добавить теги"
+msgid "add tags"
+msgstr ""
 
 msgid "Multiple tags can be separated by commas or spaces."
 msgstr "Несколько тегов могут быть разделены запятыми или пробелами. "
@@ -3672,10 +3756,7 @@ msgstr "не подтверждено"
 msgid "Re-send activation link"
 msgstr "Переслать ccылку активации"
 
-msgid "Receive occasional news from instance administrators."
-msgstr ""
-
-msgid "Receive news service"
+msgid "Receive occasional news from instance administrators:"
 msgstr ""
 
 msgid "OpenID"
@@ -3701,17 +3782,11 @@ msgstr "Биография позволит другим пользовател�
 msgid "Advanced Settings"
 msgstr "Дополнительные настройки"
 
-msgid "The pre-set number of entries in listing pages."
-msgstr "Заранее установленное число сообщений в страницах-списках. "
+msgid "The pre-set number of entries in listing pages:"
+msgstr ""
 
-msgid "List size:"
-msgstr "Размер списков. "
-
-msgid "Disable help messages and links to the documentation."
-msgstr "Отключить подсказки, помощь и ссылки на документацию. "
-
-msgid "Hide help messages:"
-msgstr "Скрыть помощь:"
+msgid "Disable help messages and links to the documentation:"
+msgstr ""
 
 msgid "Change default sorting order for proposals:"
 msgstr ""
@@ -3744,6 +3819,12 @@ msgstr ""
 
 msgid "Login:"
 msgstr "Логин:"
+
+msgid "Email:"
+msgstr ""
+
+msgid "Login via Shibboleth"
+msgstr ""
 
 msgid "Forgot your password?"
 msgstr ""
@@ -3785,6 +3866,9 @@ msgstr "Если у Вас есть учетная запись, но Вы по�
 
 msgid "Can only contain letters and numbers."
 msgstr "Может содержать только буквы и цифры."
+
+msgid "You can choose which name other users see."
+msgstr ""
 
 msgid "E-mail"
 msgstr "Е-маил"
@@ -3838,6 +3922,12 @@ msgid ""
 "You have recieved an email containing a link. Please open that link in order"
 " to reset you password"
 msgstr "Вы получили письмо, содержащее ссылку. Пожалуйста откройте ссылку чтобы поменять пароль. "
+
+msgid "User settings"
+msgstr ""
+
+msgid "Prefered user interface language"
+msgstr ""
 
 #, python-format
 msgid "Signed up %s"
