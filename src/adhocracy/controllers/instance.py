@@ -27,7 +27,7 @@ from adhocracy.lib.util import get_entity_or_abort
 
 
 log = logging.getLogger(__name__)
-INSTANCE_UPDATED_MSG = L_('The changes where saved.')
+INSTANCE_UPDATED_MSG = L_('The changes were saved.')
 NO_UPDATE_REQUIRED = L_('No update required.')
 
 
