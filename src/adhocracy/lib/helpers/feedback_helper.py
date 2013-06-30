@@ -19,6 +19,8 @@ def get_feedback_instance():
 
 
 def get_categories():
+    if not config.get_bool('adhocracy.feedback_use_categories'):
+        return []
     feedback_instance = get_feedback_instance()
     return model.CategoryBadge.all(feedback_instance, include_global=False)
 

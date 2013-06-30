@@ -403,6 +403,9 @@ adhocracy.static_index_path = index
 # Check whether feedback instance exists before rendering a feedback button
 # adhocracy.feedback_check_instance = False
 
+# Load feedback categories for the feedback form
+# adhocracy.feedback_use_categories = False
+
 
 # Logging configuration
 [loggers]

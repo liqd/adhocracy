@@ -12,6 +12,7 @@ DEFAULTS = {
     'adhocracy.require_email': True,
     'adhocracy.set_display_name_on_register': False,
     'adhocracy.use_feedback_instance': False,
+    'adhocracy.feedback_use_categories': True,
 }
 
 
