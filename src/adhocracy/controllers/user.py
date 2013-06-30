@@ -543,8 +543,8 @@ class UserController(BaseController):
             if logout_url is None:
                 target_msg = u''
             else:
-                target_msg = (u"You can finish that session <a href='%s'>here"
-                              u"</a>." % logout_url)
+                target_msg = (_(u"You can finish that session <a href='%s'>"
+                                u"here</a>.") % logout_url)
             h.flash(_(
                 u"<p>You have successfully logged out of Adhocracy. However "
                 u"you might still be logged in at the central identity "
