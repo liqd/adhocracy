@@ -34,7 +34,7 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     object will be created.
 
     If instance isn't defined, the current instance is assumed. Otherwise,
-    either an instance instance or None has to be passed.
+    either an instance, an instance key, or None has to be passed.
 
     If absolute is True, an absolute URL including the protocol part is
     returned. Otherwise this is avoided, if relative_urls is set to True.
@@ -49,6 +49,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
         if instance is None:
             prefix = ''
+        elif isinstance(instance, (str, unicode)):
+            prefix = '/i/' + instance
         else:
             prefix = '/i/' + instance.key
 
@@ -68,6 +70,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
         if instance is None or g.single_instance:
             subdomain = ''
+        elif isinstance(instance, (str, unicode)):
+            subdomain = '%s.' % instance
         else:
             subdomain = '%s.' % instance.key
 

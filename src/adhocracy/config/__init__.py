@@ -13,6 +13,7 @@ DEFAULTS = {
     'adhocracy.set_display_name_on_register': False,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.feedback_use_categories': True,
+    'adhocracy.feedback_instance_key': u'feedback',
 }
 
 

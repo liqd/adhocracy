@@ -14,8 +14,7 @@ def is_configured():
 
 
 def get_feedback_instance():
-    return model.Instance.find(config.get('adhocracy.feedback_instance_key',
-                                          u'feedback'))
+    return model.Instance.find(config.get('adhocracy.feedback_instance_key'))
 
 
 def get_categories():
@@ -26,4 +25,5 @@ def get_categories():
 
 
 def get_proposal_url():
-    return _site.base_url(u'/proposal', get_feedback_instance())
+    return _site.base_url(u'/proposal',
+                          config.get('adhocracy.feedback_instance_key'))
