@@ -8,6 +8,8 @@ def is_configured():
     configured = config.get_bool('adhocracy.use_feedback_instance')
     if not configured:
         return False
+    if not config.get_bool('adhocracy.feedback_check_instance'):
+        return True
     return get_feedback_instance() is not None
 
 

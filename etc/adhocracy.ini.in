@@ -398,6 +398,12 @@ adhocracy.static_index_path = index
 # Show Facebook / Twitter / G+ buttons
 # adhocracy.show_social_buttons = False
 
+## Performance options
+
+# Check whether feedback instance exists before rendering a feedback button
+# adhocracy.feedback_check_instance = False
+
+
 # Logging configuration
 [loggers]
 keys = root, adhocracy, sqlalchemy
