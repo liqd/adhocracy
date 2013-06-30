@@ -450,10 +450,10 @@ class InstanceController(BaseController):
         '''
         if updated:
             event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-            message = message if message else INSTANCE_UPDATED_MSG
+            message = message if message else unicode(INSTANCE_UPDATED_MSG)
             category = 'success'
         else:
-            message = message if message else NO_UPDATE_REQUIRED
+            message = message if message else unicode(NO_UPDATE_REQUIRED)
             category = 'notice'
         h.flash(message, category=category)
         response.status_int = 303
