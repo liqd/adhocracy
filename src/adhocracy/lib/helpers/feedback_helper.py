@@ -6,8 +6,9 @@ from adhocracy.lib.helpers import site_helper as _site
 
 def is_configured():
     configured = config.get_bool('adhocracy.use_feedback_instance')
-    available = get_feedback_instance() is not None
-    return configured and available
+    if not configured:
+        return False
+    return get_feedback_instance() is not None
 
 
 def get_feedback_instance():
