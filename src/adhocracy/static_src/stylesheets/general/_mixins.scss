@@ -23,6 +23,9 @@
     display: inline-block;
     text-align: center;
     cursor: pointer;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: none;
     &:hover {
         text-decoration: none;
     }
@@ -30,7 +33,6 @@
 
 @mixin button($color) {
     @include button-base;
-    height: 35px;
     line-height: 35px;
     font-weight: bold;
     padding: 0 15px;
@@ -41,7 +43,6 @@
 
 @mixin button-small($color1, $color2) {
     @include button-base;
-    height: 14px;
     line-height: 14px;
     @include border-radius(7px);
     padding: 0 10px;
@@ -67,7 +68,6 @@
 
 @mixin button-round {
     @include button-base;
-    height: 26px;
     line-height: 26px;
     font-size: 14px;
     @include border-radius(13px);

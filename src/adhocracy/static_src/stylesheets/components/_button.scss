@@ -7,21 +7,10 @@ a.button {
     .register & {
         @include button-background($register-color);
         color: #fff;
-        width: 150px;
-        height: 27px;
         line-height: 27px;
         float: left;
         margin-right: 15px;
 
-        &.large {
-            color: #fff;
-            /* hack: width is normally 240px, but then right-arrow is too far right */
-            width: 220px;
-            height: 27px;
-            line-height: 27px;
-            float: left;
-            margin-right: 15px;
-        }
         &:after {
             background: url('/images/sprite.png') no-repeat 0 -13*50px;
             content: "";
@@ -74,7 +63,6 @@ a.show_comments:hover, a.new_comment:hover, a.participate {
 
 /* follow button */
 a.follow_paper, div.skip_follow {
-    height: 26px;
     line-height: 26px;
     @include border-radius(13px);
     overflow: hidden;
@@ -91,10 +79,6 @@ a.follow_paper {
 
     &:hover {
         text-decoration: none;
-    }
-
-    .sidebar_box & {
-        margin-top: 20px;
     }
 
     // icon
