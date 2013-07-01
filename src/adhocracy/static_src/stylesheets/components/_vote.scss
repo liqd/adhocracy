@@ -17,9 +17,11 @@
     display: inline-block;
     font-weight: bold;
     font-size: 11px;
+    vertical-align: middle;
 }
 .vote_count, .vote_up, .vote_down {
     display: inline-block;
+    vertical-align: top;
 }
 .vote_count {
     color: #fff;
@@ -36,6 +38,7 @@
         @include vote-background($green);
     }
 }
+
 .vote_up, .vote_down {
     border-left: 1px solid $border;
     padding: 0 10px;
@@ -89,15 +92,11 @@
     height: 26px;
     line-height: 26px;
     @include border-radius(13px);
-    overflow: hidden;
-    display: inline-block;
-    margin: 0 0 20px;
     font-weight: bold;
     font-size: 14px;
 
     .vote_count {
         padding: 0 10px;
-
     }
     .vote_up, .vote_down {
         padding: 0 15px;
