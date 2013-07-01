@@ -41,16 +41,10 @@ li {
 }
 
 hr {
-    margin: 20px 0;
-    border: 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #fff;
-}
-.hr {
-    border-top: 1px dotted $border;
     margin-bottom: 20px;
+    border: 0;
+    border-top: 1px dotted $border;
 }
-.hr hr { display: none; }
 
 
 /* table */
