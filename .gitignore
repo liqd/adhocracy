@@ -24,7 +24,7 @@ parts
 bin
 local
 /src/*_theme
-/lib/
+/lib
 lib64
 eggs
 develop-eggs
