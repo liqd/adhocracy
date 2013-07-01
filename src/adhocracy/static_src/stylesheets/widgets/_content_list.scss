@@ -38,10 +38,12 @@ li.content_box {
     background-color: #fff;
     @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
 
+    border-bottom: 1px dotted $border;
+
     h3, p, .meta {
         padding-right: 20px;
     }
-    .hr {
+    hr {
         margin-bottom: 0;
     }
     .base {
