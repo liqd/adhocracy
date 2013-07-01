@@ -7,13 +7,21 @@ from pylons import config
 DEFAULTS = {
     'adhocracy.enable_gender': False,
     'adhocracy.feedback_check_instance': True,
+    'adhocracy.feedback_instance_key': u'feedback',
+    'adhocracy.feedback_use_categories': True,
     'adhocracy.force_randomized_user_names': False,
     'adhocracy.hide_locallogin': False,
+    'adhocracy.number_instance_overview_milestones': 3,
+    'adhocracy.protocol': u'http',
+    'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.show_instance_overview_events': True,
+    'adhocracy.show_instance_overview_milestones': True,
+    'adhocracy.show_instance_overview_proposals_new': True,
+    'adhocracy.show_instance_overview_proposals_all': False,
+    'adhocracy.show_instance_overview_stats': True,
     'adhocracy.use_feedback_instance': False,
-    'adhocracy.feedback_use_categories': True,
-    'adhocracy.feedback_instance_key': u'feedback',
 }
 
 

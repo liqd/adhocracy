@@ -6,13 +6,12 @@ import formencode
 from formencode import htmlfill
 from formencode import validators
 
-from paste.deploy.converters import asbool, asint
-
-from pylons import request, response, tmpl_context as c, config
+from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
 
+from adhocracy import config
 from adhocracy import forms, i18n, model
 from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
@@ -179,10 +178,10 @@ class InstanceController(BaseController):
     def new(self):
 
         data = {}
-        protocol = config.get('adhocracy.protocol', 'http').strip()
+        protocol = config.get('adhocracy.protocol').strip()
         domain = config.get('adhocracy.domain').strip()
 
-        if asbool(config.get('adhocracy.relative_urls', 'false')):
+        if config.get_bool('adhocracy.relative_urls'):
             data['url_pre'] = '%s://%s/i/' % (protocol, domain)
             data['url_post'] = ''
             data['url_right_align'] = False
@@ -227,11 +226,11 @@ class InstanceController(BaseController):
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
 
-        if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
-                and c.page_instance.milestones:
+        if config.get_bool('adhocracy.show_instance_overview_milestones')\
+           and c.page_instance.milestones:
 
-            number = asint(config.get(
-                'adhocracy.number_instance_overview_milestones', 3))
+            number = config.get_int(
+                'adhocracy.number_instance_overview_milestones')
 
             milestones = model.Milestone.all_future_q(
                 instance=c.page_instance).limit(number).all()
@@ -241,8 +240,7 @@ class InstanceController(BaseController):
                 enable_pages=False, default_sort=sorting.milestone_time)
 
         c.events_pager = None
-        if asbool(config.get('adhocracy.show_instance_overview_events',
-                             'true')):
+        if config.get_bool('adhocracy.show_instance_overview_events'):
             events = model.Event.find_by_instance(c.page_instance, limit=3)
             c.events_pager = pager.events(events,
                                           enable_pages=False,
@@ -250,8 +248,8 @@ class InstanceController(BaseController):
 
         proposals = model.Proposal.all(instance=c.page_instance)
 
-        show_new_proposals = asbool(config.get(
-            'adhocracy.show_instance_overview_proposals_new', 'true'))
+        show_new_proposals = config.get_bool(
+            'adhocracy.show_instance_overview_proposals_new')
         c.new_proposals_pager = None
         if show_new_proposals:
             c.new_proposals_pager = pager.proposals(
@@ -259,14 +257,12 @@ class InstanceController(BaseController):
                 enable_pages=False, default_sort=sorting.entity_newest)
 
         c.all_proposals_pager = None
-        if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
-                             'false')):
+        if config.get_bool('adhocracy.show_instance_overview_proposals_all'):
             c.all_proposals_pager = pager.proposals(proposals, size=100,
                                                     initial_size=100)
 
         c.stats = None
-        if asbool(config.get('adhocracy.show_instance_overview_stats',
-                             'true')):
+        if config.get_bool('adhocracy.show_instance_overview_stats'):
             c.stats = {
                 'comments': model.Comment.all_q().count(),
                 'proposals': model.Proposal.all_q(
