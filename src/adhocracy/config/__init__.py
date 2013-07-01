@@ -11,6 +11,8 @@ DEFAULTS = {
     'adhocracy.feedback_use_categories': True,
     'adhocracy.force_randomized_user_names': False,
     'adhocracy.hide_locallogin': False,
+    'adhocracy.instance_key_length_max': 20,
+    'adhocracy.instance_key_length_min': 4,
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.protocol': u'http',
     'adhocracy.relative_urls': False,

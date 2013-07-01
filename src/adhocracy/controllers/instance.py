@@ -81,8 +81,11 @@ class InstanceBadgesForm(formencode.Schema):
 
 class InstanceCreateForm(formencode.Schema):
     allow_extra_fields = True
-    key = formencode.All(validators.String(min=4, max=20),
-                         forms.UniqueInstanceKey())
+    key = formencode.All(
+        validators.String(
+            min=config.get_int('adhocracy.instance_key_length_min'),
+            max=config.get_int('adhocracy.instance_key_length_max')),
+        forms.UniqueInstanceKey())
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
 
