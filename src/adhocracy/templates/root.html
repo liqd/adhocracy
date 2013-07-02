@@ -19,6 +19,9 @@
     data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
     data-stats-interval="${c.monitor_page_time_interval}"
+    %if c.monitor_browser_values:
+    data-stats-browser-values="${c.monitor_browser_values}"
+    %endif
     %if c.monitor_extended:
     data-stats-extended="${c.monitor_extended}"
     %endif

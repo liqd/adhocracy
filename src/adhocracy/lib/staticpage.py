@@ -2,12 +2,14 @@ import logging
 import os.path
 import re
 
-from lxml.html import parse, tostring
 import adhocracy.model
 from adhocracy import i18n
 from adhocracy.lib import util
 from adhocracy.lib.auth.authorization import has
+from adhocracy.lib.outgoing_link import rewrite_urls
 
+
+from lxml.html import parse, tostring
 from pylons import tmpl_context as c, config
 
 log = logging.getLogger(__name__)
@@ -105,6 +107,10 @@ def can_edit():
     return has('global.staticpage')
 
 
+def render_body(body):
+    return rewrite_urls(body)
+
+
 def get_static_page(key, language=None):
     backend = get_backend()
     if language is None:
@@ -114,3 +120,18 @@ def get_static_page(key, language=None):
                 return page
         return None
     return backend.get(key, lang)
+
+
+def add_static_content(data, config_key, title_key=u'title',
+                       body_key=u'body'):
+
+    static_path = config.get(config_key)
+    if static_path is not None:
+        page = get_static_page(static_path)
+        if page is None:
+            data[title_key] = data[body_key] = None
+        else:
+            data[title_key] = page.title
+            data[body_key] = render_body(page.body)
+    else:
+        data[title_key] = data[body_key] = None

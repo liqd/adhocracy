@@ -1843,13 +1843,13 @@ dl.votedetail>dd {margin: 0; padding: 0;}
 
 .importexport_settings {margin-left: 30px;}
 
-form[name="login"] input[type="text"],
-form[name="login"] input[type="email"],
-form[name="login"] input[type="password"] {
+.login_form input[type="text"],
+.login_form input[type="email"],
+.login_form input[type="password"] {
   display: block;
   width: 206px;
 }
-form[name="login"] input[type="password"] {
+.login_form input[type="password"] {
   margin-bottom: 0;
 }
 .password-reset-link {
@@ -1872,17 +1872,17 @@ form.inline-form {
   display: inline-block;
 }
 
-form[name="login"].login-alternate input[type="email"],
-form[name="login"].login-alternate input[type="text"] {
+.login_form.login-alternate input[type="email"],
+.login_form.login-alternate input[type="text"] {
   display: inline;
 }
-form[name="login"].login-alternate label {
+.login_form.login-alternate label {
   margin-left: 20px;
   margin-top: 10px;
 }
-form[name="login"].login-alternate label>span {
+.login_form.login-alternate label>span {
   vertical-align: text-top;
 }
-form[name="login"].login-alternate input[type="password"] {
+.login_form.login-alternate input[type="password"] {
   display: block; margin-bottom: 10px; margin-left: 40px;
 }

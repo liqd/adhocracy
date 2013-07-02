@@ -59,17 +59,34 @@
             </div>
         </div>
     </div>
+    <div>
+        <label>
+            <input type="checkbox" name="include_requestlog" />
+            ${_("Export request log")}
+        </label>
+    </div>
 
     <div>
         ${_("Export format:")}
         <label>
-            <input type="radio" name="format" value="json_download" checked="checked" />${_('JSON download')}
+            <input type="radio" name="format" value="json" checked="checked" />
+            ${_('JSON')}
         </label>
         <label>
-            <input type="radio" name="format" value="json" />${_('JSON')}
+            <input type="radio" name="format" value="json_download" />
+            ${_('JSON file')}
         </label>
         <label>
-            <input type="radio" name="format" value="zip" />${_('ZIP download')}
+            <input type="radio" name="format" value="json_gzip" />
+            ${_('JSON file, compressed with gzip')}
+        </label>
+        <label>
+            <input type="radio" name="format" value="tar_bz2" />
+            ${_('Tar file, compressed with bz2')}
+        </label>
+        <label>
+            <input type="radio" name="format" value="zip" />
+            ${_('Zip file')}
         </label>
     </div>
 

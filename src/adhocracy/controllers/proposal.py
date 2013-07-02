@@ -286,7 +286,10 @@ class ProposalController(BaseController):
         force_defaults = False
         if errors:
             force_defaults = True
-        defaults = dict(request.params)
+        defaults = dict(request.POST)
+        if not defaults:
+            # Just clicked on edit
+            defaults['watch'] = h.find_watch(c.proposal) is not None
         defaults.update({"category": c.category.id if c.category else None})
         return htmlfill.render(render("/proposal/edit.html"),
                                defaults=defaults,

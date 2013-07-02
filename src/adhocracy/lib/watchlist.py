@@ -15,7 +15,7 @@ def find_watch(entity):
 
 
 def make_watch(entity):
-    return urllib.urlencode({'ref': refs.to_url(entity)})
+    return refs.to_url(entity)
 
 
 def check_watch(entity):

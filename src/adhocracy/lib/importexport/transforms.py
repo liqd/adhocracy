@@ -1,10 +1,6 @@
 
-import babel.core
 import datetime
-import hashlib
-import os
 import re
-import time
 
 from adhocracy import model
 
@@ -69,8 +65,8 @@ class _Transform(object):
         if res is not None:
             key_val = getattr(res, self._ID_KEY)
             assert key_val == k, (
-                   u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
-                   (self._model_class.__name__, self._ID_KEY, k, key_val))
+                u'Unexpected value for %s.find_by_%s: expected %r, got %r' %
+                (self._model_class.__name__, self._ID_KEY, k, key_val))
         return res
 
     def _compute_key(self, o):
@@ -121,7 +117,7 @@ class BadgeTransform(_Transform):
             return model.UserBadge.create(
                 title=data['title'],
                 color=data.get('color', u''),
-                visible=data['visible'],
+                visible=data.get('visible', False),
                 description=data.get('description', u''))
         else:
             raise NotImplementedError()
@@ -129,7 +125,7 @@ class BadgeTransform(_Transform):
     def _modify(self, obj, data):
         obj.title = data['title']
         _set_optional(obj, data, 'color')
-        obj.visible = data['visible']
+        _set_optional(obj, data, 'visible')
         _set_optional(obj, data, 'description')
 
     def _export(self, obj):
@@ -190,7 +186,7 @@ class UserTransform(_Transform):
             if 'badges' in data:
                 old_badges = o.badges
                 new_badges = map(self._badge_transform._get_by_key,
-                                      data['badges'])
+                                 data['badges'])
                 for b in new_badges:
                     if b not in old_badges:
                         b.assign(o, o)
@@ -409,11 +405,26 @@ class CommentTransform(_ExportOnlyTransform):
         return res
 
 
+class RequestLogTransform(_ExportOnlyTransform):
+    _ID_KEY = 'id'
+
+    def __init__(self, options):
+        super(RequestLogTransform, self).__init__(options)
+        self.logs = model.RequestLog.all()
+
+    def _export(self, obj):
+        res = obj.to_dict()
+        res['access_time'] = encode_time(res['access_time'])
+        return res
+
+
 def gen_all(options):
     badge_transform = BadgeTransform(options)
     user_transform = UserTransform(options, badge_transform)
     instance_transform = InstanceTransform(options, user_transform)
-    return [badge_transform, user_transform, instance_transform]
+    requestlog_transform = RequestLogTransform(options)
+    return [badge_transform, user_transform, instance_transform,
+            requestlog_transform]
 
 
 def gen_active(options):

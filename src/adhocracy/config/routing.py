@@ -397,6 +397,9 @@ def make_map(config):
                 conditions=dict(method=['POST']))
     map.connect('/static/{key}.{format}', controller='static',
                 action='serve')
+    map.connect('/outgoing_link/{url_enc}', controller='redirect',
+                action='outgoing_link',
+                conditions=dict(method=['GET', 'HEAD']))
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

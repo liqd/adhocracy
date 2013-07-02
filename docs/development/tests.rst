@@ -37,4 +37,4 @@ Run one test file
 
 ::
 
-  (adhocracy)$ bin/py.test -k test_comment
+  (adhocracy)$ bin/test -k test_comment

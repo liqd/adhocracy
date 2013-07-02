@@ -93,7 +93,7 @@ class OpenidauthController(BaseController):
         event.emit(event.T_USER_CREATE, user)
         return user
 
-    def _login(self, user):
+    def _login(self, user, register=False):
         """
         log the user in and redirect him to a sane place.
         """
@@ -101,7 +101,10 @@ class OpenidauthController(BaseController):
         if c.instance and not user.is_member(c.instance):
             redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
                                                           h.url_token())))
-        redirect("/")
+        if register:
+            redirect(h.user.post_register_url(user))
+        else:
+            redirect(h.user.post_login_url(user))
 
     def _failure(self, openid, message):
         """
@@ -113,10 +116,13 @@ class OpenidauthController(BaseController):
             h.flash(message, 'error')
             return redirect(h.entity_url(c.user, member='edit'))
         else:
-            loginhtml = render("/user/login.html")
-            return formencode.htmlfill.render(loginhtml,
+            loginhtml = render("/user/login_tile.html")
+            form = formencode.htmlfill.render(loginhtml,
                                               defaults={'openid': openid},
                                               errors={'openid': message})
+            return render('/user/login.html', {'login_form_code': form})
+
+
 
     def __before__(self):
         self.openid_session = session.get("openid_session", {})
@@ -302,7 +308,7 @@ class OpenidauthController(BaseController):
                 user = self._create(user_name, email, info.identity_url)
                 h.flash(_("Successfully created new user account %s" %
                           user_name), 'success')
-                self._login(user)
+                self._login(user, register=True)
 
     @validate(schema=OpenIDUsernameForm(), form="username", post_only=True)
     def username(self):
@@ -321,7 +327,7 @@ class OpenidauthController(BaseController):
                 if c.user_name:
                     user = self._create(c.user_name, email, openid)
                     del session['openid_req']
-                    self._login(user)
+                    self._login(user, register=True)
             else:
                 c.user_name = c.openid_username
             return render('/openid/username.html')

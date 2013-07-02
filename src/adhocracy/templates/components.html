@@ -110,13 +110,15 @@
         css_cls = "active"
         text = _('Following')
         hover_text = _('Unfollow')
-        href = h.base_url('/watch/delete?watch=%s&amp;%s' % (watch.id,
-                                                             h.url_token()))
+        tooltip = _('Disable email notifications.')
+        href = h.base_url('/watch/delete?%s' % h.url_token(),
+                          query_params={'watch': str(watch.id)})
     elif not watch and can.watch.create():
         css_cls = ""
         text = hover_text = follow_text
-        href = h.base_url('/watch/create?%s&amp;%s' % (h.make_watch(entity),
-                                                       h.url_token()))
+        tooltip = _('Receive email notifications if changes occur.')
+        href = h.base_url('/watch/create?%s' % h.url_token(),
+                          query_params={'ref': str(h.make_watch(entity))})
     else:
         skip = True
     %>
@@ -130,7 +132,8 @@
     </div>
     %else:
     <a ${id_attr} class="follow_paper ${css_cls}" href="${href}"
-       data-text="${text}" data-hover-text="${hover_text}">${text}</a>
+       data-text="${text}" data-hover-text="${hover_text}"
+       title="${tooltip}">${text}</a>
     %endif
 
     %else:
@@ -167,6 +170,7 @@
 
 
 <%def name="social_share_buttons(entity)">
+%if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()
@@ -179,7 +183,7 @@ $(document).ready(function () {
     '${base_url}', '.${h.site.domain()}');
 });
 </script>
-
+%endif
 </%def>
 
 

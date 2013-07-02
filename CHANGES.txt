@@ -4,6 +4,15 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
+- Readd bin/test to run tests (wrapper for py.test) [joka]
+
+- Update python from 2.7.4 to 2.7.5. Please rebuild python:
+
+    * cd python
+    * bin/buildout 
+
+  [joka]
+
 - Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with: 
     "bin/buildout -n".
   If you have versions conflicts with distribute delete the old one: 

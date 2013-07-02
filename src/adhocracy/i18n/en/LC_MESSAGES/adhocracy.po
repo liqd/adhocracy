@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-04-23 12:43+0200\n"
-"PO-Revision-Date: 2013-04-23 10:44+0000\n"
+"POT-Creation-Date: 2013-06-19 14:30+0200\n"
+"PO-Revision-Date: 2013-06-19 12:33+0000\n"
 "Last-Translator: Wawe <transifex.com@jroene.de>\n"
-"Language-Team: English (http://www.transifex.com/projects/p/adhocracy/language/en/)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,6 +29,10 @@ msgstr "Please insert a template for the mail we will send to the users."
 
 msgid "Solr index updated."
 msgstr "Solr index updated."
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
+msgstr "Autojoin fixed - added %s memberships."
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -204,6 +208,9 @@ msgstr "Email isn't activated"
 
 msgid "Not permitted in system settings"
 msgstr "Not permitted in system settings"
+
+msgid "adhocracy.registration_support_email not set"
+msgstr "adhocracy.registration_support_email not set"
 
 #, python-format
 msgid "Could not render message: %s"
@@ -413,6 +420,12 @@ msgstr "The inclusion of %s has been deleted."
 msgid "Page not Found"
 msgstr "Page not Found"
 
+msgid "Shibboleth authentication not enabled"
+msgstr "Shibboleth authentication not enabled"
+
+msgid "This URL shouldn't be called directly"
+msgstr "This URL shouldn't be called directly"
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Page does already exist. Select another key or language."
 
@@ -428,6 +441,19 @@ msgstr "The requested page was not found"
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Tag \"%s\" has been removed from %s \"%s\"."
+
+msgid "Treatment has been created."
+msgstr "Treatment has been created."
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "Could not find the entity '%s'"
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr "All users have been assigned to their respective treatment badges."
+
+msgid "All users are already assigned to their respective treatment badges."
+msgstr "All users are already assigned to their respective treatment badges."
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -641,6 +667,9 @@ msgstr "You're not allowed to edit global badges"
 #, python-format
 msgid "No Badge ID '%s' exists"
 msgstr "No Badge ID '%s' exists"
+
+msgid "No badges selected"
+msgstr "No badges selected"
 
 msgid "Duplicates in input set of user badge IDs"
 msgstr "Duplicates in input set of user badge IDs"
@@ -856,17 +885,29 @@ msgstr "Dear Mr."
 msgid "Dear"
 msgstr "Dear"
 
-msgid "activity"
-msgstr "activity"
+msgid "Oldest"
+msgstr "Oldest"
 
-msgid "newest comment"
-msgstr "newest comment"
+msgid "Newest"
+msgstr "Newest"
 
-msgid "most support"
-msgstr "most support"
+msgid "Activity"
+msgstr "Activity"
 
-msgid "mixed"
-msgstr "mixed"
+msgid "Alphabetically"
+msgstr "Alphabetically"
+
+msgid "Newest Comment"
+msgstr "Newest Comment"
+
+msgid "Most Support"
+msgstr "Most Support"
+
+msgid "Mixed"
+msgstr "Mixed"
+
+msgid "Controversy"
+msgstr "Controversy"
 
 msgid "by date"
 msgstr "by date"
@@ -876,6 +917,9 @@ msgstr "most proposals"
 
 msgid "hierarchical"
 msgstr "hierarchical"
+
+msgid "activity"
+msgstr "activity"
 
 msgid "Badge"
 msgstr "Badge"
@@ -898,24 +942,6 @@ msgstr "Tags"
 msgid "Milestones"
 msgstr "Milestones"
 
-msgid "Oldest"
-msgstr "Oldest"
-
-msgid "Newest"
-msgstr "Newest"
-
-msgid "Newest Comment"
-msgstr "Newest Comment"
-
-msgid "Activity"
-msgstr "Activity"
-
-msgid "Alphabetically"
-msgstr "Alphabetically"
-
-msgid "Most Support"
-msgstr "Most Support"
-
 msgid "Yays - nays"
 msgstr "Yays - nays"
 
@@ -930,9 +956,6 @@ msgstr "Most Ayes"
 
 msgid "Most Nays"
 msgstr "Most Nays"
-
-msgid "Mixed"
-msgstr "Mixed"
 
 msgid "Age and Support"
 msgstr "Age and Support"
@@ -955,10 +978,6 @@ msgstr "Support"
 msgid "Newest Proposals"
 msgstr "Newest Proposals"
 
-#, python-format
-msgid "Could not find the entity '%s'"
-msgstr "Could not find the entity '%s'"
-
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "We're sorry, but it seems that you lack the permissions to continue."
 
@@ -978,6 +997,14 @@ msgstr "abstains on"
 
 msgid "is against"
 msgstr "is against"
+
+#, python-format
+msgid "comment on %s"
+msgstr "comment on %s"
+
+#, python-format
+msgid "argument on %s"
+msgstr "argument on %s"
 
 msgid "(Undefined)"
 msgstr "(Undefined)"
@@ -1286,6 +1313,12 @@ msgstr "Users"
 msgid "This action is only available in an instance context."
 msgstr "This action is only available in an instance context."
 
+msgid "show more"
+msgstr "show more"
+
+msgid "show less"
+msgstr "show less"
+
 msgid "(no milestone)"
 msgstr "(no milestone)"
 
@@ -1300,6 +1333,9 @@ msgstr "Click to vote pro"
 
 msgid "Click to vote con"
 msgstr "Click to vote con"
+
+msgid "Your current vote is already con"
+msgstr "Your current vote is already con"
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Voting has ended. Click to view the list of votes"
@@ -1361,6 +1397,12 @@ msgstr "Following"
 
 msgid "Unfollow"
 msgstr "Unfollow"
+
+msgid "Disable email notifications."
+msgstr "Disable email notifications."
+
+msgid "Receive email notifications if changes occur."
+msgstr "Receive email notifications if changes occur."
 
 msgid "Send us your feedback"
 msgstr "Send us your feedback"
@@ -1497,6 +1539,9 @@ msgstr "reset"
 msgid "Sort:"
 msgstr "Sort:"
 
+msgid "You are using an outdated web browser. Click here to update."
+msgstr "You are using an outdated web browser. Click here to update."
+
 msgid "Welcome back!"
 msgstr "Welcome back!"
 
@@ -1512,18 +1557,6 @@ msgstr "Please pick a secure password"
 
 msgid "Set Password"
 msgstr "Set Password"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Get an account to participate in the discussion."
-
-msgid "Log in to participate in the discussion."
-msgstr "Log in to participate in the discussion."
-
-msgid "Register"
-msgstr "Register"
-
-msgid "Log in"
-msgstr "Log in"
 
 msgid "Join this instance to start contributing."
 msgstr "Join this instance to start contributing."
@@ -1546,6 +1579,15 @@ msgstr "Edit profile"
 
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "This instance has been frozen - you can not edit or post anything."
+
+msgid "Register"
+msgstr "Register"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Get an account to participate in the discussion."
+
+msgid "Log in to participate in the discussion."
+msgstr "Log in to participate in the discussion."
 
 msgid ""
 "You need to set an email in your profile in order to contribute to this "
@@ -1576,9 +1618,13 @@ msgstr "disable_all_tutorials"
 
 #, python-format
 msgid ""
-"A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and"
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr "A total of <a href=\"%(url)s\">%(votes)s Votes</a>, thereof %(for)s ayes and %(against)s nays"
+msgstr "A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and %(against)s nays"
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 
 msgid "Votes"
 msgstr "Votes"
@@ -1588,9 +1634,6 @@ msgstr "Votes by User Group"
 
 msgid "Shortlink"
 msgstr "Shortlink"
-
-msgid "Edit this page"
-msgstr "Edit this page"
 
 msgid "Report abuse"
 msgstr "Report abuse"
@@ -1667,9 +1710,6 @@ msgstr "Update duplicate entries"
 msgid "Skip duplicate entries"
 msgstr "Skip duplicate entries"
 
-msgid "File to import:"
-msgstr "File to import:"
-
 msgid "Detect"
 msgstr "Detect"
 
@@ -1711,11 +1751,17 @@ msgstr "Import Users"
 msgid "Update Search Index"
 msgstr "Update Search Index"
 
+msgid "Fix autojoin"
+msgstr "Fix autojoin"
+
 msgid "Static Pages"
 msgstr "Static Pages"
 
 msgid "Send an email to users"
 msgstr "Send an email to users"
+
+msgid "Assign treatment badges"
+msgstr "Assign treatment badges"
 
 msgid "Site administration"
 msgstr "Site administration"
@@ -2361,6 +2407,9 @@ msgstr "Allow users to propose norms"
 msgid "Require to propose a variant"
 msgstr "Require to propose a variant"
 
+msgid "Show norms navigation item"
+msgstr "Show norms navigation item"
+
 msgid "Use milestones"
 msgstr "Use milestones"
 
@@ -2501,6 +2550,12 @@ msgid_plural "%s norms"
 msgstr[0] "%s norm"
 msgstr[1] "%s norms"
 
+#, python-format
+msgid ""
+"You receive this message because you're signed in to the news service on %s."
+" You can change your subscription settings on the following page: %s"
+msgstr "You receive this message because you're signed in to the news service on %s. You can change your subscription settings on the following page: %s"
+
 msgid "Send mass message"
 msgstr "Send mass message"
 
@@ -2549,6 +2604,20 @@ msgstr "You're about to send the following message to %s recipients:"
 
 msgid "The message will go to the following users:"
 msgstr "The message will go to the following users:"
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr "The following message was sent to you by %s:"
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr "You can reply to %s by sending mail to: %s"
+
+#, python-format
+msgid ""
+"Unfortunately, %s has not left an email address. You will not be able to "
+"reply directly."
+msgstr "Unfortunately, %s has not left an email address. You will not be able to reply directly."
 
 #, python-format
 msgid "Message %s"
@@ -2646,6 +2715,13 @@ msgstr "See more"
 msgid "(unknown)"
 msgstr "(unknown)"
 
+msgid "with an abstention on"
+msgstr "with an abstention on"
+
+#, python-format
+msgid "On %s, %s wrote:"
+msgstr "On %s, %s wrote:"
+
 msgid "Add an OpenID"
 msgstr "Add an OpenID"
 
@@ -2656,6 +2732,9 @@ msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
 msgstr "Enter the URL of your OpenID to connect the ID to your account. This will allow you to login using this OpenID in the future."
+
+msgid "Sign In"
+msgstr "Sign In"
 
 msgid "Alternative"
 msgstr "Alternative"
@@ -2776,9 +2855,6 @@ msgstr "Norm content"
 
 msgid "Tag and classify"
 msgstr "Tag and classify"
-
-msgid "Tags to describe the subject"
-msgstr "Tags to describe the subject"
 
 msgid "The new norm will be categorized under the specified parent theme."
 msgstr "The new norm will be categorized under the specified parent theme."
@@ -3278,6 +3354,15 @@ msgstr "view"
 msgid "compare"
 msgstr "compare"
 
+msgid "Complete registration"
+msgstr "Complete registration"
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr "Please complete the Shibboleth based user registration"
+
+msgid "Email:"
+msgstr "Email:"
+
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
 msgstr "Edit %(key)s (%(langname)s)"
@@ -3311,6 +3396,9 @@ msgstr "Key:"
 
 msgid "Add static page"
 msgstr "Add static page"
+
+msgid "Edit this page"
+msgstr "Edit this page"
 
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
@@ -3372,6 +3460,43 @@ msgstr "%s by %s"
 
 msgid "Compare"
 msgstr "Compare"
+
+msgid "Treatments"
+msgstr "Treatments"
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr "User assignments of %(treatment_key)s"
+
+msgid "back to treatments"
+msgstr "back to treatments"
+
+msgid "Treatment"
+msgstr "Treatment"
+
+msgid "Source Badges"
+msgstr "Source Badges"
+
+msgid "Assign users"
+msgstr "Assign users"
+
+msgid "See assigned users"
+msgstr "See assigned users"
+
+msgid "Create a new treatment"
+msgstr "Create a new treatment"
+
+msgid "Name:"
+msgstr "Name:"
+
+msgid "Select users to treat by their badges:"
+msgstr "Select users to treat by their badges:"
+
+msgid "Number of variants:"
+msgstr "Number of variants:"
+
+msgid "Create treatment"
+msgstr "Create treatment"
 
 msgid "All Members on this Adhocracy Server"
 msgstr "All Members on this Adhocracy Server"
@@ -3622,8 +3747,8 @@ msgstr "Email or username:"
 msgid "Login:"
 msgstr "Login:"
 
-msgid "Email:"
-msgstr "Email:"
+msgid "Login via Shibboleth"
+msgstr "Login via Shibboleth"
 
 msgid "Forgot your password?"
 msgstr "Forgot your password?"

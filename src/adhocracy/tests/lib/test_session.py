@@ -6,7 +6,7 @@ from adhocracy.tests import TestController
 
 class SessionTest(TestController):
     def test_basic(self):
-        c = SignedValueConverter(u'shh!')
+        c = SignedValueConverter(b'shh!')
         encoded = c.encode({'x': [1]})
         decoded = c.decode(encoded)
         self.assertEqual(decoded, {'x': [1]})
@@ -14,6 +14,11 @@ class SessionTest(TestController):
         c2 = SignedValueConverter(b'shh!')
         encoded2 = c.encode({'x': [1]})
         self.assertEqual(encoded2, encoded)
+
+    def test_invalid(self):
+        c = SignedValueConverter(b'shh!')
+        self.assertEqual(c.decode('aaaaaaa!e30='), None)
+        self.assertEqual(c.decode('e30='), None)
 
     def test_umlauts(self):
         v = {u'"\'/\\ä↭𝕐': u'"\'/\\ä↭𝕐'}
@@ -26,5 +31,5 @@ class SessionTest(TestController):
     def test_lazystring(self):
         from pylons.i18n import _, lazy_ugettext as L_
 
-        c = SignedValueConverter(u'shh!')
+        c = SignedValueConverter(b'shh!')
         c.encode({u'str': L_(u'Date')})

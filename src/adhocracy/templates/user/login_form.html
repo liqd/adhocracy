@@ -12,12 +12,15 @@ else:
         field_type = 'email'
 %>
 
-%if 'shibboleth' in login_types:
-<a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="patch_camefrom">Login via Shibboleth</a>
-%endif
-
 <div class="form_wrapper">
-  <form name="login" method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom">
+  %if 'shibboleth' in login_types:
+  <div>
+    <a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="btn patch_camefrom">${_(u"Login") if c.hide_locallogin else _(u"Login via Shibboleth")}</a>
+  </div>
+  %endif
+
+  %if not c.hide_locallogin:
+  <form method="POST" action="/perform_login${h.camefrom_querystring()}" class="patch_camefrom login_form">
     <div class="input_wrapper">
       <label>${field_title}
         <input type="${field_type}" name="login" autofocus="autofocus" />
@@ -38,6 +41,7 @@ else:
     %endif
     </div>
   </form>
+  %endif
   <script>
       $('input[name=login]').focus();
   </script>

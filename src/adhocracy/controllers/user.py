@@ -28,6 +28,7 @@ from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager, PROPOSAL_SORTS)
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
@@ -57,8 +58,8 @@ class UserUpdateForm(formencode.Schema):
     email = formencode.All(validators.Email(not_empty=True),
                            forms.UniqueOtherEmail())
     locale = validators.String(not_empty=False)
-    password_change = validators.String(not_empty=False)
-    password_confirm = validators.String(not_empty=False)
+    password_change = validators.String(not_empty=False, if_missing=None)
+    password_confirm = validators.String(not_empty=False, if_missing=None)
     chained_validators = [validators.FieldsMatch(
         'password_change', 'password_confirm')]
     bio = validators.String(max=1000, min=0, not_empty=False)
@@ -223,15 +224,13 @@ class UserController(BaseController):
         }
         authenticated, headers = who_api.login(credentials)
         if authenticated:
-            # redirect to dashboard with login message
             session['logged_in'] = True
             session.save()
             came_from = request.params.get('came_from')
             if came_from:
                 location = came_from
             else:
-                location = h.base_url('/user/%s/dashboard' %
-                                      self.form_result.get("user_name"))
+                location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -258,7 +257,12 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         if self.form_result.get("password_change"):
-            c.page_user.password = self.form_result.get("password_change")
+            if h.user.can_change_password(c.page_user):
+                c.page_user.password = self.form_result.get("password_change")
+            else:
+                log.error(
+                    'Attempt to change password although disabled (user %s)' %
+                    c.page_user.user_name)
         c.page_user.display_name = self.form_result.get("display_name")
         c.page_user.page_size = self.form_result.get("page_size")
         c.page_user.no_help = self.form_result.get("no_help")
@@ -465,8 +469,6 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
-            if 'came_from' not in request.params:
-                request.GET['came_from'] = h.base_url()
             return self._render_loginform()
 
     def _render_loginform(self, errors=None, defaults=None):
@@ -476,9 +478,16 @@ class UserController(BaseController):
             if '_login_value' in request.environ:
                 defaults['login'] = request.environ['_login_value']
             defaults['_tok'] = token_id()
-        return htmlfill.render(render('/user/login.html'),
+        data = {}
+        data['hide_locallogin'] = (
+            asbool(config.get('adhocracy.hide_locallogin', 'false'))
+            and not 'locallogin' in request.GET)
+        add_static_content(data, u'adhocracy.static_login_path')
+        form = render('/user/login_tile.html', data)
+        form = htmlfill.render(form,
                                errors=errors,
                                defaults=defaults)
+        return render('/user/login.html', {'login_form_code': form})
 
     def perform_login(self):
         pass  # managed by repoze.who
@@ -493,7 +502,7 @@ class UserController(BaseController):
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.
-            redirect(h.base_url(path='/user/%s/dashboard' % c.user.user_name))
+            redirect(h.user.post_login_url(c.user))
         else:
             login_configuration = h.allowed_login_types()
             error_message = _("Invalid login")

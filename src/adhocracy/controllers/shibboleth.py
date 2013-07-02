@@ -5,12 +5,14 @@ from pylons import response
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 from adhocracy import forms
+from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.csrf import check_csrf
 from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
 from adhocracy.lib.auth.shibboleth import USERBADGE_MAPPERS
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render
 from adhocracy.lib.templating import ret_abort
 from adhocracy.model import meta
@@ -71,26 +73,29 @@ class ShibbolethController(BaseController):
         user = User.find_by_shibboleth(persistent_id)
 
         if user is not None:
-            return self._login(user)
+            return self._login(user, h.user.post_login_url(user))
         else:
             return self._register(persistent_id)
 
     def _get_persistent_id(self):
         return request.environ.get('HTTP_PERSISTENT_ID', None)
 
-    def _login(self, user):
+    def _login(self, user, target):
         self._update_userbadges(user)
 
         login_user(user, request, response)
 
-        came_from = request.GET.get('came_from', '/')
+        came_from = request.GET.get('came_from', target)
         qs = urlencode({'return': came_from})
 
         return redirect('/Shibboleth.sso/Logout?%s' % qs)
 
     def _register_form(self, defaults=None, errors=None):
+
+        data = {}
+        add_static_content(data, u'static_shibboleth_register_path')
         return formencode.htmlfill.render(
-            render("/shibboleth/register.html"),
+            render("/shibboleth/register.html", data),
             defaults=defaults, errors=errors,
             force_defaults=False)
 
@@ -119,7 +124,7 @@ class ShibbolethController(BaseController):
 
             meta.Session.commit()
 
-            return self._login(user)
+            return self._login(user, h.user.post_register_url(user))
 
         except formencode.Invalid, i:
             return self._register_form(errors=i.unpack_errors())
