@@ -16,8 +16,8 @@ error_email_from = ${parts.adhocracy['email.from']}
 
 [server:main]
 use = egg:Paste#http
-host = ${parts.adhocracy.host}
-port = ${parts.ports.main}
+host = ${parts.domains.wsgi}
+port = ${parts.ports.wsgi}
 {% if parts.adhocracy.debug == 'True' %}use_threadpool = False  {% end %}
 {% if parts.adhocracy.debug != 'True' %}use_threadpool = True {% end %}
 threadpool_workers = 20
@@ -167,9 +167,9 @@ adhocracy.interactive_debugging = true
 # active instance, e.g. "Test Instance" for test.adhocracy.lan.
 
 {% python
-adhocracy_domain = parts['domains']['main']
-if parts['domains'].get('main.force_port', None):
-   adhocracy_domain += ':%s' % parts['ports']['main']
+adhocracy_domain = parts['adhocracy']['domain']
+if parts['domains'].get('adhocracy.force_port', None):
+   adhocracy_domain += ':%s' % parts['ports']['wsgi']
 %}
 adhocracy.domain = ${adhocracy_domain}
 adhocracy.protocol = ${parts.adhocracy.protocol}

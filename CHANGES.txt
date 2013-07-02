@@ -4,6 +4,12 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
+- Buildout configuration parts changed:
+
+  * adhocracy.host is now domains.wsgi
+  * port.main is now ports.wsgi
+  * domains.main is no adhocracy.domain
+
 - link python lib and inclue directories, uwsgi needs this.
   
   Upgrade manual installation:
