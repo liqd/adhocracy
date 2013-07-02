@@ -4,6 +4,8 @@ adhocracy Changelog
 1.2beta2dev
 -----------
 
+- added varnish reverse proxy [joka]
+
 - Readd bin/test to run tests (wrapper for py.test) [joka]
 
 - Update python from 2.7.4 to 2.7.5. Please rebuild python:

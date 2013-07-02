@@ -22,7 +22,7 @@ Run unit tests
 In an `adhocracy.buildout`_ you have ``bin/py.test``. The default config is
 set in .coveragerc and setup.cfg.
 
-  (adhocracy)$ bin/py.test
+  $ bin/test
 
 
 Add functional doctests tests
@@ -37,4 +37,18 @@ Run one test file
 
 ::
 
-  (adhocracy)$ bin/test -k test_comment
+  $ bin/test -k test_comment
+
+
+Loadtests with funkload
+---------------------------
+
+* loadtests directory: src/adhocracy/tests/loadtests/
+
+* reports directory: var/funkload/reports
+
+* run test bench::
+
+  $ bin/funkload-bench
+
+
