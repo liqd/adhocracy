@@ -43,8 +43,7 @@ hr {
     border-bottom: 1px solid #fff;
 }
 .hr {
-    height: 1px;
-    background: url('/images/line_dotted.gif') repeat-x top left;
+    border-top: 1px dotted $border;
     margin-bottom: 20px;
 }
 .hr hr { display: none; }
