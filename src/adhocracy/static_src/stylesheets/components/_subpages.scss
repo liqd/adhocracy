@@ -2,7 +2,8 @@ ul.subpages li a:hover, ul.subpages li.current_page_item a, ul.subpages ul.child
     color: #9fb5d9;
 }
 .widget-area .shailan_SubpagesWidget {
-    background: url('/images/gradient_subnavi.jpg') top right no-repeat;
+    background-color: $primary-color;
+    @include background-image(linear-gradient(top left, lighten($primary-color, 14%), $primary-color));
 }
 ul.subpages li, ul.subpages ul.children li {
     background: url('/images/line_subnavi.gif') repeat-x top center;

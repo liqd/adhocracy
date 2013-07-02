@@ -11,6 +11,8 @@ from pylons.i18n import _
 from pylons.i18n import add_fallback, set_lang
 from pylons import config, tmpl_context as c
 
+from adhocracy.lib import cache
+
 
 log = logging.getLogger(__name__)
 
@@ -24,6 +26,20 @@ LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('ro', 'RO'),
            babel.Locale('ru', 'RU')]
 FALLBACK_TZ = 'Europe/Berlin'
+
+
+@cache.memoize('_translations_root')
+def _get_translations_root():
+    translations_module = config.get('adhocracy.translations', 'adhocracy')
+    translations_module_loader = pkgutil.get_loader(translations_module)
+    if translations_module_loader is None:
+        raise ValueError(('Cannot import the module "%s" configured for '
+                          '"adhocracy.translations". Make sure it is an '
+                          'importable module (and contains the '
+                          'translation files in a subdirectory '
+                          '"i18n"') % translations_module)
+
+    return translations_module_loader.filename
 
 
 def get_default_locale():
@@ -69,17 +85,7 @@ def user_language(user, fallbacks=[]):
             or get_default_locale()
 
     # determinate from which path we load the translations
-    translations_module = config.get('adhocracy.translations', 'adhocracy')
-    translations_module_loader = pkgutil.get_loader(translations_module)
-    if translations_module_loader is None:
-        raise ValueError(('Cannot import the module "%s" configured for '
-                          '"adhocracy.translations". Make sure it is an '
-                          'importable module (and contains the '
-                          'translation files in a subdirectory '
-                          '"i18n"') % translations_module)
-
-    translations_root = translations_module_loader.filename
-    translations_config = {'pylons.paths': {'root': translations_root},
+    translations_config = {'pylons.paths': {'root': _get_translations_root()},
                            'pylons.package': config.get('pylons.package')}
 
     # set language and fallback

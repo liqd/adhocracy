@@ -26,6 +26,10 @@ h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
 p {
     margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 ul, ol, dl {
@@ -37,16 +41,10 @@ li {
 }
 
 hr {
-    margin: 20px 0;
-    border: 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #fff;
-}
-.hr {
-    border-top: 1px dotted $border;
     margin-bottom: 20px;
+    border: 0;
+    border-top: 1px dotted $border;
 }
-.hr hr { display: none; }
 
 
 /* table */

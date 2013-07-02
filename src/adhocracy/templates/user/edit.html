@@ -88,8 +88,9 @@
         
       <div class="input_wrapper">
         <label for="email">${_("E-Mail:")}</label>
-        <input type="text" name="email" value="${c.page_user.email}"/>
+        <input type="text" name="email" value="${c.page_user.email if c.page_user.email is not None else ''|n}" ${u'required="required"' if c.email_required else u''} />
       </div>
+      %if c.page_user.email is not None:
       <div class="input_wrapper">
           <table border="0" width="100%">
               <tr>
@@ -115,10 +116,11 @@
               </tr>
           </table>
       </div>
-      <p class="info">${_("Receive occasional news from instance administrators.")}</p>
+      %endif
       <div class="input_wrapper">
-        <label>${_("Receive news service")}</label>
+        <label>${_("Receive occasional news from instance administrators:")}
         <input type="checkbox" name="email_messages" ${'checked="checked"' if c.page_user.email_messages else ''|n} />
+        </label>
       </div>
     </fieldset>
 
@@ -157,21 +159,20 @@
     
     <fieldset>
       <legend>${_("Advanced Settings")}</legend>
-      <p class="info">${_("The pre-set number of entries in listing pages.")}</p>
       <div class="input_wrapper">
-        <label for="page_size">${_("List size:")}</label>
+        <label for="page_size">${_("The pre-set number of entries in listing pages:")}
         <select name="page_size">
             %for n in [10, 20, 50, 100, 200]:
                 <option value="${n}" ${"selected='selected'" if n == c.page_user.page_size else ''}>${n}</option>
             %endfor
         </select>
+        </label>
       </div>
-      <p class="info">${_("Disable help messages and links to the documentation.")}</p>
       <div class="input_wrapper">
-        <label for="page_size">${_("Hide help messages:")}</label>
-        <input type="checkbox" name="no_help" value="true" ${'checked="checked"' if c.page_user.no_help else ''} />
+        <label for="page_size">${_("Disable help messages and links to the documentation:")}
+        <input type="checkbox" name="no_help" value="true" ${'checked="checked"' if c.page_user.no_help else ''} /></label>
       </div>
-      <label>${_("Change default sorting order for proposals:")}
+      <label for="proposal_sort_order">${_("Change default sorting order for proposals:")}
         ${components.proposal_sort_order('proposal_sort_order', c.sorting_orders, default=c.page_user.proposal_sort_order, include_empty=False)}
       </label>
     </fieldset>

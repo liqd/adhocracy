@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-03 16:45+0200\n"
-"PO-Revision-Date: 2013-06-03 14:46+0000\n"
+"POT-Creation-Date: 2013-07-01 01:54+0200\n"
+"PO-Revision-Date: 2013-06-30 23:54+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,10 @@ msgstr "Voeg alstublieft een sjabloon toe voor de e-mail die verstuurd zal worde
 
 msgid "Solr index updated."
 msgstr "Solr index bijgewerkt."
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
+msgstr "Autojoin gecorrigeerd - %s leden toegevoegd"
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -98,6 +102,9 @@ msgstr "Kan geen toegang krijgen tot volmacht %(id)s"
 msgid "The delegation is now revoked."
 msgstr "De volmachtiging is nu ingetrokken."
 
+msgid "The system is currently down for maintenance. Please check back soon!"
+msgstr ""
+
 #, python-format
 msgid "Error %s"
 msgstr "Foutmelding %s"
@@ -110,8 +117,8 @@ msgstr "%s Nieuws"
 msgid "News from %s"
 msgstr "Nieuws van %s"
 
-msgid "The changes where saved."
-msgstr "De veranderingen zijn opgeslagen"
+msgid "The changes were saved."
+msgstr ""
 
 msgid "No update required."
 msgstr "Geen update nodig."
@@ -207,6 +214,9 @@ msgstr "E-mail is niet geactiveerd"
 
 msgid "Not permitted in system settings"
 msgstr "Niet toegestaan in de systeeminstellingen"
+
+msgid "adhocracy.registration_support_email not set"
+msgstr "adhocracy.registration_support_email niet ingesteld"
 
 #, python-format
 msgid "Could not render message: %s"
@@ -422,6 +432,10 @@ msgstr "Shibboleth authenticate niet ingeschakeld"
 msgid "This URL shouldn't be called directly"
 msgstr "Deze URL hoort niet direct aangeroepen te worden"
 
+#, python-format
+msgid "User %s has been undeleted"
+msgstr "De verwijdering van gebruiker %s is ongedaan gemaakt"
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Pagina bestaat al. Selecteer een andere key of taal."
 
@@ -538,6 +552,25 @@ msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
 msgid "Invalid email or password"
 msgstr "Ongeldig e-mail of wachtwoord"
+
+#, python-format
+msgid "You can finish that session <a href='%s'>here</a>."
+msgstr ""
+
+#, python-format
+msgid ""
+"<p>You have successfully logged out of Adhocracy. However you might still be"
+" logged in at the central identity provider. %s</p><p>If you're on a public "
+"computer, please close your browser to complete the logout.</p>"
+msgstr ""
+
+msgid ""
+"You have successfully logged out of Adhocracy. However you might still be "
+"logged in through your OpenID provider. "
+msgstr ""
+
+msgid "Successfully logged out"
+msgstr ""
 
 msgid "Please use a valid email address."
 msgstr "Gebruik alstublieft een geldig e-mailadres."
@@ -881,20 +914,49 @@ msgstr "Beste meneer"
 msgid "Dear"
 msgstr "Beste"
 
-msgid "activity"
-msgstr "activiteit"
+msgid "Oldest"
+msgstr "Oudste"
 
-msgid "newest comment"
-msgstr "Laatste reactie"
+msgid "Newest"
+msgstr "Nieuwste"
 
-msgid "most support"
-msgstr "meeste steun"
+msgid "Activity"
+msgstr "Activiteit"
 
-msgid "mixed"
-msgstr "gemengd"
+msgid "Alphabetically"
+msgstr "Alfabetisch"
 
-msgid "controversy"
-msgstr "controverse"
+msgid "Newest Comment"
+msgstr "Nieuwste Reactie"
+
+msgid "Most Support"
+msgstr "Meeste Steun"
+
+msgid "Mixed"
+msgstr "Gemengd"
+
+msgid "Controversy"
+msgstr "Controverse"
+
+msgid "Sort by proposal creation date"
+msgstr "Sorteer op voorstel aanmaakdatum"
+
+msgid "Sort by date of the last comment"
+msgstr "Sorteer op datum van de laatste reactie"
+
+msgid "Sort by number of votes for the proposal"
+msgstr "Sorteer op aantal stemmen voor het voorstel"
+
+msgid ""
+"Sort by the difference between number of votes for and against, and prefer "
+"newer proposals"
+msgstr "Sorteer op het verschil tussen het aantal stemmen voor en tegen, en prefereer nieuwere voorstellen."
+
+msgid "Prefer proposals where the gap between votes for and against is close"
+msgstr "Prefereer voorstellen waar het gat tussen voors en tegens klein is"
+
+msgid "Sort by the characters of the proposal title"
+msgstr "Sorteer op voorsteltitel"
 
 msgid "by date"
 msgstr "op datum"
@@ -904,6 +966,9 @@ msgstr "meeste voorstellen"
 
 msgid "hierarchical"
 msgstr "hiërarchisch"
+
+msgid "activity"
+msgstr "activiteit"
 
 msgid "Badge"
 msgstr "Badge"
@@ -926,24 +991,6 @@ msgstr "Tags"
 msgid "Milestones"
 msgstr "Mijlpalen"
 
-msgid "Oldest"
-msgstr "Oudste"
-
-msgid "Newest"
-msgstr "Nieuwste"
-
-msgid "Newest Comment"
-msgstr "Nieuwste Reactie"
-
-msgid "Activity"
-msgstr "Activiteit"
-
-msgid "Alphabetically"
-msgstr "Alfabetisch"
-
-msgid "Most Support"
-msgstr "Meeste Steun"
-
 msgid "Yays - nays"
 msgstr "Voors - tegens"
 
@@ -959,14 +1006,8 @@ msgstr "Meeste Stemmen Voor"
 msgid "Most Nays"
 msgstr "Meeste Stemmen Tegen"
 
-msgid "Mixed"
-msgstr "Gemengd"
-
 msgid "Age and Support"
 msgstr "Leeftijd en Steun"
-
-msgid "Controversy"
-msgstr "Controverse"
 
 msgid "Rating"
 msgstr "Beoordeling"
@@ -1322,10 +1363,10 @@ msgid "This action is only available in an instance context."
 msgstr "Deze actie is enkel beschikbaar in de context van een groep."
 
 msgid "show more"
-msgstr ""
+msgstr "toon meer"
 
 msgid "show less"
-msgstr ""
+msgstr "toon minder"
 
 msgid "(no milestone)"
 msgstr "(geen mijlpaal)"
@@ -1363,6 +1404,10 @@ msgstr "(Naamloos)"
 
 msgid "Status Quo"
 msgstr "Status Quo"
+
+#, python-format
+msgid "The random username %s has been assigned to you."
+msgstr ""
 
 msgid "formatting hints"
 msgstr "opmaak tips"
@@ -1405,6 +1450,12 @@ msgstr "Volgen"
 
 msgid "Unfollow"
 msgstr "Niet Meer Volgen"
+
+msgid "Disable email notifications."
+msgstr "Schakel e-mailnotificaties uit."
+
+msgid "Receive email notifications if changes occur."
+msgstr "Ontvang e-mailnotificaties als er wijzigingen optreden."
 
 msgid "Send us your feedback"
 msgstr "Stuur ons feedback"
@@ -1637,9 +1688,6 @@ msgstr "Stemmen per Gebruikersgroep"
 msgid "Shortlink"
 msgstr "Link"
 
-msgid "Edit this page"
-msgstr "Bewerk deze pagina"
-
 msgid "Report abuse"
 msgstr "Meld misbruik"
 
@@ -1676,17 +1724,29 @@ msgstr "Inclusief voorstellen"
 msgid "Include comments"
 msgstr "Inclusief reacties"
 
+msgid "Export request log"
+msgstr "Exporteer aanvraag-logbestand"
+
+msgid "Export static pages"
+msgstr ""
+
 msgid "Export format:"
 msgstr "Exporteerformaat:"
-
-msgid "JSON download"
-msgstr "JSON download"
 
 msgid "JSON"
 msgstr "JSON"
 
-msgid "ZIP download"
-msgstr "ZIP download"
+msgid "JSON file"
+msgstr "JSON bestand"
+
+msgid "JSON file, compressed with gzip"
+msgstr "JSON bestand, gecomprimeerd met gzip"
+
+msgid "Tar file, compressed with bz2"
+msgstr "Tar bestand, gecomprimeerd met bz2"
+
+msgid "Zip file"
+msgstr "Zip bestand"
 
 msgid "Export Now"
 msgstr "Exporteer Nu"
@@ -1705,6 +1765,9 @@ msgstr "Importeer badges"
 
 msgid "Import content (instances)"
 msgstr "Importeer inhoud (groepen)"
+
+msgid "Import static pages"
+msgstr ""
 
 msgid "Replacement strategy"
 msgstr "Vervangingsstrategie"
@@ -1755,6 +1818,9 @@ msgstr "Importeer Gebruikers"
 
 msgid "Update Search Index"
 msgstr "Update Zoek Index"
+
+msgid "Fix autojoin"
+msgstr "Autojoin corrigeren"
 
 msgid "Static Pages"
 msgstr "Statische Pagina's"
@@ -2409,6 +2475,9 @@ msgstr "Sta gebruikers toe om nieuwe reglementen te maken"
 msgid "Require to propose a variant"
 msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbrengen"
 
+msgid "Show norms navigation item"
+msgstr "Toon reglementennavigatie"
+
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
 
@@ -2731,6 +2800,9 @@ msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
 msgstr "Voer de URL van uw OpenID in om het ID met uw account te verbinden. Hierdoor kunt u in de toekomst met deze OpenID inloggen."
+
+msgid "Sign In"
+msgstr "Aanmelden"
 
 msgid "Alternative"
 msgstr "Alternatief"
@@ -3356,8 +3428,17 @@ msgstr "Voltooi registratie"
 msgid "Please complete the Shibboleth based user registration"
 msgstr "Voltooi alstublieft de op Shibboleth gebaseerde gebruikersregistratie"
 
-msgid "Email:"
-msgstr "E-mail:"
+msgid "Username"
+msgstr ""
+
+msgid "Display name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "optional"
+msgstr "optioneel"
 
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
@@ -3393,6 +3474,9 @@ msgstr "Key:"
 msgid "Add static page"
 msgstr "Voeg statische pagina toe"
 
+msgid "Edit this page"
+msgstr "Bewerk deze pagina"
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Tags zijn trefwoorden die gebruikt kunnen worden om voorstellen en documenten te vinden, sorteren en te filteren."
@@ -3413,8 +3497,8 @@ msgstr "Getagged met"
 msgid "Not tagged yet"
 msgstr "Nog niet getagged"
 
-msgid "add tags..."
-msgstr "voeg tags toe..."
+msgid "add tags"
+msgstr "voeg tags toe"
 
 msgid "Multiple tags can be separated by commas or spaces."
 msgstr "Meerdere tags kunnen door komma's of spaties gescheiden worden."
@@ -3667,11 +3751,8 @@ msgstr "Niet bevestigd."
 msgid "Re-send activation link"
 msgstr "Verstuur de activatie-link opnieuw"
 
-msgid "Receive occasional news from instance administrators."
-msgstr "Ontvang af en toe nieuws van groepsbeheerders."
-
-msgid "Receive news service"
-msgstr "Ontvang nieuws dienst"
+msgid "Receive occasional news from instance administrators:"
+msgstr "Ontvang af en toe berichten van de groepsbeheerders:"
 
 msgid "OpenID"
 msgstr "OpenID"
@@ -3696,17 +3777,11 @@ msgstr "Door middel van een biografie kunnen andere wat over u te weten komen en
 msgid "Advanced Settings"
 msgstr "Geavanceerde Instellingen"
 
-msgid "The pre-set number of entries in listing pages."
-msgstr "Het ingestelde aantal vermeldingen per pagina."
+msgid "The pre-set number of entries in listing pages:"
+msgstr "Het ingestelde aantal vermeldingen in lijsten:"
 
-msgid "List size:"
-msgstr "Lijst grootte:"
-
-msgid "Disable help messages and links to the documentation."
-msgstr "Schakel hulp berichten en links naar de documentatie uit."
-
-msgid "Hide help messages:"
-msgstr "Verberg hulp berichten:"
+msgid "Disable help messages and links to the documentation:"
+msgstr "Schakel hulpberichten en links naar de documentatie uit:"
 
 msgid "Change default sorting order for proposals:"
 msgstr "Verander de standaard sorteervolgorde van de voorstellen:"
@@ -3739,6 +3814,12 @@ msgstr "E-mail of gebruikersnaam:"
 
 msgid "Login:"
 msgstr "Log in:"
+
+msgid "Email:"
+msgstr "E-mail:"
+
+msgid "Login via Shibboleth"
+msgstr "Log in via Shibboleth"
 
 msgid "Forgot your password?"
 msgstr "Wachtwoord vergeten?"
@@ -3780,6 +3861,9 @@ msgstr "Als u een account heeft, maar u bent uw wachtwoord vergeten, <a href='/r
 
 msgid "Can only contain letters and numbers."
 msgstr "Mag enkel letters en cijfers bevatten."
+
+msgid "You can choose which name other users see."
+msgstr ""
 
 msgid "E-mail"
 msgstr "E-mail"
@@ -3833,6 +3917,12 @@ msgid ""
 "You have recieved an email containing a link. Please open that link in order"
 " to reset you password"
 msgstr "U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoord opnieuw in te stellen"
+
+msgid "User settings"
+msgstr ""
+
+msgid "Prefered user interface language"
+msgstr ""
 
 #, python-format
 msgid "Signed up %s"

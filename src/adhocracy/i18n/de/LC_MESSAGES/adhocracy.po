@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-21 05:25+0200\n"
-"PO-Revision-Date: 2013-06-21 03:38+0000\n"
-"Last-Translator: phihag <phihag@phihag.de>\n"
+"POT-Creation-Date: 2013-07-01 01:54+0200\n"
+"PO-Revision-Date: 2013-06-30 23:55+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -115,6 +115,9 @@ msgstr "Die Delegation %(id)s ist nicht verfügbar"
 msgid "The delegation is now revoked."
 msgstr "Die Delegation ist aufgehoben."
 
+msgid "The system is currently down for maintenance. Please check back soon!"
+msgstr "Das System ist zur Zeit im Wartungsmodus. Bitte versuchen Sie es in Kürze nochmals."
+
 #, python-format
 msgid "Error %s"
 msgstr "Fehler %s"
@@ -127,7 +130,7 @@ msgstr "Neuigkeiten von %s"
 msgid "News from %s"
 msgstr "Neuigkeiten von %s"
 
-msgid "The changes where saved."
+msgid "The changes were saved."
 msgstr "Die Änderungen wurden gespeichert."
 
 msgid "No update required."
@@ -447,6 +450,10 @@ msgstr "Shibboleth-Authentifizierung nicht aktiviert"
 msgid "This URL shouldn't be called directly"
 msgstr "Diese URL sollte nicht direkt aufgerufen werden"
 
+#, python-format
+msgid "User %s has been undeleted"
+msgstr "Benutzer %s wurde wiederhergestellt"
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Die Seite existiert schon. Wählen Sie eine andere Kennung oder Sprache."
 
@@ -573,6 +580,25 @@ msgstr "Ungültiger Benutzername oder falsches Passwort."
 
 msgid "Invalid email or password"
 msgstr "Ungültige E-Mail oder falsches Passwort."
+
+#, python-format
+msgid "You can finish that session <a href='%s'>here</a>."
+msgstr "Diese Sitzung können Sie <a href='%s'>hier</a> beenden."
+
+#, python-format
+msgid ""
+"<p>You have successfully logged out of Adhocracy. However you might still be"
+" logged in at the central identity provider. %s</p><p>If you're on a public "
+"computer, please close your browser to complete the logout.</p>"
+msgstr "<p>Sie wurden erfolgreich von Adhocracy abgemeldet. Sie sind jedoch möglicherweise noch beim zentralen Identitätsprovider angemeldet. %s<p>Wenn Sie einen öffentlichen Computer benutzen, schließen Sie bitte Ihren Browser um Ihre Abmeldung zu vervollständigen.</p>"
+
+msgid ""
+"You have successfully logged out of Adhocracy. However you might still be "
+"logged in through your OpenID provider. "
+msgstr "Sie wurden erfolgreich von Adhocracy abgemeldet. Möglicherweise sind Sie jedoch weiterhin bei Ihrem OpenID-Provider angemeldet."
+
+msgid "Successfully logged out"
+msgstr "Erfolgreich abgemeldet."
 
 msgid "Please use a valid email address."
 msgstr "Bitte verwenden Sie eine gültige E-Mail-Adresse."
@@ -1431,6 +1457,10 @@ msgstr "(Unbenannt)"
 msgid "Status Quo"
 msgstr "Originalversion"
 
+#, python-format
+msgid "The random username %s has been assigned to you."
+msgstr "Ihnen wurde der zufällige Benutzername %s zugewiesen."
+
 msgid "formatting hints"
 msgstr "Formatierungshilfen"
 
@@ -1788,6 +1818,9 @@ msgstr "Kommentar hinzufügen"
 msgid "Export request log"
 msgstr "Requestlog exportieren"
 
+msgid "Export static pages"
+msgstr "Exportiere statische Seiten"
+
 msgid "Export format:"
 msgstr "Export-Format:"
 
@@ -1823,6 +1856,9 @@ msgstr "Badges importieren"
 
 msgid "Import content (instances)"
 msgstr "Inhalte importieren (Gruppen)"
+
+msgid "Import static pages"
+msgstr "Importiere statische Seiten"
 
 msgid "Replacement strategy"
 msgstr "Ersetzungsstrategie"
@@ -3620,8 +3656,17 @@ msgstr "Registrierung abschließen"
 msgid "Please complete the Shibboleth based user registration"
 msgstr "Bitte vervollständigen Sie die Shibboleth-basierte Registrierung"
 
-msgid "Email:"
-msgstr "E-Mail:"
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Display name"
+msgstr "Angezeigter Name"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "optional"
+msgstr "optional"
 
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
@@ -3680,8 +3725,8 @@ msgstr "Tags"
 msgid "Not tagged yet"
 msgstr "Es wurden noch keine Tags angegeben"
 
-msgid "add tags..."
-msgstr "Tags hinzufügen..."
+msgid "add tags"
+msgstr "Tags hinzufügen"
 
 msgid "Multiple tags can be separated by commas or spaces."
 msgstr "Mehrere Tags können durch Kommas oder Leerzeichen getrennt werden."
@@ -3947,11 +3992,8 @@ msgstr "Nicht bestätigt."
 msgid "Re-send activation link"
 msgstr "Aktivierungslink erneut zusenden"
 
-msgid "Receive occasional news from instance administrators."
-msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen."
-
-msgid "Receive news service"
-msgstr "Neuigkeiten empfangen"
+msgid "Receive occasional news from instance administrators:"
+msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen:"
 
 msgid "OpenID"
 msgstr "OpenID"
@@ -3980,17 +4022,11 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-msgid "The pre-set number of entries in listing pages."
-msgstr "Die voreingestellte Anzahl an Einträgen in Listen."
+msgid "The pre-set number of entries in listing pages:"
+msgstr "Die voreingestellte Anzahl an Einträgen in Listen:"
 
-msgid "List size:"
-msgstr "Listenlänge:"
-
-msgid "Disable help messages and links to the documentation."
-msgstr "Hilfenachrichten und Links zur Dokumentation abstellen."
-
-msgid "Hide help messages:"
-msgstr "Hinweise verbergen:"
+msgid "Disable help messages and links to the documentation:"
+msgstr "Hilfenachrichten und Links zur Dokumentation abstellen:"
 
 msgid "Change default sorting order for proposals:"
 msgstr "Standardsortierung von Vorschlägen ändern:"
@@ -4030,6 +4066,9 @@ msgstr "E-Mail oder Benutzername:"
 
 msgid "Login:"
 msgstr "Benutzername:"
+
+msgid "Email:"
+msgstr "E-Mail:"
 
 msgid "Login via Shibboleth"
 msgstr "Mit Shibboleth einloggen"
@@ -4076,6 +4115,9 @@ msgstr "Falls Sie Ihr Passwort vergessen haben, <a href='/reset'>klicken Sie hie
 
 msgid "Can only contain letters and numbers."
 msgstr "Darf nur Buchstaben und Zahlen enthalten."
+
+msgid "You can choose which name other users see."
+msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden soll."
 
 msgid "E-mail"
 msgstr "E-Mail"
@@ -4133,6 +4175,12 @@ msgid ""
 msgstr ""
 "Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen "
 "Link, um Ihr Passwort zurückzusetzen."
+
+msgid "User settings"
+msgstr "Persönliche Einstellungen"
+
+msgid "Prefered user interface language"
+msgstr "Beverzugte Sprache der Nutzeroberfläche"
 
 #, python-format
 msgid "Signed up %s"

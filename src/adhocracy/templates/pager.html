@@ -5,7 +5,9 @@
         <div class="floatbox">
             %if pager.enable_pages:
                 <span class="pager_items">
+                    %if len(pager.items):
                     ${_("%(start)s-%(end)s out of %(total)s") % dict(start=pager.offset+1, end=pager.offset+len(pager.items), total=pager.total_num_items())}
+                    %endif
                 </span>
             %endif
             %if hasattr(pager.sorts, 'render'):
@@ -16,7 +18,7 @@
             ${index_based_sort_dropdown(pager.sorts, pager)}
             %endif
         </div>
-        <div class="hr"><hr /></div>
+        <hr />
     %endif
     %if pager.enable_pages or pager.enable_sorts:
       <ul class="content_list">
@@ -249,14 +251,13 @@ param = sorts.pager.sort_param
         ${_('Sort:')}
         <span class="btn-group"
              id="${param}_btn_group">
-            <a id="${param}_btn" 
-               class="btn showhide_button" 
+            <a id="${param}_btn"
+               class="btn showhide_button"
                data-target="#${param}_options"
                data-target-speed="fast"
-               data-toggle-class="open"
-               data-toggle-element="#${param}_btn_group"
+               data-toggle-class="less"
                href="#">
-                ${selected.label} <span class="caret"></span>
+                ${selected.label}
             </a>
         </span>
     </div>

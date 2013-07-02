@@ -10,9 +10,7 @@
 <%block name="main_content">
 <div class="form_wrapper">
     <h2>${_(u'Edit &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
-    <div class="hr">
-        <hr />
-    </div>
+    <hr />
 
   <form name="edit_proposal" class="inplace" method="POST" action="${h.entity_url(c.proposal)}">
     ${h.field_token()|n}

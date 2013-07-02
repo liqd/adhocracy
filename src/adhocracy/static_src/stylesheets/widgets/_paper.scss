@@ -27,8 +27,9 @@
     details {
         padding: 20px 20px 0;
 
-        .hr {
+        hr {
             background: #fff;
+            border: none;
         }
     }
 }
@@ -43,7 +44,8 @@
         padding-bottom: 15px;
     }
     ul {
-        background: url('/images/sidebar_navi_gradient.jpg') no-repeat right top transparent;
+        background-color: lighten($button-color, 3%);
+        @include background-image(linear-gradient(top left, lighten($button-color, 14%), lighten($button-color, 3%)));
         list-style: none;
         margin: 0;
         padding: 10px 0;
@@ -64,16 +66,17 @@
 
             &:hover, &.current {
                 text-decoration: none;
-                background: url('/images/sidebar_active_hover.png') no-repeat -20px -14px;
+                background-color: $button-color;
+                @include background-image(linear-gradient(170deg, $button-color 40%, darken($button-color, 14%)));
 
                 &:before {
-                    width: 20px;
-                    height: 40px;
-                    display: block;
-                    background: url('/images/sidebar_active_hover.png') no-repeat 0px -14px;
+                    width: 0px;
+                    height: 0px;
+                    border: 20px solid transparent;
+                    border-right: 19px solid $button-color;
                     position: absolute;
                     top: 0px;
-                    left: -20px;
+                    left: -39px;
                     content: "";
                 }
             }

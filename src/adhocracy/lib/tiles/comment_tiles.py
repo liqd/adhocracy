@@ -2,6 +2,7 @@ from pylons import tmpl_context as c
 
 from adhocracy.lib import text
 from adhocracy.lib.auth import can
+from adhocracy.lib.auth.csrf import token_id
 from adhocracy.lib.tiles.util import render_tile, BaseTile
 
 
@@ -60,7 +61,7 @@ def header(comment, tile=None, active='comment'):
 
 def list(topic, root=None, comments=None, variant=None, recurse=True,
          ret_url=''):
-    cached = True if c.user is None else False
+    cached = c.user is None
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None,
@@ -74,4 +75,5 @@ def show(comment, recurse=True, ret_url=''):
     groups = sorted(c.user.groups if c.user else [])
     return render_tile('/comment/tiles.html', 'show', CommentTile(comment),
                        comment=comment, cached=True, can_edit=can_edit,
-                       groups=groups, ret_url=ret_url, recurse=recurse)
+                       groups=groups, ret_url=ret_url, recurse=recurse,
+                       cache_csrf_token=token_id())

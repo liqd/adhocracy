@@ -51,7 +51,7 @@ delegate_url = url if can.delegation.create() else None
                 <h2>
                     ${h.delegateable.link(c.proposal, link=False)|n}
                 </h2>
-                <div class="hr"><hr /></div>
+                <hr />
                 
                 <div class="utility">
                     <h4>${_('Topic and Description of the Proposal')}</h4>
@@ -106,7 +106,7 @@ delegate_url = url if can.delegation.create() else None
             %if c.show_selections:
             <section>
               <h3 id="proposals">${_("Proposed Implementations")}</h3>
-              <div class="hr"><hr /></div>
+              <hr />
               <ul class="papers_list">
                   %for selection in c.sorted_selections: 
                   <% h.need.adhocracy_ko %>

@@ -285,6 +285,9 @@ piwik.id =
 # INSTALL: Allow registration
 #adhocracy.allow_registration = true
 
+# Require emails from users (default: true)
+# adhocracy.require_email = true
+
 # INSTALL: If registration is disabled above, and adhocracy.login_style is
 # "alternate", notify this address on registration attempts.
 # adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
@@ -370,11 +373,20 @@ adhocracy.static_index_path = index
 # Static content path for login page (default: empty)
 # adhocracy.static_login_path = login
 
-# Static content path for shibboleth register page (default: empty)
-# adhocracy.static_shibboleth_register_path = shibboleth_register
+# Static content paths for shibboleth register page (default: empty)
+# Ontop defines the area on top of the form and the title of the page.
+# adhocracy.static_shibboleth_register_ontop_path = shibboleth_register_ontop
+# Below defines the area below the form, the title is ignored.
+# adhocracy.static_shibboleth_register_below_path = shibboleth_register
 
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
+
+# Force randomized user names (default: false)
+# adhocracy.force_randomized_user_names = true
+
+# Set display name in register dialog (default: false)
+# adhocracy.set_display_name_on_register = true
 
 # Automatically set new permissions their default value. This should be
 # set to false in restrictive environments.
@@ -385,6 +397,15 @@ adhocracy.static_index_path = index
 
 # Show Facebook / Twitter / G+ buttons
 # adhocracy.show_social_buttons = False
+
+## Performance options
+
+# Check whether feedback instance exists before rendering a feedback button
+# adhocracy.feedback_check_instance = False
+
+# Load feedback categories for the feedback form
+# adhocracy.feedback_use_categories = False
+
 
 # Logging configuration
 [loggers]

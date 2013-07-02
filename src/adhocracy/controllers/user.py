@@ -4,7 +4,7 @@ import re
 import formencode
 from formencode import ForEach, htmlfill, validators
 
-from pylons import config, request, response, session, tmpl_context as c
+from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -14,6 +14,7 @@ from webob.exc import HTTPFound
 
 from repoze.who.api import get_api
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager
@@ -34,18 +35,21 @@ from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from paste.deploy.converters import asbool
 
 log = logging.getLogger(__name__)
 
 
 class UserCreateForm(formencode.Schema):
     allow_extra_fields = True
-    user_name = formencode.All(validators.PlainText(not_empty=True),
-                               forms.UniqueUsername(),
-                               forms.ContainsChar())
-    email = formencode.All(validators.Email(not_empty=True),
-                           forms.UniqueEmail())
+    if not config.get_bool('adhocracy.force_randomized_user_names'):
+        user_name = formencode.All(validators.PlainText(not_empty=True),
+                                   forms.UniqueUsername(),
+                                   forms.ContainsChar())
+    if config.get_bool('adhocracy.set_display_name_on_register'):
+        display_name = validators.String(not_empty=False, if_missing=None)
+    email = formencode.All(validators.Email(
+        not_empty=config.get_bool('adhocracy.require_email')),
+        forms.UniqueOtherEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
     chained_validators = [validators.FieldsMatch(
@@ -55,8 +59,9 @@ class UserCreateForm(formencode.Schema):
 class UserUpdateForm(formencode.Schema):
     allow_extra_fields = True
     display_name = validators.String(not_empty=False)
-    email = formencode.All(validators.Email(not_empty=True),
-                           forms.UniqueOtherEmail())
+    email = formencode.All(validators.Email(
+        not_empty=config.get_bool('adhocracy.require_email')),
+        forms.UniqueOtherEmail())
     locale = validators.String(not_empty=False)
     password_change = validators.String(not_empty=False, if_missing=None)
     password_confirm = validators.String(not_empty=False, if_missing=None)
@@ -65,7 +70,7 @@ class UserUpdateForm(formencode.Schema):
     bio = validators.String(max=1000, min=0, not_empty=False)
     no_help = validators.StringBool(not_empty=False, if_empty=False,
                                     if_missing=False)
-    page_size = validators.Int(min=1, max=100, not_empty=False,
+    page_size = validators.Int(min=1, max=200, not_empty=False,
                                if_empty=10, if_missing=10)
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
@@ -187,10 +192,16 @@ class UserController(BaseController):
             redirect("/")
 
         #create user
-        user = model.User.create(self.form_result.get("user_name"),
-                                 self.form_result.get("email"),
-                                 password=self.form_result.get("password"),
-                                 locale=c.locale)
+        if config.get_bool('adhocracy.force_randomized_user_names'):
+            user_name = None
+        else:
+            user_name = self.form_result.get("user_name")
+        user = model.User.create(
+            user_name,
+            self.form_result.get("email"),
+            password=self.form_result.get("password"),
+            locale=c.locale,
+            display_name=self.form_result.get("display_name"))
         model.meta.Session.commit()
 
         event.emit(event.T_USER_CREATE, user)
@@ -211,7 +222,7 @@ class UserController(BaseController):
         who_api = get_api(request.environ)
         login_configuration = h.allowed_login_types()
         if 'username+password' in login_configuration:
-            login = self.form_result.get("user_name")
+            login = user.user_name
         elif 'email+password' in login_configuration:
             login = self.form_result.get("email")
         else:
@@ -245,9 +256,9 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         c.locales = i18n.LOCALES
         c.tile = tiles.user.UserTile(c.page_user)
-        c.enable_gender = asbool(config.get('adhocracy.enable_gender',
-                                            'false'))
+        c.enable_gender = config.get_bool('adhocracy.enable_gender')
         c.sorting_orders = PROPOSAL_SORTS
+        c.email_required = config.get_bool('adhocracy.require_email')
         return render("/user/edit.html")
 
     @RequireInternalRequest(methods=['POST'])
@@ -480,7 +491,7 @@ class UserController(BaseController):
             defaults['_tok'] = token_id()
         data = {}
         data['hide_locallogin'] = (
-            asbool(config.get('adhocracy.hide_locallogin', 'false'))
+            config.get_bool('adhocracy.hide_locallogin')
             and not 'locallogin' in request.GET)
         add_static_content(data, u'adhocracy.static_login_path')
         form = render('/user/login_tile.html', data)
@@ -522,7 +533,33 @@ class UserController(BaseController):
         pass  # managed by repoze.who
 
     def post_logout(self):
+        login_type = session.get('login_type', None)
         session.delete()
+        # Note: This flash message only works with adhocracy cookie sessions
+        # and not with beaker sessions due to the way session deletion is
+        # handled in beaker.
+        if login_type == 'shibboleth':
+            logout_url = config.get('adhocracy.shibboleth_logout_url', None)
+            if logout_url is None:
+                target_msg = u''
+            else:
+                target_msg = (_(u"You can finish that session <a href='%s'>"
+                                u"here</a>.") % logout_url)
+            h.flash(_(
+                u"<p>You have successfully logged out of Adhocracy. However "
+                u"you might still be logged in at the central identity "
+                u"provider. %s</p>"
+                u""
+                u"<p>If you're on a public computer, please close your "
+                u"browser to complete the logout.</p>") % target_msg,
+                'warning')
+        elif login_type == 'openid':
+            h.flash(_(
+                u"You have successfully logged out of Adhocracy. However you "
+                u"might still be logged in through your OpenID provider. "),
+                'warning')
+        else:
+            h.flash(_(u"Successfully logged out"), 'success')
         redirect(h.base_url())
 
     @RequireInternalRequest(methods=['POST'])
@@ -903,6 +940,8 @@ class UserController(BaseController):
 
     @classmethod
     def email_is_blacklisted(self, email):
+        if email is None:
+            return False
         listed = config.get('adhocracy.registration.email.blacklist', '')
         listed = listed.replace(',', ' ').replace('.', '').split()
         email = email.replace('.', '')

@@ -72,6 +72,9 @@ class _Transform(object):
     def _compute_key(self, o):
         return unicode(getattr(o, self._ID_KEY))
 
+    def _compute_key_from_data(self, data):
+        return data.get(self._ID_KEY)
+
     def export_all(self):
         return dict((self._compute_key(o), self._export(o))
                     for o in self._get_all())
@@ -83,7 +86,7 @@ class _Transform(object):
         return dict((k, self._import(data)) for k, data in odict.items())
 
     def _import(self, data):
-        obj = self._get_by_key(data.get(self._ID_KEY))
+        obj = self._get_by_key(self._compute_key_from_data(data))
         if obj:
             doUpdate = self._replacement_strategy == 'update'
         else:
@@ -98,11 +101,6 @@ class _Transform(object):
     @property
     def _replacement_strategy(self):
         return self._options.get('replacement_strategy', 'update')
-
-
-class _ExportOnlyTransform(_Transform):
-    def import_(self, odict, replacement_strategy):
-        raise NotImplementedError()
 
 
 class BadgeTransform(_Transform):
@@ -216,12 +214,17 @@ class UserTransform(_Transform):
         return res
 
 
-class InstanceTransform(_ExportOnlyTransform):
+class InstanceTransform(_Transform):
     _ID_KEY = 'key'
 
-    def __init__(self, options, user_transform):
+    def __init__(self, options, user_transform, badge_transform):
         super(InstanceTransform, self).__init__(options)
         self._user_transform = user_transform
+        self._badge_transform = (
+            badge_transform
+            if options.get('include_badge', False)
+            else None
+        )
 
     def _export(self, obj):
         res = {
@@ -262,6 +265,12 @@ class InstanceTransform(_ExportOnlyTransform):
             ptransform = ProposalTransform(self._options, obj,
                                            self._user_transform)
             res['proposals'] = ptransform.export_all()
+
+        if self._badge_transform and model.votedetail.is_enabled():
+            res['adhocracy_votedetail_userbadges'] = [
+                self._badge_transform._compute_key(b)
+                for b in obj.votedetail_userbadges
+            ]
 
         return res
 
@@ -321,13 +330,20 @@ class InstanceTransform(_ExportOnlyTransform):
         if self._options.get('include_instance_proposal'):
             ptransform = ProposalTransform(self._options, o,
                                            self._user_transform)
-            ptransform.import_all(data.get('proposals', []))
+            ptransform.import_all(data.get('proposals', {}))
+
+        if self._badge_transform and model.votedetail.is_enabled():
+            if 'adhocracy_votedetail_userbadges' in data:
+                o.votedetail_userbadges = [
+                    self._badge_transform._get_by_key(bid)
+                    for bid in data['adhocracy_votedetail_userbadges']
+                ]
 
     def _get_by_key(self, key):
         return self._model_class.find(key)
 
 
-class ProposalTransform(_ExportOnlyTransform):
+class ProposalTransform(_Transform):
     _ID_KEY = 'id'
 
     def __init__(self, options, instance, user_transform):
@@ -379,7 +395,7 @@ class ProposalTransform(_ExportOnlyTransform):
         return res
 
 
-class CommentTransform(_ExportOnlyTransform):
+class CommentTransform(_Transform):
     _ID_KEY = 'id'
 
     def __init__(self, options, all_comments, parent_comment, user_transform):
@@ -405,12 +421,11 @@ class CommentTransform(_ExportOnlyTransform):
         return res
 
 
-class RequestLogTransform(_ExportOnlyTransform):
+class RequestLogTransform(_Transform):
     _ID_KEY = 'id'
 
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
-        self.logs = model.RequestLog.all()
 
     def _export(self, obj):
         res = obj.to_dict()
@@ -418,13 +433,58 @@ class RequestLogTransform(_ExportOnlyTransform):
         return res
 
 
+class StaticPageTransform(_Transform):
+    def __init__(self, options, backend=None):
+        super(StaticPageTransform, self).__init__(options)
+        if backend is None:
+            from adhocracy.lib.staticpage import get_backend
+            backend = get_backend()
+        self._backend = backend
+
+    def _export(self, obj):
+        return {
+            'key': obj.key,
+            'lang': obj.lang,
+            'title': obj.title,
+            'body': obj.body
+        }
+
+    def _create(self, data):
+        return self._backend.create(
+            data['key'],
+            data['lang'],
+            data.get('title', u''),
+            data.get('body', u''))
+
+    def _modify(self, o, data):
+        _set_optional(o, data, 'key')
+        _set_optional(o, data, 'lang')
+        _set_optional(o, data, 'title')
+        _set_optional(o, data, 'body')
+
+    def _get_by_key(self, k):
+        key, _, lang = k.partition(u'_')
+        return self._backend.get(key, lang)
+
+    def _get_all(self):
+        return self._backend.all()
+
+    def _compute_key(self, obj):
+        return obj.key + u'_' + obj.lang
+
+    def _compute_key_from_data(self, data):
+        return data['key'] + u'_' + data['lang']
+
+
 def gen_all(options):
     badge_transform = BadgeTransform(options)
     user_transform = UserTransform(options, badge_transform)
-    instance_transform = InstanceTransform(options, user_transform)
+    instance_transform = InstanceTransform(
+        options, user_transform, badge_transform)
     requestlog_transform = RequestLogTransform(options)
+    staticpage_transform = StaticPageTransform(options)
     return [badge_transform, user_transform, instance_transform,
-            requestlog_transform]
+            requestlog_transform, staticpage_transform]
 
 
 def gen_active(options):

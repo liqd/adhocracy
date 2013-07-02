@@ -6,9 +6,7 @@ import formencode
 from formencode import htmlfill
 from formencode import validators
 
-from paste.deploy.converters import asbool, asint
-
-from pylons import request, response, tmpl_context as c, config
+from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _, lazy_ugettext as L_
@@ -16,6 +14,7 @@ from pylons.i18n import _, lazy_ugettext as L_
 import geojson
 from shapely import wkb
 
+from adhocracy import config
 from adhocracy import forms, i18n, model
 from adhocracy.model import Proposal
 from adhocracy.model import Page
@@ -36,7 +35,7 @@ from adhocracy.lib.geo import add_instance_props
 from adhocracy.lib.geo import get_instance_geo_centre
 
 log = logging.getLogger(__name__)
-INSTANCE_UPDATED_MSG = L_('The changes where saved.')
+INSTANCE_UPDATED_MSG = L_('The changes were saved.')
 NO_UPDATE_REQUIRED = L_('No update required.')
 
 
@@ -91,8 +90,11 @@ class InstanceBadgesForm(formencode.Schema):
 
 class InstanceCreateForm(formencode.Schema):
     allow_extra_fields = True
-    key = formencode.All(validators.String(min=4, max=20),
-                         forms.UniqueInstanceKey())
+    key = formencode.All(
+        validators.String(
+            min=config.get_int('adhocracy.instance_key_length_min'),
+            max=config.get_int('adhocracy.instance_key_length_max')),
+        forms.UniqueInstanceKey())
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
 
@@ -190,10 +192,10 @@ class InstanceController(BaseController):
     def new(self):
 
         data = {}
-        protocol = config.get('adhocracy.protocol', 'http').strip()
+        protocol = config.get('adhocracy.protocol').strip()
         domain = config.get('adhocracy.domain').strip()
 
-        if asbool(config.get('adhocracy.relative_urls', 'false')):
+        if config.get_bool('adhocracy.relative_urls'):
             data['url_pre'] = '%s://%s/i/' % (protocol, domain)
             data['url_post'] = ''
             data['url_right_align'] = False
@@ -238,11 +240,11 @@ class InstanceController(BaseController):
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
 
-        if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
-                and c.page_instance.milestones:
+        if config.get_bool('adhocracy.show_instance_overview_milestones')\
+           and c.page_instance.milestones:
 
-            number = asint(config.get(
-                'adhocracy.number_instance_overview_milestones', 3))
+            number = config.get_int(
+                'adhocracy.number_instance_overview_milestones')
 
             milestones = model.Milestone.all_future_q(
                 instance=c.page_instance).limit(number).all()
@@ -252,8 +254,7 @@ class InstanceController(BaseController):
                 enable_pages=False, default_sort=sorting.milestone_time)
 
         c.events_pager = None
-        if asbool(config.get('adhocracy.show_instance_overview_events',
-                             'true')):
+        if config.get_bool('adhocracy.show_instance_overview_events'):
             events = model.Event.find_by_instance(c.page_instance, limit=3)
             c.events_pager = pager.events(events,
                                           enable_pages=False,
@@ -261,29 +262,21 @@ class InstanceController(BaseController):
 
         proposals = model.Proposal.all(instance=c.page_instance)
 
-        show_new_proposals_cfg = config.get(
+        show_new_proposals = config.get_bool(
             'adhocracy.show_instance_overview_proposals_new')
-        if show_new_proposals_cfg is None:
-            # Fall back to legacy option
-            show_new_proposals = asbool(config.get(
-                'adhocracy.show_instance_overview_proposals', 'true'))
-        else:
-            show_new_proposals = asbool(show_new_proposals_cfg)
         c.new_proposals_pager = None
-        if asbool(show_new_proposals):
+        if show_new_proposals:
             c.new_proposals_pager = pager.proposals(
                 proposals, size=7, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.entity_newest)
 
         c.all_proposals_pager = None
-        if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
-                             'false')):
+        if config.get_bool('adhocracy.show_instance_overview_proposals_all'):
             c.all_proposals_pager = pager.proposals(proposals, size=100,
                                                     initial_size=100)
 
         c.stats = None
-        if asbool(config.get('adhocracy.show_instance_overview_stats',
-                             'true')):
+        if config.get_bool('adhocracy.show_instance_overview_stats'):
             c.stats = {
                 'comments': model.Comment.all_q().count(),
                 'proposals': model.Proposal.all_q(
@@ -461,10 +454,10 @@ class InstanceController(BaseController):
         '''
         if updated:
             event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-            message = message if message else INSTANCE_UPDATED_MSG
+            message = message if message else unicode(INSTANCE_UPDATED_MSG)
             category = 'success'
         else:
-            message = message if message else NO_UPDATE_REQUIRED
+            message = message if message else unicode(NO_UPDATE_REQUIRED)
             category = 'notice'
         h.flash(message, category=category)
         response.status_int = 303

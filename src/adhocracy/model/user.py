@@ -6,6 +6,7 @@ from datetime import datetime
 from babel import Locale
 
 from pylons import config
+from pylons.i18n import _
 
 from sqlalchemy import Table, Column, func, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
@@ -356,6 +357,22 @@ class User(meta.Indexable):
         #    vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
 
+    def undelete(self):
+        from watch import Watch
+
+        for twitter in self.twitters:
+            twitter.delete_time = None
+        for openid in self.openids:
+            openid.delete_time = None
+        for comment in self.comments:
+            comment.delete_time = None
+        for membership in self.memberships:
+            membership.expire_time = None
+        for watch in Watch.all_by_user(self):
+            watch.delete_time = None
+
+        self.delete_time = None
+
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
@@ -407,6 +424,9 @@ class User(meta.Indexable):
     def create(cls, user_name, email, password=None, locale=None,
                openid_identity=None, global_admin=False, display_name=None,
                shibboleth_persistent_id=None):
+        """
+        Create a user. If user_name is None, a random user name is generated.
+        """
         from group import Group
         from membership import Membership
 
@@ -417,6 +437,18 @@ class User(meta.Indexable):
         import adhocracy.i18n as i18n
         if locale is None:
             locale = i18n.get_default_locale()
+
+        while user_name is None:
+            # Note: This can theoretically lead to IntegrityErrors if the same
+            # username is generated at the same time. This is very unlikely
+            # though.
+            from adhocracy.lib.util import random_username
+            try_user_name = random_username()
+            if cls.find(try_user_name) is None:
+                user_name = try_user_name
+                from adhocracy.lib import helpers as h
+                h.flash(_('The random username %s has been assigned to you.') %
+                        user_name, 'success')
 
         user = User(user_name, email, password, locale,
                     display_name=display_name)

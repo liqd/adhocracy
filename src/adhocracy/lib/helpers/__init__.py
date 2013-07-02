@@ -10,13 +10,14 @@ import json
 import urllib
 
 from paste.deploy.converters import asbool, asint
-from pylons import tmpl_context as c, config, request
+from pylons import tmpl_context as c, request
 from pylons.i18n import _, get_lang
 from webhelpers.html import literal
 from webhelpers.html.tags import file
 from webhelpers.pylonslib import Flash as _Flash
 from webhelpers.text import truncate
 
+from adhocracy import config
 from adhocracy.lib import cache
 from adhocracy.lib import democracy
 from adhocracy.lib import sorting
@@ -86,12 +87,16 @@ def immutable_proposal_message():
              "be modified.")
 
 
-def comments_sorted(comments, root=None, variant=None):
+def comments_sorted(comments, root=None, variant=None, key=None):
     from adhocracy.lib.tiles.comment_tiles import CommentTile
     comments = [c for c in comments if
                 (c.variant == variant and c.reply == root)]
     _comments = []
-    for comment in sorting.comment_order(comments):
+    if key is None:
+        comments = sorting.comment_order(comments)
+    else:
+        comments = sorted(comments, key=key)
+    for comment in comments:
         tile = CommentTile(comment)
         _comments.append((comment, tile))
     return _comments
