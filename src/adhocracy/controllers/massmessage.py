@@ -128,7 +128,8 @@ class MassmessageController(BaseController):
             'support': {
                 'email': config.get('adhocracy.registration_support_email'),
                 'checked': False,
-                'enabled': config.get('adhocracy.registration_support_email') is not None,
+                'enabled': (config.get('adhocracy.registration_support_email')
+                            is not None),
                 'reason': _("adhocracy.registration_support_email not set"),
             }
         }
