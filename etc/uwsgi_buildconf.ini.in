@@ -5,7 +5,7 @@
 bin_name = ${:bin-name}
 plugin_dir = ${:plugin-dir}
 main_plugin = ${:main-plugin}
-xml = true 
+xml = false
 ini = true
 yaml = true
 json = auto
