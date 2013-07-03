@@ -9,7 +9,7 @@
   'service will receive this message per email.')}
 
   <form name="create_message" class="inplace" method="POST"
-        action="${h.base_url('/message/preview')}">
+        action="${c.preview_url}">
       ${h.field_token()|n}
 
       <fieldset class="massmessage_filter">

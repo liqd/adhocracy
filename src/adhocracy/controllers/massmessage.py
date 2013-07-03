@@ -15,6 +15,7 @@ from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib import helpers as h
 from adhocracy.lib.message import render_body
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, ret_abort, ret_success
@@ -148,12 +149,15 @@ class MassmessageController(BaseController):
         if id is None:
             require.perm('global.message')
             template = '/massmessage/new.html'
+            c.preview_url = h.base_url('/message/preview')
         else:
             c.page_instance = InstanceController._get_current_instance(id)
             require.message.create(c.page_instance)
             c.settings_menu = InstanceController._settings_menu(
                 c.page_instance, 'massmessage')
             template = '/instance/settings_massmessage.html'
+            c.preview_url = h.base_url(
+                '/instance/%s/settings/massmessage/preview' % id)
 
         defaults = dict(request.params)
         defaults.setdefault('include_footer', 'on')

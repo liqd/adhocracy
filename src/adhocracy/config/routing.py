@@ -302,6 +302,9 @@ def make_map(config):
     map.connect('/instance/{id}/settings/massmessage',
                 controller='massmessage', action='create',
                 conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/massmessage/preview',
+                controller='massmessage', action='preview',
+                conditions=dict(method=['POST']))
     map.connect('/instance/{id}/settings/members_import',
                 controller='instance', action='settings_members_import',
                 conditions=dict(method=['GET']))
