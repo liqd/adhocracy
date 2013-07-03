@@ -35,10 +35,10 @@ class MassmessageForm(formencode.Schema):
     allow_extra_fields = True
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
-    filter_instances = forms.MessageableInstances()
+    filter_instances = forms.MessageableInstances(not_empty=True)
     filter_badges = forms.ValidUserBadges()
     sender_email = validators.String(not_empty=True)
-    sender_name = validators.String()
+    sender_name = validators.String(not_empty=False, if_missing=None)
     include_footer = formencode.validators.StringBoolean(if_missing=False)
 
 
