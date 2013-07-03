@@ -15,6 +15,7 @@ from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib import helpers as h
 from adhocracy.lib.message import render_body
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, ret_abort, ret_success
@@ -22,6 +23,7 @@ from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
+from adhocracy.model import Permission
 from adhocracy.model import User
 from adhocracy.model import UserBadge
 from adhocracy.model import UserBadges
@@ -33,10 +35,10 @@ class MassmessageForm(formencode.Schema):
     allow_extra_fields = True
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
-    filter_instances = forms.MessageableInstances()
+    filter_instances = forms.MessageableInstances(not_empty=True)
     filter_badges = forms.ValidUserBadges()
     sender_email = validators.String(not_empty=True)
-    sender_name = validators.String()
+    sender_name = validators.String(not_empty=False, if_missing=None)
     include_footer = formencode.validators.StringBoolean(if_missing=False)
 
 
@@ -104,10 +106,11 @@ class MassmessageController(BaseController):
         if has('global.message'):
             return Instance.all()
         else:
+            perm = Permission.find('instance.message')
             return [m.instance for m in user.memberships
                     if (m.instance is not None
                         and m.instance.is_authenticated
-                        and 'instance.message' in m.group.permissions)]
+                        and perm in m.group.permissions)]
 
     @classmethod
     def _get_allowed_sender_options(cls, user):
@@ -128,7 +131,8 @@ class MassmessageController(BaseController):
             'support': {
                 'email': config.get('adhocracy.registration_support_email'),
                 'checked': False,
-                'enabled': config.get('adhocracy.registration_support_email') is not None,
+                'enabled': (config.get('adhocracy.registration_support_email')
+                            is not None),
                 'reason': _("adhocracy.registration_support_email not set"),
             }
         }
@@ -145,12 +149,15 @@ class MassmessageController(BaseController):
         if id is None:
             require.perm('global.message')
             template = '/massmessage/new.html'
+            c.preview_url = h.base_url('/message/preview')
         else:
             c.page_instance = InstanceController._get_current_instance(id)
             require.message.create(c.page_instance)
             c.settings_menu = InstanceController._settings_menu(
                 c.page_instance, 'massmessage')
             template = '/instance/settings_massmessage.html'
+            c.preview_url = h.base_url(
+                '/instance/%s/settings/massmessage/preview' % id)
 
         defaults = dict(request.params)
         defaults.setdefault('include_footer', 'on')
