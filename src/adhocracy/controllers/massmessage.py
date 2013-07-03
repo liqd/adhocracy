@@ -22,6 +22,7 @@ from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Message
 from adhocracy.model import MessageRecipient
+from adhocracy.model import Permission
 from adhocracy.model import User
 from adhocracy.model import UserBadge
 from adhocracy.model import UserBadges
@@ -104,10 +105,11 @@ class MassmessageController(BaseController):
         if has('global.message'):
             return Instance.all()
         else:
+            perm = Permission.find('instance.message')
             return [m.instance for m in user.memberships
                     if (m.instance is not None
                         and m.instance.is_authenticated
-                        and 'instance.message' in m.group.permissions)]
+                        and perm in m.group.permissions)]
 
     @classmethod
     def _get_allowed_sender_options(cls, user):
