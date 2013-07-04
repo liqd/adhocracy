@@ -70,7 +70,7 @@ ${caller.body()}
 
 <%def name="select(label, name, values, tabindex=None, cls='', help=None)">
 <%self:group name="${name}">
-<label for="${name}">${label}</lable>
+<label for="${name}">${label}</label>
 <select name="${name}" ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}>
     %for option in values:
     <option value="${option['value']}"
