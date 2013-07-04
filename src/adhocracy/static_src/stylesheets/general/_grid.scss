@@ -113,6 +113,10 @@
     /* (de) IE-Clearing:Benötigt nur der Internet Explorer und über iehacks.css zugeschaltet */
     #ie_clearing { display:none; }
 
+    .page_wrapper {
+        @include pie-clearfix();
+    }
+
     /*------------------------------------------------------------------------------------------------------*/
 
     /**
