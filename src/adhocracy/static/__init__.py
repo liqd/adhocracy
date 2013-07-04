@@ -58,7 +58,7 @@ select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
                             minified='jquery.select-hierarchy.min.js',
                             depends=[jquery])
 openid_selector = Resource(misc_library, 'openid.js',
-                            depends=[jquery])
+                           depends=[jquery])
 
 
 # --[ adhocracy ]-----------------------------------------------------------
