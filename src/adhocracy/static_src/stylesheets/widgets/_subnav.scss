@@ -17,7 +17,12 @@
         &.current {
             a {
                 color: $black;
-                @include button-background(#fff)
+                background-color: #fff;
+                @include background-image(linear-gradient(to bottom, darken(#fff, 12%), #fff));
+                &:hover {
+                    background-color: darken(#fff, 7%);
+                    @include background-image(linear-gradient(to bottom, darken(#fff, 16%), #fff));
+                }
             }
         }
     }
