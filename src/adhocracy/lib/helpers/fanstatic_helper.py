@@ -14,7 +14,7 @@ def get_socialshareprivacy_url():
     return fanstatic.get_needed().library_url(library)
 
 
-def _get_resource(module, name):
+def _get_resource(module, name, is_fun=False):
     resource = getattr(module, name, None)
     if resource is None:
         raise AttributeError('"%s" does not exist' % name)
@@ -40,6 +40,16 @@ class FanstaticNeedHelper(object):
 
     def __init__(self, module):
         self.module = module
+        self.dynamics = {}
+
+    def load_dynamic(self, name, *args, **kwargs):
+        if name not in self.dynamics:
+            resource_fun = getattr(self.module, name, None)
+            if resource_fun is not None:
+                assert(type(resource_fun) == type(lambda: None))
+                self.dynamics[name] = resource_fun(*args, **kwargs)
+
+        return self.dynamics[name].need()
 
     def __getattr__(self, name):
         return _get_resource(self.module, name).need()
