@@ -4,7 +4,7 @@ Updates geo_centre field on all instances which have a region set, but no
 geo_centre.
 
 call it with:
-LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy src/adhocracy/scripts/update-instance-geo_centres.py etc/adhocracy.ini
+LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy scripts/update-instance-geo_centres.py etc/adhocracy.ini
 """
 
 # boilerplate code. copy that

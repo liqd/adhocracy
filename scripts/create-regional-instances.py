@@ -7,7 +7,7 @@ offenekommune.de purposes.
 Run this script after creating the region hierarchy.
 
 call it with:
-LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy src/adhocracy/scripts/create-regional-instances.py etc/adhocracy.ini
+LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy scripts/create-regional-instances.py etc/adhocracy.ini
 """
 
 # boilerplate code. copy that
@@ -173,7 +173,7 @@ def create_municipality(region):
             meta.Session.delete(category)
 
     for (title, description) in fix_categories.iteritems():
-        CategoryBadge.create(title, '#a4a4a4', description, instance=instance)
+        CategoryBadge.create(title, '#a4a4a4', True, description, instance=instance)
 
     instance.region = region
 
