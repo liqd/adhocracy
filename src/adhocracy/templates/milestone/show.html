@@ -8,6 +8,8 @@
 <%block name="sidebar">
 ${components.watch(c.milestone)}
 
+<div class="sidebar_box">
+
 <h3 id="information">${_('Informations')}</h3>
 <summary>
 
@@ -35,6 +37,7 @@ created_msg = _("by %s on %s") % (
 
 </summary>
 
+</div>
 </%block>
 
 <%block name="main_content">
