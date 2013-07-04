@@ -1,6 +1,35 @@
 #col3_content {
     background: $bg1;
-    padding: 1.5em;
+    padding: 0 1.5em;
+
+    &:before, &:after {
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+    zoom: 1; /* IE 5.5/6/7 */
+
+    > *:first-child {
+        margin-top: 1.5em;
+    }
+    > *:last-child {
+        margin-bottom: 1.5em;
+    }
+
+    &.box-style {
+        background: none;
+        padding: 0;
+
+        &:before, &:after {
+            content: "";
+        }
+
+        .sidebar_box {
+            background: $bg1;
+            padding: 1.5em;
+        }
+    }
 }
 
 #col3 h3 {
