@@ -15,13 +15,15 @@
     }
 }
 
-a.more, a.more_uppercase {
-    @include morelink();
-    text-transform: uppercase;
-    font-weight: bold;
-}
-a.more_link {
-    @include morelink();
-    text-transform: uppercase;
-    font-size: 0.8em;
+a, span {
+    &.more, &.more_uppercase {
+        @include morelink();
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    &.more_link {
+        @include morelink();
+        text-transform: uppercase;
+        font-size: 0.8em;
+    }
 }
