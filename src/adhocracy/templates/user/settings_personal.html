@@ -1,0 +1,36 @@
+<%inherit file="/user/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
+</%def>
+
+<%block name="settings_content">
+<form class="well" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="_method" value="PUT" />
+
+    ${h.field_token()|n}
+
+    ${components.flashmessages()}
+
+    <h2>${_(u'Personal settings')}</h2>
+
+    ${forms.input(_("Display name"), 'display_name', help=_("You can chose which name other users see."), placeholder=c.page_user.user_name)}
+
+    ${forms.select(_("Language"), 'locale', c.locales, help=_("Prefered user interface language"))}
+
+    %if h.config.get_bool('adhocracy.enable_gender'):
+    ${forms.select(_("Salutation"), 'gender', c.salutations, help=_("Select your prefered gender"))}
+    %endif
+
+    <%forms:textarea label="${_('Short biography')}" name="bio" value=""
+    help="${_('A bio will allow others to learn about you and perhaps even get you a few delegations.')}">
+    ${components.formatting()}
+    </%forms:textarea>
+
+    ${components.savebox(cancel_url=None)}
+
+</form>
+</%block>

@@ -1,0 +1,40 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("User settings")}</%def>
+
+<%def name="breadcrumbs()">
+</%def>
+
+<%block name="flashmessages">
+</%block>
+
+<%block name="content_wrapper">
+<div id="settings">
+    <div id="col1">
+        <div id="col1_content" class="clearfix">
+         <%block name="settings_content">
+         </%block>
+        </div>
+    </div>
+
+    <aside>
+        <div id="col3">
+            <div id="col3_content" class="clearfix">
+                <div class="well">
+                <%block name="settings_menu">
+                <ul class="nav nav-list">
+                    %for item in c.settings_menu.values():
+                    <li class="${item['class']}">
+                        <a href="${item['url']}">${item['label']}</a>
+                    </li>
+                    %endfor
+                </ul>
+                </%block>
+                </div>
+            </div>
+            <!-- IE Column Clearing -->
+            <div id="ie_clearing"> &#160; </div>
+        </div>
+    </aside>
+</div>
+</%block>
