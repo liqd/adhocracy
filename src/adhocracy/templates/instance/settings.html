@@ -27,12 +27,10 @@
                 <div class="well" data-spy="affix" data-offset-top="170">
                 <%block name="settings_menu">
                 <ul class="nav nav-list">
-                    %for item in c.settings_menu:
-                    %if item['allowed']:
+                    %for item in c.settings_menu.values():
                     <li class="${item['class']}">
                         <a href="${item['url']}">${item['label']}</a>
                     </li>
-                    %endif
                     %endfor
                 </ul>
                 </%block>
