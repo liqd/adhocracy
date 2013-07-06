@@ -44,16 +44,16 @@ def get_value(key, converter, default=None, config=config):
 
 
 def get_bool(key, default=None, config=config):
-    return get_value(key, asbool, default)
+    return get_value(key, asbool, default, config)
 
 
 def get_int(key, default=None, config=config):
-    return get_value(key, asint, default)
+    return get_value(key, asint, default, config)
 
 
 def get_list(key, default=None, config=config):
-    return get_value(key, aslist, default)
+    return get_value(key, aslist, default, config)
 
 
 def get(key, default=None, config=config):
-    return get_value(key, None, default)
+    return get_value(key, None, default, config)
