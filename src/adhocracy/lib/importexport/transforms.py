@@ -382,7 +382,7 @@ class ProposalTransform(_Transform):
         res = {
             'id': obj.id,
             'title': obj.title,
-            'description': obj.description,
+            'description': obj.description.head.text,
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'proposal',
         }
