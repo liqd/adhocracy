@@ -98,7 +98,7 @@
 </%block>
 
 <%block name="sidebar">
-<section>
+<section class="sidebar_box">
   <h3 id="instance_list">${_("Your Instances")}</h3>
     <ul>
     %for instance in c.page_user.instances:
@@ -110,12 +110,12 @@
     %endfor   
     </ul>
 </section>
-<section>
+<section class="sidebar_box">
   <h3 id="watchlist">${_("Your Watchlist")}</h3>
     ${c.watchlist_pager.here()}
 </section>
 % if c.polls:
-  <section>
+  <section class="sidebar_box">
     <h3>${_("Current polls in your instances")}</h3>
       ${c.polls_pager.here()}
   </section>

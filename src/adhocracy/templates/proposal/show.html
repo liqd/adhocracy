@@ -218,8 +218,9 @@ delegate_url = url if can.delegation.create() else None
 
 <%block name="sidebar">
 
-<div class="sidebar_box">
 ${components.watch(c.proposal, id='follow_proposal')}
+
+<div class="sidebar_box">
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>
