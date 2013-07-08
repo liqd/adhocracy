@@ -1,5 +1,15 @@
+@mixin vote-background($color) {
+    background-color: $color;
+    @include background-image(linear-gradient(top, $color, darken($color, 10%)));
+}
+@mixin vote-background-inverted($color) {
+    background-color: $color;
+    @include background-image(linear-gradient(bottom, $color, darken($color, 10%)));
+}
+
 .vote {
-    background: url('/images/sprite_buttons_small.png') repeat-x 0 -300px;
+    @include button-round-background();
+    border: 1px solid $border;
     height: 14px;
     line-height: 14px;
     @include border-radius(7px);
@@ -7,23 +17,28 @@
     display: inline-block;
     font-weight: bold;
     font-size: 11px;
+    vertical-align: middle;
 }
 .vote_count, .vote_up, .vote_down {
     display: inline-block;
+    vertical-align: top;
 }
 .vote_count {
     color: #fff;
-    background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
     padding: 0 5px;
 
     &.neutral {
         color: $button-color;
-        background-position: 0 -300px;
     }
     &.negative {
-        background-position: 0 -50px;
+        @include vote-background($red);
+    }
+
+    &.positive {
+        @include vote-background($green);
     }
 }
+
 .vote_up, .vote_down {
     border-left: 1px solid $border;
     padding: 0 10px;
@@ -34,11 +49,11 @@
 
 .vote_up {
     &:hover {
-        background: url('/images/sprite_buttons_small.png') repeat-x 0 -150px;
+        @include vote-background($green);
         text-decoration: none;
     }
     &:active, &.active {
-        background: url('/images/sprite_buttons_small.png') repeat-x 0 -200px;
+        @include vote-background-inverted($green);
         @include box-shadow(1px 1px 1px #333 inset);
     }
     span {
@@ -54,11 +69,11 @@
 
 .vote_down {
     &:hover {
-        background: url('/images/sprite_buttons_small.png') repeat-x 0 -50px;
+        @include vote-background($red);
         text-decoration: none;
     }
     &:active, &.active {
-        background: url('/images/sprite_buttons_small.png') repeat-x 0 -100px;
+        @include vote-background-inverted($red);
         @include box-shadow(1px 1px 1px #333 inset);
     }
     span {
@@ -74,26 +89,14 @@
 
 
 .vote.big {
-    background: url('/images/sprite_buttons_small.png') repeat-x 0 -450px;
     height: 26px;
     line-height: 26px;
     @include border-radius(13px);
-    overflow: hidden;
-    display: inline-block;
-    margin: 0 0 20px;
     font-weight: bold;
     font-size: 14px;
 
     .vote_count {
-        background-position: 0 -450px;
         padding: 0 10px;
-
-        &.positive {
-            background-position: 0 -500px;
-        }
-        &.negative {
-            background-position: 0 -600px;
-        }
     }
     .vote_up, .vote_down {
         padding: 0 15px;
@@ -103,11 +106,9 @@
     }
     .vote_up {
         &:hover {
-            background: url('/images/sprite_buttons_small.png') repeat-x 0 -500px;
             text-decoration: none;
         }
         &:active, &.active {
-            background: url('/images/sprite_buttons_small.png') repeat-x 0 -550px;
             @include box-shadow(1px 1px 1px #333 inset);
         }
         span {
@@ -122,11 +123,9 @@
     }
     .vote_down {
         &:hover {
-            background: url('/images/sprite_buttons_small.png') repeat-x 0 -600px;
             text-decoration: none;
         }
         &:active, &.active {
-            background: url('/images/sprite_buttons_small.png') repeat-x 0 -650px;
             @include box-shadow(1px 1px 1px #333 inset);
         }
         span {
@@ -143,17 +142,10 @@
 
 .vote.deactivated {
     .vote_up, .vote_down {
-        background-position: 0 -450px !important;
         @include box-shadow(none !important);
 
         span {
             background-image: none !important;
         }
     }
-}
-
-.vote_wrapper .or {
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 6px
 }

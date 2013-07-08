@@ -1,13 +1,11 @@
-.joyride-next-tip,
-.joyride-prev-tip {
-    color: #fff !important;
-    background: url('/images/sprite_buttons.png') repeat-x 0 -200px !important;
-    border: none !important;
-    height: 35px !important;
-    line-height: 35px !important;
-    padding: 0 15px !important;
+// the #main is needed to overwrite the joyride css
+#main .joyride-next-tip, #main .joyride-prev-tip {
+    @include button($button-color);
+
+    // overwrite
+    @include text-shadow(none);
+    @include border-radius(0);
     &:hover {
-        background-position: 0 -250px !important;
         border: none !important;
     }
 }
@@ -17,7 +15,6 @@
 }
 
 #start-tutorial-button {
-    margin-bottom: -15px;
     margin-right: 2em;
 }
 

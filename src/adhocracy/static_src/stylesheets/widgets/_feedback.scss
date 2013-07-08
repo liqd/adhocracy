@@ -19,9 +19,12 @@
 }
 
 #feedback_button {
-    background: url("/images/feedback_simple_vertical.png") no-repeat 0px 0px transparent;
+    @include button($register-color);
+    font-size: 12px;
+    line-height: 28px;
+
     position: absolute;
-    left: 0px;
-    width: 27px;
-    height: 140px;
+    left: 28px; // height
+    @include rotate(90deg);
+    @include transform-origin(0, 0);
 }
