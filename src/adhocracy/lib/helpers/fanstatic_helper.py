@@ -14,7 +14,7 @@ def get_socialshareprivacy_url():
     return fanstatic.get_needed().library_url(library)
 
 
-def _get_resource(module, name, is_fun=False):
+def _get_resource(module, name):
     resource = getattr(module, name, None)
     if resource is None:
         raise AttributeError('"%s" does not exist' % name)
