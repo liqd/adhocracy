@@ -21,6 +21,10 @@ style = Resource(stylesheets_library, 'adhocracy.css')
 stylesheets = Group([style])
 
 
+def instance_stylesheet(key):
+    return Resource(stylesheets_library, str('adhocracy_%s.css' % key))
+
+
 # --[ jquery.autocomplete ]-------------------------------------------------
 
 autocomplete_library = Library('autocomplete', 'javascripts', version="1.2.2")

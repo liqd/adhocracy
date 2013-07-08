@@ -211,7 +211,11 @@ $(document).ready(function () {
     <!-- template -->
 
     <%
-    h.need.stylesheets
+    instance_stylesheets = h.config.get('adhocracy.instance_stylesheets')
+    if instance_stylesheets and c.instance is not None and c.instance.key in instance_stylesheets:
+        h.need.load_dynamic('instance_stylesheet', c.instance.key)
+    else:
+        h.need.stylesheets
     h.need.modernizr
     h.need.jquery
     h.need.jquerytools
