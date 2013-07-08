@@ -61,15 +61,9 @@ a.show_comments:hover, a.new_comment:hover, a.participate {
     @include button-small($primary-color, $primary-color);
 }
 
-/* follow button */
-a.follow_paper, div.skip_follow {
-    line-height: 26px;
-    @include border-radius(13px);
-    overflow: hidden;
-    display: inline-block;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 0 20px 0 20px;
+a.button_round {
+    @include button-round;
+    font-weight: normal;
 }
 
 /* follow button */
