@@ -10,15 +10,19 @@ a.button {
         line-height: 27px;
         float: left;
         margin-right: 15px;
+        padding-right: 30px;
+        min-width: 140px;
+        position: relative;
 
         &:after {
             background: url('/images/sprite.png') no-repeat 0 -13*50px;
             content: "";
+            position: absolute;
             width: 20px;
             height: 20px;
             display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
+            right: 10px;
+            top: 4px;
         }
     }
 }
