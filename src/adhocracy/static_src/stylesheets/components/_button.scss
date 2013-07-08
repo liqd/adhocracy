@@ -25,7 +25,8 @@ a.button {
 
 .submit input, .submit button, button[type="submit"] {
     @include button($primary-color);
-    font-size: inherit;
+    font-size: 13px;
+    line-height: 27px;
 }
 
 a.button_small {
