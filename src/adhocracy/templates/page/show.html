@@ -8,7 +8,8 @@
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 
-<%block name="sidebar">
+<%block name="col3_content">
+<div id="col3_content" class="box-style">
 
     %if c.page.has_variants:
 
@@ -52,6 +53,7 @@
 
     %endif
 
+    <div class="sidebar_box">
     <h3>${_("Information about the norm")}</h3>
     <summary>
         ## Shortlink http://domain/d/1234
@@ -95,6 +97,7 @@
     </ol>
     %endif
     </summary>
+    </div>
 
 </section>
 
@@ -111,6 +114,7 @@
         /* ]]> */
     </script>
 
+</div>
 </%block>
 
 <%block name="main_content">
