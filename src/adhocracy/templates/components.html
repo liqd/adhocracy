@@ -51,7 +51,7 @@
     save_text = save_text if save_text is not None else _("Save")
     %>
     <div class="savebox">
-        <button type="submit" class="btn btn-primary" 
+        <button type="submit" class="button" 
                 value="${save_value}">
             ${save_text}
         </button>
@@ -312,12 +312,12 @@ ${caller.body()}
             <input type="text" placeholder="${_(u'One line summary')}" name="label">
             <label>${_(u'Description')}</label>
             <textarea rows="8" name="text"></textarea>
-            <button type="submit" class="btn">${_(u'Submit')}</button>
+            <button type="submit" class="button">${_(u'Submit')}</button>
           </fieldset>
           <a href="${h.feedback.get_proposal_url()}">${_(u'List existing feedback')}</a>
         </form>
       </div>
-      <a href="#" id="feedback_button"></a>
+      <a href="#" id="feedback_button">${_(u'Feedback')}</a>
     </div>
 </%def>
 

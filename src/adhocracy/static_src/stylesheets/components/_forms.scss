@@ -80,17 +80,6 @@ input[type=checkbox], input[type=radio] {
     *overflow: hidden;
 }
 
-.submit input, .submit button {
-    border: medium none;
-    cursor: pointer;
-    float: left;
-    font-size: 13px;
-    font-weight: bold;
-    height: 27px;
-    margin-right: 15px;
-    padding: 0 15px 3px;
-}
-
 form .error-message {
     color: darkred;
 }
@@ -160,7 +149,8 @@ form.new_comment {
 
 #searchform #searchsubmit,
 .list_form input.go {
-    background: url('/images/button_grey.jpg') no-repeat top left;
+    background-color: $button-color;
+    @include background-image(linear-gradient(170deg, lighten($button-color, 14%), $button-color));
     padding: 0px 10px 2px;
     height: 26px;
     margin-left: -5px;
@@ -168,10 +158,6 @@ form.new_comment {
     text-transform: uppercase;
     border: none;
     font-size: 13px;
-}
-#searchform #searchsubmit:hover,
-.list_form input.submit:hover {
-    cursor: pointer;
 }
 
 form#user_welcome {

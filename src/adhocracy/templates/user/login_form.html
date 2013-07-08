@@ -15,7 +15,7 @@ else:
 <div class="form_wrapper">
   %if 'shibboleth' in login_types:
   <div>
-    <a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="btn patch_camefrom">${_(u"Login") if c.hide_locallogin else _(u"Login via Shibboleth")}</a>
+    <a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="button patch_camefrom">${_(u"Login") if c.hide_locallogin else _(u"Login via Shibboleth")}</a>
   </div>
   %endif
 

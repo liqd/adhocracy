@@ -1,0 +1,84 @@
+@mixin button-background($color) {
+    background-color: $color;
+    @include background-image(linear-gradient(170deg, lighten($color, 14%), $color));
+
+    &:hover {
+        background-color: darken($color, 7%);
+        @include background-image(linear-gradient(170deg, lighten($color, 7%), darken($color, 7%)));
+    }
+}
+
+@mixin button-round-background() {
+    background-color: #dedede;
+    @include background-image(linear-gradient(top, #eaeaea, #dedede));
+    &:hover {
+        background-color: #d1d1d1;
+        @include background-image(linear-gradient(top, #ececec, #d1d1d1));
+    }
+}
+
+@mixin button-base {
+    text-decoration: none;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: none;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+@mixin button($color) {
+    @include button-base;
+    line-height: 35px;
+    min-width: 82px;
+    font-weight: bold;
+    padding: 0 15px;
+
+    color: #fff;
+    @include button-background($color);
+}
+
+@mixin button-small($color1, $color2) {
+    @include button-base;
+    line-height: 14px;
+    @include border-radius(7px);
+    padding: 0 10px;
+    font-size: 11px;
+
+    background-color: lighten($color1, 14%);
+    @include background-image(linear-gradient(top, lighten($color1, 23%), lighten($color1, 14%)));
+    &:hover {
+        color: #fff;
+        background-color: $color2;
+        @include background-image(linear-gradient(top, lighten($color2, 7%), $color2));
+    }
+    &:active, &.active {
+        background-color: $color2;
+        @include background-image(linear-gradient(bottom, lighten($color2, 7%), $color2));
+        @include box-shadow(1px 1px 1px #333 inset);
+    }
+    .inactive & {
+        background: $bg2 !important;
+        @include box-shadow(none);
+    }
+}
+
+@mixin button-round {
+    @include button-base;
+    line-height: 26px;
+    font-size: 14px;
+    @include border-radius(13px);
+    padding: 0 20px;
+    font-weight: bold;
+
+    color: $black;
+    @include button-round-background();
+
+    &:hover {
+        text-decoration: none;
+    }
+}
