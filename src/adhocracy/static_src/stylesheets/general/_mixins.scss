@@ -77,5 +77,8 @@
 
     color: $black;
     @include button-round-background();
-}
 
+    &:hover {
+        text-decoration: none;
+    }
+}

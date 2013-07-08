@@ -73,12 +73,7 @@ a.button_round {
 
 /* follow button */
 a.follow_paper {
-    @include button-round-background();
-    color: $black;
-
-    &:hover {
-        text-decoration: none;
-    }
+    @include button-round;
 
     // icon
     &:before {
