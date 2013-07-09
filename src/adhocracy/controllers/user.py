@@ -9,7 +9,7 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 from babel import Locale
-
+from adhocracy.lib.session.session import get_secret
 from webob.exc import HTTPFound
 
 from repoze.who.api import get_api
@@ -24,6 +24,7 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest, token_id
 from adhocracy.lib.auth.welcome import (welcome_enabled, can_welcome,
                                         welcome_url)
+from adhocracy.lib.auth.emaillogin import (create_token, email_url)
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
@@ -607,6 +608,33 @@ class UserController(BaseController):
         return ret_abort(
             _("Sorry, registration has been disabled by administrator."),
             category='error', code=403)
+
+    @RequireInternalRequest(methods=['POST'])
+    @validate(schema=NoPasswordForm(), post_only=True)
+    def perform_email_login(self):
+        assert config.get('adhocracy.login_style') == 'alternate'
+        if config.get('adhocracy.login_style') == 'alternate' and self.form_result.get('have_password') == 'false':
+            user = model.User.find_by_email(self.form_result.get('login'))
+            if user:
+                login_code = create_token(user.email, config)
+                url = email_url(user, login_code)
+                body = (
+                    _("you have requested to authenticate you as a user via email address."
+                      "to proceed, please open the "
+                      "link below in your browser:") +
+                      "\n\n  " + url + "\n")
+                libmail.to_user(user,
+                                _("Login for %s") % h.site.name(),
+                                body)
+                return render("/user/login_email.html")
+        return self.nopassword()
+                
+    def emaillogin(self, id, token):
+        # Intercepted by EmailLoginRepozeWho, only errors go in here
+        h.flash(_('The login request was not valid, please try again'),
+                'error')
+        return redirect(h.base_url('/login'))
+
 
     def dashboard(self, id):
         '''Render a personalized dashboard for users'''

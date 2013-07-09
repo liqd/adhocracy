@@ -10,6 +10,7 @@ from repoze.what.plugins.sql.adapters import SqlPermissionsAdapter
 
 import adhocracy.model as model
 from . import welcome
+from . import emaillogin
 from authorization import InstanceGroupSourceAdapter
 from instance_auth_tkt import InstanceAuthTktCookiePlugin
 
@@ -92,7 +93,7 @@ class AlternateLoginFriendlyFormPlugin(FriendlyFormPlugin):
             request = Request(environ, charset=self.charset)
             form = dict(request.POST)
             if form.get('have_password') == 'false':
-                environ['PATH_INFO'] = '/user/nopassword'
+                environ['PATH_INFO'] = '/user/perform_email_login'
                 login = form.get('login')
                 environ['_adhocracy_nopassword_user'] = self._get_user(login)
                 return None
@@ -150,7 +151,7 @@ def setup_auth(app, config):
     mdproviders = [('sql_user_md', sql_user_md)]
 
     welcome.setup_auth(config, identifiers, authenticators)
-
+    emaillogin.setup_auth(config, identifiers, authenticators)
     log_stream = None
     #log_stream = sys.stdout
 
