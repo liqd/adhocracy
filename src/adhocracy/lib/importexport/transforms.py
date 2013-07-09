@@ -386,7 +386,7 @@ class ProposalTransform(_Transform):
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'proposal',
         }
-        if self._options.get('include_instance_proposal_comments', False):
+        if self._options.get('include_instance_proposal_comment', False):
             ctransform = CommentTransform(self._options,
                                           obj.description.comments,
                                           None,
