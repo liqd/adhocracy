@@ -41,6 +41,15 @@
         &:first-child {
             border-top: 1px dotted $border;
         }
+
+        // nested content_list
+        .content_list {
+            margin-bottom: -1em;
+
+            li:last-child {
+                border-bottom: none;
+            }
+        }
     }
     #col3 & > li {
         border-bottom: 1px dotted $border;
