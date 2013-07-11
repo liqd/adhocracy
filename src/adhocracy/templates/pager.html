@@ -185,7 +185,7 @@ help = lib.pager.help_strings()
                 name="${pager.sort_param}">
             %for sort, i in zipped:
             <% selected = i == pager.selected_sort %>
-            <option value="i"
+            <option value="${i}"
                     %if selected:
                     selected="selected"
                     %endif

@@ -315,10 +315,13 @@ def milestones(milestones, default_sort=None, **kwargs):
 def pages(pages, detail=True, default_sort=None, **kwargs):
     if default_sort is None:
         default_sort = sorting.hierarchical_title
-    sorts = {_("newest"): sorting.entity_newest,
-             _("most proposals"): sorting.norm_selections,
-             _("alphabetically"): sorting.delegateable_title,
-             _("hierarchical"): sorting.hierarchical_title}
+    # Note: sorts order matters, see comment in PageController.index
+    sorts = OrderedDict([
+        (_("newest"), sorting.entity_newest),
+        (_("most proposals"), sorting.norm_selections),
+        (_("alphabetically"), sorting.delegateable_title),
+        (_("hierarchical"), sorting.hierarchical_title)
+    ])
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
