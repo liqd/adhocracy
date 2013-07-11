@@ -1,6 +1,6 @@
 
 <%def name="row(tile, decision, focus_scope=False, focus_user=False)">
-    <div class="tile decision">
+    <li class="tile decision">
         <div class="logo">
             %if decision.result == 1:
                 <img src="/img/icons/vote_for.png" />
@@ -62,5 +62,5 @@
             %endif
         </div>
         </div>
-    </div>
+    </li>
 </%def>

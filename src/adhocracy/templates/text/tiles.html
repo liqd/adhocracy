@@ -1,6 +1,7 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
 <%def name="history_row(tile, text)">
+<li>
     <div class="tile text history">
         <h3 class="title">
             ${diff.page_titles_compare(text, text.valid_parent())|n}
@@ -28,6 +29,7 @@
                 </div>
             %endif
     </div>
+</li>
 </%def>
 
 
