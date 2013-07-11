@@ -77,7 +77,6 @@ a.icon_link {
 .meta, .utility {
     color: $fg1;
     font-size: 11px;
-    margin-bottom: 10px;
 }
 .utility h2, .utility h3, .utility h4 {
     display: inline-block;
@@ -131,11 +130,6 @@ Added during template integration
 
 #add_tags {
     padding-bottom: 10px;
-}
-
-.content_box .more {
-    float: right;
-    padding-top: 1em;
 }
 
 /* Fixes for js.socialshareprivace */
