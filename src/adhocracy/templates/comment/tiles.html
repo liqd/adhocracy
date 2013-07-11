@@ -2,7 +2,7 @@
 
 
 <%def name="row(tile, comment)">
-    <div class="tile">
+    <li class="tile">
         <div>
             <h3><a href="${h.entity_url(comment)}">${_("Comment") if h.comment.wording() else _("Argument")}</a> 
                 ${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
@@ -15,7 +15,7 @@
                 %endif      
             </div>
         </div>
-    </div>
+    </li>
 </%def>
 
 

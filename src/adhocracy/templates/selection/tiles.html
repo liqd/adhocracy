@@ -10,7 +10,7 @@ if is_different_variant:
 else:
     variant_url = h.entity_url(selection.page)
 %>
-<div class="paper" id="p${selection.id}">
+<li class="paper" id="p${selection.id}">
     <div class="paper_head floatbox">
         <h4><a href="${variant_url}">
             ${selection.page.full_title}
@@ -69,7 +69,7 @@ else:
     </div>
     ## FIXME: Render comments
     <hr />
-</div>
+</li>
 
 <%doc>
     <div class="tile selection" id="selection_${selection.id}">
