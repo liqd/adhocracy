@@ -1,13 +1,12 @@
 .content_list {
     list-style: none;
-    margin: 0;
+    margin: 0; // there should be no spacing between this list and a preceeding filter_box
 
-    li {
-        margin-bottom: 10px;
-    }
-
-    h3, #col3 & h3 {
+    h3 {
         font-size: 16px;
+    }
+    .tile.text.history h3 {
+        color: $black;
     }
 
     .level-1 {
@@ -30,64 +29,35 @@
         float: left;
         margin: 0 10px 10px 0;
     }
-}
 
-li.content_box {
-    padding: 10px 0 0 0;
-    margin-bottom: 0;
-    background-color: #fff;
-    @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
-
-    border-bottom: 1px dotted $border;
-
-    h3, p, .meta {
-        padding-right: 20px;
+    > li {
+        padding: 1em 0;
+        @include clearfix();
     }
-    hr {
-        margin-bottom: 0;
+    #col1 & > li {
+        @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
+
+        border-bottom: 1px dotted $border;
+        &:first-child {
+            border-top: 1px dotted $border;
+        }
     }
-    .base {
-        padding-left: 47px;
-        background: no-repeat;
-    }
-}
+    #col3 & > li {
+        border-bottom: 1px dotted $border;
 
-.content_box {
-    padding: 20px 5px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
-}
-
-.tile.text.history .title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 0;
-}
-
-.tile.event {
-    padding: 10px 0 2px 0;
-    border-top: 1px dotted $border;
-    &:first-child {
-        border-top: none;
+        &:last-child {
+            border-bottom: none;
+        }
     }
 }
 
-.event_text {
-    padding: 3px 0;
-
-    /* force markdown created text to be small */
-    * {
-        margin: 0 !important;
-        padding: 0 !important;
-        font-size: small !important;
-        background: none !important;
-        /*color: $fg1 !important;*/
-        font-variant: none !important;
-    }
-    li {
-        margin-left: 20px !important;
-    }
+/* force markdown created text to be small */
+.event_text * {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: small !important;
+    background: none !important;
+    font-variant: none !important;
 }
 
 a.view_all {
