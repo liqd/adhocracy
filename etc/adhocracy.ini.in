@@ -152,7 +152,7 @@ sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 
 # To avoid a race condition between main and background processes, delaying
-# background process updates can be delayed (see issue #158). This option
+# background process updates can be delayed (see issue #358). This option
 # defines the delay in seconds (default: 1 second)
 
 # adhocracy.delay_update_queue_seconds = 1
