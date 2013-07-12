@@ -5,6 +5,7 @@ from pylons import config
 
 
 DEFAULTS = {
+    'adhocracy.delay_update_queue_seconds': 1,
     'adhocracy.enable_gender': False,
     'adhocracy.feedback_check_instance': True,
     'adhocracy.feedback_instance_key': u'feedback',

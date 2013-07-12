@@ -151,6 +151,12 @@ sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 
+# To avoid a race condition between main and background processes, delaying
+# background process updates can be delayed (see issue #158). This option
+# defines the delay in seconds (default: 1 second)
+
+# adhocracy.delay_update_queue_seconds = 1
+
 # If debug is enabled, an web-based interactive debugger can be executed from
 # the HTTP500 error page, if the following option is set to true. This option
 # doesn't have any effect if debug is false.
