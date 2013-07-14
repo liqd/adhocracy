@@ -231,13 +231,3 @@ form.inline-form {
     background: none;
     padding: 0;
 }
-
-select[name="page_size"],
-select[name="proposal_sort_order"] {
-    float: right;
-}
-
-label[for="page_size"],
-label[for="proposal_sort_order"] {
-    line-height: 29px;
-}

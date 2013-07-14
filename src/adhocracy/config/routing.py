@@ -67,6 +67,30 @@ def make_map(config):
                 conditions=dict(method=['GET']))
     map.connect('/user/{id}/message/new', controller='message', action='new',
                 conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings',
+                controller='user', action='settings_personal',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings',
+                controller='user', action='settings_personal_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/login',
+                controller='user', action='settings_login',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/login',
+                controller='user', action='settings_login_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/notifications',
+                controller='user', action='settings_notifications',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/notifications',
+                controller='user', action='settings_notifications_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/advanced',
+                controller='user', action='settings_advanced',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/advanced',
+                controller='user', action='settings_advanced_update',
+                conditions=dict(method=['PUT']))
 
     map.connect('/message/new', controller='massmessage', action='new')
     map.connect('/message/preview', controller='massmessage', action='preview')

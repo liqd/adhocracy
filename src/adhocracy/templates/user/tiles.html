@@ -34,7 +34,7 @@
     
         %if lib.auth.authorization.has('global.admin'):
         <a class="button edit" 
-           href="${h.entity_url(user, instance=c.instance, member='edit')}">
+           href="${h.entity_url(user, instance=c.instance, member='settings')}">
             ${_('Edit Profile')}
         </a>
         %endif

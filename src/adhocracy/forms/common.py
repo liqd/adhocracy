@@ -82,6 +82,15 @@ class UniqueOtherEmail(formencode.FancyValidator):
         return value
 
 
+class ValidLocale(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy import i18n
+        if value in i18n.LOCALES:
+            return value
+        else:
+            raise formencode.Invalid(_('Invalid locale choice'), value, state)
+
+
 class ValidDate(formencode.FancyValidator):
     def _to_python(self, value, state):
         if not TIME.match(value):

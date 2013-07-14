@@ -31,6 +31,9 @@
     <input name="${name}"  type="checkbox"
            tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}" 
            ${'checked="checked"' if checked else '' | n} /> ${label}
+    %if help:
+    <div class="help-block">${help}</div>
+    %endif
 </label>
 </%self:group>
 
@@ -41,10 +44,10 @@
     <input value="${value}" name="${name}" type="checkbox" tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}"/> ${label}
 </label>
 </%def>
- 
+
 <%def name="textarea(label, name, value, tabindex=None, rows=3, cls='', help=None)">
 ## This renders a textarea like this:
-## 
+##
 ## <label />
 ## [help] (wrapped into a div.help-block)
 ## [def:before]
@@ -77,6 +80,24 @@ ${caller.body()}
             ${h.literal('selected="selected"') if option.get('selected') else '' | n}>
         ${option['label']}
     </option>
+    %endfor
+</select>
+</%self:group>
+</%def>
+
+<%def name="sorting_order(label, name, sorting_orders, include_empty=True, default=None)">
+<%self:group name="${name}">
+<label for="${name}">${label}</label>
+<select name="${name}">
+    %if include_empty:
+    <option value=""></option>
+    %endif
+    %for group in sorting_orders.groups:
+      <optgroup label="${group}">
+      %for sorting_order in sorting_orders.by_group[group]:
+        <option value="${sorting_order.value}"${' selected="selected"' if default == sorting_order.value else ''}>${sorting_order.label}</option>
+      %endfor
+      </optgroup>
     %endfor
 </select>
 </%self:group>

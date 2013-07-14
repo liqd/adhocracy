@@ -33,7 +33,7 @@ def render_body(body, recipient, include_footer, is_preview=False):
         'body': rendered_body,
         'page_url': config.get('adhocracy.domain').strip(),
         'settings_url': h.entity_url(recipient,
-                                     member='edit',
+                                     member='settings/notifications',
                                      absolute=True),
         'include_footer': include_footer,
     })
