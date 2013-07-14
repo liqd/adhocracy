@@ -297,8 +297,10 @@ def help_strings():
         _("Newest"): _('Sort by proposal creation date'),
         _("Newest Comment"): _('Sort by date of the last comment'),
         _("Most Support"): _('Sort by number of votes for the proposal'),
-        _("Mixed"): _('Sort by the difference between number of votes for and against, and prefer newer proposals'),
-        _("Controversy"): _('Prefer proposals where the gap between votes for and against is close'),
+        _("Mixed"): _('Sort by the difference between number of votes for and '
+                      'against, and prefer newer proposals'),
+        _("Controversy"): _('Prefer proposals where the gap between votes for '
+                            'and against is close'),
         _("Alphabetically"): _('Sort by the characters of the proposal title'),
     }
 
@@ -440,20 +442,19 @@ class SolrFacet(SolrIndexer):
     globally:
     >>> class SomeFacet(SolrFacet):
     ...     name = 'badge'
-    ...     entity_type = Badge
+    ...     entity_type = Badge  # noqa
     ...     title = u'Badge'
 
     Only in a thread:
     >>> some_facet = SomeFacet('mypager_prefix', request)
-    >>> q = solr_query()
+    >>> q = solr_query()  # noqa
     >>> counts_query = q
     >>> exclusive_qs = []
     >>> # configure the queries further
     >>> q, counts_query, exclusive_qs = some_facet.add_to_queries(
     ...     q, counts_query, exclusive_qs)
     >>> response = q.execute()
-    >>> counts_response = counts_response.execute()
-    >>> exclusive_responses = dict([counts_response = counts_response.execute()
+    >>> counts_response = counts_query.execute()
     >>> exclusive_responses = dict(map(lambda ((k, q)): (k, q.execute()),
     ...                                exclusive_qs.iteritems()))
     >>> some_facet.update(response, counts_response, exclusive_responses)
@@ -1481,6 +1482,6 @@ def get_def_proposal_sort_order():
     return default_sorting
 
 
-INDEX_DATA_FINDERS = [v for v in globals().values() if
-                      (isclass(v) and issubclass(v, SolrIndexer) and
-                      ((v is not SolrFacet) and (v is not SolrIndexer)))]
+INDEX_DATA_FINDERS = [v for v in globals().values()
+                      if (isclass(v) and issubclass(v, SolrIndexer) and
+                          ((v is not SolrFacet) and (v is not SolrIndexer)))]
