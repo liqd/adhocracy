@@ -200,7 +200,7 @@
           <%block name="flashmessages"></%block>
           <%block name="infoboxes"></%block>
 
-          %if c.tutorial and h.tutorial.show(c.tutorial):
+          %if c.tutorial and h.tutorial.show(c.tutorial, c.user):
           <div class="only-js" id="tutorial-banner">
               <%components:build_infobox>
               <div id="tutorial-intro">
