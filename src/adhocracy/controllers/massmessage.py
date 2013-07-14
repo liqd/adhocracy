@@ -12,6 +12,7 @@ from formencode import validators, htmlfill
 
 from adhocracy import forms
 from adhocracy.controllers.instance import InstanceController
+from adhocracy.controllers.instance import settings_menu
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -153,7 +154,7 @@ class MassmessageController(BaseController):
         else:
             c.page_instance = InstanceController._get_current_instance(id)
             require.message.create(c.page_instance)
-            c.settings_menu = InstanceController._settings_menu(
+            c.settings_menu = settings_menu(
                 c.page_instance, 'massmessage')
             template = '/instance/settings_massmessage.html'
             c.preview_url = h.base_url(
