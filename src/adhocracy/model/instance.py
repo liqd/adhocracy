@@ -63,7 +63,7 @@ instance_table = Table(
 class Instance(meta.Indexable):
     __tablename__ = 'instance'
 
-    INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9-]{2,18}$")
+    INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
 
     # Special purpose instances
     SPECIAL_KEYS = [u'test', u'feedback']
