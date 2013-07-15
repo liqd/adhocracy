@@ -55,14 +55,6 @@ a.icon_link {
     a.link_more_info:hover {
         color: $primary-color;
     }
-    a.link_register_now,
-    a.link_about_info {
-        background-position: 10px -600px;
-
-        &:hover {
-            background-position: 10px -650px;
-        }
-    }
 }
 
 /* class helper */
