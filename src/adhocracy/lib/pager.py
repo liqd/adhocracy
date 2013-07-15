@@ -1066,6 +1066,27 @@ class ProposalControversyIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_controversy_key(entity)
 
 
+class ProposalVotedetailScoreIndexer(SolrIndexer):
+
+    @classmethod
+    def solr_field(cls, userbadge):
+        field = 'order.user.votedetail.score'
+        if userbadge is not None:
+            field = field + '.%s' % userbadge.title
+        else:
+            assert False
+        return field
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if model.votedetail.is_enabled()\
+           and isinstance(entity, model.Proposal):
+
+            for b, t in model.votedetail.calc_votedetail(entity.instance,
+                                                         entity.rate_poll):
+                data[cls.solr_field(b)] = t.num_for - t.num_against
+
+
 class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
@@ -1453,9 +1474,18 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
     sorts = PROPOSAL_SORTS
     if default_sorting is None:
         default_sorting = get_def_proposal_sort_order()
-    if default_sorting is not None:
-        sorts = copy.copy(sorts)
-        sorts.default = default_sorting
+    if default_sorting is not None or model.votedetail.is_enabled():
+        sorts = copy.deepcopy(sorts)
+        if default_sorting is not None:
+            sorts.default = default_sorting
+        if model.votedetail.is_enabled():
+            badges = instance.votedetail_userbadges
+            if badges:
+                sorts.add_group(L_('Support by'), tuple([
+                    SortOption(
+                        '-%s' % ProposalVotedetailScoreIndexer.solr_field(
+                            badge), badge.title)()
+                    for badge in instance.votedetail_userbadges]))
 
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
