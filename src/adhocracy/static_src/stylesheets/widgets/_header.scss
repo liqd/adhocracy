@@ -74,7 +74,8 @@ body.logged_in #logo {
         &.current {
             background-color: #3c3c3c;
             @include background-image(linear-gradient(top, #383838, #444));
-            a {
+
+            > a {
                 color: #c1c4c9;
             }
         }
