@@ -4,7 +4,6 @@ import logging
 from datetime import datetime
 
 from babel import Locale
-
 from pylons import config
 from pylons.i18n import _
 
@@ -14,6 +13,8 @@ from sqlalchemy.orm import eagerload_all
 
 from adhocracy.model import meta
 from adhocracy.model import instance_filter as ifilter
+from adhocracy.model.core import JSONEncodedDict
+from adhocracy.model.core import MutationDict
 from adhocracy.model.instance import Instance
 
 log = logging.getLogger(__name__)
@@ -42,6 +43,7 @@ user_table = Table(
     Column('gender', Unicode(1), default=None),
     Column('email_messages', Boolean, default=True),
     Column('welcome_code', Unicode(255), nullable=True),
+    Column('optional_attributes', MutationDict.as_mutable(JSONEncodedDict)),
 )
 
 
@@ -419,6 +421,12 @@ class User(meta.Indexable):
                 return dec.result
         if proposal.rate_poll:
             return Decision(self, proposal.rate_poll).result
+
+    def get_optional_attributes(self):
+        return loads(self.optional_attributes)
+
+    def get_optional_attributes(self):
+        return loads(self.optional_attributes)
 
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,

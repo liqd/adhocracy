@@ -7,6 +7,7 @@ import formencode
 from formencode import ForEach, htmlfill, validators
 
 from pylons import request, response, session, tmpl_context as c
+from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
@@ -51,12 +52,14 @@ def settings_menu(instance, current):
 
     show_login = (h.user.can_change_password(c.page_user) or
                   'openid' in h.allowed_login_types())
+    show_optional = bool(config.get('adhocracy.user.optional_attributes'))
 
     return Menu.create(instance, current, OrderedDict([
         ('personal', (L_(u'Personal'), True, 'settings')),
         ('login', (L_(u'Login'), show_login)),
         ('notifications', (L_('Notifications'),)),
         ('advanced', (L_('Advanced'),)),
+        ('optional', (L_('Optional'), show_optional)),
     ]))
 
 
@@ -110,6 +113,13 @@ class UserSettingsAdvancedForm(formencode.Schema):
     page_size = validators.Int(min=1, max=200, not_empty=False,
                                if_empty=10, if_missing=10)
     proposal_sort_order = forms.ProposalSortOrder()
+
+
+class UserSettingsOptionalForm(formencode.Schema):
+    allow_extra_fields = True
+    chained_validators = [
+        forms.common.OptionalAttributes(),
+    ]
 
 
 class UserCodeForm(formencode.Schema):
@@ -508,6 +518,54 @@ class UserController(BaseController):
                                      'proposal_sort_order'])
 
         return self._settings_result(updated, c.page_user, 'advanced')
+
+    def _settings_optional_form(self, id, data={}):
+        if not config.get('adhocracy.user.optional_attributes'):
+            abort(400, _("No optional atributes defined."))
+        self._settings_all(id)
+        data['page_user'] = c.page_user
+        data['tile'] = tiles.user.UserTile(c.page_user)
+        data['settings_menu'] = settings_menu(c.page_user, 'optional')
+
+        data['optional_attributes'] = config.get_optional_user_attributes()
+        add_static_content(data,
+                           u'adhocracy.static_optional_path')
+
+        return render("/user/settings_optional.html", data)
+
+    def settings_optional(self, id):
+        form_content = self._settings_optional_form(id)
+        defaults = c.page_user.optional_attributes or {}
+        defaults.update({
+            '_method': 'PUT',
+            '_tok': token_id()})
+        return htmlfill.render(form_content, defaults=defaults)
+
+    @validate(schema=UserSettingsOptionalForm(),
+              form="_settings_optional_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_optional_update(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
+        updated = self._update_optional_attributes(c.page_user,
+                                                   self.form_result)
+        if updated:
+            model.meta.Session.commit()
+
+        return self._settings_result(updated, c.page_user, 'optional')
+
+    def _update_optional_attributes(self, user, attributes):
+
+        current = user.optional_attributes or {}
+        updated = False
+        for (key, _, _, _, _) in config.get_optional_user_attributes():
+            if current.get(key, None) != attributes[key]:
+                current[key] = attributes[key]
+                updated = True
+        if updated:
+            user.optional_attributes = current
+        return updated
 
     def redirect_settings(self, item=None):
         if c.user is None:
