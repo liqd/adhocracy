@@ -42,6 +42,7 @@ class ExportForm(formencode.Schema):
         if_missing=False)
     include_instance_proposal_comment = formencode.validators.StringBoolean(
         if_missing=False)
+    include_ratings = formencode.validators.StringBoolean(if_missing=False)
     include_requestlog = formencode.validators.StringBoolean(if_missing=False)
     include_staticpage = formencode.validators.StringBoolean(if_missing=False)
     user_personal = formencode.validators.StringBoolean(if_missing=False)

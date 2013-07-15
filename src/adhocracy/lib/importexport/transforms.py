@@ -386,6 +386,12 @@ class ProposalTransform(_Transform):
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'proposal',
         }
+        if self._options.get('include_ratings', False):
+            res.update({
+                'rate_pro': obj.rate_poll.tally.num_for,
+                'rate_contra': obj.rate_poll.tally.num_against,
+                'rate_neutral': obj.rate_poll.tally.num_abstain,
+            })
         if self._options.get('include_instance_proposal_comment', False):
             ctransform = CommentTransform(self._options,
                                           obj.description.comments,
@@ -415,6 +421,12 @@ class CommentTransform(_Transform):
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'comment',
         }
+        if self._options.get('include_ratings', False):
+            res.update({
+                'rate_pro': obj.poll.tally.num_for,
+                'rate_contra': obj.poll.tally.num_against,
+                'rate_neutral': obj.poll.tally.num_abstain,
+            })
         ct = CommentTransform(self._options, self._all_comments, obj,
                               self._user_transform)
         res['comments'] = ct.export_all()
