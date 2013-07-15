@@ -61,7 +61,7 @@ def get_list(key, default=None, config=config, sep=','):
 
 
 def get(key, default=None, config=config):
-    return get_value(key, None, default, config)
+    return get_value(key, lambda x: x.decode('utf-8'), default, config)
 
 
 def get_tuples(key, default=[], sep=u' '):
