@@ -509,20 +509,25 @@ class UserController(BaseController):
 
         return self._settings_result(updated, c.page_user, 'advanced')
 
-    def redirect_settings(self):
-        redirect(settings_url(c.user, None, force_url='settings'))
+    def redirect_settings(self, item=None):
+        if c.user is None:
+            redirect(h.login_redirect_url())
+        if item is None:
+            redirect(settings_url(c.user, None, force_url='settings'))
+        else:
+            redirect(settings_url(c.user, item))
 
     def redirect_settings_login(self):
-        redirect(settings_url(c.user, 'login'))
+        self.redirect_settings('login')
 
     def redirect_settings_notifications(self):
-        redirect(settings_url(c.user, 'notifications'))
+        self.redirect_settings('notifications')
 
     def redirect_settings_advanced(self):
-        redirect(settings_url(c.user, 'advanced'))
+        self.redirect_settings('advanced')
 
     def redirect_settings_optional(self):
-        redirect(settings_url(c.user, 'optional'))
+        self.redirect_settings('optional')
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)
