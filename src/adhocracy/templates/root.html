@@ -130,7 +130,7 @@
   </header>
 
   <%block name="attention_getter">
-  %if not c.suppress_attention_getter and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.require_valid_email and c.user and not c.user.is_email_activated())):
+  %if not c.suppress_attention_getter and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.require_valid_email and c.user and not c.user.is_email_activated()) or (h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
       <div class="page_margins">
@@ -162,7 +162,7 @@
                   <p>
                       ${_('Join this instance to start contributing.')}
                   </p>
-                  %else:
+                  %elif c.instance.require_valid_email and c.user and not c.user.is_email_activated():
                   %if c.user.email is None:
                   <div class="register">
                       <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
@@ -181,6 +181,14 @@
                   ${_('Your registered email address is:')} <em>${c.user.email}</em>
                   </p>
                   %endif
+                  %else:  # h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
+                  <div class="register">
+                      <a class="button" href="${h.entity_url(c.user, member='settings/optional')}">${_("Provide information")}</a>
+                  </div>
+                  <p>
+                      ${_(u'Please provide statistical information to help scientific evaluation!')}<br />
+                  </p>
+                  </div>
                   %endif
               </div>
           </div>

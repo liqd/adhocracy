@@ -20,6 +20,7 @@ DEFAULTS = {
     'adhocracy.protocol': u'http',
     'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
+    'adhocracy.propose_optional_attributes': False,
     'adhocracy.set_display_name_on_register': False,
     'adhocracy.show_instance_overview_events': True,
     'adhocracy.show_instance_overview_milestones': True,
