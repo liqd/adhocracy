@@ -445,12 +445,17 @@ class RequestLogTransform(_Transform):
         return res
 
     def _url_filter(self, url):
+        regex = r'(.*\/welcome\/)(\w+)\/(\w+)(.*)'
+
         if url is not None:
-            matches = re.search(r"\/welcome\/(\w+)\/(\w+)\?", url)
+            matches = re.search(regex, url)
+
             if matches is not None:
-                for match in matches.groups():
-                    substitution = self.hash_func(match).hexdigest()
-                    url = url.replace(match, substitution)
+                username = self.hash_func(matches.group(2)).hexdigest()
+                code = self.hash_func(matches.group(3)).hexdigest()
+
+                sub_regex = r'\1{0}/{1}\4'.format(username, code)
+                url = re.sub(regex, sub_regex, url)
 
         return url
 
