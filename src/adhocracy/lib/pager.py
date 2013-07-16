@@ -1471,21 +1471,19 @@ def solr_instance_pager():
 
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
     extra_filter = {'instance': instance.key}
-    sorts = PROPOSAL_SORTS
+    sorts = copy.deepcopy(PROPOSAL_SORTS)
     if default_sorting is None:
         default_sorting = get_def_proposal_sort_order()
-    if default_sorting is not None or model.votedetail.is_enabled():
-        sorts = copy.deepcopy(sorts)
-        if default_sorting is not None:
-            sorts.default = default_sorting
-        if model.votedetail.is_enabled():
-            badges = instance.votedetail_userbadges
-            if badges:
-                sorts.add_group(L_('Support by'), tuple([
-                    SortOption(
-                        '-%s' % ProposalVotedetailScoreIndexer.solr_field(
-                            badge), badge.title)()
-                    for badge in instance.votedetail_userbadges]))
+    if default_sorting is not None:
+        sorts.default = default_sorting
+    if model.votedetail.is_enabled():
+        badges = instance.votedetail_userbadges
+        if badges:
+            sorts.add_group(L_('Support by'), tuple([
+                SortOption(
+                    '-%s' % ProposalVotedetailScoreIndexer.solr_field(
+                        badge), badge.title)()
+                for badge in instance.votedetail_userbadges]))
 
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
