@@ -17,6 +17,8 @@ ${tiles.milestone.timeline(c.milestones)}
 
 <%block name="main_content">
 %if c.show_current_milestones:
+<h3>${_('Upcoming Milestones')}</h3>
+
 <div id="milestones_table" class="table">
     ${c.current_milestones_pager.here()}
 </div>
