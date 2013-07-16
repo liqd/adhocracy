@@ -96,7 +96,7 @@ def get_optional_user_attributes():
             allowed.insert(0, {
                 'value': '',
                 'selected': True,
-                'label': _(u'Keine Angabe')
+                'label': _(u'Not specified')
             })
         return (key, type_, converter, label, allowed)
 
