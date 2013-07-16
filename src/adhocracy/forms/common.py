@@ -333,7 +333,8 @@ class ValidCategoryBadge(formencode.FancyValidator):
             raise formencode.Invalid(
                 _("No Badge ID '%s' exists") % value,
                 value, state)
-        if badge.instance is None and c.instance.hide_global_categories:
+        if badge.instance is None and c.instance is not None\
+           and c.instance.hide_global_categories:
             raise formencode.Invalid(
                 _("Cannot use global category %s in this instance") % value,
                 value, state)
