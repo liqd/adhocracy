@@ -2,7 +2,6 @@
 import datetime
 import re
 import hashlib
-from collections import namedtuple
 
 from adhocracy import model
 
@@ -426,8 +425,6 @@ class CommentTransform(_Transform):
 class RequestLogTransform(_Transform):
     _ID_KEY = 'id'
 
-    Cookie = namedtuple("Cookie", ["label", "value"])
-
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
         self.hash_func = hashlib.sha1
@@ -448,8 +445,7 @@ class RequestLogTransform(_Transform):
                 token = self.hash_func(value[0:40]).hexdigest()
                 value = (token, value[40:])
 
-            cookie = self.Cookie(label, value)
-            cookies.append(cookie)
+            cookies.append((label, value))
 
         res['cookies'] = tuple(cookies)
 
