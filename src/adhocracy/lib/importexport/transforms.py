@@ -1,6 +1,7 @@
 
 import datetime
 import re
+import hashlib
 
 from adhocracy import model
 
@@ -426,11 +427,33 @@ class RequestLogTransform(_Transform):
 
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
+        self.hash_func = hashlib.sha1
 
     def _export(self, obj):
         res = obj.to_dict()
+
+        # Convert the time to a printable version
         res['access_time'] = encode_time(res['access_time'])
+
+        # Anonymize the cookies
+        res['cookies'] = self.hash_func(res['cookies']).hexdigest()
+
+        # Filter out welcome codes
+        res['request_url'] = self._url_filter(res['request_url'])
+        res['referer'] = self._url_filter(res['referer'])
+
         return res
+
+    def _url_filter(self, url):
+        if url is not None:
+            matches = re.search(r"\/welcome\/(\w+)\/(\w+)\?", url)
+            if matches is not None:
+                for match in matches.groups():
+                    substitution = self.hash_func(match).hexdigest()
+                    url = url.replace(match, substitution)
+
+        return url
+
 
 
 class StaticPageTransform(_Transform):
