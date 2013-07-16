@@ -2,6 +2,7 @@
 import datetime
 import re
 import hashlib
+from collections import namedtuple
 
 from adhocracy import model
 
@@ -425,6 +426,8 @@ class CommentTransform(_Transform):
 class RequestLogTransform(_Transform):
     _ID_KEY = 'id'
 
+    Cookie = namedtuple("Cookie", ["label", "value"])
+
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
         self.hash_func = hashlib.sha1
@@ -436,7 +439,19 @@ class RequestLogTransform(_Transform):
         res['access_time'] = encode_time(res['access_time'])
 
         # Anonymize the cookies
-        res['cookies'] = self.hash_func(res['cookies']).hexdigest()
+        cookies = []
+        for cookie in res['cookies'].split(";"):
+            cookie = cookie.strip()
+            label = cookie.split("=")[0]
+            value = cookie.split("=")[1]
+            if "login" in label:
+                token = self.hash_func(value[0:40]).hexdigest()
+                value = (token, value[40:])
+
+            cookie = self.Cookie(label, value)
+            cookies.append(cookie)
+
+        res['cookies'] = tuple(cookies)
 
         # Filter out welcome codes
         res['request_url'] = self._url_filter(res['request_url'])
