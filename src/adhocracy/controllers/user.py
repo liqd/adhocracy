@@ -35,6 +35,7 @@ from adhocracy.lib.settings import INSTANCE_UPDATED_MSG
 from adhocracy.lib.settings import NO_UPDATE_REQUIRED
 from adhocracy.lib.settings import error_formatter
 from adhocracy.lib.settings import Menu
+from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render, render_json, ret_abort
@@ -507,6 +508,21 @@ class UserController(BaseController):
                                      'proposal_sort_order'])
 
         return self._settings_result(updated, c.page_user, 'advanced')
+
+    def redirect_settings(self):
+        redirect(settings_url(c.user, None, force_url='settings'))
+
+    def redirect_settings_login(self):
+        redirect(settings_url(c.user, 'login'))
+
+    def redirect_settings_notifications(self):
+        redirect(settings_url(c.user, 'notifications'))
+
+    def redirect_settings_advanced(self):
+        redirect(settings_url(c.user, 'advanced'))
+
+    def redirect_settings_optional(self):
+        redirect(settings_url(c.user, 'optional'))
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)

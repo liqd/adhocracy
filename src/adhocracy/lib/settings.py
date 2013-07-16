@@ -50,6 +50,14 @@ def update_attributes(entity, form_result, attributes):
     return updated
 
 
+def settings_url(entity, name, force_url=None):
+    full_path = 'settings/%s' % name if force_url is None else force_url
+    if isinstance(entity, model.Instance):
+        return h.entity_url(entity, member=full_path)
+    else:
+        return h.entity_url(entity, instance=c.instance, member=full_path)
+
+
 class Menu(OrderedDict):
     '''Subclass so we can attach attributes'''
 
@@ -77,17 +85,9 @@ class Menu(OrderedDict):
     @classmethod
     def _setting(cls, entity, name, label, allowed=True, force_url=None):
         return {'name': name,
-                'url': cls.settings_url(entity, name, force_url),
+                'url': settings_url(entity, name, force_url),
                 'label': label,
                 'allowed': allowed}
-
-    @classmethod
-    def settings_url(cls, entity, name, force_url=None):
-        full_path = 'settings/%s' % name if force_url is None else force_url
-        if isinstance(entity, model.Instance):
-            return h.entity_url(entity, member=full_path)
-        else:
-            return h.entity_url(entity, instance=c.instance, member=full_path)
 
     def url_for(self, value):
         current = self.get(value)

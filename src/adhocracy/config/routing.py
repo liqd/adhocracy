@@ -38,6 +38,7 @@ def make_map(config):
                 action='dashboard_pages')
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
+
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'votes': 'GET',
@@ -54,7 +55,14 @@ def make_map(config):
                                          'set_password': 'POST',
                                          'generate_welcome_link': 'POST'},
                  collection={'complete': 'GET',
-                             'filter': 'GET'})
+                             'filter': 'GET',
+                             # provide user-independent URLs to user settings
+                             'redirect_settings': 'GET',
+                             'redirect_settings_login': 'GET',
+                             'redirect_settings_notifications': 'GET',
+                             'redirect_settings_advanced': 'GET',
+                             'redirect_settings_optional': 'GET',
+                             })
 
     # TODO work this into a complete subcontroller.
     map.connect('/user/{id}/message.{format}', controller='message',
