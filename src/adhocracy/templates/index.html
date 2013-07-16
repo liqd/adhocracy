@@ -14,6 +14,19 @@
 
 <div class="full_teaser">
   <div class="clearfix"></div>
+  %if c.instances:
+  <div id="instance_list" class="frontpage_main">
+    <ul>
+      %for instance in c.instances:
+      <li>
+      <a title="${ instance.label }"
+        href="${ h.entity_url(instance) }"> ${ instance.label }
+      </a>
+      </li>
+      %endfor
+    </ul>
+  </div>
+  %endif
 
   %if c.stats_global:
   <div id="stats">
