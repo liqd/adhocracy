@@ -412,6 +412,14 @@ adhocracy.static_index_path = index
 # Load feedback categories for the feedback form
 # adhocracy.feedback_use_categories = False
 
+# Optional user attributes
+# adhocracy.user.optional_attributes =
+#     year_of_birth, int, Year of Birth
+#     foo, unicode, Foo
+# adhocracy.user.optional_attributes.year_of_birth =
+#     2001, 2222, 1111
+## adhocracy.user.optional_attributes.foo =
+
 
 # Logging configuration
 [loggers]

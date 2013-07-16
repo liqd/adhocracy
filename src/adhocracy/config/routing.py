@@ -99,6 +99,12 @@ def make_map(config):
     map.connect('/user/{id}/settings/advanced',
                 controller='user', action='settings_advanced_update',
                 conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/optional',
+                controller='user', action='settings_optional',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/optional',
+                controller='user', action='settings_optional_update',
+                conditions=dict(method=['PUT']))
 
     map.connect('/message/new', controller='massmessage', action='new')
     map.connect('/message/preview', controller='massmessage', action='preview')

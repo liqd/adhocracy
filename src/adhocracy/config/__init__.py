@@ -2,6 +2,7 @@ from paste.deploy.converters import asbool
 from paste.deploy.converters import asint
 from paste.deploy.converters import aslist
 from pylons import config
+from pylons.i18n import _
 
 
 DEFAULTS = {
@@ -26,10 +27,12 @@ DEFAULTS = {
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
     'adhocracy.use_feedback_instance': False,
+    'adhocracy.user.optional_attributes': [],
 }
 
 
-def get_value(key, converter, default=None, config=config):
+def get_value(key, converter, default=None, config=config,
+              converter_kwargs={}):
 
     value = config.get(key)
 
@@ -42,7 +45,7 @@ def get_value(key, converter, default=None, config=config):
     if converter is None:
         return value
     else:
-        return converter(value)
+        return converter(value, **converter_kwargs)
 
 
 def get_bool(key, default=None, config=config):
@@ -53,9 +56,48 @@ def get_int(key, default=None, config=config):
     return get_value(key, asint, default, config)
 
 
-def get_list(key, default=None, config=config):
-    return get_value(key, aslist, default, config)
+def get_list(key, default=None, config=config, sep=','):
+    return get_value(key, aslist, default, config, {'sep': sep})
 
 
 def get(key, default=None, config=config):
-    return get_value(key, None, default, config)
+    return get_value(key, lambda x: x.decode('utf-8'), default, config)
+
+
+def get_tuples(key, default=[], sep=u' '):
+    mapping = get(key, None)
+    if mapping is None:
+        return default
+    return ((v.strip() for v in line.split(sep))
+            for line in mapping.strip().split(u'\n')
+            if line is not u'')
+
+
+def get_optional_user_attributes():
+
+    TYPES = {
+        'unicode': (unicode, lambda v: v.decode('utf-8')),
+        'int': (int, int),
+        'bool': (bool, asbool),
+    }
+
+    def transform(key, type_string, label):
+        allowed = get_list('adhocracy.user.optional_attributes.%s' % key, None,
+                           sep=';')
+        type_, converter = TYPES[type_string]
+        if allowed is not None:
+            allowed = [{
+                'value': converter(v),
+                'selected': False,
+                'label': converter(v),
+            } for v in allowed]
+
+            allowed.insert(0, {
+                'value': '',
+                'selected': True,
+                'label': _(u'Keine Angabe')
+            })
+        return (key, type_, converter, label, allowed)
+
+    return map(lambda t: transform(*t),
+               get_tuples('adhocracy.user.optional_attributes', sep=u','))
