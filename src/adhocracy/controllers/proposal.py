@@ -307,7 +307,7 @@ class ProposalController(BaseController):
                 key=lambda s: s.page.title)
 
         if votedetail.is_enabled():
-            c.votedetail = votedetail.calc_votedetail(
+            c.votedetail = votedetail.calc_votedetail_dict(
                 c.instance, c.proposal.rate_poll)
 
         if format == 'rss':

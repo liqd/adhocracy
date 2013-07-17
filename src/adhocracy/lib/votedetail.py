@@ -1,5 +1,7 @@
 from paste.deploy.converters import asbool
 
+from adhocracy.lib.cache.util import memoize
+
 
 def calc_votedetail(instance, poll):
     from adhocracy.model import User, Badge
@@ -12,6 +14,7 @@ def calc_votedetail(instance, poll):
     return res
 
 
+@memoize('votedetail')
 def calc_votedetail_dict(instance, poll):
     return [{'badge': b.to_dict(), 'tally': t.to_dict()}
             for b, t in calc_votedetail(instance, poll)]
