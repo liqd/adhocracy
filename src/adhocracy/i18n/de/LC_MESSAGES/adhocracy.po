@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
-"PO-Revision-Date: 2013-06-30 23:55+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:56+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Not specified"
+msgstr "Keine Angabe"
 
 msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
@@ -126,24 +129,6 @@ msgstr "Neuigkeiten von %s"
 msgid "News from %s"
 msgstr "Neuigkeiten von %s"
 
-msgid "The changes were saved."
-msgstr "Die Änderungen wurden gespeichert."
-
-msgid "No update required."
-msgstr "Es wurden keine Änderungen vorgenommen."
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
-
-msgid "Delegations are enabled."
-msgstr "Delegationen sind aktiv."
-
-msgid "Delegations are disabled."
-msgstr "Delegationen sind inaktiv."
-
-msgid "tutorial_instance_show_intro"
-msgstr "Willkommen auf der Startseite der Gruppe."
-
 msgid "General"
 msgstr "Allgemein"
 
@@ -164,6 +149,18 @@ msgstr "Benachrichtigungsdienst"
 
 msgid "Members import"
 msgstr "Mitglieder importieren"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
+
+msgid "Delegations are enabled."
+msgstr "Delegationen sind aktiv."
+
+msgid "Delegations are disabled."
+msgstr "Delegationen sind inaktiv."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Willkommen auf der Startseite der Gruppe."
 
 msgid "The logo has been deleted."
 msgstr "Das Logo wurde entfernt."
@@ -487,6 +484,21 @@ msgstr "Sie folgen nun %s auf Twitter, damit Adhocracy Ihnen Benachrichtigungen 
 msgid "You have no twitter association."
 msgstr "Sie haben keine Twitter-Verbindung."
 
+msgid "Personal"
+msgstr "Persönlich"
+
+msgid "Login"
+msgstr "Anmelden"
+
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Optional"
+msgstr "Optional"
+
 msgid "tutorial_user_index_intro"
 msgstr "Mitgliederliste der Gruppe."
 
@@ -495,6 +507,18 @@ msgstr "Es tut uns leid - Registrierung ist in dieser Installation deaktiviert."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
+
+msgid "Gender-neutral"
+msgstr "Geschlechtsneutral"
+
+msgid "Female"
+msgstr "Weiblich"
+
+msgid "Male"
+msgstr "Männlich"
+
+msgid "No optional atributes defined."
+msgstr "Keine erweiterten Attribute definiert."
 
 msgid "Password has been set. Have fun!"
 msgstr "Passwort gesetzt. Viel Spaß!"
@@ -656,6 +680,9 @@ msgstr "Es hat sich bereits ein Benutzer mit dieser E-Mail-Adresse registriert."
 
 msgid "That email is already used by another account"
 msgstr "Diese Email wird bereits von einem anderen Nutzer/innen-Zugang verwendet"
+
+msgid "Invalid locale choice"
+msgstr "Ungültige Sprachauswahl"
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Ungültiges Datum, das Format muss TT.MM.JJJJ sein."
@@ -831,6 +858,12 @@ msgstr "Bitte wählen Sie zumindest eine Gruppe"
 
 msgid "Disallowed instance selected"
 msgstr "Unerlaubte Gruppe ausgewählt"
+
+msgid "Invalid value"
+msgstr "Ungültiger Wert"
+
+msgid "Invalid choice"
+msgstr "Ungültige Auswahl"
 
 #, python-format
 msgid "%d days"
@@ -1035,6 +1068,15 @@ msgstr "Unterstützung"
 
 msgid "Newest Proposals"
 msgstr "Neueste Vorschläge"
+
+msgid "Support by"
+msgstr "Unterstützung durch"
+
+msgid "The changes were saved."
+msgstr "Die Änderungen wurden gespeichert."
+
+msgid "No update required."
+msgstr "Es wurden keine Änderungen vorgenommen."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sie scheinen nicht die benötigten Rechte zu haben um fortzufahren."
@@ -1487,6 +1529,9 @@ msgstr "Abschicken"
 msgid "List existing feedback"
 msgstr "Zeige vorhandenes Feedback an"
 
+msgid "Feedback"
+msgstr "Feedback"
+
 msgid "Proposal Category"
 msgstr "Bereich"
 
@@ -1538,9 +1583,6 @@ msgstr "Über diese Seite"
 
 msgid "Help"
 msgstr "Hilfe"
-
-msgid "Login"
-msgstr "Anmelden"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1663,6 +1705,12 @@ msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe m
 msgid "Your registered email address is:"
 msgstr "Ihre eingestellte Email-Adresse ist:"
 
+msgid "Provide information"
+msgstr "Informationen angeben"
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
+
 msgid "Next"
 msgstr "Weiter"
 
@@ -1732,6 +1780,9 @@ msgstr "Vorschläge hinzufügen"
 
 msgid "Include comments"
 msgstr "Kommentar hinzufügen"
+
+msgid "Include ratings"
+msgstr "Bewertungen hinzufügen"
 
 msgid "Export request log"
 msgstr "Requestlog exportieren"
@@ -1882,9 +1933,6 @@ msgstr "Die Vorlage für die E-Mail an den Benutzer. Sie müssen folgende Platzh
 
 msgid "Required"
 msgstr "Erforderlich"
-
-msgid "Optional"
-msgstr "Optional"
 
 msgid "Imported Users"
 msgstr "Importierte Benutzer"
@@ -2738,6 +2786,9 @@ msgstr "Datum des Termins"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
+msgid "Upcoming Milestones"
+msgstr "Kommende Termine"
+
 msgid "Create a new milestone."
 msgstr "Einen neuen Termin anlegen."
 
@@ -3522,6 +3573,9 @@ msgstr "Abbrechen"
 msgid "by %s, "
 msgstr "von %s,"
 
+msgid "delete version"
+msgstr "Lösche Version"
+
 msgid "This revision has no text."
 msgstr "Diese Version hat keinen Text."
 
@@ -3730,15 +3784,6 @@ msgstr "Geschlecht"
 msgid "I am..."
 msgstr "Ich bin..."
 
-msgid "Male"
-msgstr "Männlich"
-
-msgid "Female"
-msgstr "Weiblich"
-
-msgid "Notifications"
-msgstr "Benachrichtigungen"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen."
 
@@ -3930,8 +3975,55 @@ msgstr "Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen 
 msgid "User settings"
 msgstr "Persönliche Einstellungen"
 
+msgid "Advanced settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "Default proposal sorting order"
+msgstr "Standard-Sortierreihenfolge von Vorschläge"
+
+msgid "Pager size"
+msgstr "Listenlänge"
+
+msgid "Default number of entries in listing pages"
+msgstr "Voreingestellte Anzahl an Einträgen in Listen"
+
+msgid "Disable help messages"
+msgstr "Hinweise verbergen"
+
+msgid "Disable help messages and links to the documentation"
+msgstr "Hilfenachrichten und Links zur Dokumentation abstellen"
+
+msgid "Login settings"
+msgstr "Anmelde-Einstellungen"
+
+msgid "Notification settings"
+msgstr "Benachrichtigungseinstellungen"
+
+msgid "News service"
+msgstr "Nachrichtendienst"
+
+msgid "Receive occasional news from instance administrators"
+msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen"
+
+msgid "Optional attributes"
+msgstr "Optionale Attribute"
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr "Die folgenden Attribute werden nur zur statistischen Evaluation verwendet. Ihre Auswahlen sind für andere Benutzer/innen nicht sichtbar."
+
+msgid "Personal settings"
+msgstr "Persönliche Einstellungen"
+
 msgid "Prefered user interface language"
 msgstr "Beverzugte Sprache der Nutzeroberfläche"
+
+msgid "Salutation"
+msgstr "Anrede"
+
+msgid "Select your prefered gender"
+msgstr "Wählen Sie Ihr Geschlecht"
 
 #, python-format
 msgid "Signed up %s"

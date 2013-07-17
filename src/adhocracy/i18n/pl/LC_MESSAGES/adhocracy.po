@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
-"PO-Revision-Date: 2013-06-30 23:54+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:44+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Dziękujemy za pomoc."
@@ -114,24 +117,6 @@ msgstr "Nowości od %s"
 msgid "News from %s"
 msgstr "Nowości od %s"
 
-msgid "The changes were saved."
-msgstr ""
-
-msgid "No update required."
-msgstr "Aktualizacja nie jest wymagana."
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr ""
-
-msgid "Delegations are enabled."
-msgstr "Delegacje głosów są włączone."
-
-msgid "Delegations are disabled."
-msgstr "Delegacje głosów są wyłączone."
-
-msgid "tutorial_instance_show_intro"
-msgstr "Witamy na stronie głównej grupy."
-
 msgid "General"
 msgstr "Ogólne"
 
@@ -152,6 +137,18 @@ msgstr ""
 
 msgid "Members import"
 msgstr "Import członków"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
+
+msgid "Delegations are enabled."
+msgstr "Delegacje głosów są włączone."
+
+msgid "Delegations are disabled."
+msgstr "Delegacje głosów są wyłączone."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Witamy na stronie głównej grupy."
 
 msgid "The logo has been deleted."
 msgstr "Logo zostało usunięte."
@@ -475,6 +472,21 @@ msgstr "Obserwujesz %s na Twitterze, więc możemy wysyłać ci wiadomości pryw
 msgid "You have no twitter association."
 msgstr "Nie połączyłeś(aś) się z Twitterem."
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr "Zaloguj się"
+
+msgid "Notifications"
+msgstr "Powiadomienia"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr "Opcjonalne"
+
 msgid "tutorial_user_index_intro"
 msgstr "Lista członków grupy"
 
@@ -483,6 +495,18 @@ msgstr "Możliwość rejestracji została wyłączona przez administratora."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Niestety nie możesz zarejestrować się przy użyciu tego adresu e-mail."
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr "Kobieta"
+
+msgid "Male"
+msgstr "Mężczyzna"
+
+msgid "No optional atributes defined."
+msgstr ""
 
 msgid "Password has been set. Have fun!"
 msgstr ""
@@ -643,6 +667,9 @@ msgid "That email is already registered"
 msgstr "Ten adres e-mail jest już zarejestrowany."
 
 msgid "That email is already used by another account"
+msgstr ""
+
+msgid "Invalid locale choice"
 msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
@@ -818,6 +845,12 @@ msgid "Please select at least one instance"
 msgstr ""
 
 msgid "Disallowed instance selected"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
 msgstr ""
 
 #, python-format
@@ -1023,6 +1056,15 @@ msgstr "Poparcie"
 
 msgid "Newest Proposals"
 msgstr "Najnowsze propozycje"
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
+msgstr "Aktualizacja nie jest wymagana."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Nie masz uprawnień, by kontynuować."
@@ -1475,6 +1517,9 @@ msgstr "Wyślij"
 msgid "List existing feedback"
 msgstr ""
 
+msgid "Feedback"
+msgstr ""
+
 msgid "Proposal Category"
 msgstr "Kategoria propozycji"
 
@@ -1526,9 +1571,6 @@ msgstr "O stronie"
 
 msgid "Help"
 msgstr "Pomoc"
-
-msgid "Login"
-msgstr "Zaloguj się"
 
 msgid "Dashboard"
 msgstr "Strona startowa"
@@ -1651,6 +1693,12 @@ msgstr ""
 msgid "Your registered email address is:"
 msgstr ""
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr "Dalej"
 
@@ -1719,6 +1767,9 @@ msgid "Include proposals"
 msgstr ""
 
 msgid "Include comments"
+msgstr ""
+
+msgid "Include ratings"
 msgstr ""
 
 msgid "Export request log"
@@ -1870,9 +1921,6 @@ msgstr "Szablon wiadomości e-mail do użytkowników. Musisz użyć w tekście w
 
 msgid "Required"
 msgstr "Wymagane"
-
-msgid "Optional"
-msgstr "Opcjonalne"
 
 msgid "Imported Users"
 msgstr "Zaimportowani użytkownicy"
@@ -2728,6 +2776,9 @@ msgstr "Termin"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Użyj formatu daty: DD.MM.RRRR."
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr "Stwórz nowy termin."
 
@@ -3513,6 +3564,9 @@ msgstr "Anuluj"
 msgid "by %s, "
 msgstr "przez %s,"
 
+msgid "delete version"
+msgstr ""
+
 msgid "This revision has no text."
 msgstr "Wersja ta nie zawiera tekstu."
 
@@ -3721,15 +3775,6 @@ msgstr "Płeć"
 msgid "I am..."
 msgstr ""
 
-msgid "Male"
-msgstr "Mężczyzna"
-
-msgid "Female"
-msgstr "Kobieta"
-
-msgid "Notifications"
-msgstr "Powiadomienia"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Wybierz, jak chcesz być informowany(a) o wydarzeniach."
 
@@ -3921,7 +3966,54 @@ msgstr "Otrzymałeś(aś) link. Otwórz go, by zresetować hasło."
 msgid "User settings"
 msgstr ""
 
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
 msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
 msgstr ""
 
 #, python-format

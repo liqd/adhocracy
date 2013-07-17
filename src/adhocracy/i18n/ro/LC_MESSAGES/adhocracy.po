@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
-"PO-Revision-Date: 2013-06-30 23:54+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:44+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Multumim pentru ajutor"
@@ -117,24 +120,6 @@ msgstr "%s Stiri"
 msgid "News from %s"
 msgstr "Stiri de la %s"
 
-msgid "The changes were saved."
-msgstr ""
-
-msgid "No update required."
-msgstr "Nu este necesar nici un update."
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Comunitatea a fost creata. Acum poti face setarile comunitatii."
-
-msgid "Delegations are enabled."
-msgstr "Delegarile sunt permise."
-
-msgid "Delegations are disabled."
-msgstr "Delegarile sunt nepermise."
-
-msgid "tutorial_instance_show_intro"
-msgstr "Tutorial: Comunitati"
-
 msgid "General"
 msgstr "General"
 
@@ -155,6 +140,18 @@ msgstr "Trimitere mesaje in masa"
 
 msgid "Members import"
 msgstr "Import membrii"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Comunitatea a fost creata. Acum poti face setarile comunitatii."
+
+msgid "Delegations are enabled."
+msgstr "Delegarile sunt permise."
+
+msgid "Delegations are disabled."
+msgstr "Delegarile sunt nepermise."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Tutorial: Comunitati"
 
 msgid "The logo has been deleted."
 msgstr "Logo-ul a fost sters."
@@ -478,6 +475,21 @@ msgstr "Urmaresti %s pe twitter si poti trimite notificari ca mesaje directe."
 msgid "You have no twitter association."
 msgstr "Nu ai asociere la twitter."
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Notifications"
+msgstr "Notificari"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr "Optional"
+
 msgid "tutorial_user_index_intro"
 msgstr "Tutorial: Membrii comunitatii"
 
@@ -486,6 +498,18 @@ msgstr "Ne pare rau, inregistrarea nu este permisa de catre administrator."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Ne pare rau, dar nu acceptam intregistrarea folosind adresa aceasta de email."
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr "Feminin"
+
+msgid "Male"
+msgstr "Masculin"
+
+msgid "No optional atributes defined."
+msgstr ""
 
 msgid "Password has been set. Have fun!"
 msgstr "Parola a fost setata. Utilizare placuta!"
@@ -647,6 +671,9 @@ msgstr "Emailul este deja utilizat."
 
 msgid "That email is already used by another account"
 msgstr "Adresa de email este deja utilizata in alt cont utilizator"
+
+msgid "Invalid locale choice"
+msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Format data gresit, foloseste DD.MM.YYYY"
@@ -821,6 +848,12 @@ msgid "Please select at least one instance"
 msgstr "Selecteaza cel putin o instanta"
 
 msgid "Disallowed instance selected"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
 msgstr ""
 
 #, python-format
@@ -1026,6 +1059,15 @@ msgstr "Sustinere"
 
 msgid "Newest Proposals"
 msgstr "Cele mai noi Propuneri"
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
+msgstr "Nu este necesar nici un update."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Ne pare rau, dar se pare ca nu ai drepturi pentru a continua."
@@ -1478,6 +1520,9 @@ msgstr "Trimite"
 msgid "List existing feedback"
 msgstr "Afiseaza feedback"
 
+msgid "Feedback"
+msgstr ""
+
 msgid "Proposal Category"
 msgstr "Categoria propunerii"
 
@@ -1529,9 +1574,6 @@ msgstr "Despre"
 
 msgid "Help"
 msgstr "Ajutor"
-
-msgid "Login"
-msgstr "Login"
 
 msgid "Dashboard"
 msgstr "Prima pagina"
@@ -1654,6 +1696,12 @@ msgstr "Te rugam sa-ti validezi adresa de email pentru a putea contribui in acea
 msgid "Your registered email address is:"
 msgstr "Adresa de email inregistrata este:"
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr "Urmatorul"
 
@@ -1723,6 +1771,9 @@ msgstr "Include propuneri"
 
 msgid "Include comments"
 msgstr "Include comentarii"
+
+msgid "Include ratings"
+msgstr ""
 
 msgid "Export request log"
 msgstr ""
@@ -1873,9 +1924,6 @@ msgstr "Modelul de email pentru utilizatori. Trebuie sa introduci niste elemente
 
 msgid "Required"
 msgstr "Obligatoriu"
-
-msgid "Optional"
-msgstr "Optional"
 
 msgid "Imported Users"
 msgstr "Utilizatori importati"
@@ -2731,6 +2779,9 @@ msgstr "Data limita"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Te rugam sa folosesti formatul de data DD.MM.YYYY."
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr "Creeaza o data limita."
 
@@ -3516,6 +3567,9 @@ msgstr "Cancel"
 msgid "by %s, "
 msgstr "de catre %s,"
 
+msgid "delete version"
+msgstr ""
+
 msgid "This revision has no text."
 msgstr "Revizia aceasta nu are nici un text."
 
@@ -3724,15 +3778,6 @@ msgstr "Gen"
 msgid "I am..."
 msgstr ""
 
-msgid "Male"
-msgstr "Masculin"
-
-msgid "Female"
-msgstr "Feminin"
-
-msgid "Notifications"
-msgstr "Notificari"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Alege adresa pe care vrei sa primesti notificarile."
 
@@ -3924,7 +3969,54 @@ msgstr "Ai primit un email cu un link. Apasa-l pentru a reseta parola."
 msgid "User settings"
 msgstr ""
 
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
 msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
 msgstr ""
 
 #, python-format

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
-"PO-Revision-Date: 2013-06-30 23:54+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:44+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Благодарим за помощь."
@@ -119,24 +122,6 @@ msgstr "Новости %s"
 msgid "News from %s"
 msgstr "Новости от %s"
 
-msgid "The changes were saved."
-msgstr ""
-
-msgid "No update required."
-msgstr ""
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Вы создали новую организацию. Вы можете настроить её на своё усмотрение."
-
-msgid "Delegations are enabled."
-msgstr ""
-
-msgid "Delegations are disabled."
-msgstr ""
-
-msgid "tutorial_instance_show_intro"
-msgstr ""
-
 msgid "General"
 msgstr "Общее"
 
@@ -157,6 +142,18 @@ msgstr ""
 
 msgid "Members import"
 msgstr "Импорт участников"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Вы создали новую организацию. Вы можете настроить её на своё усмотрение."
+
+msgid "Delegations are enabled."
+msgstr ""
+
+msgid "Delegations are disabled."
+msgstr ""
+
+msgid "tutorial_instance_show_intro"
+msgstr ""
 
 msgid "The logo has been deleted."
 msgstr "Логотип удалён"
@@ -480,6 +477,21 @@ msgstr "Вы следуете за %s в твитере, так что мы мо
 msgid "You have no twitter association."
 msgstr "У вас нет партнеров в  twitter"
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr "Войти"
+
+msgid "Notifications"
+msgstr "Напоминания"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr "Дополнительно"
+
 msgid "tutorial_user_index_intro"
 msgstr ""
 
@@ -487,6 +499,18 @@ msgid "Sorry, registration has been disabled by administrator."
 msgstr "Регистрация запрещена администратором. Приносим свои извинения за неудобства."
 
 msgid "Sorry, but we don't accept registrations with this email address."
+msgstr ""
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr "Женский"
+
+msgid "Male"
+msgstr "Мужской"
+
+msgid "No optional atributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
@@ -649,6 +673,9 @@ msgstr "Этот адрес электронной почты уже зарег�
 
 msgid "That email is already used by another account"
 msgstr "Этот e-mail уже используется другим аккаунтом"
+
+msgid "Invalid locale choice"
+msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Недействительная дата, требуется формат DD.MM.YYYY"
@@ -823,6 +850,12 @@ msgid "Please select at least one instance"
 msgstr ""
 
 msgid "Disallowed instance selected"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
 msgstr ""
 
 #, python-format
@@ -1028,6 +1061,15 @@ msgstr "Поддержка"
 
 msgid "Newest Proposals"
 msgstr "Последние предложения"
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
+msgstr ""
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Извините, но Вам не достает прав для продолжения. "
@@ -1480,6 +1522,9 @@ msgstr "Отправить"
 msgid "List existing feedback"
 msgstr ""
 
+msgid "Feedback"
+msgstr ""
+
 msgid "Proposal Category"
 msgstr "категория предложения"
 
@@ -1531,9 +1576,6 @@ msgstr "об этой странице"
 
 msgid "Help"
 msgstr "Помощь"
-
-msgid "Login"
-msgstr "Войти"
 
 msgid "Dashboard"
 msgstr ""
@@ -1656,6 +1698,12 @@ msgstr ""
 msgid "Your registered email address is:"
 msgstr ""
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr "дальше"
 
@@ -1724,6 +1772,9 @@ msgid "Include proposals"
 msgstr ""
 
 msgid "Include comments"
+msgstr ""
+
+msgid "Include ratings"
 msgstr ""
 
 msgid "Export request log"
@@ -1875,9 +1926,6 @@ msgstr ""
 
 msgid "Required"
 msgstr "Требуется"
-
-msgid "Optional"
-msgstr "Дополнительно"
 
 msgid "Imported Users"
 msgstr "импортированные пользователи"
@@ -2733,6 +2781,9 @@ msgstr "Дата срока"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Пожалуйста используйте формат DD.MM.YYYY"
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr "Определить новый срок. "
 
@@ -3518,6 +3569,9 @@ msgstr "Отмена"
 msgid "by %s, "
 msgstr "для %s,"
 
+msgid "delete version"
+msgstr ""
+
 msgid "This revision has no text."
 msgstr "Текст версии отсутствует. "
 
@@ -3726,15 +3780,6 @@ msgstr "Пол"
 msgid "I am..."
 msgstr ""
 
-msgid "Male"
-msgstr "Мужской"
-
-msgid "Female"
-msgstr "Женский"
-
-msgid "Notifications"
-msgstr "Напоминания"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Выберите как Вы хотите быть извещенными о происходящем. "
 
@@ -3926,7 +3971,54 @@ msgstr "Вы получили письмо, содержащее ссылку. �
 msgid "User settings"
 msgstr ""
 
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
 msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
 msgstr ""
 
 #, python-format
