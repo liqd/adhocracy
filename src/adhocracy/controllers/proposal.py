@@ -14,6 +14,7 @@ from pylons.i18n import _
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
+from adhocracy.lib import votedetail
 from adhocracy.lib.auth import authorization, can, csrf, require, guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -305,8 +306,8 @@ class ProposalController(BaseController):
                 c.proposal.selections,
                 key=lambda s: s.page.title)
 
-        if model.votedetail.is_enabled():
-            c.votedetail = model.votedetail.calc_votedetail(
+        if votedetail.is_enabled():
+            c.votedetail = votedetail.calc_votedetail(
                 c.instance, c.proposal.rate_poll)
 
         if format == 'rss':

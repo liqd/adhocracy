@@ -2,6 +2,7 @@
 import datetime
 import re
 
+from adhocracy.lib import votedetail
 from adhocracy import model
 
 
@@ -266,7 +267,7 @@ class InstanceTransform(_Transform):
                                            self._user_transform)
             res['proposals'] = ptransform.export_all()
 
-        if self._badge_transform and model.votedetail.is_enabled():
+        if self._badge_transform and votedetail.is_enabled():
             res['adhocracy_votedetail_userbadges'] = [
                 self._badge_transform._compute_key(b)
                 for b in obj.votedetail_userbadges
@@ -332,7 +333,7 @@ class InstanceTransform(_Transform):
                                            self._user_transform)
             ptransform.import_all(data.get('proposals', {}))
 
-        if self._badge_transform and model.votedetail.is_enabled():
+        if self._badge_transform and votedetail.is_enabled():
             if 'adhocracy_votedetail_userbadges' in data:
                 o.votedetail_userbadges = [
                     self._badge_transform._get_by_key(bid)
