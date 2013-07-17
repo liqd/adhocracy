@@ -19,6 +19,7 @@ from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
+from adhocracy.lib import votedetail
 from adhocracy.lib.settings import INSTANCE_UPDATED_MSG
 from adhocracy.lib.settings import NO_UPDATE_REQUIRED
 from adhocracy.lib.settings import error_formatter
@@ -601,7 +602,7 @@ class InstanceController(BaseController):
                 {'value': majority[0],
                  'label': h.literal(majority[1]),
                  'selected': c.page_instance.required_majority == majority[0]})
-        if model.votedetail.is_enabled():
+        if votedetail.is_enabled():
             c.votedetail_all_userbadges = model.UserBadge.all(
                 instance=c.page_instance, include_global=True)
         else:
@@ -620,7 +621,7 @@ class InstanceController(BaseController):
             'allow_adopt': c.page_instance.allow_adopt,
             'allow_delegate': c.page_instance.allow_delegate,
             '_tok': csrf.token_id()}
-        if model.votedetail.is_enabled():
+        if votedetail.is_enabled():
             defaults['votedetail_badges'] = [
                 b.id for b in c.page_instance.votedetail_userbadges]
         return htmlfill.render(
@@ -641,7 +642,7 @@ class InstanceController(BaseController):
             ['required_majority', 'activation_delay', 'allow_adopt',
              'allow_delegate'])
 
-        if model.votedetail.is_enabled():
+        if votedetail.is_enabled():
             new_badges = self.form_result['votedetail_badges']
             updated_vd = c.page_instance.votedetail_userbadges != new_badges
             if updated_vd:
