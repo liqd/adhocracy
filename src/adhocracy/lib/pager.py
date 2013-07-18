@@ -16,6 +16,7 @@ from webob.multidict import MultiDict
 
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
+from adhocracy.lib import votedetail
 from adhocracy.lib.behavior import get_behavior
 from adhocracy.lib.helpers import base_url
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
@@ -1079,11 +1080,11 @@ class ProposalVotedetailScoreIndexer(SolrIndexer):
 
     @classmethod
     def add_data_to_index(cls, entity, data):
-        if model.votedetail.is_enabled()\
+        if votedetail.is_enabled()\
            and isinstance(entity, model.Proposal):
 
-            for b, t in model.votedetail.calc_votedetail(entity.instance,
-                                                         entity.rate_poll):
+            for b, t in votedetail.calc_votedetail(entity.instance,
+                                                   entity.rate_poll):
                 data[cls.solr_field(b)] = t.num_for - t.num_against
 
 
@@ -1476,7 +1477,7 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
         default_sorting = get_def_proposal_sort_order()
     if default_sorting is not None:
         sorts.default = default_sorting
-    if model.votedetail.is_enabled():
+    if votedetail.is_enabled():
         badges = instance.votedetail_userbadges
         if badges:
             sorts.add_group(L_('Support by'), tuple([

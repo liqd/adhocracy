@@ -21,9 +21,9 @@ para = tpl % {'url': url, 'for': tally.num_for, 'against': tally.num_against, 'v
 %if vd:
 <h6>${_('Votes by User Group')}</h6>
 <dl class="votedetail">
-%for b, tally in vd:
-	<dt>${b.title}</dt>
-	<dd><span class="num_for">${tally.num_for}</span> : <span class="num_against">${tally.num_against}</span></dd>
+%for v in vd:
+	<dt>${v['badge']['title']}</dt>
+	<dd><span class="num_for">${v['tally']['num_for']}</span> : <span class="num_against">${v['tally']['num_against']}</span></dd>
 %endfor
 </dl>
 %endif
