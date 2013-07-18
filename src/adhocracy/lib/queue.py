@@ -167,7 +167,7 @@ def handle_update(message):
     delay = config.get_int('adhocracy.delay_update_queue_seconds')
     if delay > 0:
         import time
-        time.sleep(2)
+        time.sleep(delay)
     entity = to_entity(data.get('entity'))
     for (clazz, operation), listeners in LISTENERS.items():
         if operation != data.get('operation') \
