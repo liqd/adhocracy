@@ -115,9 +115,10 @@ a.button.delegate {
     @include button-round;
 }
 
-/* Button below lists that should left-align with the text inside the list. */
-.list_button {
-    padding: 10px;
+.list_button,
+.top_actions,
+.admin_controls {
+    margin: 1em 0;
 }
 
 .showhide_button {
