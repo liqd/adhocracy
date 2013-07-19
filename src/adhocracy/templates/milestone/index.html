@@ -22,16 +22,7 @@ ${tiles.milestone.timeline(c.milestones)}
 <div id="milestones_table" class="table">
     ${c.current_milestones_pager.here()}
 </div>
-<br/>
 %endif
-
-<div class="top_actions aside">
-    %if can.milestone.create():
-    <a class="button add ttip" title="${_('Create a new milestone.')}"
-      href="${h.base_url('/milestone/new')}">${_("new milestone")}</a>
-    %endif
-</div>
-<div style="clear:both;"></div>
 
 
 %if c.show_past_milestones:
@@ -40,7 +31,13 @@ ${tiles.milestone.timeline(c.milestones)}
 <div id="milestones_table" class="table">
     ${c.past_milestones_pager.here()}
 </div>
-<br/>
+
+<div class="list_button">
+    %if can.milestone.create():
+    <a class="button add ttip" title="${_('Create a new milestone.')}"
+      href="${h.base_url('/milestone/new')}">${_("new milestone")}</a>
+    %endif
+</div>
 %endif
 
 

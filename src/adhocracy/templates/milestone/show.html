@@ -73,7 +73,7 @@ created_msg = _("by %s on %s") % (
     %else:
     ${_('No proposals are connected to this milestone')}
     %endif
-    <div class="top_actions aside" id="new-proposal">
+    <div class="list_button" id="new-proposal">
         <% auth = check.proposal.create() %>
         <% url = h.base_url('/proposal/new?milestone=%d' % c.milestone.id) %>
         %if auth:
