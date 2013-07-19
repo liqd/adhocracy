@@ -71,6 +71,17 @@ body.logged_in #logo {
         margin: 0 0 0 1px;
         position: relative;
 
+        a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+
+        > a {
+            padding: 0 13px 0 10px;
+            height: 52px;
+        }
+
         &.current {
             background-color: #3c3c3c;
             @include background-image(linear-gradient(top, #383838, #444));
@@ -89,24 +100,6 @@ body.logged_in #logo {
 #user_menu {
     display: inline-block;
     border-left: 1px solid #444
-}
-#about_menu {
-    display: inline-block;
-}
-#about_menu ul,
-#user_menu ul {
-    margin-left: 0;
-    li:hover a {
-        background: none;
-    }
-}
-#about_menu_link,
-#nav li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0 13px 0 10px;
-    height: 52px;
-    display: block;
 }
 
 #nav li:hover ul.children {
