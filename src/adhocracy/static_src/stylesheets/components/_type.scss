@@ -13,7 +13,7 @@ h1, h2, h3, h4, h5, h6, legend {
     margin: 10px 0;
     text-rendering: optimizelegibility; // Fix the character spacing for headings
 }
-h1 { font-size: 34px; margin: 27px 23px; font-weight: normal; }
+h1 { font-size: 34px; margin: 27px 0; font-weight: normal; }
 h2 { font-size: 30px; margin-bottom: 10px; font-weight: normal; }
 h3 { font-size: 25px; margin-bottom: 10px; font-weight: normal; }
 h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
