@@ -93,6 +93,9 @@ it will fall back to the default theme. So basically you only need to copy `adho
 from the default theme. You can then start customizing using only `_variables.scss` and
 `_overwrite.scss`. But if you want more you can also overwrite whole components.
 
+If you do not want to replace a whole component you should think about creating
+a file with the suffix `_overwrite` (e.g. `gerneral/_mixins_overwrite.scss`)
+instead of throwing everything into `_overwrite.scss`.
 
 Migration from the old `style_custom.css` system
 ................................................
