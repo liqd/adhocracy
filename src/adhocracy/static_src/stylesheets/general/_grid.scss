@@ -318,8 +318,8 @@
         position:relative;
         padding: 0;
         color: #000;
-        background-color: mix(#272727, #303030);
-        @include background-image(linear-gradient(top, #272727, #303030));
+        background-color: $header-color;
+        @include background-image(linear-gradient(to bottom, darken($header-color, 2%), lighten($header-color, 2%)));
     }
     #topnav { text-align: right; color: #fff; background: transparent; }
     #main { margin: 10px 0 60px; background: #fff; }
