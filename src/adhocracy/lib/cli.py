@@ -24,7 +24,7 @@ log = getLogger(__name__)
 class AdhocracyCommand(Command):
     parser = Command.standard_parser(verbose=True)
     parser.add_option('-c', '--config', dest='config',
-            default='etc/adhocracy.ini', help='Config file to use.')
+                      default='etc/adhocracy.ini', help='Config file to use.')
     default_verbosity = 1
     group_name = 'adhocracy'
 
@@ -278,11 +278,11 @@ class Index(AdhocracyCommand):
         print ('Starting.\n'
                '  Actions: %s\n'
                '  Content Types: %s\n'
-               '  Instances: %s\n') % (
+               '  Instances: %s\n' % (
                    self.printable(actions),
                    self.printable(classes,
                                   print_=lambda x: x.__name__.lower()),
-                   self.printable(instances, print_=lambda x: x.key))
+                   self.printable(instances, print_=lambda x: x.key)))
 
         if self.DROP in actions:
             p_instances = instances if instances else [None]
@@ -313,8 +313,8 @@ class Index(AdhocracyCommand):
         indexed_classes = sorted(self.indexed_classes.keys())
         content_types = '\n          '.join(indexed_classes)
         usage += (
-            'index (INDEX|DROP|DROP_ALL|ALL) [<entity>, ...] [-I <instance>, ...]'
-            ' -c <inifile>'
+            'index (INDEX|DROP|DROP_ALL|ALL) [<entity>, ...] [-I <instance>, '
+            '...] -c <inifile>'
             '\n\n'
             '  DROP_ALL:\n'
             '      Remove all documents from solr.\n'

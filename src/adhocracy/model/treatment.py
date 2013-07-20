@@ -53,7 +53,7 @@ class Treatment(object):
     def __repr__(self):
         return (u'<%s.%s(id=%r, key=%r, %r)>' %
                 (self.__module__, type(self).__name__,
-                self.id, self.key, self.variant_count))
+                 self.id, self.key, self.variant_count))
 
 
 treatment_source_badges_table = Table(

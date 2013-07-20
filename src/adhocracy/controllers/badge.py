@@ -157,7 +157,7 @@ class BadgeController(BaseController):
         }
         if badge_type is not None:
             data['badge_type'] = badge_type
-        
+
         defaults = {'visible': True,
                     'select_child_description': '',
                     }

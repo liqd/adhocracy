@@ -103,13 +103,13 @@ def comments_sorted(comments, root=None, variant=None, key=None):
 def contains_delegations(user, delegateable, recurse=True):
     for delegation in user.agencies:
         if (not delegation.revoke_time and
-           (delegation.scope == delegateable or
-           (delegation.scope.is_sub(delegateable) and recurse))):
+            (delegation.scope == delegateable or
+             (delegation.scope.is_sub(delegateable) and recurse))):
             return True
     for delegation in user.delegated:
         if (not delegation.revoke_time and
-           (delegation.scope == delegateable or
-           (delegation.scope.is_sub(delegateable) and recurse))):
+            (delegation.scope == delegateable or
+             (delegation.scope.is_sub(delegateable) and recurse))):
             return True
     return False
 

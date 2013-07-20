@@ -38,7 +38,7 @@ badge_table = Table(
     Column('visible', Boolean, default=True),
     # attributes for ThumbnailBadges
     Column('thumbnail', LargeBinary, default=None, nullable=True),
-    Column('behavior_proposal_sort_order',  Unicode(50), nullable=True),
+    Column('behavior_proposal_sort_order', Unicode(50), nullable=True),
 )
 
 
@@ -220,6 +220,9 @@ class UserBadge(Badge):
         d['users'] = [user.name for user in self.users]
         return d
 
+    def badged_entities(self):
+        return self.badged_users
+
 
 class UserBadges(Badges):
 
@@ -254,6 +257,9 @@ class InstanceBadge(Badge):
         meta.Session.refresh(instance)
         meta.Session.refresh(self)
 
+    def badged_entities(self):
+        return self.badged_instances
+
 
 class InstanceBadges(Badges):
 
@@ -285,6 +291,9 @@ class DelegateableBadge(Badge):
         DelegateableBadges.create(delegateable, self, creator)
         meta.Session.refresh(delegateable)
         meta.Session.refresh(self)
+
+    def badged_entities(self):
+        return self.badged_delegateables
 
 
 class DelegateableBadges(Badges):

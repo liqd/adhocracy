@@ -123,8 +123,6 @@ class OpenidauthController(BaseController):
                                               errors={'openid': message})
             return render('/user/login.html', {'login_form_code': form})
 
-
-
     def __before__(self):
         self.openid_session = session.get("openid_session", {})
 

@@ -1,6 +1,7 @@
 from adhocracy.lib.cookie import get_cookies
 from repoze.who.plugins.auth_tkt import AuthTktCookiePlugin
 
+
 class InstanceAuthTktCookiePlugin(AuthTktCookiePlugin):
     def __init__(self, config, *args, **kwargs):
         super(InstanceAuthTktCookiePlugin, self).__init__(*args, **kwargs)

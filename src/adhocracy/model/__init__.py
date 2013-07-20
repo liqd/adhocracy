@@ -82,7 +82,7 @@ mapper(UserBadges, user_badges_table,
                primaryjoin=(user_badges_table.c.user_id ==
                             user_table.c.id),
                backref=backref('userbadges')),
-           'badge': relation(UserBadge)})
+           'badge': relation(UserBadge, backref='badged_users')})
 
 
 mapper(DelegateableBadges, delegateable_badges_table,
@@ -97,7 +97,7 @@ mapper(DelegateableBadges, delegateable_badges_table,
                primaryjoin=(delegateable_badges_table.c.delegateable_id ==
                             delegateable_table.c.id),
                backref=backref('delegateablebadges')),
-           'badge': relation(Badge)})
+           'badge': relation(Badge, backref='badged_delegateables')})
 
 
 mapper(InstanceBadges, instance_badges_table,
@@ -112,7 +112,7 @@ mapper(InstanceBadges, instance_badges_table,
                primaryjoin=(instance_badges_table.c.instance_id ==
                             instance_table.c.id),
                backref=backref('instancebadges')),
-           'badge': relation(Badge)})
+           'badge': relation(Badge, backref='badged_instances')})
 
 
 # We map Badge to establish the base properties, but you cannot
