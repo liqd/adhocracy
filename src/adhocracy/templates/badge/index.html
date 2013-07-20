@@ -12,6 +12,12 @@
 <a href="${c.badge_base_url}/edit/${badge_id}">${_('Edit')}</a>
 </%def>
 
+
+<%def name="delete_button(badge_id)">
+<a href="${c.badge_base_url}/delete/${badge_id}">${_('Delete')}</a>
+</%def>
+
+
 <%def name="render_tables(badges, type_, groups, table_def)">
 %for group in groups:
 <%
@@ -55,8 +61,8 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${tiles.badge(badge)}</td>
         <td>${badge.group and badge.group.group_name or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
-        
-        <td>${edit_button(badge.id)}</td>
+        <td>${edit_button(badge.id)}
+            ${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -84,6 +90,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -108,6 +115,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -136,6 +144,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.impact}</td>
         <td>${badge.parent.title if badge.parent else ""}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -161,6 +170,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>

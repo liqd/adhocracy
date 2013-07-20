@@ -284,3 +284,7 @@ class Instance(meta.Indexable):
 
     def __repr__(self):
         return u"<Instance(%d,%s)>" % (self.id, self.key)
+
+    @property
+    def title(self):
+        return self.label
