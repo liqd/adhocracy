@@ -26,3 +26,17 @@ a, span {
         font-size: 0.8em;
     }
 }
+
+// morelinks next to headers
+.morelink_header {
+    @include clearfix;
+
+    h1, h2, h3, h4, h5, h6 {
+        float: left;
+    }
+    .more_link {
+        float: right;
+        position: relative;
+        top: 25px;
+    }
+}
