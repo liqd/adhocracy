@@ -59,7 +59,7 @@ body.logged_in #logo {
         .hlist > ul > li {
             height: 32px;
             padding-top: 4px;
-            a {
+            > a {
                 height: 32px;
             }
         }
@@ -70,6 +70,17 @@ body.logged_in #logo {
         padding-top: 15px;
         margin: 0 0 0 1px;
         position: relative;
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+
+        > a {
+            padding: 0 13px 0 10px;
+            height: 52px;
+        }
 
         &.current {
             background-color: $header-color2;
@@ -89,24 +100,6 @@ body.logged_in #logo {
 #user_menu {
     display: inline-block;
     border-left: 1px solid $header-color2;
-}
-#about_menu {
-    display: inline-block;
-}
-#about_menu ul,
-#user_menu ul {
-    margin-left: 0;
-    li:hover a {
-        background: none;
-    }
-}
-#about_menu_link,
-#nav li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0 13px 0 10px;
-    height: 52px;
-    display: block;
 }
 
 #nav li:hover ul.children {
@@ -128,7 +121,6 @@ body.logged_in #logo {
         padding: 4px 2px 2px;
         font-size: 14px;
         line-height: 25px;
-        height: 25px;
         display: block;
 
         border-bottom: 1px solid darken($header-color2, 10%);
@@ -151,6 +143,11 @@ body.logged_in #logo {
         a:hover, &.current a {
             color: #c1c4c9;
         }
+    }
+
+    ul.children {
+        position: initial;
+        padding: 0 0 0 20px;
     }
 }
 
