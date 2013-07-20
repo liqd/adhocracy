@@ -23,7 +23,7 @@ ${c.tile.description|n}
     ${c.all_proposals_pager.here()}
     %endif
 
-    <div id="proposal-actions">
+    <div id="proposal-actions" class="list_button">
         <% auth = check.proposal.create() %>
         %if auth:
         <a class="button add ttip" 
