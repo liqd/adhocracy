@@ -393,6 +393,12 @@ class ProposalTransform(_Transform):
                 'rate_contra': obj.rate_poll.tally.num_against,
                 'rate_neutral': obj.rate_poll.tally.num_abstain,
             })
+            if votedetail.is_enabled():
+                vd = votedetail.calc_votedetail_dict(
+                    obj.instance, obj.rate_poll)
+                if vd:
+                    res['votedetail_rate_poll'] = vd
+
         if self._options.get('include_instance_proposal_comment', False):
             ctransform = CommentTransform(self._options,
                                           obj.description.comments,
