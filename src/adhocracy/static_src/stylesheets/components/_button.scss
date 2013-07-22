@@ -42,11 +42,13 @@ a.button_small {
 }
 
 a.show_comments, a.new_comment {
-    padding: 0 6px;
-}
-a.show_comments:hover, a.new_comment:hover, a.participate {
-    color: #fff;
     @include button-small($primary-color, $primary-color);
+    background: none;
+    color: $black;
+}
+a.participate {
+    @include button-small($primary-color, $primary-color);
+    color: white;
 }
 
 a.button_round {
