@@ -8,7 +8,15 @@
 
 <%block name="headline">
 
-<h2>${_("Milestones")}</h2>
+<div class="morelink_header">
+    <h2>${_("Milestones")}</h2>
+
+    %if can.milestone.create():
+    <a class="more_link"
+       href="${h.base_url('/page/new')}">${_("Create new milestone")}</a>
+    %endif
+</div>
+
 <hr />
 
 ${tiles.milestone.timeline(c.milestones)}
