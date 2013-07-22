@@ -386,6 +386,10 @@ class ProposalTransform(_Transform):
             'description': obj.description.head.text,
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'proposal',
+            'category': obj.category.title if obj.category else None,
+            'tags': [o.name for o, _ in obj.tags],
+            'badges': [o.badge.title for o in obj.delegateablebadges
+                       if o.badge.polymorphic_identity != 'category'],
         }
         if self._options.get('include_ratings', False):
             res.update({
