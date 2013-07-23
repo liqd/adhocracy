@@ -756,7 +756,6 @@ class OptionalAttributes(formencode.validators.FormValidator):
 
             if allowed is not None:
                 if value not in [a['value'] for a in allowed]:
-                    import ipdb; ipdb.set_trace()
                     error_dict[key] = _(u'Invalid choice')
                     continue
 
