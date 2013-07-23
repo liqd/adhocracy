@@ -521,7 +521,7 @@ class UserController(BaseController):
 
     def _settings_optional_form(self, id, data={}):
         if not config.get('adhocracy.user.optional_attributes'):
-            abort(400, _("No optional atributes defined."))
+            abort(400, _("No optional attributes defined."))
         self._settings_all(id)
         data['page_user'] = c.page_user
         data['tile'] = tiles.user.UserTile(c.page_user)
