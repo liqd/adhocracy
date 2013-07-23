@@ -44,7 +44,7 @@ a.button_small {
 a.show_comments, a.new_comment {
     @include button-small($primary-color, $primary-color);
     background: none;
-    color: $black;
+    color: $primary-color;
 }
 a.participate {
     @include button-small($primary-color, $primary-color);
