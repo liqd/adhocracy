@@ -22,6 +22,19 @@
             margin-top: 1.5em;
             margin-bottom: 1.5em;
         }
+
+        .comment_actions {
+            padding-top: 1em;
+
+            .vote_comment, .show_comments, .new_comment {
+                float: left;
+                margin-right: 10px;
+                font-size: 11px;
+            }
+            .utility {
+                float: right;
+            }
+        }
     }
 }
 .comments_list > li {
@@ -38,25 +51,6 @@
     font-weight: bold;
     font-style: italic;
     color: $fg1;
-}
-
-.comment_actions, .paper_actions {
-    padding-top: 10px;
-}
-.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment,
-.paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment, .paper_actions .participate {
-    float: left;
-    margin-right: 10px;
-    font-size: 11px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-.comment_actions .vote_comment {
-    padding-left: 0;
-    padding-top: 1px;
-}
-.comment_actions .utility, .paper_actions .meta {
-    float: right;
 }
 
 // top level comment form
