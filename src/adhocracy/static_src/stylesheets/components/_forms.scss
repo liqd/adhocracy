@@ -87,24 +87,6 @@ form .error {
     border-color: darkred;
 }
 
-/* comment form */
-.comment_form {
-    background: none $bg2;
-    padding: 3px;
-}
-form.new_comment {
-    background: none repeat scroll 0 0 $bg2;
-    margin-bottom: 20px;
-    padding: 5px;
-}
-
-.comment_settings .input_wrapper {
-    margin-bottom: 5px;
-}
-.comment_settings hr {
-    margin-bottom: 10px;
-}
-
 /* searchform */
 #searchbox,
 .list_filter {

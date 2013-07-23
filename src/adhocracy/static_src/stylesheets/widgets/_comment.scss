@@ -46,3 +46,18 @@ ul.comments_list > li {
 .comment_actions .utility, .paper_actions .meta {
     float: right;
 }
+
+/* comment form */
+.comment_form {
+    background: none $bg2;
+    padding: 3px;
+
+    .comment_settings {
+        .input_wrapper {
+            margin-bottom: 5px;
+        }
+        hr {
+            margin-bottom: 10px;
+        }
+    }
+}
