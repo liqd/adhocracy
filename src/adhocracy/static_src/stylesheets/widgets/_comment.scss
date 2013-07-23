@@ -22,25 +22,6 @@
             margin-top: 1.5em;
             margin-bottom: 1.5em;
         }
-
-        .comment_actions {
-            padding-top: 1em;
-
-            > div {
-                display: inline-block;
-            }
-
-            .vote_comment, .show_comments, .new_comment {
-                margin-right: 10px;
-                font-size: 11px;
-
-                display: inline-block;
-                vertical-align: middle;
-            }
-            .utility {
-                float: right;
-            }
-        }
     }
 }
 .comments_list > li {
@@ -57,6 +38,25 @@
     font-weight: bold;
     font-style: italic;
     color: $fg1;
+}
+
+.comment_actions, .paper_actions {
+    padding-top: 1em;
+
+    > div {
+        display: inline-block;
+    }
+
+    .vote_comment, .show_comments, .new_comment {
+        margin-right: 10px;
+        font-size: 11px;
+
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .utility, .meta {
+        float: right;
+    }
 }
 
 // top level comment form
