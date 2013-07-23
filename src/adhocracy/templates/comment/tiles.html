@@ -236,7 +236,6 @@ klass_pro = klass(1)
 klass_neutral = klass(0)
 klass_con = klass(-1)
 %>
-  <div class="comment_form">
     <form name="new_comment" class="comment_form"
           method="POST" action="${h.entity_url(comment, comment_page=True)}">
         ${h.field_token()|n}
@@ -274,7 +273,6 @@ klass_con = klass(-1)
         </div>
       </div>
     </form>
-  </div>
 
 </%def>
 
@@ -291,7 +289,6 @@ if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
   <h4>${_(u'Enter comment text:') if h.comment.wording() else _(u'Enter argument text:')}</h4>
-  <div class="comment_form">
     <form name="new_comment" class="comment_form"
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
       ${h.field_token()|n}
@@ -337,7 +334,6 @@ if wiki is None:
         </div>
       </div>
     </form>
-  </div>
 
 </%def>
 

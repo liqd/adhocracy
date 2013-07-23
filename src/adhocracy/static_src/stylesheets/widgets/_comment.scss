@@ -1,48 +1,81 @@
-ul.comments_list, .comment_wrapper {
+.comments_list, .comment_wrapper {
+    // without top/bottom padding the child elements' margin
+    // would collapse outside the comments list
+    padding: 1px 0;
     background-color: $bg1;
     @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
-    margin: 0;
-    list-style: none;
-}
-ul.comments_list ul {
-    margin: 0;
-    list-style: none;
-}
-ul.comments_list li, .comment_wrapper .comment {
-    padding: 10px 0 0 20px;
-    border-top: 1px solid #fff;
 }
 
-.comment_wrapper .comment {
-    padding: 10px 20px 20px 20px;
+.comments_list, .comments_list .sub {
+    list-style: none;
+    margin: 0;
 
-    &.empty {
-        padding-top: 20px;
-        font-weight: bold;
-        font-style: italic;
-        color: #999;
+    > li {
+        border-bottom: 1px solid #fff;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        // .comment, .sub or comment form
+        > * {
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+        }
+    }
+}
+.comments_list > li {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+.comments_list .sub {
+    margin-left: 2em;
+}
+
+.comment.empty {
+    padding: 1em 0;
+    font-weight: bold;
+    font-style: italic;
+    color: $fg1;
+}
+
+.comment_actions, .paper_actions {
+    padding-top: 1em;
+
+    > div {
+        display: inline-block;
+    }
+
+    .vote_comment, .show_comments, .new_comment {
+        margin-right: 10px;
+        font-size: 11px;
+
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .utility, .meta {
+        float: right;
     }
 }
 
-ul.comments_list > li {
-    padding: 10px 20px 0 20px;
-}
-.comment_actions, .paper_actions {
-    padding-top: 10px;
+// top level comment form
+.comment_wrapper {
+    border-top: 1px solid #fff;
+    padding: 1px 1.5em;
 }
 
-.comment_actions .vote_comment, .comment_actions .show_comments, .comment_actions .new_comment,
-.paper_actions .vote_paper, .paper_actions .show_comments, .paper_actions .new_comment, .paper_actions .participate {
-    float: left;
-    margin-right: 10px;
-    font-size: 11px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-.comment_actions .vote_comment {
-    padding-left: 0;
-    padding-top: 1px;
-}
-.comment_actions .utility, .paper_actions .meta {
-    float: right;
+/* comment form */
+.comment_form {
+    background: none $bg2;
+    padding: 6px;
+
+    .comment_settings {
+        .input_wrapper {
+            margin-bottom: 5px;
+        }
+        hr {
+            margin-bottom: 10px;
+        }
+    }
 }
