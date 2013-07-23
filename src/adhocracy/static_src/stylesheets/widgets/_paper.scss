@@ -34,6 +34,16 @@
     }
 }
 
+#selection_box {
+    #history, #votes {
+        padding: 20px;
+
+        .content_list > li {
+            background: none;
+        }
+    }
+}
+
 #sidebar_nav {
     border-bottom: 1px dotted $border;
     padding-bottom: 10px;
