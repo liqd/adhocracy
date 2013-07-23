@@ -26,10 +26,16 @@
         .comment_actions {
             padding-top: 1em;
 
+            > div {
+                display: inline-block;
+            }
+
             .vote_comment, .show_comments, .new_comment {
-                float: left;
                 margin-right: 10px;
                 font-size: 11px;
+
+                display: inline-block;
+                vertical-align: middle;
             }
             .utility {
                 float: right;
