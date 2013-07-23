@@ -536,6 +536,16 @@ class UserController(BaseController):
     def settings_optional(self, id):
         form_content = self._settings_optional_form(id)
         defaults = c.page_user.optional_attributes or {}
+
+        # Workaround, as htmlfill will match select option values in their
+        # html encoded form.
+        # Proper fix would be to explicitly declare database and shown option
+        # value in the configuration in adhocracy.user.optional_attributes.xxx
+        # That way the shown value can also be changed later.
+        import cgi
+        defaults = dict((k, cgi.escape(unicode(v)))
+                        for k, v in defaults.items())
+
         defaults.update({
             '_method': 'PUT',
             '_tok': token_id()})
