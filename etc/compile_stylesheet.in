@@ -7,4 +7,10 @@ else
     theme_dir="${compile_stylesheet:default_dir}"
 fi
 
-"${buildout:bin-directory}/sass" --compass -I "${compile_stylesheet:default_dir}" $@ "$theme_dir/adhocracy.scss:${compile_stylesheet:output_dir}/adhocracy.css"
+if [ -n "$(echo $@ | grep '\-\-watch')" ]; then
+    args="--compass $@"
+else
+    args="--compass $@ --update"
+fi
+
+"${buildout:bin-directory}/sass" -I "${compile_stylesheet:default_dir}" $args "$theme_dir/:${compile_stylesheet:output_dir}/"
