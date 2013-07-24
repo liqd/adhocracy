@@ -395,6 +395,9 @@ class ProposalTransform(_Transform):
             'badges': [o.badge.title for o in obj.delegateablebadges
                        if o.badge.polymorphic_identity != 'category'],
         }
+        if self._options.get('include_proposal_creator_badges', False):
+            res['creator_badges'] = [o.badge.title
+                                     for o in obj.creator.userbadges],
         if self._options.get('include_ratings', False):
             res.update({
                 'rate_pro': obj.rate_poll.tally.num_for,
