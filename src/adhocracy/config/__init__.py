@@ -8,6 +8,7 @@ from pylons.i18n import _
 DEFAULTS = {
     'adhocracy.delay_update_queue_seconds': 1,
     'adhocracy.enable_gender': False,
+    'adhocracy.export_personal_email': False,
     'adhocracy.feedback_check_instance': True,
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,

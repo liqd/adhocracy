@@ -3,6 +3,7 @@ import datetime
 import re
 
 from adhocracy.lib import votedetail
+from adhocracy import config
 from adhocracy import model
 
 
@@ -149,7 +150,10 @@ class UserTransform(_Transform):
         self._badge_transform = badge_transform
         self._opt_personal = self._options.get('user_personal', False)
         if self._opt_personal:
-            self._ID_KEY = 'email'
+            if config.get_bool('adhocracy.export_personal_email'):
+                self._ID_KEY = 'email'
+            else:
+                self._ID_KEY = 'user_name'
         else:
             self._ID_KEY = 'id'
             self._get_by_key = self._model_class.find
