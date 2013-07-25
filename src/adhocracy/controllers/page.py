@@ -582,6 +582,24 @@ class PageController(BaseController):
             return render('/page/history.html')
 
     @RequireInstance
+    def comments(self, id, variant=model.Text.HEAD, text=None, format=None):
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        require.page.show(c.page)
+        if c.text is None:
+            h.flash(_("No such text revision."), 'notice')
+            redirect(h.entity_url(c.page))
+        self._common_metadata(c.page, c.text)
+        c.ret_url = ''
+
+        if format == 'ajax':
+            return tiles.comment.list(c.page)
+        elif format == 'overlay':
+            c.ret_url = h.entity_url(c.page, member='comments') + '.overlay'
+            return render('/page/comments.html', overlay=True)
+        else:
+            return render('/page/comments.html')
+
+    @RequireInstance
     @validate(schema=PageDiffForm(), form='bad_request', post_only=False,
               on_get=True)
     def diff(self):

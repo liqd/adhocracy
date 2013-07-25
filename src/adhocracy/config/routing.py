@@ -161,6 +161,11 @@ def make_map(config):
                 action='history',
                 conditions=dict(method=['GET']),
                 )
+    map.connect('/page/{id}/comments{.format}',
+                controller='page',
+                action='comments',
+                conditions=dict(method=['GET']),
+                )
     map.connect('/page/{id}/{variant}/branch',
                 controller='page',
                 action='edit',
