@@ -54,16 +54,23 @@ table {
         border-top: 1px solid $border;
     }
 
-    td.line_number {
-        width: 20px;
-        padding-right: 10px;
-        text-align: right;
-        color: $fg1;
-        line-height: 1.5em;
-    }
-    td.line_text {
-        color: $black;
-        font-family: Menlo, Monaco, 'Courier New', monospace;
+    &.line_based {
+        td {
+            border: none;
+            padding: initial;
+
+            &.line_number {
+                width: 20px;
+                padding-right: 10px;
+                text-align: right;
+                color: $fg1;
+                line-height: 1.5em;
+            }
+            &.line_text {
+                color: $black;
+                font-family: Menlo, Monaco, 'Courier New', monospace;
+            }
+        }
     }
 }
 
