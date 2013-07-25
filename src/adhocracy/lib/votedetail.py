@@ -15,8 +15,9 @@ def calc_votedetail(instance, poll):
 
 
 @memoize('votedetail')
-def calc_votedetail_dict(instance, poll):
-    return [{'badge': b.to_dict(), 'tally': t.to_dict()}
+def calc_votedetail_dict(instance, poll, badge_title_only=False):
+    badge_value = lambda b: b.title if badge_title_only else b.to_dict()
+    return [{'badge': badge_value(b), 'tally': t.to_dict()}
             for b, t in calc_votedetail(instance, poll)]
 
 

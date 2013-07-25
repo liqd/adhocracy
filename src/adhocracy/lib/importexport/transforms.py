@@ -406,7 +406,7 @@ class ProposalTransform(_Transform):
             })
             if votedetail.is_enabled():
                 vd = votedetail.calc_votedetail_dict(
-                    obj.instance, obj.rate_poll)
+                    obj.instance, obj.rate_poll, badge_title_only=True)
                 if vd:
                     res['votedetail_rate_poll'] = vd
 
