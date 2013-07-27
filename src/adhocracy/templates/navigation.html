@@ -192,7 +192,7 @@
                                   url=url)">
 
   ${nav_link(href=h.entity_url(c.instance),
-             text=_(u"Overview"),
+             text=_(u"Intro" if h.config.get_bool('adhocracy.wording.intro_for_overview') else u"Overview"),
              li_class=_class('instance'),
              id_='subnav-overview')}
 

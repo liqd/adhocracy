@@ -30,6 +30,7 @@ DEFAULTS = {
     'adhocracy.show_instance_overview_stats': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
+    'adhocracy.wording.intro_for_overview': False,
 }
 
 
