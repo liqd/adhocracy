@@ -66,7 +66,7 @@
              id="${target}"
              data-cancel=".cancel">
             <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
+                ${create_form(None, topic, variant=variant, ret_url=ret_url, show_cancel=(len(comments) != 0))}
             </div>
         </div>
         %if hide_form:
@@ -277,7 +277,7 @@ klass_con = klass(-1)
 </%def>
 
 
-<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None)">
+<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None, show_cancel=True)">
 
 <%
 if format is None:
@@ -327,8 +327,10 @@ if wiki is None:
             <hr />
             <div class="input_wrapper submit">
               <input type="submit" value="${_('Save')}" />&nbsp;
+              %if show_cancel:
               <a class="cancel" 
                  href="${'/d/%s' % parent.topic.id if parent else request.params.get('topic')}">${_("cancel")}</a>
+              %endif
             </div>
           </div>
         </div>
