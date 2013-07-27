@@ -47,19 +47,15 @@ delegate_url = url if can.delegation.create() else None
 
             <section>
               <article>
-                <h2>
-                    ${h.delegateable.link(c.proposal, link=False)|n}
-                </h2>
-                <hr />
-                
                 <div class="utility">
-                    <h4>${_('Topic and Description of the Proposal')}</h4>
+                    <h2>${h.delegateable.link(c.proposal, link=False)|n}</h2>
+
                     %if can.proposal.edit(c.proposal):
-                    <a href="${h.entity_url(c.proposal, member='edit')}">
-                        ${_("edit")}
-                    </a>
+                    <a href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
                     %endif
                 </div>
+
+                <hr />
                 
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
