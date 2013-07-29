@@ -30,7 +30,8 @@ def link(user, size=16, scope=None, show_badges=True):
                   or b.instance is instance]
         if show_badges and badges:
             url += u"<span class='badges'>" + \
-                unicode(tiles.badge.badges(badges)) + "</span>"
+                unicode(tiles.badge.badges(badges, gender=user.gender)) + \
+                "</span>"
         # FIXME: We removed user icons from the UI. What to do
         # with delegates?
         # if other and scope:

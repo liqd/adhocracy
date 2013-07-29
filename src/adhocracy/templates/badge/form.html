@@ -24,6 +24,18 @@ ${self.form()}
     <input name="title" id="badge_form_title" class="" style="width:20em"
            value="" autofocus />
 
+    %if c.enable_gender:
+    <label><span style="display: inline-block; min-width: 9em;">${_("Unisex form:")}</span>
+        <input name="title_o" />
+    </label>
+    <label><span style="display: inline-block; min-width: 9em;">${_("Female form:")}</span>
+        <input name="title_f" />
+    </label>
+    <label><span style="display: inline-block; min-width: 9em;">${_("Male form:")}</span>
+        <input name="title_m" />
+    </label>
+    %endif
+
     <label for="description" class="">${_("Badge description")}</label>
     <textarea name="description" id="description" 
               style="width:90%; height: 10em"></textarea>

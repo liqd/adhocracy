@@ -56,24 +56,24 @@
 
     %if c.enable_gender:
     <fieldset>
-        <legend>${_("Gender")}</legend>
+        <legend>${_("Salutation:")}</legend>
         <div class="input_wrapper">
             <select id="gender" name="gender">
-		<option value="u"
+		            <option value="u"
                 %if c.page_user.gender == "u": 
                     selected="selected" 
                 %endif
-                >${_("I am...")}</option>
+                >${_("Unisex")}</option>
                 <option value="m" 
                 %if c.page_user.gender == "m":
                     selected="selected" 
                 %endif
-                >${_("Male")}</option>
+                >${_("Female")}</option>
                 <option value="f"
                 %if c.page_user.gender == "f":
                     selected="selected"
                 %endif
-                >${_("Female")}</option>
+                >${_("Male")}</option>
             </select>
         </div>
     </fieldset>

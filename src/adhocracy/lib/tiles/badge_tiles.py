@@ -1,13 +1,13 @@
-def badge(badge, force_visible=False):
+def badge(badge, force_visible=False, gender=None):
     from adhocracy.lib.templating import render_def
     return render_def('/badge/tiles.html', 'badge', badge=badge,
-                      force_visible=force_visible, cached=True)
+                      force_visible=force_visible, gender=gender, cached=True)
 
 
-def badges(badges):
+def badges(badges, gender=None):
     from adhocracy.lib.templating import render_def
     return render_def('/badge/tiles.html', 'badges', badges=badges,
-                      cached=True)
+                      gender=gender, cached=True)
 
 
 def badge_selector(badges, field_name):
