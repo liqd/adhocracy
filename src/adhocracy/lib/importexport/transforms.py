@@ -206,6 +206,8 @@ class UserTransform(_Transform):
                 'gender': o.gender,
                 'locale': encode_locale(o.locale),
             })
+            if config.get('adhocracy.user.optional_attributes'):
+                res['optional_attributes'] = o.optional_attributes
         if self._opt_password:
             res.update({
                 'adhocracy_activation_code': o.activation_code,
