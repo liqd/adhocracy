@@ -198,6 +198,7 @@ class UserTransform(_Transform):
         res = {}
         if self._opt_personal:
             res.update({
+                'id': o.id,
                 'user_name': o.user_name,
                 'display_name': o.display_name,
                 'bio': o.bio,
