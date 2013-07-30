@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-03 16:45+0200\n"
-"PO-Revision-Date: 2013-06-03 14:46+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:44+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Multumim pentru ajutor"
@@ -32,6 +35,10 @@ msgstr "Introduceti un template pentru mailul care va fi trimis utilizatorilor."
 
 msgid "Solr index updated."
 msgstr "Indexul Solr a fost updatat."
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
+msgstr ""
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -98,6 +105,9 @@ msgstr "Nu se poate accesa delegarea %(id)s"
 msgid "The delegation is now revoked."
 msgstr "Delegarea a fost retrasa."
 
+msgid "The system is currently down for maintenance. Please check back soon!"
+msgstr ""
+
 #, python-format
 msgid "Error %s"
 msgstr "Eroare %s"
@@ -109,24 +119,6 @@ msgstr "%s Stiri"
 #, python-format
 msgid "News from %s"
 msgstr "Stiri de la %s"
-
-msgid "The changes where saved."
-msgstr "Modificarile au fost salvate."
-
-msgid "No update required."
-msgstr "Nu este necesar nici un update."
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Comunitatea a fost creata. Acum poti face setarile comunitatii."
-
-msgid "Delegations are enabled."
-msgstr "Delegarile sunt permise."
-
-msgid "Delegations are disabled."
-msgstr "Delegarile sunt nepermise."
-
-msgid "tutorial_instance_show_intro"
-msgstr "Tutorial: Comunitati"
 
 msgid "General"
 msgstr "General"
@@ -148,6 +140,18 @@ msgstr "Trimitere mesaje in masa"
 
 msgid "Members import"
 msgstr "Import membrii"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Comunitatea a fost creata. Acum poti face setarile comunitatii."
+
+msgid "Delegations are enabled."
+msgstr "Delegarile sunt permise."
+
+msgid "Delegations are disabled."
+msgstr "Delegarile sunt nepermise."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Tutorial: Comunitati"
 
 msgid "The logo has been deleted."
 msgstr "Logo-ul a fost sters."
@@ -207,6 +211,9 @@ msgstr "Adresa de email nu este activata"
 
 msgid "Not permitted in system settings"
 msgstr "Nu este permis prin setarile sistem"
+
+msgid "adhocracy.registration_support_email not set"
+msgstr ""
 
 #, python-format
 msgid "Could not render message: %s"
@@ -422,6 +429,10 @@ msgstr ""
 msgid "This URL shouldn't be called directly"
 msgstr ""
 
+#, python-format
+msgid "User %s has been undeleted"
+msgstr ""
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Pagina deja exista. Selecteaza o alta cheie sau limba."
 
@@ -464,6 +475,21 @@ msgstr "Urmaresti %s pe twitter si poti trimite notificari ca mesaje directe."
 msgid "You have no twitter association."
 msgstr "Nu ai asociere la twitter."
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Notifications"
+msgstr "Notificari"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr "Optional"
+
 msgid "tutorial_user_index_intro"
 msgstr "Tutorial: Membrii comunitatii"
 
@@ -472,6 +498,18 @@ msgstr "Ne pare rau, inregistrarea nu este permisa de catre administrator."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Ne pare rau, dar nu acceptam intregistrarea folosind adresa aceasta de email."
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr "Feminin"
+
+msgid "Male"
+msgstr "Masculin"
+
+msgid "No optional atributes defined."
+msgstr ""
 
 msgid "Password has been set. Have fun!"
 msgstr "Parola a fost setata. Utilizare placuta!"
@@ -538,6 +576,25 @@ msgstr "Nume de utilizator sau parola incorecta."
 
 msgid "Invalid email or password"
 msgstr "Adresa de email sau parola gresite"
+
+#, python-format
+msgid "You can finish that session <a href='%s'>here</a>."
+msgstr ""
+
+#, python-format
+msgid ""
+"<p>You have successfully logged out of Adhocracy. However you might still be"
+" logged in at the central identity provider. %s</p><p>If you're on a public "
+"computer, please close your browser to complete the logout.</p>"
+msgstr ""
+
+msgid ""
+"You have successfully logged out of Adhocracy. However you might still be "
+"logged in through your OpenID provider. "
+msgstr ""
+
+msgid "Successfully logged out"
+msgstr ""
 
 msgid "Please use a valid email address."
 msgstr ""
@@ -614,6 +671,9 @@ msgstr "Emailul este deja utilizat."
 
 msgid "That email is already used by another account"
 msgstr "Adresa de email este deja utilizata in alt cont utilizator"
+
+msgid "Invalid locale choice"
+msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Format data gresit, foloseste DD.MM.YYYY"
@@ -790,6 +850,12 @@ msgstr "Selecteaza cel putin o instanta"
 msgid "Disallowed instance selected"
 msgstr ""
 
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
+msgstr ""
+
 #, python-format
 msgid "%d days"
 msgstr "%d zile"
@@ -881,19 +947,48 @@ msgstr ""
 msgid "Dear"
 msgstr ""
 
-msgid "activity"
-msgstr "activitate"
+msgid "Oldest"
+msgstr "Cele mai vechi"
 
-msgid "newest comment"
-msgstr "cel mai nou comentariu"
+msgid "Newest"
+msgstr "Cele mai noi"
 
-msgid "most support"
-msgstr "cele mai sustinute"
+msgid "Activity"
+msgstr "Activitate"
 
-msgid "mixed"
-msgstr "mixt"
+msgid "Alphabetically"
+msgstr "Alfabetic"
 
-msgid "controversy"
+msgid "Newest Comment"
+msgstr "Cele mai noi comentarii"
+
+msgid "Most Support"
+msgstr "Cele mai sustinute"
+
+msgid "Mixed"
+msgstr "Nesortate"
+
+msgid "Controversy"
+msgstr ""
+
+msgid "Sort by proposal creation date"
+msgstr ""
+
+msgid "Sort by date of the last comment"
+msgstr ""
+
+msgid "Sort by number of votes for the proposal"
+msgstr ""
+
+msgid ""
+"Sort by the difference between number of votes for and against, and prefer "
+"newer proposals"
+msgstr ""
+
+msgid "Prefer proposals where the gap between votes for and against is close"
+msgstr ""
+
+msgid "Sort by the characters of the proposal title"
 msgstr ""
 
 msgid "by date"
@@ -904,6 +999,9 @@ msgstr "cele mai multe propuneri"
 
 msgid "hierarchical"
 msgstr "ierarhie"
+
+msgid "activity"
+msgstr "activitate"
 
 msgid "Badge"
 msgstr "Titlu"
@@ -926,24 +1024,6 @@ msgstr "Etichete"
 msgid "Milestones"
 msgstr "Date limita"
 
-msgid "Oldest"
-msgstr "Cele mai vechi"
-
-msgid "Newest"
-msgstr "Cele mai noi"
-
-msgid "Newest Comment"
-msgstr "Cele mai noi comentarii"
-
-msgid "Activity"
-msgstr "Activitate"
-
-msgid "Alphabetically"
-msgstr "Alfabetic"
-
-msgid "Most Support"
-msgstr "Cele mai sustinute"
-
 msgid "Yays - nays"
 msgstr "Pro - contra"
 
@@ -959,14 +1039,8 @@ msgstr "Cele mai multe Pro"
 msgid "Most Nays"
 msgstr "Cele mai multe Contra"
 
-msgid "Mixed"
-msgstr "Nesortate"
-
 msgid "Age and Support"
 msgstr "Vechime si sustinere"
-
-msgid "Controversy"
-msgstr ""
 
 msgid "Rating"
 msgstr "Rating"
@@ -985,6 +1059,15 @@ msgstr "Sustinere"
 
 msgid "Newest Proposals"
 msgstr "Cele mai noi Propuneri"
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
+msgstr "Nu este necesar nici un update."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Ne pare rau, dar se pare ca nu ai drepturi pentru a continua."
@@ -1364,6 +1447,10 @@ msgstr "(Fara titlu)"
 msgid "Status Quo"
 msgstr "Situatia curenta"
 
+#, python-format
+msgid "The random username %s has been assigned to you."
+msgstr ""
+
 msgid "formatting hints"
 msgstr "sugestii pentru formatarea textului"
 
@@ -1406,6 +1493,12 @@ msgstr "Urmareste"
 msgid "Unfollow"
 msgstr "Dezabonare"
 
+msgid "Disable email notifications."
+msgstr ""
+
+msgid "Receive email notifications if changes occur."
+msgstr ""
+
 msgid "Send us your feedback"
 msgstr "Trimite feedback"
 
@@ -1426,6 +1519,9 @@ msgstr "Trimite"
 
 msgid "List existing feedback"
 msgstr "Afiseaza feedback"
+
+msgid "Feedback"
+msgstr ""
 
 msgid "Proposal Category"
 msgstr "Categoria propunerii"
@@ -1478,9 +1574,6 @@ msgstr "Despre"
 
 msgid "Help"
 msgstr "Ajutor"
-
-msgid "Login"
-msgstr "Login"
 
 msgid "Dashboard"
 msgstr "Prima pagina"
@@ -1603,6 +1696,12 @@ msgstr "Te rugam sa-ti validezi adresa de email pentru a putea contribui in acea
 msgid "Your registered email address is:"
 msgstr "Adresa de email inregistrata este:"
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr "Urmatorul"
 
@@ -1636,9 +1735,6 @@ msgstr ""
 
 msgid "Shortlink"
 msgstr "Link web scurt:"
-
-msgid "Edit this page"
-msgstr ""
 
 msgid "Report abuse"
 msgstr "Raporteaza abuz"
@@ -1676,17 +1772,32 @@ msgstr "Include propuneri"
 msgid "Include comments"
 msgstr "Include comentarii"
 
+msgid "Include ratings"
+msgstr ""
+
+msgid "Export request log"
+msgstr ""
+
+msgid "Export static pages"
+msgstr ""
+
 msgid "Export format:"
 msgstr "Formatul exportului:"
-
-msgid "JSON download"
-msgstr "JSON download"
 
 msgid "JSON"
 msgstr "JSON"
 
-msgid "ZIP download"
-msgstr "ZIP download"
+msgid "JSON file"
+msgstr ""
+
+msgid "JSON file, compressed with gzip"
+msgstr ""
+
+msgid "Tar file, compressed with bz2"
+msgstr ""
+
+msgid "Zip file"
+msgstr ""
 
 msgid "Export Now"
 msgstr "Exporta acum"
@@ -1705,6 +1816,9 @@ msgstr "Importa titluri"
 
 msgid "Import content (instances)"
 msgstr "Importa comunitati (instances)"
+
+msgid "Import static pages"
+msgstr ""
 
 msgid "Replacement strategy"
 msgstr "Strategie de inlocuire"
@@ -1755,6 +1869,9 @@ msgstr "Importa Utilizatori"
 
 msgid "Update Search Index"
 msgstr "Updateaza indexul de cautare"
+
+msgid "Fix autojoin"
+msgstr ""
 
 msgid "Static Pages"
 msgstr "Pagini statice"
@@ -1807,9 +1924,6 @@ msgstr "Modelul de email pentru utilizatori. Trebuie sa introduci niste elemente
 
 msgid "Required"
 msgstr "Obligatoriu"
-
-msgid "Optional"
-msgstr "Optional"
 
 msgid "Imported Users"
 msgstr "Utilizatori importati"
@@ -2409,6 +2523,9 @@ msgstr "Permite utilizatorilor sa propuna documente"
 msgid "Require to propose a variant"
 msgstr "Cere sa fie propusa o varianta"
 
+msgid "Show norms navigation item"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Permite date limita"
 
@@ -2662,6 +2779,9 @@ msgstr "Data limita"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Te rugam sa folosesti formatul de data DD.MM.YYYY."
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr "Creeaza o data limita."
 
@@ -2733,6 +2853,9 @@ msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
 msgstr "Introdu URL-ul OpenID-ului tau pentru a conecta ID-ul la contul tau. Aceasta iti va permite sa te loghezi cu OpenID-ul in viitor."
+
+msgid "Sign In"
+msgstr ""
 
 msgid "Alternative"
 msgstr "Alternativa"
@@ -3359,8 +3482,17 @@ msgstr ""
 msgid "Please complete the Shibboleth based user registration"
 msgstr ""
 
-msgid "Email:"
-msgstr "Email:"
+msgid "Username"
+msgstr ""
+
+msgid "Display name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "optional"
+msgstr ""
 
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
@@ -3396,6 +3528,9 @@ msgstr ""
 msgid "Add static page"
 msgstr "Adauga pagina statica"
 
+msgid "Edit this page"
+msgstr ""
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Etichetele sunt cuvinte cheie folosite pentru a gasi, sorta si filtra propunerile si documentele."
@@ -3416,8 +3551,8 @@ msgstr "Etichete"
 msgid "Not tagged yet"
 msgstr "Fara etichete inca"
 
-msgid "add tags..."
-msgstr "adauga etichete..."
+msgid "add tags"
+msgstr ""
 
 msgid "Multiple tags can be separated by commas or spaces."
 msgstr "Etichetele multiple pot fi separate prin virgula si spatii."
@@ -3431,6 +3566,9 @@ msgstr "Cancel"
 #, python-format
 msgid "by %s, "
 msgstr "de catre %s,"
+
+msgid "delete version"
+msgstr ""
 
 msgid "This revision has no text."
 msgstr "Revizia aceasta nu are nici un text."
@@ -3640,15 +3778,6 @@ msgstr "Gen"
 msgid "I am..."
 msgstr ""
 
-msgid "Male"
-msgstr "Masculin"
-
-msgid "Female"
-msgstr "Feminin"
-
-msgid "Notifications"
-msgstr "Notificari"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Alege adresa pe care vrei sa primesti notificarile."
 
@@ -3670,11 +3799,8 @@ msgstr "Ne-confirmat."
 msgid "Re-send activation link"
 msgstr "Re-trimite link de activare."
 
-msgid "Receive occasional news from instance administrators."
-msgstr "Primeste notificari de la administratorii comunitatii."
-
-msgid "Receive news service"
-msgstr "Primeste notificari"
+msgid "Receive occasional news from instance administrators:"
+msgstr ""
 
 msgid "OpenID"
 msgstr "OpenID"
@@ -3699,17 +3825,11 @@ msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tin
 msgid "Advanced Settings"
 msgstr "Setari Avansate"
 
-msgid "The pre-set number of entries in listing pages."
-msgstr "Numarul prestabilit de afisari pe pagina."
+msgid "The pre-set number of entries in listing pages:"
+msgstr ""
 
-msgid "List size:"
-msgstr "Marimea listei:"
-
-msgid "Disable help messages and links to the documentation."
-msgstr "Nu afisa mesaje de informare sau linkuri la documentatie."
-
-msgid "Hide help messages:"
-msgstr "Ascunde mesajele de informare."
+msgid "Disable help messages and links to the documentation:"
+msgstr ""
 
 msgid "Change default sorting order for proposals:"
 msgstr "Modifica sortarea implicita a propunerilor:"
@@ -3742,6 +3862,12 @@ msgstr "Email sau nume utilizator:"
 
 msgid "Login:"
 msgstr "Login:"
+
+msgid "Email:"
+msgstr "Email:"
+
+msgid "Login via Shibboleth"
+msgstr ""
 
 msgid "Forgot your password?"
 msgstr ""
@@ -3783,6 +3909,9 @@ msgstr "Daca ai un cont dar ti-ai pierdut parola, <a href='/reset'>apasa aici</a
 
 msgid "Can only contain letters and numbers."
 msgstr "Poate contine doar litere si numere."
+
+msgid "You can choose which name other users see."
+msgstr ""
 
 msgid "E-mail"
 msgstr "E-mail"
@@ -3836,6 +3965,59 @@ msgid ""
 "You have recieved an email containing a link. Please open that link in order"
 " to reset you password"
 msgstr "Ai primit un email cu un link. Apasa-l pentru a reseta parola."
+
+msgid "User settings"
+msgstr ""
+
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
+msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
+msgstr ""
 
 #, python-format
 msgid "Signed up %s"

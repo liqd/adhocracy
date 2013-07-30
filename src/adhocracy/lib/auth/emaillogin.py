@@ -11,8 +11,7 @@ from zope.interface import implements
 import time
 import hashlib
 import base64
-from adhocracy.lib.session.session import get_secret
-
+from adhocracy.lib.crypto import get_secret,sign,verify
 
 def email_url(user, code):
     from adhocracy.lib.helpers import base_url
@@ -23,27 +22,26 @@ def email_url(user, code):
 def create_token(email, config):
     secret = get_secret(config)
     timestamp = str(int(time.time()))
-    message = timestamp + "_" + create_hash(email, timestamp, config)
+    message =  sign((email + "_" + timestamp).encode("utf-8"),secret)
     return base64.urlsafe_b64encode(message.encode("utf-8"))
-
-
-def create_hash(email, time, config):
-    secret = get_secret(config)
-    value = secret + email + time
-    return hashlib.sha256(value).hexdigest()
 
 
 def validate_token(user_token, email, config):
     try:
         decoded = base64.urlsafe_b64decode(user_token)
-        user_time = decoded.split('_')[0]
-        user_hash = decoded.split('_')[1]
-        time_dif = int(time.time()) - int(user_time)
-    except (TypeError, ValueError):
-        return False
-    correct_value = create_hash(email, user_time, config)
-    if (user_hash == correct_value) and (time_dif < 3600):
-        return True
+        secret = get_secret(config)
+        if config.get('adhocracy.email_login_timer'):
+            max_time = config.get('adhocracy.email_login_timer')
+        else:
+            max_time = 3600
+        val = verify((decoded).encode("utf-8"),secret)
+        if val:
+            user_time = decoded.split('_')[1]
+            time_dif = int(time.time()) - int(user_time)
+            if int(time_dif) < int(max_time):
+                return True
+    except (TypeError, ValueError,IndexError):
+        return False        
     return False
 
 

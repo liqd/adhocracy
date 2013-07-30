@@ -1,0 +1,30 @@
+#feedback {
+    position: fixed;
+    right: -350px;
+    top: 120px;
+    width: 377px;
+    overflow: normal;
+    z-index: 11;
+}
+
+#feedback_form {
+    position: absolute;
+    right: 0px;
+    width: 350px;
+    @include box-shadow(0.5em 0.3em 1.4em $fg1);
+
+    > form {
+        margin: 0;
+    }
+}
+
+#feedback_button {
+    @include button($register-color);
+    font-size: 12px;
+    line-height: 28px;
+
+    position: absolute;
+    left: 28px; // height
+    @include rotate(90deg);
+    @include transform-origin(0, 0);
+}

@@ -19,7 +19,7 @@ def _attribute_contains(request, key, value):
     """
     contains element
     """
-    elements = (e.strip() for e in request.headers.get(key).split(','))
+    elements = (e.strip() for e in request.headers.get(key).split(';'))
     return value in elements
 
 

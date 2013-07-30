@@ -9,6 +9,13 @@ class SimpleTally(object):
         self.num_against = num_against
         self.num_abstain = num_abstain
 
+    def to_dict(self):
+        return {
+            'num_for': self.num_for,
+            'num_against': self.num_against,
+            'num_abstain': self.num_abstain,
+        }
+
 
 def make_from_poll(tally_cls, poll, at_time=None, user_filter=None):
     from adhocracy.lib.democracy import Decision

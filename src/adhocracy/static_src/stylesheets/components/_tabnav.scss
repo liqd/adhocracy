@@ -1,0 +1,22 @@
+.tabnav {
+    margin: 0;
+
+    li {
+        margin-top: 10px;
+
+        a {
+            padding: 5px 15px;
+            display: block;
+            color: $black;
+            border-bottom: 1px solid #fff;
+
+            &.active, &:hover {
+                background: $bg1;
+                text-decoration: none;
+
+                // not sure where this came from
+                color: $primary-color;
+            }
+        }
+    }
+}

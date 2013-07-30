@@ -8,7 +8,8 @@ from invalidate import (invalidate_user, invalidate_vote, invalidate_page,
                         invalidate_revision, invalidate_comment,
                         invalidate_poll, invalidate_tagging, invalidate_text,
                         invalidate_selection, invalidate_badge,
-                        invalidate_userbadges, invalidate_delegateablebadges)
+                        invalidate_userbadges, invalidate_delegateablebadges,
+                        invalidate_instance)
 
 log = logging.getLogger(__name__)
 
@@ -26,7 +27,8 @@ HANDLERS = {
     model.Selection: invalidate_selection,
     model.Badge: invalidate_badge,
     model.UserBadges: invalidate_userbadges,
-    model.DelegateableBadges: invalidate_delegateablebadges
+    model.DelegateableBadges: invalidate_delegateablebadges,
+    model.Instance: invalidate_instance,
 }
 
 

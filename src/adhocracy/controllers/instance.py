@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 
 from babel import Locale
@@ -6,18 +7,24 @@ import formencode
 from formencode import htmlfill
 from formencode import validators
 
-from paste.deploy.converters import asbool, asint
-
-from pylons import request, response, tmpl_context as c, config
+from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
-from pylons.i18n import _, lazy_ugettext as L_
+from pylons.i18n import _
+from pylons.i18n import lazy_ugettext as L_
 
+from adhocracy import config
 from adhocracy import forms, i18n, model
 from adhocracy.controllers.admin import AdminController, UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
+from adhocracy.lib import votedetail
+from adhocracy.lib.settings import INSTANCE_UPDATED_MSG
+from adhocracy.lib.settings import NO_UPDATE_REQUIRED
+from adhocracy.lib.settings import error_formatter
+from adhocracy.lib.settings import Menu
+from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
@@ -27,12 +34,6 @@ from adhocracy.lib.util import get_entity_or_abort
 
 
 log = logging.getLogger(__name__)
-INSTANCE_UPDATED_MSG = L_('The changes where saved.')
-NO_UPDATE_REQUIRED = L_('No update required.')
-
-
-def formatter(error):
-    return '<p class="help-block">%s</p>' % error
 
 
 def settings_url(instance, path):
@@ -40,39 +41,20 @@ def settings_url(instance, path):
     return h.instance.url(instance, member=full_path)
 
 
-def update_attributes(instance, form_result, attributes):
-    '''
-    Update the given *attributes* on the *instance* object
-    with the values in *form_result* and returns if an attribute
-    was updated.
+def settings_menu(instance, current):
 
-    *instance* (:class:`adhocracy.model.Instance`)
-       The Instance to update.
-    *form_result* (dict)
-       A dict, usually the result of a formencode
-       validation.
-    *attributes* (`list` of `str`)
-       The attributes to update.
-
-    Returns: `True` if one of the *attributes* was updated, `False`
-    no attribute needed to be updated.
-
-    Raises:
-
-    *AttributeError*
-       If the attribute does not exist on the *instance* object.
-    *KeyError*
-       If the *form_result* dict has no key with the name of the
-       attribute.
-    '''
-    updated = False
-    for attribute in attributes:
-        new_value = form_result[attribute]
-        current_value = getattr(instance, attribute)
-        if new_value != current_value:
-            setattr(instance, attribute, new_value)
-            updated = True
-    return updated
+    return Menu.create(instance, current, OrderedDict([
+        ('general', (L_(u'General'), True, 'settings')),
+        ('appearance', (L_('Appearance'),)),
+        ('contents', (L_('Contents'),)),
+        ('voting', (L_('Votings'),)),
+        ('badges', (L_('Badges'),)),
+        ('massmessage', (L_('Mass message service'),
+                         can.message.create(instance))),
+        ('members_import', (_('Members import'),
+                            (h.has_permission('global.admin') or
+                             can.instance.authenticated_edit(instance))))
+    ]))
 
 
 class InstanceBadgesForm(formencode.Schema):
@@ -82,8 +64,11 @@ class InstanceBadgesForm(formencode.Schema):
 
 class InstanceCreateForm(formencode.Schema):
     allow_extra_fields = True
-    key = formencode.All(validators.String(min=4, max=20),
-                         forms.UniqueInstanceKey())
+    key = formencode.All(
+        validators.String(
+            min=config.get_int('adhocracy.instance_key_length_min'),
+            max=config.get_int('adhocracy.instance_key_length_max')),
+        forms.UniqueInstanceKey())
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
 
@@ -117,6 +102,8 @@ class InstanceContentsEditForm(formencode.Schema):
     allow_index = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     use_norms = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    show_norms_navigation = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     require_selection = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
@@ -177,10 +164,10 @@ class InstanceController(BaseController):
     def new(self):
 
         data = {}
-        protocol = config.get('adhocracy.protocol', 'http').strip()
+        protocol = config.get('adhocracy.protocol').strip()
         domain = config.get('adhocracy.domain').strip()
 
-        if asbool(config.get('adhocracy.relative_urls', 'false')):
+        if config.get_bool('adhocracy.relative_urls'):
             data['url_pre'] = '%s://%s/i/' % (protocol, domain)
             data['url_post'] = ''
             data['url_right_align'] = False
@@ -225,11 +212,11 @@ class InstanceController(BaseController):
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
 
-        if asbool(config.get('adhocracy.show_instance_overview_milestones')) \
-                and c.page_instance.milestones:
+        if config.get_bool('adhocracy.show_instance_overview_milestones')\
+           and c.page_instance.milestones:
 
-            number = asint(config.get(
-                'adhocracy.number_instance_overview_milestones', 3))
+            number = config.get_int(
+                'adhocracy.number_instance_overview_milestones')
 
             milestones = model.Milestone.all_future_q(
                 instance=c.page_instance).limit(number).all()
@@ -239,8 +226,7 @@ class InstanceController(BaseController):
                 enable_pages=False, default_sort=sorting.milestone_time)
 
         c.events_pager = None
-        if asbool(config.get('adhocracy.show_instance_overview_events',
-                             'true')):
+        if config.get_bool('adhocracy.show_instance_overview_events'):
             events = model.Event.find_by_instance(c.page_instance, limit=3)
             c.events_pager = pager.events(events,
                                           enable_pages=False,
@@ -248,29 +234,21 @@ class InstanceController(BaseController):
 
         proposals = model.Proposal.all(instance=c.page_instance)
 
-        show_new_proposals_cfg = config.get(
+        show_new_proposals = config.get_bool(
             'adhocracy.show_instance_overview_proposals_new')
-        if show_new_proposals_cfg is None:
-            # Fall back to legacy option
-            show_new_proposals = asbool(config.get(
-                'adhocracy.show_instance_overview_proposals', 'true'))
-        else:
-            show_new_proposals = asbool(show_new_proposals_cfg)
         c.new_proposals_pager = None
-        if asbool(show_new_proposals):
+        if show_new_proposals:
             c.new_proposals_pager = pager.proposals(
                 proposals, size=7, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.entity_newest)
 
         c.all_proposals_pager = None
-        if asbool(config.get('adhocracy.show_instance_overview_proposals_all',
-                             'false')):
+        if config.get_bool('adhocracy.show_instance_overview_proposals_all'):
             c.all_proposals_pager = pager.proposals(proposals, size=100,
                                                     initial_size=100)
 
         c.stats = None
-        if asbool(config.get('adhocracy.show_instance_overview_stats',
-                             'true')):
+        if config.get_bool('adhocracy.show_instance_overview_stats'):
             c.stats = {
                 'comments': model.Comment.all_q().count(),
                 'proposals': model.Proposal.all_q(
@@ -374,54 +352,6 @@ class InstanceController(BaseController):
                                       badges=instance.badges)}
             return render_json(obj)
 
-    @classmethod
-    def _settings_menu(cls, instance, current):
-
-        class Menu(list):
-            '''Subclass so we can attach attributes'''
-
-            def url_for(self, value):
-                current = [i for i in self if i['name'] == value]
-                if not current:
-                    return ValueError('No Menu item named "%s"' % value)
-                else:
-                    return current[0]['url']
-
-        def setting(name, label, allowed=True):
-            return {'name': name,
-                    'url': settings_url(instance, name),
-                    'label': label,
-                    'allowed': allowed}
-
-        settings = Menu([
-            {'name': 'general',
-             'url': h.instance.url(instance, member='settings'),
-             'label': L_('General')},
-            setting('appearance', L_('Appearance')),
-            setting('contents', L_('Contents')),
-            setting('voting', L_('Votings')),
-            setting('badges', L_('Badges')),
-            setting('massmessage', L_('Mass message service'),
-                    allowed=(can.message.create(instance))),
-            setting('members_import', L_('Members import'),
-                    allowed=(h.has_permission('global.admin') or
-                             can.instance.authenticated_edit(instance)))])
-
-        if current not in [i['name'] for i in settings]:
-            raise ValueError('current ("%s") is no menu item' % current)
-
-        for item in settings:
-            item['class'] = ''
-            if item.get('allowed') is None:
-                item['allowed'] = True
-            if current == item['name']:
-                item['active'] = True
-                item['class'] = 'active'
-                settings.current = item
-        c.active_subheader_nav = 'settings'
-
-        return settings
-
     def _settings_result(self, updated, instance, setting_name, message=None):
         '''
         Sets a redirect code and location header, stores a flash
@@ -448,14 +378,14 @@ class InstanceController(BaseController):
         '''
         if updated:
             event.emit(event.T_INSTANCE_EDIT, c.user, instance=c.page_instance)
-            message = message if message else INSTANCE_UPDATED_MSG
+            message = message if message else unicode(INSTANCE_UPDATED_MSG)
             category = 'success'
         else:
-            message = message if message else NO_UPDATE_REQUIRED
+            message = message if message else unicode(NO_UPDATE_REQUIRED)
             category = 'notice'
         h.flash(message, category=category)
         response.status_int = 303
-        url = self._settings_menu(instance, setting_name).url_for(setting_name)
+        url = settings_menu(instance, setting_name).url_for(setting_name)
         response.headers['location'] = url
         return unicode(message)
 
@@ -480,7 +410,7 @@ class InstanceController(BaseController):
 
     def _settings_general_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'general')
+        c.settings_menu = settings_menu(c.page_instance, 'general')
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
@@ -523,7 +453,7 @@ class InstanceController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceGeneralEditForm(), form="_settings_general_form",
-              post_only=True, auto_error_formatter=formatter)
+              post_only=True, auto_error_formatter=error_formatter)
     def settings_general_update(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
@@ -554,7 +484,7 @@ class InstanceController(BaseController):
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
             c.current_logo = h.instance.icon_url(c.page_instance, 48)
 
-        c.settings_menu = self._settings_menu(c.page_instance, 'appearance')
+        c.settings_menu = settings_menu(c.page_instance, 'appearance')
         return render("/instance/settings_appearance.html")
 
     @RequireInstance
@@ -576,7 +506,7 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceAppearanceEditForm(),
               form="_settings_appearance_form",
-              post_only=True, auto_error_formatter=formatter)
+              post_only=True, auto_error_formatter=error_formatter)
     def settings_appearance_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
@@ -610,7 +540,7 @@ class InstanceController(BaseController):
 
     def _settings_contents_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'contents')
+        c.settings_menu = settings_menu(c.page_instance, 'contents')
         return render("/instance/settings_contents.html")
 
     @RequireInstance
@@ -630,6 +560,7 @@ class InstanceController(BaseController):
                 'hide_global_categories': instance.hide_global_categories,
                 'editable_comments_default':
                 instance.editable_comments_default,
+                'show_norms_navigation': instance.show_norms_navigation,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
@@ -645,13 +576,14 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['allow_propose', 'allow_index', 'frozen', 'milestones',
-             'use_norms', 'require_selection', 'hide_global_categories',
-             'editable_comments_default', 'allow_thumbnailbadges'])
+             'use_norms', 'require_selection',
+             'hide_global_categories', 'editable_comments_default',
+             'show_norms_navigation', 'allow_thumbnailbadges'])
         return self._settings_result(updated, c.page_instance, 'contents')
 
     def _settings_voting_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'voting')
+        c.settings_menu = settings_menu(c.page_instance, 'voting')
         c.delay_options = []
         for delay in ((0, _("No delay")),
                       (1, _("1 Day")),
@@ -670,7 +602,7 @@ class InstanceController(BaseController):
                 {'value': majority[0],
                  'label': h.literal(majority[1]),
                  'selected': c.page_instance.required_majority == majority[0]})
-        if model.votedetail.is_enabled():
+        if votedetail.is_enabled():
             c.votedetail_all_userbadges = model.UserBadge.all(
                 instance=c.page_instance, include_global=True)
         else:
@@ -689,7 +621,7 @@ class InstanceController(BaseController):
             'allow_adopt': c.page_instance.allow_adopt,
             'allow_delegate': c.page_instance.allow_delegate,
             '_tok': csrf.token_id()}
-        if model.votedetail.is_enabled():
+        if votedetail.is_enabled():
             defaults['votedetail_badges'] = [
                 b.id for b in c.page_instance.votedetail_userbadges]
         return htmlfill.render(
@@ -700,7 +632,7 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceVotingEditForm(),
               form="_settings_voting_form",
-              post_only=True, auto_error_formatter=formatter)
+              post_only=True, auto_error_formatter=error_formatter)
     def settings_voting_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
@@ -710,7 +642,7 @@ class InstanceController(BaseController):
             ['required_majority', 'activation_delay', 'allow_adopt',
              'allow_delegate'])
 
-        if model.votedetail.is_enabled():
+        if votedetail.is_enabled():
             new_badges = self.form_result['votedetail_badges']
             updated_vd = c.page_instance.votedetail_userbadges != new_badges
             if updated_vd:
@@ -735,42 +667,42 @@ class InstanceController(BaseController):
     def settings_badges(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
+        c.settings_menu = settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.index()
 
     @RequireInstance
     def settings_badges_add(self, id, badge_type):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
+        c.settings_menu = settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.add(badge_type=badge_type)
 
     @RequireInstance
     def settings_badges_create(self, id, badge_type):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
+        c.settings_menu = settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.create(badge_type=badge_type)
 
     @RequireInstance
     def settings_badges_edit(self, id, badge_id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
+        c.settings_menu = settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.edit(badge_id)
 
     @RequireInstance
     def settings_badges_update(self, id, badge_id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'badges')
+        c.settings_menu = settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.update(badge_id)
 
     def _settings_members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance,
-                                              'members_import')
+        c.settings_menu = settings_menu(c.page_instance,
+                                        'members_import')
         return render("/instance/settings_members_import.html")
 
     @RequireInstance
@@ -787,11 +719,11 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=UserImportForm(),
               form="_settings_members_import_form",
-              post_only=True, auto_error_formatter=formatter)
+              post_only=True, auto_error_formatter=error_formatter)
     def settings_members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance,
-                                              'members_import')
+        c.settings_menu = settings_menu(c.page_instance,
+                                        'members_import')
         require.instance.edit(c.page_instance)
         AdminController()._create_users(self.form_result)
         return(render("/instance/settings_members_import_success.html"))
@@ -800,7 +732,7 @@ class InstanceController(BaseController):
 
     def settings_sname_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = self._settings_menu(c.page_instance, 'sname')
+        c.settings_menu = settings_menu(c.page_instance, 'sname')
         return render("/instance/settings_sname.html")
 
     @RequireInstance
@@ -817,7 +749,7 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=InstanceSnameEditForm(),
               form="settings_sname_form",
-              post_only=True, auto_error_formatter=formatter)
+              post_only=True, auto_error_formatter=error_formatter)
     def settings_sname_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)

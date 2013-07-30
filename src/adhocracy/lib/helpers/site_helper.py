@@ -1,3 +1,5 @@
+import urllib
+
 from pylons import config, app_globals as g
 from pylons.i18n import _
 from paste.deploy.converters import asbool
@@ -24,7 +26,7 @@ def relative_urls(config=config):
 
 
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
-             append_slash=False, config=config):
+             append_slash=False, config=config, query_params=None):
     """
     Constructs an URL.
 
@@ -32,10 +34,12 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     object will be created.
 
     If instance isn't defined, the current instance is assumed. Otherwise,
-    either an instance instance or None has to be passed.
+    either an instance, an instance key, or None has to be passed.
 
     If absolute is True, an absolute URL including the protocol part is
     returned. Otherwise this is avoided, if relative_urls is set to True.
+
+    query_params is a dictionary of parameters for th query string of the URL.
     """
 
     if instance == CURRENT_INSTANCE:
@@ -45,6 +49,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
         if instance is None:
             prefix = ''
+        elif isinstance(instance, (str, unicode)):
+            prefix = '/i/' + instance
         else:
             prefix = '/i/' + instance.key
 
@@ -64,6 +70,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
         if instance is None or g.single_instance:
             subdomain = ''
+        elif isinstance(instance, (str, unicode)):
+            subdomain = '%s.' % instance
         else:
             subdomain = '%s.' % instance.key
 
@@ -74,6 +82,10 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
     if append_slash and not result.endswith('/'):
         result += '/'
+
+    if query_params:
+        result += '&' if '?' in result else '?'
+        result += urllib.urlencode(query_params)
 
     return result
 

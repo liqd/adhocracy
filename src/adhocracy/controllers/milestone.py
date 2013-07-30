@@ -68,7 +68,8 @@ class MilestoneController(BaseController):
 
         current_milestones = [m for m in milestones if m not in
                               past_milestones]
-        c.show_current_milestones = len(current_milestones)
+        c.show_current_milestones = (bool(current_milestones)
+                                     or not c.show_past_milestones)
         c.current_milestones_pager = pager.milestones(current_milestones)
         c.milestones = past_milestones + current_milestones  # for the timeline
         if format == 'json':

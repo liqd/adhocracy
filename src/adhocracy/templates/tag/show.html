@@ -28,8 +28,10 @@
     
 <%block name="sidebar">
     %if len(c.cloud_tags):
-        <h3 class="section">${_("Similar tags")}</h3>
-        ${tiles.tag.cloud(c.cloud_tags)}
+        <div class="sidebar_box">
+            <h3 class="section">${_("Similar tags")}</h3>
+            ${tiles.tag.cloud(c.cloud_tags)}
+        </div>
     %endif
 </%block>
 

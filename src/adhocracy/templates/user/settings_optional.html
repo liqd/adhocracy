@@ -1,0 +1,33 @@
+<%inherit file="/user/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
+</%def>
+
+<%block name="settings_content">
+<form class="well" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="_method" value="PUT" />
+
+    ${h.field_token()|n}
+
+    ${components.flashmessages()}
+
+    <h2>${c.title if c.title is not None else _(u'Optional attributes')}</h2>
+
+    %if c.body is None:
+    <div class="infobox">
+      ${_(u'The following attributes are only used for statistical evaluation. Your choices are not shown to other users.')}
+    </div>
+    %else:
+    ${c.body|n}
+    %endif
+
+    <%include file="/user/optional_attributes_form.html"/>
+
+    ${components.savebox(cancel_url=None)}
+
+</form>
+</%block>

@@ -26,9 +26,7 @@
 </%block>
 
 <%block name="sidebar">
-    <div id="proposals_facets">
-        ${c.users_pager.render_facets()}    
-    </div>
+    ${c.users_pager.render_facets(cls='sidebar_box')}
 </%block>
 
 <%block name="main_content">

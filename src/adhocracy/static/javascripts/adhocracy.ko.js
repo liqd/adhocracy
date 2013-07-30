@@ -105,7 +105,7 @@ var adhocracy = adhocracy || {};
         };
         this.applyToPager = function (selector) {
             var containers = $(selector).find('.badges').parent();
-            containers.append('<a href="#" class="btn btn-mini edit" ' +
+            containers.append('<a href="#" class="button_small edit" ' +
                               'data-bind="click: edit">Edit Badges</a>');
             self.overlay_container = $('#edit_badges_container');
             self.overlay_container.overlay();

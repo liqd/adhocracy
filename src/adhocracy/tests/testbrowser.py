@@ -14,7 +14,8 @@ from adhocracy.model import meta
 from adhocracy.lib.search import drop_all, rebuild_all
 from adhocracy import tests
 
-adhocracy_domain = config.get('adhocracy.domain').strip()
+
+adhocracy_domain = config.get('adhocracy.domain', '').strip()
 app_url = "http://%s" % adhocracy_domain
 instance_url = "http://test.%s" % adhocracy_domain
 

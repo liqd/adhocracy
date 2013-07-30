@@ -1,5 +1,5 @@
 <%inherit file="/template.html" />
-<%def name="title()">${_("Search") if not c.query else "'%s'" % c.query}</%def>
+<%def name="title()">${_("Search") if not c.query else "'%s'" % c.query | n}</%def>
 
 <%def name="breadcrumbs()">
     ${h.instance.breadcrumbs(c.instance)|n} ${_("Search")}

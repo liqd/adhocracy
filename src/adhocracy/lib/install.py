@@ -1,6 +1,7 @@
 import logging
 
 import adhocracy.model as model
+from adhocracy.config import get_bool as config_get_bool
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.helpers.site_helper import get_domain_part
 
@@ -165,7 +166,7 @@ def setup_entities(config, initial_setup):
             log.debug(u'Creating test instance')
             model.Instance.create(u"test", u"Test Instance", admin)
 
-        if asbool(config.get('adhocracy.use_feedback_instance')):
+        if config_get_bool('adhocracy.use_feedback_instance', config=config):
             feedback_key = config.get('adhocracy.feedback_instance_key',
                                       u'feedback')
             feedback_label = config.get('adhocracy.feedback_instance_label',

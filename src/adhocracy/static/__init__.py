@@ -21,6 +21,10 @@ style = Resource(stylesheets_library, 'adhocracy.css')
 stylesheets = Group([style])
 
 
+def instance_stylesheet(key):
+    return Resource(stylesheets_library, str('adhocracy_%s.css' % key))
+
+
 # --[ jquery.autocomplete ]-------------------------------------------------
 
 autocomplete_library = Library('autocomplete', 'javascripts', version="1.2.2")
@@ -57,6 +61,8 @@ spectrum = Resource(misc_library, 'spectrum/spectrum.js',
 select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
                             minified='jquery.select-hierarchy.min.js',
                             depends=[jquery])
+openid_selector = Resource(misc_library, 'openid.js',
+                           depends=[jquery])
 
 
 # --[ adhocracy ]-----------------------------------------------------------
@@ -64,12 +70,13 @@ select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
 adhocracy_library = Library('adhocracy', 'javascripts')
 adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery, bootstrap_js, elastic,
-                              placeholder, modernizr, jquerytools])
+                              placeholder, modernizr, jquerytools,
+                              openid_selector])
 
 
 # --[ knockout ]------------------------------------------------------------
 
-knockout_library = Library('knockoutjs', 'javascripts')
+knockout_library = Library('knockoutjs', 'javascripts', version="2.2.1")
 knockout_js = Resource(knockout_library, 'knockout.debug.js',
                        minified='knockout.js',
                        depends=[jquery])

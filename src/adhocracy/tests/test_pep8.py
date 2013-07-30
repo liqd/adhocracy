@@ -5,7 +5,7 @@ import unittest
 
 import pep8
 
-SRC_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+SRC_PATH = os.path.dirname(os.path.dirname(__file__))
 EXCLUDE = ['.svn', 'CVS', '.bzr', '.hg', '.git',
            'Paste-1.7.5.1-py2.6.egg', 'PasteDeploy-1.5.0-py2.6.egg', 'data']
 

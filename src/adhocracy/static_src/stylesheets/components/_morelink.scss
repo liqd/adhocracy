@@ -1,0 +1,28 @@
+@mixin morelink() {
+    position: relative;
+    padding-left: 2em;
+    margin-left: 0.5em;
+    &:before {
+        content: "⟶";
+        text-decoration: none !important;
+        font-weight: normal !important;
+        position: absolute;
+        line-height: 1em;
+        left: 0;
+        top: 50%;
+        margin-top: -0.5em;
+    }
+}
+
+a, span {
+    &.more, &.more_uppercase {
+        @include morelink();
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    &.more_link {
+        @include morelink();
+        text-transform: uppercase;
+        font-size: 0.8em;
+    }
+}

@@ -5,6 +5,15 @@ from adhocracy.tests.testtools import tt_make_user
 
 class TestBadgeController(TestController):
 
+    def test_we_already_have_two_userbadges(self):
+        """
+        Due to the setup code in `adhocracy.lib.install` and the definition
+        of example user badges in `test.ini` for the Shibboleth tests, we
+        already have two badges from the beginning.
+        """
+        from adhocracy.model import UserBadge
+        self.assertEqual(len(UserBadge.all()), 2)
+
     def test_cannot_add_base_Badge(self):
         """
         We cannot add the base `Badge` to the database cause
@@ -17,7 +26,7 @@ class TestBadgeController(TestController):
         self.assertRaises(IntegrityError, Badge.create, u'badge ü',
                           u'#ccc', True, u'description ü')
 
-    def test_get_all_badgets(self):
+    def test_get_all_badges(self):
         #setup
         from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, \
             InstanceBadge, ThumbnailBadge
@@ -53,14 +62,14 @@ class TestBadgeController(TestController):
         # all delegateable thumbnail badges
         self.assertEqual(len(ThumbnailBadge.all()), 1)
         self.assertEqual(len(ThumbnailBadge.all(instance=instance)), 1)
-        # all user badgets
-        self.assertEqual(len(UserBadge.all()), 1)
+        # all user badges
+        self.assertEqual(len(UserBadge.all()), 3)
         self.assertEqual(len(UserBadge.all(instance=instance)), 1)
         # We can get all Badges by using `Badge`
-        self.assertEqual(len(Badge.all()), 5)
+        self.assertEqual(len(Badge.all()), 7)
         self.assertEqual(len(Badge.all(instance=instance)), 5)
 
-        self.assertEqual(len(Badge.all_q().all()), 10)
+        self.assertEqual(len(Badge.all_q().all()), 12)
 
 
 class TestUserController(TestController):
@@ -80,8 +89,9 @@ class TestUserController(TestController):
         from adhocracy.model import Badge, meta
         # the created badge
         creator, badged_user, badge = self._make_one()
-        queried_badge = meta.Session.query(Badge).first()
-        self.assertTrue(badge is queried_badge)
+        queried_badge = meta.Session.query(Badge).filter(
+            Badge.title == u'testbadge').one()
+        self.assertEqual(badge, queried_badge)
         self.assertEqual(queried_badge.title, 'testbadge')
         # references on the badged user
         self.assertEqual(badged_user.badges, [badge])
@@ -132,15 +142,15 @@ class TestDelegateableController(TestController):
         # create the delegateable badge
         badge.assign(delegateable, creator)
         delegateablebadges = meta.Session.query(DelegateableBadges).first()
-        self.assertTrue(delegateablebadges.creator is creator)
-        self.assertTrue(delegateablebadges.delegateable is delegateable)
-        self.assertTrue(delegateablebadges.badge is badge)
+        self.assertEqual(delegateablebadges.creator, creator)
+        self.assertEqual(delegateablebadges.delegateable, delegateable)
+        self.assertEqual(delegateablebadges.badge, badge)
         # test the references on the badged delegateable
         self.assertEqual(delegateable.badges, [badge])
         # test the references on the badge
-        self.assertTrue(delegateable.badges[0].delegateables
-                        == badge.delegateables
-                        == [delegateable])
+        self.assertEqual(delegateable.badges[0].delegateables,
+                         badge.delegateables,
+                         [delegateable])
 
     def test_remove_badge_from_delegateable(self):
         #setup
@@ -216,7 +226,7 @@ class TestCategoryController(TestController):
         result = sorted(result.items())
         expected = {'color': u'#ccc',
                     'description': u'description',
-                    'id': 1,
+                    'id': 3,
                     'instance': None,
                     'title': u'testbadge',
                     'visible': True,
@@ -245,9 +255,9 @@ class TestThumbnailController(TestController):
     def test_thumbnailbadges_repr(self):
         creator, delegateable, badge = self._make_content()
         badge.thumbnail = None
-        no_thumb = "<ThumbnailBadge(1,testbadge,None,#ccc)>"
+        no_thumb = "<ThumbnailBadge(3,testbadge,None,#ccc)>"
         self.assertEqual(no_thumb, badge.__repr__())
-        with_thumb = "<ThumbnailBadge(1,testbadge,9d7183f1,#ccc)>"
+        with_thumb = "<ThumbnailBadge(3,testbadge,9d7183f1,#ccc)>"
         badge.thumbnail = b"binary"
         self.assertEqual(with_thumb, badge.__repr__())
 
@@ -278,7 +288,7 @@ class TestThumbnailController(TestController):
         result = sorted(result.items())
         expected = {'color': u'#ccc',
                     'description': u'description',
-                    'id': 1,
+                    'id': 3,
                     'instance': None,
                     'thumbnail': b'binary',
                     'title': u'testbadge',

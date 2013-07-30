@@ -29,9 +29,24 @@ class RequestLog(object):
         self.user_agent = user_agent
         self.referer = referer
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'access_time': self.access_time,
+            'ip_address': self.ip_address,
+            'request_url': self.request_url,
+            'cookies': self.cookies,
+            'user_agent': self.user_agent,
+            'referer': self.referer
+        }
+
     @classmethod
     def create(cls, ip_address, request_url, cookies, user_agent, referer):
         entry = cls(datetime.utcnow(), ip_address, request_url, cookies,
                     user_agent, referer)
         meta.Session.add(entry)
         return entry
+
+    @classmethod
+    def all(cls):
+        return meta.Session.query(cls).all()

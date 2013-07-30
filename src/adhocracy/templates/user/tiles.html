@@ -19,7 +19,6 @@
                 ${_("signed up %s") % h.datetime_tag(user.create_time)|n}
             %endif
         </div>
-        <div class="hr"><hr /></div>
     </li>
 </%def>
 
@@ -35,7 +34,7 @@
     
         %if lib.auth.authorization.has('global.admin'):
         <a class="button edit" 
-           href="${h.entity_url(user, instance=c.instance, member='edit')}">
+           href="${h.entity_url(user, instance=c.instance, member='settings')}">
             ${_('Edit Profile')}
         </a>
         %endif

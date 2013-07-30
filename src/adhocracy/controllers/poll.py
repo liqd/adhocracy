@@ -13,6 +13,7 @@ from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import democracy, event, helpers as h, pager, tiles
+from adhocracy.lib import votedetail
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
@@ -83,8 +84,11 @@ class PollController(BaseController):
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
 
         if format == 'json':
+            vdetail = votedetail.calc_votedetail_dict(c.instance, c.poll)\
+                if votedetail.is_enabled() else None
             return render_json(dict(decision=decision,
-                                    score=c.poll.tally.score))
+                                    score=c.poll.tally.score,
+                                    votedetail=vdetail))
 
         redirect(h.entity_url(c.poll.subject))
 
@@ -124,8 +128,11 @@ class PollController(BaseController):
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
 
         if format == 'json':
+            vdetail = votedetail.calc_votedetail_dict(c.instance, c.poll)\
+                if votedetail.is_enabled() else None
             return render_json(dict(decision=decision,
-                                    tally=tally.to_dict()))
+                                    tally=tally.to_dict(),
+                                    votedetail=vdetail))
 
         if format == 'overlay':
             return self.widget(id, format=self.form_result.get('cls'))

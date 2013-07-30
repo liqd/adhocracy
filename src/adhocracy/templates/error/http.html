@@ -3,7 +3,9 @@
 
 
 <%block name="main_content">
+%if not c.hide_code:
 <h2>${_("Error %s") % c.error_code}</h2>
+%endif
 
 <strong>${c.error_message|n}</strong>
 
@@ -11,5 +13,7 @@
 <a href="${c.trace_url}">trace me</a>
 %endif
 
+%if not c.hide_notify:
 <p>${_("If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do.")|n} ${_("An automated email message describing the situation has been sent to our developers.")}</p>
+%endif
 </%block>

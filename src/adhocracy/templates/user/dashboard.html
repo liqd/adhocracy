@@ -42,7 +42,7 @@
     ${c.proposals_pager.here()}
     <p>
     % if c.proposals:
-      <a title="${_('List all proposals')}" class="icon_link more view_all"
+      <a title="${_('List all proposals')}" class="more view_all"
          id="proposals_show_all"
          href="${h.entity_url(c.page_user, member='dashboard_proposals')}">
       ${_('list all')}
@@ -56,7 +56,7 @@
     ${c.pages_pager.here()}
     <p>
     % if c.pages:
-      <a title="${_("List all pages")}" class="icon_link more view_all"
+      <a title="${_("List all pages")}" class="more view_all"
         href="${h.entity_url(c.page_user, member='dashboard_pages')}">${_("list all")}
       </a>        
     % endif
@@ -98,7 +98,7 @@
 </%block>
 
 <%block name="sidebar">
-<section>
+<section class="sidebar_box">
   <h3 id="instance_list">${_("Your Instances")}</h3>
     <ul>
     %for instance in c.page_user.instances:
@@ -110,12 +110,12 @@
     %endfor   
     </ul>
 </section>
-<section>
+<section class="sidebar_box">
   <h3 id="watchlist">${_("Your Watchlist")}</h3>
     ${c.watchlist_pager.here()}
 </section>
 % if c.polls:
-  <section>
+  <section class="sidebar_box">
     <h3>${_("Current polls in your instances")}</h3>
       ${c.polls_pager.here()}
   </section>

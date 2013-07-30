@@ -1,0 +1,10 @@
+<h3>${_("Login") if c.title is None else c.title}</h3>
+%if c.body is not None:
+${c.body|n}
+%endif
+
+%if config.get('adhocracy.login_style', 'default') == 'alternate':
+  <%include file="/user/login_form_alternate.html"/>
+%else:
+  <%include file="/user/login_form.html"/>
+%endif

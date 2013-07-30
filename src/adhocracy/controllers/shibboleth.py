@@ -2,15 +2,19 @@ from urllib import urlencode
 import formencode
 from pylons import request
 from pylons import response
+from pylons import session
 from pylons.controllers.util import redirect
 from pylons.i18n import _
+from adhocracy import config
 from adhocracy import forms
+from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.csrf import check_csrf
 from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
 from adhocracy.lib.auth.shibboleth import USERBADGE_MAPPERS
 from adhocracy.lib.base import BaseController
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render
 from adhocracy.lib.templating import ret_abort
 from adhocracy.model import meta
@@ -20,12 +24,17 @@ from adhocracy.model.badge import UserBadge
 
 class ShibbolethRegisterForm(formencode.Schema):
     allow_extra_fields = True
-    username = formencode.All(formencode.validators.PlainText(not_empty=True),
-                              forms.UniqueUsername(),
-                              forms.ContainsChar())
-    email = formencode.All(formencode.validators.Email(not_empty=False),
-                           forms.UniqueEmail())
-    # store_email checkbox
+    if not config.get_bool('adhocracy.force_randomized_user_names'):
+        username = formencode.All(
+            formencode.validators.PlainText(not_empty=True),
+            forms.UniqueUsername(),
+            forms.ContainsChar())
+    if config.get_bool('adhocracy.set_display_name_on_register'):
+        display_name = formencode.validators.String(not_empty=False,
+                                                    if_missing=None)
+    email = formencode.All(formencode.validators.Email(
+        not_empty=config.get_bool('adhocracy.require_email')),
+        forms.UniqueEmail())
     # store custom attributes checkboxes
 
 
@@ -60,6 +69,12 @@ class ShibbolethController(BaseController):
         and immediatly removed afterwards. The reason for this design decision
         is that Single-Sign-Off isn't recommended by Shibboleth as it is either
         very complicated or even impossible.
+
+        NOTE: There isn't one clear way on how to deal with user deletion in
+        environments with external user management. We now implemented the
+        following:
+        If a user logs in into a deleted account, this account is undeleted
+        on the fly.
         """
         if not 'shibboleth' in allowed_login_types():
             ret_abort(_("Shibboleth authentication not enabled"), code=403)
@@ -68,29 +83,45 @@ class ShibbolethController(BaseController):
         if persistent_id is None:
             ret_abort(_("This URL shouldn't be called directly"), code=403)
 
-        user = User.find_by_shibboleth(persistent_id)
+        user = User.find_by_shibboleth(persistent_id, include_deleted=True)
 
         if user is not None:
-            return self._login(user)
+            if user.is_deleted():
+                user.undelete()
+                meta.Session.commit()
+                h.flash(_("User %s has been undeleted") % user.user_name,
+                        'success')
+            return self._login(user, h.user.post_login_url(user))
         else:
             return self._register(persistent_id)
 
     def _get_persistent_id(self):
         return request.environ.get('HTTP_PERSISTENT_ID', None)
 
-    def _login(self, user):
+    def _login(self, user, target):
         self._update_userbadges(user)
 
         login_user(user, request, response)
+        session['login_type'] = 'shibboleth'
 
-        came_from = request.GET.get('came_from', '/')
+        came_from = request.GET.get('came_from', target)
         qs = urlencode({'return': came_from})
 
         return redirect('/Shibboleth.sso/Logout?%s' % qs)
 
     def _register_form(self, defaults=None, errors=None):
+
+        data = {
+            'email_required': (config.get_bool('adhocracy.require_email')),
+        }
+        add_static_content(data,
+                           u'adhocracy.static_shibboleth_register_ontop_path',
+                           body_key=u'body_ontop')
+        add_static_content(data,
+                           u'adhocracy.static_shibboleth_register_below_path',
+                           body_key=u'body_below', title_key=u'_ignored')
         return formencode.htmlfill.render(
-            render("/shibboleth/register.html"),
+            render("/shibboleth/register.html", data),
             defaults=defaults, errors=errors,
             force_defaults=False)
 
@@ -110,8 +141,13 @@ class ShibbolethController(BaseController):
             form_result = ShibbolethRegisterForm().to_python(
                 request.params)
 
-            user = User.create(form_result['username'],
+            if config.get_bool('adhocracy.force_randomized_user_names'):
+                username = None
+            else:
+                username = form_result['username']
+            user = User.create(username,
                                form_result['email'],
+                               display_name=form_result['display_name'],
                                shibboleth_persistent_id=persistent_id)
 
             # NOTE: We might want to automatically join the current instance
@@ -119,7 +155,7 @@ class ShibbolethController(BaseController):
 
             meta.Session.commit()
 
-            return self._login(user)
+            return self._login(user, h.user.post_register_url(user))
 
         except formencode.Invalid, i:
             return self._register_form(errors=i.unpack_errors())

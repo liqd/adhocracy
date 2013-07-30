@@ -32,6 +32,27 @@ def random_token():
     return unicode(uuid.uuid4()).split('-').pop()
 
 
+def random_username():
+
+    import random
+
+    vouwels = 'aeiouy'
+    consonants = 'bcdfghjklmnprstvwxz'
+
+    length = random.randint(6, 9)
+    consonant = (random.randint(0, 1) == 0)
+
+    name = u''
+    for _x in range(length):
+        if consonant:
+            name += random.choice(consonants)
+        else:
+            name += random.choice(vouwels)
+        consonant = not consonant
+
+    return name
+
+
 def get_entity_or_abort(cls, id, instance_filter=True, **kwargs):
     from templating import ret_abort
     """

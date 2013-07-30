@@ -1,6 +1,6 @@
 
 <%def name="row(tile, tag)">
-    <div class="tile">
+    <li class="tile">
         <div class="base" style="background-image: url(/img/icons/tag_24.png);">
             <h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
             <div class="meta noclear">
@@ -10,7 +10,7 @@
                 %endif
             </div>
         </div>
-    </div>
+    </li>
 </%def>
 
 
@@ -38,12 +38,12 @@
     </p>
     %if can.tag.create():
     <div class="only-js" id="add_tags"> 
-        <a href="#" class="showhide_button button_small" 
+        <a href="#" class="showhide_button button_small"
            data-target="#tags_form">
-            ${_("add tags...")}
+            ${_("add tags")}
         </a>
     </div>
-    <div class="close" id="tags_form" data-cancel=".cancel">
+    <div id="tags_form" data-cancel=".cancel" style="display: none">
         <form action="${h.base_url('/tag', delegateable.instance)}" method="POST">
             ${h.field_token()|n}
             <input name="delegateable" type="hidden" value="${delegateable.id}" />

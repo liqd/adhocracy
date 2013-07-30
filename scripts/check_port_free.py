@@ -135,12 +135,20 @@ def checkOnce(ports, opts_open=False, opts_kill='dont', opts_killSignal=signal.S
                     if 'pid' not in d:
                         raise NoProcessException('Cannot find process occupying port %s - are you root?' % d['port'])
                     messages.append('Killing pid ' + str(d['pid']) + ' (' + bexename + ' bound to ' + d['local_address'] + ':' + str(d['port']) + ')')
-                    os.kill(d['pid'], opts_killSignal)
+                    try:
+                        os.kill(d['pid'], opts_killSignal)
+                    except OSError as ose:
+                        if ose.errno != errno.ESRCH:
+                            raise
                 elif opts_kill == 'pgid':
                     if 'pgid' not in d:
                         raise NoProcessException('Cannot find process group occupying port %s - are you root?' % d['port'])
                     messages.append('Killing pgid ' + str(d['pgid']) + ' (' + bexename + ' bound to ' + d['local_address'] + ':' + str(d['port']) + ')')
-                    os.killpg(d['pgid'], opts_killSignal)
+                    try:
+                        os.killpg(d['pgid'], opts_killSignal)
+                    except OSError as ose:
+                        if ose.errno != errno.ESRCH:
+                            raise
     return messages,errors
 
 def check_port_free(ports, message_printer=None, opts_gracePeriod=0, opts_graceInterval=1, opts_open=False, opts_kill='dont', opts_killSignal=signal.SIGTERM):

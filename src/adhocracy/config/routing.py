@@ -9,8 +9,7 @@ from routes import Mapper
 
 def make_map(config):
     """Create, configure and return the routes Mapper"""
-    map = Mapper(directory=config['pylons.paths']['controllers'],
-                 always_scan=config['debug'])
+    map = Mapper(directory=config['pylons.paths']['controllers'])
     map.minimization = False
 
     # The ErrorController route (handles 404/500 error pages); it should
@@ -57,7 +56,14 @@ def make_map(config):
                                          'set_password': 'POST',
                                          'generate_welcome_link': 'POST'},
                  collection={'complete': 'GET',
-                             'filter': 'GET'})
+                             'filter': 'GET',
+                             # provide user-independent URLs to user settings
+                             'redirect_settings': 'GET',
+                             'redirect_settings_login': 'GET',
+                             'redirect_settings_notifications': 'GET',
+                             'redirect_settings_advanced': 'GET',
+                             'redirect_settings_optional': 'GET',
+                             })
 
     # TODO work this into a complete subcontroller.
     map.connect('/user/{id}/message.{format}', controller='message',
@@ -70,6 +76,36 @@ def make_map(config):
                 conditions=dict(method=['GET']))
     map.connect('/user/{id}/message/new', controller='message', action='new',
                 conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings',
+                controller='user', action='settings_personal',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings',
+                controller='user', action='settings_personal_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/login',
+                controller='user', action='settings_login',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/login',
+                controller='user', action='settings_login_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/notifications',
+                controller='user', action='settings_notifications',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/notifications',
+                controller='user', action='settings_notifications_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/advanced',
+                controller='user', action='settings_advanced',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/advanced',
+                controller='user', action='settings_advanced_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/user/{id}/settings/optional',
+                controller='user', action='settings_optional',
+                conditions=dict(method=['GET']))
+    map.connect('/user/{id}/settings/optional',
+                controller='user', action='settings_optional_update',
+                conditions=dict(method=['PUT']))
 
     map.connect('/message/new', controller='massmessage', action='new')
     map.connect('/message/preview', controller='massmessage', action='preview')
@@ -305,6 +341,9 @@ def make_map(config):
     map.connect('/instance/{id}/settings/massmessage',
                 controller='massmessage', action='create',
                 conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/massmessage/preview',
+                controller='massmessage', action='preview',
+                conditions=dict(method=['POST']))
     map.connect('/instance/{id}/settings/members_import',
                 controller='instance', action='settings_members_import',
                 conditions=dict(method=['GET']))
@@ -362,6 +401,9 @@ def make_map(config):
                 conditions=dict(method=['POST']))
     map.connect('/static/{key}.{format}', controller='static',
                 action='serve')
+    map.connect('/outgoing_link/{url_enc}', controller='redirect',
+                action='outgoing_link',
+                conditions=dict(method=['GET', 'HEAD']))
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

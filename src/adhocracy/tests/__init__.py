@@ -31,8 +31,9 @@ from webtest import TestApp
 from adhocracy.lib.app_globals import Globals
 from adhocracy.model import Instance, meta
 
-SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
-
+# setup pylons if available
+if hasattr(pylons, "test"):
+    SetupCommand('setup-app').run([pylons.test.pylonsapp.config['__file__']])
 
 # supress deprecation warnings caused by old Pylons with new WebOb
 import warnings
@@ -57,11 +58,18 @@ class MockRequest(MockBase):
             setattr(self, arg, value)
 
 
-class MockContextObject(pylons.util.ContextObj, MockBase):
-    '''
-    A mocked pylons :class:`pylons.util.ContextObj` object used
-    by pylons, often thread local, in many cases, like pylons.tmpl_context
-    '''
+# setup pylon mock object if available
+class MockContextObject(MockBase):
+    """ """
+
+
+if hasattr(pylons, "util"):
+
+    class MockContextObject(pylons.util.ContextObj, MockBase):
+        '''
+        A mocked pylons :class:`pylons.util.ContextObj` object used
+        by pylons, often thread local, in many cases, like pylons.tmpl_context
+        '''
 
 
 def _teardown_context(proxy, context_class=MockBase):

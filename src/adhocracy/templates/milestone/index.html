@@ -9,7 +9,7 @@
 <%block name="headline">
 
 <h2>${_("Milestones")}</h2>
-<div class="hr"><hr /></div>
+<hr />
 
 ${tiles.milestone.timeline(c.milestones)}
 
@@ -17,6 +17,8 @@ ${tiles.milestone.timeline(c.milestones)}
 
 <%block name="main_content">
 %if c.show_current_milestones:
+<h3>${_('Upcoming Milestones')}</h3>
+
 <div id="milestones_table" class="table">
     ${c.current_milestones_pager.here()}
 </div>
@@ -49,7 +51,7 @@ ${tiles.milestone.timeline(c.milestones)}
         <p>${_('tutorial_milestones_timeline')}</p>
     </li>
 
-    <li data-id="milestones_table"
+    <li data-id="milestones_table" data-next="${_('Close')}"
         data-tip-location="top right" class="custom">
         <p>${_('tutorial_milestones_listing')}</p>
     </li>

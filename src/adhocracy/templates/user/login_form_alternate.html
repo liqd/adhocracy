@@ -12,7 +12,7 @@ else:
     field_title = _('My user name:')
     field_type =  'text'
 %>
-<form class="login-alternate patch_camefrom" name="login" method="POST" action="/perform_login${h.camefrom_querystring()}">
+<form class="login-alternate patch_camefrom login_form" method="POST" action="/perform_login${h.camefrom_querystring()}">
   ${h.field_token()|n}
 
   <form:error name="login"></form:error>

@@ -1,0 +1,151 @@
+@mixin vote-background($color) {
+    background-color: $color;
+    @include background-image(linear-gradient(top, $color, darken($color, 10%)));
+}
+@mixin vote-background-inverted($color) {
+    background-color: $color;
+    @include background-image(linear-gradient(bottom, $color, darken($color, 10%)));
+}
+
+.vote {
+    @include button-round-background();
+    border: 1px solid $border;
+    height: 14px;
+    line-height: 14px;
+    @include border-radius(7px);
+    overflow: hidden;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 11px;
+    vertical-align: middle;
+}
+.vote_count, .vote_up, .vote_down {
+    display: inline-block;
+    vertical-align: top;
+}
+.vote_count {
+    color: #fff;
+    padding: 0 5px;
+
+    &.neutral {
+        color: $button-color;
+    }
+    &.negative {
+        @include vote-background($red);
+    }
+
+    &.positive {
+        @include vote-background($green);
+    }
+}
+
+.vote_up, .vote_down {
+    border-left: 1px solid $border;
+    padding: 0 10px;
+    height: 14px;
+    width: 10px;
+    display: inline-block;
+}
+
+.vote_up {
+    &:hover {
+        @include vote-background($green);
+        text-decoration: none;
+    }
+    &:active, &.active {
+        @include vote-background-inverted($green);
+        @include box-shadow(1px 1px 1px #333 inset);
+    }
+    span {
+        background: url('/images/sprite_icons.png') no-repeat -19px -206px;
+        height: 14px;
+        width: 10px;
+        display: inline-block;
+    }
+    &:hover span, &.active span {
+        background-position: -19px -256px;
+    }
+}
+
+.vote_down {
+    &:hover {
+        @include vote-background($red);
+        text-decoration: none;
+    }
+    &:active, &.active {
+        @include vote-background-inverted($red);
+        @include box-shadow(1px 1px 1px #333 inset);
+    }
+    span {
+        background: url('/images/sprite_icons.png') no-repeat -19px -306px;
+        height: 14px;
+        width: 10px;
+        display: inline-block;
+    }
+    &:hover span, &.active span {
+        background-position: -19px -356px;
+    }
+}
+
+
+.vote.big {
+    height: 26px;
+    line-height: 26px;
+    @include border-radius(13px);
+    font-weight: bold;
+    font-size: 14px;
+
+    .vote_count {
+        padding: 0 10px;
+    }
+    .vote_up, .vote_down {
+        padding: 0 15px;
+        height: 26px;
+        width: 15px;
+        display: inline-block;
+    }
+    .vote_up {
+        &:hover {
+            text-decoration: none;
+        }
+        &:active, &.active {
+            @include box-shadow(1px 1px 1px #333 inset);
+        }
+        span {
+            background: url('/images/sprite_icons.png') no-repeat -15px -401px;
+            height: 26px;
+            width: 15px;
+            display: inline-block;
+        }
+        &:hover span, &.active span {
+            background-position: -15px -451px;
+        }
+    }
+    .vote_down {
+        &:hover {
+            text-decoration: none;
+        }
+        &:active, &.active {
+            @include box-shadow(1px 1px 1px #333 inset);
+        }
+        span {
+            background: url('/images/sprite_icons.png') no-repeat -15px -551px;
+            height: 26px;
+            width: 15px;
+            display: inline-block;
+        }
+        &:hover span, &.active span {
+            background-position: -15px -501px;
+        }
+    }
+}
+
+.vote.deactivated {
+    .vote_up, .vote_down {
+        @include box-shadow(none !important);
+
+        span {
+            background-image: none !important;
+        }
+    }
+}

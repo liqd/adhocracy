@@ -40,6 +40,16 @@ class FanstaticNeedHelper(object):
 
     def __init__(self, module):
         self.module = module
+        self.dynamics = {}
+
+    def load_dynamic(self, name, *args, **kwargs):
+        if name not in self.dynamics:
+            resource_fun = getattr(self.module, name, None)
+            if resource_fun is not None:
+                assert(type(resource_fun) == type(lambda: None))
+                self.dynamics[name] = resource_fun(*args, **kwargs)
+
+        return self.dynamics[name].need()
 
     def __getattr__(self, name):
         return _get_resource(self.module, name).need()

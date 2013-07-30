@@ -50,7 +50,7 @@ delegate_url = url if can.delegation.create() else None
                 <h2>
                     ${h.delegateable.link(c.proposal, link=False)|n}
                 </h2>
-                <div class="hr"><hr /></div>
+                <hr />
                 
                 <div class="utility">
                     <h4>${_('Topic and Description of the Proposal')}</h4>
@@ -67,20 +67,16 @@ delegate_url = url if can.delegation.create() else None
                 ${components.social_share_buttons(c.proposal)}
 
                 <div class="meta">
-                    <a href="#discussions">
-                        ${_("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)}
-                    </a>
+                    <a href="#discussions">${
+                        _("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)
+                    }</a>
                     %if c.show_selections:
                     · 
-                    <a href="#proposals">
-                        ${_("%s Proposed Implementations") % len(c.num_selections)}
-                    </a>
+                    <a href="#proposals">${_("%s Proposed Implementations") % len(c.num_selections)}</a>
                     %endif
                     %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
                     · 
-                    <a href="${h.abuse.for_entity(c.proposal)}">
-                        ${_("report")}
-                    </a>
+                    <a href="${h.abuse.for_entity(c.proposal)}">${_("report")}</a>
                     %endif
                     ·
                     <a href="${c.history_url}"
@@ -109,9 +105,10 @@ delegate_url = url if can.delegation.create() else None
             %if c.show_selections:
             <section>
               <h3 id="proposals">${_("Proposed Implementations")}</h3>
-              <div class="hr"><hr /></div>
+              <hr />
               <ul class="papers_list">
                   %for selection in c.sorted_selections: 
+                  <% h.need.adhocracy_ko %>
                   ${tiles.selection.row(selection)}
                   %endfor
               </ul> 
@@ -221,8 +218,9 @@ delegate_url = url if can.delegation.create() else None
 
 <%block name="sidebar">
 
-<div class="sidebar_box">
 ${components.watch(c.proposal, id='follow_proposal')}
+
+<div class="sidebar_box">
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>

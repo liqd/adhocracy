@@ -2,6 +2,7 @@ import logging
 
 from adhocracy.lib.search.index import get_sunburnt_connection
 from adhocracy.model import refs
+from adhocracy.model import Page
 
 from pylons import tmpl_context as c
 
@@ -9,7 +10,8 @@ from pylons import tmpl_context as c
 log = logging.getLogger(__name__)
 
 
-def sunburnt_query(entity_type=None, instance=None, connection=None):
+def sunburnt_query(entity_type=None, excluded_entity_types=set(),
+                   instance=None, connection=None):
     '''
     return a pre configured sunburnt query object. If *entity_type*
     is given, return a query object preconfigured to only fetch
@@ -31,6 +33,8 @@ def sunburnt_query(entity_type=None, instance=None, connection=None):
     q = connection.query()
     if entity_type:
         q = q.filter(doc_type=refs.cls_type(entity_type))
+    for t in excluded_entity_types:
+        q = q.filter_exclude(doc_type=refs.cls_type(t))
     if instance and c.instance:
         q = q.filter(instance=instance.key)
     return q
@@ -74,8 +78,12 @@ def add_wildcard_query(query, field, string, lower=True):
     return query
 
 
-def run(terms, instance=None, entity_type=None, **kwargs):
+def run(terms, instance=None, entity_type=None, excluded_entity_types=set(),
+        **kwargs):
+    if instance is not None and not instance.use_norms:
+        excluded_entity_types.add(Page)
     q = sunburnt_query(entity_type=entity_type,
+                       excluded_entity_types=excluded_entity_types,
                        instance=instance)
 
     for term in terms.split():

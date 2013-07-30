@@ -4,8 +4,8 @@ import logging
 from datetime import datetime
 
 from babel import Locale
-
 from pylons import config
+from pylons.i18n import _
 
 from sqlalchemy import Table, Column, func, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
@@ -13,6 +13,8 @@ from sqlalchemy.orm import eagerload_all
 
 from adhocracy.model import meta
 from adhocracy.model import instance_filter as ifilter
+from adhocracy.model.core import JSONEncodedDict
+from adhocracy.model.core import MutationDict
 from adhocracy.model.instance import Instance
 
 log = logging.getLogger(__name__)
@@ -41,6 +43,7 @@ user_table = Table(
     Column('gender', Unicode(1), default=None),
     Column('email_messages', Boolean, default=True),
     Column('welcome_code', Unicode(255), nullable=True),
+    Column('optional_attributes', MutationDict.as_mutable(JSONEncodedDict)),
 )
 
 
@@ -356,6 +359,22 @@ class User(meta.Indexable):
         #    vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
 
+    def undelete(self):
+        from watch import Watch
+
+        for twitter in self.twitters:
+            twitter.delete_time = None
+        for openid in self.openids:
+            openid.delete_time = None
+        for comment in self.comments:
+            comment.delete_time = None
+        for membership in self.memberships:
+            membership.expire_time = None
+        for watch in Watch.all_by_user(self):
+            watch.delete_time = None
+
+        self.delete_time = None
+
     def is_deleted(self, at_time=None):
         if at_time is None:
             at_time = datetime.utcnow()
@@ -403,10 +422,19 @@ class User(meta.Indexable):
         if proposal.rate_poll:
             return Decision(self, proposal.rate_poll).result
 
+    def get_optional_attributes(self):
+        return loads(self.optional_attributes)
+
+    def get_optional_attributes(self):
+        return loads(self.optional_attributes)
+
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
                openid_identity=None, global_admin=False, display_name=None,
                shibboleth_persistent_id=None):
+        """
+        Create a user. If user_name is None, a random user name is generated.
+        """
         from group import Group
         from membership import Membership
 
@@ -417,6 +445,18 @@ class User(meta.Indexable):
         import adhocracy.i18n as i18n
         if locale is None:
             locale = i18n.get_default_locale()
+
+        while user_name is None:
+            # Note: This can theoretically lead to IntegrityErrors if the same
+            # username is generated at the same time. This is very unlikely
+            # though.
+            from adhocracy.lib.util import random_username
+            try_user_name = random_username()
+            if cls.find(try_user_name) is None:
+                user_name = try_user_name
+                from adhocracy.lib import helpers as h
+                h.flash(_('The random username %s has been assigned to you.') %
+                        user_name, 'success')
 
         user = User(user_name, email, password, locale,
                     display_name=display_name)
@@ -430,7 +470,7 @@ class User(meta.Indexable):
         # Autojoin the user in instances
         config_autojoin = config.get('adhocracy.instances.autojoin')
         if config_autojoin:
-            instances = Instance.all()
+            instances = Instance.all(include_hidden=True)
             if config_autojoin != 'ALL':
                 instance_keys = [key.strip() for key in
                                  config_autojoin.split(",")]

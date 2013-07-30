@@ -1,0 +1,13 @@
+<%namespace name="forms" file="/forms.html"/>
+
+%if c.optional_attributes:
+<fieldset>
+%for (key, type, converter, label, allowed) in c.optional_attributes:
+%if allowed is None:
+${forms.input(label, key)}
+%else:
+${forms.select(label, key, allowed)}
+%endif
+%endfor
+</fieldset>
+%endif

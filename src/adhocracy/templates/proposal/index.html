@@ -37,7 +37,7 @@
 %endif
 <div style="clear:both"></div>
 
-<div class="hr"><hr /></div>
+<hr />
 <div class="list_filter" id="proposals-search">
 <form class="list_form" action="?" method="GET" autocomplete="off">
     <label class="floating" for="proposals_q">${_("Find proposals")}</label>
@@ -54,7 +54,7 @@
     ${c.proposals_pager.render_pager()}    
 
 %if can.badge.edit_instance():
-    <div class="simple_overlay" id="edit_badges_container">
+    <div class="overlay" id="edit_badges_container">
         <form id="edit_badges">
             ${h.field_token()|n}
             <h5 data-bind="text: selected.title">Title</h5>
@@ -82,7 +82,7 @@
                     <br />
                 </li>
             </ul>      
-            <a href="#" class="btn" data-bind="click: save">Save</a> 
+            <a href="#" class="button" data-bind="click: save">Save</a> 
             or 
             <a href="" data-bind="click: cancel">Cancel</a>
         </form>

@@ -14,9 +14,10 @@
         <div class="level-${str(level)}">
             %if c.is_hierarchical and level == 0 and len(page.subpages) > 0:
             <div class="more only-js">
-                <a href="#" class="showhide_button more_arrow"
+                <a href="#" class="showhide_button"
                    data-target="#${page.id}-sub"
                    data-toggle-class="less"
+                   data-target-speed="fast"
                    data-toggle-text="${_('hide sub-topics')}">
                 ${_('show sub-topics')}</a>
             </div>
@@ -37,7 +38,6 @@
                 %endif
             </div>
         </div>
-        <div class="hr"><hr /></div>
 
         %if c.is_hierarchical and len(page.subpages) > 0:
         <ul id="${'%s-sub' % page.id if level == 0 else ''}"
@@ -48,16 +48,16 @@
         </ul>
         %endif
     </li>
-    
-                
+
+
 </%def>
 
 <%def name="select_page(tile, field_name, select, exclude, functions,
 list_limit, initial_option=None, allow_empty=True)">
-    %if list_limit is not None and model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit: 
+    %if list_limit is not None and model.Page.count(instance=c.instance, exclude=exclude, functions=functions) > list_limit:
         <input id="${field_name}" name="${field_name}" />
     %else:
-        <select id="${field_name}" name="${field_name}"> 
+        <select id="${field_name}" name="${field_name}">
         %if allow_empty:
             <option value="">${_("(none)")}</option>
         %endif
@@ -69,7 +69,7 @@ list_limit, initial_option=None, allow_empty=True)">
             <option value="${page.id}" ${'selected="selected"' if select and select.id == page.id else "" | n}>${page.full_title}</option>
         %endfor
         </select>
-    %endif 
+    %endif
 </%def>
 
 
@@ -82,38 +82,38 @@ list_limit, initial_option=None, allow_empty=True)">
 
 <%def name="header(tile, page, active, text, variant)">
     <div class="top_actions title">
-        
+
         %if can.norm.create() and active == 'view':
-            <a class="button title admin ttip" title="${_('Create a new norm.')}" 
+            <a class="button title admin ttip" title="${_('Create a new norm.')}"
                 href="/page/new">${_("new norm")}</a>
         %endif
-        
+
         %if can.variant.edit(page, "") and page.has_variants and active == 'diff':
-            <a class="button title add ttip" title="${_('Propose alternative language.')}" 
+            <a class="button title add ttip" title="${_('Propose alternative language.')}"
                 href="${h.entity_url(text, member='branch')}">${_("branch new variant")}</a>
         %endif
-        
+
         %if variant==model.Text.HEAD and can.variant.edit(page, variant):
-            <a class="button title admin ttip" title="${_('Edit the status quo.')}" 
+            <a class="button title admin ttip" title="${_('Edit the status quo.')}"
                 href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
         %elif can.variant.edit(page, variant):
-            <a class="button title edit ttip" title="${_('Edit this variant.')}" 
+            <a class="button title edit ttip" title="${_('Edit this variant.')}"
                 href="${h.entity_url(text, member='edit')}">${_("edit")}</a>
         %endif
-        
+
         %if can.variant.delete(page, variant) and active == 'diff' and c.variant:
-            <a class="button title delete ttip" title="${_('Delete this variant.')}" 
+            <a class="button title delete ttip" title="${_('Delete this variant.')}"
                 href="${h.entity_url(text, member='ask_purge')}">${_("purge variant")}</a>
         %endif
-                        
+
         %if can.page.delete(page) and active != 'diff':
-            <a class="button title delete"  
+            <a class="button title delete"
                 href="${h.entity_url(page, member='ask_delete')}">${_("delete")}</a>
         %endif
-        
+
         ${components.watch(page)}
     </div>
-    
+
     <div style="clear: both;"></div>
     <h1 class="page_title">
     %if text.variant != text.HEAD:

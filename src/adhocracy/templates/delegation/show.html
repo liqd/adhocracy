@@ -15,24 +15,23 @@
 </%block>
 
 <%block name="sidebar">
-    <div class="tile">
-        <h4>${_("Delegation")}</h4>
-        <ul>
-            <li class="nobullet">
+    <div class="tile sidebar_box">
+        <h3>${_("Delegation")}</h3>
+        <ul class="nobullet">
+            <li>
                 ${_("from %s") % h.user.link(c.delegation.principal)|n}</li>
-            <li class="nobullet">
+            <li>
                 ${_("to %s") % h.user.link(c.delegation.agent)|n}</li>
-        </ul>   
+        </ul>
         <div class="meta">
             ${_("established %s") % h.datetime_tag(c.delegation.create_time)|n}
             %if c.delegation.is_revoked():
                  · ${_("revoked %s") % h.datetime_tag(c.delegation.revoke_time)|n}
-            %endif      
+            %endif
         </div>
+        <br/>
+        <p>${_("The delegation can be overridden or revoked at any time.")}</p>
     </div>
-    <br/>
-    <p>${_("The delegation can be overridden or revoked at any time.")}</p>
-       
 </%block>
 
 <%block name="main_content">

@@ -1,21 +1,21 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 
 <%def name="history_row(tile, text)">
+<li>
     <div class="tile text history">
-        <ul class="content_list">
-            <li class="title">
-                ${diff.page_titles_compare(text, text.valid_parent())|n}
-                %if text.page.has_variants:
-                    (${text.variant_html|n})
-                %endif
-            </li>
-            <li>${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
-                    ${_("created %s") % h.datetime_tag(text.create_time)|n}
-            %if h.has_permission('page.delete_history') and (text.valid_child() is not None or text.valid_parent() is not None):
-            <span> <a href="${h.page.page_text_url(text.page, text, 'ask_purge_history')}">(delete version)</a></span>
+        <h3 class="title">
+            ${diff.page_titles_compare(text, text.valid_parent())|n}
+            %if text.page.has_variants:
+                (${text.variant_html|n})
             %endif
-            </li>
-        </ul>
+        </h3>
+        <div>
+            ${_("by %s, ") % h.user.link(text.user, scope=text.page)|n}
+            ${_("created %s") % h.datetime_tag(text.create_time)|n}
+            %if h.has_permission('page.delete_history') and (text.valid_child() is not None or text.valid_parent() is not None):
+                <span> <a href="${h.page.page_text_url(text.page, text, 'ask_purge_history')}">(${_(u'delete version')})</a></span>
+            %endif
+        </div>
     </div>
     
     <div class="headrev">
@@ -29,6 +29,7 @@
                 </div>
             %endif
     </div>
+</li>
 </%def>
 
 

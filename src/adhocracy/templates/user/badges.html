@@ -15,7 +15,7 @@
 <%block name="main_content">
 <h2>${_('Badges for %s') % c.page_user.user_name}</h2>
 <form name="settings" class="inplace" method="POST" 
-      action="/user/${c.page_user.user_name}/badges">
+    action="${h.entity_url(c.page_user, instance=c.instance, member='badges')}">
 
     ${h.field_token()|n}
 

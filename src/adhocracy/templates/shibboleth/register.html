@@ -1,23 +1,46 @@
 <%inherit file="/template.html" />
-<%def name="title()">${_("Complete registration")}</%def>
+<%def name="title()">${c.title if c.title is not None else _("Complete registration")}</%def>
 
 <%block name="headline">
-<h1>${_("Complete registration")}</h1>
+<h1>${c.title if c.title is not None else _("Complete registration")}</h1>
 
+    %if c.body_ontop is None:
     <div class="infobox">
       ${_('Please complete the Shibboleth based user registration')}
     </div>
+    %else:
+    ${c.body_ontop|n}
+    %endif
 
     <div class="mainbar">
-        <form name="complete_registration" action="" method="POST">
+        <form name="complete_registration" class="login_form" action="" method="POST">
             ${h.field_token()|n}
-            <label>${_('Username:')}
-                <input name="username" type="text" />
-            </label>
-            <label>${_('Email:')}
-                <input name="email" type="email" />
-            </label>
-            <input type="submit" value="${_('Continue')}"/>
+            %if not h.config.get_bool('adhocracy.force_randomized_user_names'):
+            <div class="input_wrapper">
+                <label>${_('Username')}:
+                    <input type="text" name="username" autofocus="autofocus" required="required"/>
+                </label>
+            </div>
+            %endif
+            %if h.config.get_bool('adhocracy.set_display_name_on_register'):
+            <div class="input_wrapper">
+                <label>${_('Display name')}:
+                    <input type="text" name="display_name" autofocus="autofocus" />
+                </label>
+            </div>
+            %endif
+            <div class="input_wrapper">
+                <label>${_('Email')}: ${u'(%s)' % _(u'optional') if not c.email_required else u''}
+                    <input name="email" type="email" ${u'required="required"' if c.email_required else u''} />
+                </label>
+            </div>
+            <div class="input_wrapper submit">        
+                <input type="submit" value="${_('Continue')}"/>
+            </div>
         </form>
+ 
+        %if c.body_below is not None:
+        ${c.body_below|n}
+        %endif
     </div>
 </%block>

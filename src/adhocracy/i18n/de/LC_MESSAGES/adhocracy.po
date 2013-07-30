@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-03 16:45+0200\n"
-"PO-Revision-Date: 2013-06-03 14:46+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:56+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Not specified"
+msgstr "Keine Angabe"
 
 msgid "Thank you for helping."
 msgstr "Danke für Ihre Hilfe."
@@ -41,6 +44,10 @@ msgstr "Bitte geben Sie eine Vorlage für die E-Mail ein, die wir an die importi
 
 msgid "Solr index updated."
 msgstr "Solr Index aktualisiert."
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
+msgstr "Autojoin korrigiert - %s Mitgliedschaften hinzugefügt."
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -107,6 +114,9 @@ msgstr "Die Delegation %(id)s ist nicht verfügbar"
 msgid "The delegation is now revoked."
 msgstr "Die Delegation ist aufgehoben."
 
+msgid "The system is currently down for maintenance. Please check back soon!"
+msgstr "Das System ist zur Zeit im Wartungsmodus. Bitte versuchen Sie es in Kürze nochmals."
+
 #, python-format
 msgid "Error %s"
 msgstr "Fehler %s"
@@ -118,24 +128,6 @@ msgstr "Neuigkeiten von %s"
 #, python-format
 msgid "News from %s"
 msgstr "Neuigkeiten von %s"
-
-msgid "The changes where saved."
-msgstr "Die Änderungen wurden gespeichert."
-
-msgid "No update required."
-msgstr "Es wurden keine Änderungen vorgenommen."
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
-
-msgid "Delegations are enabled."
-msgstr "Delegationen sind aktiv."
-
-msgid "Delegations are disabled."
-msgstr "Delegationen sind inaktiv."
-
-msgid "tutorial_instance_show_intro"
-msgstr "Willkommen auf der Startseite der Gruppe."
 
 msgid "General"
 msgstr "Allgemein"
@@ -157,6 +149,18 @@ msgstr "Benachrichtigungsdienst"
 
 msgid "Members import"
 msgstr "Mitglieder importieren"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
+
+msgid "Delegations are enabled."
+msgstr "Delegationen sind aktiv."
+
+msgid "Delegations are disabled."
+msgstr "Delegationen sind inaktiv."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Willkommen auf der Startseite der Gruppe."
 
 msgid "The logo has been deleted."
 msgstr "Das Logo wurde entfernt."
@@ -216,6 +220,9 @@ msgstr "E-Mail ist nicht aktiviert."
 
 msgid "Not permitted in system settings"
 msgstr "Nicht erlaubt in den Systemeinstellungen."
+
+msgid "adhocracy.registration_support_email not set"
+msgstr "adhocracy.registration_support_email nicht gesetzt"
 
 #, python-format
 msgid "Could not render message: %s"
@@ -431,6 +438,10 @@ msgstr "Shibboleth-Authentifizierung nicht aktiviert"
 msgid "This URL shouldn't be called directly"
 msgstr "Diese URL sollte nicht direkt aufgerufen werden"
 
+#, python-format
+msgid "User %s has been undeleted"
+msgstr "Benutzer %s wurde wiederhergestellt"
+
 msgid "Page does already exist. Select another key or language."
 msgstr "Die Seite existiert schon. Wählen Sie eine andere Kennung oder Sprache."
 
@@ -448,17 +459,17 @@ msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Tag \"%s\" wurde entfernt von %s \"%s\"."
 
 msgid "Treatment has been created."
-msgstr ""
+msgstr "Treatment wurde erstellt."
 
 #, python-format
 msgid "Could not find the entity '%s'"
 msgstr "'%s' konnte nicht gefunden werden. "
 
 msgid "All users have been assigned to their respective treatment badges."
-msgstr ""
+msgstr "Allen Benutzern wurden ihre zugehörigen Treatment-Badges zugewiesen."
 
 msgid "All users are already assigned to their respective treatment badges."
-msgstr ""
+msgstr "Allen Benutzern sind bereits die zugehörigen Treatment-Badges zugewiesen."
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -473,6 +484,21 @@ msgstr "Sie folgen nun %s auf Twitter, damit Adhocracy Ihnen Benachrichtigungen 
 msgid "You have no twitter association."
 msgstr "Sie haben keine Twitter-Verbindung."
 
+msgid "Personal"
+msgstr "Persönlich"
+
+msgid "Login"
+msgstr "Anmelden"
+
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Optional"
+msgstr "Optional"
+
 msgid "tutorial_user_index_intro"
 msgstr "Mitgliederliste der Gruppe."
 
@@ -481,6 +507,18 @@ msgstr "Es tut uns leid - Registrierung ist in dieser Installation deaktiviert."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
+
+msgid "Gender-neutral"
+msgstr "Geschlechtsneutral"
+
+msgid "Female"
+msgstr "Weiblich"
+
+msgid "Male"
+msgstr "Männlich"
+
+msgid "No optional atributes defined."
+msgstr "Keine erweiterten Attribute definiert."
 
 msgid "Password has been set. Have fun!"
 msgstr "Passwort gesetzt. Viel Spaß!"
@@ -547,6 +585,25 @@ msgstr "Ungültiger Benutzername oder falsches Passwort."
 
 msgid "Invalid email or password"
 msgstr "Ungültige E-Mail oder falsches Passwort."
+
+#, python-format
+msgid "You can finish that session <a href='%s'>here</a>."
+msgstr "Diese Sitzung können Sie <a href='%s'>hier</a> beenden."
+
+#, python-format
+msgid ""
+"<p>You have successfully logged out of Adhocracy. However you might still be"
+" logged in at the central identity provider. %s</p><p>If you're on a public "
+"computer, please close your browser to complete the logout.</p>"
+msgstr "<p>Sie wurden erfolgreich von Adhocracy abgemeldet. Sie sind jedoch möglicherweise noch beim zentralen Identitätsprovider angemeldet. %s<p>Wenn Sie einen öffentlichen Computer benutzen, schließen Sie bitte Ihren Browser um Ihre Abmeldung zu vervollständigen.</p>"
+
+msgid ""
+"You have successfully logged out of Adhocracy. However you might still be "
+"logged in through your OpenID provider. "
+msgstr "Sie wurden erfolgreich von Adhocracy abgemeldet. Möglicherweise sind Sie jedoch weiterhin bei Ihrem OpenID-Provider angemeldet."
+
+msgid "Successfully logged out"
+msgstr "Erfolgreich abgemeldet."
 
 msgid "Please use a valid email address."
 msgstr "Bitte verwenden Sie eine gültige E-Mail-Adresse."
@@ -623,6 +680,9 @@ msgstr "Es hat sich bereits ein Benutzer mit dieser E-Mail-Adresse registriert."
 
 msgid "That email is already used by another account"
 msgstr "Diese Email wird bereits von einem anderen Nutzer/innen-Zugang verwendet"
+
+msgid "Invalid locale choice"
+msgstr "Ungültige Sprachauswahl"
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Ungültiges Datum, das Format muss TT.MM.JJJJ sein."
@@ -799,6 +859,12 @@ msgstr "Bitte wählen Sie zumindest eine Gruppe"
 msgid "Disallowed instance selected"
 msgstr "Unerlaubte Gruppe ausgewählt"
 
+msgid "Invalid value"
+msgstr "Ungültiger Wert"
+
+msgid "Invalid choice"
+msgstr "Ungültige Auswahl"
+
 #, python-format
 msgid "%d days"
 msgstr "%d Tage"
@@ -890,20 +956,49 @@ msgstr "Sehr geehrter Herr"
 msgid "Dear"
 msgstr "Sehr geehrte(r)"
 
-msgid "activity"
+msgid "Oldest"
+msgstr "Älteste"
+
+msgid "Newest"
+msgstr "Neueste"
+
+msgid "Activity"
 msgstr "Aktivität"
 
-msgid "newest comment"
-msgstr "neuster Kommentar"
+msgid "Alphabetically"
+msgstr "Alphabetisch"
 
-msgid "most support"
-msgstr "meiste Unterstützung"
+msgid "Newest Comment"
+msgstr "Neuester Kommentar"
 
-msgid "mixed"
+msgid "Most Support"
+msgstr "größte Unterstützung"
+
+msgid "Mixed"
 msgstr "gemischt"
 
-msgid "controversy"
+msgid "Controversy"
 msgstr "Kontroversität"
+
+msgid "Sort by proposal creation date"
+msgstr "Sortiere nach Erstellungsdatum des Vorschlags"
+
+msgid "Sort by date of the last comment"
+msgstr "Sortiere nach Zeitpunkt des letzten Kommentars"
+
+msgid "Sort by number of votes for the proposal"
+msgstr "Sortiere nach der Anzahl der Stimmen für diesen Vorschlag"
+
+msgid ""
+"Sort by the difference between number of votes for and against, and prefer "
+"newer proposals"
+msgstr "Sortiere nach der Differenz der Stimmen für und gegen den Vorschlag, und bevorzuge neuere Vorschläge"
+
+msgid "Prefer proposals where the gap between votes for and against is close"
+msgstr "Bevorzuge Vorschläge bei denen der Unterschied zwischen Dafür- und Dagegen-Stimmen knapp ist"
+
+msgid "Sort by the characters of the proposal title"
+msgstr "Sortiere nach den Buchstaben des Vorschlagstitels"
 
 msgid "by date"
 msgstr "Früheste"
@@ -913,6 +1008,9 @@ msgstr "meiste Vorschläge"
 
 msgid "hierarchical"
 msgstr "Hierarchisch"
+
+msgid "activity"
+msgstr "Aktivität"
 
 msgid "Badge"
 msgstr "Badge"
@@ -935,24 +1033,6 @@ msgstr "Tags"
 msgid "Milestones"
 msgstr "Termine"
 
-msgid "Oldest"
-msgstr "Älteste"
-
-msgid "Newest"
-msgstr "Neueste"
-
-msgid "Newest Comment"
-msgstr "Neuester Kommentar"
-
-msgid "Activity"
-msgstr "Aktivität"
-
-msgid "Alphabetically"
-msgstr "Alphabetisch"
-
-msgid "Most Support"
-msgstr "größte Unterstützung"
-
 msgid "Yays - nays"
 msgstr "Jastimmen - Neinstimmen"
 
@@ -968,14 +1048,8 @@ msgstr "meiste Jastimmen"
 msgid "Most Nays"
 msgstr "meiste Neinstimmen"
 
-msgid "Mixed"
-msgstr "gemischt"
-
 msgid "Age and Support"
 msgstr "Alter und Unterstützung"
-
-msgid "Controversy"
-msgstr "Kontroverse"
 
 msgid "Rating"
 msgstr "Bewertung"
@@ -994,6 +1068,15 @@ msgstr "Unterstützung"
 
 msgid "Newest Proposals"
 msgstr "Neueste Vorschläge"
+
+msgid "Support by"
+msgstr "Unterstützung durch"
+
+msgid "The changes were saved."
+msgstr "Die Änderungen wurden gespeichert."
+
+msgid "No update required."
+msgstr "Es wurden keine Änderungen vorgenommen."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sie scheinen nicht die benötigten Rechte zu haben um fortzufahren."
@@ -1373,6 +1456,10 @@ msgstr "(Unbenannt)"
 msgid "Status Quo"
 msgstr "Originalversion"
 
+#, python-format
+msgid "The random username %s has been assigned to you."
+msgstr "Ihnen wurde der zufällige Benutzername %s zugewiesen."
+
 msgid "formatting hints"
 msgstr "Formatierungshilfen"
 
@@ -1415,6 +1502,12 @@ msgstr "Wird gefolgt"
 msgid "Unfollow"
 msgstr "Nicht mehr folgen"
 
+msgid "Disable email notifications."
+msgstr "Keine Email-Benachrichtigungen mehr erhalten."
+
+msgid "Receive email notifications if changes occur."
+msgstr "Bei Änderungen per Email benachrichtigen."
+
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
 
@@ -1435,6 +1528,9 @@ msgstr "Abschicken"
 
 msgid "List existing feedback"
 msgstr "Zeige vorhandenes Feedback an"
+
+msgid "Feedback"
+msgstr "Feedback"
 
 msgid "Proposal Category"
 msgstr "Bereich"
@@ -1487,9 +1583,6 @@ msgstr "Über diese Seite"
 
 msgid "Help"
 msgstr "Hilfe"
-
-msgid "Login"
-msgstr "Anmelden"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1612,6 +1705,12 @@ msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe m
 msgid "Your registered email address is:"
 msgstr "Ihre eingestellte Email-Adresse ist:"
 
+msgid "Provide information"
+msgstr "Informationen angeben"
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
+
 msgid "Next"
 msgstr "Weiter"
 
@@ -1645,9 +1744,6 @@ msgstr "Stimmen nach Benutzergruppe"
 
 msgid "Shortlink"
 msgstr "Kurzlink"
-
-msgid "Edit this page"
-msgstr "Seite bearbeiten"
 
 msgid "Report abuse"
 msgstr "Missbrauch melden"
@@ -1685,17 +1781,32 @@ msgstr "Vorschläge hinzufügen"
 msgid "Include comments"
 msgstr "Kommentar hinzufügen"
 
+msgid "Include ratings"
+msgstr "Bewertungen hinzufügen"
+
+msgid "Export request log"
+msgstr "Requestlog exportieren"
+
+msgid "Export static pages"
+msgstr "Exportiere statische Seiten"
+
 msgid "Export format:"
 msgstr "Export-Format:"
-
-msgid "JSON download"
-msgstr "JSON-Download"
 
 msgid "JSON"
 msgstr "JSON"
 
-msgid "ZIP download"
-msgstr "ZIP-Download"
+msgid "JSON file"
+msgstr "JSON-Datei"
+
+msgid "JSON file, compressed with gzip"
+msgstr "JSON-Datei, mit gzip komprimiert"
+
+msgid "Tar file, compressed with bz2"
+msgstr "Tar-Datei, mit bz2 komprimiert"
+
+msgid "Zip file"
+msgstr "Zip-Datei"
 
 msgid "Export Now"
 msgstr "Jetzt exportieren"
@@ -1714,6 +1825,9 @@ msgstr "Badges importieren"
 
 msgid "Import content (instances)"
 msgstr "Inhalte importieren (Gruppen)"
+
+msgid "Import static pages"
+msgstr "Importiere statische Seiten"
 
 msgid "Replacement strategy"
 msgstr "Ersetzungsstrategie"
@@ -1765,6 +1879,9 @@ msgstr "Benutzer importieren"
 msgid "Update Search Index"
 msgstr "Suchindex aktualisieren"
 
+msgid "Fix autojoin"
+msgstr "Autojoin korrigieren"
+
 msgid "Static Pages"
 msgstr "Seiten"
 
@@ -1772,7 +1889,7 @@ msgid "Send an email to users"
 msgstr "Senden Sie eine E-Mail an Benutzer"
 
 msgid "Assign treatment badges"
-msgstr ""
+msgstr "Treatment-Badges zuweisen"
 
 msgid "Site administration"
 msgstr "Seiteneinstellungen"
@@ -1816,9 +1933,6 @@ msgstr "Die Vorlage für die E-Mail an den Benutzer. Sie müssen folgende Platzh
 
 msgid "Required"
 msgstr "Erforderlich"
-
-msgid "Optional"
-msgstr "Optional"
 
 msgid "Imported Users"
 msgstr "Importierte Benutzer"
@@ -2418,6 +2532,9 @@ msgstr "Mitgliedern erlauben, neue Beschlüsse anzulegen"
 msgid "Require to propose a variant"
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbringen"
 
+msgid "Show norms navigation item"
+msgstr "Zeige \"Norm\"-Reiter"
+
 msgid "Use milestones"
 msgstr "Termine verwenden"
 
@@ -2669,6 +2786,9 @@ msgstr "Datum des Termins"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
+msgid "Upcoming Milestones"
+msgstr "Kommende Termine"
+
 msgid "Create a new milestone."
 msgstr "Einen neuen Termin anlegen."
 
@@ -2740,6 +2860,9 @@ msgid ""
 "Enter the URL of your OpenID to connect the ID to your account. This will "
 "allow you to login using this OpenID in the future."
 msgstr "Geben Sie die Adresse Ihres OpenID-Accounts an. Danach können Sie sich mit der angegebenen OpenID anmelden."
+
+msgid "Sign In"
+msgstr "Anmelden"
 
 msgid "Alternative"
 msgstr "Alternative"
@@ -3365,8 +3488,17 @@ msgstr "Registrierung abschließen"
 msgid "Please complete the Shibboleth based user registration"
 msgstr "Bitte vervollständigen Sie die Shibboleth-basierte Registrierung"
 
-msgid "Email:"
-msgstr "E-Mail:"
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Display name"
+msgstr "Angezeigter Name"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "optional"
+msgstr "optional"
 
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
@@ -3402,6 +3534,9 @@ msgstr "Kennung:"
 msgid "Add static page"
 msgstr "Statische Seite hinzufügen"
 
+msgid "Edit this page"
+msgstr "Seite bearbeiten"
+
 msgid ""
 "Tags are keywords used to find, sort and filter proposals and documents."
 msgstr "Tags sind Stichwörter, die helfen, Vorschläge und Beschlüsse zu finden, zu sortieren und zu filtern."
@@ -3422,8 +3557,8 @@ msgstr "Tags"
 msgid "Not tagged yet"
 msgstr "Es wurden noch keine Tags angegeben"
 
-msgid "add tags..."
-msgstr "Tags hinzufügen..."
+msgid "add tags"
+msgstr "Tags hinzufügen"
 
 msgid "Multiple tags can be separated by commas or spaces."
 msgstr "Mehrere Tags können durch Kommas oder Leerzeichen getrennt werden."
@@ -3437,6 +3572,9 @@ msgstr "Abbrechen"
 #, python-format
 msgid "by %s, "
 msgstr "von %s,"
+
+msgid "delete version"
+msgstr "Lösche Version"
 
 msgid "This revision has no text."
 msgstr "Diese Version hat keinen Text."
@@ -3464,41 +3602,41 @@ msgid "Compare"
 msgstr "Vergleiche"
 
 msgid "Treatments"
-msgstr ""
+msgstr "Treatments"
 
 #, python-format
 msgid "User assignments of %(treatment_key)s"
-msgstr ""
+msgstr "Zuweisungen der %(treatment_key)s"
 
 msgid "back to treatments"
-msgstr ""
+msgstr "zurück zu Treatments"
 
 msgid "Treatment"
-msgstr ""
+msgstr "Treatment"
 
 msgid "Source Badges"
-msgstr ""
+msgstr "Quell-Badges"
 
 msgid "Assign users"
-msgstr ""
+msgstr "Benutzer zuweisen"
 
 msgid "See assigned users"
-msgstr ""
+msgstr "Zugewiesene Benutzer"
 
 msgid "Create a new treatment"
-msgstr ""
+msgstr "Treatment erstellen"
 
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 msgid "Select users to treat by their badges:"
-msgstr ""
+msgstr "Wähle dem Treatment zuzuteilende Benutzer durch ihre Badges:"
 
 msgid "Number of variants:"
-msgstr ""
+msgstr "Anzahl der Varianten:"
 
 msgid "Create treatment"
-msgstr ""
+msgstr "Treatment erstellen"
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle Benutzer auf diesem Adhocracy-Server"
@@ -3646,15 +3784,6 @@ msgstr "Geschlecht"
 msgid "I am..."
 msgstr "Ich bin..."
 
-msgid "Male"
-msgstr "Männlich"
-
-msgid "Female"
-msgstr "Weiblich"
-
-msgid "Notifications"
-msgstr "Benachrichtigungen"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen."
 
@@ -3676,11 +3805,8 @@ msgstr "Nicht bestätigt."
 msgid "Re-send activation link"
 msgstr "Aktivierungslink erneut zusenden"
 
-msgid "Receive occasional news from instance administrators."
-msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen."
-
-msgid "Receive news service"
-msgstr "Neuigkeiten empfangen"
+msgid "Receive occasional news from instance administrators:"
+msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen:"
 
 msgid "OpenID"
 msgstr "OpenID"
@@ -3705,17 +3831,11 @@ msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr üb
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-msgid "The pre-set number of entries in listing pages."
-msgstr "Die voreingestellte Anzahl an Einträgen in Listen."
+msgid "The pre-set number of entries in listing pages:"
+msgstr "Die voreingestellte Anzahl an Einträgen in Listen:"
 
-msgid "List size:"
-msgstr "Listenlänge:"
-
-msgid "Disable help messages and links to the documentation."
-msgstr "Hilfenachrichten und Links zur Dokumentation abstellen."
-
-msgid "Hide help messages:"
-msgstr "Hinweise verbergen:"
+msgid "Disable help messages and links to the documentation:"
+msgstr "Hilfenachrichten und Links zur Dokumentation abstellen:"
 
 msgid "Change default sorting order for proposals:"
 msgstr "Standardsortierung von Vorschlägen ändern:"
@@ -3748,6 +3868,12 @@ msgstr "E-Mail oder Benutzername:"
 
 msgid "Login:"
 msgstr "Benutzername:"
+
+msgid "Email:"
+msgstr "E-Mail:"
+
+msgid "Login via Shibboleth"
+msgstr "Mit Shibboleth einloggen"
 
 msgid "Forgot your password?"
 msgstr "Kennwort vergessen?"
@@ -3789,6 +3915,9 @@ msgstr "Falls Sie Ihr Passwort vergessen haben, <a href='/reset'>klicken Sie hie
 
 msgid "Can only contain letters and numbers."
 msgstr "Darf nur Buchstaben und Zahlen enthalten."
+
+msgid "You can choose which name other users see."
+msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden soll."
 
 msgid "E-mail"
 msgstr "E-Mail"
@@ -3842,6 +3971,59 @@ msgid ""
 "You have recieved an email containing a link. Please open that link in order"
 " to reset you password"
 msgstr "Sie haben eine E-Mail erhalten. Bitte öffnen Sie den darin enthaltenen Link, um Ihr Passwort zurückzusetzen."
+
+msgid "User settings"
+msgstr "Persönliche Einstellungen"
+
+msgid "Advanced settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "Default proposal sorting order"
+msgstr "Standard-Sortierreihenfolge von Vorschläge"
+
+msgid "Pager size"
+msgstr "Listenlänge"
+
+msgid "Default number of entries in listing pages"
+msgstr "Voreingestellte Anzahl an Einträgen in Listen"
+
+msgid "Disable help messages"
+msgstr "Hinweise verbergen"
+
+msgid "Disable help messages and links to the documentation"
+msgstr "Hilfenachrichten und Links zur Dokumentation abstellen"
+
+msgid "Login settings"
+msgstr "Anmelde-Einstellungen"
+
+msgid "Notification settings"
+msgstr "Benachrichtigungseinstellungen"
+
+msgid "News service"
+msgstr "Nachrichtendienst"
+
+msgid "Receive occasional news from instance administrators"
+msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen"
+
+msgid "Optional attributes"
+msgstr "Optionale Attribute"
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr "Die folgenden Attribute werden nur zur statistischen Evaluation verwendet. Ihre Auswahlen sind für andere Benutzer/innen nicht sichtbar."
+
+msgid "Personal settings"
+msgstr "Persönliche Einstellungen"
+
+msgid "Prefered user interface language"
+msgstr "Beverzugte Sprache der Nutzeroberfläche"
+
+msgid "Salutation"
+msgstr "Anrede"
+
+msgid "Select your prefered gender"
+msgstr "Wählen Sie Ihr Geschlecht"
 
 #, python-format
 msgid "Signed up %s"

@@ -39,7 +39,7 @@
     %for message in messages:
     <div class="alert alert-${message.category}">
         <a class="close only-js" data-dismiss="alert" href="#">x</a>
-        ${message}
+        ${message.message|n}
     </div>
     %endfor
 %endif
@@ -51,7 +51,7 @@
     save_text = save_text if save_text is not None else _("Save")
     %>
     <div class="savebox">
-        <button type="submit" class="btn btn-primary" 
+        <button type="submit" class="button" 
                 value="${save_value}">
             ${save_text}
         </button>
@@ -110,13 +110,15 @@
         css_cls = "active"
         text = _('Following')
         hover_text = _('Unfollow')
-        href = h.base_url('/watch/delete?watch=%s&amp;%s' % (watch.id,
-                                                             h.url_token()))
+        tooltip = _('Disable email notifications.')
+        href = h.base_url('/watch/delete?%s' % h.url_token(),
+                          query_params={'watch': str(watch.id)})
     elif not watch and can.watch.create():
         css_cls = ""
         text = hover_text = follow_text
-        href = h.base_url('/watch/create?%s&amp;%s' % (h.make_watch(entity),
-                                                       h.url_token()))
+        tooltip = _('Receive email notifications if changes occur.')
+        href = h.base_url('/watch/create?%s' % h.url_token(),
+                          query_params={'ref': str(h.make_watch(entity))})
     else:
         skip = True
     %>
@@ -130,7 +132,8 @@
     </div>
     %else:
     <a ${id_attr} class="follow_paper ${css_cls}" href="${href}"
-       data-text="${text}" data-hover-text="${hover_text}">${text}</a>
+       data-text="${text}" data-hover-text="${hover_text}"
+       title="${tooltip}">${text}</a>
     %endif
 
     %else:
@@ -167,6 +170,7 @@
 
 
 <%def name="social_share_buttons(entity)">
+%if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()
@@ -179,7 +183,7 @@ $(document).ready(function () {
     '${base_url}', '.${h.site.domain()}');
 });
 </script>
-
+%endif
 </%def>
 
 
@@ -207,7 +211,11 @@ $(document).ready(function () {
     <!-- template -->
 
     <%
-    h.need.stylesheets
+    instance_stylesheets = h.config.get('adhocracy.instance_stylesheets')
+    if instance_stylesheets and c.instance is not None and c.instance.key in instance_stylesheets:
+        h.need.load_dynamic('instance_stylesheet', c.instance.key)
+    else:
+        h.need.stylesheets
     h.need.modernizr
     h.need.jquery
     h.need.jquerytools
@@ -271,7 +279,7 @@ $(document).ready(function () {
 
 <%def name="tutorial()">
 
-%if h.tutorial.show(c.tutorial):
+%if h.tutorial.show(c.tutorial, c.user):
 
 <% h.need.joyride %>
 
@@ -304,12 +312,12 @@ ${caller.body()}
             <input type="text" placeholder="${_(u'One line summary')}" name="label">
             <label>${_(u'Description')}</label>
             <textarea rows="8" name="text"></textarea>
-            <button type="submit" class="btn">${_(u'Submit')}</button>
+            <button type="submit" class="button">${_(u'Submit')}</button>
           </fieldset>
           <a href="${h.feedback.get_proposal_url()}">${_(u'List existing feedback')}</a>
         </form>
       </div>
-      <a href="#" id="feedback_button"></a>
+      <a href="#" id="feedback_button">${_(u'Feedback')}</a>
     </div>
 </%def>
 
@@ -332,20 +340,4 @@ ${caller.body()}
     <script type="text/javascript">
       $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
     </script>
-</%def>
-
-<%def name="proposal_sort_order(name, sorting_orders, include_empty=True, default=None)">
-<select name="${name}">
-    %if include_empty:
-    <option value=""></option>
-    %endif
-    %for group in sorting_orders.groups:
-      <optgroup label="${group}">
-      %for sorting_order in sorting_orders.by_group[group]:
-        <option value="${sorting_order.value}"${' selected="selected"' if default == sorting_order.value else ''}>${sorting_order.label}</option>
-      %endfor
-      </optgroup>
-    %endfor
-</select>
-
 </%def>
