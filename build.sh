@@ -175,7 +175,7 @@ if ! $not_use_sudo_commands; then
     ;;
 
         fedora )
-    $SUDO_CMD yum groupinstall --assumeyes --quiet development-tools
+    $SUDO_CMD yum groupinstall --assumeyes development-tools
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc dev86 unzip git mercurial sqlite sqlite-devel java-1.7.0-openjdk postgresql openssh mutt ruby openssl-devel python-setuptools'
     ;;
     esac
@@ -197,7 +197,7 @@ if ! $not_use_sudo_commands; then
         case $distro in 
             debian )
             SERVICE_CMD='update-rc.d'
-            SERVICE_CMD_PREFIX='defaults'
+            SERVICE_CMD_SUFFIX=' defaults'
             INIT_FILE='/etc/init.d/adhocracy_services'
             ;;
             arch )
@@ -207,7 +207,7 @@ if ! $not_use_sudo_commands; then
             fedora )
             SERVICE_CMD='systemctl enable'
             INIT_FILE='/etc/rc.d/adhocracy_services'
-            SERVICE_CMD_PREFIX='.service'
+            SERVICE_CMD_SUFFIX='.service'
             ;;
         esac
         if [ $distro == "fedora" -o $distro == "arch" ] ; then
@@ -231,11 +231,7 @@ WantedBy=multi-user.target
                 -e "s#\${domains:main}#supervisord#" | \
                 $SUDO_CMD tee "$INIT_FILE" >/dev/null
         $SUDO_CMD chmod a+x "$INIT_FILE"
-        if [ $distro == "fedora" ] ; then
         $SUDO_CMD $SERVICE_CMD adhocracy_services$SERVICE_CMD_PREFIX
-        else
-        $SUDO_CMD $SERVICE_CMD adhocracy_services $SERVICE_CMD_PREFIX
-        fi
     fi
 fi
 
