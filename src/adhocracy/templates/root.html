@@ -36,9 +36,14 @@
     data-stats-pager-clicks="${c.monitor_pager_clicks}"
     %endif
     >
+
     <!--[if lte IE 7]>
-      <a href="http://www.browser-update.org/update.html" class="ie-message">${_('You are using an outdated web browser. Click here to update.')}</a>
+      <strong><a href="http://www.browser-update.org/update.html" class="ie-message">${_('You are using an outdated web browser. Click here to update.')}</a></strong>
     <![endif]-->
+    <noscript>
+      <strong class="ie-message">${_('Adhocracy works best with JavaScript enabled.')}</strong>
+    </noscript>
+
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
       <!-- the external content is loaded inside this tag -->
