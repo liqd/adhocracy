@@ -274,7 +274,7 @@ if [ '!' -e python/buildout.python/src ]; then
 fi
 
 # Install local python if necessary
-if [ '!' -x bin/python ]; then
+if [ '!' -x bin/python ] || [ '!' -e lib ]; then
     if [ '!' -f python/bin/buildout ]; then
         (cd python && python bootstrap.py)
     fi
