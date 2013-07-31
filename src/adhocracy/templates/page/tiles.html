@@ -12,7 +12,7 @@
 <%def name="row(tile, page, level=0)">
     <li class="content_box">
         <div class="level-${str(level)}">
-            %if c.is_hierarchical and level == 0 and len(page.subpages) > 0:
+            %if c.is_hierarchical and level == 0 and len(page.subpages) > 0 and not page.sectionpage:
             <div class="more only-js">
                 <a href="#" class="showhide_button"
                    data-target="#${page.id}-sub"
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        %if c.is_hierarchical and len(page.subpages) > 0:
+        %if c.is_hierarchical and len(page.subpages) > 0 and not page.sectionpage:
         <ul id="${'%s-sub' % page.id if level == 0 else ''}"
             class="content_list ${'only-no-js' if level == 0 else ''}">
             %for page in sorting.delegateable_title(page.subpages):
