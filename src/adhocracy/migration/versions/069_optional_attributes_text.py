@@ -1,4 +1,4 @@
-from sqlalchemy import MetaData, Table, Column
+from sqlalchemy import MetaData, Table
 
 from sqlalchemy.types import TEXT
 
