@@ -38,17 +38,46 @@
     <textarea tabindex="2" rows="${c.text_rows}" 
               cols="${model.Text.LINE_LENGTH}" 
               name="text">${c.text.text if c.text.text is not None else ''}</textarea>
+    %if c.page.formatting:
+    ${components.formatting()}
+    %endif
 
 
     %if can.page.manage(c.page):
     <fieldset>
-      <legend>${_('Formatting')}</legend>
-      <div class="input_wrapper">
-        <label for="formatting">
-          <input name="formatting" type="checkbox" ${'checked="checked"' if c.page.formatting else '' | n} value="1" />
-        ${_("Use markdown formatting.")}</label>
-      </div>
-      ${components.formatting()}
+        <div class="input_wrapper">
+            <label>
+                <input name="sectionpage" type="checkbox" ${'checked="checked"' if c.page.sectionpage else '' | n} value="1" />
+                ${_('Display subnorms as sections')}
+            </label>
+        </div>
+        <div class="input_wrapper">
+            <label>
+                <input name="allow_comment" type="checkbox" ${'checked="checked"' if c.page.allow_comment else '' | n} value="1" />
+                ${_('Allow Comments')}
+            </label>
+        </div>
+        <div class="input_wrapper">
+            <label>
+                <input name="allow_selection" type="checkbox" ${'checked="checked"' if c.page.allow_selection else '' | n} value="1" />
+                ${_('Allow Amendments')}
+            </label>
+        </div>
+        <%doc>
+        # uncomment this when it is actually used
+        <div class="input_wrapper">
+            <label>
+                <input name="always_show_original" type="checkbox" ${'checked="checked"' if c.page.always_show_original else '' | n} value="1" />
+                ${_('Always show original variant')}
+            </label>
+        </div>
+        </%doc>
+        <div class="input_wrapper">
+            <label>
+                <input name="formatting" type="checkbox" ${'checked="checked"' if c.page.formatting else '' | n} value="1" />
+                ${_("Use markdown formatting.")}
+            </label>
+        </div>
     </fieldset>
 
     <fieldset>

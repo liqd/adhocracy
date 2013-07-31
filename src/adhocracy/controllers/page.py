@@ -49,6 +49,14 @@ class PageCreateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    section_page = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    allow_comment = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    allow_selection = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    always_show_original = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -71,6 +79,14 @@ class PageUpdateForm(formencode.Schema):
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    section_page = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    allow_comment = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    allow_selection = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    always_show_original = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
 
 
@@ -168,6 +184,10 @@ class PageController(BaseController):
         page = model.Page.create(c.instance, variant,
                                  _text, c.user,
                                  formatting=self.form_result.get("formatting"),
+                                 sectionpage=self.form_result.get("sectionpage"),
+                                 allow_comment=self.form_result.get("allow_comment"),
+                                 allow_selection=self.form_result.get("allow_selection"),
+                                 always_show_original=self.form_result.get("always_show_original"),
                                  tags=self.form_result.get("tags"))
 
         page.milestone = self.form_result.get('milestone')
@@ -199,6 +219,10 @@ class PageController(BaseController):
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
         c.formatting = request.params.get("formatting", False)
+        c.sectionpage = request.params.get("sectionpage", False)
+        c.allow_comment = request.params.get("allow_comment", False)
+        c.allow_selection = request.params.get("allow_selection", False)
+        c.always_show_original = request.params.get("always_show_original", False)
         c.branch = branch
 
         if branch or c.variant is None:
@@ -274,6 +298,10 @@ class PageController(BaseController):
             c.page.set_category(category, c.user)
 
             c.page.formatting = self.form_result.get('formatting')
+            c.page.sectionpage = self.form_result.get('sectionpage')
+            c.page.allow_comment = self.form_result.get('allow_comment')
+            c.page.allow_selection = self.form_result.get('allow_selection')
+            c.page.always_show_original = self.form_result.get('always_show_original')
 
         if not branch and c.variant != parent_text.variant \
                 and parent_text.variant != model.Text.HEAD:

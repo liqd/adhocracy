@@ -17,6 +17,10 @@ page_table = Table(
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('function', Unicode(20)),
     Column('formatting', Boolean, default=False),
+    Column('sectionpage', Boolean, default=False),
+    Column('allow_comment', Boolean, default=True),
+    Column('allow_selection', Boolean, default=True),
+    Column('always_show_original', Boolean, default=True),
 )
 
 
@@ -30,10 +34,16 @@ class Page(Delegateable):
     WITH_VARIANTS = [NORM]  # [DESCRIPTION, NORM]
     LISTED = [NORM]
 
-    def __init__(self, instance, alias, creator, function, formatting=False):
+    def __init__(self, instance, alias, creator, function, formatting=False,
+                 sectionpage=False, allow_comment=True, allow_selection=True,
+                 always_show_original=True):
         self.init_child(instance, alias, creator)
         self.function = function
         self.formatting = formatting
+        self.sectionpage = sectionpage
+        self.allow_comment = allow_comment
+        self.allow_selection = allow_selection
+        self.always_show_original = always_show_original
 
     @property
     def selections(self):
@@ -106,14 +116,16 @@ class Page(Delegateable):
 
     @classmethod
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
-               wiki=False, formatting=False):
+               wiki=False, formatting=False, sectionpage=False, allow_comment=True,
+               allow_selection=True, always_show_original=True):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
         if function not in Page.FUNCTIONS:
             raise AttributeError("Invalid page function type")
         label = title2alias(title)
-        page = Page(instance, label, creator, function, formatting)
+        page = Page(instance, label, creator, function, formatting, sectionpage,
+                    allow_comment, allow_selection, always_show_original)
         meta.Session.add(page)
         meta.Session.flush()
         Text(page, Text.HEAD, creator, title, text, wiki)
