@@ -1,13 +1,13 @@
 import json
 
 from sqlalchemy.ext.mutable import Mutable
-from sqlalchemy.types import TypeDecorator, VARCHAR
+from sqlalchemy.types import TypeDecorator, TEXT
 
 
 class JSONEncodedDict(TypeDecorator):
     "Represents an immutable structure as a json-encoded string."
 
-    impl = VARCHAR
+    impl = TEXT
 
     def process_bind_param(self, value, dialect):
         if value is not None:
