@@ -1,10 +1,10 @@
 <%namespace name="components" file="/components.html"/>
 
-<%def name="show_single_proposal_map(proposal_id)">
+<%def name="show_single_proposal_map(proposal_id, map_class='small_boxed_map')">
 <% h.need.openlayers %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="small_map"></div>
+<div id="map" class="${map_class}"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
   adhocracy.geo.loadSingleProposalMap('${c.instance.key}', ${proposal_id}, false, null);
