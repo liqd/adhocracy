@@ -51,7 +51,7 @@ Install required system packages (Debian Squeeze example):
 
 ::
 
-    $ sudo apt-get install gcc make build-essential bin86 unzip libpcre3-dev mercurial git libssl-dev libbz2-dev pkg-config
+    $ sudo apt-get install gcc make build-essential bin86 unzip libpcre3-dev mercurial git libssl-dev libbz2-dev pkg-config libxml2-dev
     $ sudo apt-get install python python-setuptools
     $ sudo apt-get install libsqlite3-dev postgresql-server-dev-8.4
     $ sudo apt-get install openjdk-6-jre
