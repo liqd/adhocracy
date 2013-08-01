@@ -326,6 +326,8 @@ if wiki is None:
         </div>
         <div class="c40r">
           <div class="subcr comment_settings">
+            <% from adhocracy.model.page import Page %>
+            %if topic.function == Page.DESCRIPTION:
             <div class="input_wrapper comment_status only-js">
               ${_(u'Comment is...') if h.comment.wording() else _(u'Argument is...')}<br />
               <a class="button_small" data-status="1" href="#">${_('Pro')}</a>
@@ -334,6 +336,7 @@ if wiki is None:
               <input type="hidden" name="sentiment" value="0" />
             </div>
             <hr />
+            %endif
             <div class="input_wrapper">
               <label>
                   <input id="editable" name="wiki" type="checkbox" 
