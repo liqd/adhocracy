@@ -34,7 +34,7 @@
         padding: 1em 0;
         @include clearfix();
     }
-    #col1 & > li {
+    #col1 & > li, #left_block & > li {
         @include background-image(linear-gradient(170deg, #fff 40%, $bg1 90%));
 
         border-bottom: 1px dotted $border;
