@@ -210,7 +210,7 @@ class ImportExportTest(TestController):
         e = importexport.export_data({
             "include_instance": True,
             "include_instance_proposal": True,
-            "include_instance_proposal_comments": True,
+            "include_instance_proposal_comment": True,
             "include_users": True,
         })
         idata = e[u'instance'][p.instance.key]

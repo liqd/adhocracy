@@ -87,7 +87,7 @@ openid = {
         $res.attr({
             title: this.image_title.replace('{provider}', provider["name"]),
             "data-openid-box-id": box_id,
-            class: 'openid_' + box_size + '_btn'
+            "class": 'openid_' + box_size + '_btn'
         });
         if (this.no_sprite) {
             var image_ext = box_size == 'small' ? '.ico.gif' : '.gif';

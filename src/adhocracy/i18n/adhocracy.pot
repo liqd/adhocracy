@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 081ac8d\n"
+"Project-Id-Version: adhocracy 28d53b4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,6 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr ""
@@ -106,24 +109,6 @@ msgstr ""
 msgid "News from %s"
 msgstr ""
 
-msgid "The changes were saved."
-msgstr ""
-
-msgid "No update required."
-msgstr ""
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr ""
-
-msgid "Delegations are enabled."
-msgstr ""
-
-msgid "Delegations are disabled."
-msgstr ""
-
-msgid "tutorial_instance_show_intro"
-msgstr ""
-
 msgid "General"
 msgstr ""
 
@@ -143,6 +128,18 @@ msgid "Mass message service"
 msgstr ""
 
 msgid "Members import"
+msgstr ""
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
+
+msgid "Delegations are enabled."
+msgstr ""
+
+msgid "Delegations are disabled."
+msgstr ""
+
+msgid "tutorial_instance_show_intro"
 msgstr ""
 
 msgid "The logo has been deleted."
@@ -457,6 +454,21 @@ msgstr ""
 msgid "You have no twitter association."
 msgstr ""
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr ""
+
 msgid "tutorial_user_index_intro"
 msgstr ""
 
@@ -464,6 +476,18 @@ msgid "Sorry, registration has been disabled by administrator."
 msgstr ""
 
 msgid "Sorry, but we don't accept registrations with this email address."
+msgstr ""
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "No optional atributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
@@ -615,6 +639,9 @@ msgid "That email is already registered"
 msgstr ""
 
 msgid "That email is already used by another account"
+msgstr ""
+
+msgid "Invalid locale choice"
 msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
@@ -786,6 +813,12 @@ msgid "Please select at least one instance"
 msgstr ""
 
 msgid "Disallowed instance selected"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
 msgstr ""
 
 #, python-format
@@ -987,6 +1020,15 @@ msgid "Support"
 msgstr ""
 
 msgid "Newest Proposals"
+msgstr ""
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
 msgstr ""
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
@@ -1439,6 +1481,9 @@ msgstr ""
 msgid "List existing feedback"
 msgstr ""
 
+msgid "Feedback"
+msgstr ""
+
 msgid "Proposal Category"
 msgstr ""
 
@@ -1540,9 +1585,6 @@ msgid "About"
 msgstr ""
 
 msgid "Help"
-msgstr ""
-
-msgid "Login"
 msgstr ""
 
 msgid "Dashboard"
@@ -1663,6 +1705,12 @@ msgstr ""
 msgid "Your registered email address is:"
 msgstr ""
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr ""
 
@@ -1729,6 +1777,9 @@ msgid "Include proposals"
 msgstr ""
 
 msgid "Include comments"
+msgstr ""
+
+msgid "Include ratings"
 msgstr ""
 
 msgid "Export request log"
@@ -1873,9 +1924,6 @@ msgid "The template for the mail to the users. You need to insert some placehold
 msgstr ""
 
 msgid "Required"
-msgstr ""
-
-msgid "Optional"
 msgstr ""
 
 msgid "Imported Users"
@@ -2701,6 +2749,9 @@ msgstr ""
 msgid "Please use the DD.MM.YYYY format."
 msgstr ""
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr ""
 
@@ -3492,6 +3543,9 @@ msgstr ""
 msgid "by %s, "
 msgstr ""
 
+msgid "delete version"
+msgstr ""
+
 msgid "This revision has no text."
 msgstr ""
 
@@ -3685,15 +3739,6 @@ msgstr ""
 msgid "I am..."
 msgstr ""
 
-msgid "Male"
-msgstr ""
-
-msgid "Female"
-msgstr ""
-
-msgid "Notifications"
-msgstr ""
-
 msgid "Select how you would like to be notified of events."
 msgstr ""
 
@@ -3870,7 +3915,52 @@ msgstr ""
 msgid "User settings"
 msgstr ""
 
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid "The following attributes are only used for statistical evaluation. Your choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
 msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
 msgstr ""
 
 #, python-format

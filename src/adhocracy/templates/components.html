@@ -51,7 +51,7 @@
     save_text = save_text if save_text is not None else _("Save")
     %>
     <div class="savebox">
-        <button type="submit" class="btn btn-primary" 
+        <button type="submit" class="button" 
                 value="${save_value}">
             ${save_text}
         </button>
@@ -211,7 +211,11 @@ $(document).ready(function () {
     <!-- template -->
 
     <%
-    h.need.stylesheets
+    instance_stylesheets = h.config.get('adhocracy.instance_stylesheets')
+    if instance_stylesheets and c.instance is not None and c.instance.key in instance_stylesheets:
+        h.need.load_dynamic('instance_stylesheet', c.instance.key)
+    else:
+        h.need.stylesheets
     h.need.modernizr
     h.need.jquery
     h.need.jquerytools
@@ -275,7 +279,7 @@ $(document).ready(function () {
 
 <%def name="tutorial()">
 
-%if h.tutorial.show(c.tutorial):
+%if h.tutorial.show(c.tutorial, c.user):
 
 <% h.need.joyride %>
 
@@ -308,12 +312,12 @@ ${caller.body()}
             <input type="text" placeholder="${_(u'One line summary')}" name="label">
             <label>${_(u'Description')}</label>
             <textarea rows="8" name="text"></textarea>
-            <button type="submit" class="btn">${_(u'Submit')}</button>
+            <button type="submit" class="button">${_(u'Submit')}</button>
           </fieldset>
           <a href="${h.feedback.get_proposal_url()}">${_(u'List existing feedback')}</a>
         </form>
       </div>
-      <a href="#" id="feedback_button"></a>
+      <a href="#" id="feedback_button">${_(u'Feedback')}</a>
     </div>
 </%def>
 
@@ -336,20 +340,4 @@ ${caller.body()}
     <script type="text/javascript">
       $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
     </script>
-</%def>
-
-<%def name="proposal_sort_order(name, sorting_orders, include_empty=True, default=None)">
-<select name="${name}">
-    %if include_empty:
-    <option value=""></option>
-    %endif
-    %for group in sorting_orders.groups:
-      <optgroup label="${group}">
-      %for sorting_order in sorting_orders.by_group[group]:
-        <option value="${sorting_order.value}"${' selected="selected"' if default == sorting_order.value else ''}>${sorting_order.label}</option>
-      %endfor
-      </optgroup>
-    %endfor
-</select>
-
 </%def>

@@ -16,6 +16,7 @@ from webob.multidict import MultiDict
 
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
+from adhocracy.lib import votedetail
 from adhocracy.lib.behavior import get_behavior
 from adhocracy.lib.helpers import base_url
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
@@ -297,8 +298,10 @@ def help_strings():
         _("Newest"): _('Sort by proposal creation date'),
         _("Newest Comment"): _('Sort by date of the last comment'),
         _("Most Support"): _('Sort by number of votes for the proposal'),
-        _("Mixed"): _('Sort by the difference between number of votes for and against, and prefer newer proposals'),
-        _("Controversy"): _('Prefer proposals where the gap between votes for and against is close'),
+        _("Mixed"): _('Sort by the difference between number of votes for and '
+                      'against, and prefer newer proposals'),
+        _("Controversy"): _('Prefer proposals where the gap between votes for '
+                            'and against is close'),
         _("Alphabetically"): _('Sort by the characters of the proposal title'),
     }
 
@@ -315,10 +318,13 @@ def milestones(milestones, default_sort=None, **kwargs):
 def pages(pages, detail=True, default_sort=None, **kwargs):
     if default_sort is None:
         default_sort = sorting.hierarchical_title
-    sorts = {_("newest"): sorting.entity_newest,
-             _("most proposals"): sorting.norm_selections,
-             _("alphabetically"): sorting.delegateable_title,
-             _("hierarchical"): sorting.hierarchical_title}
+    # Note: sorts order matters, see comment in PageController.index
+    sorts = OrderedDict([
+        (_("newest"), sorting.entity_newest),
+        (_("most proposals"), sorting.norm_selections),
+        (_("alphabetically"), sorting.delegateable_title),
+        (_("hierarchical"), sorting.hierarchical_title)
+    ])
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
@@ -437,20 +443,19 @@ class SolrFacet(SolrIndexer):
     globally:
     >>> class SomeFacet(SolrFacet):
     ...     name = 'badge'
-    ...     entity_type = Badge
+    ...     entity_type = Badge  # noqa
     ...     title = u'Badge'
 
     Only in a thread:
     >>> some_facet = SomeFacet('mypager_prefix', request)
-    >>> q = solr_query()
+    >>> q = solr_query()  # noqa
     >>> counts_query = q
     >>> exclusive_qs = []
     >>> # configure the queries further
     >>> q, counts_query, exclusive_qs = some_facet.add_to_queries(
     ...     q, counts_query, exclusive_qs)
     >>> response = q.execute()
-    >>> counts_response = counts_response.execute()
-    >>> exclusive_responses = dict([counts_response = counts_response.execute()
+    >>> counts_response = counts_query.execute()
     >>> exclusive_responses = dict(map(lambda ((k, q)): (k, q.execute()),
     ...                                exclusive_qs.iteritems()))
     >>> some_facet.update(response, counts_response, exclusive_responses)
@@ -1062,6 +1067,27 @@ class ProposalControversyIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_controversy_key(entity)
 
 
+class ProposalVotedetailScoreIndexer(SolrIndexer):
+
+    @classmethod
+    def solr_field(cls, userbadge):
+        field = 'order.user.votedetail.score'
+        if userbadge is not None:
+            field = field + '.%s' % userbadge.title
+        else:
+            assert False
+        return field
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if votedetail.is_enabled()\
+           and isinstance(entity, model.Proposal):
+
+            for b, t in votedetail.calc_votedetail(entity.instance,
+                                                   entity.rate_poll):
+                data[cls.solr_field(b)] = t.num_for - t.num_against
+
+
 class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
@@ -1446,12 +1472,19 @@ def solr_instance_pager():
 
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
     extra_filter = {'instance': instance.key}
-    sorts = PROPOSAL_SORTS
+    sorts = copy.deepcopy(PROPOSAL_SORTS)
     if default_sorting is None:
         default_sorting = get_def_proposal_sort_order()
     if default_sorting is not None:
-        sorts = copy.copy(sorts)
         sorts.default = default_sorting
+    if votedetail.is_enabled():
+        badges = instance.votedetail_userbadges
+        if badges:
+            sorts.add_group(L_('Support by'), tuple([
+                SortOption(
+                    '-%s' % ProposalVotedetailScoreIndexer.solr_field(
+                        badge), badge.title)()
+                for badge in instance.votedetail_userbadges]))
 
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
@@ -1478,6 +1511,6 @@ def get_def_proposal_sort_order():
     return default_sorting
 
 
-INDEX_DATA_FINDERS = [v for v in globals().values() if
-                      (isclass(v) and issubclass(v, SolrIndexer) and
-                      ((v is not SolrFacet) and (v is not SolrIndexer)))]
+INDEX_DATA_FINDERS = [v for v in globals().values()
+                      if (isclass(v) and issubclass(v, SolrIndexer) and
+                          ((v is not SolrFacet) and (v is not SolrIndexer)))]

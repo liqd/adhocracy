@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
-"PO-Revision-Date: 2013-06-30 23:54+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:44+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Bedankt voor uw hulp."
@@ -117,24 +120,6 @@ msgstr "%s Nieuws"
 msgid "News from %s"
 msgstr "Nieuws van %s"
 
-msgid "The changes were saved."
-msgstr ""
-
-msgid "No update required."
-msgstr "Geen update nodig."
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Het aanmaken van de groep is gelukt. U kunt de configuratie nu naar wens aanpassen."
-
-msgid "Delegations are enabled."
-msgstr "Het geven van volmachten is ingeschakeld."
-
-msgid "Delegations are disabled."
-msgstr "Het geven van volmachten is uitgeschakeld."
-
-msgid "tutorial_instance_show_intro"
-msgstr "Welkom op de hoofdpagina van deze groep."
-
 msgid "General"
 msgstr "Algemeen"
 
@@ -155,6 +140,18 @@ msgstr "Massa bericht dienst"
 
 msgid "Members import"
 msgstr "Gebruikers importeren"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr "Het aanmaken van de groep is gelukt. U kunt de configuratie nu naar wens aanpassen."
+
+msgid "Delegations are enabled."
+msgstr "Het geven van volmachten is ingeschakeld."
+
+msgid "Delegations are disabled."
+msgstr "Het geven van volmachten is uitgeschakeld."
+
+msgid "tutorial_instance_show_intro"
+msgstr "Welkom op de hoofdpagina van deze groep."
 
 msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
@@ -478,6 +475,21 @@ msgstr "U volgt %s nu op Twitter dus we kunnen u berichten sturen door middel va
 msgid "You have no twitter association."
 msgstr "U heeft geen Twitter account."
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr "Log in"
+
+msgid "Notifications"
+msgstr "Meldingen"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr "Optioneel"
+
 msgid "tutorial_user_index_intro"
 msgstr "Deelnemerslijst van de groep."
 
@@ -486,6 +498,18 @@ msgstr "Sorry, registratie is uitgeschakeld door de beheerder."
 
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Het spijt ons, registratie met dit e-mail adres is niet toegestaan."
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr "Vrouw"
+
+msgid "Male"
+msgstr "Man"
+
+msgid "No optional atributes defined."
+msgstr ""
 
 msgid "Password has been set. Have fun!"
 msgstr "Het wachtwoord is ingesteld. Veel plezier!"
@@ -647,6 +671,9 @@ msgstr "Dat e-mailadres is al geregistreerd"
 
 msgid "That email is already used by another account"
 msgstr "Het e-mailadres wordt al gebruikt door een ander account"
+
+msgid "Invalid locale choice"
+msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
 msgstr "Ongeldige datum, gebruik DD.MM.JJJJ"
@@ -822,6 +849,12 @@ msgstr "Selecteer ten minste één groep"
 
 msgid "Disallowed instance selected"
 msgstr "Geselecteerde groep niet toegestaan"
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
+msgstr ""
 
 #, python-format
 msgid "%d days"
@@ -1026,6 +1059,15 @@ msgstr "Steun"
 
 msgid "Newest Proposals"
 msgstr "Nieuwste Voorstellen"
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
+msgstr "Geen update nodig."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sorry, maar het lijkt erop dat u niet de rechten heeft om verder te gaan."
@@ -1478,6 +1520,9 @@ msgstr "Verzend"
 msgid "List existing feedback"
 msgstr "Toon bestaande feedback"
 
+msgid "Feedback"
+msgstr ""
+
 msgid "Proposal Category"
 msgstr "Voorstel Categorie"
 
@@ -1529,9 +1574,6 @@ msgstr "Over"
 
 msgid "Help"
 msgstr "Hulp"
-
-msgid "Login"
-msgstr "Log in"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1654,6 +1696,12 @@ msgstr "Bevestig uw e-mailadres om deel te kunnen nemen aan deze groep."
 msgid "Your registered email address is:"
 msgstr "Uw geregistreerde e-mailadres is:"
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr "Volgende"
 
@@ -1723,6 +1771,9 @@ msgstr "Inclusief voorstellen"
 
 msgid "Include comments"
 msgstr "Inclusief reacties"
+
+msgid "Include ratings"
+msgstr ""
 
 msgid "Export request log"
 msgstr "Exporteer aanvraag-logbestand"
@@ -1873,9 +1924,6 @@ msgstr "Het sjabloon voor e-mail naar de deelnemers. U moet enkele plaatshouders
 
 msgid "Required"
 msgstr "Vereist"
-
-msgid "Optional"
-msgstr "Optioneel"
 
 msgid "Imported Users"
 msgstr "Geïmporteerde Gebruikers"
@@ -2729,6 +2777,9 @@ msgstr "Datum van de mijlpaal"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Gebruik alstublieft het DD.MM.JJJJ formaat."
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr "Maak een nieuwe mijlpaal."
 
@@ -3513,6 +3564,9 @@ msgstr "Annuleer"
 msgid "by %s, "
 msgstr "door %s,"
 
+msgid "delete version"
+msgstr ""
+
 msgid "This revision has no text."
 msgstr "De revisie heeft geen tekst"
 
@@ -3721,15 +3775,6 @@ msgstr "Geslacht"
 msgid "I am..."
 msgstr "Ik ben..."
 
-msgid "Male"
-msgstr "Man"
-
-msgid "Female"
-msgstr "Vrouw"
-
-msgid "Notifications"
-msgstr "Meldingen"
-
 msgid "Select how you would like to be notified of events."
 msgstr "Kies via welk e-mail adres en hoe vaak u op de hoogte wilt worden gehouden."
 
@@ -3921,7 +3966,54 @@ msgstr "U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoor
 msgid "User settings"
 msgstr ""
 
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
 msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
 msgstr ""
 
 #, python-format

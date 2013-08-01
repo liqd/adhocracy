@@ -1,5 +1,5 @@
 from paste.deploy.converters import asbool
-from pylons import config
+from pylons import config, tmpl_context as c
 import user
 
 
@@ -34,8 +34,9 @@ def delete(check, p):
 def vote(check, p):
     check.valid_email()
     check.other('poll_has_ended', p.has_ended())
+    check.other('instance_frozen', c.instance.frozen)
 
     check.other('select_poll_not_mutable',
                 (p.action == p.SELECT and p.selection and
-                not p.selection.proposal.is_mutable()))
+                 not p.selection.proposal.is_mutable()))
     user.vote(check)

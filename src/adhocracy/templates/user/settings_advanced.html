@@ -1,0 +1,30 @@
+<%inherit file="/user/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
+</%def>
+
+<%block name="settings_content">
+${tiles.user.header(c.page_user, c.tile)}
+<form class="well" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="_method" value="PUT" />
+
+    ${h.field_token()|n}
+
+    ${components.flashmessages()}
+
+    <h2>${_(u'Advanced settings')}</h2>
+
+    ${forms.sorting_order(_("Default proposal sorting order"), 'proposal_sort_order', c.sorting_orders, include_empty=False)}
+
+    ${forms.select(_("Pager size"), 'page_size', c.pager_sizes, help=_("Default number of entries in listing pages"))}
+
+    ${forms.checkbox(_("Disable help messages"), 'no_help', help=_(u"Disable help messages and links to the documentation"))}
+
+    ${components.savebox(cancel_url=None)}
+
+</form>
+</%block>

@@ -24,7 +24,7 @@ ${c.tile.description|n}
     ${c.all_proposals_pager.here()}
     %endif
 
-    <div id="proposal-actions">
+    <div id="proposal-actions" class="list_button">
         <% auth = check.proposal.create() %>
         %if auth:
         <a class="button add ttip" 
@@ -67,18 +67,22 @@ ${c.next_milestones_pager.here()}
 </%block>
 
 <%block name="sidebar">
-<div class="sidebar_box">
 %if c.events_pager is not None:
-<h3>${_('Newest Events')}</h3>
-${c.events_pager.here()}
+<div class="sidebar_box">
+    <h3>${_('Newest Events')}</h3>
+    ${c.events_pager.here()}
+</div>
 %endif
 
 %if h.geo.use_proposal_geotags():
+<div class="sidebar_box">
 <h3 class="map_h3">${_('Newest geotagged proposals')}</h3>
 <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
 ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
+</div>
 %endif
 
+<div class="sidebar_box">
 <h3 id="information">${_('Informations')}</h3>
 <summary>
     %if h.asbool(config.get('adhocracy.show_instance_creators')):

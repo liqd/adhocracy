@@ -45,9 +45,8 @@ class SearchController(BaseController):
 
     def _query_pager(self):
         instance = c.instance if c.instance else None
-        c.entities = libsearch.query.run(c.query, instance=instance)
-        entity_filter = lambda e: not isinstance(e, Comment)
-        c.entities = filter(entity_filter, c.entities)
+        c.entities = libsearch.query.run(c.query, instance=instance,
+                                         excluded_entity_types=set([Comment]))
         c.entities_pager = NamedPager(
             'serp', c.entities, tiles.dispatch_row,
             sorts={_("oldest"): sorting.entity_oldest,

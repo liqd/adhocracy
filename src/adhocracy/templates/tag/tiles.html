@@ -1,6 +1,6 @@
 
 <%def name="row(tile, tag)">
-    <div class="tile">
+    <li class="tile">
         <div class="base" style="background-image: url(/img/icons/tag_24.png);">
             <h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
             <div class="meta noclear">
@@ -10,7 +10,7 @@
                 %endif
             </div>
         </div>
-    </div>
+    </li>
 </%def>
 
 

@@ -2,7 +2,7 @@
 
 
 <%def name="row(tile, comment)">
-    <div class="tile">
+    <li class="tile">
         <div>
             <h3><a href="${h.entity_url(comment)}">${_("Comment") if h.comment.wording() else _("Argument")}</a> 
                 ${_("on %s") % h.delegateable.link(comment.topic)|n}</h3>
@@ -15,7 +15,7 @@
                 %endif      
             </div>
         </div>
-    </div>
+    </li>
 </%def>
 
 
@@ -66,7 +66,7 @@
              id="${target}"
              data-cancel=".cancel">
             <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
+                ${create_form(None, topic, variant=variant, ret_url=ret_url, show_cancel=(len(comments) != 0))}
             </div>
         </div>
         %if hide_form:
@@ -236,7 +236,6 @@ klass_pro = klass(1)
 klass_neutral = klass(0)
 klass_con = klass(-1)
 %>
-  <div class="comment_form">
     <form name="new_comment" class="comment_form"
           method="POST" action="${h.entity_url(comment, comment_page=True)}">
         ${h.field_token()|n}
@@ -274,12 +273,11 @@ klass_con = klass(-1)
         </div>
       </div>
     </form>
-  </div>
 
 </%def>
 
 
-<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None)">
+<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None, show_cancel=True)">
 
 <%
 if format is None:
@@ -291,7 +289,6 @@ if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
   <h4>${_(u'Enter comment text:') if h.comment.wording() else _(u'Enter argument text:')}</h4>
-  <div class="comment_form">
     <form name="new_comment" class="comment_form"
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
       ${h.field_token()|n}
@@ -330,14 +327,15 @@ if wiki is None:
             <hr />
             <div class="input_wrapper submit">
               <input type="submit" value="${_('Save')}" />&nbsp;
+              %if show_cancel:
               <a class="cancel" 
                  href="${'/d/%s' % parent.topic.id if parent else request.params.get('topic')}">${_("cancel")}</a>
+              %endif
             </div>
           </div>
         </div>
       </div>
     </form>
-  </div>
 
 </%def>
 

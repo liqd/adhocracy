@@ -15,7 +15,7 @@
 </%def>
 
 <%def name="row(tile, delegation)">
-    <div class="tile">
+    <li class="tile">
         <div class="logo">
             <img src="/img/icons/delegate_32.png" />
         </div>
@@ -29,12 +29,12 @@
                 %endif
             </div>
         </div>
-    </div>
+    </li>
 </%def>
 
 <%def name="sidebar(tile, delegateable)">
     %if can.delegation.create():
-    <div class="not_a_tile">
+    <div class="not_a_tile sidebar_box">
         <h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
         
             %if not tile.has_delegated:

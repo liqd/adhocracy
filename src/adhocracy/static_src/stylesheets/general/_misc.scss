@@ -43,10 +43,6 @@ a.icon_link {
     text-align: left;
 }
 
-.top_actions {
-    padding-bottom: 1em;
-}
-
 .register {
     line-height: 27px;
     font-size:13px;
@@ -54,14 +50,6 @@ a.icon_link {
     a.link_more_info,
     a.link_more_info:hover {
         color: $primary-color;
-    }
-    a.link_register_now,
-    a.link_about_info {
-        background-position: 10px -600px;
-
-        &:hover {
-            background-position: 10px -650px;
-        }
     }
 }
 
@@ -77,7 +65,6 @@ a.icon_link {
 .meta, .utility {
     color: $fg1;
     font-size: 11px;
-    margin-bottom: 10px;
 }
 .utility h2, .utility h3, .utility h4 {
     display: inline-block;
@@ -131,11 +118,6 @@ Added during template integration
 
 #add_tags {
     padding-bottom: 10px;
-}
-
-.content_box .more {
-    float: right;
-    padding-top: 1em;
 }
 
 /* Fixes for js.socialshareprivace */

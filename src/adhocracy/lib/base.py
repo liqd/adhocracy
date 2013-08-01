@@ -44,7 +44,7 @@ class BaseController(WSGIController):
         i18n.handle_request()
 
         monitor_page_time_interval = asint(
-                config.get('adhocracy.monitor_page_time_interval', -1))
+            config.get('adhocracy.monitor_page_time_interval', -1))
         c.page_stats_url = h.base_url('/stats/on_page')
         if monitor_page_time_interval > 0:
             c.monitor_page_time_interval = monitor_page_time_interval

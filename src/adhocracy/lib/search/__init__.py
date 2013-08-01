@@ -122,7 +122,9 @@ def drop(entity_type, instance):
         drop_all()
         return
     connection = index.get_sunburnt_connection()
-    q = query.sunburnt_query(entity_type, instance, connection=connection)
+    q = query.sunburnt_query(entity_type=entity_type,
+                             instance=instance,
+                             connection=connection)
     connection.delete(queries=q)
     connection.commit()
 

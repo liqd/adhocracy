@@ -7,9 +7,11 @@ from pylons import config
 # Valid cookie values, see http://tools.ietf.org/html/rfc6265#section-4.1.1
 _COOKIE_VALUE_RE = re.compile(u'^[!#$%&\'()*+./0-9:<=>?@A-Z[\\]^_`a-z{|}~-]*$')
 
+
 def get_cookies(values, max_age=None, secure=False, config=config):
     return [get_cookie(k, v, max_age=max_age, secure=secure, config=config)
-            for k,v in values.items()]
+            for k, v in values.items()]
+
 
 def get_cookie(name, value, max_age=None, secure=False, config=config):
     assert _COOKIE_VALUE_RE.match(value)

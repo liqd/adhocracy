@@ -18,8 +18,9 @@ class EventController(BaseController):
     @guard.perm('event.index_all')
     def all(self, format='html'):
         query = model.meta.Session.query(model.Event)\
-            .join(model.Instance).filter(model.Instance.hidden == False)\
-            .order_by(model.Event.time.desc())\
+            .join(model.Instance)\
+            .filter(model.Instance.hidden == False)  # noqa
+        query = query.order_by(model.Event.time.desc())\
             .limit(50)
 
         if format == 'rss':

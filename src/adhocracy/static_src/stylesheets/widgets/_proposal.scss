@@ -1,23 +1,8 @@
-#proposal_list_header {
-    float: left;
-}
-.create_proposal_link {
-    @include morelink();
-    text-transform: uppercase;
-    font-size: 0.8em;
-    float: right;
-    position: relative;
-    top: 25px;
-}
-
 /* papers */
 ul.papers_list {
     margin: 0;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
     list-style: none;
-}
-ul.papers_list li {
-    cursor: pointer;
 }
 .paper_head h4 { float: left; }
 .paper_head a { float: right; }

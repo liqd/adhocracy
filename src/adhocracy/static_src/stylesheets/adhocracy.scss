@@ -1,6 +1,7 @@
 // mixins
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
+@import "general/mixins";
 
 // reset
 @import "general/normalize";
@@ -21,7 +22,6 @@
 @import "components/type";
 @import "components/morelink";
 @import "components/showmore";
-@import "components/bootstrap_button";
 @import "components/bootstrap_nav";
 @import "components/tooltip";
 @import "components/badge";

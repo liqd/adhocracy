@@ -1,0 +1,9 @@
+# To change this config file please edit *.in and rerun buildout.
+
+http_path = "/"
+css_dir = "src/adhocracy/static/stylesheets"
+sass_dir = "${adhocracy_code:relative_theme_dir}/static_src/stylesheets"
+images_dir = "${adhocracy_code:relative_theme_dir}/static/images"
+javascripts_dir = "${adhocracy_code:relative_theme_dir}/static/javascripts"
+
+add_import_path "src/adhocracy/static_src/stylesheets"

@@ -7,28 +7,39 @@
 </%def>
 
 <%block name="headline">
-<div class="top_actions title">
-    %if can.norm.create():
-        <a class="button title admin ttip" title="${_('Create a new norm.')}" 
-            href=${h.base_url('/page/new')}>${_("new norm")}</a>
-    %endif
-</div>
-<h1 class="page_title"> ${_("Norms")}</h1>
-
 </%block>
-    
 
 <%block name="sidebar">
     %if len(c.cloud_tags):
-        <h3 class="section"
-            id="tag-cloud">${_("Popular tags")}</h3>
-        ${tiles.tag.cloud(c.cloud_tags)}
+        <div class="sidebar_box">
+            <h3 class="section"
+                id="tag-cloud">${_("Popular tags")}</h3>
+            ${tiles.tag.cloud(c.cloud_tags)}
+        </div>
     %endif
 </%block>
 
 <%block name="main_content">
+    <div class="morelink_header">
+        <h2 class="page_title">${_("Norms")}</h2>
+
+        %if can.norm.create():
+            <a class="more_link"
+               href="${h.base_url('/page/new')}">${_("Create new norm")}</a>
+        %endif
+    </div>
+
+    <hr/>
+
     <div id="pages_table" class="table">
         ${c.pages_pager.here()}
+    </div>
+
+    <div class="list_button title">
+        %if can.norm.create():
+            <a class="button title admin ttip" title="${_('Create a new norm.')}" 
+               href=${h.base_url('/page/new')}>${_("new norm")}</a>
+        %endif
     </div>
 
 <%components:tutorial>

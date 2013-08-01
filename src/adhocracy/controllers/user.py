@@ -1,14 +1,17 @@
+from collections import OrderedDict
 import logging
 import re
+import urllib
 
 import formencode
 from formencode import ForEach, htmlfill, validators
 
 from pylons import request, response, session, tmpl_context as c
+from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from babel import Locale
+from pylons.i18n import lazy_ugettext as L_
 
 from webob.exc import HTTPFound
 
@@ -29,6 +32,12 @@ from adhocracy.lib.instance import RequireInstance
 import adhocracy.lib.mail as libmail
 from adhocracy.lib.pager import (NamedPager, solr_global_users_pager,
                                  solr_instance_users_pager, PROPOSAL_SORTS)
+from adhocracy.lib.settings import INSTANCE_UPDATED_MSG
+from adhocracy.lib.settings import NO_UPDATE_REQUIRED
+from adhocracy.lib.settings import error_formatter
+from adhocracy.lib.settings import Menu
+from adhocracy.lib.settings import settings_url
+from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render, render_json, ret_abort
 from adhocracy.lib.templating import ret_success
@@ -37,6 +46,21 @@ from adhocracy.lib.util import get_entity_or_abort, random_token
 
 
 log = logging.getLogger(__name__)
+
+
+def settings_menu(instance, current):
+
+    show_login = (h.user.can_change_password(c.page_user) or
+                  'openid' in h.allowed_login_types())
+    show_optional = bool(config.get('adhocracy.user.optional_attributes'))
+
+    return Menu.create(instance, current, OrderedDict([
+        ('personal', (L_(u'Personal'), True, 'settings')),
+        ('login', (L_(u'Login'), show_login)),
+        ('notifications', (L_('Notifications'),)),
+        ('advanced', (L_('Advanced'),)),
+        ('optional', (L_('Optional'), show_optional)),
+    ]))
 
 
 class UserCreateForm(formencode.Schema):
@@ -56,27 +80,46 @@ class UserCreateForm(formencode.Schema):
         'password', 'password_confirm')]
 
 
-class UserUpdateForm(formencode.Schema):
+class UserSettingsPersonalForm(formencode.Schema):
     allow_extra_fields = True
+    locale = forms.ValidLocale()
     display_name = validators.String(not_empty=False)
-    email = formencode.All(validators.Email(
-        not_empty=config.get_bool('adhocracy.require_email')),
-        forms.UniqueOtherEmail())
-    locale = validators.String(not_empty=False)
+    bio = validators.String(max=1000, min=0, not_empty=False)
+
+
+class UserSettingsLoginForm(formencode.Schema):
+    allow_extra_fields = True
     password_change = validators.String(not_empty=False, if_missing=None)
     password_confirm = validators.String(not_empty=False, if_missing=None)
     chained_validators = [validators.FieldsMatch(
         'password_change', 'password_confirm')]
-    bio = validators.String(max=1000, min=0, not_empty=False)
-    no_help = validators.StringBool(not_empty=False, if_empty=False,
-                                    if_missing=False)
-    page_size = validators.Int(min=1, max=200, not_empty=False,
-                               if_empty=10, if_missing=10)
+
+
+class UserSettingsNotificationsForm(formencode.Schema):
+    allow_extra_fields = True
+    email = formencode.All(validators.Email(
+        not_empty=config.get_bool('adhocracy.require_email')),
+        forms.UniqueOtherEmail())
     email_priority = validators.Int(min=0, max=6, not_empty=False,
                                     if_missing=3)
     email_messages = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
+
+
+class UserSettingsAdvancedForm(formencode.Schema):
+    allow_extra_fields = True
+    no_help = validators.StringBool(not_empty=False, if_empty=False,
+                                    if_missing=False)
+    page_size = validators.Int(min=1, max=200, not_empty=False,
+                               if_empty=10, if_missing=10)
     proposal_sort_order = forms.ProposalSortOrder()
+
+
+class UserSettingsOptionalForm(formencode.Schema):
+    allow_extra_fields = True
+    chained_validators = [
+        forms.common.OptionalAttributes(),
+    ]
 
 
 class UserCodeForm(formencode.Schema):
@@ -239,7 +282,7 @@ class UserController(BaseController):
             session.save()
             came_from = request.params.get('came_from')
             if came_from:
-                location = came_from
+                location = urllib.unquote_plus(came_from)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -249,58 +292,180 @@ class UserController(BaseController):
                             '%s (%s)' % (credentials['login'], user))
 
     def edit(self, id):
+        """ legacy url """
+        redirect(h.entity_url(c.user, instance=c.instance, member='settings'))
+
+    def _settings_result(self, updated, user, setting_name, message=None):
+        '''
+        Sets a redirect code and location header, stores a flash
+        message and returns the message. If *message* is not None, a
+        message is chosen depending on the boolean value of
+        *updated*. The redirect *location* URL is chosen based on the
+        instance and *setting_name*.
+
+        This method will *not raise an redirect exception* but set the
+        headers and return the message string.
+
+        *updated* (bool)
+           Indicate that a value was updated. Used to choose a generic
+           message if *message* is not given explicitly.
+        *user* (:class:`adhocracy.model.User`)
+           The user to generate the redirect URL for.
+        *setting_name* (str)
+           The setting name for which the URL will be build.
+        *message* (unicode)
+           An explicit message to use instead of the generic message.
+
+        Returns
+           The message generated or given.
+        '''
+        if updated:
+            event.emit(event.T_USER_EDIT, c.user)
+            message = message if message else unicode(INSTANCE_UPDATED_MSG)
+            category = 'success'
+        else:
+            message = message if message else unicode(NO_UPDATE_REQUIRED)
+            category = 'notice'
+        h.flash(message, category=category)
+        response.status_int = 303
+        url = settings_menu(user, setting_name).url_for(setting_name)
+        response.headers['location'] = url
+        return unicode(message)
+
+    def _settings_all(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        require.user.edit(c.page_user)
         if c.instance is None:
             c.active_global_nav = 'user'
-        require.user.edit(c.page_user)
-        c.locales = i18n.LOCALES
-        c.tile = tiles.user.UserTile(c.page_user)
-        c.enable_gender = config.get_bool('adhocracy.enable_gender')
-        c.sorting_orders = PROPOSAL_SORTS
-        c.email_required = config.get_bool('adhocracy.require_email')
-        return render("/user/edit.html")
 
-    @RequireInternalRequest(methods=['POST'])
-    @validate(schema=UserUpdateForm(), form="edit", post_only=True)
-    def update(self, id):
+    def _settings_personal_form(self, id):
+        self._settings_all(id)
+        c.settings_menu = settings_menu(c.page_user, 'personal')
+
+        c.locales = []
+        for locale in i18n.LOCALES:
+            c.locales.append({'value': str(locale),
+                              'label': locale.display_name,
+                              'selected': locale == c.user.locale})
+
+        c.salutations = [
+            {'value': u'u', 'label': _(u'Gender-neutral')},
+            {'value': u'f', 'label': _(u'Female')},
+            {'value': u'm', 'label': _(u'Male')},
+        ]
+
+        return render("/user/settings_personal.html")
+
+    def settings_personal(self, id):
+        form_content = self._settings_personal_form(id)
+        return htmlfill.render(
+            form_content,
+            defaults={
+                '_method': 'PUT',
+                'display_name': c.page_user.display_name,
+                'locale': c.page_user.locale,
+                'bio': c.page_user.bio,
+                'gender': c.page_user.gender,
+                '_tok': token_id()})
+
+    @validate(schema=UserSettingsPersonalForm(),
+              form="_settings_personal_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_personal_update(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.edit(c.page_user)
+        updated = update_attributes(c.page_user, self.form_result,
+                                    ['display_name', 'locale', 'bio'])
+
+        if config.get_bool('adhocracy.enable_gender'):
+            gender = self.form_result.get("gender")
+            if gender in ('f', 'm', 'u') and gender != c.page_user.gender:
+                c.page_user.gender = gender
+                updated = True
+                model.meta.Session.commit()
+
+        return self._settings_result(updated, c.page_user, 'personal')
+
+    def _settings_login_form(self, id):
+        self._settings_all(id)
+        c.settings_menu = settings_menu(c.page_user, 'login')
+        c.locales = []
+        for locale in i18n.LOCALES:
+            c.locales.append({'value': str(locale),
+                              'label': locale.display_name,
+                              'selected': locale == c.user.locale})
+
+        return render("/user/settings_login.html")
+
+    def settings_login(self, id):
+        form_content = self._settings_login_form(id)
+        return htmlfill.render(
+            form_content,
+            defaults={
+                '_method': 'PUT',
+            })
+
+    @validate(schema=UserSettingsLoginForm(), form="_settings_login_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_login_update(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
+
+        updated = False
         if self.form_result.get("password_change"):
             if h.user.can_change_password(c.page_user):
                 c.page_user.password = self.form_result.get("password_change")
+                updated = True
             else:
                 log.error(
                     'Attempt to change password although disabled (user %s)' %
                     c.page_user.user_name)
-        c.page_user.display_name = self.form_result.get("display_name")
-        c.page_user.page_size = self.form_result.get("page_size")
-        c.page_user.no_help = self.form_result.get("no_help")
-        c.page_user.bio = self.form_result.get("bio")
-        c.page_user.proposal_sort_order = self.form_result.get(
-            "proposal_sort_order")
-        if c.page_user.proposal_sort_order == "":
-            c.page_user.proposal_sort_order = None
-        get_gender = self.form_result.get("gender")
-        if get_gender in ('f', 'm', 'u'):
-            c.page_user.gender = get_gender
-        email = self.form_result.get("email")
+
+        return self._settings_result(updated, c.page_user, 'login')
+
+    def _settings_notifications_form(self, id):
+        self._settings_all(id)
+        c.settings_menu = settings_menu(c.page_user, 'notifications')
+
+        c.locales = []
+        for locale in i18n.LOCALES:
+            c.locales.append({'value': str(locale),
+                              'label': locale.display_name,
+                              'selected': locale == c.user.locale})
+
+        return render("/user/settings_notifications.html")
+
+    def settings_notifications(self, id):
+        form_content = self._settings_notifications_form(id)
+        return htmlfill.render(
+            form_content,
+            defaults={
+                '_method': 'PUT',
+                'email': c.page_user.email,
+                'email_priority': c.page_user.email_priority,
+                'email_messages': c.page_user.email_messages,
+                '_tok': token_id()})
+
+    @validate(schema=UserSettingsNotificationsForm(),
+              form="_settings_notifications_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_notifications_update(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
         old_email = c.page_user.email
         old_activated = c.page_user.is_email_activated()
-        email_changed = email != old_email
-        c.page_user.email = email
-        c.page_user.email_priority = self.form_result.get("email_priority")
-        #if c.page_user.twitter:
-        #    c.page_user.twitter.priority = \
-        #        self.form_result.get("twitter_priority")
-        #    model.meta.Session.add(c.page_user.twitter)
-        locale = Locale(self.form_result.get("locale"))
-        if locale and locale in i18n.LOCALES:
-            c.page_user.locale = locale
-        model.meta.Session.add(c.page_user)
+        updated = update_attributes(c.page_user, self.form_result,
+                                    ['email',
+                                     'email_priority',
+                                     'email_messages'])
         model.meta.Session.commit()
-        if email_changed:
+
+        email = self.form_result.get("email")
+        if email != old_email:
             # Logging email address changes in order to ensure accountability
             log.info('User %s changed email address from %s%s to %s' % (
                 c.page_user.user_name,
@@ -308,12 +473,129 @@ class UserController(BaseController):
                 ' (validated)' if old_activated else '',
                 email))
             libmail.send_activation_link(c.page_user)
+        c.page_user.email = email
+        c.page_user.email_priority = self.form_result.get("email_priority")
+        #if c.page_user.twitter:
+        #    c.page_user.twitter.priority = \
+        #        self.form_result.get("twitter_priority")
+        #    model.meta.Session.add(c.page_user.twitter)
+        return self._settings_result(updated, c.page_user, 'notifications')
 
-        if c.page_user == c.user:
-            event.emit(event.T_USER_EDIT, c.user)
+    def _settings_advanced_form(self, id):
+        self._settings_all(id)
+        c.tile = tiles.user.UserTile(c.page_user)
+        c.settings_menu = settings_menu(c.page_user, 'advanced')
+
+        c.pager_sizes = [{'value': str(size),
+                          'label': str(size),
+                          'selected': size == c.user.page_size}
+                         for size in [10, 20, 50, 100, 200]]
+        c.sorting_orders = PROPOSAL_SORTS
+
+        return render("/user/settings_advanced.html")
+
+    def settings_advanced(self, id):
+        form_content = self._settings_advanced_form(id)
+        return htmlfill.render(
+            form_content,
+            defaults={
+                '_method': 'PUT',
+                'no_help': c.page_user.no_help,
+                'page_size': c.page_user.page_size,
+                'proposal_sort_order': c.page_user.proposal_sort_order,
+                '_tok': token_id()})
+
+    @validate(schema=UserSettingsAdvancedForm(),
+              form="_settings_advanced_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_advanced_update(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
+        updated = update_attributes(c.page_user, self.form_result,
+                                    ['no_help',
+                                     'page_size',
+                                     'proposal_sort_order'])
+
+        return self._settings_result(updated, c.page_user, 'advanced')
+
+    def _settings_optional_form(self, id, data={}):
+        if not config.get('adhocracy.user.optional_attributes'):
+            abort(400, _("No optional attributes defined."))
+        self._settings_all(id)
+        data['page_user'] = c.page_user
+        data['tile'] = tiles.user.UserTile(c.page_user)
+        data['settings_menu'] = settings_menu(c.page_user, 'optional')
+
+        data['optional_attributes'] = config.get_optional_user_attributes()
+        add_static_content(data,
+                           u'adhocracy.static_optional_path')
+
+        return render("/user/settings_optional.html", data)
+
+    def settings_optional(self, id):
+        form_content = self._settings_optional_form(id)
+        defaults = c.page_user.optional_attributes or {}
+
+        # Workaround, as htmlfill will match select option values in their
+        # html encoded form.
+        # Proper fix would be to explicitly declare database and shown option
+        # value in the configuration in adhocracy.user.optional_attributes.xxx
+        # That way the shown value can also be changed later.
+        import cgi
+        defaults = dict((k, cgi.escape(unicode(v)))
+                        for k, v in defaults.items())
+
+        defaults.update({
+            '_method': 'PUT',
+            '_tok': token_id()})
+        return htmlfill.render(form_content, defaults=defaults)
+
+    @validate(schema=UserSettingsOptionalForm(),
+              form="_settings_optional_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_optional_update(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.edit(c.page_user)
+        updated = self._update_optional_attributes(c.page_user,
+                                                   self.form_result)
+        if updated:
+            model.meta.Session.commit()
+
+        return self._settings_result(updated, c.page_user, 'optional')
+
+    def _update_optional_attributes(self, user, attributes):
+
+        current = user.optional_attributes or {}
+        updated = False
+        for (key, _, _, _, _) in config.get_optional_user_attributes():
+            if current.get(key, None) != attributes[key]:
+                current[key] = attributes[key]
+                updated = True
+        if updated:
+            user.optional_attributes = current
+        return updated
+
+    def redirect_settings(self, item=None):
+        if c.user is None:
+            redirect(h.login_redirect_url())
+        if item is None:
+            redirect(settings_url(c.user, None, force_url='settings'))
         else:
-            event.emit(event.T_USER_ADMIN_EDIT, c.page_user, admin=c.user)
-        redirect(h.entity_url(c.page_user))
+            redirect(settings_url(c.user, item))
+
+    def redirect_settings_login(self):
+        self.redirect_settings('login')
+
+    def redirect_settings_notifications(self):
+        self.redirect_settings('notifications')
+
+    def redirect_settings_advanced(self):
+        self.redirect_settings('advanced')
+
+    def redirect_settings_optional(self):
+        self.redirect_settings('optional')
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=UserSetPasswordForm(), form='edit', post_only=True)
@@ -448,7 +730,8 @@ class UserController(BaseController):
         ret_success(
             message=_("The activation link has been re-sent to your email "
                       "address."), category='success',
-            entity=c.page_user, member='edit', force_path=path)
+            entity=c.page_user, member='settings/notifications',
+            format=None, force_path=path)
 
     def show(self, id, format='html'):
         if c.instance is None:
@@ -509,7 +792,7 @@ class UserController(BaseController):
             session.save()
             came_from = request.params.get('came_from', None)
             if came_from is not None:
-                redirect(came_from)
+                redirect(urllib.unquote_plus(came_from))
             # redirect to the dashboard inside the instance exceptionally
             # to be able to link to proposals and norms in the welcome
             # message.

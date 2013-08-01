@@ -7,6 +7,7 @@ from redis import Redis
 from rq import Queue
 from rq.job import Job
 
+from adhocracy import config
 from adhocracy.model import meta
 from adhocracy.model.refs import to_ref, to_entity
 
@@ -163,6 +164,10 @@ def update_entity(entity, operation):
 @async
 def handle_update(message):
     data = json.loads(message)
+    delay = config.get_int('adhocracy.delay_update_queue_seconds')
+    if delay > 0:
+        import time
+        time.sleep(delay)
     entity = to_entity(data.get('entity'))
     for (clazz, operation), listeners in LISTENERS.items():
         if operation != data.get('operation') \

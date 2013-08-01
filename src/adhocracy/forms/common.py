@@ -11,6 +11,7 @@ from webhelpers.html import literal
 
 from sqlalchemy import func
 
+from adhocracy import config
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.unicode import UnicodeDictReader
 
@@ -80,6 +81,15 @@ class UniqueOtherEmail(formencode.FancyValidator):
                 _('That email is already used by another account'),
                 value, state)
         return value
+
+
+class ValidLocale(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy import i18n
+        if value in i18n.LOCALES:
+            return value
+        else:
+            raise formencode.Invalid(_('Invalid locale choice'), value, state)
 
 
 class ValidDate(formencode.FancyValidator):
@@ -324,7 +334,8 @@ class ValidCategoryBadge(formencode.FancyValidator):
             raise formencode.Invalid(
                 _("No Badge ID '%s' exists") % value,
                 value, state)
-        if badge.instance is None and c.instance.hide_global_categories:
+        if badge.instance is None and c.instance is not None\
+           and c.instance.hide_global_categories:
             raise formencode.Invalid(
                 _("Cannot use global category %s in this instance") % value,
                 value, state)
@@ -719,3 +730,37 @@ def ProposalSortOrder():
             for g in PROPOSAL_SORTS.by_group.values()
             for v in g
         ])
+
+
+class OptionalAttributes(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+
+        optional_attributes = config.get_optional_user_attributes()
+        error_dict = {}
+        for (key, type_, converter, label, allowed) in optional_attributes:
+
+            if key not in field_dict:
+                continue
+
+            value = field_dict[key]
+
+            if value and not isinstance(value, type_):
+                try:
+                    value = converter(value)
+                except:
+                    error_dict[key] = _(u'Invalid value')
+                    continue
+
+            field_dict[key] = value
+
+            if allowed is not None:
+                if value not in [a['value'] for a in allowed]:
+                    error_dict[key] = _(u'Invalid choice')
+                    continue
+
+        if error_dict:
+            raise formencode.Invalid(u'_', field_dict, state,
+                                     error_dict=error_dict)
+
+        return field_dict

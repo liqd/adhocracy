@@ -18,7 +18,6 @@
             ${index_based_sort_dropdown(pager.sorts, pager)}
             %endif
         </div>
-        <hr />
     %endif
     %if pager.enable_pages or pager.enable_sorts:
       <ul class="content_list">
@@ -185,7 +184,7 @@ help = lib.pager.help_strings()
                 name="${pager.sort_param}">
             %for sort, i in zipped:
             <% selected = i == pager.selected_sort %>
-            <option value="i"
+            <option value="${i}"
                     %if selected:
                     selected="selected"
                     %endif
@@ -252,7 +251,7 @@ param = sorts.pager.sort_param
         <span class="btn-group"
              id="${param}_btn_group">
             <a id="${param}_btn"
-               class="btn showhide_button"
+               class="button_round showhide_button"
                data-target="#${param}_options"
                data-target-speed="fast"
                data-toggle-class="less"
@@ -262,6 +261,7 @@ param = sorts.pager.sort_param
         </span>
     </div>
 </div>
+<div class="clearfix"></div>
 <div id="${param}_options" style="display: none">
     %for (group, options) in sorts.grouped_options():
     <div class="sort_group">

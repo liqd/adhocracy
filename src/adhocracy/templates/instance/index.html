@@ -5,35 +5,33 @@
 <%block name="body_class">global-instances</%block>
 
 <%def name="breadcrumbs()">
-${h.site.name()} &raquo; ${_("Instances")} 
+${h.site.name()} &raquo; ${_("Instances")}
 </%def>
 
 
-<%block name="headline">
-<div class="top_actions title">
-    %if can.instance.create():
-    <a class="button title add" href="/instance/new">${_("new instance")}</a>
-    %endif 
-</div> 
-<h1 class="page_title">${_("Instances")}</h1>
-</%block> 
-
 <%block name="sidebar">
-<div id="proposals_facets">
-    ${c.instance_pager.render_facets()}    
-</div>
+    ${c.instance_pager.render_facets(cls='sidebar_box')}
 %if h.geo.use_proposal_geotags() and h.asbool(config.get('adhocracy.show_overview_map_on_instance_index')):
     <h3>${_('Map')}</h3>
     ${map.show_overview_map([i.id for i in c.instance_pager.items])}
 %endif
-</%block> 
+</%block>
 
 <%block name="main_content">
+<div class="morelink_header">
+    <h1 class="page_title">${_("Instances")}</h1>
+
+    %if can.instance.create():
+    <a class="more_link"
+       href="${h.base_url('/instance/new')}">${_("Create new instance")}</a>
+    %endif
+</div>
+
 <p>${_("Instances are little democracies that are ran by their community.")}</p>
 
 <div class="table" id="instance_table">
 
-    ${c.instance_pager.render_pager()}   
+    ${c.instance_pager.render_pager()}
 
     %if can.badge.edit_instance():
     <div class="overlay" id="edit_badges_container">
@@ -42,8 +40,8 @@ ${h.site.name()} &raquo; ${_("Instances")}
             <h5 data-bind="text: selected.title">Title</h5>
             <ul data-bind="foreach: selected.badges">
                 <li class="nobullet">
-                <input class="badgetsform_input" type="checkbox" 
-                name="badge" 
+                <input class="badgetsform_input" type="checkbox"
+                name="badge"
                 data-bind="value: id, checked: checked">
                 <span data-bind="attr: {class: css_class()}">
                     <a data-bind="text: title">Abgelehnt</a>
@@ -51,8 +49,8 @@ ${h.site.name()} &raquo; ${_("Instances")}
                 </input>
                 </li>
             </ul>
-            <a href="#" class="btn" data-bind="click: save">Save</a> 
-            or 
+            <a href="#" class="button" data-bind="click: save">Save</a>
+            or
             <a href="" data-bind="click: cancel">Cancel</a>
         </form>
     </div>
@@ -69,6 +67,12 @@ ${h.site.name()} &raquo; ${_("Instances")}
     </script>
     %endif
 
+</div>
+
+<div class="list_button">
+    %if can.instance.create():
+    <a class="button title add" href="/instance/new">${_("new instance")}</a>
+    %endif
 </div>
 </%block>
 

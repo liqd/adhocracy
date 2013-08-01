@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 instance_table = Table(
     'instance', meta.data,
     Column('id', Integer, primary_key=True),
-    Column('key', Unicode(20), nullable=False, unique=True),
+    Column('key', Unicode(63), nullable=False, unique=True),
     Column('label', Unicode(255), nullable=False),
     Column('description', UnicodeText(), nullable=True),
     Column('required_majority', Float, nullable=False),
@@ -71,7 +71,7 @@ Index('geo_centre_idx', instance_table.c.geo_centre, postgresql_using='gist')
 class Instance(meta.Indexable):
     __tablename__ = 'instance'
 
-    INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9-]{2,18}$")
+    INSTANCE_KEY = re.compile("^[a-zA-Z][a-zA-Z0-9-]{1,63}$")
 
     # Special purpose instances
     SPECIAL_KEYS = [u'test', u'feedback']

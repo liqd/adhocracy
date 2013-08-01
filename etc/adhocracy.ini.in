@@ -50,7 +50,7 @@ use = egg:Paste#urlmap
 # Serve the theme from disk from /static (as set up in [composite:main])
 [app:static]
 use = egg:Paste#static
-document_root =  ${parts.adhocracy_code.diazo_theme_rules_dir}
+document_root =  ${parts.adhocracy_code.absolute_theme_dir}
 
 # Serve the Diazo-transformed content everywhere else
 [pipeline:default]
@@ -71,7 +71,7 @@ pipeline = theme
 [filter:theme]
 use = egg:diazo
 read_network = True
-rules = ${parts.adhocracy_code.diazo_theme_rules_dir}/rules.xml
+rules = ${parts.adhocracy_code.absolute_theme_dir}/rules.xml
 prefix = /static_theme
 doctype = <!DOCTYPE html>
 {% if parts.adhocracy.debug == 'True' %}debug = true  {% end %}
@@ -150,6 +150,12 @@ sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 #
 
 adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
+
+# To avoid a race condition between main and background processes, delaying
+# background process updates can be delayed (see issue #358). This option
+# defines the delay in seconds (default: 1 second)
+
+# adhocracy.delay_update_queue_seconds = 1
 
 # If debug is enabled, an web-based interactive debugger can be executed from
 # the HTTP500 error page, if the following option is set to true. This option
@@ -405,6 +411,14 @@ adhocracy.static_index_path = index
 
 # Load feedback categories for the feedback form
 # adhocracy.feedback_use_categories = False
+
+# Optional user attributes
+# adhocracy.user.optional_attributes =
+#     year_of_birth, int, Year of Birth
+#     foo, unicode, Foo
+# adhocracy.user.optional_attributes.year_of_birth =
+#     2001; 2222; 1111
+## adhocracy.user.optional_attributes.foo =
 
 
 # Logging configuration

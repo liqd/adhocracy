@@ -12,7 +12,19 @@
   <div id="content-startpage" class="full_teaser">
     %if c.body is not None:
     ${c.body | n}
-    %endif
+    %elif c.instances:
+  <div id="instance_list" class="frontpage_main">
+    <ul>
+      %for instance in c.instances:
+      <li>
+      <a title="${ instance.label }"
+        href="${ h.entity_url(instance) }"> ${ instance.label }
+      </a>
+      </li>
+      %endfor
+    </ul>
+  </div>
+  %endif
   </div>
 
   %if h.asbool(config.get('adhocracy.show_overview_map_on_index')):

@@ -157,7 +157,7 @@ class BadgeController(BaseController):
         }
         if badge_type is not None:
             data['badge_type'] = badge_type
-        
+
         defaults = {'visible': True,
                     'select_child_description': '',
                     }
@@ -332,6 +332,7 @@ class BadgeController(BaseController):
                 else None
             ),
             'form_type': 'update',
+            'return_url': self.base_url,
             'sorting_orders': PROPOSAL_SORTS,
         }
         self._set_parent_categories(exclude=badge)

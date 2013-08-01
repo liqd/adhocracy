@@ -113,6 +113,10 @@
     /* (de) IE-Clearing:Benötigt nur der Internet Explorer und über iehacks.css zugeschaltet */
     #ie_clearing { display:none; }
 
+    .page_wrapper {
+        @include pie-clearfix();
+    }
+
     /*------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -314,8 +318,8 @@
         position:relative;
         padding: 0;
         color: #000;
-        background-color: mix(#272727, #303030);
-        @include background-image(linear-gradient(top, #272727, #303030));
+        background-color: $header-color;
+        @include background-image(linear-gradient(to bottom, darken($header-color, 2%), lighten($header-color, 2%)));
     }
     #topnav { text-align: right; color: #fff; background: transparent; }
     #main { margin: 10px 0 60px; background: #fff; }
@@ -338,13 +342,13 @@
     #col2 { display:none}
     #col3 { width: auto; margin: 0 0 0 665px}
     #col1_content { padding: 0 10px 0 23px }
-    #col3_content { padding: 0 23px 0 31px }
+    #col3_content { margin: 0 23px 0 31px }
 
     #settings #col1 { float: right; width: 800px}
     #settings #col2 { display:none}
     #settings #col3 { width: auto; margin: 0 800px 0 0 }
     #settings #col1_content { padding: 0 15px 0 10px }
-    #settings #col3_content { padding: 0 15px 0 23px }
+    #settings #col3_content { margin: 0 15px 0 23px }
 
     #settings #col3 .affix { width: 164px; top: 20px; }
 

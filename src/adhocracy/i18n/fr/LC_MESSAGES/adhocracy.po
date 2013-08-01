@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-01 01:54+0200\n"
-"PO-Revision-Date: 2013-06-30 23:54+0000\n"
+"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"PO-Revision-Date: 2013-07-16 23:44+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,9 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Not specified"
+msgstr ""
 
 msgid "Thank you for helping."
 msgstr "Merci pour l'aide."
@@ -143,6 +146,18 @@ msgstr ""
 
 msgid "Members import"
 msgstr "Importation des membres"
+
+msgid "Instance created successfully. You can now configure it as you like."
+msgstr ""
+
+msgid "Delegations are enabled."
+msgstr ""
+
+msgid "Delegations are disabled."
+msgstr ""
+
+msgid "tutorial_instance_show_intro"
+msgstr "Bienvenue à l'acceuil du groupe de projet.\t"
 
 msgid "The logo has been deleted."
 msgstr "Ce logo a été supprimé."
@@ -460,10 +475,37 @@ msgstr "Vous suivez maintenant %s sur twitter pour que nous puissions vous envoy
 msgid "You have no twitter association."
 msgstr "Vous n'êtes relier a aucun compte twitter."
 
+msgid "Personal"
+msgstr ""
+
+msgid "Login"
+msgstr "Identification"
+
+msgid "Notifications"
+msgstr "notifications"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Optional"
+msgstr "Optional"
+
 msgid "tutorial_user_index_intro"
 msgstr "Liste des membres du groupe."
 
 msgid "Sorry, but we don't accept registrations with this email address."
+msgstr ""
+
+msgid "Gender-neutral"
+msgstr ""
+
+msgid "Female"
+msgstr ""
+
+msgid "Male"
+msgstr ""
+
+msgid "No optional atributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
@@ -625,6 +667,9 @@ msgid "That email is already registered"
 msgstr "Ce mail est déjà enregistré"
 
 msgid "That email is already used by another account"
+msgstr ""
+
+msgid "Invalid locale choice"
 msgstr ""
 
 msgid "Invalid date, expecting DD.MM.YYYY"
@@ -800,6 +845,12 @@ msgid "Please select at least one instance"
 msgstr ""
 
 msgid "Disallowed instance selected"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid choice"
 msgstr ""
 
 #, python-format
@@ -1005,6 +1056,15 @@ msgstr "le support"
 
 msgid "Newest Proposals"
 msgstr "Dernières Propositions"
+
+msgid "Support by"
+msgstr ""
+
+msgid "The changes were saved."
+msgstr ""
+
+msgid "No update required."
+msgstr "Une actualisation n'est pas nécessaire."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Nous somme désolé, il semble que vous n'ayez pas les droits requis pour continuer."
@@ -1457,6 +1517,9 @@ msgstr ""
 msgid "List existing feedback"
 msgstr ""
 
+msgid "Feedback"
+msgstr ""
+
 msgid "Proposal Category"
 msgstr "Catégorie de proposition"
 
@@ -1508,9 +1571,6 @@ msgstr "En savoir"
 
 msgid "Help"
 msgstr "Aide"
-
-msgid "Login"
-msgstr "Identification"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1633,6 +1693,12 @@ msgstr ""
 msgid "Your registered email address is:"
 msgstr ""
 
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "Next"
 msgstr "Prochain"
 
@@ -1701,6 +1767,9 @@ msgid "Include proposals"
 msgstr ""
 
 msgid "Include comments"
+msgstr ""
+
+msgid "Include ratings"
 msgstr ""
 
 msgid "Export request log"
@@ -1852,9 +1921,6 @@ msgstr "Le modèle utilisé pour envoyer des courriels aux utilisateurs. Il vous
 
 msgid "Required"
 msgstr "Requis"
-
-msgid "Optional"
-msgstr "Optional"
 
 msgid "Imported Users"
 msgstr "Utilisateurs importés"
@@ -2726,6 +2792,9 @@ msgstr "Date du rendez-vous"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Utilisez le format DD.MM.YYYY, s'il vous plaît."
 
+msgid "Upcoming Milestones"
+msgstr ""
+
 msgid "Create a new milestone."
 msgstr "Créer un nouveau rendez-vous."
 
@@ -3143,16 +3212,14 @@ msgstr "Une brève description des <b>objectives</b> de votre proposition."
 msgid "The proposal would..."
 msgstr "La proposition serait..."
 
-<<<<<<< HEAD
 msgid "Proposal Category"
 msgstr "Catégorie de proposition"
 
 msgid "Proposal category hint"
 msgstr "Indiquer la catégorie de proposition"
-=======
+
 msgid "Proposal goals"
 msgstr "Objectif de la proposition"
->>>>>>> develop
 
 msgid "Collaboration and Notification"
 msgstr "Collaboration et Notification"
@@ -3512,6 +3579,9 @@ msgstr "Annuler"
 msgid "by %s, "
 msgstr "par %s,"
 
+msgid "delete version"
+msgstr ""
+
 msgid "This revision has no text."
 msgstr "Cette révision n'a pas de texte."
 
@@ -3714,8 +3784,6 @@ msgstr "Mot de passe:"
 msgid "Password (confirm):"
 msgstr "Mot de passe : (confirmation)"
 
-<<<<<<< HEAD
-=======
 msgid "Gender"
 msgstr ""
 
@@ -3728,7 +3796,6 @@ msgstr ""
 msgid "Female"
 msgstr ""
 
->>>>>>> develop
 msgid "Notifications"
 msgstr "notifications"
 
@@ -3920,7 +3987,54 @@ msgstr "Vous avez reçu un e-mail. Veuillez ouvrir le lien de ce mail pour réin
 msgid "User settings"
 msgstr ""
 
+msgid "Advanced settings"
+msgstr ""
+
+msgid "Default proposal sorting order"
+msgstr ""
+
+msgid "Pager size"
+msgstr ""
+
+msgid "Default number of entries in listing pages"
+msgstr ""
+
+msgid "Disable help messages"
+msgstr ""
+
+msgid "Disable help messages and links to the documentation"
+msgstr ""
+
+msgid "Login settings"
+msgstr ""
+
+msgid "Notification settings"
+msgstr ""
+
+msgid "News service"
+msgstr ""
+
+msgid "Receive occasional news from instance administrators"
+msgstr ""
+
+msgid "Optional attributes"
+msgstr ""
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr ""
+
+msgid "Personal settings"
+msgstr ""
+
 msgid "Prefered user interface language"
+msgstr ""
+
+msgid "Salutation"
+msgstr ""
+
+msgid "Select your prefered gender"
 msgstr ""
 
 #, python-format

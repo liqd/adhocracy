@@ -48,19 +48,15 @@ delegate_url = url if can.delegation.create() else None
 
             <section>
               <article>
-                <h2>
-                    ${h.delegateable.link(c.proposal, link=False)|n}
-                </h2>
-                <hr />
-                
                 <div class="utility">
-                    <h4>${_('Topic and Description of the Proposal')}</h4>
+                    <h2>${h.delegateable.link(c.proposal, link=False)|n}</h2>
+
                     %if can.proposal.edit(c.proposal):
-                    <a href="${h.entity_url(c.proposal, member='edit')}">
-                        ${_("edit")}
-                    </a>
+                    <a href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
                     %endif
                 </div>
+
+                <hr />
                 
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
@@ -219,11 +215,10 @@ delegate_url = url if can.delegation.create() else None
 
 <%block name="sidebar">
 
-<div class="sidebar_box">
 ${components.watch(c.proposal, id='follow_proposal')}
 
-
 %if h.geo.use_proposal_geotags():
+<div class="sidebar_box">
     <h3>${_('Map')}</h3>
 %if c.proposal.has_geotag():
     ${map.show_single_proposal_map(c.proposal.id)}
@@ -248,8 +243,10 @@ ${components.watch(c.proposal, id='follow_proposal')}
     <a class="button_small add ttip" title="${_('Login to edit geotag.')}" rel="#overlay-login-button">${_("Edit geographic location")}</a>
 %endif
 
+</div>
 %endif
 
+<div class="sidebar_box">
 
 <h3 id="information">${_('Informations')}</h3>
 <summary>

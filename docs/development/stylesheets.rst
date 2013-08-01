@@ -20,7 +20,8 @@ Code structure
 
 Instead of using whole frameworks we split our existing code into
 a more modular structure. To have some advanced features available we
-decided to use the SASS_ preprocessor.
+decided to use the SASS_ preprocessor extended by some libraries and
+the command line utility from compass_.
 The new folder struture looks like this::
 
     ...
@@ -65,9 +66,9 @@ Running SASS
 ------------
 
 The SASS precompiler is run automatically by buildout. You can also run it manually
-using `bin/compile_stylesheet`. This script forwards any command line arguments to the
-SASS precompiler. For example you might want to run `bin/compile_stylesheet --watch`
-to make it watch your files and automatically recompile whenever it detects changes.
+using `bin/compass compile -c etc/compass.rb` from the root directory. You can also
+use other compass commands like `watch` which is usefull to make it watch your files
+and automatically recompile whenever it detects changes.
 
 
 Debugging
@@ -75,6 +76,8 @@ Debugging
 
 There is a list of nearly all components on `http://adhocracy.lan:5001/debug/components`
 (only available in development mode).
+
+Some compass commands like `stats` might also by helpful.
 
 
 Extending the stylesheets
@@ -87,12 +90,16 @@ corresponding folder and add an entry in `src/adhocracy/templates/debug/componen
 Theming
 -------
 
-When theming is enabled buildout will use the `adhocracy.scss` from your theme.
+When theming is enabled and `adhocracy_code:compass_theme_dir` is set accordingly
+buildout will use the `adhocracy.scss` from your theme.
 However when SASS tries to import a file that is not available in your theme
 it will fall back to the default theme. So basically you only need to copy `adhocracy.scss`
 from the default theme. You can then start customizing using only `_variables.scss` and
 `_overwrite.scss`. But if you want more you can also overwrite whole components.
 
+If you do not want to replace a whole component you should think about creating
+a file with the suffix `_overwrite` (e.g. `gerneral/_mixins_overwrite.scss`)
+instead of throwing everything into `_overwrite.scss`.
 
 Migration from the old `style_custom.css` system
 ................................................
@@ -113,3 +120,4 @@ theme to `${theme-dir}/static_src/adhocracy.scss`. You may also want to move
 .. _Bootstrap: http://twitter.github.io/bootstrap/
 .. _Foundation: http://foundation.zurb.com/
 .. _SASS: http://sass-lang.com/
+.. _compass: http://compass-style.org/

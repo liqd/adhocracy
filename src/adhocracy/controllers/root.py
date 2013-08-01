@@ -102,8 +102,8 @@ class RootController(BaseController):
         if 'disable' in request.params:
             name = request.params.get('disable')
             if name == 'ALL':
-                h.tutorial.disable(None)
+                h.tutorial.disable(None, c.user)
             else:
-                h.tutorial.disable(name)
+                h.tutorial.disable(name, c.user)
         else:
             h.tutorial.enable()
