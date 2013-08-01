@@ -21,7 +21,7 @@ comment_table = Table(
     Column('wiki', Boolean, default=False),
     Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True),
     Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True),
-    Column('variant', Unicode(255), nullable=True)
+    Column('variant', Unicode(255), nullable=False)
 )
 
 
@@ -30,10 +30,15 @@ class Comment(meta.Indexable):
     SENT_PRO = 1
     SENT_CON = -1
 
-    def __init__(self, topic, creator, variant):
+    def __init__(self, topic, creator, variant=None):
         self.topic = topic
         self.creator = creator
-        self.variant = variant
+
+        from text import Text
+        if variant is None:
+            self.variant = Text.HEAD
+        else:
+            self.variant = variant
 
     def _get_latest(self):
         return self.revisions[0] if len(self.revisions) else None
@@ -85,9 +90,6 @@ class Comment(meta.Indexable):
                variant=None,
                sentiment=0, with_vote=False):
         from poll import Poll
-        from text import Text
-        if variant is None:
-            variant = Text.HEAD
         comment = Comment(topic, user, variant)
         comment.wiki = wiki
         comment.reply = reply
