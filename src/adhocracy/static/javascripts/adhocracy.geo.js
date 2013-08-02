@@ -1302,30 +1302,33 @@ var adhocracy = adhocracy || {};
         return selectControl;
     };
 
-    adhocracy.geo.loadPageMap = function (instanceKey, pageId, edit, position) {
+    adhocracy.geo.loadPageMap = function (p) {
+        var p = $.extend({
+            'edit': false,
+        }, p);
         var map = adhocracy.geo.createMap();
 
         var waiter = adhocracy.geo.createWaiter(3, function (bounds) {
             map.zoomToExtent(bounds);
         });
 
-        map.addControls(adhocracy.geo.createControls(edit, false));
+        map.addControls(adhocracy.geo.createControls(p.edit, false));
         map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
-        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(p.instanceKey, function (feature) {
             waiter(feature, true);
         });
         map.addLayers(regionBoundaryLayers);
         //adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
 
-        var proposalLayer = adhocracy.geo.createPageProposalsLayer(instanceKey, pageId, function (features) {
+        var proposalLayer = adhocracy.geo.createPageProposalsLayer(p.instanceKey, p.pageId, function (features) {
             waiter(features, true);
         });
         map.addLayer(proposalLayer);
         adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
 
 
-        adhocracy.geo.fetchSingleDelegateable('page', pageId, edit, function (feature) {
-            if (edit) {
+        adhocracy.geo.fetchSingleDelegateable('page', p.pageId, p.edit, function (feature) {
+            if (p.edit) {
                 var editor = adhocracy.geo.addOleControls(map);
                 if (feature) {
                     editor.loadFeatures([feature]);
@@ -1355,21 +1358,25 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.geo.loadSingleProposalMap = function (instanceKey, proposalId, edit, position) {
+    adhocracy.geo.loadSingleProposalMap = function (p) {
+        var p = $.extend({
+            'edit': false,
+            'position': null
+        }, p);
 
         var map = adhocracy.geo.createMap();
 
         var numFetches = 1;
-        if (proposalId) {
+        if (p.proposalId) {
             numFetches = 2;
         }
         var waiter = adhocracy.geo.createWaiter(numFetches, function (bounds) {
             map.zoomToExtent(bounds);
         });
 
-        map.addControls(adhocracy.geo.createControls(edit, false));
+        map.addControls(adhocracy.geo.createControls(p.edit, false));
         map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
-        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(p.instanceKey, function (feature) {
             waiter(feature);
         });
         map.addLayers(regionBoundaryLayers);
@@ -1380,18 +1387,18 @@ var adhocracy = adhocracy || {};
         adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
 
         var singleProposalFetchedCallback;
-        if (edit) {
+        if (p.edit) {
             singleProposalFetchedCallback = adhocracy.geo.addEditControls(map, proposalLayer);
         }
 
         //don't try to fetch proposals geotags when there's no proposal (i.e. if proposal is created)
-        if (proposalId) {
-            adhocracy.geo.fetchSingleDelegateable('proposal', proposalId, edit, function (feature) {
+        if (p.proposalId) {
+            adhocracy.geo.fetchSingleDelegateable('proposal', p.proposalId, p.edit, function (feature) {
                 if (feature) {
                     proposalLayer.addFeatures([feature]);
                 }
 
-                if (edit) {
+                if (p.edit) {
                     singleProposalFetchedCallback(feature);
                 }
 
@@ -1399,8 +1406,8 @@ var adhocracy = adhocracy || {};
             });
         } else {
             var feature = null;
-            if (position) {
-                var features = new OpenLayers.Format.GeoJSON({}).read(position);
+            if (p.position) {
+                var features = new OpenLayers.Format.GeoJSON({}).read(p.position);
                 if (features) {
                     feature = features[0];
                     proposalLayer.addFeatures([feature]);
@@ -1433,11 +1440,17 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.geo.loadRegionMap = function (instanceKey, initialProposals, initialPages, largeMap, fullRegion) {
+    adhocracy.geo.loadRegionMap = function (p) {
+        var p = $.extend({
+            'initialProposals': [],
+            'initialPages': [],
+            'largeMap': false,
+            'fullRegion': true
+        }, p);
 
         var map;
 
-        if (largeMap) {
+        if (p.largeMap) {
             var top = $('#header').outerHeight() + $('#subheader').outerHeight() + $('#flash_message').outerHeight();
             $('#fullscreen_map').css('position', 'absolute').css('top', top + 'px').css('bottom', 0).css('width', '100%');
             $('#hide_list_icon').show();
@@ -1462,11 +1475,11 @@ var adhocracy = adhocracy || {};
         map = adhocracy.geo.createMap();
         adhocracy.geo.map = map;
 
-        var waiter = adhocracy.geo.createWaiter(fullRegion ? 1 : 3, function (bounds) {
+        var waiter = adhocracy.geo.createWaiter(p.fullRegion ? 1 : 3, function (bounds) {
             map.zoomToExtent(bounds);
 
             var controls;
-            if (largeMap) {
+            if (p.largeMap) {
                 controls = adhocracy.geo.createControls(true, true);
             } else {
                 controls = adhocracy.geo.createControls(false, false);
@@ -1475,22 +1488,22 @@ var adhocracy = adhocracy || {};
         });
 
         map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
-        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(instanceKey, function (feature) {
+        var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(p.instanceKey, function (feature) {
             waiter(feature, false);
         });
         map.addLayers(regionBoundaryLayers);
         adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
 
-        var proposalLayer = adhocracy.geo.createRegionProposalsLayer(instanceKey, initialProposals, function (features) {
-            if (!(fullRegion)) {
+        var proposalLayer = adhocracy.geo.createRegionProposalsLayer(p.instanceKey, p.initialProposals, function (features) {
+            if (!(p.fullRegion)) {
                 waiter(features, true);
             }
         });
         map.addLayer(proposalLayer);
         var proposalPopupControl = adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
 
-        var pageLayer = adhocracy.geo.createRegionPagesLayer(instanceKey, initialPages, function (features) {
-            if (!(fullRegion)) {
+        var pageLayer = adhocracy.geo.createRegionPagesLayer(p.instanceKey, p.initialPages, function (features) {
+            if (!(p.fullRegion)) {
                 waiter(features, true);
             }
         });
@@ -1509,7 +1522,10 @@ var adhocracy = adhocracy || {};
         map.addControl(selectControl);
     };
 
-    adhocracy.geo.loadOverviewMap = function (initialInstances) {
+    adhocracy.geo.loadOverviewMap = function (p) {
+        var p = $.extend({
+            'initialInstances': []
+        }, p);
         var map = adhocracy.geo.createMap();
 
         map.addControls(adhocracy.geo.createControls(false, false));
@@ -1967,7 +1983,7 @@ var adhocracy = adhocracy || {};
     };
 
 
-    adhocracy.geo.editGeotagInNewProposalWizard = function (instanceKey) {
+    adhocracy.geo.editGeotagInNewProposalWizard = function (p) {
 
         var noPositionClicked, addPositionClicked, addGeoTagHandler, noGeoTagHandler;
 
@@ -2002,7 +2018,12 @@ var adhocracy = adhocracy || {};
                 'class': 'proposal_create_map'
             }).appendTo('#map_div');
 
-            adhocracy.geo.loadSingleProposalMap(instanceKey, null, true, position);
+            adhocracy.geo.loadSingleProposalMap({
+                'instanceKey': p.instanceKey,
+                'proposalId': null,
+                'edit': true,
+                'position': position
+            });
 
             $('#create_geo_button').remove();
 

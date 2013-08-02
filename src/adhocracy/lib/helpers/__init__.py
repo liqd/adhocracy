@@ -259,6 +259,10 @@ def json_loads(s, encoding='utf-8'):
     return json.loads(s, object_hook=_json_entity_decoder)
 
 
+def to_json(**kwargs):
+    return json.dumps(kwargs)
+
+
 def _json_entity(o):
     if isinstance(o, datetime):
         return o.isoformat() + "Z"
