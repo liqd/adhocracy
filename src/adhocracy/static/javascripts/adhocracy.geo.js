@@ -100,6 +100,7 @@ var adhocracy = adhocracy || {};
         strokeColor: "#4D4D4D",
         fillColor: "${fillColor}",
         graphicZIndex: "${zIndex}",
+        strokeWidth: 0.5
     };
     adhocracy.geo.pagePolygonSelect = {
         strokeColor: "#111111",
