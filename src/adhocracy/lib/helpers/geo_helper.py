@@ -1,6 +1,5 @@
-from pylons import config
 from pylons import tmpl_context as c
-from paste.deploy.converters import asbool
+from adhocracy import config
 
 
 def use_maps():
@@ -11,8 +10,8 @@ def use_maps():
 
 
 def use_proposal_geotags():
-    return use_maps() and asbool(config.get('adhocracy.proposal_geotags'))
+    return use_maps() and config.get_bool('adhocracy.proposal_geotags')
 
 
 def use_page_geotags():
-    return use_maps() and asbool(config.get('adhocracy.page_geotags'))
+    return use_maps() and config.get_bool('adhocracy.page_geotags')
