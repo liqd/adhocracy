@@ -12,8 +12,6 @@ def normalize_region_name(name):
     used in domain names and such.
     """
 
-    # make stuff ascii 
-
     REPLACEMENTS = {
         u'ä': u'ae',
         u'ö': u'oe',
@@ -35,7 +33,7 @@ def normalize_region_name(name):
 
     # for the rest of the characters
 
-    key = key.encode('ascii','ignore')
+    key = key.encode('ascii', 'ignore')
 
     # drop words
 

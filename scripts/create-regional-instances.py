@@ -173,7 +173,8 @@ def create_municipality(region):
             meta.Session.delete(category)
 
     for (title, description) in fix_categories.iteritems():
-        CategoryBadge.create(title, '#a4a4a4', True, description, instance=instance)
+        CategoryBadge.create(title, '#a4a4a4', True, description,
+                             instance=instance)
 
     instance.region = region
 
