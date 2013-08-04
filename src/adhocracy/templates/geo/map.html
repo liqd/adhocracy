@@ -78,12 +78,12 @@ ${attribution()}
 <% h.need.adhocracy_geo_js %>
 <div class="input_wrapper">
   <input id='geotag_field' name='geotag' type='hidden' value='' />
-  <div id='map_div' />
+  <div id='map_div'></div>
   ${attribution()}
   <div class="map_buttons">
     <a id='create_geo_button' class="button_small">${_('Add geographic location')}</a>
   <div>
-  <div id="edit_map_buttons" />
+  <div id="edit_map_buttons"></div>
 </div>
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.editGeotagInNewProposalWizard(${h.geo.map_config(instanceKey=c.instance.key)|n});
