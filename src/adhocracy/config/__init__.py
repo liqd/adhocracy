@@ -63,8 +63,12 @@ def get_int(key, default=None, config=config):
     return get_value(key, asint, default, config)
 
 
-def get_list(key, default=None, config=config, sep=','):
-    return get_value(key, aslist, default, config, {'sep': sep})
+def get_list(key, default=None, config=config, sep=',', cast=None):
+    result = get_value(key, aslist, default, config, {'sep': sep})
+    if cast is None:
+        return result
+    else:
+        return map(cast, result)
 
 
 def get_tuples(key, default=[], sep=u' '):
