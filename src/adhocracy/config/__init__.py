@@ -1,3 +1,4 @@
+import json
 from paste.deploy.converters import asbool
 from paste.deploy.converters import asint
 from paste.deploy.converters import aslist
@@ -78,6 +79,10 @@ def get_tuples(key, default=[], sep=u' '):
     return ((v.strip() for v in line.split(sep))
             for line in mapping.strip().split(u'\n')
             if line is not u'')
+
+
+def get_json(key, default=None, config=config):
+    return get_value(key, json.loads, default, config)
 
 
 def get_optional_user_attributes():
