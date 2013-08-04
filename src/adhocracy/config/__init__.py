@@ -14,6 +14,7 @@ DEFAULTS = {
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,
     'adhocracy.force_randomized_user_names': False,
+    'adhocracy.geo.image_layers': [],
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
