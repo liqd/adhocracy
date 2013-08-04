@@ -18,15 +18,15 @@ How to build OpenLayers fanstatic resource
 
 Download and extract OpenLayers::
 
-    wget http://openlayers.org/download/OpenLayers-2.12.tar.gz
-    tar xf OpenLayers-2.12.tar.gz
-    cd OpenLayers-2.12
+    wget http://openlayers.org/download/OpenLayers-2.13.1.tar.gz
+    tar xf OpenLayers-2.13.1.tar.gz
+    cd OpenLayers-2.13.1
 
 
 Download closure compiler and put stuff into place (as described in
 `build/README.txt`)::
 
-    wget http://closure-compiler.googlecode.com/files/compiler-latest.zip
+    wget http://dl.google.com/closure-compiler/compiler-latest.zip
     unzip compiler-latest.zip compiler.jar
     mv compiler.jar tools/closure-compiler.jar
     rm compiler-latest.zip
@@ -48,7 +48,7 @@ Build::
 Manipulate Openlayers theme path, because `_getScriptLocation` doesn't work
 when OpenLayers is loaded asynchroneously, see `OpenLayers Issue 2470`_::
 
-    sed -i openlayers.min.js openlayers.js -e "s|OpenLayers._getScriptLocation()|\"/fanstatic/openlayers/:version:2.12.1/\"|g"
+    sed -i openlayers.min.js openlayers.js -e "s|OpenLayers._getScriptLocation()|\"/fanstatic/openlayers/:version:2.13.1/\"|g"
 
 
 Create static directory with files to be served::

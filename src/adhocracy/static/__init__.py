@@ -101,7 +101,7 @@ adhocracy_ko = Resource(adhocracy_library, 'adhocracy.ko.js',
 
 # --[ openlayers ]----------------------------------------------------------
 
-openlayers_library = Library('openlayers', 'openlayers', version='2.12.2')
+openlayers_library = Library('openlayers', 'openlayers', version='2.13.1')
 openlayers_js = Resource(openlayers_library, 'openlayers.js',
                          minified='openlayers.min.js',
                          depends=[jquery],
