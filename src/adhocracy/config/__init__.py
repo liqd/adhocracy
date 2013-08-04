@@ -1,3 +1,4 @@
+import json
 from paste.deploy.converters import asbool
 from paste.deploy.converters import asint
 from paste.deploy.converters import aslist
@@ -51,6 +52,10 @@ def get_value(key, converter, default=None, config=config,
         return converter(value, **converter_kwargs)
 
 
+def get(key, default=None, config=config):
+    return get_value(key, lambda x: x.decode('utf-8'), default, config)
+
+
 def get_bool(key, default=None, config=config):
     return get_value(key, asbool, default, config)
 
@@ -59,12 +64,12 @@ def get_int(key, default=None, config=config):
     return get_value(key, asint, default, config)
 
 
-def get_list(key, default=None, config=config, sep=','):
-    return get_value(key, aslist, default, config, {'sep': sep})
-
-
-def get(key, default=None, config=config):
-    return get_value(key, lambda x: x.decode('utf-8'), default, config)
+def get_list(key, default=None, config=config, sep=',', cast=None):
+    result = get_value(key, aslist, default, config, {'sep': sep})
+    if cast is None:
+        return result
+    else:
+        return map(cast, result)
 
 
 def get_tuples(key, default=[], sep=u' '):
@@ -74,6 +79,10 @@ def get_tuples(key, default=[], sep=u' '):
     return ((v.strip() for v in line.split(sep))
             for line in mapping.strip().split(u'\n')
             if line is not u'')
+
+
+def get_json(key, default=None, config=config):
+    return get_value(key, json.loads, default, config)
 
 
 def get_optional_user_attributes():
