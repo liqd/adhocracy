@@ -5,6 +5,10 @@
  */
 
 /* Map Examples Specific */
+.map {
+  position: relative;
+}
+
 .small_map {
     width: 300px;
     height: 300px;
@@ -29,14 +33,6 @@
     top: 0px;
     left: 0px;
 }
-
-.map_attribution {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    z-index: 500;
-}
-
 
 /* bootstrap.css sets max-width to 100% which does not work with OpenLayers.
  * Since bootstrap.css 2.0.4, the map id could be named #map_canvas to avoid
@@ -372,6 +368,20 @@ div.marker img {
   color: #888;
   font-size: x-small;
   text-align: right;
+}
+/* License note within map */
+.note_map_inline {
+  color: #000;
+  background-color: #bbb;
+  opacity: 0.6;
+  padding: 0px 4px;
+  border-top-left-radius: 4px;
+  font-size: x-small;
+  text-align: right;
+  z-index: 1000;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
 
 #left_block {
