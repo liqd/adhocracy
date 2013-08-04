@@ -7,7 +7,7 @@
 <div id="map" class="${map_class}"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadSingleProposalMap(${h.to_json(instanceKey=c.instance.key, proposalId=proposal_id)|n});
+    adhocracy.geo.loadSingleProposalMap(${h.geo.map_config(instanceKey=c.instance.key, proposalId=proposal_id)|n});
 }</script>
 </%def>
 
@@ -18,7 +18,7 @@
 <div id="map" class="small_boxed_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadPageMap(${h.to_json(instanceKey=c.instance.key, pageId=page_id)|n});
+    adhocracy.geo.loadPageMap(${h.geo.map_config(instanceKey=c.instance.key, pageId=page_id)|n});
 }</script>
 </%def>
 
@@ -39,7 +39,7 @@
     </div>
 </form>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadPageMap(${h.to_json(instanceKey=c.instance.key, pageId=page_id, edit=True)|n});
+    adhocracy.geo.loadPageMap(${h.geo.map_config(instanceKey=c.instance.key, pageId=page_id, edit=True)|n});
 }</script>
 </%def>
 
@@ -59,7 +59,7 @@
     </div>
 </form>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadSingleProposalMap(${h.to_json(instanceKey=c.instance.key, proposalId=proposal_id, edit=True)|n});
+    adhocracy.geo.loadSingleProposalMap(${h.geo.map_config(instanceKey=c.instance.key, proposalId=proposal_id, edit=True)|n});
 }</script>
 </%def>
 
@@ -76,7 +76,7 @@
   <div id="edit_map_buttons" />
 </div>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.editGeotagInNewProposalWizard(${h.to_json(instanceKey=c.instance.key)|n});
+    adhocracy.geo.editGeotagInNewProposalWizard(${h.geo.map_config(instanceKey=c.instance.key)|n});
 }</script>
 </%def>
 
@@ -87,7 +87,7 @@
 <div id="map" class="${map_class}"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadRegionMap(${h.to_json(instanceKey=c.instance.key, initialProposals=initial_proposals, initialPages=[], largeMap=False, fullRegion=full_region)|n});
+    adhocracy.geo.loadRegionMap(${h.geo.map_config(instanceKey=c.instance.key, initialProposals=initial_proposals, initialPages=[], largeMap=False, fullRegion=full_region)|n});
 }</script>
 </%def>
 
@@ -97,7 +97,7 @@
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="large_map"></div>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadRegionMap(${h.to_json(instanceKey=c.instance.key, initialProposals=initial_proposals, initialPages=initial_pages, largeMap=True, fullRegion=full_region)|n});
+    adhocracy.geo.loadRegionMap(${h.geo.map_config(instanceKey=c.instance.key, initialProposals=initial_proposals, initialPages=initial_pages, largeMap=True, fullRegion=full_region)|n});
 }</script>
 </%def>
 
@@ -108,7 +108,7 @@
 <div id="map" class="small_map"></div>
 <div class="note_map">&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a>-KartografInnen (<a href="http://creativecommons.org/licenses/by-sa/2.0/">Lizenz</a>)</div>
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadOverviewMap(${h.to_json(initialInstances=initial_instances)|n});
+    adhocracy.geo.loadOverviewMap(${h.geo.map_config(initialInstances=initial_instances)|n});
 }</script>
 </%def>
 
@@ -118,6 +118,6 @@
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
 <script type="text/javascript">window.onload=function() {
-  adhocracy.geo.showSelectInstanceMap();
+    adhocracy.geo.showSelectInstanceMap(${h.geo.map_config()|n});
 }</script>
 </%def>

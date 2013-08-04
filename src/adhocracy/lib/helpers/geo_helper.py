@@ -15,3 +15,13 @@ def use_proposal_geotags():
 
 def use_page_geotags():
     return use_maps() and config.get_bool('adhocracy.page_geotags')
+
+
+def map_config(**kwargs):
+    from adhocracy.lib.helpers import to_json
+    return to_json(
+        restrictedBounds=config.get_list('adhocracy.geo.restricted_bounds',
+                                         cast=float),
+        fallbackBounds=config.get_list('adhocracy.geo.fallback_bounds',
+                                       cast=float),
+        **kwargs)

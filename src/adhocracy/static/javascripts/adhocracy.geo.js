@@ -1071,32 +1071,12 @@ var adhocracy = adhocracy || {};
     };
 
 
-    adhocracy.geo.createMap = function () {
+    adhocracy.geo.createMap = function (p) {
 
-        // The bounds below correspond to the following bounds in geographic
-        // projection:
-        // var RESTRICTED_BOUNDS = new OpenLayers.Bounds(0, 40, 30, 60);
-
-        var RESTRICTED_BOUNDS = new OpenLayers.Bounds(
-            0,
-            4865942.278825832,
-            3339584.7233333336,
-            8399737.888649108
-        );
-
-        // FALLBACK_BOUNDS is the BBOX around Germany. In geographic projection:
-        // var FALLBACK_BOUNDS = [5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402];
-        // In spherical mercartor projection:
-
-        adhocracy.geo.FALLBACK_BOUNDS = new OpenLayers.Bounds(
-            653034.6021803395,
-            5986272.559465266,
-            1674460.2223558303,
-            7384713.654445262
-        );
+        adhocracy.geo.FALLBACK_BOUNDS = new OpenLayers.Bounds(p.fallbackBounds);
 
         var map = new OpenLayers.Map('map', {
-            restrictedExtent: RESTRICTED_BOUNDS,
+            restrictedExtent: new OpenLayers.Bounds(p.restrictedBounds),
             projection: "EPSG:900913",
             controls: []
         });
@@ -1306,7 +1286,7 @@ var adhocracy = adhocracy || {};
         var p = $.extend({
             'edit': false,
         }, p);
-        var map = adhocracy.geo.createMap();
+        var map = adhocracy.geo.createMap(p);
 
         var waiter = adhocracy.geo.createWaiter(3, function (bounds) {
             map.zoomToExtent(bounds);
@@ -1364,7 +1344,7 @@ var adhocracy = adhocracy || {};
             'position': null
         }, p);
 
-        var map = adhocracy.geo.createMap();
+        var map = adhocracy.geo.createMap(p);
 
         var numFetches = 1;
         if (p.proposalId) {
@@ -1472,7 +1452,7 @@ var adhocracy = adhocracy || {};
             });
         }
 
-        map = adhocracy.geo.createMap();
+        map = adhocracy.geo.createMap(p);
         adhocracy.geo.map = map;
 
         var waiter = adhocracy.geo.createWaiter(p.fullRegion ? 1 : 3, function (bounds) {
@@ -1526,7 +1506,7 @@ var adhocracy = adhocracy || {};
         var p = $.extend({
             'initialInstances': []
         }, p);
-        var map = adhocracy.geo.createMap();
+        var map = adhocracy.geo.createMap(p);
 
         map.addControls(adhocracy.geo.createControls(false, false));
         var baseLayers = adhocracy.geo.createBaseLayers(5, 12);
@@ -1760,11 +1740,11 @@ var adhocracy = adhocracy || {};
         };
     };
 
-    adhocracy.geo.showSelectInstanceMap = function () {
+    adhocracy.geo.showSelectInstanceMap = function (p) {
 
         // build base map layers
 
-        var map = adhocracy.geo.createMap();
+        var map = adhocracy.geo.createMap(p);
 
         map.addControls(adhocracy.geo.createControls(true, false));
         var baseLayers = adhocracy.geo.createBaseLayers(5, 12, true);

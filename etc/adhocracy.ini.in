@@ -336,6 +336,18 @@ adhocracy.proposal_geotags = True
 adhocracy.page_geotags = True
 adhocracy.show_overview_map_on_index = True
 adhocracy.show_overview_map_on_instance_index = False
+
+# The following coordinates are defined in spherical mercator, as this is what
+# OSM map tiles use. The order is left, bottom, right, top.
+
+# maps will be limited to the following coordinates
+# Example: central europe - in geographic coordinates: 0, 40, 30, 60
+adhocracy.geo.restricted_bounds = 0, 4865942.278825832, 3339584.7233333336, 8399737.888649108
+
+# default bounds to which maps within in instances zoom if no instance region
+# is defined.
+# Example: Germany - in geographic coordinates: 5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402
+adhocracy.geo.fallback_bounds = 653034.6021803395, 5986272.559465266, 1674460.2223558303, 7384713.654445262
 {% end %}
 
 # show tutorials
