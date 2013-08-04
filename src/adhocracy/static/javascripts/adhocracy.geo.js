@@ -2011,12 +2011,13 @@ var adhocracy = adhocracy || {};
                 'class': 'proposal_create_map'
             }).appendTo('#map_div');
 
-            adhocracy.geo.loadSingleProposalMap({
-                'instanceKey': p.instanceKey,
-                'proposalId': null,
-                'edit': true,
-                'position': position
-            });
+            adhocracy.geo.loadSingleProposalMap(
+                $.extend({
+                    'proposalId': null,
+                    'edit': true,
+                    'position': position
+                }, p)
+            );
 
             $('#create_geo_button').remove();
 
