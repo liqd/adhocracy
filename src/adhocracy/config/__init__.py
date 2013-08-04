@@ -51,6 +51,10 @@ def get_value(key, converter, default=None, config=config,
         return converter(value, **converter_kwargs)
 
 
+def get(key, default=None, config=config):
+    return get_value(key, lambda x: x.decode('utf-8'), default, config)
+
+
 def get_bool(key, default=None, config=config):
     return get_value(key, asbool, default, config)
 
@@ -61,10 +65,6 @@ def get_int(key, default=None, config=config):
 
 def get_list(key, default=None, config=config, sep=','):
     return get_value(key, aslist, default, config, {'sep': sep})
-
-
-def get(key, default=None, config=config):
-    return get_value(key, lambda x: x.decode('utf-8'), default, config)
 
 
 def get_tuples(key, default=[], sep=u' '):
