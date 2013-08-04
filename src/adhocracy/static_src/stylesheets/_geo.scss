@@ -281,6 +281,8 @@ div.search_result_details {
     z-index: 1000;
     left: 0px;
     bottom: 0px;
+    height: 36px;
+    width: 36px;
 }
 
 .proposal_popup_title {
@@ -409,6 +411,10 @@ div.marker img {
     margin-top: 30px;
 }
 
+.olControlZoomPanel {
+    top: 20px !important;
+}
+
 #hide_list_icon {
     position: absolute;
     top: 0px;
@@ -440,7 +446,15 @@ div.marker img {
 }
 
 .olControlScaleLine {
-    bottom: 5px !important;
+    bottom: 8px !important;
+    left: 14px !important;
+}
+
+.large_map .olControlScaleLine {
+    left: 17px !important;
+}
+
+#map_wrapper .olControlScaleLine {
     left: 60px !important;
 }
 
