@@ -1029,7 +1029,10 @@ var adhocracy = adhocracy || {};
     /**
      * minZoomLevel, maxZoomLevel: value between 0 and 19.
      */
-    adhocracy.geo.createBaseLayers = function (min_zoom_level, max_zoom_level, admin_boundaries, blank) {
+    adhocracy.geo.createBaseLayers = function (p, min_zoom_level, max_zoom_level, admin_boundaries, blank) {
+        var p = $.extend({
+            'imageLayers': [],
+        }, p);
 
         var osmOptions = {
             displayInLayerSwitcher: true,
@@ -1057,6 +1060,17 @@ var adhocracy = adhocracy || {};
                         "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions),
             admin_boundary_layer
         ];
+        
+        var i = 0;
+        for (i = 0; i < p.imageLayers.length; i++) {
+            var l = p.imageLayers[i];
+            baseLayers.push(new OpenLayers.Layer.Image(
+                l.title,
+                l.url,
+                new OpenLayers.Bounds(l.bounds),
+                new OpenLayers.Size(l.size),
+                $.extend({'visibility': l.visible}, osmOptionsOverlay)));
+        };
 
         if (!admin_boundaries) {
             admin_boundary_layer.setVisibility(false);
@@ -1106,8 +1120,8 @@ var adhocracy = adhocracy || {};
 
             var rx1 = (map.rleft || 0) / size.w;
             var ry1 = (map.rbottom || 0) / size.h;
-            var rx2 = 1 - ((map.rright || 1) / size.w);
-            var ry2 = 1 - ((map.rtop || 1) / size.h);
+            var rx2 = 1 - ((map.rright || 0) / size.w);
+            var ry2 = 1 - ((map.rtop || 0) / size.h);
 
             var x1 = bounds.left;
             var y1 = bounds.bottom;
@@ -1119,8 +1133,7 @@ var adhocracy = adhocracy || {};
             var sx2 = ((rx2 - 1) * x1 + (1 - rx1) * x2) / (rx2 - rx1);
             var sy2 = ((ry2 - 1) * y1 + (1 - ry1) * y2) / (ry2 - ry1);
 
-            var restricted_bounds = new OpenLayers.Bounds(sx1, sy1, sx2, sy2);
-            map.zoomToExtent(restricted_bounds);
+            map.zoomToExtent(new OpenLayers.Bounds(sx1, sy1, sx2, sy2));
         };
 
         return map;
@@ -1293,7 +1306,7 @@ var adhocracy = adhocracy || {};
         });
 
         map.addControls(adhocracy.geo.createControls(p.edit, false));
-        map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
+        map.addLayers(adhocracy.geo.createBaseLayers(p, 5, 19));
         var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(p.instanceKey, function (feature) {
             waiter(feature, true);
         });
@@ -1355,7 +1368,7 @@ var adhocracy = adhocracy || {};
         });
 
         map.addControls(adhocracy.geo.createControls(p.edit, false));
-        map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
+        map.addLayers(adhocracy.geo.createBaseLayers(p, 5, 19));
         var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(p.instanceKey, function (feature) {
             waiter(feature);
         });
@@ -1467,7 +1480,7 @@ var adhocracy = adhocracy || {};
             map.addControls(controls);
         });
 
-        map.addLayers(adhocracy.geo.createBaseLayers(5, 19));
+        map.addLayers(adhocracy.geo.createBaseLayers(p, 5, 19));
         var regionBoundaryLayers = adhocracy.geo.createRegionBoundaryLayer(p.instanceKey, function (feature) {
             waiter(feature, false);
         });
@@ -1509,7 +1522,7 @@ var adhocracy = adhocracy || {};
         var map = adhocracy.geo.createMap(p);
 
         map.addControls(adhocracy.geo.createControls(false, false));
-        var baseLayers = adhocracy.geo.createBaseLayers(5, 12);
+        var baseLayers = adhocracy.geo.createBaseLayers(p, 5, 12);
         map.addLayers(baseLayers);
         map.setBaseLayer(baseLayers[1]);
 
@@ -1747,7 +1760,7 @@ var adhocracy = adhocracy || {};
         var map = adhocracy.geo.createMap(p);
 
         map.addControls(adhocracy.geo.createControls(true, false));
-        var baseLayers = adhocracy.geo.createBaseLayers(5, 12, true);
+        var baseLayers = adhocracy.geo.createBaseLayers(p, 5, 12, true);
         map.addLayers(baseLayers);
         map.setBaseLayer(baseLayers[1]);
 
@@ -1800,7 +1813,7 @@ var adhocracy = adhocracy || {};
         var restrictLeft = 26;
         // search box restricts by 250 px from the right;
         var restrictRight = 250;
-        map.setRestrictedExtent(restrictLeft, 0, restrictRight, 1);
+        map.setRestrictedExtent(restrictLeft, 0, restrictRight, 0);
 
         map.zoomToRestrictedExtent(adhocracy.geo.FALLBACK_BOUNDS);
 

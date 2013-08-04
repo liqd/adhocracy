@@ -24,4 +24,5 @@ def map_config(**kwargs):
                                          cast=float),
         fallbackBounds=config.get_list('adhocracy.geo.fallback_bounds',
                                        cast=float),
+        imageLayers=config.get_json('adhocracy.geo.image_layers'),
         **kwargs)

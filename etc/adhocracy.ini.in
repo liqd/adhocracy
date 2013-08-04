@@ -348,6 +348,15 @@ adhocracy.geo.restricted_bounds = 0, 4865942.278825832, 3339584.7233333336, 8399
 # is defined.
 # Example: Germany - in geographic coordinates: 5.86630964279175, 47.2700958251953, 15.0419321060181, 55.1175498962402
 adhocracy.geo.fallback_bounds = 653034.6021803395, 5986272.559465266, 1674460.2223558303, 7384713.654445262
+
+#adhocracy.geo.image_layers =
+#    [{"title": "Nutzungskonzept",
+#      "url": "/images/masterplan-nutzung.png",
+#      "bounds": [1105348.02, 7085748.16, 1106766.88, 7088026.94],
+#      "size": [588, 950],
+#      "visible": true},
+#    ]
+
 {% end %}
 
 # show tutorials
