@@ -45,6 +45,7 @@
         // nested content_list
         .content_list {
             margin-bottom: -1em;
+            clear: both;
 
             li:last-child {
                 border-bottom: none;
