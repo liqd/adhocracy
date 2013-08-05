@@ -19,8 +19,8 @@ def email_url(user, code):
                     absolute=True)
 
 
-def create_token(email, config):
-    secret = get_secret(config)
+def create_token(email):
+    secret = get_secret()
     timestamp = str(int(time.time()))
     message =  sign((email + "_" + timestamp).encode("utf-8"),secret)
     return base64.urlsafe_b64encode(message.encode("utf-8"))

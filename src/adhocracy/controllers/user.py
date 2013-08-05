@@ -890,7 +890,7 @@ class UserController(BaseController):
         if config.get('adhocracy.login_style') == 'alternate' and self.form_result.get('have_password') == 'false':
             user = model.User.find_by_email(self.form_result.get('login'))
             if user:
-                login_code = create_token(user.email, config)
+                login_code = create_token(user.email)
                 url = email_url(user, login_code)
                 body = (
                     _("you have requested to authenticate you as a user via email address."
