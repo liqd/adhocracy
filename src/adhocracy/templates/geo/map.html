@@ -116,8 +116,8 @@ ${attribution(long=True)}
 <% h.need.openlayers %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map small_map"></div>
-${attribution(long=False)}
+<div id="map" class="map small_map">
+${attribution(long=False)}</div>
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.loadOverviewMap(${h.geo.map_config(initialInstances=initial_instances)|n});
 }</script>
