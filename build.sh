@@ -70,14 +70,12 @@ distro=''
 if which apt-get >/dev/null 2>&1 ; then
     distro='debian'
     PYTHON_CMD='python'
-    PIP_CMD='pip'
     PKG_INSTALL_CMD='apt-get install -yqq'
 fi
 
 if which pacman >/dev/null 2>&1 ; then
     distro='arch'
     PYTHON_CMD='python2'
-    PIP_CMD='pip2'
     PKG_INSTALL_CMD='pacman -S --needed --noconfirm'
 fi
 
