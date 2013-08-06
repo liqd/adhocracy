@@ -939,7 +939,9 @@ class InstanceController(BaseController):
                 geometry=geo_centre,
                 properties={
                     'url': h.base_url(instance=instance),
-                    'label': instance.label
+                    'label': instance.label,
+                    'numProposals': instance.num_proposals,
+                    'numMembers': instance.num_members,
                 })
             feature = geojson.Feature(
                 geometry=geom,
