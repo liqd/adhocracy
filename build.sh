@@ -79,7 +79,7 @@ if which pacman >/dev/null 2>&1 ; then
     PKG_INSTALL_CMD='pacman -S --needed --noconfirm'
 fi
 
-if which yum >/dev/null ; then
+if which yum >/dev/null 2>&1 ; then
     distro='fedora'
     PYTHON_CMD='python'
     PKG_INSTALL_CMD='yum install --assumeyes --quiet'
