@@ -2022,22 +2022,15 @@ var adhocracy = adhocracy || {};
 
             $('<div />', {
                 id: 'attribution_div',
-                'class': 'note_map'
+                'class': 'note_map_inline',
             }).appendTo('#map_div');
 
             $('#attribution_div').append('&copy; ');
             var osm_link = $('<a>', {
-                href: 'http://www.openstreetmap.org/'
+                href: 'http://www.openstreetmap.org/copyright'
             });
             osm_link.appendTo('#attribution_div');
             osm_link.append(document.createTextNode('OpenStreetMap'));
-            $('#attribution_div').append(document.createTextNode('-' + $.i18n._('osm_cartographer') + '('));
-            var license_link = $('<a>', {
-                href: 'http://creativecommons.org/licenses/by-sa/2.0/'
-            });
-            license_link.appendTo('#attribution_div');
-            license_link.append(document.createTextNode($.i18n._('license')));
-            $('#attribution_div').append(document.createTextNode(')'));
         };
 
         addGeoTagHandler = function (event) {
