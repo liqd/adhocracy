@@ -208,7 +208,7 @@ if ! $not_use_sudo_commands; then
             SERVICE_CMD_SUFFIX='.service'
             ;;
         esac
-        if [ $distro == "fedora" -o $distro == "arch" ] ; then
+        if [ "$distro" = "fedora" -o "$distro" = "arch" ] ; then
         echo "
 [Unit]
 Description=Adhocracy Daemon
