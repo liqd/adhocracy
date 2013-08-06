@@ -150,9 +150,11 @@
 <%block name="sidebar">
 
 %if h.geo.use_proposal_geotags():
+<div class="sidebar_box">
     <h3>${_('Map')}</h3>
     <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
     ${map.show_region_map([p.id for p in c.proposals_pager.items if p is not None and p.geotag is not None], full_region=not(bool(c.query)), map_class="small_boxed_map")}
+</div>
 %endif
 
     ${c.proposals_pager.render_facets(cls='sidebar_box')}

@@ -12,8 +12,10 @@ ${h.site.name()} &raquo; ${_("Instances")}
 <%block name="sidebar">
     ${c.instance_pager.render_facets(cls='sidebar_box')}
 %if h.geo.use_proposal_geotags() and h.asbool(config.get('adhocracy.show_overview_map_on_instance_index')):
-    <h3>${_('Map')}</h3>
-    ${map.show_overview_map([i.id for i in c.instance_pager.items])}
+    <div class="sidebar_box">
+        <h3>${_('Map')}</h3>
+        ${map.show_overview_map([i.id for i in c.instance_pager.items])}
+    </div>
 %endif
 </%block>
 
