@@ -152,7 +152,7 @@ fi
 if ! $not_use_sudo_commands; then
     case $distro in
         debian )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python python-setuptools libssl-dev libbz2-dev pkg-config libsqlite3-dev openjdk-6-jre libpq-dev'
+    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libssl-dev libbz2-dev pkg-config libsqlite3-dev openjdk-6-jre libpq-dev'
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
     PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby rubygems'
 
@@ -287,6 +287,13 @@ fi
 
 # Set up adhocracy configuration
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
+
+case $distro in
+    debian )
+echo "installing setuptools with easy_install"
+python/python-2.7/bin/pip install "distribute>=0.7"
+;;
+esac
 
 # bootstrap our buildout if it is outdated or not available
 HAVE_BUILDOUT_VERSION=$(bin/buildout --version 2>&1 | cut -d ' ' -f 3)
