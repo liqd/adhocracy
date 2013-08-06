@@ -223,13 +223,14 @@ ExecStatus=/bin/sh /etc/rc.d/adhocracy_services status
 WantedBy=multi-user.target
 " | $SUDO_CMD tee >/dev/null /etc/systemd/system/adhocracy_services.service
         fi
+
         echo "$stmpl" | \
             sed -e "s#\${[^}]*:[^}]*user}#$adhoc_user#" \
                 -e "s#\${buildout:directory}#$(readlink -f .)/adhocracy_buildout#" \
                 -e "s#\${domains:main}#supervisord#" | \
                 $SUDO_CMD tee "$INIT_FILE" >/dev/null
         $SUDO_CMD chmod a+x "$INIT_FILE"
-        $SUDO_CMD $SERVICE_CMD adhocracy_services$SERVICE_CMD_PREFIX
+        $SUDO_CMD $SERVICE_CMD adhocracy_services${SERVICE_CMD_SUFFIX}
     fi
 fi
 
