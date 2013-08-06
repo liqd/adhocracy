@@ -79,6 +79,11 @@ if which pacman >/dev/null 2>&1 ; then
     PKG_INSTALL_CMD='pacman -S --needed --noconfirm'
 fi
 
+if which yum >/dev/null ; then
+    distro='fedora'
+    PYTHON_CMD='python'
+    PKG_INSTALL_CMD='yum install --assumeyes --quiet'
+fi
 if [ -z "$distro" ] ; then
     echo "Your OS is currently not supported! Aborting"
     exit 35
@@ -151,24 +156,26 @@ fi
 
 if ! $not_use_sudo_commands; then
     case $distro in
-        debian )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libssl-dev libbz2-dev pkg-config libsqlite3-dev openjdk-6-jre libpq-dev'
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby rubygems'
-
-    if $install_mysql_client; then
-        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient-dev'
-    fi
-    ;;
-        arch )
-    PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make base-devel bin86 unzip git mercurial python2 pkg-config sqlite jre7-openjdk postgresql-libs'
-        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh mutt'
-        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby'
+    debian )
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libssl-dev libbz2-dev pkg-config libsqlite3-dev openjdk-6-jre libpq-dev'
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby rubygems'
 
         if $install_mysql_client; then
-        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient'
+            PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient-dev'
         fi
-    ;;
+        ;;
+    arch )
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make base-devel bin86 unzip git mercurial python2 pkg-config sqlite jre7-openjdk postgresql-libs openssh mutt ruby'
+
+        if $install_mysql_client; then
+            PKGS_TO_INSTALL=$PKGS_TO_INSTALL' libmysqlclient'
+        fi
+        ;;
+    fedora )
+        $SUDO_CMD yum groupinstall --assumeyes development-tools
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc dev86 unzip git mercurial sqlite sqlite-devel java-1.7.0-openjdk postgresql openssh mutt ruby openssl-devel'
+        ;;
     esac
     # Install all Packages
     echo $PKG_INSTALL $PKGS_TO_INSTALL
@@ -188,13 +195,21 @@ if ! $not_use_sudo_commands; then
         case $distro in 
             debian )
             SERVICE_CMD='update-rc.d'
-            SERVICE_CMD_PREFIX='defaults'
+            SERVICE_CMD_SUFFIX=' defaults'
             INIT_FILE='/etc/init.d/adhocracy_services'
             ;;
             arch )
             SERVICE_CMD='systemctl enable'
             INIT_FILE='/etc/rc.d/adhocracy_services'
-            echo "
+            ;;
+            fedora )
+            SERVICE_CMD='systemctl enable'
+            INIT_FILE='/etc/rc.d/adhocracy_services'
+            SERVICE_CMD_SUFFIX='.service'
+            ;;
+        esac
+        if [ $distro == "fedora" -o $distro == "arch" ] ; then
+        echo "
 [Unit]
 Description=Adhocracy Daemon
 
@@ -207,15 +222,14 @@ ExecStatus=/bin/sh /etc/rc.d/adhocracy_services status
 [Install]
 WantedBy=multi-user.target
 " | $SUDO_CMD tee >/dev/null /etc/systemd/system/adhocracy_services.service
-            ;;
-        esac
+        fi
         echo "$stmpl" | \
             sed -e "s#\${[^}]*:[^}]*user}#$adhoc_user#" \
                 -e "s#\${buildout:directory}#$(readlink -f .)/adhocracy_buildout#" \
                 -e "s#\${domains:main}#supervisord#" | \
                 $SUDO_CMD tee "$INIT_FILE" >/dev/null
         $SUDO_CMD chmod a+x "$INIT_FILE"
-        $SUDO_CMD $SERVICE_CMD adhocracy_services $SERVICE_CMD_PREFIX
+        $SUDO_CMD $SERVICE_CMD adhocracy_services$SERVICE_CMD_PREFIX
     fi
 fi
 
