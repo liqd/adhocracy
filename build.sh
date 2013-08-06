@@ -288,17 +288,15 @@ fi
 # Set up adhocracy configuration
 ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 
-case $distro in
-    debian )
-echo "installing setuptools with easy_install"
-python/python-2.7/bin/pip install "distribute>=0.7"
-;;
-esac
-
 # bootstrap our buildout if it is outdated or not available
 HAVE_BUILDOUT_VERSION=$(bin/buildout --version 2>&1 | cut -d ' ' -f 3)
 WANT_BUILDOUT_VERSION=$(sed -n 's#zc\.buildout = ##p' versions.cfg)
 if test "$HAVE_BUILDOUT_VERSION" "!=" "$WANT_BUILDOUT_VERSION"; then
+    # Workaround for https://github.com/liqd/adhocracy/issues/479
+    if test "$(bin/python -c 'import setuptools;print setuptools.__version__' || true)" = "0.6"; then
+        python/python-2.7/bin/easy_install -U distribute
+    fi
+
     bin/python bootstrap.py -c buildout_current.cfg
 fi
 
