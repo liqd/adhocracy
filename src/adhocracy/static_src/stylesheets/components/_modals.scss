@@ -54,6 +54,9 @@
     /* must be initially hidden */
     display: none;
 
+    /* needed for close button */
+    position: relative;
+
     /* place overlay on top of other elements */
     z-index: 10000;
 
