@@ -1541,8 +1541,7 @@ var adhocracy = adhocracy || {};
                 var i = 0;
                 var features = new OpenLayers.Format.GeoJSON({}).read(data);
                 for (i = 0; i < features.length; i++) {
-                    // assert(features.length==1);
-                    var feature = features[0];
+                    var feature = features[i];
                     boundaryLayer.addFeatures([feature]);
                     //callback(feature);
                     if (feature.attributes.admin_center) {
