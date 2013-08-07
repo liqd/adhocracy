@@ -94,4 +94,20 @@ To request the outer regions (of i.e. Guttau) use a inner join.
             where region_hierarchy.inner_id=1309635;
 
 
+Create regional instances
+-------------------------
+
+You can now prepopulate instances from regions. As an example, you may want to
+have a look at the ``scripts/create-regional-instances.py`` script.
+
+
+Update region centres
+---------------------
+
+To speed up initial buildup of instance centres, you can run the following
+script:
+
+    LD_LIBRARY_PATH=parts/geos/lib bin/adhocpy scripts/update-instance-geo_centres.py etc/adhocracy.ini
+
+
 .. _Imposm: http://imposm.org/docs/imposm/latest/
