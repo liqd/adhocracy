@@ -164,6 +164,17 @@ var adhocracy = adhocracy || {};
         graphicYOffset: -31
     };
 
+    adhocracy.geo.townHallSymbolizerColored = function(color) {
+        return {
+            pointRadius: 5,
+            fillColor: color,
+            fillOpacity: 0.8,
+            strokeColor: "#be413f",
+            strokeWidth: 1,
+            strokeOpacity: 0.8
+        }
+    };
+
     adhocracy.geo.townHallSymbolizerDefault = {
         externalGraphic: '/images/townhall-64-grey.png',
         graphicHeight: 15,
@@ -1785,7 +1796,9 @@ var adhocracy = adhocracy || {};
             makeFeature: function (item) {
                 var geometry = new OpenLayers.Format.GeoJSON().read(item.geometry, "Geometry");
                 var style;
-                if (item.properties.isAuthenticated) {
+                if (item.properties.color) {
+                    style = adhocracy.geo.townHallSymbolizerColored(item.properties.color);
+                } else if (item.properties.isAuthenticated) {
                     style = adhocracy.geo.townHallSymbolizerAuthenticated;
                 } else {
                     style = adhocracy.geo.townHallSymbolizerDefault;

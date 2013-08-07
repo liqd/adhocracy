@@ -967,6 +967,12 @@ class InstanceController(BaseController):
 
             def make_feature(instance):
                 geo_centre = get_instance_geo_centre(instance)
+                if config.get_bool('adhocracy.geo.use_instancebadge_colors')\
+                   and instance.instancebadges:
+                    # Naively assume that only one badge is set
+                    color = instance.instancebadges[0].badge.color
+                else:
+                    color = None
                 feature = geojson.Feature(
                     id=instance.id,
                     geometry=geo_centre,
@@ -974,6 +980,7 @@ class InstanceController(BaseController):
                         'url': h.base_url(instance=instance),
                         'label': instance.label,
                         'isAuthenticated': instance.is_authenticated,
+                        'color': color,
                     })
                 add_instance_props(instance, feature.properties)
                 return feature

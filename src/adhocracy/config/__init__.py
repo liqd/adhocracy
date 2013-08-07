@@ -15,6 +15,7 @@ DEFAULTS = {
     'adhocracy.feedback_use_categories': True,
     'adhocracy.force_randomized_user_names': False,
     'adhocracy.geo.image_layers': [],
+    'adhocracy.geo.use_instancebadge_colors': True,
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
