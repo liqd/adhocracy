@@ -66,6 +66,7 @@ def get_instance_geo_centre(instance):
                  instance.label)
         geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
         instance.geo_centre = wkt.dumps(geom)
+        meta.Session.commit()
 
     return geom
 
