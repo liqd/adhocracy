@@ -7,6 +7,7 @@ from pylons.i18n import _
 
 
 DEFAULTS = {
+    'adhocracy.create_initial_instance_page': True,
     'adhocracy.delay_update_queue_seconds': 1,
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,

@@ -5,12 +5,11 @@ import re
 
 from babel import Locale
 
-from pylons import config
-
 from sqlalchemy import Table, Column, ForeignKey, func, or_
 from sqlalchemy import DateTime, Integer, Float, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import reconstructor
 
+from adhocracy import config
 import adhocracy.model
 from adhocracy.model import meta
 
@@ -227,7 +226,8 @@ class Instance(meta.Indexable):
         membership = Membership(user, instance, supervisor_group,
                                 approved=True)
         meta.Session.add(membership)
-        Page.create(instance, label, u"", user)
+        if config.get_bool('adhocracy.create_initial_instance_page'):
+            Page.create(instance, label, u"", user)
 
         # Autojoin the user in instances
         config_autojoin = config.get('adhocracy.instances.autojoin')
