@@ -119,11 +119,18 @@
   </div>  
   %endif
 
+%if h.config.get_bool('adhocracy.startpage.show_bottom_row', False):
 <div id="content-bottom">
+    %if c.new_proposals_pager is not None:
     <div id="newest-proposals-bottom-left">
         <h4 class="section">${_(u'Newest Proposals')}</h4>
         ${c.new_proposals_pager.render_pager()}
     </div>
+    %else:
+    <div id="content-bottom-left">
+        <!--This is dummy tag and only useful to merge in wordpress content-->
+    </div>
+    %endif
     <div id="content-bottom-center">
         <!--This is dummy tag and only useful to merge in wordpress content-->
     </div>
@@ -131,5 +138,6 @@
         <!--This is dummy tag and only useful to merge in wordpress content-->
     </div>
 </div>
+%endif
 
 </%block>
