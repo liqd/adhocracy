@@ -7,6 +7,7 @@ from pylons.i18n import _
 
 
 DEFAULTS = {
+    'adhocracy.create_initial_instance_page': True,
     'adhocracy.delay_update_queue_seconds': 1,
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,
@@ -31,6 +32,9 @@ DEFAULTS = {
     'adhocracy.show_instance_overview_proposals_new': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
+    'adhocracy.show_stats_on_frontpage': True,
+    'adhocracy.startpage.instances.list_length': 0,
+    'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
