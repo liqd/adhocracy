@@ -23,7 +23,7 @@ def upgrade(migrate_engine):
                         nullable=True)
     region_col.create(instance_table)
 
-    boundary_idx = Index('boundary_idx', instance_table.c.boundary,
+    boundary_idx = Index('boundary_idx', region_table.c.boundary,
                          postgresql_using='gist')
     boundary_idx.create()
 
