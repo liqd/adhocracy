@@ -1,12 +1,12 @@
 from datetime import datetime
 import logging
 
-from paste.deploy.converters import asbool, asint
-from pylons import request, response, tmpl_context as c, config
+from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from sqlalchemy import not_
 
+from adhocracy import config
 from adhocracy import model
 from adhocracy.controllers.event import EventController
 from adhocracy.lib import helpers as h
@@ -37,8 +37,8 @@ class RootController(BaseController):
 
         data = {}
 
-        instances_in_root = asint(
-            config.get('adhocracy.startpage.instances.list_length', 0))
+        instances_in_root = config.get_int(
+            'adhocracy.startpage.instances.list_length')
         if instances_in_root > 0:
             data['instances'] = model.Instance.all(limit=instances_in_root)
         elif instances_in_root == -1:
@@ -48,8 +48,8 @@ class RootController(BaseController):
         if data['title'] is None:
             data['title'] = config.get('adhocracy.site.name')
 
-        proposals_number = asint(
-            config.get('adhocracy.startpage.proposals.list_length', 0))
+        proposals_number = config.get_int(
+            'adhocracy.startpage.proposals.list_length')
 
         if proposals_number > 0:
             proposals = model.Proposal.all_q()\
@@ -65,7 +65,7 @@ class RootController(BaseController):
         else:
             data['new_proposals_pager'] = None
 
-        if asbool(config.get('adhocracy.show_stats_on_frontpage', 'true')):
+        if config.get_bool('adhocracy.show_stats_on_frontpage'):
             data['stats_global'] = {
                 "members": model.User.all_q().count(),
                 "comments": model.Comment.all_q().count(),
