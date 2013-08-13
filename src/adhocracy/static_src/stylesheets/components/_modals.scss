@@ -44,7 +44,7 @@
     background: hsl(hue($red), saturation($flash), lightness($flash));
 }
 
-#welcome_message .info_box {
+#welcome_message .info_box, .alert {
     margin-left: 23px;
     margin-right: 23px;
 }
