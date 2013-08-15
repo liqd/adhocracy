@@ -4,7 +4,9 @@
         <div class="page_wrapper">
           <div id="footer_line">
             <div id="second_footer_line" class="subcolumns" role="complementary">
-              <div class="c33l footer_content">
+              <div class="c33l footer_content" id="footer_1">
+                <% footer_1 = h.staticpage.render_footer_column(1) %>
+                %if footer_1 is None:
                   <ul>
                       <li><a class="staticlink_about" 
                              href="/static/about.html">
@@ -19,9 +21,14 @@
                           ${_("terms and conditions")}
                       </a></li>
                   </ul>
+                %else:
+                ${footer_1|n}
+                %endif
               </div>
 
-              <div class="c33l footer_content">
+              <div class="c33l footer_content" id="footer_2">
+                <% footer_2 = h.staticpage.render_footer_column(2) %>
+                %if footer_2 is None:
                   <ul>
                       <li><a class="staticlink_privacy" 
                              href="/static/privacy.html">
@@ -32,9 +39,14 @@
                           ${_("imprint")}
                       </a></li>
                   </ul>
+                %else:
+                ${footer_2|n}
+                %endif
               </div>
 
-              <div class="c33r footer_content">
+              <div class="c33r footer_content" id="footer_3">
+                <% footer_3 = h.staticpage.render_footer_column(3) %>
+                %if footer_3 is None:
                 <div class="subcr">
                   <div class="footer_box">
                     <div class="subcolumns">
@@ -48,6 +60,9 @@
                     </div>
                   </div>
                 </div>
+                %else:
+                ${footer_3|n}
+                %endif
               </div>
 
             </div>
