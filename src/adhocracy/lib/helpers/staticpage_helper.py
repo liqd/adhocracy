@@ -24,3 +24,12 @@ def get_body(key, default=''):
     if res is None:
         return default
     return res.body
+
+
+def render_footer_column(column):
+    path = u'footer_' + unicode(column)
+    page = staticpage.get_static_page(path, fallback_to_file=True)
+    if page is None:
+        return None
+    else:
+        return page.body
