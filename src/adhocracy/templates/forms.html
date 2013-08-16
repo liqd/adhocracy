@@ -18,7 +18,7 @@
 <label class="radio ${cls}">
     <form:error name="field_name" />
     <input name="${name}" value="${value}" type="radio" 
-           tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}" ${'checked="checked"' if checked else '' | n} /> 
+           ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n} ${'checked="checked"' if checked else '' | n} />
     ${label}
 </label>
 </%self:group>
@@ -29,7 +29,7 @@
 <label class="checkbox ${cls}">
     <form:error name="field_name" />
     <input name="${name}"  type="checkbox"
-           tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}" 
+           ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}
            ${'checked="checked"' if checked else '' | n} /> ${label}
     %if help:
     <div class="help-block">${help}</div>
@@ -41,7 +41,7 @@
 
 <%def name="checkboxes(label, name, checkboxes, tabindex=None, cls='', placeholder='', help=None)">
 <label for="checkbox">
-    <input value="${value}" name="${name}" type="checkbox" tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}"/> ${label}
+    <input value="${value}" name="${name}" type="checkbox" ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}/> ${label}
 </label>
 </%def>
 
@@ -63,7 +63,7 @@
 ${caller.before()}
 %endif
 <textarea class="${cls}" name="${name}" rows="${rows}" 
-          tabindex="${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}">${value}</textarea>
+          ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}>${value}</textarea>
 %if hasattr(caller, 'after'):
 ${caller.after()}
 %endif
