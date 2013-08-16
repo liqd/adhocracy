@@ -111,6 +111,8 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     milestones = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    use_categories = validators.StringBool(
+        not_empty=False, if_emtpy=False, if_missing=False)
     hide_global_categories = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     editable_comments_default = validators.StringBool(
@@ -557,6 +559,7 @@ class InstanceController(BaseController):
                 'use_norms': instance.use_norms,
                 'allow_thumbnailbadges': instance.allow_thumbnailbadges,
                 'require_selection': instance.require_selection,
+                'use_categories': instance.use_categories,
                 'hide_global_categories': instance.hide_global_categories,
                 'editable_comments_default':
                 instance.editable_comments_default,
@@ -576,7 +579,7 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['allow_propose', 'allow_index', 'frozen', 'milestones',
-             'use_norms', 'require_selection',
+             'use_norms', 'require_selection', 'use_categories',
              'hide_global_categories', 'editable_comments_default',
              'show_norms_navigation', 'allow_thumbnailbadges'])
         return self._settings_result(updated, c.page_instance, 'contents')
