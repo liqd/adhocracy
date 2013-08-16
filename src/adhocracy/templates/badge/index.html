@@ -187,11 +187,13 @@ ${self.badges_listing()}
   </h2>
   ${render_tables(c.badges, 'delegateable', c.groups, delegateable_badges_table)}
 
+  %if c.instance and c.instance.use_categories:
   <h2>${_("Proposal Category Badges")}
   <a style="margin-bottom: 0.3em" class="button_small plus" 
      href="${c.badge_base_url}/category/add">${_("New")}</a>
   </h2>
   ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
+  %endif
 
   %if c.instance and c.instance.allow_thumbnailbadges:
     <h2>${_("Proposal Thumbnail Badges")}
