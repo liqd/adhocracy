@@ -95,7 +95,8 @@ class PollTile(BaseTile):
             title = _('Please login or register to vote.')
         elif self.need_membership:
             url = '#%s' % self.html_id  # FIXME: implement join and redirect?
-            title = _('Please join the instance "%s" to vote.')
+            title = _('Please join the instance "%s" to vote.')\
+                % c.instance.label
         elif self.need_else:
             # We can't figure out what to do, so no options to vote
             url = self.votes_listing_url
