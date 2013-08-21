@@ -1,10 +1,12 @@
-.showmore, .showmore_content {
-     display: inline;
+.showmore {
+    display: inline;
 }
 .showmore_uncollapsed {
+    /* initial state */
     display: none;
 }
 .showmore_morelink, .showmore_lesslink {
     text-transform: lowercase;
     font-variant: small-caps;
+    white-space: nowrap;
 }

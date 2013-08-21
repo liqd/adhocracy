@@ -1,54 +1,78 @@
 <html>
 <head>
-	<title>Formatting Help</title>
+    <title>Formatting Help</title>
 </head>
+
 <body>
-	<p>
-	Text editing uses a fairly simple text formatting system known as <i>Markdown</i>. Markdown was 
-	invented to allow you to easily apply simple formatting options to your text without the need 
-	to know the HTML language. Here are some of the essential options that Markdown provides: 
-	</p>
-	<ul>
-		<li>
-			<strong><em>Italic text</em></strong>: put single asterisks around your text 
-			to produce italic text: <pre>*this is italic*</pre> 
-		</li>
-		<li>
-			<strong>Bold text</strong>: double asterisks around your text will 
-			generate a bold passage: <pre>**I'm a bold snippet**</pre>
-		</li>
-		<li>
-			<strong>Lists</strong> are produced by starting each line with an asterisk or a number. Asterisks 
-			will produce bullet points, while numbers will generate a numbered list:
+    <p>Text editing uses a fairly simple text formatting system known as <em>Markdown</em>. Markdown was
+    invented to allow you to easily apply simple formatting options to your text without the need
+    to know the HTML language. Here are some of the essential options that Markdown provides:</p>
+
+    <ul>
+        <li>
+            <strong><em>Italic text</em></strong>: put single asterisks around your text
+            to produce italic text: <pre>*this is italic*</pre>
+        </li>
+        <li>
+            <strong>Bold text</strong>: double asterisks around your text will
+            generate a bold passage: <pre>**I'm a bold snippet**</pre>
+        </li>
+        <li>
+            <strong>Lists</strong> are produced by starting each line with an asterisk or a number. Asterisks
+            will produce bullet points, while numbers will generate a numbered list:
 <pre>* This is a list
 * Which has bullet items
 
 1. While this list
 2. Is numbered</pre>
-			Take care to put a single space in front of each list item. If you want to create several levels 
-			of lists, increase the number of spaces before each level of the list.
-		</li>
-		<li>
-			<strong><a href="#">Hyperlinks</a></strong>: to link to a page, use the following formatting: 
-			<pre>[Link title](http://your.link.address.com)</pre>
-		</li>
-		<li>
-			<strong>Images</strong> can be included in a very similar fashion:
-			<pre>![Image description](http://image.host.com/picture.png)</pre> 
-		</li>
-		<li><strong>Headings</strong>: structure your text into sections by using headings. They are produced
-		by underlining your text with equals signs or dashes: 
+            Take care to put a single space in front of each list item. If you want to create several levels
+            of lists, increase the number of spaces before each level of the list.
+        </li>
+        <li>
+            <strong><a href="#">Hyperlinks</a></strong>: to link to a page, use the following formatting:
+            <pre>[Link title](http://your.link.address.com)</pre>
+        </li>
+        <li>
+            <strong>Images</strong> can be included in a very similar fashion:
+            <pre>![Image description](http://image.host.com/picture.png)</pre>
+        </li>
+        <li>
+            <strong>Headings</strong>:
+            structure your text into sections by using headings. They are produced
+            by underlining your text with equals signs or dashes:
 <pre>This is a large heading
 =======================
 
 This is a smaller heading
 -------------------------</pre>
-		
-		</li>
-	</ul>
-	<p>
-	For a more complete reference of the Markdown options, check out 
-	<a href="http://daringfireball.net/projects/markdown/syntax">the full documentation</a>.
-	</p> 
+        </li>
+        <li>
+            <strong>Blockquotes</strong>:
+            To include a quote you can use a formatting you might now from email:
+<pre>
+>  Lorem ipsum dolor sit amet, consectetur adipisici elit,
+>  sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+</pre>
+        </li>
+        <li>
+            <strong>Ellipsis</strong>:
+            To hide some of your text behind a "show more" button you can use the following
+            formatting
+            <div class="showmore">
+                <a class="showmore_morelink" href="#">[show more]</a>
+                <div class="showmore_uncollapsed">
+                    which is especially usefull for long texts
+                    <a class="showmore_lesslink" href="#">[show less]</a>
+                </div>
+            </div>:
+<pre>
+Lorem ipsum (((dolor sit amet, consectetur adipisici elit,
+sed eiusmod tempor incidunt ut labore et dolore magna aliqua.)))
+</pre>
+        </li>
+    </ul>
+
+    <p>For a more complete reference of the Markdown options, check out
+    <a href="http://daringfireball.net/projects/markdown/syntax">the full documentation</a>.</p>
 </body>
 </html>

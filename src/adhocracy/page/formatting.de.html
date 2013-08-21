@@ -1,49 +1,89 @@
 <html>
 <head>
-	<title>Formatierungshilfen</title>
+    <title>Formatierungshilfen</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+
 <body>
-	<p>
-	Adhocracy nutzt das recht einfache Formatierungs-System <i>Markdown</i> zum Formatieren der Texte. Markdown wurde entwickelt, um Dir mit  einfachen Befehlen einige Formatierungsoptionen auf Internet-Seiten zu ermöglichen - ohne dass Du HTML lernen musst. Einige der Befehle kennst Du vielleicht bereits aus Wikis wie Wikipedia. Hier sind einige der Befehle, die Markdown Dir bietet um Deine Texte zu gestalten:
-	</p>
-	<ul>
-	    <li>Absätze kannst Du durch eine Leerzeile erzeugen.</li>
-		<li>
-			<strong><em>kursiver Text</em></strong>: setze Sternchen vor und hinter Deinen Text, wenn Du ihn kursiv haben möchtest:<pre>*Das ist kursiv*</pre> 
-		</li>
-		<li>
-			<strong>Fett gedruckter Text</strong>: zwei Sternchen vor und hinter Deinem Text stellen ihn fett gedruckt dar: <pre>**Ich bin fett gedruckter Text**</pre>
-		</li>
-		<li>
-			<strong>Listen</strong> erzeugt man, indem man jede Zeile mit einem Sternchen oder einer Zahl mit einem Punkt dahinter beginnt. Listen müssen zudem mit einer Leerzeile eingeführt werden. Sternchen erzeugen Listen mit Punkten, während Zahlen nummerierte Listen erzeugen:
+    <p>Adhocracy nutzt das recht einfache Formatierungs-System <em>Markdown</em> zum
+    Formatieren der Texte. Markdown wurde entwickelt, um Dir mit einfachen Befehlen
+    einige Formatierungsoptionen auf Internet-Seiten zu ermöglichen - ohne dass Du
+    HTML lernen musst. Einige der Befehle kennst Du vielleicht bereits aus Wikis
+    wie Wikipedia. Hier sind einige der Befehle, die Markdown Dir bietet um Deine
+    Texte zu gestalten:</p>
+
+    <ul>
+        <li>Absätze kannst Du durch eine Leerzeile erzeugen.</li>
+        <li>
+            <strong><em>kursiver Text</em></strong>:
+            setze Sternchen vor und hinter Deinen Text, wenn Du ihn kursiv haben möchtest:
+            <pre>*Das ist kursiv*</pre>
+        </li>
+        <li>
+            <strong>Fett gedruckter Text</strong>:
+            zwei Sternchen vor und hinter Deinem Text stellen ihn fett gedruckt dar:
+            <pre>**Ich bin fett gedruckter Text**</pre>
+        </li>
+        <li>
+            <strong>Listen</strong> erzeugt man, indem man jede Zeile mit einem Sternchen
+            oder einer Zahl mit einem Punkt dahinter beginnt. Listen müssen zudem mit einer
+            Leerzeile eingeführt werden. Sternchen erzeugen Listen mit Punkten, während Zahlen
+            nummerierte Listen erzeugen:
 <pre>* Das ist eine Liste
 * Die mit Punkten beginnt
 
 1. Während diese Liste
 2. nummeriert dargestellt wird</pre>
-		Achte darauf, dass Du zwischen dem Text der in der Liste dargestellt werden soll und dem Sternchen oder den Zahlen ein Leerzeichen einfügst. 
-		</li>
-		<li>
-			<strong><a href="#">Hyperlinks</a></strong>: um eine andere Seite zu verlinken, nutze folgende Formatierung: 
-			<pre>[Link Titel](http://Deine.Link.Adresse.de)</pre>
-		</li>
-		<li>
-			<strong>Bilder</strong> Können mit einem sehr ähnlichen Befehl eingebunden werden:
-			<pre>![Bild Beschreibung](http://Bild.Host.com/Bild.png)</pre> 
-		</li>
-		<li><strong>Überschriften</strong>: Strukturiere Deinen Text durch Absätze mit Überschriften. Diese kannst Du anlegen, indem Du die gewünschte Überschrift mit Bindestrichen (Minus) oder Gleichzeichen in der Zeile darunter unterstreichst: 
+            Achte darauf, dass Du zwischen dem Text der in der Liste dargestellt werden soll
+            und dem Sternchen oder den Zahlen ein Leerzeichen einfügst.
+        </li>
+        <li>
+            <strong><a href="#">Hyperlinks</a></strong>:
+            um eine andere Seite zu verlinken, nutze folgende Formatierung:
+            <pre>[Link Titel](http://Deine.Link.Adresse.de)</pre>
+        </li>
+        <li>
+            <strong>Bilder</strong> Können mit einem sehr ähnlichen Befehl eingebunden werden:
+            <pre>![Bild Beschreibung](http://Bild.Host.com/Bild.png)</pre>
+        </li>
+        <li><strong>Überschriften</strong>:
+            Strukturiere Deinen Text durch Absätze mit Überschriften. Diese kannst Du anlegen,
+            indem Du die gewünschte Überschrift mit Bindestrichen (Minus) oder Gleichzeichen
+            in der Zeile darunter unterstreichst:
 <pre>Das ist eine große Überschrift
 =======================
 
 Das ist eine kleinere Überschrift
 -------------------------</pre>
-		
-		</li>
-	</ul>
-	<p>
-	Um alle Markdown-Befehle zu sehen oder mehr über Markdown zu lernen gehe auf 
-	<a href="http://markdown.de/syntax/">die ganze Dokumentation</a>.
-	</p> 
+        </li>
+        <li>
+            <strong>Zitate</strong>:
+            Eingerückte Zitate werden mit einer Syntax erstellt, die Du von E-Mails kennen
+            könntest:
+<pre>
+>  Lorem ipsum dolor sit amet, consectetur adipisici elit,
+>  sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+</pre>
+        </li>
+        <li>
+            <strong>Auslassungen</strong>:
+            Um Text hinter einem "mehr anzeigen"-Button zu verstecken kannst du die folgende
+            Syntax benutzen
+            <div class="showmore">
+                <a class="showmore_morelink" href="#">[show more]</a>
+                <div class="showmore_uncollapsed">
+                    und das ist besonders nützlich für lange Texte
+                    <a class="showmore_lesslink" href="#">[show less]</a>
+                </div>
+            </div>:
+<pre>
+Lorem ipsum (((dolor sit amet, consectetur adipisici elit,
+sed eiusmod tempor incidunt ut labore et dolore magna aliqua.)))
+</pre>
+        </li>
+    </ul>
+
+    <p>Um alle Markdown-Befehle zu sehen oder mehr über Markdown zu lernen gehe auf
+    <a href="http://markdown.de/syntax/">die ganze Dokumentation</a>.</p>
 </body>
 </html>
