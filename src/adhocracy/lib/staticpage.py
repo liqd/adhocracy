@@ -36,7 +36,7 @@ class FileStaticPage(object):
             body = root.find('.//body')
             title = root.find('.//title').text
         except AttributeError:
-            logging.debug(u'Failed to parse static document ' + filename)
+            log.debug(u'Failed to parse static document ' + filename)
             return None
         body.tag = 'span'
         return FileStaticPage(key, lang, tostring(body), title)
