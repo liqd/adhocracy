@@ -40,7 +40,7 @@ ${c.tile.description|n}
         %elif auth.propose_validate_email():
         <a class="button add ttip" 
            title="${_('Validate email in order to create a new proposal.')}" 
-           href="${h.base_url('/proposal/new')}" rel="#overlay-validate-button">${_("new proposal")}</a>
+           rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
         %if c.all_proposals_pager is None:

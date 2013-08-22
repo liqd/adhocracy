@@ -58,7 +58,6 @@
         %elif auth.propose_validate_email():
         <a class="button highlight" 
            title="${_('Validate email in order to propose a new variant.')}"
-           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}" 
            rel="#overlay-validate-button">
             ${_('Propose new Variant')}
         </a>
