@@ -34,6 +34,7 @@ DEFAULTS = {
     'adhocracy.show_stats_on_frontpage': True,
     'adhocracy.startpage.instances.list_length': 0,
     'adhocracy.startpage.proposals.list_length': 0,
+    'adhocracy.static_agree_text': None,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
