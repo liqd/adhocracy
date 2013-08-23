@@ -27,10 +27,13 @@ def get_body(key, default=''):
     return res.body
 
 
-def render_footer_column(column):
+def render_footer_column(instance, column):
     if not config.get('adhocracy.customize_footer'):
         return None
     path = u'footer_' + unicode(column)
+    if instance and\
+       instance.key in config.get('adhocracy.instance_footers'):
+        path = u'%s_%s' % (path, instance.key)
     page = staticpage.get_static_page(path)
     if page is None:
         return None

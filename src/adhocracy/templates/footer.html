@@ -5,7 +5,7 @@
           <div id="footer_line">
             <div id="second_footer_line" class="subcolumns" role="complementary">
               <div class="c33l footer_content" id="footer_1">
-                <% footer_1 = h.staticpage.render_footer_column(1) %>
+                <% footer_1 = h.staticpage.render_footer_column(c.instance, 1) %>
                 %if footer_1 is None:
                   <ul>
                       <li><a class="staticlink_about" 
@@ -27,7 +27,7 @@
               </div>
 
               <div class="c33l footer_content" id="footer_2">
-                <% footer_2 = h.staticpage.render_footer_column(2) %>
+                <% footer_2 = h.staticpage.render_footer_column(c.instance, 2) %>
                 %if footer_2 is None:
                   <ul>
                       <li><a class="staticlink_privacy" 
@@ -45,7 +45,7 @@
               </div>
 
               <div class="c33r footer_content" id="footer_3">
-                <% footer_3 = h.staticpage.render_footer_column(3) %>
+                <% footer_3 = h.staticpage.render_footer_column(c.instance, 3) %>
                 %if footer_3 is None:
                 <div class="subcr">
                   <div class="footer_box">
