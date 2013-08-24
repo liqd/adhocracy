@@ -19,10 +19,27 @@ def use_page_geotags():
 
 def map_config(**kwargs):
     from adhocracy.lib.helpers import to_json
+
+    imageLayers = config.get_json('adhocracy.geo.image_layers')
+
+    if c.instance and config.get_bool('adhocracy.geo.instance_overwrites'):
+        imageLayers.extend(config.get_json(
+            'adhocracy.geo.image_layers.' + c.instance.key,
+            default=[]))
+        fallbackBounds = config.get_list(
+            'adhocracy.geo.fallback_bounds.' + c.instance.key, cast=float)
+        restrictedBounds = config.get_list(
+            'adhocracy.geo.restricted_bounds.' + c.instance.key, cast=float)
+
+    if fallbackBounds is None:
+        fallbackBounds = config.get_list('adhocracy.geo.fallback_bounds',
+                                         cast=float)
+    if restrictedBounds is None:
+        restrictedBounds = config.get_list('adhocracy.geo.restricted_bounds',
+                                           cast=float)
+
     return to_json(
-        restrictedBounds=config.get_list('adhocracy.geo.restricted_bounds',
-                                         cast=float),
-        fallbackBounds=config.get_list('adhocracy.geo.fallback_bounds',
-                                       cast=float),
-        imageLayers=config.get_json('adhocracy.geo.image_layers'),
+        restrictedBounds=restrictedBounds,
+        fallbackBounds=fallbackBounds,
+        imageLayers=imageLayers,
         **kwargs)
