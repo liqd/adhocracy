@@ -73,7 +73,7 @@ def get_int(key, default=None, config=config):
 
 def get_list(key, default=None, config=config, sep=',', cast=None):
     result = get_value(key, aslist, default, config, {'sep': sep})
-    if cast is None:
+    if cast is None or result is None:
         return result
     else:
         return map(cast, result)
