@@ -10,7 +10,7 @@ ${components.watch(c.milestone)}
 
 <div class="sidebar_box">
 
-<h3 id="information">${_('Informations')}</h3>
+<h3 id="information">${_('Information')}</h3>
 <summary>
 
     <h6>${_('Created')}</h6>
@@ -93,7 +93,6 @@ created_msg = _("by %s on %s") % (
         %elif auth.propose_validate_email():
             <a class="button add ttip" 
                title="${_('Validate email in order to create a new proposal.')}" 
-               href="${url}" 
                rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 

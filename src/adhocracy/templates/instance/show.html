@@ -41,7 +41,7 @@ ${c.tile.description|n}
         %elif auth.propose_validate_email():
         <a class="button add ttip" 
            title="${_('Validate email in order to create a new proposal.')}" 
-           href="${h.base_url('/proposal/new')}" rel="#overlay-validate-button">${_("new proposal")}</a>
+           rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
         %if c.all_proposals_pager is None:
@@ -83,7 +83,7 @@ ${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not Non
 %endif
 
 <div class="sidebar_box">
-<h3 id="information">${_('Informations')}</h3>
+<h3 id="information">${_('Information')}</h3>
 <summary>
     %if h.asbool(config.get('adhocracy.show_instance_creators')):
     <h6>${_('Created')}</h6>

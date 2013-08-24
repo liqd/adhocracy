@@ -2,6 +2,9 @@
     position: relative;
     padding-left: 2em;
     margin-left: 0.5em;
+    // arrow position does not work on multiple lines
+    white-space: nowrap;
+
     &:before {
         content: "⟶";
         text-decoration: none !important;

@@ -8,6 +8,7 @@ from pylons.i18n import _
 
 DEFAULTS = {
     'adhocracy.create_initial_instance_page': True,
+    'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,
@@ -21,6 +22,7 @@ DEFAULTS = {
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
+    'adhocracy.instance_footers': [],
     'adhocracy.instance_stylesheets': [],
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.protocol': u'http',
@@ -36,6 +38,7 @@ DEFAULTS = {
     'adhocracy.show_stats_on_frontpage': True,
     'adhocracy.startpage.instances.list_length': 0,
     'adhocracy.startpage.proposals.list_length': 0,
+    'adhocracy.static_agree_text': None,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
@@ -73,7 +76,7 @@ def get_int(key, default=None, config=config):
 
 def get_list(key, default=None, config=config, sep=',', cast=None):
     result = get_value(key, aslist, default, config, {'sep': sep})
-    if cast is None:
+    if cast is None or result is None:
         return result
     else:
         return map(cast, result)

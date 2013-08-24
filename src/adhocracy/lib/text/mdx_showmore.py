@@ -9,21 +9,29 @@ code, which depends on the availability of jquery.
     $('.showmore').each(function () {
         var self = $(this);
         self.find('.showmore_morelink').bind('click', function (event) {
-                self.find('.showmore_collapsed').css('display', 'none');
-                self.find('.showmore_uncollapsed').css('display', 'inline');
-            });
+            event.preventDefault();
+            self.find('.showmore_morelink').css('display', 'none');
+            self.find('.showmore_uncollapsed').css('display', 'inline');
+        });
         self.find('.showmore_lesslink').bind('click', function (event) {
-                self.find('.showmore_collapsed').css('display', 'inline');
-                self.find('.showmore_uncollapsed').css('display', 'none');
-            });
+            event.preventDefault();
+            self.find('.showmore_morelink').css('display', 'inline');
+            self.find('.showmore_uncollapsed').css('display', 'none');
+        });
     });
 
 Additionally, you have to add the following to your css code:
-    .showmore, .showmore_content {
-      display: inline;
+    .showmore {
+        display: inline;
     }
     .showmore_uncollapsed {
-      display: none;
+        /* initial state */
+        display: none;
+    }
+    .showmore_morelink, .showmore_lesslink {
+        text-transform: lowercase;
+        font-variant: small-caps;
+        white-space: nowrap;
     }
 """
 
@@ -37,20 +45,12 @@ SHOWMORE_RE = re.compile(r'\({3,}(?P<text>.*?)\){3,}',
 
 PRE_HTML = u'''
 <div class="showmore">
-    <span class="showmore_collapsed">
-        <span> </span>
-        <a class="showmore_morelink" href="#">[%s]</a>
-        <span> </span>
-    </span>
+    <a class="showmore_morelink" href="#">[%s]</a>
     <div class="showmore_uncollapsed">
-        <div class="showmore_content">
 '''
 
 POST_HTML = u'''
-        </div>
-        <span> </span>
         <a class="showmore_lesslink" href="#">[%s]</a>
-        <span> </span>
     </div>
 </div>
 '''

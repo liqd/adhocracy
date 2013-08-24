@@ -196,13 +196,16 @@ class UserController(BaseController):
         if c.user:
             redirect('/')
         else:
+            data = {}
             captcha_enabled = config.get('recaptcha.public_key', "")
-            c.recaptcha = captcha_enabled and h.recaptcha.displayhtml(
+            data['recaptcha'] = captcha_enabled and h.recaptcha.displayhtml(
                 use_ssl=True)
             if defaults is None:
                 defaults = {}
             defaults['_tok'] = token_id()
-            return htmlfill.render(render("/user/register.html"),
+            add_static_content(data, u'adhocracy.static_agree_text',
+                               body_key=u'agree_text', title_key='_ignored')
+            return htmlfill.render(render("/user/register.html", data),
                                    defaults=defaults)
 
     @RequireInternalRequest(methods=['POST'])

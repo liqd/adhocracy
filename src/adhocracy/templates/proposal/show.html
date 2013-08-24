@@ -133,7 +133,6 @@ delegate_url = url if can.delegation.create() else None
               </a>
               %elif auth.propose_validate_email():
               <a class="button highlight" 
-                 href="${h.entity_url(c.proposal, member='implementation/include')}" 
                  rel="#overlay-validate-button" 
                  title="${_('Validate email in order to propose to change a norm')}">
                   ${_("Propose to change a norm")}
@@ -248,7 +247,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
 
 <div class="sidebar_box">
 
-<h3 id="information">${_('Informations')}</h3>
+<h3 id="information">${_('Information')}</h3>
 <summary>
 
     ${sidebar_defs.shortlink(c.proposal)}

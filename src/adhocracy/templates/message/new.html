@@ -7,7 +7,7 @@
 </%def>
 
 <%block name="main_content">
-  <form name="create_message" class="inplace" method="POST" action="/user/${c.page_user.user_name}/message">
+  <form name="create_message" class="inplace" method="POST" action="${h.entity_url(c.page_user, instance=c.instance, member='message')}">
       ${h.field_token()|n}
       <div class="page_title">
           <input tabindex="1" class="title" name="subject" placeholder="${_('Subject')}" />

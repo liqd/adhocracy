@@ -112,6 +112,14 @@ if ! $not_use_sudo_commands; then
     fi
 fi
 
+if [ '!' -e adhocracy_buildout/bin/adhocracy_interactive.sh ]; then # Has an installation completed?
+    case "$distro" in
+    debian)
+        $SUDO_CMD apt-get update
+        ;;
+    esac
+fi
+
 # Prefer curl because wget < 1.14 fails on https://raw.github.com/ because 
 # it doesn't support x509v3 alternative names.
 if which curl > /dev/null ; then
