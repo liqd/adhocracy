@@ -18,7 +18,7 @@ ${components.head(self.title)}
 <div id="fullscreen_map">
 
     <div id="left_block">
-        <div id="hide_list_icon" />
+        <div id="hide_list_icon"></div>
         <div class="list_filter" id="proposals-search">
         <form class="list_form" action="?" method="GET" autocomplete="off">
             <label class="floating" for="proposals_q">${_("Find proposals")}</label>
@@ -63,7 +63,7 @@ ${components.head(self.title)}
     </div>
     <div id="central_block">
 
-        <div id="show_list_icon" />
+        <div id="show_list_icon"></div>
 
         <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
         ${map.show_region_map_large([p.id for p in c.proposals_pager.items if p is not None and p.geotag is not None], [p.id for p in c.pages_pager.items if p is not None and p.geotag is not None], full_region=not(bool(c.query)))}
