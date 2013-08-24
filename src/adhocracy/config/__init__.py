@@ -19,7 +19,7 @@ DEFAULTS = {
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
-    'adhocracy.instance_footer': [],
+    'adhocracy.instance_footers': [],
     'adhocracy.instance_stylesheets': [],
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.protocol': u'http',
