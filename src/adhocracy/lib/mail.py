@@ -1,6 +1,7 @@
 import email
 from email.header import Header
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import logging
 import smtplib
 from time import time
@@ -23,7 +24,7 @@ def send(email_from, to_email, message):
 
 
 def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
-            email_from=None, name_from=None):
+            email_from=None, name_from=None, html=False):
     try:
         if email_from is None:
             email_from = config.get('adhocracy.email.from')
@@ -36,8 +37,17 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
                     _(u"Cheers,\r\n\r\n"
                       u"    the %s Team\r\n") %
                     config.get('adhocracy.site.name'))
+        if html:  # deactivated in mail sinks due to emailcomment-parsing
+            msg = MIMEMultipart("alternative")
+            part_plain = MIMEText(body.encode(ENCODING), 'plain',
+                    ENCODING)
+            html_mail = "html_template"
+            part_html = MIMEText(html_mail, 'html', ENCODING)
 
-        msg = MIMEText(body.encode(ENCODING), 'plain', ENCODING)
+            msg.attach(part_plain)
+            msg.attach(part_html)
+        else:
+            msg = MIMEText(body.encode(ENCODING), 'plain', ENCODING)
 
         for k, v in headers.items():
             msg[k] = v
@@ -56,9 +66,9 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
 
 
 def to_user(to_user, subject, body, headers={}, decorate_body=True,
-            email_from=None, name_from=None):
+            email_from=None, name_from=None, html=False):
     return to_mail(to_user.name, to_user.email, subject, body, headers,
-                   decorate_body, email_from, name_from)
+                   decorate_body, email_from, name_from, html)
 
 
 def send_activation_link(user):

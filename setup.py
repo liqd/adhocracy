@@ -58,8 +58,7 @@ setup(
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
         "sunburnt==0.6",
-        #"Pillow", # use the adhocracy buildout or install system packages
-                   # (python-imaging) for this dependency
+        "Pillow",
         "Markdown>=2.3",
         "lxml>=2.2.6",
         "Mako>=0.7.3",
@@ -74,6 +73,8 @@ setup(
         "setuptools_git >= 0.3",
         "ipaddress>=1.0.3",
         "pytz",
+        "pyinotify>=0.9.4",
+        "imaplib2>=2.28.1",
     ],
     setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
                     "PasteScript",
@@ -93,7 +94,7 @@ setup(
                  'pytest-pep8',
                  'cssselect',
                  'decorator',
-                 'pep8']
+                 'pep8',]
     },
     package_data={'adhocracy': ['i18n/*/LC_MESSAGES/*.mo'],
                   '': ['RELEASE-VERSION'],
@@ -111,6 +112,7 @@ setup(
         ],
         'paste.paster_command': [
             'worker = adhocracy.lib.cli:Worker',
+            'ecworker = adhocracy.lib.cli:EmailCommentWorker',
             'timer = adhocracy.lib.cli:Timer',
             'index = adhocracy.lib.cli:Index'
         ],
@@ -119,6 +121,7 @@ setup(
         ],
         'fanstatic.libraries': [
             'stylesheets = adhocracy.static:stylesheets_library',
+            'yaml = adhocracy.static:yaml_library',
             'autocomplete = adhocracy.static:autocomplete_library',
             'placeholder = adhocracy.static:placeholder_library',
             'jquerytools = adhocracy.static:jquerytools_library',

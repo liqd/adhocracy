@@ -104,35 +104,21 @@ class CommentController(BaseController):
 
         topic = self.form_result.get('topic')
         reply = self.form_result.get('reply')
-
-        if reply:
-            require.comment.reply(reply)
-        else:
-            require.comment.create_on(topic)
-
         variant = self.form_result.get('variant')
+        wiki = self.form_result.get('wiki')
+        sentiment = self.form_result.get('sentiment')
+        text = self.form_result.get('text')
+
         if hasattr(topic, 'variants') and not variant in topic.variants:
             return ret_abort(_("Comment topic has no variant %s") % variant,
                              code=400)
 
-        comment = model.Comment.create(
-            self.form_result.get('text'),
-            c.user, topic,
-            reply=reply,
-            wiki=self.form_result.get('wiki'),
-            variant=variant,
-            sentiment=self.form_result.get('sentiment'),
-            with_vote=can.user.vote())
+        comment = _create(c.user, text, reply, topic, variant,
+                wiki, c.instance, sentiment)
 
-        # watch comments by default!
-        model.Watch.create(c.user, comment)
-        model.meta.Session.commit()
-        #watchlist.check_watch(comment)
-        event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance,
-                   topics=[topic], comment=comment, topic=topic,
-                   rev=comment.latest)
         if len(request.params.get('ret_url', '')):
             redirect(request.params.get('ret_url') + "#c" + str(comment.id))
+
         if format != 'html':
             return ret_success(entity=comment, format=format)
         return ret_success(entity=comment, format='fwd')
@@ -297,3 +283,39 @@ class CommentController(BaseController):
         topic = parent.topic
         variant = getattr(topic, 'variant', None)
         return self._render_ajax_create_form(parent, topic, variant)
+
+
+@guard.comment.create()
+def _create(user, text, reply, topic, variant, wiki, instance, sentiment=None):
+    '''
+    extracted from controllers.commentCommentController for usage of
+    emailcomments
+    '''
+    with_vote = can.user.vote()
+
+    if reply:
+        require.comment.reply(reply)
+    else:
+        require.comment.create_on(topic)
+
+    comment = model.Comment.create(
+        text,
+        user, topic,
+        reply=reply,
+        wiki=wiki,
+        variant=variant,
+        sentiment=sentiment,
+        with_vote=with_vote)
+    # watch comments by default!
+
+    model.Watch.create(user, comment)
+
+    model.meta.Session.commit()
+
+    #watchlist.check_watch(comment)
+
+    event.emit(event.T_COMMENT_CREATE, user, instance=instance,
+            topics=[topic], comment=comment, topic=topic,
+            rev=comment.latest)
+
+    return comment

@@ -97,6 +97,20 @@ def tt_make_user(name=None, instance_group=None):
     return user
 
 
+def tt_make_comment(proposal=None, creator=None):
+    if proposal is None:
+        proposal = tt_make_proposal()
+    if creator is None:
+        creator = tt_make_user("DeKue")
+
+    comment = model.Comment.create(
+        tt_make_str(),
+        creator,
+        proposal)
+
+    return comment
+
+
 def tt_drop_db():
     '''
     drop the data tables and if exists the migrate_version table

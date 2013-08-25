@@ -1,8 +1,8 @@
 import logging
-
+import hashlib
 from pylons import config
 from webhelpers import text
-
+from pylons.i18n import _
 from adhocracy.lib import mail, microblog
 
 TWITTER_LENGTH = 140
@@ -40,6 +40,16 @@ def twitter_sink(pipeline):
 
 
 def mail_sink(pipeline):
+    """
+    Generates email-adress for comment-replies in the form of
+    subscription.userid-commentid.security-token@domain.tld
+    if the notification is about a new comment.
+    HTML will be activated. If a user can not display HTML-emails
+    the multipart/alternative plaintext-part will display the
+    default notification.body. Otherwise an HTML-email is only
+    a beautified version.
+    This feature is not yet completed.
+    """
     for notification in pipeline:
         if notification.user.is_email_activated() and \
                 notification.priority >= notification.user.email_priority:
@@ -49,10 +59,63 @@ def mail_sink(pipeline):
 
             log.debug("mail to %s: %s" % (notification.user.email,
                                           notification.subject))
-            mail.to_user(notification.user,
-                         notification.subject,
-                         notification.body,
-                         headers=headers)
 
+            notification_body = notification.body
+
+            if str(notification.event.event) == "t_comment_create" or \
+                    str(notification.event.event) == "n_comment_reply":
+
+                secrets = config.get("adhocracy.crypto.secret")
+                email_from = config.get("adhocracy.email.from")
+
+                email_domain = email_from.rpartition("@")
+                email_domain = email_domain[1] + email_domain[2]
+
+                user_id = str(notification.user.id)
+
+                comment_id = notification.link.split("#c")[-1]
+
+                sec_token = user_id + comment_id + secrets
+                sec_token = hashlib.sha1(sec_token).hexdigest()
+
+                seq = (u" <subs.", user_id, u"-", comment_id, u".",
+                        sec_token, email_domain, u">")
+                reply_to = "".join(seq)
+                reply_msg = _(u"\"Reply to leave a comment\"")
+                reply_to = reply_msg + reply_to
+
+                headers['In-Reply-To'] = reply_to
+                headers['Reply-To'] = reply_to
+
+                boundary = (u"_________________________________\r\n")
+
+                notification_body = (_(u"Comment by replying to this email."
+                u"\r\nWrite your answer above the upper line or under the"
+                u" bottom line."
+                u"\r\n\r\nYou can use the first line of your reply"
+                u" to vote. Type vote 1 for a positive vote,"
+                u" vote 0 for a neutral vote and vote -1 for a"
+                u" negative vote.\r\n\r\n") + notification_body)
+                # Mention images? (Don't work with markdown safe_mode yet)
+
+                notification_body = boundary + (_(u"Hi %s,") %
+                    notification.user.name +
+                    u"\r\n%s\r\n\r\n" % notification_body +
+                    _(u"Cheers,\r\n\r\n"
+                    u"    the %s Team\r\n") %
+                    config.get('adhocracy.site.name')) + u"\r\n" + boundary
+
+                html = False
+                # html deactivated due to email-comment parsing/voting
+                decorate_body = False
+            else:
+                html = False
+
+            mail.to_user(notification.user,
+                    notification.subject,
+                    notification_body,
+                    headers=headers,
+                    html=html,
+                    decorate_body=decorate_body)
         else:
             yield notification
