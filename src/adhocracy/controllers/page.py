@@ -178,9 +178,10 @@ class PageController(BaseController):
             target = h.page.url(page, member='branch',
                                 query={'proposal': proposal.id})
 
-        categories = self.form_result.get('category')
-        category = categories[0] if categories else None
-        page.set_category(category, c.user)
+        if c.instance.use_categories:
+            categories = self.form_result.get('category')
+            category = categories[0] if categories else None
+            page.set_category(category, c.user)
 
         model.meta.Session.commit()
         watchlist.check_watch(page)
@@ -265,9 +266,10 @@ class PageController(BaseController):
         if can.page.manage(c.page):
             c.page.milestone = self.form_result.get('milestone')
 
-            categories = self.form_result.get('category')
-            category = categories[0] if categories else None
-            c.page.set_category(category, c.user)
+            if c.instance.use_categories:
+                categories = self.form_result.get('category')
+                category = categories[0] if categories else None
+                c.page.set_category(category, c.user)
 
             c.page.formatting = self.form_result.get('formatting')
 
