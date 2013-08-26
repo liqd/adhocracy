@@ -76,8 +76,9 @@ def row(user):
                        user=user, instance=c.instance, cached=True)
 
 
-def header(user, tile=None, active='activity'):
+def header(user, tile=None, active='activity', show_delete_user_button=False):
     if tile is None:
         tile = UserTile(user)
     return render_tile('/user/tiles.html', 'header', tile,
-                       user=user, active=active)
+                       user=user, active=active,
+                       show_delete_user_button=show_delete_user_button)

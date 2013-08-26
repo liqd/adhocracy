@@ -7,6 +7,7 @@
 </%def>
 
 <%block name="settings_content">
+${tiles.user.header(c.page_user, c.tile)}
 <form class="well" method="POST" enctype="multipart/form-data">
 
     <input type="hidden" name="_method" value="PUT" />
