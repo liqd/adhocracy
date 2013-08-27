@@ -145,9 +145,13 @@ class ShibbolethController(BaseController):
                 username = None
             else:
                 username = form_result['username']
+            if config.get_bool('adhocracy.set_display_name_on_register'):
+                display_name = form_result['display_name']
+            else:
+                display_name = None
             user = User.create(username,
                                form_result['email'],
-                               display_name=form_result['display_name'],
+                               display_name=display_name,
                                shibboleth_persistent_id=persistent_id)
 
             # NOTE: We might want to automatically join the current instance
