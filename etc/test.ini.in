@@ -42,6 +42,9 @@ adhocracy.redis.port = ${parts.ports.redis}
 adhocracy.redis.queue = ${parts.adhocracy.queue}
 adhocracy.background_processing = false
 
+# disable delay
+adhocracy.delay_update_queue_seconds = 0
+
 # memcached 
 memcached.server = 127.0.0.1:${parts.ports.memcached}
 
