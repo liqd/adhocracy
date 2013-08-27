@@ -422,12 +422,6 @@ class User(meta.Indexable):
         if proposal.rate_poll:
             return Decision(self, proposal.rate_poll).result
 
-    def get_optional_attributes(self):
-        return loads(self.optional_attributes)
-
-    def get_optional_attributes(self):
-        return loads(self.optional_attributes)
-
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
                openid_identity=None, global_admin=False, display_name=None,
