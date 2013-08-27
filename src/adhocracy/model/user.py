@@ -292,6 +292,10 @@ class User(meta.Indexable):
             .limit(1).first()
 
     @classmethod
+    def find_by_user_name(cls, user_name, include_deleted=False):
+        return cls.find(user_name, include_deleted=include_deleted)
+
+    @classmethod
     def find_by_shibboleth(cls, persistent_id, include_deleted=False):
         from shibboleth import Shibboleth
         return cls.all_q(None, include_deleted)\
