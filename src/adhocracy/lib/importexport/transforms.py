@@ -390,7 +390,8 @@ class ProposalTransform(_Transform):
         res = {
             'id': obj.id,
             'title': obj.title,
-            'description': obj.description.head.text,
+            'description': (None if obj.description is None
+                            else obj.description.head.text),
             'creator': self._user_transform._compute_key(obj.creator),
             'adhocracy_type': 'proposal',
             'category': obj.category.title if obj.category else None,
