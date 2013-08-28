@@ -54,7 +54,6 @@
 
     /* (en) Standard values for colors and text alignment */
     /* (de) Vorgabe der Standardfarben und Textausrichtung */
-    background:#fff;
     color:#000;
     text-align:left; /* LTR */
     }
@@ -305,9 +304,9 @@
 
     /*-------------------------------------------------------------------------*/
 
-    /* (en) Marginal areas & page background */
-    /* (de) Randbereiche & Seitenhintergrund */
-    body { background: #fff; padding: 0; }
+    /* (en) Marginal areas */
+    /* (de) Randbereiche */
+    body { padding: 0; }
 
     /* Layout Alignment | Layout-Ausrichtung */
     .page_margins { margin: 0 auto; }
@@ -322,7 +321,7 @@
         @include background-image(linear-gradient(to bottom, darken($header-color, 2%), lighten($header-color, 2%)));
     }
     #topnav { text-align: right; color: #fff; background: transparent; }
-    #main { margin: 10px 0 60px; background: #fff; }
+    #main { margin: 10px 0 60px; }
     #footer {
         padding: 0px;
         background-color: $bg1;
