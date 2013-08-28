@@ -39,7 +39,6 @@
         <lable for="category" class="">
             ${_('Category')}
         </lable>
-        %if c.categories:
         <select id="category" name="category">
             <option value="">
                 ${_('No Category')}
@@ -51,7 +50,6 @@
             </option>
             %endfor
         </select>
-        %endif
         <br/>
         <br/>
         %endif
