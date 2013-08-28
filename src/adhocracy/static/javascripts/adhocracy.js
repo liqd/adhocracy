@@ -142,56 +142,65 @@ var adhocracy = adhocracy || {};
 
     adhocracy.overlay.bindOverlays = function (element) {
         var wrapped = $(element);
-        wrapped.find('#overlay-default').overlay({
-            // custom top position
-            fixed: false,
-            top: '25%'
-        });
+        if (window === top) {
+            wrapped.find('#overlay-default').overlay({
+                // custom top position
+                fixed: false,
+                top: '25%'
+            });
 
-        //open link in overlay (like help pages)
-        wrapped.find("a[rel=#overlay-ajax]").overlay({
-            fixed: false,
-            target: '#overlay-default',
-            mask: adhocracy.overlay.mask,
-            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
-        });
+            //open link in overlay (like help pages)
+            wrapped.find("a[rel=#overlay-ajax]").overlay({
+                fixed: false,
+                target: '#overlay-default',
+                mask: adhocracy.overlay.mask,
+                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+            });
 
-        wrapped.find("a[rel=#overlay-ajax-big]").overlay({
-            fixed: false,
-            mask: adhocracy.overlay.mask,
-            target: '#overlay-big',
-            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
-        });
+            wrapped.find("a[rel=#overlay-ajax-big]").overlay({
+                fixed: false,
+                mask: adhocracy.overlay.mask,
+                target: '#overlay-big',
+                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+            });
 
-        wrapped.find("a[rel=#overlay-login-button]").overlay({
-            fixed: false,
-            mask: adhocracy.overlay.mask,
-            target: '#overlay-login',
-            onBeforeLoad: function (event) {
-                adhocracy.overlay.rewriteDescription.call(this, event);
-                adhocracy.overlay.rebindCameFrom.call(this, event);
-            }
-        });
+            wrapped.find("a[rel=#overlay-login-button]").overlay({
+                fixed: false,
+                mask: adhocracy.overlay.mask,
+                target: '#overlay-login',
+                onBeforeLoad: function (event) {
+                    adhocracy.overlay.rewriteDescription.call(this, event);
+                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                }
+            });
 
-        wrapped.find("a[rel=#overlay-join-button]").overlay({
-            fixed: false,
-            mask: adhocracy.overlay.mask,
-            target: '#overlay-join',
-            onBeforeLoad: function (event) {
-                adhocracy.overlay.rewriteDescription.call(this, event);
-                adhocracy.overlay.rebindCameFrom.call(this, event);
-            }
-        });
+            wrapped.find("a[rel=#overlay-join-button]").overlay({
+                fixed: false,
+                mask: adhocracy.overlay.mask,
+                target: '#overlay-join',
+                onBeforeLoad: function (event) {
+                    adhocracy.overlay.rewriteDescription.call(this, event);
+                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                }
+            });
 
-        wrapped.find("a[rel=#overlay-validate-button]").overlay({
-            fixed: false,
-            mask: adhocracy.overlay.mask,
-            target: '#overlay-validate',
-            onBeforeLoad: function (event) {
-                adhocracy.overlay.rewriteDescription.call(this, event);
-                adhocracy.overlay.rebindCameFrom.call(this, event);
-            }
-        });
+            wrapped.find("a[rel=#overlay-validate-button]").overlay({
+                fixed: false,
+                mask: adhocracy.overlay.mask,
+                target: '#overlay-validate',
+                onBeforeLoad: function (event) {
+                    adhocracy.overlay.rewriteDescription.call(this, event);
+                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                }
+            });
+        } else {
+            // if we are in an iframe open overlays in new window instead
+            wrapped.find("a[rel=#overlay-ajax]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-ajax-big]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-login-button]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-join-button]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-validate-button]").attr('target', '_new');
+        }
     };
 
     /***************************************************
