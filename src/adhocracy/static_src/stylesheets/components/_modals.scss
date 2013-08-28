@@ -50,9 +50,12 @@
 }
 
 // overlay
-.overlay {
+div.overlay {
     /* must be initially hidden */
     display: none;
+
+    /* jquery for some reason sets overflow: hidden on animation */
+    overflow: visible !important;
 
     /* needed for close button */
     position: relative;
@@ -60,13 +63,20 @@
     /* place overlay on top of other elements */
     z-index: 10000;
 
-    /* styling */
+    /* may be overwritten by javascript */
     width: 500px;
+
+    /* styling */
     padding: 20px;
     @include border-radius(10px);
     border: 1px solid $border;
     background-color: $flash;
     @include box-shadow(0 0 10px 5px $fg1);
+
+    .contentWrap, iframe {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 #overlay-big.overlay {
@@ -74,9 +84,31 @@
     background-color: #fff;
 }
 
-#overlay-big .contentWrap {
-    width: 100%;
-    height: 100%;
+html.overlay {
+    background: none;
+
+    header, #subheader, footer, #feedback {
+        display: none;
+    }
+    #main, .page_margins, .page_wrapper {
+        margin: 0;
+    }
+    body {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    &.overlay-small {
+        .page_margins {
+            width: auto;
+        }
+        #col3 {
+            display: none;
+        }
+        .full_teaser, #col1_content {
+            padding: 0;
+        }
+    }
 }
 
 // close button
@@ -99,6 +131,7 @@
     width: 33px;
     height: 33px;
     display: block;
+    z-index: 1;
     @include border-radius(50%);
     border: 2px solid #fff;
     @include box-shadow(#aaa 0 0 4px 1px);

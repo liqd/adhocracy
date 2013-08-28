@@ -52,21 +52,50 @@ var adhocracy = adhocracy || {};
 
     adhocracy.namespace('adhocracy.overlay');
 
-    adhocracy.overlay.ajaxLoadContent = function () {
+    adhocracy.overlay.iframeLoadContent = function () {
         // grab wrapper element inside content
-        var wrap = this.getOverlay().find(".contentWrap");
-        var url = this.getTrigger().attr("href") + ".overlay";
-        wrap.load(url);
-    };
+        var overlay = this.getOverlay();
+        var wrap = overlay.find(".contentWrap");
+        var url = this.getTrigger().attr("href");
 
-    adhocracy.overlay.ajaxRebindLinks = function () {
-        // bind links containing the string '.overlay'
-        // to a handler that loads the url into the overlay
-        var wrap = this.getOverlay().find(".contentWrap");
-        wrap.delegate('a[href*=\\.overlay]', 'click', function (event) {
-            var href = $(this).attr('href');
-            wrap.load(href);
-            event.preventDefault();
+        // set initial size
+        overlay.width(500);
+        overlay.height(150);
+
+        var iframe = $('<iframe/>');
+        wrap.empty().append(iframe);
+        iframe.attr('src', url);
+
+        iframe.load(function() {
+            var html = iframe.contents().find('html');
+            var doc = iframe[0].contentDocument;
+
+            /* set class for css */
+            html.addClass('overlay');
+            if (overlay.attr('id') === 'overlay-big') {
+                html.addClass('overlay-big');
+            } else {
+                html.addClass('overlay-small');
+            }
+
+            /* adjust size to iframe content */
+            var old_left = parseInt(overlay.css('left')),
+                old_width = overlay.width(),
+                width = doc.width,
+                height = html.height();
+            var css = {
+                'width': width,
+                'height': height,
+                'left': old_left + (old_width - width) / 2,
+            };
+            overlay.animate(css, 'slow');
+
+            /* redirect links */
+            $('a[href]', iframe.contents()).each(function() {
+                if (this.href[0] != '#' && typeof($(this).attr('target')) === 'undefined') {
+                    this.target = '_top';
+                }
+            })
         });
     };
 
@@ -124,16 +153,14 @@ var adhocracy = adhocracy || {};
             fixed: false,
             target: '#overlay-default',
             mask: adhocracy.overlay.mask,
-            onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
-            onLoad: adhocracy.overlay.ajaxRebindLinks
+            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
         });
 
         wrapped.find("a[rel=#overlay-ajax-big]").overlay({
             fixed: false,
             mask: adhocracy.overlay.mask,
             target: '#overlay-big',
-            onBeforeLoad: adhocracy.overlay.ajaxLoadContent,
-            onLoad: adhocracy.overlay.ajaxRebindLinks
+            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
         });
 
         wrapped.find("a[rel=#overlay-login-button]").overlay({
@@ -165,7 +192,6 @@ var adhocracy = adhocracy || {};
                 adhocracy.overlay.rebindCameFrom.call(this, event);
             }
         });
-
     };
 
     /***************************************************
