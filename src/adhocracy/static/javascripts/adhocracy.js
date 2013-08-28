@@ -53,6 +53,43 @@ var adhocracy = adhocracy || {};
     adhocracy.namespace('adhocracy.overlay');
 
     adhocracy.overlay.iframeLoadContent = function () {
+        /* This creates an iframe inside the overlay and loads
+         * the url given in the trigger. When the document has
+         * loaded the following steps are executed:
+         *
+         * 1. The class `overlay` is set to the html element
+         *    inside the nested browsing context. This triggers
+         *    some css which in turn hides many elements which
+         *    are not needed in an overlay (header, footer, ...).
+         *
+         * 2. The overlay is resized so the nested document does
+         *    not need to scroll. Please note that this does work
+         *    perfetly and that it only happens on load. This
+         *    means that the overlay will not adjust its size if
+         *    the nested document changes. On the other hand the
+         *    overlay will resize if a new document is loaded, e.g.
+         *    by submitting a form.
+         *
+         * 3. Links are rewritten to open in the top browsing
+         *    context. This happens only for links (not forms)
+         *    and only if no target is set yet. Another exception
+         *    are particle links (e.g. `#top`) which only concern
+         *    the current document.
+         *
+         *    To force a link to open inside the overlay you should
+         *    set `target="_self"` and append a `#top` to the href.
+         *
+         *    Form actions are not rewritten. Instead, possible
+         *    error or success messages are loaded inside the overlay.
+         *    You should set a sensible `ret_url` for forms in overlays.
+         *
+         * This mechanism is powerful because it allows to load
+         * any page inside an overlay and most things just work.
+         * A possible risk however is that users might be redirected
+         * to a page that they should not be send to. So please be
+         * carefull when using iframe overlays.
+         */
+
         // grab wrapper element inside content
         var overlay = this.getOverlay();
         var wrap = overlay.find(".contentWrap");
