@@ -273,11 +273,14 @@ class CommentController(BaseController):
                              code=400)
         return self._render_ajax_create_form(None, topic, variant)
 
-    def _render_ajax_create_form(self, parent, topic, variant):
+    def _render_ajax_create_form(self, parent, topic, variant, ret_url=None):
         '''
         render a create form fragment that can be inserted loaded
         into another page.
         '''
+        if ret_url is None:
+            ret_url = ''
+
         # FIXME: uncomment the format parameter when we have javascript
         # code to submit the form with ajax and replace the form with the
         # response
@@ -286,7 +289,8 @@ class CommentController(BaseController):
         template_args = dict(parent=parent,
                              topic=topic,
                              variant=variant,
-                             #format="ajax"
+                             #format="ajax",
+                             ret_url=ret_url,
                              )
         return render_def('/comment/tiles.html', 'create_form',
                           template_args)
@@ -296,4 +300,5 @@ class CommentController(BaseController):
         require.comment.reply(parent)
         topic = parent.topic
         variant = getattr(topic, 'variant', None)
-        return self._render_ajax_create_form(parent, topic, variant)
+        ret_url = request.params['ret_url']
+        return self._render_ajax_create_form(parent, topic, variant, ret_url)
