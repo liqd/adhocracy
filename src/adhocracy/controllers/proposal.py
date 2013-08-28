@@ -194,9 +194,10 @@ class ProposalController(BaseController):
         model.meta.Session.flush()
         proposal.description = description
 
-        categories = self.form_result.get('category')
-        category = categories[0] if categories else None
-        proposal.set_category(category, c.user)
+        if c.instance.use_categories:
+            categories = self.form_result.get('category')
+            category = categories[0] if categories else None
+            proposal.set_category(category, c.user)
 
         for page in pages:
             page_text = page.get('text', '')
@@ -274,9 +275,10 @@ class ProposalController(BaseController):
         model.meta.Session.add(c.proposal)
 
         # change the category
-        categories = self.form_result.get('category')
-        category = categories[0] if categories else None
-        c.proposal.set_category(category, c.user)
+        if c.instance.use_categories:
+            categories = self.form_result.get('category')
+            category = categories[0] if categories else None
+            c.proposal.set_category(category, c.user)
 
         if self._can_edit_wiki(c.proposal, c.user):
             wiki = self.form_result.get('wiki')

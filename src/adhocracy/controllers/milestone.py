@@ -102,7 +102,11 @@ class MilestoneController(BaseController):
         except Invalid, i:
             return self.new(errors=i.unpack_errors())
 
-        category = self.form_result.get('category')
+        if c.instance.use_categories:
+            category = self.form_result.get('category')
+        else:
+            category = None
+
         milestone = model.Milestone.create(c.instance, c.user,
                                            self.form_result.get("title"),
                                            self.form_result.get('text'),
@@ -142,7 +146,8 @@ class MilestoneController(BaseController):
 
         c.milestone.title = self.form_result.get('title')
         c.milestone.text = self.form_result.get('text')
-        c.milestone.category = self.form_result.get('category')
+        if c.instance.use_categories:
+            c.milestone.category = self.form_result.get('category')
         c.milestone.time = self.form_result.get('time')
         model.meta.Session.commit()
         watchlist.check_watch(c.milestone)
@@ -165,7 +170,7 @@ class MilestoneController(BaseController):
                                                    instance=c.instance)
         # proposals .. with the same category
         by_category = []
-        if c.milestone.category:
+        if c.instance.use_categories and c.milestone.category:
             by_category = [d for d in c.milestone.category.delegateables
                            if isinstance(d, model.Proposal)
                            and not d.is_deleted()]
