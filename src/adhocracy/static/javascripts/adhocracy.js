@@ -105,7 +105,6 @@ var adhocracy = adhocracy || {};
 
         iframe.load(function() {
             var html = iframe.contents().find('html');
-            var doc = iframe[0].contentDocument;
 
             /* set class for css */
             html.addClass('overlay');
@@ -118,8 +117,8 @@ var adhocracy = adhocracy || {};
             /* adjust size to iframe content */
             var old_left = parseInt(overlay.css('left')),
                 old_width = overlay.width(),
-                width = doc.width,
-                height = html.height();
+                width = iframe.contents().width(),
+                height = iframe.contents().height();
             var css = {
                 'width': width,
                 'height': height,
