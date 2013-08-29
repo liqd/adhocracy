@@ -87,7 +87,8 @@ div.overlay {
 html.overlay {
     background: none;
 
-    header, #subheader, footer, #feedback {
+    header, #subheader, footer, #feedback, .ie-message,
+    #user_welcome, #welcome_message, #flash_message {
         display: none;
     }
     #main, .page_margins, .page_wrapper {
