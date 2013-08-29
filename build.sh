@@ -110,14 +110,15 @@ if ! $not_use_sudo_commands; then
         echo 'sudo failed. Is it installed and configured?'
         exit 20
     fi
-fi
 
-if [ '!' -e adhocracy_buildout/bin/adhocracy_interactive.sh ]; then # Has an installation completed?
-    case "$distro" in
-    debian)
-        $SUDO_CMD apt-get update
-        ;;
-    esac
+    if [ '!' -e adhocracy_buildout/bin/adhocracy_interactive.sh ]; then
+        # Installation has never completed
+        case "$distro" in
+        debian)
+            $SUDO_CMD apt-get update
+            ;;
+        esac
+    fi
 fi
 
 # Prefer curl because wget < 1.14 fails on https://raw.github.com/ because 
