@@ -4,8 +4,8 @@
 <%namespace name="state" file="/poll/state.html"/>
 <% from adhocracy.lib import sorting %>
 <%def name="title()">${c.page.title}</%def>
-
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
 
 <%block name="sidebar">
     <div class="sidebar_box">
@@ -15,15 +15,15 @@
         ${sidebar_defs.shortlink(c.page)}
 
         <h6>${_(u'Last Activity')}</h6>
-        <p><time>${h.datetime_tag(c.page.find_latest_comment_time())|n}</time></p>
+        <p><time>${h.datetime_tag(c.page.find_latest_comment_time(recursive=True))|n}</time></p>
 
         <h6>${_(u'Category')}</h6>
         <p>
-          %if c.page.category:
-          ${c.page.category}
-          %else:
-          ${_(u"This page is not assigned to any category")}
-          %endif
+            %if c.page.category:
+            ${c.page.category}
+            %else:
+            ${_(u"This page is not assigned to any category")}
+            %endif
         </p>
 
         %if c.page.milestone and c.instance.milestones:
@@ -35,7 +35,6 @@
         %endif
 
         ${tiles.tag.sidebar(c.page)}
-
     </div>
 </%block>
 
