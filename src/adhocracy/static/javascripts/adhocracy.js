@@ -63,8 +63,8 @@ var adhocracy = adhocracy || {};
          *    are not needed in an overlay (header, footer, ...).
          *
          * 2. The overlay is resized so the nested document does
-         *    not need to scroll. Please note that this does work
-         *    perfetly and that it only happens on load. This
+         *    not need to scroll. Please note that this does not work
+         *    perfectly and that it only happens on load. This
          *    means that the overlay will not adjust its size if
          *    the nested document changes. On the other hand the
          *    overlay will resize if a new document is loaded, e.g.
@@ -87,7 +87,7 @@ var adhocracy = adhocracy || {};
          * any page inside an overlay and most things just work.
          * A possible risk however is that users might be redirected
          * to a page that they should not be send to. So please be
-         * carefull when using iframe overlays.
+         * careful when using iframe overlays.
          */
 
         // grab wrapper element inside content
