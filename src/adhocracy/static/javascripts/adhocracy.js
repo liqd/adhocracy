@@ -63,12 +63,8 @@ var adhocracy = adhocracy || {};
          *    are not needed in an overlay (header, footer, ...).
          *
          * 2. The overlay is resized so the nested document does
-         *    not need to scroll. Please note that this does not work
-         *    perfectly and that it only happens on load. This
-         *    means that the overlay will not adjust its size if
-         *    the nested document changes. On the other hand the
-         *    overlay will resize if a new document is loaded, e.g.
-         *    by submitting a form.
+         *    not need to scroll. As long as the overlay is visible
+         *    it will automatically resize.
          *
          * 3. Links are rewritten to open in the top browsing
          *    context. This happens only for links (not forms)
@@ -99,9 +95,57 @@ var adhocracy = adhocracy || {};
         overlay.width(500);
         overlay.height(150);
 
-        var iframe = $('<iframe/>');
+        var iframe = $('<iframe scrolling="no" frameborder="0"/>');
         wrap.empty().append(iframe);
         iframe.attr('src', url);
+
+        var resizeHeight = function(speed) {
+            var old_height = overlay.height(),
+                // iframe.contents().height does not shrink for some reason
+                height = $('body', iframe.contents()).height();
+            if (old_height !== height) {
+                overlay.animate({'height': height}, speed);
+            }
+        };
+        var resizeWidth = function(speed) {
+            /* adjust size to iframe content */
+            var old_width = overlay.width(),
+                old_left = parseInt(overlay.css('left')),
+                width = iframe.contents().width(),
+                left = old_left + (old_width - width) / 2;
+            if (old_width !== width || old_left !== left) {
+                var css = {
+                    'width': width,
+                    'left': left,
+                };
+                overlay.animate(css, speed);
+            }
+        };
+        var resize = function(speed) {
+            resizeWidth(speed);
+            resizeHeight(speed);
+        };
+        var autoResizeLock = false;
+        var autoResize = function(speed, interval) {
+            if (!autoResizeLock) {
+                autoResizeLock = true;
+                var loop = function() {
+                    if (overlay.not(':hidden').length > 0) {
+                        try {
+                            // dont resize width as this never happens
+                            // fails if the iframe currently loads a new page
+                            resizeHeight(speed);
+                        } catch (ex) {
+                            console.log(ex);
+                        }
+                        setTimeout(loop, interval);
+                    } else {
+                        autoResizeLock = false;
+                    }
+                };
+                loop();
+            }
+        };
 
         iframe.load(function() {
             var html = iframe.contents().find('html');
@@ -114,17 +158,8 @@ var adhocracy = adhocracy || {};
                 html.addClass('overlay-small');
             }
 
-            /* adjust size to iframe content */
-            var old_left = parseInt(overlay.css('left')),
-                old_width = overlay.width(),
-                width = iframe.contents().width(),
-                height = iframe.contents().height();
-            var css = {
-                'width': width,
-                'height': height,
-                'left': old_left + (old_width - width) / 2,
-            };
-            overlay.animate(css, 'slow');
+            resize('slow');
+            autoResize('fast', 200);
 
             /* redirect links */
             $('a[href]', iframe.contents()).each(function() {
