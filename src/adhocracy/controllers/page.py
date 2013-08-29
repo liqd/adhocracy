@@ -550,7 +550,7 @@ class PageController(BaseController):
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
-        if c.page.sectionpage:
+        if c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
                           overlay=(format == 'overlay'))
         else:

@@ -276,6 +276,14 @@ class Page(Delegateable):
                 selections.append(selection)
         return selections
 
+    def is_sectionpage(self):
+        if self.sectionpage:
+            return True
+        elif self.parent:
+            return self.parent.is_sectionpage()
+        else:
+            return False
+
     def supporting_selections(self, variant):
         selections = []
         for selection in self.selections:
