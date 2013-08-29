@@ -180,7 +180,11 @@ class UserController(BaseController):
 
         c.tutorial_intro = _('tutorial_user_index_intro')
         c.tutorial = 'user_index'
-        return render("/user/index.html")
+
+        if format == 'overlay':
+            return render("/user/index.html", overlay=True)
+        else:
+            return render("/user/index.html")
 
     @guard.perm('user.index_all')
     def all(self):
@@ -759,7 +763,11 @@ class UserController(BaseController):
         c.events_pager = pager.events(query.all())
         c.tile = tiles.user.UserTile(c.page_user)
         self._common_metadata(c.page_user, add_canonical=True)
-        return render("/user/show.html")
+
+        if format == 'overlay':
+            return render("/user/show.html", overlay=True)
+        else:
+            return render("/user/show.html")
 
     def login(self):
         c.active_global_nav = "login"
@@ -1019,7 +1027,11 @@ class UserController(BaseController):
                            decisions)
         c.decisions_pager = pager.user_decisions(decisions)
         self._common_metadata(c.page_user, member='votes')
-        return render("/user/votes.html")
+
+        if format == 'overlay':
+            return render("/user/votes.html", overlay=True)
+        else:
+            return render("/user/votes.html")
 
     @RequireInstance
     def delegations(self, id, format='html'):
@@ -1044,7 +1056,11 @@ class UserController(BaseController):
             c.dgbs = model.Delegateable.all(instance=c.instance)
         c.nodeClass = democracy.DelegationNode
         self._common_metadata(c.page_user, member='delegations')
-        return render("/user/delegations.html")
+
+        if format == 'overlay':
+            return render("/user/delegations.html", overlay=True)
+        else:
+            return render("/user/delegations.html")
 
     def instances(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
@@ -1058,7 +1074,11 @@ class UserController(BaseController):
 
         self._common_metadata(c.page_user, member='instances',
                               add_canonical=True)
-        return render("/user/instances.html")
+
+        if format == 'overlay':
+            return render("/user/instances.html", overlay=True)
+        else:
+            return render("/user/instances.html")
 
     @guard.watch.index()
     def watchlist(self, id, format='html'):
@@ -1080,7 +1100,10 @@ class UserController(BaseController):
             return render_json(c.entities_pager)
 
         self._common_metadata(c.page_user, member='watchlist')
-        return render("/user/watchlist.html")
+        if format == 'overlay':
+            return render("/user/watchlist.html", overlay=True)
+        else:
+            return render("/user/watchlist.html")
 
     @RequireInstance
     @RequireInternalRequest()

@@ -114,7 +114,11 @@ class PageController(BaseController):
                               key=lambda (k, c, v): k.name)
         c.tutorial_intro = _('tutorial_norms_overview_tab')
         c.tutorial = 'page_index'
-        return render("/page/index.html")
+
+        if format == 'overlay':
+            return render("/page/index.html", overlay=True)
+        else:
+            return render("/page/index.html")
 
     @RequireInstance
     @guard.page.create()
@@ -520,7 +524,7 @@ class PageController(BaseController):
         return render("/page/show.html")
 
     @RequireInstance
-    def history(self, id, variant=model.Text.HEAD, text=None, format=None):
+    def history(self, id, variant=model.Text.HEAD, text=None, format='html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
         if c.text is None:
@@ -536,8 +540,10 @@ class PageController(BaseController):
         c.tile = tiles.page.PageTile(c.page)
         self._common_metadata(c.page, c.text)
 
-        if format == 'overlay':
+        if format == 'ajax':
             return c.texts_pager.here()
+        elif format == 'overlay':
+            return render('/page/history.html', overlay=True)
         else:
             return render('/page/history.html')
 
