@@ -95,8 +95,7 @@ html.overlay {
         margin: 0;
     }
     body {
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow: hidden;
     }
 
     &.overlay-small {
