@@ -158,7 +158,10 @@ class InstanceController(BaseController):
             return render_json(c.instance_pager)
 
         c.tile = tiles.instance.InstanceTile(c.instance)
-        return render("/instance/index.html")
+        if format == 'overlay':
+            return render("/instance/index.html", overlay=True)
+        else:
+            return render("/instance/index.html")
 
     @guard.instance.create()
     def new(self):
@@ -200,8 +203,7 @@ class InstanceController(BaseController):
 
         if format == 'json':
             return render_json(c.page_instance)
-
-        if format == 'rss':
+        elif format == 'rss':
             return self.activity(id, format)
 
         if c.page_instance != c.instance:
@@ -258,7 +260,11 @@ class InstanceController(BaseController):
 
         c.tutorial_intro = _('tutorial_instance_show_intro')
         c.tutorial = 'instance_show'
-        return render("/instance/show.html")
+
+        if format == 'overlay':
+            return render("/instance/show.html", overlay=True)
+        else:
+            return render("/instance/show.html")
 
     @RequireInstance
     def activity(self, id, format='html'):
@@ -278,7 +284,11 @@ class InstanceController(BaseController):
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.events_pager = pager.events(events)
-        return render("/instance/activity.html")
+
+        if format == 'overlay':
+            return render("/instance/activity.html", overlay=True)
+        else:
+            return render("/instance/activity.html")
 
     @RequireInstance
     def edit(self, id):
@@ -321,10 +331,10 @@ class InstanceController(BaseController):
                         'title': badge.title,
                         'checked': badge.id in checked} for badge in c.badges]}
             return render_json(json)
-
-        return formencode.htmlfill.render(
-            render("/instance/badges.html"),
-            defaults=defaults)
+        else:
+            return formencode.htmlfill.render(
+                render("/instance/badges.html"),
+                defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')
     @guard.perm("global.admin")
@@ -429,8 +439,7 @@ class InstanceController(BaseController):
                  'label': h.literal(_(group.group_name)),
                  'selected': group.code == c.default_group})
 
-        rendered = render("/instance/settings_general.html")
-        return rendered
+        return render("/instance/settings_general.html")
 
     @RequireInstance
     def settings_general(self, id):

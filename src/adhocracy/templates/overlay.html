@@ -1,18 +1,58 @@
 <%namespace name="model" module="adhocracy.model"
 /><%namespace name="components" file="/components.html"
 /><%namespace name="navigation" file="/navigation.html"
-/><%def name="breadcrumbs()">&nbsp;</%def>
+/><%namespace name="debug" file="/debug/tiles.html"
+/><%def name="breadcrumbs()">&nbsp;</%def><%def name="title()"></%def><?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE html>
+<html id="top" class="no-js overlay">
+    <head>
+        <%block name="head">
+        ${components.head(self.title)}
+        </%block>
 
-## an alternative root template to render the "main" block
-## and the flash messages and infoboxes
-## a html fragment
+        %if h.config.get('adhocracy.debug.sql'):
+        ${debug.styles()}
+        %endif
+    </head>
 
-<div id="main-overlay">
-    <%block name="welcome">
-        <%block name="flashmessages"></%block>
-        <%block name="infoboxes"></%block>
-    </%block>
+<body lang="${c.locale.language}" class="${'logged_in' if c.user else ''}"
+    data-stats-baseurl="${c.page_stats_url}"
+    %if c.monitor_page_time_interval:
+    data-stats-interval="${c.monitor_page_time_interval}"
+    %if c.monitor_browser_values:
+    data-stats-browser-values="${c.monitor_browser_values}"
+    %endif
+    %if c.monitor_extended:
+    data-stats-extended="${c.monitor_extended}"
+    %endif
+    %if c.monitor_page_performance:
+    data-stats-page-performance="${c.monitor_page_performance}"
+    %endif
+    %endif
+    %if c.monitor_external_links_url:
+    data-stats-monitor_external_links_url="${c.monitor_external_links_url}"
+    %endif
+    %if c.monitor_pager_clicks:
+    data-stats-pager-clicks="${c.monitor_pager_clicks}"
+    %endif
+    >
 
+    <div id="main" class="default_content">
     <%block name="main">
     </%block>
-</div>
+    </div>
+
+    <!-- Fixme: Here to render error pages -->
+    ${self.body()}
+
+    <%include file="piwik.html"/>
+
+    <!-- Dummy tag to merge in wordpress scripts -->
+    <div id="external_scripts"></div>
+
+    %if h.config.get('adhocracy.debug.sql'):
+    ${debug.queries()}
+    %endif
+
+</body>
+</html>

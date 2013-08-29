@@ -78,7 +78,10 @@ class MilestoneController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         c.tutorial = 'milestone_index'
         c.tutorial_intro = _('tutorial_milestones_tab')
-        return render("/milestone/index.html")
+        if format == 'overlay':
+            return render("/milestone/index.html", overlay=True)
+        else:
+            return render("/milestone/index.html")
 
     @RequireInstance
     @validate(schema=MilestoneNewForm(), form='bad_request',
@@ -185,7 +188,11 @@ class MilestoneController(BaseController):
         self._common_metadata(c.milestone)
         c.tutorial_intro = _('tutorial_milestone_details_tab')
         c.tutorial = 'milestone_show'
-        return render("/milestone/show.html")
+
+        if format == overlay:
+            return render("/milestone/show.html", overlay=True)
+        else:
+            return render("/milestone/show.html")
 
     @RequireInstance
     def ask_delete(self, id):

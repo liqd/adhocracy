@@ -41,10 +41,11 @@ class DelegationController(BaseController):
             c.users = model.User.all(instance=c.instance)
             response.content_type = "text/plain"
             return render("/delegation/graph.dot")
-        if format == 'json':
+        elif format == 'json':
             c.delegations_pager = pager.delegations(c.delegations)
             return render_json(c.delegations_pager)
-        return self.not_implemented(format=format)
+        else:
+            return self.not_implemented(format=format)
 
     @RequireInstance
     @guard.delegation.create()
@@ -122,8 +123,10 @@ class DelegationController(BaseController):
 
         if format == 'json':
             return render_json((c.delegation, c.decisions_pager))
-
-        return render("delegation/show.html")
+        elif format == 'overlay':
+            return render("delegation/show.html", overlay=True)
+        else:
+            return render("delegation/show.html")
 
     @RequireInstance
     def edit(self, format='html'):

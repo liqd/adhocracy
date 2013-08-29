@@ -62,8 +62,8 @@ class PollController(BaseController):
 
         if format == 'json':
             return render_json(poll)
-
-        return self.not_implemented(format=format)
+        else:
+            return self.not_implemented(format=format)
 
     @RequireInstance
     @RequireInternalRequest()
@@ -89,8 +89,8 @@ class PollController(BaseController):
             return render_json(dict(decision=decision,
                                     score=c.poll.tally.score,
                                     votedetail=vdetail))
-
-        redirect(h.entity_url(c.poll.subject))
+        else:
+            redirect(h.entity_url(c.poll.subject))
 
     @RequireInstance
     @RequireInternalRequest()
@@ -133,14 +133,12 @@ class PollController(BaseController):
             return render_json(dict(decision=decision,
                                     tally=tally.to_dict(),
                                     votedetail=vdetail))
-
-        if format == 'overlay':
+        elif format == 'ajax':
             return self.widget(id, format=self.form_result.get('cls'))
-
-        if c.poll.action == model.Poll.SELECT:
+        elif c.poll.action == model.Poll.SELECT:
             redirect(h.entity_url(c.poll.selection))
-
-        redirect(h.entity_url(c.poll.subject))
+        else:
+            redirect(h.entity_url(c.poll.subject))
 
     @RequireInstance
     @validate(schema=PollVotesFilterForm(), post_only=False, on_get=True)
@@ -166,15 +164,16 @@ class PollController(BaseController):
             decisions = filter(lambda d: d.result == result_form, decisions)
         c.decisions_pager = pager.scope_decisions(decisions)
 
-        if format == 'overlay':
+        if format == 'json':
+            return render_json(c.decisions_pager)
+        elif format == 'ajax':
             return render_def('/pager.html', 'overlay_pager',
                               pager=c.decisions_pager,
                               render_facets=False)
-
-        if format == 'json':
-            return render_json(c.decisions_pager)
-
-        return render("/poll/votes.html")
+        elif format == 'overlay':
+            return render("/poll/votes.html", overlay=True)
+        else:
+            return render("/poll/votes.html")
 
     def ask_delete(self, id):
         c.poll = self._get_open_poll(id)
