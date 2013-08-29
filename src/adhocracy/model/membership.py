@@ -71,7 +71,7 @@ class Membership(object):
 
     def __repr__(self):
         key = self.instance and self.instance.key or "",
-        return u"<Membership(%d,%s,%s,%s)>" % (self.id,
+        return u"<Membership(%s,%s,%s,%s)>" % (str(self.id),
                                                self.user.user_name,
                                                key,
                                                self.group.code)
