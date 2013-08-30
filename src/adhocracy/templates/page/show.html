@@ -19,43 +19,34 @@
          data-bind="css: {inactive: variants.current.is_head}">
         <span>${_("Highlight Changes")}</span>
         <div class="switch_buttons">
-            <a class="button_small" 
+            <a class="button_small"
                data-bind="css: {active: variants.switchDiff},
                           click: function () {variants.switchDiff(true)}"
-               href="#">${_("On")}</a> 
-            <a class="button_small" 
+               href="#">${_("On")}</a>
+            <a class="button_small"
                data-bind="css: {active: !variants.switchDiff()},
                           click: function () {variants.switchDiff(false)}"
                href="#">${_("Off")}</a>
         </div>
     </div>
 
-    <%doc>
-    ## NOTE: This had a side-by-side diff view where you could
-    ## NOTE: change the versions to compare. We could add that again.
-    <div class="version_function">
-        <a class="button" href="#">
-            ${_("Compare Versions")}
-        </a>
-    </div>
-    </%doc>
-
-    %if can.proposal.create():
+    %if can.proposal.create() and c.page.allow_selection:
     ## FIXME: Button for unauth users
     <div class="version_function">
         <a id="new-proposal-button"
 	   class="button highlight"
      href="${h.base_url('/proposal/new?page=%d'%c.page.id)}">
-            ${_("New Proposal")}
+            ${_("Propose New Amendment")}
         </a>
     </div>
     %endif
 
     %endif
 
+    %if not c.amendment:
     <div class="sidebar_box">
-    <h3>${_("Information about the norm")}</h3>
-    <summary>
+        <h3>${_("Information about the norm")}</h3>
+
         ## Shortlink http://domain/d/1234
         ${sidebar_defs.shortlink(c.page)}
 
@@ -64,11 +55,11 @@
 
         <h6>${_('Category')}</h6>
         <p>
-          %if c.page.category:
-          ${c.page.category}
-          %else:
-          ${_("This page is not assigned to any category")}
-          %endif
+            %if c.page.category:
+            ${c.page.category}
+            %else:
+            ${_("This page is not assigned to any category")}
+            %endif
         </p>
 
         %if c.page.milestone and c.instance.milestones:
@@ -78,30 +69,29 @@
                ) % h.milestone.link(c.page.milestone)|n}
         </p>
         %endif
+
         %if len(c.page.subpages):
         %endif
         ## Fixme: Info zur Version
         ## <h6>Angelegt</h6>
-        ## <p>von <a href="#">Timoteus</a> am 
-        ## <time pubdate="pubdate">01.01.2011</time>, 
+        ## <p>von <a href="#">Timoteus</a> am
+        ## <time pubdate="pubdate">01.01.2011</time>,
         ## setdem <a href="#">3 Änderungen</a>.</p>
 
-    ${tiles.tag.sidebar(c.page)}
+        ${tiles.tag.sidebar(c.page)}
 
-    %if len(c.page.subpages):
-    <h6>${_('Subnorms')}</h6>
-    <ol>
-        %for page in sorting.delegateable_title(c.page.subpages):
-        <li><a href="${h.entity_url(page)}">${page.title}</a></li>
-        %endfor
-    </ol>
-    %endif
-    </summary>
+        %if len(c.page.subpages):
+        <h6>${_('Subnorms')}</h6>
+        <ol>
+            %for page in sorting.delegateable_title(c.page.subpages):
+            <li><a href="${h.entity_url(page)}">${page.title}</a></li>
+            %endfor
+        </ol>
+        %endif
     </div>
+    %endif
 
-</section>
-
-<% h.need.adhocracy_ko %>
+    <% h.need.adhocracy_ko %>
 
     <script type="text/javascript">
         /* <![CDATA[ */
@@ -132,96 +122,97 @@
     </div>
 </script>
 
+%if not c.amendment and can.page.delete(c.page) and active != 'diff':
+<a class="button title delete"
+   href="${h.entity_url(c.page, member='ask_delete')}">
+    ${_("delete")}
+</a>
+%endif
 
-        %if can.page.delete(c.page) and active != 'diff':
-        <a class="button title delete"  
-           href="${h.entity_url(c.page, member='ask_delete')}">
-            ${_("delete")}
-        </a>
-        %endif
+%if c.amendment:
+<h2>${_("Proposed changes for %s") % c.page.title}</h2>
+%else:
+<h2>${_("Norm: %s") % c.page.title}</h2>
+%endif
 
-    <h2>${_("Norm: %s") % c.page.title}</h2>
 
-<section>
-    <div id="paper_box">
-        <article>
-            <div class="paper_header">
-                <div class="utility">
-                     <div id="norm-vote-widget"
-                         data-bind="html:voteWidget">
-                         %if c.current_variant_poll:
-                         ${tiles.poll.widget(c.current_variant_poll, cls="big")}
-                         %endif
-                     </div>
-                <h3 data-bind="text:variants.current.display_title">
-                    ${c.variant_details['display_title']}
-                </h3>
-                <a href="${c.variant_details['edit_url']}"
-                   style="${'display: none' if not c.variant_details['can_edit'] else ''}"
-                   data-bind="attr: {href: variants.current.edit_url}">
-                    ${_('edit')}
-                </a>
-                </div>
-            </div>
-            <div class="paper_text">
-                <div data-bind="visible: variants.showPlain(),
-                                html: variants.current.text">
-                %if not c.variant_details['text']:
-                ${_("No text.")}
-                %else:
-                ${c.variant_details['text']|n}
-                %endif
-                </div>
-        
-                <div data-bind="visible: variants.showDiff()">
-                    <h4>${_("Text compared to the original version")}</h4>
-                    <div data-bind="html: variants.current.text_diff">
-                        ${c.variant_details['text_diff']|n}
-                    </div>
-                </div>
-                %if c.text and c.text.text:
-                ${components.social_share_buttons(c.variant)}
-                %endif
-                <div data-bind="visible: variants.current.history_count() > 1"
-                     style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
-                    <a rel="#overlay-url"
-                       href="${c.variant_details['history_url']}"
-                       data-bind="attr: {href: variants.current.history_url}">
-                        ${_("History")}
-                    </a>
-                </div>
-            </div>
-        </article>
-        <div class="paper_comments">
-            <div class="paper ${'only-no-js' if c.variant_details else ''}" 
-                 id="p1"
-                 data-bind="css: {'only-no-js': variants.current.is_head}">
-                <h4>${_("Proposal")}</h4>
-                <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
-                </div>
-                %if not c.variant_details['is_head']:
-                <div class="only-no-js">
-                    %for selection in c.variant_details['selections']:
-                    <h5>${selection['proposal_title']}</h5>
-                    <div>${selection['proposal_text']|n}</div>
-                    <div class="comment_actions floatbox">
-                        <div class="utility">
-                            <span class="hover_active" style="display: none;">
-                                <!-- <a href="#">Link</a> ·  -->
-                                <a href="${selection['proposal_url']}">
-                                    ${_("View Proposal")}
-                                </a>
-                                </span>&nbsp;
-                        </div>
-                    </div>
-                    %endfor
-                </div>
+<div id="paper_box">
+    <div class="paper_header">
+        <div class="utility">
+            <div id="norm-vote-widget"
+                 data-bind="html:voteWidget">
+                %if c.current_variant_poll:
+                ${tiles.poll.widget(c.current_variant_poll, cls="big")}
                 %endif
             </div>
-
+            <h3 data-bind="text:variants.current.display_title">
+                ${c.variant_details['display_title']}
+            </h3>
+            <a href="${c.variant_details['edit_url']}"
+               style="${'display: none' if not c.variant_details['can_edit'] else ''}"
+               data-bind="attr: {href: variants.current.edit_url}">
+                ${_('edit')}
+            </a>
         </div>
     </div>
-</section>
+    <div class="paper_text">
+        <div data-bind="visible: variants.showPlain(),
+                        html: variants.current.text">
+            %if not c.variant_details['text']:
+            ${_("No text.")}
+            %else:
+            ${c.variant_details['text']|n}
+            %endif
+        </div>
+
+        <div data-bind="visible: variants.showDiff()">
+            <h4>${_("Text compared to the original version")}</h4>
+            <div data-bind="html: variants.current.text_diff">
+                ${c.variant_details['text_diff']|n}
+            </div>
+        </div>
+        %if c.text and c.text.text:
+        ${components.social_share_buttons(c.variant)}
+        %endif
+
+        <div data-bind="visible: variants.current.history_count() > 1"
+             style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
+            <a rel="#overlay-url"
+               href="${c.variant_details['history_url']}"
+               data-bind="attr: {href: variants.current.history_url}">
+                ${_("History")}
+            </a>
+        </div>
+    </div>
+
+    <div class="paper_comments">
+        <div class="paper ${'only-no-js' if c.variant_details else ''}"
+             id="p1"
+             data-bind="css: {'only-no-js': variants.current.is_head}">
+            <h4>${_("Proposal")}</h4>
+            <div data-bind="template: {name: 'proposalTmpl', foreach: variants.current.selections}">
+            </div>
+            %if not c.variant_details['is_head']:
+            <div class="only-no-js">
+                %for selection in c.variant_details['selections']:
+                <h5>${selection['proposal_title']}</h5>
+                <div>${selection['proposal_text']|n}</div>
+                <div class="comment_actions floatbox">
+                    <div class="utility">
+                        <span class="hover_active" style="display: none;">
+                            <!-- <a href="#">Link</a> ·  -->
+                            <a href="${selection['proposal_url']}">
+                                ${_("View Proposal")}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                %endfor
+            </div>
+            %endif
+        </div>
+    </div>
+</div>
 
 
 <%components:tutorial>
@@ -240,7 +231,7 @@
     <li data-id="new-proposal-button" data-next="${_('Close')}"
         data-tip-location="top" class="custom">
         <p>${_('tutorial_norm_show_new')}</p>
-    </li>  
+    </li>
 
 </ol>
 </%components:tutorial>

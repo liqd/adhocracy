@@ -48,7 +48,7 @@
 
             <ul class="flags">
                 <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments')} (${len(page.comments)})</a></li>
-                <li><a href="${h.entity_url(page)}" rel="#overlay-url-big">${_(u'Variants')} (${len(page.selections)})</a></li>
+                <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
                 %if can.norm.edit(page):
                 <li><a href="${h.entity_url(page, member='edit')}">${_(u"Edit")}</a></li>
                 %endif

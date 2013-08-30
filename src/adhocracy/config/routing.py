@@ -152,6 +152,11 @@ def make_map(config):
 
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
+    map.connect('/page/{id}/amendment{.format}',
+                controller='page',
+                action='show', amendment=True,
+                conditions=dict(method=['GET']),
+                )
     map.connect('/page/{id}/{variant}/history{.format}',
                 controller='page',
                 action='history',

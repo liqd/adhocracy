@@ -491,9 +491,17 @@ class PageController(BaseController):
         return items
 
     @RequireInstance
-    def show(self, id, variant=None, text=None, format='html'):
+    def show(self, id, variant=None, text=None, format='html',
+             amendment=False):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+
+        c.overlay = format == 'overlay'
+        c.amendment = amendment
+
+        if c.amendment and not c.page.allow_selection:
+            return ret_abort(_("Page %s does not allow selections") % c.page.title,
+                             code=400, format=format)
 
         # Error handling and json api
         if c.text.variant != c.variant:
@@ -550,7 +558,7 @@ class PageController(BaseController):
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
-        if c.page.is_sectionpage():
+        if not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
                           overlay=(format == 'overlay'))
         else:
