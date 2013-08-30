@@ -929,7 +929,7 @@ $(document).ready(function () {
             splitted,
             widget_url;
         splitted = self.attr('href').split('?');
-        widget_url = splitted[0] + '.overlay?' + splitted[1];
+        widget_url = splitted[0] + '.ajax?' + splitted[1];
         $.ajax({
             url: widget_url,
             success: function (data) {
