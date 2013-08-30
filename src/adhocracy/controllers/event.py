@@ -32,4 +32,7 @@ class EventController(BaseController):
 
         c.event_pager = NamedPager('events', query.all(),
                                    tiles.event.row, count=50)
-        return render('/event/all.html')
+        if format == 'overlay':
+            return render('/event/all.html', overlay=True)
+        else:
+            return render('/event/all.html')

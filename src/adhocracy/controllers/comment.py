@@ -68,10 +68,11 @@ class CommentController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
             default_sort=sorting.entity_newest)
+
         if format == 'json':
             return render_json(c.comments_pager)
-
-        return self.not_implemented(format=format)
+        else:
+            return self.not_implemented(format=format)
 
     @RequireInstance
     @validate(schema=CommentNewForm(), form="bad_request",
@@ -86,6 +87,7 @@ class CommentController(BaseController):
             require.comment.reply(c.reply)
         else:
             require.comment.create_on(c.topic)
+
         if format == 'ajax':
             html = self._render_ajax_create_form(c.reply, c.topic, c.variant)
         else:
@@ -135,7 +137,8 @@ class CommentController(BaseController):
             redirect(request.params.get('ret_url') + "#c" + str(comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
-        return ret_success(entity=comment, format='fwd')
+        else:
+            return ret_success(entity=comment, format='fwd')
 
     @RequireInstance
     def edit(self, id, format='html'):
@@ -144,7 +147,10 @@ class CommentController(BaseController):
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
                               {'comment': c.comment})
-        return render('/comment/edit.html')
+        elif format == 'overlay':
+            return render('/comment/edit.html', overlay=True)
+        else:
+            return render('/comment/edit.html')
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
@@ -171,7 +177,8 @@ class CommentController(BaseController):
             redirect(request.params.get('ret_url') + "#c" + str(c.comment.id))
         if format != 'html':
             return ret_success(entity=c.comment, format=format)
-        return ret_success(entity=c.comment, format='fwd')
+        else:
+            return ret_success(entity=c.comment, format='fwd')
 
     @RequireInstance
     def show(self, id, format='html'):
@@ -213,11 +220,15 @@ class CommentController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
             default_sort=sorting.entity_newest)
-        if format == 'overlay':
-            return c.revisions_pager.render_pager()
+
         if format == 'json':
             return render_json(c.revisions_pager)
-        return render('/comment/history.html')
+        elif format == 'ajax':
+            return c.revisions_pager.render_pager()
+        elif format == 'overlay':
+            return render('/comment/history.html', overlay=True)
+        else:
+            return render('/comment/history.html')
 
     @RequireInstance
     @csrf.RequireInternalRequest()

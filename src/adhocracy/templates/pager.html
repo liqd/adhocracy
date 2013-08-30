@@ -37,7 +37,8 @@
         <div class="pager">
             <div class="prev_page">
                 %if pager.page > 1:
-                <a href="${pager.build_url(page=pager.page-1)|n}">&laquo; ${_("previous")}</a>
+                <a href="${pager.build_url(page=pager.page-1)|n}#top"
+                   target="_self">&laquo; ${_("previous")}</a>
                 %else:
                 <span>&laquo; ${_("previous")}</span>
                 %endif
@@ -49,14 +50,16 @@
                     %if page['current']:
                         <span class="current">${page['label']}</span>
                     %else:
-                        <a href="${page['url']|n}" 
-                           class="${page['class']}">${page['label']}</a>  
+                        <a href="${page['url']|n}#top"
+                           target="_self"
+                           class="${page['class']}">${page['label']}</a>
                     %endif
                 %endif
             %endfor
             <div class="next_page">
                 %if pager.page < pager.pages:
-                <a href="${pager.build_url(page=pager.page+1)|n}">${_("next")} &raquo;</a>
+                <a href="${pager.build_url(page=pager.page+1)|n}#top"
+                   target="_self">${_("next")} &raquo;</a>
                 %else:
                 <span>${_("next")} &raquo;</span>
                 %endif
@@ -69,7 +72,7 @@
             %if size['current']:
             ${size['size']}
             %else:
-            <a href="${size['url']|n}" rel="nofollow">${size['size']}</a>
+            <a href="${size['url']|n}#top" rel="nofollow" target="_self">${size['size']}</a>
             %endif
             ${'|' if not size['last'] else ''}
             %endfor
