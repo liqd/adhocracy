@@ -549,7 +549,13 @@ class PageController(BaseController):
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
-        return render("/page/show.html")
+
+        if c.page.sectionpage:
+            return render("/page/show_sectionpage.html",
+                          overlay=(format == 'overlay'))
+        else:
+            return render("/page/show.html",
+                          overlay=(format == 'overlay'))
 
     @RequireInstance
     def history(self, id, variant=model.Text.HEAD, text=None, format='html'):

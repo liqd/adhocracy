@@ -1,0 +1,89 @@
+section.subpage {
+    $border-width: 10em;
+
+    margin: 0;
+    margin-top: 1px;
+
+    > .body {
+        border-right: $border-width solid $bg2;
+
+        position: relative;
+        padding: 1em;
+        margin: 0;
+
+        min-height: 5em;
+
+        background-color: $bg1;
+        @include transition(background-color .5s);
+
+        &:hover {
+            background-color: $bg2;
+
+            > h1, > .flags {
+                opacity: 1;
+            }
+        }
+
+        h1, .flags {
+            opacity: 0.3;
+            @include transition(opacity .5s);
+        }
+
+        h1 {
+            display: none;
+        }
+
+        .flags {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            position: absolute;
+            width: $border-width - 1em;
+            right: -($border-width - 0.5em);
+            top: 1em;
+
+            text-align: left;
+
+            li {
+                margin-bottom: 0.3em;
+            }
+
+            a {
+                $height: 17px;
+                $arrow-length: 13px;
+
+                background-color: $primary-color;
+                color: #fff;
+                padding: 0 0.5em;
+
+                display: inline-block;
+                position: relative;
+                line-height: $height;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -$arrow-length;
+                    display: block;
+                    height: 0;
+                    width: 0;
+                    border-right: $arrow-length solid $primary-color;
+                    border-top: $height/2 solid transparent;
+                    border-bottom: $height/2 solid transparent;
+                    border-left: none;
+                }
+
+                &:hover {
+                    background-color: darken($primary-color, 7%);
+                    text-decoration: none;
+
+                    &:after {
+                        border-right-color: darken($primary-color, 7%);
+                    }
+                }
+            }
+        }
+    }
+}

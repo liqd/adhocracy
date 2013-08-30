@@ -1,0 +1,97 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="sidebar_defs" file="/sidebar.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+<% from adhocracy.lib import sorting %>
+<%def name="title()">${c.page.title}</%def>
+
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
+<%block name="sidebar">
+    <div class="sidebar_box">
+        <h3>${_(u"Information about the norm")}</h3>
+
+        ## Shortlink http://domain/d/1234
+        ${sidebar_defs.shortlink(c.page)}
+
+        <h6>${_(u'Last Activity')}</h6>
+        <p><time>${h.datetime_tag(c.page.find_latest_comment_time())|n}</time></p>
+
+        <h6>${_(u'Category')}</h6>
+        <p>
+          %if c.page.category:
+          ${c.page.category}
+          %else:
+          ${_(u"This page is not assigned to any category")}
+          %endif
+        </p>
+
+        %if c.page.milestone and c.instance.milestones:
+        <h6>${_(u'Milestones')}</h6>
+        <p>
+            ${_(u"This norm relates to the milestone %s."
+               ) % h.milestone.link(c.page.milestone)|n}
+        </p>
+        %endif
+
+        ${tiles.tag.sidebar(c.page)}
+
+    </div>
+</%block>
+
+
+<%def name="section(page)">
+    <section id="subpage-${page.id}" class="subpage">
+        <div class="body">
+            <h1>${page.title}</h1>
+
+            ${page.head.render()|n}
+
+            <ul class="flags">
+                <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments')} (${len(page.comments)})</a></li>
+                <li><a href="${h.entity_url(page)}" rel="#overlay-url-big">${_(u'Variants')} (${len(page.selections)})</a></li>
+                %if can.norm.edit(page):
+                <li><a href="${h.entity_url(page, member='edit')}">${_(u"Edit")}</a></li>
+                %endif
+                %if can.page.delete(page):
+                <li><a href="${h.entity_url(page, member='ask_delete')}">${_(u"Delete")}</a></li>
+                %endif
+            </ul>
+        </div>
+
+        %for subpage in sorting.delegateable_title(page.subpages):
+        ${section(subpage)}
+        %endfor
+    </section>
+</%def>
+
+
+<%block name="main_content">
+    <h2>
+        ${c.page.title}
+        %if not c.variant_details['is_head']:
+        &ndash; ${c.variant_details['display_title']}
+        %endif
+    </h2>
+
+    <section class="subpage">
+        <div class="body">
+            ${c.variant_details['text']|n}
+
+            <ul class="flags">
+                <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${len(c.page.comments)})</a></li>
+                <li><a href="${h.entity_url(c.page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(c.page.selections)})</a></li>
+                %if c.variant_details['can_edit']:
+                <li><a href="${c.variant_details['edit_url']}">${_(u"Edit")}</a></li>
+                %endif
+                %if can.page.delete(c.page):
+                <li><a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a></li>
+                %endif
+            </ul>
+        </div>
+
+        %for subpage in sorting.delegateable_title(c.page.subpages):
+        ${section(subpage)}
+        %endfor
+    </section>
+</%block>
