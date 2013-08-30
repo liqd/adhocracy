@@ -61,7 +61,10 @@ class TagController(BaseController):
             return render_json(tags)
         c.tags = sorted(text.tag_cloud_normalize(tags),
                         key=lambda (k, c, v): k.name.lower())
-        return render("/tag/index.html")
+        if format == 'overlay':
+            return render("/tag/index.html", overlay=True)
+        else:
+            return render("/tag/index.html")
 
     @RequireInstance
     def show(self, id, format='html'):
@@ -90,7 +93,11 @@ class TagController(BaseController):
         tags = model.Tag.similar_tags(c.tag, limit=50)
         c.cloud_tags = sorted(text.tag_cloud_normalize(tags),
                               key=lambda (k, c, v): k.name)
-        return render("/tag/show.html")
+
+        if format == 'overlay':
+            return render("/tag/show.html", overlay=True)
+        else:
+            return render("/tag/show.html")
 
     @RequireInstance
     @guard.tag.create()
