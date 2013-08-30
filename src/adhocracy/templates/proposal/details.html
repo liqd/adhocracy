@@ -215,10 +215,12 @@
             </div>
         </article>
 
+        %if c.page.allow_comment:
         <section id="comments" data-bind="visible: showText">
             ${tiles.comment.list(c.page, variant=c.variant_details['variant'])}
         </section>
-            
+        %endif
+
         <section id="history" class="only-js"
                  data-bind="visible: showHistory">
                 <h3>${_('History of this variant')}</h3>

@@ -105,8 +105,11 @@ class CommentController(BaseController):
             return self.new(errors=i.unpack_errors(), format=format)
 
         topic = self.form_result.get('topic')
-        reply = self.form_result.get('reply')
+        if not topic.allow_comment:
+            return ret_abort(_("Topic %s does not allow comments") % topic.title,
+                             code=400, format=format)
 
+        reply = self.form_result.get('reply')
         if reply:
             require.comment.reply(reply)
         else:

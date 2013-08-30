@@ -47,7 +47,9 @@
             ${page.head.render()|n}
 
             <ul class="flags">
+                %if page.allow_comment:
                 <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments')} (${len(page.comments)})</a></li>
+                %endif
                 %if page.allow_selection:
                 <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
                 %endif
@@ -80,7 +82,9 @@
             ${c.variant_details['text']|n}
 
             <ul class="flags">
+                %if c.page.allow_comment:
                 <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${len(c.page.comments)})</a></li>
+                %endif
                 %if c.page.allow_selection:
                 <li><a href="${h.entity_url(c.page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(c.page.selections)})</a></li>
                 %endif

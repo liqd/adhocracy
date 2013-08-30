@@ -593,6 +593,10 @@ class PageController(BaseController):
     def comments(self, id, variant=model.Text.HEAD, text=None, format=None):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+        if not c.page.allow_comment:
+            return ret_abort(_("Page %s does not allow comments") % c.page.title,
+                             code=400, format=format)
+
         if c.text is None:
             h.flash(_("No such text revision."), 'notice')
             redirect(h.entity_url(c.page))
