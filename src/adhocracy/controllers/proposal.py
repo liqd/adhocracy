@@ -163,6 +163,13 @@ class ProposalController(BaseController):
                     c.exclude_pages.append(page)
         except:
             pass
+
+        q = model.meta.Session.query(model.Page)
+        q = q.filter(model.Page.function == model.Page.NORM)
+        q = q.filter(model.Page.instance == c.instance)
+        q = q.filter(model.Page.allow_selection == False)
+        c.exclude_pages += q.all()
+
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/proposal/new.html"),

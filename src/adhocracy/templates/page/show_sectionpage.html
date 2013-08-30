@@ -48,7 +48,9 @@
 
             <ul class="flags">
                 <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments')} (${len(page.comments)})</a></li>
+                %if page.allow_selection:
                 <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
+                %endif
                 %if can.norm.edit(page):
                 <li><a href="${h.entity_url(page, member='edit')}">${_(u"Edit")}</a></li>
                 %endif
@@ -79,7 +81,9 @@
 
             <ul class="flags">
                 <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${len(c.page.comments)})</a></li>
+                %if c.page.allow_selection:
                 <li><a href="${h.entity_url(c.page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(c.page.selections)})</a></li>
+                %endif
                 %if c.variant_details['can_edit']:
                 <li><a href="${c.variant_details['edit_url']}">${_(u"Edit")}</a></li>
                 %endif

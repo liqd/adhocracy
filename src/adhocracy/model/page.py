@@ -172,7 +172,7 @@ class Page(Delegateable):
 
     @property
     def has_variants(self):
-        return self.function in Page.WITH_VARIANTS
+        return self.function in Page.WITH_VARIANTS and self.allow_selection
 
     @property
     def variants(self):

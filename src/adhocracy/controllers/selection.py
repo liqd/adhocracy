@@ -47,6 +47,14 @@ class SelectionController(BaseController):
         require.selection.create(c.proposal)
         defaults = dict(request.params)
         c.proposal_tile = tiles.proposal.ProposalTile(c.proposal)
+        c.exclude_pages = [s.page for s in c.proposal.selections]
+
+        q = model.meta.Session.query(model.Page)
+        q = q.filter(model.Page.function == model.Page.NORM)
+        q = q.filter(model.Page.instance == c.instance)
+        q = q.filter(model.Page.allow_selection == False)
+        c.exclude_pages += q.all()
+
         return htmlfill.render(render(template), defaults=defaults,
                                errors=errors, force_defaults=False)
 
