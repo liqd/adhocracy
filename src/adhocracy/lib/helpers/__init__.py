@@ -54,6 +54,7 @@ from adhocracy import model, static
 from adhocracy.i18n import countdown_time, format_date
 from adhocracy.i18n import date_tag
 from adhocracy.i18n import datetime_tag
+from adhocracy.model.text import Text
 
 
 flash = _Flash()
@@ -87,8 +88,9 @@ def immutable_proposal_message():
 
 def comments_sorted(comments, root=None, variant=None, key=None):
     from adhocracy.lib.tiles.comment_tiles import CommentTile
-    comments = [c for c in comments if
-                (c.variant == variant and c.reply == root)]
+    comments = [c for c in comments if c.reply == root and
+                ((variant is None and c.variant == Text.HEAD)
+                or c.variant == variant)]
     _comments = []
     if key is None:
         comments = sorting.comment_order(comments)
