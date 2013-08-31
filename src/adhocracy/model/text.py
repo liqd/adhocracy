@@ -108,11 +108,12 @@ class Text(object):
         else:
             return child
 
-    def render(self):
+    def render(self, line_based=False):
         from adhocracy.lib import text
-        if self.page.function == self.page.NORM:
+        if line_based:
             return text.render_line_based(self)
-        return text.render(self.text)
+        else:
+            return text.render(self.text)
 
     @property
     def lines(self):

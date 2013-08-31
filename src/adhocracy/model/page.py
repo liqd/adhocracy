@@ -246,6 +246,15 @@ class Page(Delegateable):
             title = self.parent.full_title + " - " + title
         return title
 
+    def render(self, variant=None, line_based=None):
+        from text import Text
+        if variant is None:
+            # FIXME always_show_original should be used here
+            variant = Text.HEAD
+        if line_based is None:
+            line_based = not self.formatting
+        return self.variant_head(variant).render(line_based)
+
     def _get_parent(self):
         for parent in self.parents:
             if isinstance(parent, Page):
