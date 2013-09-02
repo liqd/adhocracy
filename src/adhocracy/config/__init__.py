@@ -1,9 +1,12 @@
 import json
+import logging
 from paste.deploy.converters import asbool
 from paste.deploy.converters import asint
 from paste.deploy.converters import aslist
 from pylons import config
 from pylons.i18n import _
+
+log = logging.getLogger(__name__)
 
 
 DEFAULTS = {
@@ -97,7 +100,12 @@ def get_tuples(key, default=[], sep=u' '):
 
 
 def get_json(key, default=None, config=config):
-    return get_value(key, json.loads, default, config)
+    try:
+        return get_value(key, json.loads, default, config)
+    except ValueError, e:
+        log.error("invalid json: %s \nin config option %s" %
+                  (config.get(key), key))
+        raise
 
 
 def get_optional_user_attributes():
