@@ -132,7 +132,7 @@ class Badge(object):
         try:
             q = q.filter(cls.id == int(title_or_id))
         except ValueError:
-            q = q.filter(cls.title.like(title_or_id))
+            q = q.filter(cls.title == title_or_id)
         return q.first()
 
     @classmethod

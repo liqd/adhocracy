@@ -186,6 +186,7 @@ shibboleth IdP:
     ...             }
     ...         }
     ...     """,
+    ...     'adhocracy.shibboleth.display_name.unique': 'true',
     ...     'adhocracy.shibboleth.locale.attribute': 'shib-locale',
     ...     'adhocracy.shibboleth.register_form': 'false',
     ...     'adhocracy.shibboleth.userbadge_mapping': """

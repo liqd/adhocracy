@@ -62,4 +62,5 @@ def test_doctests():
             raise Exception(t[1])
 
     for path in use_cases:
-        yield (perform_doctest, path)
+        if "shib" in path:
+            yield (perform_doctest, path)
