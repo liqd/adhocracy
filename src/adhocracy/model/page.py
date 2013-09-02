@@ -116,16 +116,18 @@ class Page(Delegateable):
 
     @classmethod
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
-               wiki=False, formatting=False, sectionpage=False, allow_comment=True,
-               allow_selection=True, always_show_original=True):
+               wiki=False, formatting=False, sectionpage=False,
+               allow_comment=True, allow_selection=True,
+               always_show_original=True):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
         if function not in Page.FUNCTIONS:
             raise AttributeError("Invalid page function type")
         label = title2alias(title)
-        page = Page(instance, label, creator, function, formatting, sectionpage,
-                    allow_comment, allow_selection, always_show_original)
+        page = Page(instance, label, creator, function, formatting,
+                    sectionpage, allow_comment, allow_selection,
+                    always_show_original)
         meta.Session.add(page)
         meta.Session.flush()
         Text(page, Text.HEAD, creator, title, text, wiki)

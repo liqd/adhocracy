@@ -167,7 +167,7 @@ class ProposalController(BaseController):
         q = model.meta.Session.query(model.Page)
         q = q.filter(model.Page.function == model.Page.NORM)
         q = q.filter(model.Page.instance == c.instance)
-        q = q.filter(model.Page.allow_selection == False)
+        q = q.filter(model.Page.allow_selection == False)  # noqa
         c.exclude_pages += q.all()
 
         defaults = dict(request.params)

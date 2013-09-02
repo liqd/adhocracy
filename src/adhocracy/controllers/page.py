@@ -50,13 +50,14 @@ class PageCreateForm(formencode.Schema):
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
+                                         if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
+                                          if_missing=False)
     allow_selection = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
-    always_show_original = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
+                                            if_missing=False)
+    always_show_original = validators.StringBool(not_empty=False,
+                                                 if_empty=False,
+                                                 if_missing=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -81,13 +82,14 @@ class PageUpdateForm(formencode.Schema):
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
+                                         if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
+                                          if_missing=False)
     allow_selection = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
-    always_show_original = validators.StringBool(not_empty=False, if_empty=False,
-                                       if_missing=False)
+                                            if_missing=False)
+    always_show_original = validators.StringBool(not_empty=False,
+                                                 if_empty=False,
+                                                 if_missing=False)
 
 
 class PageFilterForm(formencode.Schema):
@@ -181,14 +183,14 @@ class PageController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         variant = self.form_result.get("title")
-        page = model.Page.create(c.instance, variant,
-                                 _text, c.user,
-                                 formatting=self.form_result.get("formatting"),
-                                 sectionpage=self.form_result.get("sectionpage"),
-                                 allow_comment=self.form_result.get("allow_comment"),
-                                 allow_selection=self.form_result.get("allow_selection"),
-                                 always_show_original=self.form_result.get("always_show_original"),
-                                 tags=self.form_result.get("tags"))
+        page = model.Page.create(
+            c.instance, variant, _text, c.user,
+            formatting=self.form_result.get("formatting"),
+            sectionpage=self.form_result.get("sectionpage"),
+            allow_comment=self.form_result.get("allow_comment"),
+            allow_selection=self.form_result.get("allow_selection"),
+            always_show_original=self.form_result.get("always_show_original"),
+            tags=self.form_result.get("tags"))
 
         page.milestone = self.form_result.get('milestone')
 
@@ -222,7 +224,8 @@ class PageController(BaseController):
         c.sectionpage = request.params.get("sectionpage", False)
         c.allow_comment = request.params.get("allow_comment", False)
         c.allow_selection = request.params.get("allow_selection", False)
-        c.always_show_original = request.params.get("always_show_original", False)
+        c.always_show_original = request.params.get("always_show_original",
+                                                    False)
         c.branch = branch
 
         if branch or c.variant is None:
@@ -301,7 +304,8 @@ class PageController(BaseController):
             c.page.sectionpage = self.form_result.get('sectionpage')
             c.page.allow_comment = self.form_result.get('allow_comment')
             c.page.allow_selection = self.form_result.get('allow_selection')
-            c.page.always_show_original = self.form_result.get('always_show_original')
+            c.page.always_show_original = self.form_result.get(
+                'always_show_original')
 
         if not branch and c.variant != parent_text.variant \
                 and parent_text.variant != model.Text.HEAD:
@@ -500,8 +504,9 @@ class PageController(BaseController):
         c.amendment = amendment
 
         if c.amendment and not c.page.allow_selection:
-            return ret_abort(_("Page %s does not allow selections") % c.page.title,
-                             code=400, format=format)
+            return ret_abort(
+                _("Page %s does not allow selections") % c.page.title,
+                code=400, format=format)
 
         # Error handling and json api
         if c.text.variant != c.variant:
@@ -594,8 +599,9 @@ class PageController(BaseController):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
         if not c.page.allow_comment:
-            return ret_abort(_("Page %s does not allow comments") % c.page.title,
-                             code=400, format=format)
+            return ret_abort(
+                _("Page %s does not allow comments") % c.page.title,
+                code=400, format=format)
 
         if c.text is None:
             h.flash(_("No such text revision."), 'notice')
