@@ -18,7 +18,7 @@ ${tiles.user.header(c.page_user, c.tile)}
 
     <h2>${_(u'Advanced settings')}</h2>
 
-    ${forms.sorting_order(_("Default proposal sorting order"), 'proposal_sort_order', c.sorting_orders, include_empty=False)}
+    ${components.proposal_sort_order('proposal_sort_order', c.sorting_orders, include_empty=False)}
 
     ${forms.select(_("Pager size"), 'page_size', c.pager_sizes, help=_("Default number of entries in listing pages"))}
 
