@@ -72,8 +72,9 @@ adhocracy.shibboleth.userbadge_mapping =
 script_location = src/adhocracy/alembic
 sqlalchemy.url = sqlite:///${parts.buildout.directory}/var/testdata/test.db
 
+# Logging configuration
 [loggers]
-keys = root
+keys = root, adhocracy, sqlalchemy
 
 [handlers]
 keys = console
@@ -84,6 +85,22 @@ keys = generic
 [logger_root]
 level = INFO
 handlers = console
+
+[logger_routes]
+level = INFO
+handlers =
+qualname = routes.middleware
+# "level = DEBUG" logs the route matched and routing variables.
+
+[logger_adhocracy]
+level = INFO
+handlers =
+qualname = adhocracy
+
+[logger_sqlalchemy]
+level = WARN
+handlers = console
+qualname = sqlalchemy.engine
 
 [handler_console]
 class = StreamHandler
