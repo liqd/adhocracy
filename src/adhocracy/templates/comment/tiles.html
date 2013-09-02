@@ -71,8 +71,8 @@
         </div>
         %if hide_form:
         <div class="list_button">
-            <a class="button highlight showhide_button" 
-               href="${h.base_url('/comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
+            <a class="button highlight showhide_button"
+               href="${h.base_url('/comment/new?topic=%d&wiki=1' % topic.id, topic.instance)}"
                data-target="#${target}"
                id="start-discussion-button">
                 ${_('Add comment') if h.comment.wording() else _('Start new discussion')}
@@ -83,25 +83,28 @@
         %elif auth.propose_join():
         <div class="list_button">
             <a class="button add ttip"
+               href="${h.base_url('/comment/new?topic=%d&wiki=1' % topic.id, topic.instance)}"
                title="${_('Join instance to comment.') if h.comment.wording() else _('Join instance to discuss.')}"
                rel="#overlay-join-button">
-                ${_("Add comment") if h.comment.wording() else _('Add argument')}
+                ${_("Add comment") if h.comment.wording() else _('Start new discussion')}
             </a>
         </div>
         %elif auth.propose_login():
         <div class="list_button">
             <a class="button add ttip"
+               href="${h.base_url('/comment/new?topic=%d&wiki=1' % topic.id, topic.instance)}"
                title="${_('Login to comment.') if h.comment.wording() else _('Login to discuss.')}"
                rel="#overlay-login-button">
-                ${_("Add comment") if h.comment.wording() else _('Add argument')}
+                ${_("Add comment") if h.comment.wording() else _('Start new discussion')}
             </a>
         </div>
         %elif auth.propose_validate_email():
         <div class="list_button">
             <a class="button add ttip"
+               href="${h.base_url('/comment/new?topic=%d&wiki=1' % topic.id, topic.instance)}"
                title="${_('Validate email in order to comment.') if h.comment.wording() else _('Validate email in order to discuss.')}"
                rel="#overlay-validate-button">
-                ${_("Add comment") if h.comment.wording() else _("Add argument")}
+                ${_("Add comment") if h.comment.wording() else _('Start new discussion')}
             </a>
         </div>
         %endif
