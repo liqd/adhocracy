@@ -173,7 +173,7 @@
             </div>
         </div>
         %if c.text and c.text.text:
-        ${components.social_share_buttons(c.variant)}
+        ${components.social_share_buttons(c.variant_details['title'])}
         %endif
 
         <div data-bind="visible: variants.current.history_count() > 1"

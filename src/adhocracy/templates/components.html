@@ -169,12 +169,12 @@
 </%def>
 
 
-<%def name="social_share_buttons(entity)">
+<%def name="social_share_buttons(title)">
 %if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()
-text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
+text = "%s - %s: %s" % (h.site.name(), c.instance.label, title)
 %>
 <div id="socialshareprivacy"></div>
 <script type="text/javascript">

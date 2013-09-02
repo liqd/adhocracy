@@ -60,7 +60,7 @@ delegate_url = url if can.delegation.create(c.proposal) else None
                 ${tiles.page.inline(c.proposal.description, 
                         hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
 
-                ${components.social_share_buttons(c.proposal)}
+                ${components.social_share_buttons(c.proposal.title)}
 
                 <div class="meta">
                     <a href="#discussions">${
