@@ -60,6 +60,14 @@ DEFAULTS = {
     'adhocracy.require_email': True,
     'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.shibboleth.display_name.function': None,
+    'adhocracy.shibboleth.locale.attribute': None,
+    'adhocracy.shibboleth.register_form': True,
+
+    # Configures how to map shibboleth attributes to badges.
+    # See lib.auth.shibboleth.
+    'adhocracy.shibboleth.userbadge_mapping': [],
+
     'adhocracy.show_abuse_button': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
