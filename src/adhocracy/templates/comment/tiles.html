@@ -346,7 +346,7 @@ if wiki is None:
               <input type="submit" value="${_('Save')}" />&nbsp;
               %if show_cancel:
               <a class="cancel" 
-                 href="${'/d/%s' % parent.topic.id if parent else request.params.get('topic')}">${_("cancel")}</a>
+                 href="${'/d/%s' % (parent.topic.id if parent else request.params.get('topic'))}">${_("cancel")}</a>
               %endif
             </div>
           </div>
