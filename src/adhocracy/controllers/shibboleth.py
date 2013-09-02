@@ -11,8 +11,8 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.csrf import check_csrf
-from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
 from adhocracy.lib.auth.shibboleth import USERBADGE_MAPPERS
+from adhocracy.lib.auth.shibboleth import DISPLAY_NAME_FUNCTIONS
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render
@@ -23,7 +23,7 @@ from adhocracy.model.badge import UserBadge
 
 
 class ShibbolethRegisterForm(formencode.Schema):
-    allow_extra_fields = True
+    _tok = formencode.validators.String()
     if not config.get_bool('adhocracy.force_randomized_user_names'):
         username = formencode.All(
             formencode.validators.PlainText(not_empty=True),
@@ -125,58 +125,88 @@ class ShibbolethController(BaseController):
             defaults=defaults, errors=errors,
             force_defaults=False)
 
+    def _create_user_and_login(self, persistent_id, username, email=None,
+                               display_name=None, locale=None):
+        user = User.create(username,
+                           email,
+                           locale=locale,
+                           display_name=display_name,
+                           shibboleth_persistent_id=persistent_id)
+        # NOTE: We might want to automatically join the current instance
+        # here at some point
+
+        meta.Session.commit()
+        return self._login(user, h.user.post_register_url(user))
+
     def _register(self, persistent_id):
 
+        # initializing user data dict
+        user_data = {}
+
+        user_data['email'] = request.headers.get('shib-email', None)
+
+        if config.get_bool('adhocracy.force_randomized_user_names'):
+            user_data['username'] = None
+        else:
+            user_data['username'] = request.headers.get('shib-username')
+
+        display_name_function = config.get_json(
+            "adhocracy.shibboleth.display_name.function")
+        if display_name_function is not None:
+            function = display_name_function["function"]
+            kwargs = display_name_function["args"]
+            user_data['display_name'] = DISPLAY_NAME_FUNCTIONS[function](
+                request, **kwargs)
+        else:
+            user_data['display_name'] = None
+
+        locale_attribute = config.get("adhocracy.shibboleth.locale.attribute")
+        if locale_attribute is not None:
+            user_data['locale'] = request.headers.get(locale_attribute)
+
+        # what to do
         if request.method == 'GET':
-
-            defaults = {
-                'email': request.headers.get('shib-email'),
-            }
-            return self._register_form(defaults=defaults)
-
-        # POST
-        check_csrf()
-
-        try:
-            form_result = ShibbolethRegisterForm().to_python(
-                request.params)
-
-            if config.get_bool('adhocracy.force_randomized_user_names'):
-                username = None
+            if config.get_bool('adhocracy.shibboleth.register_form'):
+                # render a form for missing uaser data
+                return self._register_form(defaults=user_data)
             else:
-                username = form_result['username']
-            if config.get_bool('adhocracy.set_display_name_on_register'):
-                display_name = form_result['display_name']
-            else:
-                display_name = None
-            user = User.create(username,
-                               form_result['email'],
-                               display_name=display_name,
-                               shibboleth_persistent_id=persistent_id)
+                # register_form is False -> user data should be complete
+                return self._create_user_and_login(persistent_id, **user_data)
 
-            # NOTE: We might want to automatically join the current instance
-            # here at some point
+        else:  # POST
+            check_csrf()
 
-            meta.Session.commit()
+            try:
+                form_result = ShibbolethRegisterForm().to_python(
+                    request.POST)
 
-            return self._login(user, h.user.post_register_url(user))
+                user_data['username'] = form_result.get(
+                    'username', user_data['username'])
+                user_data['display_name'] = form_result.get(
+                    'display_name', user_data['display_name'])
+                user_data['email'] = form_result.get(
+                    'email', user_data['email'])
 
-        except formencode.Invalid, i:
-            return self._register_form(errors=i.unpack_errors())
+                return self._create_user_and_login(persistent_id, **user_data)
+
+            except formencode.Invalid, i:
+                return self._register_form(errors=i.unpack_errors())
 
     def _update_userbadges(self, user):
 
-        tuples = get_userbadge_mapping()
+        mappings = config.get_json("adhocracy.shibboleth.userbadge_mapping")
 
         is_modified = False
 
-        for t in tuples:
-            badge_name = t[0]
-            function_name = t[1]
-            args = t[2:]
+        for m in mappings:
+            badge_title = m["title"]
+            function_name = m["function"]
+            kwargs = m["args"]
 
-            badge = UserBadge.find(badge_name)
-            want_badge = USERBADGE_MAPPERS[function_name](request, *args)
+            badge = UserBadge.find(badge_title)
+            if badge is None:
+                raise Exception('configuration expects badge "%s"' % badge_title)
+            want_badge = USERBADGE_MAPPERS[function_name](request, **kwargs)
             has_badge = badge in user.badges
 
             if want_badge and not has_badge:

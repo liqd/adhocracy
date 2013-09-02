@@ -1,11 +1,12 @@
-from pylons import config
+from adhocracy import config
 
+'''
+Implements configuration options for mapping shibboleth attributes to user data,
+e.g. badges and display names. Configuration values have to be given in JSON.
 
-def get_userbadge_mapping(config=config):
-    mapping = config.get('adhocracy.shibboleth.userbadge_mapping', u'')
-    return (line.strip().split(u' ')
-            for line in mapping.strip().split(u'\n')
-            if line is not u'')
+For examples, see docs/development/use_cases/shibboleth_authentication.rst.
+
+'''
 
 
 def _attribute_equals(request, key, value):
@@ -34,4 +35,12 @@ USERBADGE_MAPPERS = {
     'attribute_equals': _attribute_equals,
     'attribute_contains': _attribute_contains,
     'attribute_contains_substring': _attribute_contains_substring,
+}
+
+
+def _full_name(request, name_attr, surname_attr):
+    return u"%s %s" % (request.headers.get(name_attr), request.headers.get(surname_attr))
+
+DISPLAY_NAME_FUNCTIONS = {
+    "full_name": _full_name
 }

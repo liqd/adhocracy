@@ -64,6 +64,20 @@ adhocracy.crypto.secret = geheim!
 adhocracy.track_outgoing_links = True
 
 adhocracy.login_type = openid,username+password,email+password,shibboleth
-adhocracy.shibboleth.userbadge_mapping =
-    editor attribute_equals shib-user-role editor 
-    staff attribute_equals shib-user-role staff
+adhocracy.shibboleth.userbadge_mapping =[
+    {
+        "title": "editor",
+        "function": "attribute_equals",
+        "args": {
+            "key": "shib-user-role",
+            "value": "editor"
+        }
+    },
+    {
+        "title": "staff",
+        "function": "attribute_equals",
+        "args": {
+            "key": "shib-user-role",
+            "value": "staff"
+        }
+    }]
