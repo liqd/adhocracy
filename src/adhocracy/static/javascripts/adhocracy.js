@@ -108,7 +108,7 @@ var adhocracy = adhocracy || {};
         var resizeHeight = function(speed) {
             var old_height = overlay.height(),
                 // iframe.contents().height does not shrink for some reason
-                height = $('body', iframe.contents()).height();
+                height = $('body', iframe.contents()).height()+20;
             if (old_height !== height) {
                 overlay.animate({'height': height}, speed);
             }
