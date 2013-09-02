@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 28d53b4\n"
+"Project-Id-Version: adhocracy 4f330da\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-17 01:44+0200\n"
+"POT-Creation-Date: 2013-09-02 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -487,7 +487,7 @@ msgstr ""
 msgid "Male"
 msgstr ""
 
-msgid "No optional atributes defined."
+msgid "No optional attributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
@@ -1555,7 +1555,7 @@ msgstr ""
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr ""
 
-msgid "Overview"
+msgid "IntroOverview"
 msgstr ""
 
 msgid "Norms"
@@ -1590,6 +1590,9 @@ msgid "Sort:"
 msgstr ""
 
 msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
+msgid "Adhocracy works best with JavaScript enabled."
 msgstr ""
 
 msgid "Welcome back!"
@@ -1720,6 +1723,9 @@ msgid "Include proposals"
 msgstr ""
 
 msgid "Include comments"
+msgstr ""
+
+msgid "Include proposal creator badges"
 msgstr ""
 
 msgid "Include ratings"
@@ -2377,16 +2383,16 @@ msgstr ""
 msgid "badge"
 msgstr ""
 
-msgid "new instance"
+msgid "Create new instance"
 msgstr ""
 
 msgid "Instances are little democracies that are ran by their community."
 msgstr ""
 
-msgid "New Instance"
+msgid "new instance"
 msgstr ""
 
-msgid "Create new instance"
+msgid "New Instance"
 msgstr ""
 
 msgid "Instance name"
@@ -2543,7 +2549,7 @@ msgstr ""
 msgid "Newest Events"
 msgstr ""
 
-msgid "Informations"
+msgid "Information"
 msgstr ""
 
 msgid "Created"
@@ -2686,16 +2692,19 @@ msgstr ""
 msgid "Please use the DD.MM.YYYY format."
 msgstr ""
 
+msgid "Create new milestone"
+msgstr ""
+
 msgid "Upcoming Milestones"
+msgstr ""
+
+msgid "Past Milestones"
 msgstr ""
 
 msgid "Create a new milestone."
 msgstr ""
 
 msgid "new milestone"
-msgstr ""
-
-msgid "Past Milestones"
 msgstr ""
 
 msgid "tutorial_milestones_timeline"
@@ -2844,13 +2853,16 @@ msgstr ""
 msgid "Relates to a milestone"
 msgstr ""
 
+msgid "Popular tags"
+msgstr ""
+
+msgid "Create new norm"
+msgstr ""
+
 msgid "Create a new norm."
 msgstr ""
 
 msgid "new norm"
-msgstr ""
-
-msgid "Popular tags"
 msgstr ""
 
 msgid "tutorial_norms_overview_table"
@@ -3142,9 +3154,6 @@ msgstr ""
 msgid "Delete this proposal."
 msgstr ""
 
-msgid "Topic and Description of the Proposal"
-msgstr ""
-
 #, python-format
 msgid "%s Discussions"
 msgstr ""
@@ -3231,9 +3240,6 @@ msgstr ""
 
 #, python-format
 msgid "%s:%s votes"
-msgstr ""
-
-msgid "Information"
 msgstr ""
 
 #, python-format
@@ -3610,91 +3616,6 @@ msgstr ""
 msgid "There are no delegations."
 msgstr ""
 
-#, python-format
-msgid "Settings: %s"
-msgstr ""
-
-msgid "Your User Details"
-msgstr ""
-
-msgid "Display name for"
-msgstr ""
-
-msgid "You can chose which name other users see."
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr ""
-
-msgid "Password:"
-msgstr ""
-
-msgid "Password (confirm):"
-msgstr ""
-
-msgid "Gender"
-msgstr ""
-
-msgid "I am..."
-msgstr ""
-
-msgid "Select how you would like to be notified of events."
-msgstr ""
-
-msgid "Help."
-msgstr ""
-
-msgid "E-Mail:"
-msgstr ""
-
-msgid "fewer"
-msgstr ""
-
-msgid "more notifications"
-msgstr ""
-
-msgid "Not confirmed."
-msgstr ""
-
-msgid "Re-send activation link"
-msgstr ""
-
-msgid "Receive occasional news from instance administrators:"
-msgstr ""
-
-msgid "OpenID"
-msgstr ""
-
-msgid "OpenID allows you to use a single login on many web sites."
-msgstr ""
-
-msgid "There are no associated OpenIDs."
-msgstr ""
-
-msgid "remove"
-msgstr ""
-
-msgid "Short biography"
-msgstr ""
-
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
-msgstr ""
-
-msgid "Advanced Settings"
-msgstr ""
-
-msgid "The pre-set number of entries in listing pages:"
-msgstr ""
-
-msgid "Disable help messages and links to the documentation:"
-msgstr ""
-
-msgid "Change default sorting order for proposals:"
-msgstr ""
-
 msgid "Find users"
 msgstr ""
 
@@ -3728,6 +3649,9 @@ msgid "Email:"
 msgstr ""
 
 msgid "Login via Shibboleth"
+msgstr ""
+
+msgid "Password:"
 msgstr ""
 
 msgid "Forgot your password?"
@@ -3773,7 +3697,13 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
+msgid "Password"
+msgstr ""
+
 msgid "Enter password:"
+msgstr ""
+
+msgid "Password (confirm):"
 msgstr ""
 
 #, python-format
@@ -3803,6 +3733,9 @@ msgid "You will be sent an activation link that, when opened, will allow you pic
 msgstr ""
 
 msgid "In order to retrieve your login, you will have to enter your email address."
+msgstr ""
+
+msgid "E-Mail:"
 msgstr ""
 
 msgid "Reset"
@@ -3838,7 +3771,40 @@ msgstr ""
 msgid "Login settings"
 msgstr ""
 
+msgid "Select a new password or leave the fields blank to keep your old one."
+msgstr ""
+
+msgid "OpenID"
+msgstr ""
+
+msgid "OpenID allows you to use a single login on many web sites."
+msgstr ""
+
+msgid "There are no associated OpenIDs."
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
 msgid "Notification settings"
+msgstr ""
+
+msgid "Select how you would like to be notified of events."
+msgstr ""
+
+msgid "Help."
+msgstr ""
+
+msgid "fewer"
+msgstr ""
+
+msgid "more notifications"
+msgstr ""
+
+msgid "Not confirmed."
+msgstr ""
+
+msgid "Re-send activation link"
 msgstr ""
 
 msgid "News service"
@@ -3856,6 +3822,9 @@ msgstr ""
 msgid "Personal settings"
 msgstr ""
 
+msgid "You can chose which name other users see."
+msgstr ""
+
 msgid "Prefered user interface language"
 msgstr ""
 
@@ -3863,6 +3832,12 @@ msgid "Salutation"
 msgstr ""
 
 msgid "Select your prefered gender"
+msgstr ""
+
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgstr ""
+
+msgid "Short biography"
 msgstr ""
 
 #, python-format
