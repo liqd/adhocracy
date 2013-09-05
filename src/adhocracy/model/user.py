@@ -292,6 +292,10 @@ class User(meta.Indexable):
             .limit(1).first()
 
     @classmethod
+    def find_by_user_name(cls, user_name, include_deleted=False):
+        return cls.find(user_name, include_deleted=include_deleted)
+
+    @classmethod
     def find_by_shibboleth(cls, persistent_id, include_deleted=False):
         from shibboleth import Shibboleth
         return cls.all_q(None, include_deleted)\
@@ -421,12 +425,6 @@ class User(meta.Indexable):
                 return dec.result
         if proposal.rate_poll:
             return Decision(self, proposal.rate_poll).result
-
-    def get_optional_attributes(self):
-        return loads(self.optional_attributes)
-
-    def get_optional_attributes(self):
-        return loads(self.optional_attributes)
 
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,

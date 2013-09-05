@@ -417,9 +417,9 @@ var adhocracy = adhocracy || {};
             } else {
                 // we don't have a cache. Load the tab content
                 if (tab === 'history') {
-                    url = current.history_url() + '.overlay';
+                    url = current.history_url() + '.ajax';
                 } else if (tab === 'votes') {
-                    url = self.selectionDetails.urls[variant].votes + '.overlay';
+                    url = self.selectionDetails.urls[variant].votes + '.ajax';
                 }
                 $.ajax({
                     url: url,

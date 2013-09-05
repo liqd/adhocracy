@@ -75,7 +75,10 @@ class RootController(BaseController):
                 "votes": model.Vote.all_q().count(),
             }
 
-        return render('index.html', data)
+        if format == 'overlay':
+            return render('index.html', data, overlay=True)
+        else:
+            return render('index.html', data)
 
     #@RequireInstance
     def dispatch_delegateable(self, id):

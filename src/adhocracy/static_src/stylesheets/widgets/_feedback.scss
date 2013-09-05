@@ -4,7 +4,8 @@
     top: 120px;
     width: 377px;
     overflow: normal;
-    z-index: 900;
+    // socialshareprivacy forces us to use absurdely large z-indices
+    z-index: 10003;
 }
 
 #feedback_form {

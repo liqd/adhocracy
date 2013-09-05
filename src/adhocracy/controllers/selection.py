@@ -138,6 +138,8 @@ class SelectionController(BaseController):
         c.selection_details = PageController._selection_urls(c.selection)
         c.selection_details_json = json.dumps(c.selection_details, indent=4)
         c.current_variant_poll = variant_polls[variant_to_show]
+
         if format == 'overlay':
             return render('/proposal/details.html', overlay=True)
-        return render('/proposal/details.html')
+        else:
+            return render('/proposal/details.html')

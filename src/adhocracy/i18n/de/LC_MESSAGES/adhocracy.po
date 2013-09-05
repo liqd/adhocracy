@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the adhocracy project.
 # Translators:
 # alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
+# xanderbattaglia <xanderbattaglia@gmail.com>, 2013
 # Daniel Reichert <daniel.reichert@liqd.de>, 2012
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009
 # Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
@@ -14,14 +15,15 @@
 # rosangela <rosangelabochicchio@gmail.com>, 2013
 # cs <schroeder_carsten@gmx.de>, 2013
 # sicco <sicco@ddo.nl>, 2012
+# tobib <tobias.bengfort@liqd.de>, 2013
 # Wawe <transifex.com@jroene.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-17 01:44+0200\n"
-"PO-Revision-Date: 2013-07-16 23:56+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-09-02 13:02+0200\n"
+"PO-Revision-Date: 2013-09-02 11:08+0000\n"
+"Last-Translator: cs <schroeder_carsten@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -80,7 +82,7 @@ msgstr "neueste"
 
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Der Beitrag zu dem dieser Kommentar gehörthat keine Version %sargument"
+msgstr "Der Beitrag zu dem dieser Kommentar gehört hat keine Version %sargument"
 
 msgid "The comment has been deleted."
 msgstr "Dieser Kommentar wurde gelöscht."
@@ -531,8 +533,8 @@ msgstr "Weiblich"
 msgid "Male"
 msgstr "Männlich"
 
-msgid "No optional atributes defined."
-msgstr "Keine erweiterten Attribute definiert."
+msgid "No optional attributes defined."
+msgstr "Keine optionalen Attribute definiert."
 
 msgid "Password has been set. Have fun!"
 msgstr "Passwort gesetzt. Viel Spaß!"
@@ -1688,6 +1690,9 @@ msgstr "Suchen"
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Suchen in &ldquo;%s&rdquo;&hellip;"
 
+msgid "Intro"
+msgstr "Intro"
+
 msgid "Overview"
 msgstr "Übersicht"
 
@@ -1727,6 +1732,9 @@ msgstr "Sortieren:"
 
 msgid "You are using an outdated web browser. Click here to update."
 msgstr "Sie benutzen einen veralteten Browser. Klicken Sie hier zum aktualisieren."
+
+msgid "Adhocracy works best with JavaScript enabled."
+msgstr "Adhocracy funktioniert am besten, wenn JavaScript aktiviert ist."
 
 msgid "Welcome back!"
 msgstr "Willkommen zurück!"
@@ -1862,6 +1870,9 @@ msgstr "Vorschläge hinzufügen"
 
 msgid "Include comments"
 msgstr "Kommentar hinzufügen"
+
+msgid "Include proposal creator badges"
+msgstr "Badges für Urheber von Vorschlägen hinzufügen"
 
 msgid "Include ratings"
 msgstr "Bewertungen hinzufügen"
@@ -2594,19 +2605,19 @@ msgstr "badge bearbeiten"
 msgid "badge"
 msgstr "Badge"
 
-msgid "new instance"
-msgstr "Neue Gruppe"
+msgid "Create new instance"
+msgstr "Neue Gruppe erstellen"
 
 msgid "Instances are little democracies that are ran by their community."
 msgstr ""
 "Übersichtsliste über alle registrierten Gruppen. Treten Sie einer "
 "Gruppe bei um aktiv an den Diskussionen teilzunehmen."
 
-msgid "New Instance"
+msgid "new instance"
 msgstr "Neue Gruppe"
 
-msgid "Create new instance"
-msgstr "Neue Gruppe erstellen"
+msgid "New Instance"
+msgstr "Neue Gruppe"
 
 msgid "Instance name"
 msgstr "Name der Gruppe"
@@ -2775,8 +2786,8 @@ msgstr "Nächste Termine"
 msgid "Newest Events"
 msgstr "Neueste Ereignisse"
 
-msgid "Informations"
-msgstr "Informationen"
+msgid "Information"
+msgstr "Information"
 
 msgid "Created"
 msgstr "angelegt"
@@ -2942,17 +2953,20 @@ msgstr "Datum des Termins"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
 
+msgid "Create new milestone"
+msgstr "Einen neuen Termin anlegen"
+
 msgid "Upcoming Milestones"
 msgstr "Kommende Termine"
+
+msgid "Past Milestones"
+msgstr "Vergangene Termine"
 
 msgid "Create a new milestone."
 msgstr "Einen neuen Termin anlegen."
 
 msgid "new milestone"
 msgstr "Neuer Termin"
-
-msgid "Past Milestones"
-msgstr "Vergangene Termine"
 
 msgid "tutorial_milestones_timeline"
 msgstr ""
@@ -3118,14 +3132,17 @@ msgstr "Elternseite:"
 msgid "Relates to a milestone"
 msgstr "Bezieht sich auf einen Termin"
 
+msgid "Popular tags"
+msgstr "Beliebte Tags"
+
+msgid "Create new norm"
+msgstr "Einen neuen Beschluss anlegen"
+
 msgid "Create a new norm."
 msgstr "Einen neuen Beschluss anlegen."
 
 msgid "new norm"
 msgstr "neuer Beschluss"
-
-msgid "Popular tags"
-msgstr "Beliebte Tags"
 
 msgid "tutorial_norms_overview_table"
 msgstr "Die Liste zeigt nicht nur alle von der Gruppe eingebrachten Beschlüsse. Unter dem Titel der Beschlüsse wird auch die Anzahl der momentan dazugehörigen Vorschläge und Argumente angezeigt."
@@ -3454,9 +3471,6 @@ msgstr "Mehrere Tags können durch Kommas oder Leerzeichen getrennt werden."
 
 msgid "Delete this proposal."
 msgstr "Löschen Sie diesen Vorschlag"
-
-msgid "Topic and Description of the Proposal"
-msgstr "Thema und Beschreibung des Vorschlags"
 
 #, python-format
 msgid "%s Discussions"
@@ -3981,101 +3995,6 @@ msgstr "Erhalten"
 msgid "There are no delegations."
 msgstr "Wer erhält welche Delegationen?"
 
-#, python-format
-msgid "Settings: %s"
-msgstr "Einstellungen: %s"
-
-msgid "Your User Details"
-msgstr "Ihr Benutzerprofil"
-
-msgid "Display name for"
-msgstr "Angezeigter Name für"
-
-msgid "You can chose which name other users see."
-msgstr ""
-"Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden"
-" soll."
-
-msgid "Password"
-msgstr "Passwort"
-
-msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr ""
-"Wählen Sie ein neues Passwort aus oder lassen Sie das Feld frei, um Ihr "
-"altes Passwort zu behalten."
-
-msgid "Password:"
-msgstr "Passwort:"
-
-msgid "Password (confirm):"
-msgstr "Passwort (bestätigen):"
-
-msgid "Gender"
-msgstr "Geschlecht"
-
-msgid "I am..."
-msgstr "Ich bin..."
-
-msgid "Select how you would like to be notified of events."
-msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen."
-
-msgid "Help."
-msgstr "Hilfe."
-
-msgid "E-Mail:"
-msgstr "E-Mail:"
-
-msgid "fewer"
-msgstr "weniger"
-
-msgid "more notifications"
-msgstr "mehr Benachrichtigungen"
-
-msgid "Not confirmed."
-msgstr "Nicht bestätigt."
-
-msgid "Re-send activation link"
-msgstr "Aktivierungslink erneut zusenden"
-
-msgid "Receive occasional news from instance administrators:"
-msgstr "Gelegentlich Neuigkeiten von den Gruppen-Administratoren empfangen:"
-
-msgid "OpenID"
-msgstr "OpenID"
-
-msgid "OpenID allows you to use a single login on many web sites."
-msgstr ""
-"OpenID erlaubt es, den gleichen Benutzernamen auf vielen Webseiten zu "
-"verwenden."
-
-msgid "There are no associated OpenIDs."
-msgstr "Diesem Account sind keine OpenIDs zugeordnet."
-
-msgid "remove"
-msgstr "entfernen"
-
-msgid "Short biography"
-msgstr "Kurzbiographie"
-
-msgid ""
-"A bio will allow others to learn about you and perhaps even get you a few"
-" delegations."
-msgstr ""
-"Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über "
-"Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
-
-msgid "Advanced Settings"
-msgstr "Erweiterte Einstellungen"
-
-msgid "The pre-set number of entries in listing pages:"
-msgstr "Die voreingestellte Anzahl an Einträgen in Listen:"
-
-msgid "Disable help messages and links to the documentation:"
-msgstr "Hilfenachrichten und Links zur Dokumentation abstellen:"
-
-msgid "Change default sorting order for proposals:"
-msgstr "Standardsortierung von Vorschlägen ändern:"
-
 msgid "Find users"
 msgstr "Benutzer suchen"
 
@@ -4117,6 +4036,9 @@ msgstr "E-Mail:"
 
 msgid "Login via Shibboleth"
 msgstr "Mit Shibboleth einloggen"
+
+msgid "Password:"
+msgstr "Passwort:"
 
 msgid "Forgot your password?"
 msgstr "Kennwort vergessen?"
@@ -4167,8 +4089,14 @@ msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt wer
 msgid "E-mail"
 msgstr "E-Mail"
 
+msgid "Password"
+msgstr "Passwort"
+
 msgid "Enter password:"
 msgstr "Bitte geben Sie Ihr Passwort ein:"
+
+msgid "Password (confirm):"
+msgstr "Passwort (bestätigen):"
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -4208,6 +4136,9 @@ msgid ""
 "In order to retrieve your login, you will have to enter your email address."
 msgstr "Geben Sie bitte Ihre Mailadresse an, um Ihr Passwort wiederherzustellen."
 
+msgid "E-Mail:"
+msgstr "E-Mail:"
+
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -4245,8 +4176,41 @@ msgstr "Hilfenachrichten und Links zur Dokumentation abstellen"
 msgid "Login settings"
 msgstr "Anmelde-Einstellungen"
 
+msgid "Select a new password or leave the fields blank to keep your old one."
+msgstr "Wählen Sie ein neues Passwort aus oder lassen Sie das Feld frei, um Ihr altes Passwort zu behalten."
+
+msgid "OpenID"
+msgstr "OpenID"
+
+msgid "OpenID allows you to use a single login on many web sites."
+msgstr "OpenID erlaubt es, den gleichen Benutzernamen auf vielen Webseiten zu verwenden."
+
+msgid "There are no associated OpenIDs."
+msgstr "Diesem Account sind keine OpenIDs zugeordnet."
+
+msgid "remove"
+msgstr "entfernen"
+
 msgid "Notification settings"
 msgstr "Benachrichtigungseinstellungen"
+
+msgid "Select how you would like to be notified of events."
+msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen."
+
+msgid "Help."
+msgstr "Hilfe."
+
+msgid "fewer"
+msgstr "weniger"
+
+msgid "more notifications"
+msgstr "mehr Benachrichtigungen"
+
+msgid "Not confirmed."
+msgstr "Nicht bestätigt."
+
+msgid "Re-send activation link"
+msgstr "Aktivierungslink erneut zusenden"
 
 msgid "News service"
 msgstr "Nachrichtendienst"
@@ -4265,6 +4229,9 @@ msgstr "Die folgenden Attribute werden nur zur statistischen Evaluation verwende
 msgid "Personal settings"
 msgstr "Persönliche Einstellungen"
 
+msgid "You can chose which name other users see."
+msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden soll."
+
 msgid "Prefered user interface language"
 msgstr "Beverzugte Sprache der Nutzeroberfläche"
 
@@ -4273,6 +4240,14 @@ msgstr "Anrede"
 
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
+
+msgid ""
+"A bio will allow others to learn about you and perhaps even get you a few "
+"delegations."
+msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
+
+msgid "Short biography"
+msgstr "Kurzbiographie"
 
 #, python-format
 msgid "Signed up %s"

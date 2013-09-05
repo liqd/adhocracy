@@ -68,10 +68,11 @@ class CommentController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
             default_sort=sorting.entity_newest)
+
         if format == 'json':
             return render_json(c.comments_pager)
-
-        return self.not_implemented(format=format)
+        else:
+            return self.not_implemented(format=format)
 
     @RequireInstance
     @validate(schema=CommentNewForm(), form="bad_request",
@@ -86,6 +87,7 @@ class CommentController(BaseController):
             require.comment.reply(c.reply)
         else:
             require.comment.create_on(c.topic)
+
         if format == 'ajax':
             html = self._render_ajax_create_form(c.reply, c.topic, c.variant)
         else:
@@ -135,7 +137,8 @@ class CommentController(BaseController):
             redirect(request.params.get('ret_url') + "#c" + str(comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
-        return ret_success(entity=comment, format='fwd')
+        else:
+            return ret_success(entity=comment, format='fwd')
 
     @RequireInstance
     def edit(self, id, format='html'):
@@ -144,7 +147,10 @@ class CommentController(BaseController):
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
                               {'comment': c.comment})
-        return render('/comment/edit.html')
+        elif format == 'overlay':
+            return render('/comment/edit.html', overlay=True)
+        else:
+            return render('/comment/edit.html')
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
@@ -171,7 +177,8 @@ class CommentController(BaseController):
             redirect(request.params.get('ret_url') + "#c" + str(c.comment.id))
         if format != 'html':
             return ret_success(entity=c.comment, format=format)
-        return ret_success(entity=c.comment, format='fwd')
+        else:
+            return ret_success(entity=c.comment, format='fwd')
 
     @RequireInstance
     def show(self, id, format='html'):
@@ -213,11 +220,15 @@ class CommentController(BaseController):
             sorts={_("oldest"): sorting.entity_oldest,
                    _("newest"): sorting.entity_newest},
             default_sort=sorting.entity_newest)
-        if format == 'overlay':
-            return c.revisions_pager.render_pager()
+
         if format == 'json':
             return render_json(c.revisions_pager)
-        return render('/comment/history.html')
+        elif format == 'ajax':
+            return c.revisions_pager.render_pager()
+        elif format == 'overlay':
+            return render('/comment/history.html', overlay=True)
+        else:
+            return render('/comment/history.html')
 
     @RequireInstance
     @csrf.RequireInternalRequest()
@@ -273,11 +284,14 @@ class CommentController(BaseController):
                              code=400)
         return self._render_ajax_create_form(None, topic, variant)
 
-    def _render_ajax_create_form(self, parent, topic, variant):
+    def _render_ajax_create_form(self, parent, topic, variant, ret_url=None):
         '''
         render a create form fragment that can be inserted loaded
         into another page.
         '''
+        if ret_url is None:
+            ret_url = ''
+
         # FIXME: uncomment the format parameter when we have javascript
         # code to submit the form with ajax and replace the form with the
         # response
@@ -286,7 +300,8 @@ class CommentController(BaseController):
         template_args = dict(parent=parent,
                              topic=topic,
                              variant=variant,
-                             #format="ajax"
+                             #format="ajax",
+                             ret_url=ret_url,
                              )
         return render_def('/comment/tiles.html', 'create_form',
                           template_args)
@@ -296,4 +311,5 @@ class CommentController(BaseController):
         require.comment.reply(parent)
         topic = parent.topic
         variant = getattr(topic, 'variant', None)
-        return self._render_ajax_create_form(parent, topic, variant)
+        ret_url = request.params['ret_url']
+        return self._render_ajax_create_form(parent, topic, variant, ret_url)

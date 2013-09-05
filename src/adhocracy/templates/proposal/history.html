@@ -12,11 +12,10 @@
 
 <%block name="content_wrapper">
 
-${overlay_content()}
+${content()}
 </%block>
 
-<%def name="overlay_content()">
-
+<%def name="content()">
 <h2>${c.proposal.title} - ${_('History')}</h2>
 <div id="texts_table" class="table">
     ${c.texts_pager.here()}

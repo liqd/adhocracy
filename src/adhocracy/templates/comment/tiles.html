@@ -75,18 +75,35 @@
                href="${h.base_url('/comment/new?topic=%d&amp;wiki=1' % topic.id, topic.instance)}"
                data-target="#${target}"
                id="start-discussion-button">
-               ${_('Add comment') if h.comment.wording() else _('Start new discussion')}
+                ${_('Add comment') if h.comment.wording() else _('Start new discussion')}
             </a>
         </div>
         %endif
 
         %elif auth.propose_join():
-        <a class="button add ttip" title="${_('Join instance to comment.') if h.comment.wording() else _('Join instance to discuss.')}" rel="#overlay-join-button">${_("Add comment") if h.comment.wording() else _('Add argument')}</a>
-
+        <div class="list_button">
+            <a class="button add ttip"
+               title="${_('Join instance to comment.') if h.comment.wording() else _('Join instance to discuss.')}"
+               rel="#overlay-join-button">
+                ${_("Add comment") if h.comment.wording() else _('Add argument')}
+            </a>
+        </div>
         %elif auth.propose_login():
-         <a class="button add ttip" title="${_('Login to comment.') if h.comment.wording() else _('Login to discuss.')}" rel="#overlay-login-button">${_("Add comment") if h.comment.wording() else _('Add argument')}</a>
+        <div class="list_button">
+            <a class="button add ttip"
+               title="${_('Login to comment.') if h.comment.wording() else _('Login to discuss.')}"
+               rel="#overlay-login-button">
+                ${_("Add comment") if h.comment.wording() else _('Add argument')}
+            </a>
+        </div>
         %elif auth.propose_validate_email():
-        <a class="button add ttip" title="${_('Validate email in order to comment.') if h.comment.wording() else _('Validate email in order to discuss.')}" rel="#overlay-validate-button">${_("Add comment") if h.comment.wording() else _("Add argument")}</a>
+        <div class="list_button">
+            <a class="button add ttip"
+               title="${_('Validate email in order to comment.') if h.comment.wording() else _('Validate email in order to discuss.')}"
+               rel="#overlay-validate-button">
+                ${_("Add comment") if h.comment.wording() else _("Add argument")}
+            </a>
+        </div>
         %endif
 
     %endif
@@ -165,7 +182,7 @@
                 ## Reply button
                 <% auth = check.comment.reply(comment) %>
                 %if auth and recurse:
-                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id))}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id), query_params={'ret_url': ret_url})}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_join():
                 <a class="new_comment" title="${_('Join instance to reply') if h.comment.wording() else _('Join instance to argue')}" rel="#overlay-join-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_login():
@@ -329,7 +346,7 @@ if wiki is None:
               <input type="submit" value="${_('Save')}" />&nbsp;
               %if show_cancel:
               <a class="cancel" 
-                 href="${'/d/%s' % parent.topic.id if parent else request.params.get('topic')}">${_("cancel")}</a>
+                 href="${'/d/%s' % (parent.topic.id if parent else request.params.get('topic'))}">${_("cancel")}</a>
               %endif
             </div>
           </div>

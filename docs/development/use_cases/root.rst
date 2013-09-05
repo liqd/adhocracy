@@ -19,11 +19,11 @@ Login Form
 We have a login link on the start page
 
     >>> '%s/login' %app_url in browser.contents
-    True 
-    >>> browser.getLink('Login').click()
-    >>> browser.getControl(name='login')
+    True
+    >>> browser.getLink(url='/login').click()
+    >>> browser.getControl(name='login', index=0)
     <Control name='login' type='text'>
-    >>> browser.getControl(name='password')
+    >>> browser.getControl(name='password', index=0)
     <Control name='password' type='password'>
 
 
@@ -75,6 +75,3 @@ for the event::
     'http://test.lan/feed.rss'
     >>> len(browser.xpath('//item'))
     2
-
-
-

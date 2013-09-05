@@ -664,7 +664,13 @@ class SolrFacet(SolrIndexer):
 
         # add data to display the items
         for token, item in facet_items.items():
-            entity = item['entity']
+            try:
+                entity = item['entity']
+            except KeyError:
+                log.error(u'Cannot decode entity ref. Maybe the solr index '
+                          u'contains invalid refs and needs to be dropped '
+                          u'and rebuilt.')
+                continue
             item['link_text'] = self.get_item_label(entity)
             item['disabled'] = (item['current_count'] == 0)
             item['selected'] = item['value'] in self.used

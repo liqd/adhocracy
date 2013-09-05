@@ -111,7 +111,11 @@ class ProposalController(BaseController):
         c.tile = tiles.instance.InstanceTile(c.instance)
         c.tutorial_intro = _('tutorial_proposal_overview_tab')
         c.tutorial = 'proposal_index'
-        return render("/proposal/index.html")
+
+        if format == 'overlay':
+            return render("/proposal/index.html", overlay=True)
+        else:
+            return render("/proposal/index.html")
 
     def _set_categories(self):
         categories = model.CategoryBadge.all(
@@ -355,8 +359,7 @@ class ProposalController(BaseController):
 
         if format == 'rss':
             return self.activity(id, format)
-
-        if format == 'json':
+        elif format == 'json':
             return render_json(c.proposal)
 
         c.tile = tiles.proposal.ProposalTile(c.proposal)
@@ -379,7 +382,11 @@ class ProposalController(BaseController):
                 h.base_url('/stats/read_comments'),
                 urllib.urlencode({'path':
                                   h.entity_url(c.proposal).encode('utf-8')}))
-        return render("/proposal/show.html")
+
+        if format == 'overlay':
+            return render("/proposal/show.html", overlay=True)
+        else:
+            return render("/proposal/show.html")
 
     @RequireInstance
     def history(self, id, format="html"):
@@ -394,8 +401,10 @@ class ProposalController(BaseController):
             default_sort=sorting.entity_newest)
 
         self._common_metadata(c.proposal)
-        if format == 'overlay':
-            return render_def('/proposal/history.html', 'overlay_content')
+        if format == 'ajax':
+            return render_def('/proposal/history.html', 'content')
+        elif format == 'overlay':
+            return render('/proposal/history.html', overlay=True)
         else:
             return render('/proposal/history.html')
 
@@ -411,7 +420,10 @@ class ProposalController(BaseController):
 
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         self._common_metadata(c.proposal)
-        return render("/proposal/delegations.html")
+        if format == 'overlay':
+            return render("/proposal/delegations.html", overlay=True)
+        else:
+            return render("/proposal/delegations.html")
 
     @RequireInstance
     def activity(self, id, format='html'):
@@ -430,14 +442,21 @@ class ProposalController(BaseController):
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         c.events_pager = pager.events(events)
         self._common_metadata(c.proposal)
-        return render("/proposal/activity.html")
+        if format == 'overlay':
+            return render("/proposal/activity.html", overlay=True)
+        else:
+            return render("/proposal/activity.html")
 
     @RequireInstance
     def ask_delete(self, id):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
         c.tile = tiles.proposal.ProposalTile(c.proposal)
-        return render('/proposal/ask_delete.html')
+
+        if format == 'overlay':
+            return render('/proposal/ask_delete.html', overlay=True)
+        else:
+            return render('/proposal/ask_delete.html')
 
     @RequireInstance
     @csrf.RequireInternalRequest()
@@ -545,7 +564,7 @@ class ProposalController(BaseController):
                     '_tok': csrf.token_id(),
                     'thumbnailbadge': default_thumbnail,
                     }
-        if format == 'ajax':
+        if format == 'ajax': # REFACT shouldn't this be 'json'?
             checked = [badge.id for badge in c.proposal.badges]
             checked_thumbnail = default_thumbnail
             json = {'title': c.proposal.title,
@@ -564,10 +583,10 @@ class ProposalController(BaseController):
                         c.thumbnailbadges]
                     }
             return render_json(json)
-
-        return formencode.htmlfill.render(
-            render("/proposal/badges.html"),
-            defaults=defaults)
+        else:
+            return formencode.htmlfill.render(
+                render("/proposal/badges.html"),
+                defaults=defaults)
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
@@ -615,9 +634,10 @@ class ProposalController(BaseController):
                                                       proposal.thumbnails),
                    }
             return render_json(obj)
-        if redirect_to_proposals:
+        elif redirect_to_proposals:
             redirect("/proposal")
-        redirect(h.entity_url(proposal))
+        else:
+            redirect(h.entity_url(proposal))
 
     def get_geotag(self, id):
 

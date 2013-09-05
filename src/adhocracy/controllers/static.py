@@ -122,8 +122,10 @@ class StaticController(BaseController):
             'body_html': render_body(page.body),
             'active_global_nav': key,
         }
+
         if format == 'simple':
-            ret = render('/plain_doc.html', data)
+            return render('/plain_doc.html', data)
+        elif format == 'overlay':
+            return render('/static/show.html', data, overlay=True)
         else:
-            ret = render('/static/show.html', data)
-        return ret
+            return render('/static/show.html', data)

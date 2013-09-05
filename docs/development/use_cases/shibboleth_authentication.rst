@@ -89,13 +89,6 @@ FIXME: check whether ANY_URL should be encoded
     >>> email.value
     'hugo@example.com'
 
-At the moment, zope testbrowser doesn't take the following statements into
-account on browser.submit. This is being addressed in:
-
-https://github.com/zopefoundation/zope.testbrowser/pull/4
-
-This is required to make the test suite happy.
-
     >>> browser.mech_browser.set_handle_redirect(False)
     >>> browser.raiseHttpErrors = False
     >>> form.submit()
