@@ -30,6 +30,9 @@ def map_config(**kwargs):
             'adhocracy.geo.fallback_bounds.' + c.instance.key, cast=float)
         restrictedBounds = config.get_list(
             'adhocracy.geo.restricted_bounds.' + c.instance.key, cast=float)
+    else:
+        fallbackBounds = None
+        restrictedBounds = None
 
     if fallbackBounds is None:
         fallbackBounds = config.get_list('adhocracy.geo.fallback_bounds',
