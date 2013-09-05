@@ -28,11 +28,12 @@
     %if c.categories:
     ${components.category_select('category_select', c.toplevel_question, c.categories)}
     %endif
-    
-    %if c.instance.use_norms:
-    <fieldset>          
+
+    %if c.instance.use_norms and (c.can_select or c.pages):
+    <fieldset>
       <legend>${_("Change norms with this proposal")}</legend>
       <!-- norm nom nom -->
+      %if c.can_select:
       <script>
         var page_index = ${len(c.pages)+1};
         $(document).ready(function() {
@@ -61,6 +62,7 @@
           });
         }); 
       </script>
+      %endif
       <div id="norms">
         %if not len(c.pages):
           <p class="info">
@@ -82,6 +84,7 @@
           <input type="hidden" class="page-id" />
           <textarea class="page-text"></textarea>
         </div>
+        %if c.can_select:
         <div class="input_wrapper">
           <label for="selectpage">${_("Select a norm to change:")}</label>
         ${tiles.page.select_page(field_name='selectpage',
@@ -89,6 +92,7 @@
                                  exclude=c.exclude_pages, 
                                  allow_empty=True)}
         </div>
+        %endif
       </div>
     </fieldset>
     %endif

@@ -8,6 +8,11 @@ metadata = MetaData()
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
 
+    instance_table = Table('instance', metadata, autoload=True)
+    allow_propose_changes = Column('allow_propose_changes', Boolean,
+                                   default=True)
+    allow_propose_changes.create(instance_table)
+
     page_table = Table('page', metadata, autoload=True)
 
     page_sectionpage = Column('sectionpage', Boolean, default=False)

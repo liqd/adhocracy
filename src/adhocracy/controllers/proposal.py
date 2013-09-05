@@ -148,27 +148,36 @@ class ProposalController(BaseController):
 
         self._set_categories()
 
-        if 'page' in request.params:
-            page = model.Page.find(request.params.get('page'))
-            if page and page.function == model.Page.NORM:
-                c.pages.append((page.id, page.title, page.head.text))
+        def append_page(pid, text=None):
+            page = model.Page.find(pid)
+            if (page
+                and page.function == model.Page.NORM
+                and (page.allow_selection
+                     or c.instance.allow_propose_changes)):
+                c.pages.append((page.id, page.title,
+                                page.head.text if text is None else text))
                 c.exclude_pages.append(page)
+
+        if 'page' in request.params:
+            append_page(request.params.get('page'))
+
         try:
             val = formencode.variabledecode.NestedVariables()
             form = val.to_python(request.params)
             for pg in form.get('page', []):
-                page = model.Page.find(pg.get('id'))
-                if page and page.function == model.Page.NORM:
-                    c.pages.append((page.id, page.title, pg.get('text')))
-                    c.exclude_pages.append(page)
+                append_page(pg.get('id'), pg.get('text'))
         except:
             pass
 
-        q = model.meta.Session.query(model.Page)
-        q = q.filter(model.Page.function == model.Page.NORM)
-        q = q.filter(model.Page.instance == c.instance)
-        q = q.filter(model.Page.allow_selection == False)  # noqa
-        c.exclude_pages += q.all()
+        if c.instance.use_norms and c.instance.allow_propose_changes:
+            q = model.meta.Session.query(model.Page)
+            q = q.filter(model.Page.function == model.Page.NORM)
+            q = q.filter(model.Page.instance == c.instance)
+            q = q.filter(model.Page.allow_selection == False)  # noqa
+            c.exclude_pages += q.all()
+            c.can_select = True
+        else:
+            c.can_select = False
 
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
@@ -187,6 +196,14 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         pages = self.form_result.get('page', [])
+
+        if (pages and (not c.instance.allow_propose_changes
+                       and (len(pages) > 1
+                            or not pages[0]['id'].allow_selection))):
+            return self.new(
+                errors={u'msg':
+                        u'Cannot change arbitrary norms within proposals'})
+
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
                 _('Please select norm and propose a change to it.'),
@@ -323,7 +340,8 @@ class ProposalController(BaseController):
         require.proposal.show(c.proposal)
 
         c.num_selections = c.proposal.selections
-        c.show_selections = c.proposal.instance.use_norms
+        c.show_selections = (c.proposal.instance.use_norms
+                             and c.proposal.instance.allow_propose_changes)
         if c.show_selections:
             c.sorted_selections = sorting.sortable_text(
                 c.proposal.selections,
