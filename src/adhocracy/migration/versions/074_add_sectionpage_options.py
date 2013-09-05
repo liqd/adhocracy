@@ -13,6 +13,11 @@ def upgrade(migrate_engine):
                                    default=True)
     allow_propose_changes.create(instance_table)
 
+    proposal_table = Table('proposal', metadata, autoload=True)
+    show_in_list = Column('show_in_list', Boolean,
+                          default=True)
+    show_in_list.create(proposal_table)
+
     page_table = Table('page', metadata, autoload=True)
 
     page_sectionpage = Column('sectionpage', Boolean, default=False)

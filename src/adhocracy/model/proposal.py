@@ -18,7 +18,8 @@ proposal_table = Table(
     Column('description_id', Integer, ForeignKey('page.id'), nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
-    Column('adopted', Boolean, default=False)
+    Column('adopted', Boolean, default=False),
+    Column('show_in_list', Boolean, default=True)
 )
 
 
@@ -142,8 +143,11 @@ class Proposal(Delegateable):
         return q.all()
 
     @classmethod
-    def all_q(cls, instance=None, include_deleted=False):
+    def all_q(cls, instance=None, include_deleted=False,
+              include_not_in_list=False):
         q = meta.Session.query(Proposal)
+        if not include_not_in_list:
+            q = q.filter(Proposal.show_in_list == True)  # noqa
         if not include_deleted:
             q = q.filter(or_(Proposal.delete_time == None,  # noqa
                              Proposal.delete_time > datetime.utcnow()))
@@ -157,10 +161,13 @@ class Proposal(Delegateable):
                          include_deleted=include_deleted).all()
 
     @classmethod
-    def create(cls, instance, label, user, with_vote=False, tags=None):
+    def create(cls, instance, label, user, with_vote=False, tags=None,
+               show_in_list=True):
         from poll import Poll
         from tagging import Tagging
         proposal = Proposal(instance, label, user)
+        if not show_in_list:
+            proposal.show_in_list = False
         meta.Session.add(proposal)
         meta.Session.flush()
         poll = Poll.create(proposal, user, Poll.RATE,
@@ -223,6 +230,9 @@ class Proposal(Delegateable):
 
     def to_index(self):
         index = super(Proposal, self).to_index()
+        if not self.show_in_list:
+            index['skip'] = True
+            return index
         if self.description is not None and self.description.head is not None:
             index.update(dict(
                 body=self.description.head.text,

@@ -197,12 +197,15 @@ class ProposalController(BaseController):
 
         pages = self.form_result.get('page', [])
 
-        if (pages and (not c.instance.allow_propose_changes
-                       and (len(pages) > 1
-                            or not pages[0]['id'].allow_selection))):
-            return self.new(
-                errors={u'msg':
-                        u'Cannot change arbitrary norms within proposals'})
+        if pages and not c.instance.allow_propose_changes:
+            if len(pages) > 1 or not pages[0]['id'].allow_selection:
+                return self.new(
+                    errors={u'msg':
+                            u'Cannot change arbitrary norms within proposals'})
+            else:
+                show_in_list = False
+        else:
+            show_in_list = True
 
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
@@ -212,7 +215,8 @@ class ProposalController(BaseController):
         proposal = model.Proposal.create(c.instance,
                                          self.form_result.get("label"),
                                          c.user, with_vote=can.user.vote(),
-                                         tags=self.form_result.get("tags"))
+                                         tags=self.form_result.get("tags"),
+                                         show_in_list=show_in_list)
         proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
@@ -253,8 +257,10 @@ class ProposalController(BaseController):
 
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
-        event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-                   topics=[proposal], proposal=proposal, rev=description.head)
+        if show_in_list:
+            event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
+                       topics=[proposal], proposal=proposal,
+                       rev=description.head)
         if request.params.get('ret_url', ''):
             redirect(request.params.get('ret_url'))
         else:
