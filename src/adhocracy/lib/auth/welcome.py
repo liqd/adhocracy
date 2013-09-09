@@ -66,8 +66,7 @@ class WelcomeRepozeWho(object):
         qs = urlparse.parse_qs(environ['QUERY_STRING'])
         if 'came_from' in qs:
             redirect_url = qs['came_from'][0]
-
-        if not redirect_url:
+        else:
             from adhocracy.lib.helpers import base_url
             redirect_url = base_url('/', instance=None, config=self.config)
         environ['repoze.who.application'] = HTTPFound(location=redirect_url)
