@@ -22,7 +22,7 @@
     </li>
 </%def>
 
-<%def name="header(tile, user, active)">
+<%def name="header(tile, user, active, show_delete_user_button=False)">
 
     <div class="top_actions title vcard">
         %if can.user.message(user):
@@ -70,7 +70,7 @@
             member='ban')}?${h.url_token()}">${_("ban")}</a>
         %endif 
         
-        %if can.user.delete(user):
+        %if can.user.delete(user) and show_delete_user_button:
             <a class="button title delete ttip" title="${_('Delete this user.')}"   
                 href="${h.entity_url(user, member='ask_delete')}">${_("delete")}</a>
         %endif
