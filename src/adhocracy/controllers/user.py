@@ -1261,9 +1261,12 @@ class UserController(BaseController):
 
     def welcome(self, id, token):
         # Intercepted by WelcomeRepozeWho, only errors go in here
+        if c.user:
+            return redirect(request.params.get('came_from', '/'))
+
         h.flash(_('You already have a password - use that to log in.'),
                 'error')
-        return redirect(h.base_url('/login'))
+        return redirect(h.base_url('/login', query_params=request.params))
 
     @RequireInternalRequest(methods=['POST'])
     @guard.perm('global.admin')
