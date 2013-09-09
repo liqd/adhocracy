@@ -7,7 +7,7 @@
 </%def>
 
 <%block name="settings_content">
-${tiles.user.header(c.page_user, c.tile, show_delete_user_button=True)}
+${tiles.user.header(c.page_user, show_delete_user_button=True)}
 <form class="well" method="POST" enctype="multipart/form-data">
 
     <input type="hidden" name="_method" value="PUT" />
