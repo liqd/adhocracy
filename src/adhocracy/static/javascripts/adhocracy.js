@@ -89,7 +89,10 @@ var adhocracy = adhocracy || {};
         // grab wrapper element inside content
         var overlay = this.getOverlay();
         var wrap = overlay.find(".contentWrap");
-        var url = this.getTrigger().attr("href") + '.overlay';
+
+        var url = new Uri(this.getTrigger().attr("href"));
+        url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
+        url = url.toString();
 
         // set initial size
         overlay.width(500);
