@@ -145,12 +145,12 @@
                   <div class="register">
                       %if h.allow_user_registration():
                       <a href="${h.register_redirect_url()}"
-                         ## rel="#overlay-ajax" FIXME: reactivate when ready.
+                         ## rel="#overlay-url" FIXME: reactivate when ready.
                          class="button">${_('Register')}</a>
                       ${_("or")}
                       %endif
                       <a href="${h.login_redirect_url()}"
-                         ## rel="#overlay-ajax" FIXME: reactivate.
+                         ## rel="#overlay-url" FIXME: reactivate.
                          class="more_uppercase">${_('Login')}</a>
                   </div>
                   <p class="register_msg">

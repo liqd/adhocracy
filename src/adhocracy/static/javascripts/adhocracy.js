@@ -221,14 +221,14 @@ var adhocracy = adhocracy || {};
             });
 
             //open link in overlay (like help pages)
-            wrapped.find("a[rel=#overlay-ajax]").overlay({
+            wrapped.find("a[rel=#overlay-url]").overlay({
                 fixed: false,
                 target: '#overlay-default',
                 mask: adhocracy.overlay.mask,
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
             });
 
-            wrapped.find("a[rel=#overlay-ajax-big]").overlay({
+            wrapped.find("a[rel=#overlay-url-big]").overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-big',
@@ -266,8 +266,9 @@ var adhocracy = adhocracy || {};
             });
         } else {
             // if we are in an iframe open overlays in new window instead
-            wrapped.find("a[rel=#overlay-ajax]").attr('target', '_new');
-            wrapped.find("a[rel=#overlay-ajax-big]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-url]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-url-big]").attr('target', '_new');
+            // FIXME these don't have a href
             wrapped.find("a[rel=#overlay-login-button]").attr('target', '_new');
             wrapped.find("a[rel=#overlay-join-button]").attr('target', '_new');
             wrapped.find("a[rel=#overlay-validate-button]").attr('target', '_new');
