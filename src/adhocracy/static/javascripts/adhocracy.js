@@ -101,6 +101,7 @@ var adhocracy = adhocracy || {};
         var iframe = $('<iframe scrolling="no" frameborder="0"/>');
         wrap.empty().append(iframe);
         iframe.attr('src', url);
+        history.pushState(null, null);
 
         var resizeHeight = function(speed) {
             var old_height = overlay.height(),
@@ -170,6 +171,10 @@ var adhocracy = adhocracy || {};
                     this.target = '_top';
                 }
             })
+
+            var path = iframe.contents().attr('location').href,
+                target = '#' + overlay.attr('id');
+            adhocracy.overlay.URIStateReplace(path, target);
         });
     };
 
@@ -196,6 +201,27 @@ var adhocracy = adhocracy || {};
         });
     };
 
+    adhocracy.overlay.URIStateClear = function () {
+        var state = new Uri(document.location.href)
+            .deleteQueryParam('overlay_path')
+            .deleteQueryParam('overlay_target');
+        history.pushState(null, null, state.toString());
+    }
+
+    adhocracy.overlay.URIStateReplace = function (overlay_path, overlay_target) {
+        // throw away anything until path
+        var _overlay_path = new Uri(overlay_path),
+        overlay_path = overlay_path.substring(_overlay_path.origin().length)
+
+        var state = new Uri(document.location.href)
+            .replaceQueryParam('overlay_path', overlay_path);
+        if (typeof overlay_target !== 'undefined') {
+            state.replaceQueryParam('overlay_target', overlay_target);
+        }
+
+        history.replaceState(null, null, state.toString());
+    }
+
     adhocracy.overlay.trigger = function (path, target) {
         // minimal validation. not sure if this is enough
         if (path[0] !== '/' || path[1] === '/') {
@@ -211,6 +237,7 @@ var adhocracy = adhocracy || {};
             target: target,
             mask: adhocracy.overlay.mask,
             onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+            onClose: adhocracy.overlay.URIStateClear,
         });
         trigger.click();
     };
@@ -249,6 +276,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-default',
                 mask: adhocracy.overlay.mask,
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
             });
 
             wrapped.find("a[rel=#overlay-url-big]").overlay({
@@ -256,6 +284,7 @@ var adhocracy = adhocracy || {};
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-big',
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
             });
 
             wrapped.find("a[rel=#overlay-login-button]").overlay({
