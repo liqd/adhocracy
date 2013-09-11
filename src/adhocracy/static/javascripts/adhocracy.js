@@ -197,6 +197,10 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.overlay.trigger = function (path, target) {
+        // minimal validation. not sure if this is enough
+        if (path[0] !== '/' || path[1] === '/') {
+            throw "Overlay path must be an absolute path.";
+        }
         if (typeof target === 'undefined') {
             target = '#overlay-default';
         }
