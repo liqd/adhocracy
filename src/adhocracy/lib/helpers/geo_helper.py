@@ -1,3 +1,4 @@
+from copy import copy
 from pylons import tmpl_context as c
 from adhocracy import config
 
@@ -20,7 +21,7 @@ def use_page_geotags():
 def map_config(**kwargs):
     from adhocracy.lib.helpers import to_json
 
-    imageLayers = config.get_json('adhocracy.geo.image_layers')
+    imageLayers = copy(config.get_json('adhocracy.geo.image_layers'))
 
     if c.instance and config.get_bool('adhocracy.geo.instance_overwrites'):
         imageLayers.extend(config.get_json(
