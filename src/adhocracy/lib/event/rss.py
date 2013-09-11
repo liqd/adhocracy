@@ -11,7 +11,7 @@ def rss_feed(events, name, link, description):
 
     def event_item(event):
         try:
-            item_link = event.event.link_path(event)
+            item_link = event.event.link_path(event, absolute=True)
         except:
             item_link = link
 

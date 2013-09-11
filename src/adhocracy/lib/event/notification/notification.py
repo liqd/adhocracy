@@ -49,7 +49,7 @@ class Notification(object):
 
     def _get_link(self):
         try:
-            return self.type.link_path(self.event)
+            return self.type.link_path(self.event, absolute=True)
         except Exception as e:
             log.error('Failed to get link to notification %r: %r' % (self, e))
             return ""
