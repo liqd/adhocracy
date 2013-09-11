@@ -43,6 +43,11 @@
     <noscript>
       <strong class="ie-message">${_('Adhocracy works best with JavaScript enabled.')}</strong>
     </noscript>
+    %if h.overlay_link():
+    <noscript>
+        <strong class="ie-message">${_('We could not display an overlay. See <a href="%s">here</a> what it would have displayed.') % h.overlay_link()|n}</strong>
+    </noscript>
+    %endif
 
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
