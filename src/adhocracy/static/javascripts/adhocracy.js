@@ -195,6 +195,22 @@ var adhocracy = adhocracy || {};
             'href': patch_camefrom
         });
     };
+
+    adhocracy.overlay.trigger = function (path, target) {
+        if (typeof target === 'undefined') {
+            target = '#overlay-default';
+        }
+        var trigger = $('<a>');
+        trigger.attr('href', path);
+        trigger.overlay({
+            fixed: false,
+            target: target,
+            mask: adhocracy.overlay.mask,
+            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+        });
+        trigger.click();
+    };
+
     adhocracy.overlay.rewriteDescription = function () {
         var description = this.getTrigger().data('description');
         if (description === undefined) {
@@ -999,4 +1015,10 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    var uri = new Uri(document.location.href),
+        overlay_path = uri.getQueryParamValue('overlay_path'),
+        overlay_target = uri.getQueryParamValue('overlay_target');
+    if (typeof overlay_path !== 'undefined') {
+        adhocracy.overlay.trigger(overlay_path, overlay_target);
+    }
 });
