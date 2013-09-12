@@ -115,10 +115,13 @@
     <div data-bind="html: proposal_text"></div>
     <div class="comment_actions floatbox">
         <div class="utility">
+            %if not c.selections:
             <span class="hover_active" style="display: none;">
                 <!-- <a href="#">Link</a> ·  -->
                 <a data-bind="attr: {href: proposal_url}">${_('View Proposal')}</a>
-                </span>&nbsp;
+            </span>
+            %endif
+            &nbsp;
         </div>
     </div>
 </script>
@@ -200,12 +203,15 @@
                 <div>${selection['proposal_text']|n}</div>
                 <div class="comment_actions floatbox">
                     <div class="utility">
+                        %if not c.selections:
                         <span class="hover_active" style="display: none;">
                             <!-- <a href="#">Link</a> ·  -->
                             <a href="${selection['proposal_url']}">
                                 ${_("View Proposal")}
                             </a>
                         </span>
+                        %endif
+                        &nbsp;
                     </div>
                 </div>
                 %endfor
