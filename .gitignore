@@ -42,6 +42,7 @@ etc/sysv-init
 etc/adhocracy-interactive.ini
 etc/test.ini
 etc/compass.rb
+etc/compass.min.rb
 mailsink
 adhocracy-test-chroot
 RELEASE-VERSION
