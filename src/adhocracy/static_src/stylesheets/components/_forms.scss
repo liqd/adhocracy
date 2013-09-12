@@ -90,10 +90,15 @@ form .error {
 /* searchform */
 #searchbox,
 .list_filter {
-    float: right;
     overflow: hidden;
     padding-top: 19px;
     padding-right: 20px;
+}
+#searchbox {
+    float: right;
+}
+.list_filter {
+    display: block;
 }
 
 #subheader.logo #searchbox {
