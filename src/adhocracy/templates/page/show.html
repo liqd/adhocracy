@@ -175,7 +175,7 @@
                 ${c.variant_details['text_diff']|n}
             </div>
         </div>
-        %if c.text and c.text.text:
+        %if c.text and c.text.text and not c.overlay:
         ${components.social_share_buttons(c.variant_details['title'])}
         %endif
 
