@@ -257,7 +257,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.overlay.mask = {
         color: '#111',
-        opacity: 0.9,
+        opacity: 0.3,
         loadSpeed: 'fast'
     };
 
