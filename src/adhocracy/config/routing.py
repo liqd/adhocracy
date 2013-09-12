@@ -27,7 +27,7 @@ def make_map(config):
     map.connect('/user/all', controller='user',
                 action='all', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
-                action='badges', conditions=dict(method=['GET']))
+                action='edit_badges', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
     map.connect('/user/{id}/dashboard', controller='user',

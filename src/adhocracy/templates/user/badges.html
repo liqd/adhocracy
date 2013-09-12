@@ -23,7 +23,7 @@
     <table>
         <thead>
             <th></th>
-            <th>${_("badge")} - ${_("all instances")}</th>
+            <th>${_("Global badges")}</th>
         </thead>
         <tbody>
             %for badge in c.badges:
@@ -39,15 +39,14 @@
     </table>
     %endif
 
-    %for instance in c.instance_badges:
-      %if instance["badges"]:
+    %if c.instance_badges:
         <table>
             <thead>
                 <th></th>
-                <th>${_("badge")} - ${instance["label"]}</th>
+                <th>${_("Badges in instance")} ${c.instance.label}</th>
             </thead>
             <tbody>
-                %for badge in instance["badges"]:
+                %for badge in c.instance_badges:
                 <tr>
                     <td>
                         <input type="checkbox" value="${badge.id}" 
@@ -57,13 +56,12 @@
                 </tr>
                 %endfor
             </tbody>
-        </table>      
-      %endif
-    %endfor
+        </table>
+    %endif
 
     <div style="clear:both;"></div>
- 
+
     ${components.savebox(h.base_url("/user/%s" % c.page_user.user_name))}
-    
+
 </form>
 </%block>
