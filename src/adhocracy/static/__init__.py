@@ -17,7 +17,8 @@ bootstrap = Group([bootstrap_js])
 # --[ stylesheets ]---------------------------------------------------------
 
 stylesheets_library = Library('stylesheets', 'stylesheets')
-style = Resource(stylesheets_library, 'adhocracy.css')
+style = Resource(stylesheets_library, 'adhocracy.css',
+                 minified='min/adhocracy.css')
 stylesheets = Group([style])
 
 
