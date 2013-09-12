@@ -95,10 +95,12 @@ class User(meta.Indexable):
         return hashlib.sha1(self.email).hexdigest()
 
     def badge_groups(self):
+        current_instance = ifilter.get_instance()
         groups = []
         for badge in self.badges:
             group = badge.group
-            if (group is not None and group not in groups):
+            if (group is not None and group not in groups
+               and badge.instance in [None, current_instance]):
                 groups.append(group)
         return groups
 
