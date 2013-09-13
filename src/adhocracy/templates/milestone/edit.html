@@ -35,10 +35,10 @@
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
         <br/>
         <br/>
+        %if c.instance.use_categories:
         <lable for="category" class="">
             ${_('Category')}
         </lable>
-        %if c.categories:
         <select id="category" name="category">
             <option value="">
                 ${_('No Category')}
@@ -50,9 +50,9 @@
             </option>
             %endfor
         </select>
+        <br/>
+        <br/>
         %endif
-        <br/>
-        <br/>
 
     <div class="input_wrapper">
         ${components.form_watch(c.milestone)}

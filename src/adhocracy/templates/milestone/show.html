@@ -30,7 +30,7 @@ created_msg = _("by %s on %s") % (
     </time></p>
     %endif
 
-    %if c.milestone.category:
+    %if c.instance.use_categories and c.milestone.category:
     <h6>${_('Category')}</h6>
     <p>${c.milestone.category.title}</p>
     %endif

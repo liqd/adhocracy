@@ -234,6 +234,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
 
     ${sidebar_defs.votedetail(c.votedetail)}
 
+    %if c.instance.use_categories:
     <h6>${_('Category')}</h6>
     <p>
       %if c.proposal.category:
@@ -242,6 +243,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
       ${_("This proposal is not assigned to any category")}
       %endif
     </p>
+    %endif
 
     <h6>${_('Milestones')}</h6>
     <% milestone = c.proposal.milestone %>
