@@ -1,6 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 <%def name="title()">${_("Edit %s") % c.proposal.title}</%def>
 
 <%def name="breadcrumbs()">
@@ -51,6 +52,10 @@
         <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
         ${_("Allow others to edit this proposal.")}</label>
       </div>
+      %endif
+
+      %if h.has_permission('proposal.freeze'):
+      ${forms.checkbox(_(u"Freeze proposal"), 'frozen')}
       %endif
 
       <div class="input_wrapper">

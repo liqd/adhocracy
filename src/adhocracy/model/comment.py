@@ -135,7 +135,10 @@ class Comment(meta.Indexable):
         return self.latest.create_time != self.create_time
 
     def is_mutable(self):
-        return True  # self.topic.is_mutable()
+        return self.topic.is_mutable()
+
+    def is_frozen(self):
+        return self.topic.is_frozen()
 
     def _index_id(self):
         return self.id

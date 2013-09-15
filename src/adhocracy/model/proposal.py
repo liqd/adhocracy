@@ -52,7 +52,10 @@ class Proposal(Delegateable):
 
     def is_mutable(self):
         return (not self.is_adopt_polling()) and (not self.adopted) and \
-            (not self.instance.frozen)
+            (not self.frozen) and (not self.instance.frozen)
+
+    def is_frozen(self):
+        return self.frozen
 
     def has_implementation(self):
         from text import Text

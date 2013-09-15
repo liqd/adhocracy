@@ -23,6 +23,8 @@ def create(check, p):
 def edit(check, s):
     check.valid_email()
     check.other('selections_can_not_be_edited', False)
+    check.other('proposal_not_mutable',
+                s.proposal and not s.proposal.is_mutable())
 
 
 def delete(check, s):
