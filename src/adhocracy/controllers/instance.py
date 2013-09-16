@@ -261,6 +261,14 @@ class InstanceController(BaseController):
         c.tutorial_intro = _('tutorial_instance_show_intro')
         c.tutorial = 'instance_show'
 
+        if c.page_instance.hidden:
+            h.flash(_(u"This instance is not yet open for public "
+                      u"participation."), 'warning')
+        elif c.page_instance.frozen:
+            h.flash(_(u"This instance is not active for use and is archived. "
+                      u"It isn't possible to perform any changes to the "
+                      u"instance, but all content is available to be read."),
+                    'warning')
         if format == 'overlay':
             return render("/instance/show.html", overlay=True)
         else:
