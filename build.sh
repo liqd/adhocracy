@@ -298,7 +298,16 @@ fi
 # Install local python if necessary
 if [ '!' -x bin/python ]; then
     if [ '!' -f python/bin/buildout ]; then
-        (cd python && python bootstrap.py)
+        # Workaround for https://github.com/liqd/adhocracy/issues/522
+        ST_TMPDIR="$(pwd)/eggs/build_sh_workarounds/setuptools"
+        if [ '!' -e "$ST_TMPDIR"/setuptools/lib/python*/site-packages/setuptools.pth ]; then
+            # Install setuptools
+            mkdir -p "$ST_TMPDIR"
+            download https://bitbucket.org/pypa/setuptools/raw/0.7.2/ez_setup.py "${ST_TMPDIR}/ez_setup.py"
+            (cd eggs/build_sh_workarounds/setuptools/ && PYTHONUSERBASE="$ST_TMPDIR" python ez_setup.py --user)
+
+        fi
+        (cd python && PYTHONUSERBASE="$ST_TMPDIR" python bootstrap.py)
     fi
     (cd python && bin/buildout)
 fi
