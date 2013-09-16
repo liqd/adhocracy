@@ -1,6 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="tiles_html" file="/milestone/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 <%def name="title()">${_("New milestone")}</%def>
 
 <%def name="breadcrumbs()">
@@ -46,9 +47,10 @@
             %endfor
         </select>
         %endif
-        <br />
-        <br />
-    
+        %if h.config.get_bool('adhocracy.milestone.allow_show_all_proposals'):
+        ${forms.checkbox(_(u"Show all proposals"), 'show_all_proposals', help=_(u"Show all open proposals if milestone is in the future."))}
+        %endif
+
     <div class="input_wrapper">
         ${components.form_watch(None, checked=True)}
     </div>
