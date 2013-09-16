@@ -521,7 +521,7 @@ class ProposalController(BaseController):
                     '_tok': csrf.token_id(),
                     'thumbnailbadge': default_thumbnail,
                     }
-        if format == 'ajax': # REFACT shouldn't this be 'json'?
+        if format == 'ajax':  # REFACT shouldn't this be 'json'?
             checked = [badge.id for badge in c.proposal.badges]
             checked_thumbnail = default_thumbnail
             json = {'title': c.proposal.title,
