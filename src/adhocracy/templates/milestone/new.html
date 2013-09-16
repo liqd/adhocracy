@@ -31,10 +31,10 @@
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
         <br />
         <br />
-        <lable for="category" class="">
-            ${_('Category')}
-        </lable>
         %if c.categories:
+        <label for="category" class="">
+            ${_('Category')}
+        </label>
         <select id="category" name="category">
             <option value="">
                 ${_('No Category')}
