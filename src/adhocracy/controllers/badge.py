@@ -15,6 +15,7 @@ from adhocracy.forms.common import ValidCategoryBadge
 from adhocracy.forms.common import ValidParentCategory
 from adhocracy.forms.common import ValidateNoCycle
 from adhocracy.forms.common import ProposalSortOrder
+from adhocracy.model import UPDATE
 from adhocracy.model import meta
 from adhocracy.model import Badge
 from adhocracy.model import Group
@@ -30,9 +31,9 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.behavior import behavior_enabled
-from adhocracy.lib.templating import render
 from adhocracy.lib.pager import PROPOSAL_SORTS
 from adhocracy.lib.queue import update_entity
+from adhocracy.lib.templating import render
 
 
 class BadgeForm(formencode.Schema):
@@ -516,4 +517,29 @@ class BadgeController(BaseController):
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
+        redirect(self.base_url)
+
+    @guard.instance.any_admin()
+    def ask_delete(self, id):
+        badge = self._get_badge_or_redirect(id)
+
+        data = {
+            'badge': badge,
+            'badge_type': self._get_badge_type(badge),
+            'badged_entities': badge.badged_entities(),
+            'return_url': self.base_url,
+        }
+
+        return render('/badge/ask_delete.html', data)
+
+    @guard.instance.any_admin()
+    @RequireInternalRequest()
+    def delete(self, id):
+        badge = self._get_badge_or_redirect(id)
+        for badge_instance in badge.badges():
+            meta.Session.delete(badge_instance)
+            update_entity(badge_instance.badged_entity(), UPDATE)
+        meta.Session.delete(badge)
+        meta.Session.commit()
+        h.flash(_(u"Badge deleted successfully"), 'success')
         redirect(self.base_url)

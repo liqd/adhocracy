@@ -1,0 +1,39 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html" />
+<%namespace name="badge_tiles" file="/badge/tiles.html" />
+<%def name="title()">${c.form_title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.tag.breadcrumbs(None)|n}
+</%def>
+
+<%block name="main_content">
+
+${components.flashmessages()}
+
+<form name="ask_delete" class="inplace" method="POST">
+
+    <h3>Delete ${_(c.badge.get_badge_type())} "${c.badge.title}"</h3>
+    ${h.field_token()|n}
+    %if c.badged_entities:
+    ${_(u'Note that the following entities will be unbadged if this badge is deleted:')}
+    <ul>
+        %for e in c.badged_entities:
+        <li><a href="${h.entity_url(e)}">${e} - ${e.title}</a></li>
+        %endfor
+    </ul>
+    %else:
+    <p>
+    ${_(u'This badge is not in use, so it can be removed safely.')}
+    </p>
+    %endif
+    <div class="warning_box">
+        ${_(u'Are you sure you want to delete this badge?')}
+    </div>
+    <div class="input_wrapper submit">
+          ${components.savebox(c.return_url, save_text=_(u'Confirm'))}
+    </div>
+</form>
+
+
+</%block>
