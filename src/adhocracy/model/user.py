@@ -528,3 +528,7 @@ class User(meta.Indexable):
 
     def __repr__(self):
         return u"<User(%s,%s)>" % (self.id, self.user_name)
+
+    @property
+    def title(self):
+        return self.name

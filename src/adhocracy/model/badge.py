@@ -6,6 +6,7 @@ of delegateables). Badges use single table inheritance.
 from datetime import datetime
 import logging
 
+from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Boolean, Integer, DateTime, String, Unicode, LargeBinary
 
@@ -205,6 +206,9 @@ class UserBadge(Badge):
 
     polymorphic_identity = 'user'
 
+    def get_badge_type(self):
+        return _(u'User badge')
+
     @classmethod
     def create(cls, title, color, visible, description, group=None,
                display_group=False, impact=0, instance=None):
@@ -226,8 +230,11 @@ class UserBadge(Badge):
         d['users'] = [user.name for user in self.users]
         return d
 
+    def badges(self):
+        return self.user_badges
+
     def badged_entities(self):
-        return self.badged_users
+        return self.users
 
 
 class UserBadges(Badges):
@@ -251,6 +258,9 @@ class UserBadges(Badges):
         meta.Session.flush()
         return userbadge
 
+    def badged_entity(self):
+        return self.user
+
 
 # --[ Instance Badges ]-------------------------------------------------
 
@@ -258,13 +268,19 @@ class InstanceBadge(Badge):
 
     polymorphic_identity = 'instance'
 
+    def get_badge_type(self):
+        return _(u'Instance badge')
+
     def assign(self, instance, creator):
         InstanceBadges.create(instance, self, creator)
         meta.Session.refresh(instance)
         meta.Session.refresh(self)
 
+    def badges(self):
+        return self.instance_badges
+
     def badged_entities(self):
-        return self.badged_instances
+        return self.instances
 
 
 class InstanceBadges(Badges):
@@ -286,6 +302,9 @@ class InstanceBadges(Badges):
         meta.Session.flush()
         return instancebadge
 
+    def badged_entity(self):
+        return self.instance
+
 
 # --[ Delegateable Badges ]-------------------------------------------------
 
@@ -293,13 +312,19 @@ class DelegateableBadge(Badge):
 
     polymorphic_identity = 'delegateable'
 
+    def get_badge_type(self):
+        return _(u'Proposal badge')
+
     def assign(self, delegateable, creator):
         DelegateableBadges.create(delegateable, self, creator)
         meta.Session.refresh(delegateable)
         meta.Session.refresh(self)
 
+    def badges(self):
+        return self.delegateable_badges
+
     def badged_entities(self):
-        return self.badged_delegateables
+        return self.delegateables
 
 
 class DelegateableBadges(Badges):
@@ -321,6 +346,9 @@ class DelegateableBadges(Badges):
         meta.Session.flush()
         return delegateablebadge
 
+    def badged_entity(self):
+        return self.delegateable
+
 
 # --[ Category Badges ]-----------------------------------------------------
 
@@ -328,6 +356,9 @@ class DelegateableBadges(Badges):
 class CategoryBadge(DelegateableBadge):
 
     polymorphic_identity = 'category'
+
+    def get_badge_type(self):
+        return _(u'Category')
 
     @classmethod
     def create(cls, title, color, visible, description, impact=0,
@@ -371,6 +402,9 @@ class CategoryBadge(DelegateableBadge):
 class ThumbnailBadge(DelegateableBadge):
 
     polymorphic_identity = 'thumbnail'
+
+    def get_badge_type(self):
+        return _(u'Thumbnail badge')
 
     @classmethod
     def create(cls, title, color, visible, description, thumbnail=None,
