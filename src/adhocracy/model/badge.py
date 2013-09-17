@@ -134,12 +134,20 @@ class Badge(object):
             return None
 
     @classmethod
-    def find(cls, title_or_id):
+    def find(cls, title_or_id, instance_filter=True, include_deleted=False):
+        """
+        Note: include_deleted doesn't have any effect, as badges can not be
+        marked as deleted. This parameter is only there for coherence reasons
+        with other models' find methods, as this is expected in
+        `model.refs.to_entity`.
+        """
         q = meta.Session.query(cls)
         try:
             q = q.filter(cls.id == int(title_or_id))
         except ValueError:
             q = q.filter(cls.title.like(title_or_id))
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(cls.instance_id == ifilter.get_instance().id)
         return q.first()
 
     @classmethod
