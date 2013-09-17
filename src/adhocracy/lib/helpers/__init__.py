@@ -293,3 +293,11 @@ def _json_entity_decoder(d):
         return [x[1] for x in result]
     elif isinstance(d, dict):
         return dict(result)
+
+
+def overlay_link():
+    overlay_path = request.params.get('overlay_path', None)
+    if overlay_path is None:
+        return None
+    else:
+        return overlay_path.replace('.overlay', '.html')

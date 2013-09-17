@@ -89,7 +89,10 @@ var adhocracy = adhocracy || {};
         // grab wrapper element inside content
         var overlay = this.getOverlay();
         var wrap = overlay.find(".contentWrap");
-        var url = this.getTrigger().attr("href") + '.overlay';
+
+        var url = new Uri(this.getTrigger().attr("href"));
+        url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
+        url = url.toString();
 
         // set initial size
         overlay.width(500);
@@ -98,6 +101,7 @@ var adhocracy = adhocracy || {};
         var iframe = $('<iframe scrolling="no" frameborder="0"/>');
         wrap.empty().append(iframe);
         iframe.attr('src', url);
+        history.pushState(null, null);
 
         var resizeHeight = function(speed) {
             var old_height = overlay.height(),
@@ -167,6 +171,10 @@ var adhocracy = adhocracy || {};
                     this.target = '_top';
                 }
             })
+
+            var path = iframe.contents().attr('location').href,
+                target = '#' + overlay.attr('id');
+            adhocracy.overlay.URIStateReplace(path, target);
         });
     };
 
@@ -192,6 +200,48 @@ var adhocracy = adhocracy || {};
             'href': patch_camefrom
         });
     };
+
+    adhocracy.overlay.URIStateClear = function () {
+        var state = new Uri(document.location.href)
+            .deleteQueryParam('overlay_path')
+            .deleteQueryParam('overlay_target');
+        history.pushState(null, null, state.toString());
+    }
+
+    adhocracy.overlay.URIStateReplace = function (overlay_path, overlay_target) {
+        // throw away anything until path
+        var _overlay_path = new Uri(overlay_path),
+        overlay_path = overlay_path.substring(_overlay_path.origin().length)
+
+        var state = new Uri(document.location.href)
+            .replaceQueryParam('overlay_path', overlay_path);
+        if (typeof overlay_target !== 'undefined') {
+            state.replaceQueryParam('overlay_target', overlay_target);
+        }
+
+        history.replaceState(null, null, state.toString());
+    }
+
+    adhocracy.overlay.trigger = function (path, target) {
+        // minimal validation. not sure if this is enough
+        if (path[0] !== '/' || path[1] === '/') {
+            throw "Overlay path must be an absolute path.";
+        }
+        if (typeof target === 'undefined') {
+            target = '#overlay-default';
+        }
+        var trigger = $('<a>');
+        trigger.attr('href', path);
+        trigger.overlay({
+            fixed: false,
+            target: target,
+            mask: adhocracy.overlay.mask,
+            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+            onClose: adhocracy.overlay.URIStateClear,
+        });
+        trigger.click();
+    };
+
     adhocracy.overlay.rewriteDescription = function () {
         var description = this.getTrigger().data('description');
         if (description === undefined) {
@@ -221,18 +271,20 @@ var adhocracy = adhocracy || {};
             });
 
             //open link in overlay (like help pages)
-            wrapped.find("a[rel=#overlay-ajax]").overlay({
+            wrapped.find("a[rel=#overlay-url]").overlay({
                 fixed: false,
                 target: '#overlay-default',
                 mask: adhocracy.overlay.mask,
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
             });
 
-            wrapped.find("a[rel=#overlay-ajax-big]").overlay({
+            wrapped.find("a[rel=#overlay-url-big]").overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-big',
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
             });
 
             wrapped.find("a[rel=#overlay-login-button]").overlay({
@@ -266,8 +318,9 @@ var adhocracy = adhocracy || {};
             });
         } else {
             // if we are in an iframe open overlays in new window instead
-            wrapped.find("a[rel=#overlay-ajax]").attr('target', '_new');
-            wrapped.find("a[rel=#overlay-ajax-big]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-url]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-url-big]").attr('target', '_new');
+            // FIXME these don't have a href
             wrapped.find("a[rel=#overlay-login-button]").attr('target', '_new');
             wrapped.find("a[rel=#overlay-join-button]").attr('target', '_new');
             wrapped.find("a[rel=#overlay-validate-button]").attr('target', '_new');
@@ -995,4 +1048,10 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    var uri = new Uri(document.location.href),
+        overlay_path = uri.getQueryParamValue('overlay_path'),
+        overlay_target = uri.getQueryParamValue('overlay_target');
+    if (typeof overlay_path !== 'undefined') {
+        adhocracy.overlay.trigger(overlay_path, overlay_target);
+    }
 });
