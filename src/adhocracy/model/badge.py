@@ -27,6 +27,9 @@ badge_table = Table(
     Column('instance_id', Integer, ForeignKey('instance.id',
                                               ondelete="CASCADE",),
            nullable=True),
+    # attributes for DelegateableBadges
+    Column('impact', Integer, default=0, nullable=False),
+
     # attributes for hierarchical badges (CategoryBadges)
     Column('select_child_description', Unicode(255), default=u'',
            nullable=False),
@@ -82,16 +85,19 @@ user_badges_table = Table(
 
 class Badge(object):
 
-    def __init__(self, title, color, visible, description, instance=None):
+    def __init__(self, title, color, visible, description, impact=0,
+                 instance=None):
         self.title = title
         self.description = description
         self.color = color
         self.visible = visible
+        self.impact = impact
         self.instance = instance
 
     @classmethod
-    def create(cls, title, color, visible, description, instance=None):
-        badge = cls(title, color, visible, description, instance)
+    def create(cls, title, color, visible, description, impact=0,
+               instance=None):
+        badge = cls(title, color, visible, description, impact, instance)
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -201,8 +207,8 @@ class UserBadge(Badge):
 
     @classmethod
     def create(cls, title, color, visible, description, group=None,
-               display_group=False, instance=None):
-        badge = cls(title, color, visible, description, instance)
+               display_group=False, impact=0, instance=None):
+        badge = cls(title, color, visible, description, impact, instance)
         badge.group = group
         badge.display_group = display_group
         meta.Session.add(badge)
@@ -324,9 +330,9 @@ class CategoryBadge(DelegateableBadge):
     polymorphic_identity = 'category'
 
     @classmethod
-    def create(cls, title, color, visible, description, instance=None,
-               parent=None, select_child_description=u'', ):
-        badge = cls(title, color, visible, description, instance)
+    def create(cls, title, color, visible, description, impact=0,
+               instance=None, parent=None, select_child_description=u'', ):
+        badge = cls(title, color, visible, description, impact, instance)
         badge.parent = parent
         badge.select_child_description = select_child_description
         meta.Session.add(badge)
@@ -368,8 +374,8 @@ class ThumbnailBadge(DelegateableBadge):
 
     @classmethod
     def create(cls, title, color, visible, description, thumbnail=None,
-               instance=None):
-        badge = cls(title, color, visible, description, instance)
+               impact=0, instance=None):
+        badge = cls(title, color, visible, description, impact, instance)
         badge.thumbnail = thumbnail
         meta.Session.add(badge)
         meta.Session.flush()

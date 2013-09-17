@@ -23,6 +23,7 @@ from adhocracy.model import DelegateableBadge
 from adhocracy.model import InstanceBadge
 from adhocracy.model import ThumbnailBadge
 from adhocracy.model import UserBadge
+from adhocracy.model import UPDATE
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -31,6 +32,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.templating import render
 from adhocracy.lib.pager import PROPOSAL_SORTS
+from adhocracy.lib.queue import update_entity
 
 
 class BadgeForm(formencode.Schema):
@@ -40,6 +42,7 @@ class BadgeForm(formencode.Schema):
     description = validators.String(max=255)
     color = ValidHTMLColor()
     instance = ValidBadgeInstance()
+    impact = validators.Int(min=-10, max=10, if_missing=0)
     if behavior_enabled():
         behavior_proposal_sort_order = ProposalSortOrder()
 
@@ -160,6 +163,7 @@ class BadgeController(BaseController):
 
         defaults = {'visible': True,
                     'select_child_description': '',
+                    'impact': 0,
                     }
         defaults.update(dict(request.params))
 
@@ -209,9 +213,10 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
             return self.add('instance', i.unpack_errors())
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
-        InstanceBadge.create(title, color, visible, description, instance)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
+        InstanceBadge.create(title, color, visible, description, impact,
+                             instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -224,12 +229,12 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.add('user', i.unpack_errors())
 
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
         group = self.form_result.get('group')
         display_group = self.form_result.get('display_group')
         UserBadge.create(title, color, visible, description, group,
-                         display_group, instance)
+                         display_group, impact, instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -241,9 +246,10 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
             return self.add('delegateable', i.unpack_errors())
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
-        DelegateableBadge.create(title, color, visible, description, instance)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
+        DelegateableBadge.create(title, color, visible, description, impact,
+                                 instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -255,15 +261,15 @@ class BadgeController(BaseController):
             self.form_result = CategoryBadgeForm().to_python(request.params)
         except Invalid as i:
             return self.add('category', i.unpack_errors())
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
         parent = self.form_result.get("parent")
         if parent and parent.id == id:
             parent = None
-        CategoryBadge.create(title, color, visible, description, instance,
-                             parent=parent,
+        CategoryBadge.create(title, color, visible, description, impact,
+                             instance, parent=parent,
                              select_child_description=child_descr)
         # commit cause redirect() raises an exception
         meta.Session.commit()
@@ -276,22 +282,23 @@ class BadgeController(BaseController):
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
             return self.add('thumbnail', i.unpack_errors())
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
         thumbnail = self.form_result.get("thumbnail")
         if isinstance(thumbnail, FieldStorage):
             thumbnail = thumbnail.file.read()
         else:
             thumbnail = None
         ThumbnailBadge.create(title, color, visible, description, thumbnail,
-                              instance)
+                              impact, instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
 
     def _get_common_fields(self, form_result):
         '''
-        return a tuple of (title, color, visible, description, instance).
+        return a tuple of (title, color, visible, description, impact,
+                           instance).
         '''
         if h.has_permission('global.admin'):
             instance = form_result.get('instance')
@@ -303,7 +310,9 @@ class BadgeController(BaseController):
                 form_result.get('color').strip(),
                 'visible' in form_result,
                 form_result.get('description').strip(),
-                instance)
+                form_result.get('impact'),
+                instance,
+                )
 
     def _get_badge_type(self, badge):
         return badge.polymorphic_identity
@@ -345,6 +354,7 @@ class BadgeController(BaseController):
             color=badge.color,
             visible=badge.visible,
             display_group=badge.display_group,
+            impact=badge.impact,
             instance=instance_default,
             behavior_proposal_sort_order=badge.behavior_proposal_sort_order)
         if isinstance(badge, UserBadge):
@@ -376,8 +386,8 @@ class BadgeController(BaseController):
             return self.edit(id, i.unpack_errors())
 
         badge = self._get_badge_or_redirect(id)
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
         group = self.form_result.get('group')
         display_group = self.form_result.get('display_group')
 
@@ -386,6 +396,10 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        if badge.impact != impact:
+            badge.impact = impact
+            for user in badge.users:
+                update_entity(user, UPDATE)
         badge.instance = instance
         badge.display_group = display_group
         if behavior_enabled():
@@ -403,13 +417,17 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
 
         badge.title = title
         badge.color = color
         badge.visible = visible
         badge.description = description
+        if badge.impact != impact:
+            badge.impact = impact
+            for delegateable in badge.delegateables:
+                update_entity(delegateable, UPDATE)
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
@@ -423,13 +441,17 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
 
         badge.title = title
         badge.color = color
         badge.visible = visible
         badge.description = description
+        if badge.impact != impact:
+            badge.impact = impact
+            for instance in badge.instances:
+                update_entity(instance, UPDATE)
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
@@ -445,8 +467,8 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
         #TODO global badges must have only global badges children, joka
@@ -457,6 +479,10 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        if badge.impact != impact:
+            badge.impact = impact
+            for delegateable in badge.delegateables:
+                update_entity(delegateable, UPDATE)
         badge.instance = instance
         badge.select_child_description = child_descr
         badge.parent = parent
@@ -472,8 +498,8 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
-        title, color, visible, description, instance = self._get_common_fields(
-            self.form_result)
+        title, color, visible, description, impact, instance =\
+            self._get_common_fields(self.form_result)
         thumbnail = self.form_result.get("thumbnail")
         if isinstance(thumbnail, FieldStorage):
             badge.thumbnail = thumbnail.file.read()
@@ -483,6 +509,10 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        if badge.impact != impact:
+            badge.impact = impact
+            for delegateable in badge.delegateables:
+                update_entity(delegateable, UPDATE)
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')

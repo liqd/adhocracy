@@ -1,4 +1,4 @@
-<%def name="input(label, name, tabindex=None, type='text', cls='', placeholder='', help=None)">
+<%def name="input(label, name, tabindex=None, type='text', cls='', placeholder='', help=None, **kw)">
 <%self:group name="${name}">
     <label for="${name}">${label}</label>
     %if help:
@@ -9,7 +9,8 @@
     %endif
     <input type="${type}" class="${cls}"
            name="${name}" ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}
-           ${'placeholder="%s"' % placeholder if placeholder else '' | n} />
+           ${'placeholder="%s"' % placeholder if placeholder else '' | n}
+           ${' '.join(['%s="%s"' % (k, v) for k, v in kw.iteritems()]) | n} />
 </%self:group>
 </%def>
 
