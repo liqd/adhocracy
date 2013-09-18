@@ -185,7 +185,7 @@ def make_map(config):
                 )
     map.connect('/page/{page}/amendment/{id}/edit{.format}',
                 controller='proposal',
-                action='edit', amendment=True,
+                action='edit',
                 conditions=dict(method=['GET']),
                 )
     map.connect('/page/{page}/amendment/{id}/ask_delete{.format}',

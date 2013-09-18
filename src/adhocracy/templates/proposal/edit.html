@@ -13,60 +13,70 @@
     <h2>${_(u'Edit &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
     <hr />
 
-  <form name="edit_proposal" class="inplace" method="POST" action="${h.entity_url(c.proposal)}">
-    ${h.field_token()|n}
-    <input type="hidden" name="_method" value="PUT" />
-      
-    <fieldset>
-      <legend>${_('Title and Goals')}</legend>
-      <div class="input_wrapper">
-        <input type="text" tabindex="1" class="title" name="label" value="${c.proposal.title}" placeholder="${_('Proposal title')}" />
-      </div>
+    <form name="edit_proposal" class="inplace" method="POST" action="${h.entity_url(c.proposal)}">
+        ${h.field_token()|n}
+        <input type="hidden" name="_method" value="PUT" />
 
-      <div class="input_wrapper">
-        <p class="info">
-            ${_("A brief description of <b>the goals</b> of your proposal.")|n} 
-            ${_("The proposal would...")}
-        </p>
-        <textarea tabindex="2" class="description" rows="${c.text_rows}" name="text" placeholder="${_('Proposal goals')}">${c.proposal.description.head.text}</textarea>
-        ${components.formatting()}
-      </div>
+        <fieldset>
+            <legend>${_("Amendment title") if c.proposal.is_amendment else _("Proposal title")}</legend>
+            <div class="input_wrapper">
+                <input type="text" class="title" name="label" autofocus value="${c.proposal.title}"
+                       placeholder="${_("New amendment") if c.proposal.is_amendment else _("New proposal")}" />
+            </div>
+        </fieldset>
 
-      %if c.instance.milestones:
-      <div class="input_wrapper">
-        <label for="milestone">${_("Relates to a milestone")}</label>
-        ${tiles.milestone.select(c.proposal.milestone)}
-      </div>        
-      %endif
-    </fieldset>
+        <fieldset>
+            <legend>${_("Reasoning") if c.proposal.is_amendment else _("Proposal goals")}</legend>
+            <p class="info">
+                %if c.proposal.is_amendment:
+                ${_("Give a brief explanation of the idea behind your amendment.")}
+                %else:
+                ${_("Give a brief description of <b>the goals</b> of your proposal.")|n}
+                %endif
+            </p>
+            <div class="input_wrapper">
+                <textarea class="description" name="text"
+                          placeholder="${_('The amendment would...') if c.proposal.is_amendment else _('The proposal would...')}">${c.proposal.description.head.text}</textarea>
+                ${components.formatting()}
+            </div>
+        </fieldset>
 
-    %if c.categories:
-    ${components.category_select('category_select', c.toplevel_question, c.categories)}
-    %endif
+        %if not c.proposal.is_amendment:
+        %if c.instance.milestones:
+        <fieldset>
+            <legend>${_("Relates to a milestone")}</legend>
+            ${tiles.milestone.select(c.proposal.milestone)}
+        </fieldset>
+        %endif
 
-    <fieldset>
-      <legend>${_('Collaboration and Notification')}</legend>
-      %if c.can_edit_wiki:
-      <div class="input_wrapper">
-        <label for="wiki">
-        <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
-        ${_("Allow others to edit this proposal.")}</label>
-      </div>
-      %endif
+        %if c.categories:
+        ${components.category_select('category_select', c.toplevel_question, c.categories)}
+        %endif
+        %endif
 
-      %if h.has_permission('proposal.freeze'):
-      ${forms.checkbox(_(u"Freeze proposal"), 'frozen')}
-      %endif
+        <fieldset>
+            <legend>${_('Collaboration and Notification')}</legend>
+            %if c.can_edit_wiki:
+            <div class="input_wrapper">
+                <label for="wiki">
+                    <input type="checkbox" ${'checked="checked"' if c.proposal.description.head.wiki == 1 else ''} name="wiki" id="wiki" value="1" />
+                    ${_("Allow modifications by other users")}
+                </label>
+            </div>
+            %endif
 
-      <div class="input_wrapper">
-        ${components.form_watch(c.proposal)}
-      </div>    
-    </fieldset>
-    <div class="input_wrapper submit">
-      ${components.savebox(h.base_url('/proposal/%s' % c.proposal.id))}
-    </div>
-  </form>
+            %if h.has_permission('proposal.freeze'):
+            ${forms.checkbox(_(u"Freeze proposal"), 'frozen')}
+            %endif
+
+            <div class="input_wrapper">
+                ${components.form_watch(c.proposal)}
+            </div>
+        </fieldset>
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.base_url('/proposal/%s' % c.proposal.id))}
+        </div>
+    </form>
 </div>
 </%block>
-
-    
