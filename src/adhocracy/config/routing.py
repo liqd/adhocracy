@@ -152,11 +152,48 @@ def make_map(config):
 
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
+
     map.connect('/page/{id}/amendment{.format}',
                 controller='page',
                 action='show', amendment=True,
                 conditions=dict(method=['GET']),
                 )
+    map.connect('/page/{page}/amendment{.format}',
+                controller='proposal',
+                action='create',
+                conditions=dict(method=['POST'])
+                )
+    map.connect('/page/{page}/amendment/new{.format}',
+                controller='proposal',
+                action='new', amendment=True,
+                conditions=dict(method=['GET']),
+                )
+    map.connect('/page/{id}/amendment/{variant}{.format}',
+                controller='page',
+                action='show', amendment=True,
+                conditions=dict(method=['GET']),
+                )
+    map.connect('/page/{page}/amendment/{id}{.format}',
+                controller='proposal',
+                action='update',
+                conditions=dict(method=['PUT'])
+                )
+    map.connect('/page/{page}/amendment/{id}{.format}',
+                controller='proposal',
+                action='delete',
+                conditions=dict(method=['DELETE'])
+                )
+    map.connect('/page/{page}/amendment/{id}/edit{.format}',
+                controller='proposal',
+                action='edit', amendment=True,
+                conditions=dict(method=['GET']),
+                )
+    map.connect('/page/{page}/amendment/{id}/ask_delete{.format}',
+                controller='proposal',
+                action='ask_delete',
+                conditions=dict(method=['GET']),
+                )
+
     map.connect('/page/{id}/{variant}/history{.format}',
                 controller='page',
                 action='history',

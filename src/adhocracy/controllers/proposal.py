@@ -142,11 +142,14 @@ class ProposalController(BaseController):
     @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
-    def new(self, errors=None):
+    def new(self, errors=None, page=None, amendment=False):
         c.ret_url = request.params.get('ret_url', '')
 
         c.pages = []
         c.exclude_pages = []
+
+        assert bool(amendment) ^ (page is None)
+        c.amendment = amendment
 
         self._set_categories()
 
@@ -160,6 +163,8 @@ class ProposalController(BaseController):
                                 page.head.text if text is None else text))
                 c.exclude_pages.append(page)
 
+        if page is not None:
+            append_page(page)
         if 'page' in request.params:
             append_page(request.params.get('page'))
 
@@ -270,12 +275,15 @@ class ProposalController(BaseController):
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
               post_only=False, on_get=True)
-    def edit(self, id, errors={}):
+    def edit(self, id, errors={}, page=None, amendment=False):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
         c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
 
         c.text_rows = text.text_rows(c.proposal.description.head)
+
+        assert bool(amendment) ^ (page is None)
+        c.amendment = amendment
 
         self._set_categories()
 
