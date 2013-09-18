@@ -6,5 +6,6 @@ def upgrade(migrate_engine):
     meta = MetaData(bind=migrate_engine)
 
     table = Table('badge', meta, autoload=True)
-    col = Column('impact', Integer, default=0, nullable=False)
+    col = Column('impact', Integer, default=0, server_default=u'0',
+                 nullable=False)
     col.create(table)
