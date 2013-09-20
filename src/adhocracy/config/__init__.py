@@ -39,6 +39,7 @@ DEFAULTS = {
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
+    'debug': False,
 }
 
 
