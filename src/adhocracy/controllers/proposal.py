@@ -585,6 +585,11 @@ class ProposalController(BaseController):
                 badge.assign(proposal, c.user)
                 added.append(badge)
 
+        if added or removed:
+            event.emit(event.T_PROPOSAL_BADGE, c.user, instance=c.instance,
+                       topics=[proposal], proposal=proposal,
+                       badges_added=added, badges_removed=removed)
+
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
