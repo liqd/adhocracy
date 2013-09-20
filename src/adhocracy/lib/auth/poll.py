@@ -34,6 +34,7 @@ def delete(check, p):
 def vote(check, p):
     check.valid_email()
     check.other('poll_has_ended', p.has_ended())
+    check.other('scope_frozen', p.scope.is_frozen())
     check.other('instance_frozen', c.instance.frozen)
 
     check.other('select_poll_not_mutable',
