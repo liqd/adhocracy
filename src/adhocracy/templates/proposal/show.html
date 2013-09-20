@@ -18,7 +18,7 @@
 ##   href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 ##%endif
 
-%if lib.auth.authorization.has('global.admin'):
+%if h.has_permission('instance.admin'):
 <a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>
 %endif
                                 
