@@ -48,19 +48,19 @@ class DelegationController(BaseController):
             return self.not_implemented(format=format)
 
     @RequireInstance
-    @guard.delegation.create()
     @validate(schema=DelegationNewForm(), form="bad_request",
               post_only=False, on_get=True)
     def new(self):
         c.scope = self.form_result.get('scope')
+        require.delegation.create(c.scope)
         return render("/delegation/new.html")
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=["POST"])
-    @guard.delegation.create()
     @validate(schema=DelegationCreateForm(), form="new", post_only=True)
     def create(self, format='html'):
         c.scope = self.form_result.get('scope')
+        require.delegation.create(c.scope)
         agents = filter(lambda f: f is not None, self.form_result.get('agent'))
         if not len(agents) or agents[0] == c.user:
             h.flash(_("Invalid delegation recipient"), 'error')

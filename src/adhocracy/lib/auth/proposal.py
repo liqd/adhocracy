@@ -47,6 +47,8 @@ def edit(check, p):
 
 def delete(check, p):
     check.valid_email()
+    if has('instance.admin'):
+        return
     check.perm('proposal.delete')
     show(check, p)
     check.other('proposal_not_mutable', not p.is_mutable())
@@ -54,6 +56,7 @@ def delete(check, p):
 
 def rate(check, p):
     check.valid_email()
+    check.other('proposal_frozen', p.frozen)
     check.other('instance_frozen', c.instance.frozen)
     show(check, p)
     if p.rate_poll is None:
