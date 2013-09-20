@@ -68,11 +68,13 @@ class BaseController(WSGIController):
             h.add_rss("%s News" % c.instance.label,
                       h.base_url('/instance/%s.rss' % c.instance.key))
 
-        h.add_meta("description",
-                   _("A liquid democracy platform for making decisions in "
-                     "distributed, open groups by cooperatively creating "
-                     "proposals and voting on them to establish their "
-                     "support."))
+        h.add_meta("description", config.get(
+            'adhocracy.site.description',
+            _(u"A liquid democracy platform for making decisions in "
+              u"distributed, open groups by cooperatively creating "
+              u"proposals and voting on them to establish their "
+              u"support.")))
+
         h.add_meta("keywords",
                    _("adhocracy, direct democracy, liquid democracy, liqd, "
                      "democracy, wiki, voting,participation, group decisions, "
