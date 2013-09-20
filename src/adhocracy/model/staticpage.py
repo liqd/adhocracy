@@ -32,6 +32,10 @@ class StaticPage(object):
         meta.Session.commit()
         return s
 
+    def delete(self):
+        meta.Session.delete(self)
+        meta.Session.commit()
+
     @classmethod
     def all(cls):
         q = meta.Session.query(cls)

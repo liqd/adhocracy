@@ -93,6 +93,30 @@ class StaticController(BaseController):
                                defaults=defaults, errors=errors)
 
     @guard_perms
+    def delete(self, key, lang):
+        backend = get_backend()
+        sp = backend.get(key, lang)
+        if not sp:
+            return ret_abort(_('Cannot find static page to delete'), code=404)
+        sp.delete()
+        helpers.flash(_('Page deleted'), 'notice')
+        return redirect(helpers.base_url('/static/'))
+
+    @guard_perms
+    def ask_delete(self, key, lang, errors=None):
+        backend = get_backend()
+        sp = backend.get(key, lang)
+        if not sp:
+            return ret_abort(_('Cannot find static page to delete'), code=404)
+        data = {'staticpage': sp}
+        defaults = {
+            'title': sp.title,
+            'body': sp.body,
+        }
+        return htmlfill.render(render('/static/ask_delete.html', data),
+                               defaults=defaults, errors=errors)
+
+    @guard_perms
     @csrf.RequireInternalRequest(methods=['POST'])
     def update(self, key, lang):
         backend = get_backend()

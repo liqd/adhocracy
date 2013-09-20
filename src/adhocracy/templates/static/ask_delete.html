@@ -1,0 +1,28 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="title()">${_("Delete Page")}</%def>
+<%def name="breadcrumbs()">
+    ${b.static(_("Delete"))}
+</%def>
+
+<%block name="main_content">
+
+<div class="mainbar">
+    <h2>
+      ${_('Delete %(key)s (%(langname)s)') % {'key': c.staticpage.key,
+	'langname': h.staticpage.get_lang_info(c.staticpage.lang)['name']}}</h1>
+    </h2>
+    <form name="delete" class="inplace" method="POST" 
+        action="${h.entity_url(c.staticpage)}/delete">
+        ${h.field_token()|n}
+        <div class="warning_box">
+            ${_("Are you sure you want to delete this static page?")|n}
+        </div>
+        <center>
+            <input type="submit" class="delete" value="${_('Confirm')}" />
+        </center>
+    </form>
+</div>
+
+</%block>

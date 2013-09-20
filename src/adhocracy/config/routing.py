@@ -407,6 +407,13 @@ def make_map(config):
     map.connect('/static/{key}_{lang}',
                 controller='static', action='edit',
                 conditions=dict(method=['GET', 'HEAD']))
+    map.connect('/static/{key}_{lang}/ask_delete',
+                controller='static', action='ask_delete',
+                conditions=dict(method=['GET', 'HEAD']))
+    map.connect('/static/{key}_{lang}/delete',
+                controller='static',
+                action='delete',
+                conditions=dict(method=['POST', 'DELETE']))
     map.connect('/static/{key}_{lang}',
                 controller='static', action='update',
                 conditions=dict(method=['POST']))
