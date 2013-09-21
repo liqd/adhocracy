@@ -42,14 +42,15 @@ class TestValidators(TestController):
         test_instance = tt_get_instance()
         self.assertEqual(test_instance, instance_filter.get_instance())
         test_category = CategoryBadge.create(u'test_category', u'#ccc', True,
-                                             u'description', test_instance)
+                                             u'description', 0, test_instance)
         value = ValidCategoryBadge.to_python(str(test_category.id))
         self.assertEqual(value, test_category)
 
         # from other instances they are not valid
         other_instance = tt_make_instance(u'other', u'Other Instance')
         other_category = CategoryBadge.create(u'other_category', u'#ccc', True,
-                                              u'description', other_instance)
+                                              u'description', 0,
+                                              other_instance)
         self.assertRaises(Invalid, ValidCategoryBadge.to_python,
                           str(other_category.id))
 
