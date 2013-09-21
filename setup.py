@@ -37,6 +37,7 @@ setup(
     ]]),
     install_requires=[
         "adhocracy-Pylons>=1.0.1",
+        "Babel>=0.9, <1.0",
         "WebOb==1.2.3",
         "SQLAlchemy==0.7.10",
         "sqlalchemy-migrate>=0.6",
@@ -53,7 +54,6 @@ setup(
         "rq",
         "redis",
         "ordereddict",
-        "babel>=0.9",
         "beautifulsoup>=3.0.7",
         "python-openid>=2.2.4",
         "python-memcached>=1.45",
