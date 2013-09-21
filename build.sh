@@ -183,7 +183,7 @@ if ! $not_use_sudo_commands; then
         ;;
     fedora )
         $SUDO_CMD yum groupinstall --assumeyes development-tools
-        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc dev86 unzip git mercurial sqlite sqlite-devel java-1.7.0-openjdk postgresql openssh mutt ruby openssl-devel'
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc dev86 unzip git mercurial sqlite sqlite-devel java-1.7.0-openjdk postgresql openssh mutt ruby openssl-devel bzip2-devel'
         ;;
     esac
     # Install all Packages
