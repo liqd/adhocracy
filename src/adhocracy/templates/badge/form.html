@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html" />
+<%namespace name="forms" file="/forms.html"/>
 <%namespace name="badge_tiles" file="/badge/tiles.html" />
 <%def name="title()">${c.form_title}</%def>
 
@@ -132,6 +133,10 @@ ${self.form()}
         ${components.proposal_sort_order('behavior_proposal_sort_order', c.sorting_orders, include_empty=True)}
     </label>
     %endif
+    %endif
+
+    %if c.badge_type in ['delegateable', 'category', 'thumbnail']:
+    ${forms.input(_(u'Impact'), 'impact', type='number', min=-10, max=10)}
     %endif
 
     <div class="mainbar">

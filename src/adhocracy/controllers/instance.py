@@ -272,6 +272,14 @@ class InstanceController(BaseController):
         c.tutorial_intro = _('tutorial_instance_show_intro')
         c.tutorial = 'instance_show'
 
+        if c.page_instance.hidden:
+            h.flash(_(u"This instance is not yet open for public "
+                      u"participation."), 'warning')
+        elif c.page_instance.frozen:
+            h.flash(_(u"This instance is not active for use and is archived. "
+                      u"It isn't possible to perform any changes to the "
+                      u"instance, but all content is available to be read."),
+                    'warning')
         if format == 'overlay':
             return render("/instance/show.html", overlay=True)
         else:
@@ -719,6 +727,18 @@ class InstanceController(BaseController):
         c.settings_menu = settings_menu(c.page_instance, 'badges')
         controller = self.badge_controller(c.page_instance)
         return controller.update(badge_id)
+
+    @RequireInstance
+    def settings_badges_ask_delete(self, id, badge_id):
+        c.page_instance = self._get_current_instance(id)
+        controller = self.badge_controller(c.page_instance)
+        return controller.ask_delete(badge_id)
+
+    @RequireInstance
+    def settings_badges_delete(self, id, badge_id):
+        c.page_instance = self._get_current_instance(id)
+        controller = self.badge_controller(c.page_instance)
+        return controller.delete(badge_id)
 
     def _settings_members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)

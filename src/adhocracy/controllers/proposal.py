@@ -64,6 +64,8 @@ class ProposalUpdateForm(ProposalEditForm):
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
+    frozen = validators.StringBool(not_empty=False, if_empty=False,
+                                   if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
@@ -295,6 +297,7 @@ class ProposalController(BaseController):
         if not defaults:
             # Just clicked on edit
             defaults['watch'] = h.find_watch(c.proposal) is not None
+            defaults['frozen'] = c.proposal.frozen
         defaults.update({"category": c.category.id if c.category else None})
         return htmlfill.render(render("/proposal/edit.html"),
                                defaults=defaults,
@@ -329,6 +332,10 @@ class ProposalController(BaseController):
             wiki = self.form_result.get('wiki')
         else:
             wiki = c.proposal.description.head.wiki
+
+        if h.has_permission('proposal.freeze'):
+            c.proposal.frozen = self.form_result.get('frozen')
+
         _text = model.Text.create(c.proposal.description, model.Text.HEAD,
                                   c.user,
                                   self.form_result.get('label'),
@@ -564,7 +571,7 @@ class ProposalController(BaseController):
                     '_tok': csrf.token_id(),
                     'thumbnailbadge': default_thumbnail,
                     }
-        if format == 'ajax': # REFACT shouldn't this be 'json'?
+        if format == 'ajax':  # REFACT shouldn't this be 'json'?
             checked = [badge.id for badge in c.proposal.badges]
             checked_thumbnail = default_thumbnail
             json = {'title': c.proposal.title,

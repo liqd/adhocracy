@@ -189,10 +189,7 @@ class MilestoneController(BaseController):
         c.tutorial_intro = _('tutorial_milestone_details_tab')
         c.tutorial = 'milestone_show'
 
-        if format == overlay:
-            return render("/milestone/show.html", overlay=True)
-        else:
-            return render("/milestone/show.html")
+        return render("/milestone/show.html", overlay=(format == 'overlay'))
 
     @RequireInstance
     def ask_delete(self, id):

@@ -11,7 +11,7 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Table, Column, ForeignKey, or_
-from sqlalchemy import DateTime, Integer, String, Unicode
+from sqlalchemy import Boolean, DateTime, Integer, String, Unicode
 
 import meta
 import instance_filter as ifilter
@@ -38,7 +38,8 @@ delegateable_table = Table(
     Column('delete_time', DateTime, nullable=True),
     Column('milestone_id', Integer, ForeignKey('milestone.id'), nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
+    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False),
+    Column('frozen', Boolean, default=False),
 )
 
 

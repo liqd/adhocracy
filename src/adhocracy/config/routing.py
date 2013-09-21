@@ -27,7 +27,7 @@ def make_map(config):
     map.connect('/user/all', controller='user',
                 action='all', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
-                action='badges', conditions=dict(method=['GET']))
+                action='edit_badges', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
     map.connect('/user/{id}/dashboard', controller='user',
@@ -280,6 +280,12 @@ def make_map(config):
     map.connect('/badge/edit/{id}',
                 controller='badge', action="update",
                 conditions=dict(method=['POST']))
+    map.connect('/badge/delete/{id}',
+                controller='badge', action="ask_delete",
+                conditions=dict(method=['GET']))
+    map.connect('/badge/delete/{id}',
+                controller='badge', action="delete",
+                conditions=dict(method=['POST']))
 
     # not using REST since tags may contain dots, thus failing format
     # detection.
@@ -366,6 +372,12 @@ def make_map(config):
                 action="settings_badges_edit", conditions=dict(method=['GET']))
     map.connect('/instance/{id}/settings/badges/edit/{badge_id}',
                 controller='instance', action="settings_badges_update",
+                conditions=dict(method=['POST']))
+    map.connect('/instance/{id}/settings/badges/delete/{badge_id}',
+                controller='instance', action="settings_badges_ask_delete",
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/badges/delete/{badge_id}',
+                controller='instance', action="settings_badges_delete",
                 conditions=dict(method=['POST']))
     map.connect('/instance/{id}/settings/massmessage',
                 controller='massmessage', action='new',

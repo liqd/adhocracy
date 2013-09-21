@@ -1173,18 +1173,25 @@ class UserController(BaseController):
         c.users_pager = pager.users(users, has_query=True)
         return c.users_pager.here()
 
-    @guard.perm('instance.admin')
-    def badges(self, id, errors=None):
+    def _allowed_badges(self):
         if has('global.admin'):
-            c.badges = model.UserBadge.all(instance=None)
+            global_badges = model.UserBadge.all(instance=None)
         else:
-            c.badges = None
+            global_badges = []
+        if c.instance is None:
+            instance_badges = []
+        else:
+            instance_badges = model.UserBadge.all(instance=c.instance)
+        return (global_badges, instance_badges)
+
+    def _all_allowed_badges(self):
+        allowed = self._allowed_badges()
+        return set(allowed[0]).union(set(allowed[1]))
+
+    @guard.perm('instance.admin')
+    def edit_badges(self, id, errors=None):
+        c.badges, c.instance_badges = self._allowed_badges()
         c.page_user = get_entity_or_abort(model.User, id)
-        instances = c.page_user and c.page_user.instances or []
-        c.instance_badges = [
-            {"label": instance.label,
-             "badges": model.UserBadge.all(instance=instance)} for
-            instance in instances]
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
             render("/user/badges.html"),
@@ -1192,39 +1199,45 @@ class UserController(BaseController):
             force_defaults=False)
 
     @RequireInternalRequest()
-    @validate(schema=UserBadgesForm(), form='badges')
+    @validate(schema=UserBadgesForm(), form='edit_badges')
     @guard.perm('instance.admin')
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
-        badges = self.form_result.get('badge')
+        want = set(self.form_result.get('badge'))
 
-        if not has('global.admin'):
-            # instance admins may only add user badges limited to this instance
+        allowed = self._all_allowed_badges()
+        if not want.issubset(allowed):
+            h.flash(_(u'Invalid badge choice.'), u'error')
+            redirect(h.entity_url(user))
 
-            for badge in badges:
-                if not badge.instance == c.instance:
-                    h.flash(_(u'Invalid badge choice.'), u'error')
-                    redirect(h.entity_url(user))
+        notwant = allowed.difference(want)
+        has = set(user.badges)
 
+        removed = set()
+        for badge in has.intersection(notwant):
+            user.badges.remove(badge)
+            removed.add(badge)
+
+        added = set()
         creator = c.user
-
-        added = []
-        removed = []
-        for badge in user.badges:
-            if badge not in badges:
-                removed.append(badge)
-                user.badges.remove(badge)
-
-        for badge in badges:
-            if badge not in user.badges:
-                badge.assign(user, creator)
-                added.append(badge)
+        for badge in want.difference(has):
+            badge.assign(user, creator)
+            added.add(badge)
 
         model.meta.Session.flush()
         # FIXME: needs commit() cause we do an redirect() which raises
         # an Exception.
         model.meta.Session.commit()
         update_entity(user, model.UPDATE)
+        if added:
+            h.flash(u'%s: %s' % (
+                _(u"Added badges") if len(added) > 1 else _(u"Added badge"),
+                ', '.join(badge.title for badge in added)), u'success')
+        if removed:
+            h.flash(u'%s: %s' % (
+                _(u"Removed badges") if len(removed) > 1
+                else _(u"Removed badge"),
+                ', '.join(badge.title for badge in removed)), u'success')
         redirect(h.entity_url(user, instance=c.instance))
 
     def _common_metadata(self, user, member=None, add_canonical=False):
@@ -1261,9 +1274,12 @@ class UserController(BaseController):
 
     def welcome(self, id, token):
         # Intercepted by WelcomeRepozeWho, only errors go in here
+        if c.user:
+            return redirect(request.params.get('came_from', '/'))
+
         h.flash(_('You already have a password - use that to log in.'),
                 'error')
-        return redirect(h.base_url('/login'))
+        return redirect(h.base_url('/login', query_params=request.params))
 
     @RequireInternalRequest(methods=['POST'])
     @guard.perm('global.admin')

@@ -18,7 +18,8 @@ bootstrap = Group([bootstrap_js])
 # --[ stylesheets ]---------------------------------------------------------
 
 stylesheets_library = Library('stylesheets', 'stylesheets')
-style = Resource(stylesheets_library, 'adhocracy.css')
+style = Resource(stylesheets_library, 'adhocracy.css',
+                 minified='min/adhocracy.css')
 stylesheets = Group([style])
 
 
@@ -74,6 +75,7 @@ select_hierarchy = Resource(misc_library, 'jquery.select-hierarchy.js',
                             depends=[jquery])
 openid_selector = Resource(misc_library, 'openid.js',
                            depends=[jquery])
+js_uri = Resource(misc_library, 'Uri.min.js')
 
 
 # --[ adhocracy ]-----------------------------------------------------------
@@ -82,7 +84,7 @@ adhocracy_library = Library('adhocracy', 'javascripts')
 adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery, bootstrap_js, elastic,
                               placeholder, modernizr, jquerytools,
-                              openid_selector])
+                              openid_selector, js_uri])
 
 
 # --[ knockout ]------------------------------------------------------------

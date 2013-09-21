@@ -85,16 +85,30 @@ def score_and_freshness_sorter(max_age):
     *time*
        A :class:`datetime.datetime` object. Usually the creation date
        of the object we calculate the string for
+    *impact*
+       An *int* between -10 and +10, which is used as primary sort key.
 
     Returns: A 60 character string.
     '''
-    def _with_age(score, time):
-        freshness = 1
+    def _with_age(score, time, impact=0):
+
         if score > -1:
             age = timedelta2seconds(datetime.utcnow() - time)
+            # freshness = 1 .. 5.2 if max_age == 2 days
             freshness = math.log10(max(10, max_age - age))
+        else:
+            freshness = 1
+
+        # atan normalizes to -pi/2 .. +pi/2
+        base = math.atan(freshness * score)
+
+        # add impact
+        assert -10 <= impact <= 10
+        result = base + impact * math.pi
+
         str_time = "%020d" % datetime2seconds(time)
-        str_score_freshness = "%029.10f" % (freshness * score)
+        str_score_freshness = "%029.10f" % (result)
+
         return str_score_freshness + str_time
     return _with_age
 
@@ -103,11 +117,20 @@ def proposal_mixed_key(proposal):
     max_age = 172800  # 2 days
     scorer = score_and_freshness_sorter(max_age)
     tally = proposal.rate_poll.tally
-    return scorer(tally.num_for - tally.num_against, proposal.create_time)
+
+    # the badge with the highest absolute impact value wins
+    impact = reduce(lambda a, b: b if abs(b) > abs(a) else a,
+                    map(lambda d: d.badge.impact, proposal.delegateablebadges),
+                    0)
+
+    return scorer(tally.num_for - tally.num_against, proposal.create_time,
+                  impact)
 
 
 def proposal_mixed(entities):
-    return sorted(entities, key=proposal_mixed_key, reverse=True)
+    return sorted(entities,
+                  key=lambda x: float(proposal_mixed_key(x)),
+                  reverse=True)
 
 
 def proposal_controversy_calculate(num_for, num_against):

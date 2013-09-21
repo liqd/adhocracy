@@ -119,8 +119,6 @@
   <div id="subheader" class="${'logo' if logo else ''}">
     <div class="page_margins">
       <div class="page_wrapper">
-        <!-- begin: sub navi -->
-        
         <div id="logo_row">
             <div id="organisation_logo">
                 %if url:
@@ -141,16 +139,6 @@
             %endif
         </div>
 
-        <!-- begin: sub navi -->
-        <nav>
-          <div class="hlist">
-            <ul id="subnav">
-
-                ${caller.body()}
-
-            </ul>
-          </div>
-        </nav>
         %if search_action:
         <div id="searchbox">
           <form action="${search_action}" 
@@ -161,6 +149,17 @@
           </form>
         </div>
         %endif
+
+        <!-- begin: sub navi -->
+        <nav>
+          <div class="hlist">
+            <ul id="subnav">
+
+                ${caller.body()}
+
+            </ul>
+          </div>
+        </nav>
       </div>
     </div>
   </div>

@@ -42,6 +42,7 @@ etc/sysv-init
 etc/adhocracy-interactive.ini
 etc/test.ini
 etc/compass.rb
+etc/compass.min.rb
 mailsink
 adhocracy-test-chroot
 RELEASE-VERSION
@@ -52,3 +53,4 @@ buildout_current.cfg
 .sass-cache
 src/adhocracy/static/stylesheets/adhocracy.css
 src/adhocracy/tests/loadtests/data  
+src/adhocracy/static/stylesheets/min/

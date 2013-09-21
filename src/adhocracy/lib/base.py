@@ -5,12 +5,12 @@ Provides the BaseController class for subclassing.
 import logging
 
 from paste.deploy.converters import asbool, asint
-from pylons import config
 from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
 from pylons.i18n import _
 from sqlalchemy.orm.scoping import ScopedSession
 
+from adhocracy import config
 from adhocracy import i18n, model
 from adhocracy.lib import helpers as h
 from adhocracy.lib.templating import ret_abort
@@ -40,26 +40,26 @@ class BaseController(WSGIController):
             c.user = None
         c.active_controller = request.environ.get('pylons.routes_dict')\
             .get('controller')
-        c.debug = asbool(config.get('debug'))
+        c.debug = config.get_bool('debug')
         i18n.handle_request()
 
-        monitor_page_time_interval = asint(
-            config.get('adhocracy.monitor_page_time_interval', -1))
+        monitor_page_time_interval = config.get_int(
+            'adhocracy.monitor_page_time_interval', -1)
         c.page_stats_url = h.base_url('/stats/on_page')
         if monitor_page_time_interval > 0:
             c.monitor_page_time_interval = monitor_page_time_interval
 
-        if asbool(config.get('adhocracy.monitor_external_links', 'False')):
+        if config.get_bool('adhocracy.monitor_external_links', False):
             c.monitor_external_links_url = h.base_url('/stats/record_external')
 
-        if asbool(config.get('adhocracy.monitor_browser_values', 'False')):
+        if config.get_bool('adhocracy.monitor_browser_values', False):
             c.monitor_browser_values = "enabled"
-        if asbool(config.get('adhocracy.monitor_extended', 'False')):
+        if config.get_bool('adhocracy.monitor_extended', False):
             c.monitor_extended = "enabled"
-        if asbool(config.get('adhocracy.monitor_page_performance', 'False')):
+        if config.get_bool('adhocracy.monitor_page_performance', False):
             c.monitor_page_performance = "enabled"
 
-        if asbool(config.get('adhocracy.monitor_pager_clicks', 'False')):
+        if config.get_bool('adhocracy.monitor_pager_clicks', False):
             c.monitor_pager_clicks = "enabled"
 
         h.add_rss("%s News" % h.site.name(),
@@ -68,11 +68,13 @@ class BaseController(WSGIController):
             h.add_rss("%s News" % c.instance.label,
                       h.base_url('/instance/%s.rss' % c.instance.key))
 
-        h.add_meta("description",
-                   _("A liquid democracy platform for making decisions in "
-                     "distributed, open groups by cooperatively creating "
-                     "proposals and voting on them to establish their "
-                     "support."))
+        h.add_meta("description", config.get(
+            'adhocracy.site.description',
+            _(u"A liquid democracy platform for making decisions in "
+              u"distributed, open groups by cooperatively creating "
+              u"proposals and voting on them to establish their "
+              u"support.")))
+
         h.add_meta("keywords",
                    _("adhocracy, direct democracy, liquid democracy, liqd, "
                      "democracy, wiki, voting,participation, group decisions, "

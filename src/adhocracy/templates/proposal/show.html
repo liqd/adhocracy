@@ -19,7 +19,7 @@
 ##   href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 ##%endif
 
-%if lib.auth.authorization.has('global.admin'):
+%if h.has_permission('instance.admin'):
 <a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>
 %endif
                                 
@@ -33,9 +33,9 @@
 
 
 <%block name="main_content">
-<% 
+<%
 url = h.base_url('/delegation/new?scope=%s' % str(c.proposal.id))
-delegate_url = url if can.delegation.create() else None
+delegate_url = url if can.delegation.create(c.proposal) else None
 %>
 
     %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
@@ -77,7 +77,7 @@ delegate_url = url if can.delegation.create() else None
                     %endif
                     ·
                     <a href="${c.history_url}"
-                       rel="#overlay-ajax">${'history'}</a>
+                       rel="#overlay-url">${'history'}</a>
                 </div>
               </article>
               <br />

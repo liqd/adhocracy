@@ -12,6 +12,12 @@
 <a href="${c.badge_base_url}/edit/${badge_id}">${_('Edit')}</a>
 </%def>
 
+
+<%def name="delete_button(badge_id)">
+<a href="${c.badge_base_url}/delete/${badge_id}">${_('Delete')}</a>
+</%def>
+
+
 <%def name="render_tables(badges, type_, groups, table_def)">
 %for group in groups:
 <%
@@ -55,8 +61,8 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${tiles.badge(badge)}</td>
         <td>${badge.group and badge.group.group_name or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
-        
-        <td>${edit_button(badge.id)}</td>
+        <td>${edit_button(badge.id)}
+            ${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -73,6 +79,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <th>${_("Description")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
+        <th>${_("Impact")}</th>
         <th>${_("Actions")}</th>
       </thead>
       %for badge in badge_items:
@@ -81,8 +88,9 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
-        
+        <td>${badge.impact}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -106,8 +114,8 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
-        
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -123,6 +131,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <th>${_("Description")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
+        <th>${_("Impact")}</th>
         <th>${_("Parent")}</th>
         <th>${_("Actions")}</th>
       </thead>
@@ -132,8 +141,10 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
+        <td>${badge.impact}</td>
         <td>${badge.parent.title if badge.parent else ""}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>
@@ -148,6 +159,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <th>${_("Description")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
+        <th>${_("Impact")}</th>
         <th>${_("Actions")}</th>
       </thead>
       %for badge in badge_items:
@@ -156,7 +168,9 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${(badge.description[:20] + u'...' if len(badge.description) > 20 else badge.description) if badge.description else u''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
+        <td>${badge.impact}</td>
         <td>${edit_button(badge.id)}</td>
+        <td>${delete_button(badge.id)}</td>
       </tr>
       %endfor
     </table>

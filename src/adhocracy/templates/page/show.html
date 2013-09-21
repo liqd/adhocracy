@@ -213,7 +213,7 @@
                 %endif
                 <div data-bind="visible: variants.current.history_count() > 1"
                      style="${'display: none' if c.variant_details['history_count'] > 1 else ''}">
-                    <a rel="#overlay-ajax"
+                    <a rel="#overlay-url"
                        href="${c.variant_details['history_url']}"
                        data-bind="attr: {href: variants.current.history_url}">
                         ${_("History")}

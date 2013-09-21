@@ -1,5 +1,6 @@
 """ Automatically log in an invited user """
 
+import urlparse
 import re
 
 import adhocracy.model as model
@@ -62,9 +63,13 @@ class WelcomeRepozeWho(object):
         if not is_correct:
             return None
 
-        from adhocracy.lib.helpers import base_url
-        root_url = base_url('/', instance=None, config=self.config)
-        environ['repoze.who.application'] = HTTPFound(location=root_url)
+        qs = urlparse.parse_qs(environ['QUERY_STRING'])
+        if 'came_from' in qs:
+            redirect_url = qs['came_from'][0]
+        else:
+            from adhocracy.lib.helpers import base_url
+            redirect_url = base_url('/', instance=None, config=self.config)
+        environ['repoze.who.application'] = HTTPFound(location=redirect_url)
 
         return {
             'repoze.who.plugins.welcome.userid': u.user_name,

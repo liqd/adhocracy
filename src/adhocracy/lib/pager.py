@@ -670,6 +670,7 @@ class SolrFacet(SolrIndexer):
                 log.error(u'Cannot decode entity ref. Maybe the solr index '
                           u'contains invalid refs and needs to be dropped '
                           u'and rebuilt.')
+                facet_items.pop(token)
                 continue
             item['link_text'] = self.get_item_label(entity)
             item['disabled'] = (item['current_count'] == 0)

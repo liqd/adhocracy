@@ -301,6 +301,14 @@ def _json_entity_decoder(d):
         return dict(result)
 
 
+def overlay_link():
+    overlay_path = request.params.get('overlay_path', None)
+    if overlay_path is None:
+        return None
+    else:
+        return overlay_path.replace('.overlay', '.html')
+
+
 def need_adhocracy_geo_i18n():
     from adhocracy.static import adhocracy_geo_i18n
     return adhocracy_geo_i18n[get_lang()[0]].need()
