@@ -340,7 +340,7 @@ class CommentController(BaseController):
         template_args = dict(parent=parent,
                              topic=topic,
                              variant=variant,
-                             allow_mediafiles=c.allow_mediafiles
+                             allow_mediafiles=c.allow_mediafiles,
                              #format="ajax",
                              ret_url=ret_url,
                              )
