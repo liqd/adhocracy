@@ -14,9 +14,9 @@ def upgrade(migrate_engine):
     allow_propose_changes.create(instance_table)
 
     proposal_table = Table('proposal', metadata, autoload=True)
-    show_in_list = Column('show_in_list', Boolean,
-                          default=True)
-    show_in_list.create(proposal_table)
+    is_amendment = Column('is_amendment', Boolean,
+                          default=False)
+    is_amendment.create(proposal_table)
 
     page_table = Table('page', metadata, autoload=True)
 

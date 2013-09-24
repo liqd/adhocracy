@@ -19,7 +19,7 @@ proposal_table = Table(
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False),
-    Column('show_in_list', Boolean, default=True)
+    Column('is_amendment', Boolean, default=False)
 )
 
 
@@ -147,7 +147,7 @@ class Proposal(Delegateable):
               include_not_in_list=False):
         q = meta.Session.query(Proposal)
         if not include_not_in_list:
-            q = q.filter(Proposal.show_in_list == True)  # noqa
+            q = q.filter(Proposal.is_amendment == False)  # noqa
         if not include_deleted:
             q = q.filter(or_(Proposal.delete_time == None,  # noqa
                              Proposal.delete_time > datetime.utcnow()))
@@ -162,12 +162,12 @@ class Proposal(Delegateable):
 
     @classmethod
     def create(cls, instance, label, user, with_vote=False, tags=None,
-               show_in_list=True):
+               is_amendment=False):
         from poll import Poll
         from tagging import Tagging
         proposal = Proposal(instance, label, user)
-        if not show_in_list:
-            proposal.show_in_list = False
+        if is_amendment:
+            proposal.is_amendment = True
         meta.Session.add(proposal)
         meta.Session.flush()
         poll = Poll.create(proposal, user, Poll.RATE,
@@ -230,7 +230,7 @@ class Proposal(Delegateable):
 
     def to_index(self):
         index = super(Proposal, self).to_index()
-        if not self.show_in_list:
+        if self.is_amendment:
             index['skip'] = True
             return index
         if self.description is not None and self.description.head is not None:

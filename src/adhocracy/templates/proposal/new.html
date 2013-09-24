@@ -18,6 +18,10 @@
 
     <input type="hidden" name="ret_url" value="${c.ret_url}"/>
 
+    %if c.amendment:
+    <input type="hidden" name="amendment" value="True"/>
+    %endif
+
     <fieldset>
       <legend>${_("Proposal title")}</legend>
       <div class="input_wrapper">

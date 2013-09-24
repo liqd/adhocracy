@@ -45,6 +45,8 @@ class ProposalCreateForm(ProposalNewForm):
     label = forms.UnusedTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False, if_missing=None)
+    amendment = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
@@ -196,16 +198,15 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         pages = self.form_result.get('page', [])
+        is_amendment = self.form_result.get('amendment', False)
 
-        if pages and not c.instance.allow_propose_changes:
-            if len(pages) > 1 or not pages[0]['id'].allow_selection:
-                return self.new(
-                    errors={u'msg':
-                            u'Cannot change arbitrary norms within proposals'})
-            else:
-                show_in_list = False
-        else:
-            show_in_list = True
+        if ((is_amendment and len(pages) != 1) or
+                any([not p['id'].allow_selection for p in pages]) or
+                (not is_amendment and c.instance.allow_propose_changes and
+                    len(pages) != 0)):
+            return self.new(
+                errors={u'msg':
+                        u'Cannot change arbitrary norms within proposals'})
 
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
@@ -216,7 +217,7 @@ class ProposalController(BaseController):
                                          self.form_result.get("label"),
                                          c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"),
-                                         show_in_list=show_in_list)
+                                         is_amendment=is_amendment)
         proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
@@ -257,7 +258,7 @@ class ProposalController(BaseController):
 
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
-        if show_in_list:
+        if not is_amendment:
             event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        rev=description.head)
