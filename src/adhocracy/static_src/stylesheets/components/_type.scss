@@ -132,3 +132,15 @@ pre {
 .pro, .con { font-size: 14px; }
 .pro, ins { color: $green; }
 .con, del, .countdown.highlight { color: $red; }
+
+.meta, .utility {
+    color: $fg1;
+    font-size: 11px;
+}
+h1, h2, h3, h4, h5, h6 {
+    .utility {
+        display: inline-block;
+        margin-left: 10px;
+        margin-bottom: 0px;
+    }
+}

@@ -154,21 +154,24 @@
 
 <div id="paper_box">
     <div class="paper_header">
-        <div class="utility">
-            <div id="norm-vote-widget"
-                 data-bind="html:voteWidget">
-                %if c.current_variant_poll:
-                ${tiles.poll.widget(c.current_variant_poll, cls="big")}
-                %endif
-            </div>
-            <h3 data-bind="text:variants.current.display_title">
-                ${c.variant_details['display_title']}
-            </h3>
-            %if c.variant_details['can_edit'] and not c.amendment:
-            <a href="${c.variant_details['edit_url']}"
-               data-bind="attr: {href: variants.current.edit_url}">${_('edit')}</a>
+        <div id="norm-vote-widget"
+             data-bind="html:voteWidget">
+            %if c.current_variant_poll:
+            ${tiles.poll.widget(c.current_variant_poll, cls="big")}
             %endif
         </div>
+        <h3>
+            <span data-bind="text:variants.current.display_title">
+                ${c.variant_details['display_title']}
+            </span>
+
+            <div class="utility">
+                %if c.variant_details['can_edit'] and not c.amendment:
+                <a href="${c.variant_details['edit_url']}"
+                   data-bind="attr: {href: variants.current.edit_url}">${_('edit')}</a>
+                %endif
+            </div>
+        </h3>
     </div>
     <div class="paper_text">
         <div data-bind="visible: variants.showPlain(),
