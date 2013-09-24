@@ -505,6 +505,12 @@ class PageController(BaseController):
     @RequireInstance
     def show(self, id, variant=None, text=None, format='html',
              amendment=False):
+        if amendment:
+            # variant may actually be a proposal id
+            proposal = model.Proposal.find(variant)
+            if proposal is not None and proposal.is_amendment:
+                variant = proposal.selection.selected
+
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
 

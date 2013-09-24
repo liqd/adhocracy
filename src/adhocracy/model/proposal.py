@@ -38,6 +38,11 @@ class Proposal(Delegateable):
         return [s for s in self._selections if not s.is_deleted()]
 
     @property
+    def selection(self):
+        assert(self.is_amendment)
+        return self.selections[0]
+
+    @property
     def title(self):
         if self.description is None or self.description.head is None:
             return self.label
