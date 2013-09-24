@@ -21,6 +21,7 @@ DEFAULTS = {
     'adhocracy.instance_key_length_min': 4,
     'adhocracy.instance_footers': [],
     'adhocracy.instance_stylesheets': [],
+    'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.protocol': u'http',
     'adhocracy.relative_urls': False,
