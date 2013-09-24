@@ -7,24 +7,22 @@
 </%def>
 
 
-
 <%block name="main_content">
-
 <div class="mainbar">
     <h2>
         ${h.delegateable.link(c.proposal, link=False)|n}
     </h2>
-    <form name="ask_delete" class="inplace" method="POST" 
+    <form name="ask_delete" class="inplace" method="POST"
         action="${h.entity_url(c.proposal)}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="DELETE" />
         <div class="warning_box">
-            ${_("Are you sure you want to delete this proposal?")|n}
+            ${_("Are you sure you want to delete this proposal?")}
         </div>
-        <center>
-            <input type="submit" class="delete" value="${_('Confirm')}" />
-        </center>
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.base_url('/proposal/%s' % c.proposal.id), save_text=_('Confirm'))}
+        </div>
     </form>
 </div>
-
 </%block>
