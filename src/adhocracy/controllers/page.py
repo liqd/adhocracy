@@ -387,6 +387,14 @@ class PageController(BaseController):
                 'proposal_text': render_text(
                     selection.proposal.description.head.text),
                 'proposal_url': h.selection.url(selection),
+                'proposal_creator_name': selection.proposal.creator.name,
+                'proposal_creator_url': h.entity_url(selection.proposal.creator),
+                'proposal_create_time': h.datetime_tag(selection.proposal.create_time),
+                'proposal_edit_url': h.entity_url(selection.page, member='amendment/%i/edit' % selection.proposal.id,
+                    query={'ret_url': h.entity_url(selection.page, member='amendment')}),
+                'proposal_can_edit': can.proposal.edit(selection.proposal),
+                'proposal_delete_url': h.entity_url(selection.proposal, member='ask_delete'),
+                'proposal_can_delete': can.proposal.delete(selection.proposal),
                 'current': current,
                 }
 
