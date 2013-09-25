@@ -54,7 +54,7 @@
                 <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
                 %endif
                 %if can.norm.edit(page):
-                <li><a href="${h.entity_url(page, member='edit')}">${_(u"Edit")}</a></li>
+                <li><a href="${h.entity_url(page, member='edit', query={'ret_url': h.entity_url(c.page, anchor='subpage-%i' % page.id)})}">${_(u"Edit")}</a></li>
                 %endif
                 %if can.page.delete(page):
                 <li><a href="${h.entity_url(page, member='ask_delete')}">${_(u"Delete")}</a></li>
