@@ -148,7 +148,7 @@ class ProposalController(BaseController):
     @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
-    def new(self, errors=None, page=None, amendment=False):
+    def new(self, errors=None, page=None, amendment=False, format='html'):
         c.pages = []
         c.exclude_pages = []
         c.amendment = 'amendment' in request.params
