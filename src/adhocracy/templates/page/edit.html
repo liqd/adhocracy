@@ -23,7 +23,7 @@
 
     %if c.text.is_head and h.has_permission('instance.admin'):
     <label for="title">${_("Title")}</label>
-    <input type="text" name="title" value="${c.text.title}"/>  
+    <input type="text" name="title" value="${c.text.title}"/>
     %else:
     <input type="hidden" name="title" value="${c.text.title}"/>
     %endif
@@ -32,11 +32,12 @@
         <input type="hidden" value="${c.proposal}" name="proposal" />
     %endif
 
-    <input type="hidden" name="_method" value="PUT" /> 
-    
+    <input type="hidden" name="_method" value="PUT" />
+    <input type="hidden" name="ret_url" value="${c.ret_url}" />
+
     <label for="text">${_("Text")}</label>
-    <textarea tabindex="2" rows="${c.text_rows}" 
-              cols="${model.Text.LINE_LENGTH}" 
+    <textarea tabindex="2" rows="${c.text_rows}"
+              cols="${model.Text.LINE_LENGTH}"
               name="text">${c.text.text if c.text.text is not None else ''}</textarea>
     %if c.page.formatting:
     ${components.formatting()}
@@ -105,7 +106,7 @@
     ${tiles.milestone.select(c.page.milestone)}
     %endif
 
-        ${components.savebox(h.entity_url(c.text))}
+        ${components.savebox(c.ret_url)}
         ${components.form_watch(c.page)}
     </div>
 

@@ -243,6 +243,15 @@ class PageController(BaseController):
         defaults = dict(request.params)
         if branch and c.text is None:
             c.text = c.page.head.text
+
+        if ('ret_url' in request.params and
+                len(request.params['ret_url']) >= 2 and
+                request.params['ret_url'][0] == '/' and
+                request.params['ret_url'][1] != '/'):
+            c.ret_url = request.params['ret_url']
+        else:
+            c.ret_url = h.entity_url(c.text)
+
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
         html = render('/page/edit.html')
@@ -331,7 +340,10 @@ class PageController(BaseController):
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        redirect(h.entity_url(target))
+        if 'ret_url' in request.params:
+            redirect(request.params.get('ret_url'))
+        else:
+            redirect(h.entity_url(text))
 
     @classmethod
     def _diff_details(cls, left, right, formatting):
