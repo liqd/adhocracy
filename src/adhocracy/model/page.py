@@ -111,6 +111,32 @@ class Page(Delegateable):
         return cls.all_q(**kwargs).all()
 
     @classmethod
+    def unusedTitle(cls, title, instance_filter=True, functions=None,
+                    include_deleted=False, selection=None):
+        q = meta.Session.query(Page)\
+            .filter(Page.label == title)
+        if not include_deleted:
+            q = q.filter(or_(Page.delete_time == None,  # noqa
+                             Page.delete_time > datetime.utcnow()))
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Page.instance == ifilter.get_instance())
+
+        matches = q.all()
+
+        if selection is not None:
+            def same_selection(page):
+                try:
+                    return (page.function == Page.DESCRIPTION and
+                            page.proposal.is_amendment and
+                            page.proposal.selection.page == selection)
+                except Exception as e:
+                    log.warn(e)
+                    return False
+            matches = filter(same_selection, matches)
+
+        return not bool(matches)
+
+    @classmethod
     def count(cls, **kwargs):
         return cls.all_q(**kwargs).count()
 

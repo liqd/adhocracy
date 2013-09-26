@@ -42,7 +42,7 @@ class PageInclusionForm(formencode.Schema):
 
 class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
-    label = forms.UnusedTitle()
+    label = validators.String(min=3, max=254, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False, if_missing=None)
     amendment = validators.StringBool(not_empty=False, if_empty=False,
@@ -51,6 +51,9 @@ class ProposalCreateForm(ProposalNewForm):
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    chained_validators = [
+        forms.UnusedProposalTitle(),
+    ]
 
 
 class ProposalEditForm(formencode.Schema):
@@ -58,7 +61,7 @@ class ProposalEditForm(formencode.Schema):
 
 
 class ProposalUpdateForm(ProposalEditForm):
-    label = forms.UnusedTitle()
+    label = validators.String(min=3, max=254, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
@@ -67,6 +70,9 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    chained_validators = [
+        forms.UnusedProposalTitle(),
+    ]
 
 
 class ProposalFilterForm(formencode.Schema):
