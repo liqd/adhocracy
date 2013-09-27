@@ -21,7 +21,7 @@
         </div>
 
         <div class="input_wrapper submit">
-            ${components.savebox(h.base_url('/proposal/%s' % c.proposal.id), save_text=_('Confirm'))}
+            ${components.savebox(h.entity_url(c.proposal), save_text=_('Confirm'))}
         </div>
     </form>
 </div>

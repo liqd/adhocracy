@@ -143,14 +143,23 @@ class ProposalController(BaseController):
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
     def new(self, errors=None, page=None, amendment=False):
-        c.ret_url = request.params.get('ret_url', '')
-
         c.pages = []
         c.exclude_pages = []
         c.amendment = 'amendment' in request.params
 
         assert bool(amendment) ^ (page is None)
         c.amendment = amendment
+
+        if ('cancel_url' in request.params and
+                len(request.params['cancel_url']) >= 2 and
+                request.params['cancel_url'][0] == '/' and
+                request.params['cancel_url'][1] != '/'):
+            c.cancel_url = request.params['cancel_url']
+        elif amendment:
+            _page = get_entity_or_abort(model.Page, page)
+            c.cancel_url = h.entity_url(_page, member='amendment')
+        else:
+            c.cancel_url = h.base_url('/proposal')
 
         self._set_categories()
 
@@ -268,10 +277,7 @@ class ProposalController(BaseController):
             event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        rev=description.head)
-        if request.params.get('ret_url', ''):
-            redirect(request.params.get('ret_url'))
-        else:
-            redirect(h.entity_url(proposal, format=format))
+        redirect(h.entity_url(proposal, format=format))
 
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
@@ -470,13 +476,17 @@ class ProposalController(BaseController):
     def delete(self, id):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
+        if c.proposal.is_amendment:
+            ret_url = h.entity_url(c.proposal.selection.page, member='amendment')
+        else:
+            ret_url = h.entity_url(c.instance)
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.title,
                 'success')
-        redirect(h.entity_url(c.instance))
+        redirect(ret_url)
 
     @RequireInstance
     def ask_adopt(self, id):

@@ -13,9 +13,12 @@
 
 <%block name="main_content">
 <div class="form_wrapper">
+    <%doc>
+    FIXME: action should depend on c.amendment.
+    However atm this works either way.
+    </%doc>
     <form name="create_proposal" class="inplace" method="POST" action="${h.base_url('/proposal')}">
         ${h.field_token()|n}
-        <input type="hidden" name="ret_url" value="${c.ret_url}"/>
 
         %if c.amendment:
         <input type="hidden" name="amendment" value="True"/>
@@ -155,11 +158,7 @@
         </fieldset>
 
         <div class="input_wrapper submit">
-            %if c.ret_url:
-            ${components.savebox(c.ret_url)}
-            %else:
-            ${components.savebox(h.base_url('/proposal'))}
-            %endif
+            ${components.savebox(c.cancel_url)}
         </div>
     </form>
 </div>
