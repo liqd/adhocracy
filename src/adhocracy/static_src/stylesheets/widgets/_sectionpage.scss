@@ -1,30 +1,30 @@
 section.subpage {
-    $border-width: 15em;
+    $border-width: 340px;
 
     margin: 0;
     margin-top: 1px;
 
     > .body {
-        border-right: $border-width solid $bg2;
+        border-right: 3px solid $bg2;
+        border-left: 1px solid transparent;
+        @include transition(border-color .3s);
 
         position: relative;
-        padding: 1em;
-        margin: 0;
+        padding: 0 1em;
+        margin: 1em 0;
+        margin-right: $border-width;
 
-        min-height: 5em;
-
-        background-color: $bg1;
-        @include transition(background-color .5s);
+        min-height: 7em;
 
         &:hover {
-            background-color: $bg2;
-
-            > h1, > .flags {
+            > h1, > aside {
                 opacity: 1;
             }
+            border-right-color: $primary-color;
+            border-left-color: $bg2;
         }
 
-        h1, .flags {
+        h1, aside {
             opacity: 0.3;
             @include transition(opacity .5s);
         }
@@ -33,54 +33,64 @@ section.subpage {
             display: none;
         }
 
-        .flags {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
+        aside {
             position: absolute;
-            width: $border-width - 1em;
-            right: -($border-width - 0.5em);
-            top: 1em;
+            height: 100%;
+            width: $border-width;
+            top: 0;
+            right: -$border-width;
+            padding: 1em 1em 1em 2em;
+            @include box-sizing(border-box);
 
-            text-align: left;
-
-            li {
-                margin-bottom: 0.3em;
+            .utility {
+                position: absolute;
+                bottom: 0;
             }
 
-            a {
-                $height: 17px;
-                $arrow-length: 13px;
+            .flags {
+                list-style: none;
+                padding: 0;
+                margin: 0;
 
-                background-color: $primary-color;
-                color: #fff;
-                padding: 0 0.5em;
+                text-align: left;
 
-                display: inline-block;
-                position: relative;
-                line-height: $height;
-
-                &:after {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: -$arrow-length;
-                    display: block;
-                    height: 0;
-                    width: 0;
-                    border-right: $arrow-length solid $primary-color;
-                    border-top: $height/2 solid transparent;
-                    border-bottom: $height/2 solid transparent;
-                    border-left: none;
+                li {
+                    margin-bottom: 0.3em;
                 }
 
-                &:hover {
-                    background-color: darken($primary-color, 7%);
-                    text-decoration: none;
+                a {
+                    $height: 17px;
+                    $arrow-length: 8px;
+
+                    background-color: $primary-color;
+                    color: #fff;
+                    padding: 0 0.5em;
+
+                    display: inline-block;
+                    position: relative;
+                    line-height: $height;
 
                     &:after {
-                        border-right-color: darken($primary-color, 7%);
+                        content: "";
+                        position: absolute;
+                        top: ($height - $arrow-length)/2;
+                        left: -$arrow-length;
+                        display: block;
+                        height: 0;
+                        width: 0;
+                        border-right: $arrow-length solid $primary-color;
+                        border-top: $arrow-length/2 solid transparent;
+                        border-bottom: $arrow-length/2 solid transparent;
+                        border-left: none;
+                    }
+
+                    &:hover {
+                        background-color: darken($primary-color, 7%);
+                        text-decoration: none;
+
+                        &:after {
+                            border-right-color: darken($primary-color, 7%);
+                        }
                     }
                 }
             }

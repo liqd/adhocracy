@@ -46,20 +46,24 @@
 
             ${page.render()|n}
 
-            <ul class="flags">
-                %if page.allow_comment:
-                <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _('Discussions')} (${len(page.comments)})</a></li>
-                %endif
-                %if page.allow_selection:
-                <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
-                %endif
-                %if can.norm.edit(page):
-                <li><a href="${h.entity_url(page, member='edit', query={'ret_url': h.entity_url(c.page, anchor='subpage-%i' % page.id)})}">${_(u"Edit")}</a></li>
-                %endif
-                %if can.page.delete(page):
-                <li><a href="${h.entity_url(page, member='ask_delete')}">${_(u"Delete")}</a></li>
-                %endif
-            </ul>
+            <aside>
+                <ul class="flags">
+                    %if page.allow_comment:
+                    <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _('Discussions')} (${len(page.comments)})</a></li>
+                    %endif
+                    %if page.allow_selection:
+                    <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
+                    %endif
+                </ul>
+                <div class="utility">
+                    %if can.norm.edit(page):
+                    <a href="${h.entity_url(page, member='edit', query={'ret_url': h.entity_url(c.page, anchor='subpage-%i' % page.id)})}">${_(u"Edit")}</a>
+                    %endif
+                    %if can.page.delete(page):
+                    <a href="${h.entity_url(page, member='ask_delete')}">${_(u"Delete")}</a>
+                    %endif
+                </div>
+            </aside>
         </div>
 
         %for subpage in sorting.delegateable_title(page.subpages):
@@ -81,20 +85,24 @@
         <div class="body">
             ${c.variant_details['text']|n}
 
-            <ul class="flags">
-                %if c.page.allow_comment:
-                <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${len(c.page.comments)})</a></li>
-                %endif
-                %if c.page.allow_selection:
-                <li><a href="${h.entity_url(c.page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(c.page.selections)})</a></li>
-                %endif
-                %if c.variant_details['can_edit']:
-                <li><a href="${c.variant_details['edit_url']}">${_(u"Edit")}</a></li>
-                %endif
-                %if can.page.delete(c.page):
-                <li><a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a></li>
-                %endif
-            </ul>
+            <aside>
+                <ul class="flags">
+                    %if c.page.allow_comment:
+                    <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${len(c.page.comments)})</a></li>
+                    %endif
+                    %if c.page.allow_selection:
+                    <li><a href="${h.entity_url(c.page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(c.page.selections)})</a></li>
+                    %endif
+                </ul>
+                <div class="utility">
+                    %if c.variant_details['can_edit']:
+                    <a href="${c.variant_details['edit_url']}">${_(u"Edit")}</a>
+                    %endif
+                    %if can.page.delete(c.page):
+                    <a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a>
+                    %endif
+                </div>
+            </aside>
         </div>
 
         %for subpage in sorting.delegateable_title(c.page.subpages):
