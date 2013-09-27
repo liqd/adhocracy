@@ -34,8 +34,9 @@
     ## FIXME: Button for unauth users
     <div class="version_function">
         <a id="new-proposal-button"
-	   class="button highlight"
-     href="${h.base_url('/proposal/new?page=%d'%c.page.id)}">
+	       class="button highlight"
+           target="_self"
+           href="${h.entity_url(c.page, member='amendment/new')}">
             ${_("Propose New Amendment")}
         </a>
     </div>

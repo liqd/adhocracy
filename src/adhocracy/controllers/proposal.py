@@ -141,6 +141,8 @@ class ProposalController(BaseController):
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
     def new(self, errors=None):
+        c.ret_url = request.params.get('ret_url', '')
+
         c.pages = []
         c.exclude_pages = []
 
@@ -229,7 +231,10 @@ class ProposalController(BaseController):
         watchlist.check_watch(proposal)
         event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                    topics=[proposal], proposal=proposal, rev=description.head)
-        redirect(h.entity_url(proposal, format=format))
+        if request.params.get('ret_url', ''):
+            redirect(request.params.get('ret_url'))
+        else:
+            redirect(h.entity_url(proposal, format=format))
 
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
