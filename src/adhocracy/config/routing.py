@@ -160,7 +160,7 @@ def make_map(config):
                 )
     map.connect('/page/{page}/amendment{.format}',
                 controller='proposal',
-                action='create',
+                action='create', amendment=True,
                 conditions=dict(method=['POST'])
                 )
     map.connect('/page/{page}/amendment/new{.format}',

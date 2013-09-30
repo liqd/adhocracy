@@ -151,10 +151,9 @@ class ProposalController(BaseController):
     def new(self, errors=None, page=None, amendment=False, format='html'):
         c.pages = []
         c.exclude_pages = []
-        c.amendment = 'amendment' in request.params
-
-        assert bool(amendment) ^ (page is None)
-        c.amendment = amendment
+        c.amendment = bool(amendment)
+        if c.amendment:
+            c.page = get_entity_or_abort(model.Page, page)
 
         if ('cancel_url' in request.params and
                 len(request.params['cancel_url']) >= 2 and
@@ -162,8 +161,7 @@ class ProposalController(BaseController):
                 request.params['cancel_url'][1] != '/'):
             c.cancel_url = request.params['cancel_url']
         elif amendment:
-            _page = get_entity_or_abort(model.Page, page)
-            c.cancel_url = h.entity_url(_page, member='amendment')
+            c.cancel_url = h.entity_url(c.page, member='amendment')
         else:
             c.cancel_url = h.base_url('/proposal')
 
@@ -172,6 +170,7 @@ class ProposalController(BaseController):
         def append_page(pid, text=None):
             page = model.Page.find(pid)
             if (page
+                and page not in c.exclude_pages
                 and page.function == model.Page.NORM
                 and (page.allow_selection
                      or c.instance.allow_propose_changes)):
@@ -211,12 +210,13 @@ class ProposalController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @guard.proposal.create()
-    def create(self, format='html'):
+    def create(self, page=None, format='html', amendment=False):
 
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
-            return self.new(errors=i.unpack_errors())
+            return self.new(errors=i.unpack_errors(), page=page,
+                            amendment=amendment)
 
         pages = self.form_result.get('page', [])
         is_amendment = self.form_result.get('amendment', False)

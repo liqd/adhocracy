@@ -13,11 +13,8 @@
 
 <%block name="main_content">
 <div class="form_wrapper">
-    <%doc>
-    FIXME: action should depend on c.amendment.
-    However atm this works either way.
-    </%doc>
-    <form name="create_proposal" class="inplace" method="POST" action="${h.base_url('/proposal')}">
+    <form name="create_proposal" class="inplace" method="POST"
+        action="${h.entity_url(c.page, member='amendment') if c.amendment else h.base_url('/proposal')}">
         ${h.field_token()|n}
 
         %if c.amendment:
