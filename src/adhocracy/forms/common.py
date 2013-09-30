@@ -530,11 +530,11 @@ class UnusedTitle(formencode.validators.String):
     def _to_python(self, value, state):
         from adhocracy.model import Page
         value = super(UnusedTitle, self)._to_python(value, state)
-        page = Page.find_fuzzy(value)
-        if hasattr(state, 'page') and state.page == page:
+
+        if hasattr(state, 'page') and state.page.label == value:
             return value
 
-        if page is not None:
+        if not Page.unusedTitle(value):
             raise formencode.Invalid(
                 _("An entry with this title already exists"), value, state)
 
@@ -552,6 +552,55 @@ class UnusedTitle(formencode.validators.String):
                 value, state)
         except:
             return value
+
+
+class UnusedProposalTitle(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+        from adhocracy.model import Page
+
+        value = field_dict['label']
+
+        if hasattr(state, 'page') and state.page.label == value:
+            return value
+
+        if hasattr(state, 'page'):  # edit
+            proposal = state.page.proposal
+            is_amendment = proposal.is_amendment
+            page = proposal.selection if is_amendment else None
+        else:  # new
+            is_amendment = field_dict['amendment']
+            page = field_dict['page'][0]['id'] if is_amendment else None
+        if not Page.unusedTitle(value, selection=page):
+            msg = _("An entry with this title already exists")
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'label': msg}
+            )
+
+        if not value or len(value) < 2:
+            msg = _("No page name is given.")
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'label': msg}
+            )
+
+        if value.lower() in FORBIDDEN_NAMES:
+            msg = _("Invalid entry name: %s") % value
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'label': msg}
+            )
+
+        try:
+            int(value)
+            msg = _("Entry name cannot be purely numeric: %s") % value
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'label': msg}
+            )
+        except ValueError:
+            return field_dict
 
 
 USER_NAME = 'user_name'

@@ -99,6 +99,8 @@ class InstanceContentsEditForm(formencode.Schema):
     allow_extra_fields = True
     allow_propose = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    allow_propose_changes = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     allow_index = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     use_norms = validators.StringBool(
@@ -570,6 +572,7 @@ class InstanceController(BaseController):
             defaults={
                 '_method': 'PUT',
                 'allow_propose': instance.allow_propose,
+                'allow_propose_changes': instance.allow_propose_changes,
                 'milestones': instance.milestones,
                 'use_norms': instance.use_norms,
                 'allow_thumbnailbadges': instance.allow_thumbnailbadges,
@@ -593,7 +596,7 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['allow_propose', 'allow_index', 'frozen', 'milestones',
-             'use_norms', 'require_selection',
+             'use_norms', 'require_selection', 'allow_propose_changes',
              'hide_global_categories', 'editable_comments_default',
              'show_norms_navigation', 'allow_thumbnailbadges'])
         return self._settings_result(updated, c.page_instance, 'contents')

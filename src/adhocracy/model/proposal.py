@@ -18,7 +18,8 @@ proposal_table = Table(
     Column('description_id', Integer, ForeignKey('page.id'), nullable=True),
     Column('adopt_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
-    Column('adopted', Boolean, default=False)
+    Column('adopted', Boolean, default=False),
+    Column('is_amendment', Boolean, default=False)
 )
 
 
@@ -35,6 +36,11 @@ class Proposal(Delegateable):
     @property
     def selections(self):
         return [s for s in self._selections if not s.is_deleted()]
+
+    @property
+    def selection(self):
+        assert(self.is_amendment)
+        return self.selections[0]
 
     @property
     def title(self):
@@ -142,8 +148,11 @@ class Proposal(Delegateable):
         return q.all()
 
     @classmethod
-    def all_q(cls, instance=None, include_deleted=False):
+    def all_q(cls, instance=None, include_deleted=False,
+              include_not_in_list=False):
         q = meta.Session.query(Proposal)
+        if not include_not_in_list:
+            q = q.filter(Proposal.is_amendment == False)  # noqa
         if not include_deleted:
             q = q.filter(or_(Proposal.delete_time == None,  # noqa
                              Proposal.delete_time > datetime.utcnow()))
@@ -157,10 +166,13 @@ class Proposal(Delegateable):
                          include_deleted=include_deleted).all()
 
     @classmethod
-    def create(cls, instance, label, user, with_vote=False, tags=None):
+    def create(cls, instance, label, user, with_vote=False, tags=None,
+               is_amendment=False):
         from poll import Poll
         from tagging import Tagging
         proposal = Proposal(instance, label, user)
+        if is_amendment:
+            proposal.is_amendment = True
         meta.Session.add(proposal)
         meta.Session.flush()
         poll = Poll.create(proposal, user, Poll.RATE,
@@ -223,6 +235,9 @@ class Proposal(Delegateable):
 
     def to_index(self):
         index = super(Proposal, self).to_index()
+        if self.is_amendment:
+            index['skip'] = True
+            return index
         if self.description is not None and self.description.head is not None:
             index.update(dict(
                 body=self.description.head.text,

@@ -49,6 +49,15 @@ class PageCreateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    section_page = validators.StringBool(not_empty=False, if_empty=False,
+                                         if_missing=False)
+    allow_comment = validators.StringBool(not_empty=False, if_empty=False,
+                                          if_missing=False)
+    allow_selection = validators.StringBool(not_empty=False, if_empty=False,
+                                            if_missing=False)
+    always_show_original = validators.StringBool(not_empty=False,
+                                                 if_empty=False,
+                                                 if_missing=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -72,6 +81,15 @@ class PageUpdateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    section_page = validators.StringBool(not_empty=False, if_empty=False,
+                                         if_missing=False)
+    allow_comment = validators.StringBool(not_empty=False, if_empty=False,
+                                          if_missing=False)
+    allow_selection = validators.StringBool(not_empty=False, if_empty=False,
+                                            if_missing=False)
+    always_show_original = validators.StringBool(not_empty=False,
+                                                 if_empty=False,
+                                                 if_missing=False)
 
 
 class PageFilterForm(formencode.Schema):
@@ -165,10 +183,14 @@ class PageController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         variant = self.form_result.get("title")
-        page = model.Page.create(c.instance, variant,
-                                 _text, c.user,
-                                 formatting=self.form_result.get("formatting"),
-                                 tags=self.form_result.get("tags"))
+        page = model.Page.create(
+            c.instance, variant, _text, c.user,
+            formatting=self.form_result.get("formatting"),
+            sectionpage=self.form_result.get("sectionpage"),
+            allow_comment=self.form_result.get("allow_comment"),
+            allow_selection=self.form_result.get("allow_selection"),
+            always_show_original=self.form_result.get("always_show_original"),
+            tags=self.form_result.get("tags"))
 
         page.milestone = self.form_result.get('milestone')
 
@@ -199,6 +221,11 @@ class PageController(BaseController):
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
         c.formatting = request.params.get("formatting", False)
+        c.sectionpage = request.params.get("sectionpage", False)
+        c.allow_comment = request.params.get("allow_comment", False)
+        c.allow_selection = request.params.get("allow_selection", False)
+        c.always_show_original = request.params.get("always_show_original",
+                                                    False)
         c.branch = branch
 
         if branch or c.variant is None:
@@ -216,6 +243,15 @@ class PageController(BaseController):
         defaults = dict(request.params)
         if branch and c.text is None:
             c.text = c.page.head.text
+
+        if ('ret_url' in request.params and
+                len(request.params['ret_url']) >= 2 and
+                request.params['ret_url'][0] == '/' and
+                request.params['ret_url'][1] != '/'):
+            c.ret_url = request.params['ret_url']
+        else:
+            c.ret_url = h.entity_url(c.text)
+
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
         html = render('/page/edit.html')
@@ -274,6 +310,11 @@ class PageController(BaseController):
             c.page.set_category(category, c.user)
 
             c.page.formatting = self.form_result.get('formatting')
+            c.page.sectionpage = self.form_result.get('sectionpage')
+            c.page.allow_comment = self.form_result.get('allow_comment')
+            c.page.allow_selection = self.form_result.get('allow_selection')
+            c.page.always_show_original = self.form_result.get(
+                'always_show_original')
 
         if not branch and c.variant != parent_text.variant \
                 and parent_text.variant != model.Text.HEAD:
@@ -299,7 +340,10 @@ class PageController(BaseController):
         watchlist.check_watch(c.page)
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        redirect(h.entity_url(target))
+        if 'ret_url' in request.params:
+            redirect(request.params.get('ret_url'))
+        else:
+            redirect(h.entity_url(text))
 
     @classmethod
     def _diff_details(cls, left, right, formatting):
@@ -355,6 +399,13 @@ class PageController(BaseController):
                 'proposal_text': render_text(
                     selection.proposal.description.head.text),
                 'proposal_url': h.selection.url(selection),
+                'proposal_creator_name': selection.proposal.creator.name,
+                'proposal_creator_url': h.entity_url(selection.proposal.creator),
+                'proposal_create_time': h.datetime_tag(selection.proposal.create_time),
+                'proposal_edit_url': h.entity_url(selection.proposal, member='edit'),
+                'proposal_can_edit': can.proposal.edit(selection.proposal),
+                'proposal_delete_url': h.entity_url(selection.proposal, member='ask_delete'),
+                'proposal_can_delete': can.proposal.delete(selection.proposal),
                 'current': current,
                 }
 
@@ -463,9 +514,24 @@ class PageController(BaseController):
         return items
 
     @RequireInstance
-    def show(self, id, variant=None, text=None, format='html'):
+    def show(self, id, variant=None, text=None, format='html',
+             amendment=False):
+        if amendment:
+            # variant may actually be a proposal id
+            proposal = model.Proposal.find(variant)
+            if proposal is not None and proposal.is_amendment:
+                variant = proposal.selection.selected
+
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         require.page.show(c.page)
+
+        c.overlay = format == 'overlay'
+        c.amendment = amendment
+
+        if c.amendment and not c.page.allow_selection:
+            return ret_abort(
+                _("Page %s does not allow selections") % c.page.title,
+                code=400, format=format)
 
         # Error handling and json api
         if c.text.variant != c.variant:
@@ -521,7 +587,13 @@ class PageController(BaseController):
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
-        return render("/page/show.html")
+
+        if not c.amendment and c.page.is_sectionpage():
+            return render("/page/show_sectionpage.html",
+                          overlay=(format == 'overlay'))
+        else:
+            return render("/page/show.html",
+                          overlay=(format == 'overlay'))
 
     @RequireInstance
     def history(self, id, variant=model.Text.HEAD, text=None, format='html'):
@@ -546,6 +618,29 @@ class PageController(BaseController):
             return render('/page/history.html', overlay=True)
         else:
             return render('/page/history.html')
+
+    @RequireInstance
+    def comments(self, id, variant=model.Text.HEAD, text=None, format=None):
+        c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
+        require.page.show(c.page)
+        if not c.page.allow_comment:
+            return ret_abort(
+                _("Page %s does not allow comments") % c.page.title,
+                code=400, format=format)
+
+        if c.text is None:
+            h.flash(_("No such text revision."), 'notice')
+            redirect(h.entity_url(c.page))
+        self._common_metadata(c.page, c.text)
+        c.ret_url = ''
+
+        if format == 'ajax':
+            return tiles.comment.list(c.page)
+        elif format == 'overlay':
+            c.ret_url = h.entity_url(c.page, member='comments') + '.overlay'
+            return render('/page/comments.html', overlay=True)
+        else:
+            return render('/page/comments.html')
 
     @RequireInstance
     @validate(schema=PageDiffForm(), form='bad_request', post_only=False,
