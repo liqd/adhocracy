@@ -164,7 +164,7 @@ var adhocracy = adhocracy || {};
                 html.addClass('overlay-small');
             }
 
-            resize('slow');
+            resize(300);
             autoResize('fast', 200);
 
             /* redirect links */
