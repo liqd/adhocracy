@@ -1,6 +1,6 @@
 from sqlalchemy import MetaData
-from sqlalchemy import Column, ForeignKey, Table
-from sqlalchemy import Boolean, Integer, Unicode
+from sqlalchemy import Column, Table
+from sqlalchemy import Boolean
 
 metadata = MetaData()
 
@@ -30,8 +30,6 @@ def upgrade(migrate_engine):
     page_allow_comment.create(page_table)
     page_allow_selection.create(page_table)
     page_always_show_original.create(page_table)
-
-    migrate_engine.execute(update)
 
 
 def downgrade(migrate_engine):
