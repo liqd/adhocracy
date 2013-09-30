@@ -36,6 +36,7 @@ instance_table = Table(
     Column('allow_adopt', Boolean, default=False),
     Column('allow_delegate', Boolean, default=True),
     Column('allow_propose', Boolean, default=True),
+    Column('allow_propose_changes', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
     Column('hidden', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),

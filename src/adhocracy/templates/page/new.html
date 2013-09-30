@@ -43,16 +43,42 @@
         <fieldset>
             <legend>${_("Norm content")}</legend>
             <textarea class="description normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
-            ${components.formatting()}
         </fieldset>
 
         <fieldset>
-          <legend>${_('Formatting')}</legend>
-          <div class="input_wrapper">
-            <label>
-            <input type="checkbox" name="formatting" />
-            ${_("Use markdown formatting.")}</label>
-          </div>
+            <div class="input_wrapper">
+                <label>
+                    <input name="sectionpage" type="checkbox" value="1" />
+                    ${_('Display subnorms as sections')}
+                </label>
+            </div>
+            <div class="input_wrapper">
+                <label>
+                    <input name="allow_comment" type="checkbox" checked="checked" value="1" />
+                    ${_('Allow Comments')}
+                </label>
+            </div>
+            <div class="input_wrapper">
+                <label>
+                    <input name="allow_selection" type="checkbox" checked="checked" value="1" />
+                    ${_('Allow Amendments')}
+                </label>
+            </div>
+            <%doc>
+            # uncomment this when it is actually used
+            <div class="input_wrapper">
+                <label>
+                    <input name="always_show_original" type="checkbox" checked="checked" value="1" />
+                    ${_('Always show original variant')}
+                </label>
+            </div>
+            </%doc>
+            <div class="input_wrapper">
+                <label>
+                    <input name="formatting" type="checkbox" value="1" />
+                    ${_("Use markdown formatting.")}
+                </label>
+            </div>
         </fieldset>
 
         <fieldset>

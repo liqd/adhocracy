@@ -13,10 +13,10 @@
     <h3>${_("Edit milestone")}</h3>
 <div class="form_wrapper">
 <form name="edit_milestone" class="inplace" method="POST"
-  action="${h.base_url('/milestone/%d' % c.milestone.id)}">
+  action="${h.entity_url(c.milestone)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="PUT" />
-    
+
     <div>
         <label for="title" class="">${_("Milestone title")}</label>
         <input tabindex="1" name="title" value="${c.milestone.title}" />
@@ -26,12 +26,12 @@
         <div class="infobox">
             ${_("Give a brief description of the milestone.")|n}
         </div>
-    
+
         <textarea tabindex="2" class="description" name="text">${c.milestone.text}</textarea>
         ${components.formatting()}
         <br/>
         <label for="time">${_("Date of the milestone")}</label>
-        <input name="time" id="time" 
+        <input name="time" id="time"
                value="${c.milestone.time and c.milestone.time.strftime('%d.%m.%Y') or 'Undefined'}" />
         <span class="hint">${_("Please use the DD.MM.YYYY format.")}</span>
         <br/>
@@ -59,9 +59,9 @@
     <div class="input_wrapper">
         ${components.form_watch(c.milestone)}
     </div>
-    
+
     <div class="input_wrapper submit">
-        ${components.savebox(h.base_url("/milestone/%s" % c.milestone.id))}
+        ${components.savebox(h.entity_url(c.milestone))}
     </div>
 </form>
 </div>

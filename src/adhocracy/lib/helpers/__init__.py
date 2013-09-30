@@ -192,7 +192,8 @@ def login_redirect_url(entity=None, **kwargs):
     ``entity`` is None, it will redirect to the current URL.
     '''
     if entity is None:
-        came_from_url = base_url(request.path)
+        came_from_url = base_url(request.path,
+                                 query_string=request.query_string)
     else:
         came_from_url = entity_url(entity, **kwargs)
 

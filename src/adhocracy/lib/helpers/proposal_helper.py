@@ -18,8 +18,13 @@ def link(proposal, link=True, **kwargs):
 
 @cache.memoize('proposal_url', 3600)
 def url(proposal, **kwargs):
-    ext = str(proposal.id) + '-' + label2url(proposal.title)
-    return _url.build(proposal.instance, 'proposal', ext, **kwargs)
+    if proposal.is_amendment:
+        page = proposal.selection.page
+        base = u'page/%s/amendment' % page.label
+        return _url.build(proposal.instance, base, proposal.id, **kwargs)
+    else:
+        ext = str(proposal.id) + '-' + label2url(proposal.title)
+        return _url.build(proposal.instance, 'proposal', ext, **kwargs)
 
 
 @cache.memoize('proposal_bc')

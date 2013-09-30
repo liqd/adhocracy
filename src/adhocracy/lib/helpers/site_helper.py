@@ -26,7 +26,8 @@ def relative_urls(config=config):
 
 
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
-             append_slash=False, config=config, query_params=None):
+             append_slash=False, config=config, query_params=None,
+             query_string=None):
     """
     Constructs an URL.
 
@@ -39,7 +40,10 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     If absolute is True, an absolute URL including the protocol part is
     returned. Otherwise this is avoided, if relative_urls is set to True.
 
-    query_params is a dictionary of parameters for th query string of the URL.
+    query_params is a dictionary of parameters for the query string of the URL.
+
+    Alternatively to query_params, query_string can be specified which is
+    directly used as the query string of the resulting URL.
     """
 
     if instance == CURRENT_INSTANCE:
@@ -86,6 +90,9 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     if query_params:
         result += '&' if '?' in result else '?'
         result += urllib.urlencode(query_params)
+    elif query_string:
+        result += '&' if '?' in result else '?'
+        result += query_string
 
     return result
 

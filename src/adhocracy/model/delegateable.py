@@ -153,7 +153,7 @@ class Delegateable(meta.Indexable):
         return (self.delete_time is not None) and \
             self.delete_time <= at_time
 
-    def find_latest_comment_time(self):
+    def find_latest_comment_time(self, recursive=False):
         from revision import Revision
         from comment import Comment
         query = meta.Session.query(Revision.create_time)
@@ -163,9 +163,17 @@ class Delegateable(meta.Indexable):
         query = query.limit(1)
         latest = query.first()
         if latest is None:
-            return self.create_time
+            t = self.create_time
         else:
-            return latest[0]
+            t = latest[0]
+
+        if recursive:
+            times = [c.find_latest_comment_time(recursive=True)
+                     for c in self.children]
+            times.append(t)
+            return max(times)
+        else:
+            return t
 
     def _comment_count_query(self):
         from comment import Comment

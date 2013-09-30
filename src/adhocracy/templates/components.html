@@ -51,13 +51,16 @@
     save_text = save_text if save_text is not None else _("Save")
     %>
     <div class="savebox">
-        <button type="submit" class="button" 
+        <button type="submit" class="button"
                 value="${save_value}">
             ${save_text}
         </button>
         %if cancel_url is not None:
             <span class="cancel">
-                ${_("or")} <a href="${cancel_url}">${_("cancel")}</a>
+                ${_("or")}
+                <a href="${cancel_url}"
+                   target="_self"
+                >${_("cancel")}</a>
             </span>
         %endif
     </div>
@@ -169,12 +172,12 @@
 </%def>
 
 
-<%def name="social_share_buttons(entity)">
+<%def name="social_share_buttons(title)">
 %if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()
-text = "%s - %s: %s" % (h.site.name(), c.instance.label, entity.title)
+text = "%s - %s: %s" % (h.site.name(), c.instance.label, title)
 %>
 <div id="socialshareprivacy"></div>
 <script type="text/javascript">
