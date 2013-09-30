@@ -18,6 +18,10 @@ page_table = Table(
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('function', Unicode(20)),
     Column('formatting', Boolean, default=False),
+    Column('sectionpage', Boolean, default=False),
+    Column('allow_comment', Boolean, default=True),
+    Column('allow_selection', Boolean, default=True),
+    Column('always_show_original', Boolean, default=True),
     GeometryExtensionColumn(
         'geotag', Geometry(dimension=2, srid=900913), nullable=True),
 )
@@ -33,10 +37,16 @@ class Page(Delegateable):
     WITH_VARIANTS = [NORM]  # [DESCRIPTION, NORM]
     LISTED = [NORM]
 
-    def __init__(self, instance, alias, creator, function, formatting=False):
+    def __init__(self, instance, alias, creator, function, formatting=False,
+                 sectionpage=False, allow_comment=True, allow_selection=True,
+                 always_show_original=True):
         self.init_child(instance, alias, creator)
         self.function = function
         self.formatting = formatting
+        self.sectionpage = sectionpage
+        self.allow_comment = allow_comment
+        self.allow_selection = allow_selection
+        self.always_show_original = always_show_original
 
     @property
     def selections(self):
@@ -104,19 +114,49 @@ class Page(Delegateable):
         return cls.all_q(**kwargs).all()
 
     @classmethod
+    def unusedTitle(cls, title, instance_filter=True, functions=None,
+                    include_deleted=False, selection=None):
+        q = meta.Session.query(Page)\
+            .filter(Page.label == title)
+        if not include_deleted:
+            q = q.filter(or_(Page.delete_time == None,  # noqa
+                             Page.delete_time > datetime.utcnow()))
+        if ifilter.has_instance() and instance_filter:
+            q = q.filter(Page.instance == ifilter.get_instance())
+
+        matches = q.all()
+
+        if selection is not None:
+            def same_selection(page):
+                try:
+                    return (page.function == Page.DESCRIPTION and
+                            page.proposal.is_amendment and
+                            page.proposal.selection.page == selection)
+                except Exception as e:
+                    log.warn(e)
+                    return False
+            matches = filter(same_selection, matches)
+
+        return not bool(matches)
+
+    @classmethod
     def count(cls, **kwargs):
         return cls.all_q(**kwargs).count()
 
     @classmethod
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
-               wiki=False, formatting=False):
+               wiki=False, formatting=False, sectionpage=False,
+               allow_comment=True, allow_selection=True,
+               always_show_original=True):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
         if function not in Page.FUNCTIONS:
             raise AttributeError("Invalid page function type")
         label = title2alias(title)
-        page = Page(instance, label, creator, function, formatting)
+        page = Page(instance, label, creator, function, formatting,
+                    sectionpage, allow_comment, allow_selection,
+                    always_show_original)
         meta.Session.add(page)
         meta.Session.flush()
         Text(page, Text.HEAD, creator, title, text, wiki)
@@ -163,7 +203,7 @@ class Page(Delegateable):
 
     @property
     def has_variants(self):
-        return self.function in Page.WITH_VARIANTS
+        return self.function in Page.WITH_VARIANTS and self.allow_selection
 
     @property
     def variants(self):
@@ -237,6 +277,15 @@ class Page(Delegateable):
             title = self.parent.full_title + " - " + title
         return title
 
+    def render(self, variant=None, line_based=None):
+        from text import Text
+        if variant is None:
+            # FIXME always_show_original should be used here
+            variant = Text.HEAD
+        if line_based is None:
+            line_based = not self.formatting
+        return self.variant_head(variant).render(line_based)
+
     def _get_parent(self):
         for parent in self.parents:
             if isinstance(parent, Page):
@@ -266,6 +315,14 @@ class Page(Delegateable):
             if selection.selected != Text.HEAD:
                 selections.append(selection)
         return selections
+
+    def is_sectionpage(self):
+        if self.sectionpage:
+            return True
+        elif self.parent:
+            return self.parent.is_sectionpage()
+        else:
+            return False
 
     def supporting_selections(self, variant):
         selections = []

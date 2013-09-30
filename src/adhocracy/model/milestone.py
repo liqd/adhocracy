@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 
 from sqlalchemy import Column, ForeignKey, Table, or_
-from sqlalchemy import Integer, Unicode, UnicodeText, DateTime
+from sqlalchemy import Boolean, Integer, Unicode, UnicodeText, DateTime
 
 import meta
 
@@ -19,7 +19,8 @@ milestone_table = Table(
     Column('time', DateTime),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('modify_time', DateTime, nullable=True, onupdate=datetime.utcnow),
-    Column('delete_time', DateTime)
+    Column('delete_time', DateTime),
+    Column('show_all_proposals', Boolean, default=False),
 )
 
 

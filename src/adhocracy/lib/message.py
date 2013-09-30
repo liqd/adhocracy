@@ -23,6 +23,7 @@ def render_body(body, recipient, include_footer, is_preview=False):
         welcome_url = welcome_url(recipient, recipient.welcome_code)
 
     rendered_body = body.format(**{
+        'uid': u'%d' % recipient.id,
         'name': recipient.name,
         'email': recipient.email,
         'welcome_url': welcome_url,

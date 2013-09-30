@@ -9,6 +9,7 @@ from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import helpers as h, pager, tiles, watchlist
 from adhocracy.lib.auth import csrf, require
@@ -31,6 +32,8 @@ class MilestoneCreateForm(MilestoneNewForm):
     title = validators.String(max=2000, min=4, not_empty=True)
     text = validators.String(max=60000, min=4, not_empty=True)
     category = forms.ValidCategoryBadge(if_missing=None, if_empty=None)
+    show_all_proposals = validators.StringBool(not_empty=False, if_empty=False,
+                                               if_missing=False)
     time = forms.ValidDate()
 
 
@@ -42,6 +45,8 @@ class MilestoneUpdateForm(MilestoneEditForm):
     title = validators.String(max=2000, min=4, not_empty=True)
     text = validators.String(max=60000, min=4, not_empty=True)
     category = forms.ValidCategoryBadge(if_missing=None, if_empty=None)
+    show_all_proposals = validators.StringBool(not_empty=False, if_empty=False,
+                                               if_missing=False)
     time = forms.ValidDate()
 
 
@@ -111,6 +116,9 @@ class MilestoneController(BaseController):
                                            self.form_result.get('text'),
                                            self.form_result.get('time'),
                                            category=category)
+        if config.get_bool('adhocracy.milestone.allow_show_all_proposals'):
+            milestone.show_all_proposals = self.form_result.get(
+                'show_all_proposals')
 
         model.meta.Session.commit()
         watchlist.check_watch(milestone)
@@ -126,7 +134,9 @@ class MilestoneController(BaseController):
         c.milestone = get_entity_or_abort(model.Milestone, id)
         require.milestone.edit(c.milestone)
         defaults = {'category': (str(c.milestone.category.id) if
-                                 c.milestone.category else None)}
+                                 c.milestone.category else None),
+                    'show_all_proposals': c.milestone.show_all_proposals,
+                    }
         defaults.update(dict(request.params))
         return htmlfill.render(render("/milestone/edit.html"),
                                defaults=defaults,
@@ -147,6 +157,9 @@ class MilestoneController(BaseController):
         c.milestone.text = self.form_result.get('text')
         c.milestone.category = self.form_result.get('category')
         c.milestone.time = self.form_result.get('time')
+        if config.get_bool('adhocracy.milestone.allow_show_all_proposals'):
+            c.milestone.show_all_proposals = self.form_result.get(
+                'show_all_proposals')
         model.meta.Session.commit()
         watchlist.check_watch(c.milestone)
         #event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
@@ -163,16 +176,24 @@ class MilestoneController(BaseController):
 
         c.tile = tiles.milestone.MilestoneTile(c.milestone)
 
-        # proposals .. directly assigned
-        by_milestone = model.Proposal.by_milestone(c.milestone,
-                                                   instance=c.instance)
-        # proposals .. with the same category
-        by_category = []
-        if c.milestone.category:
-            by_category = [d for d in c.milestone.category.delegateables
-                           if isinstance(d, model.Proposal)
-                           and not d.is_deleted()]
-        proposals = list(set(by_milestone + by_category))
+        if (config.get_bool('adhocracy.milestone.allow_show_all_proposals')
+           and c.milestone.show_all_proposals
+           and not c.milestone.over):
+            proposals = model.Proposal.all_q()\
+                .filter(model.Proposal.frozen == False).all()  # noqa
+        else:
+
+            # proposals .. directly assigned
+            by_milestone = model.Proposal.by_milestone(c.milestone,
+                                                       instance=c.instance)
+            # proposals .. with the same category
+            by_category = []
+            if c.milestone.category:
+                by_category = [d for d in c.milestone.category.delegateables
+                               if isinstance(d, model.Proposal)
+                               and not d.is_deleted()]
+            proposals = list(set(by_milestone + by_category))
+
         c.proposals_pager = pager.proposals(proposals, size=20,
                                             enable_sorts=False)
         c.show_proposals_pager = len(proposals)

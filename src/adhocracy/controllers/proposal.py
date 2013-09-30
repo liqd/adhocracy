@@ -45,14 +45,19 @@ class PageInclusionForm(formencode.Schema):
 
 class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
-    label = forms.UnusedTitle()
+    label = validators.String(min=3, max=254, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False, if_missing=None)
+    amendment = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     geotag = validators.String(if_empty=None, if_missing=None)
+    chained_validators = [
+        forms.UnusedProposalTitle(),
+    ]
 
 
 class ProposalEditForm(formencode.Schema):
@@ -60,7 +65,7 @@ class ProposalEditForm(formencode.Schema):
 
 
 class ProposalUpdateForm(ProposalEditForm):
-    label = forms.UnusedTitle()
+    label = validators.String(min=3, max=254, not_empty=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
@@ -69,6 +74,9 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    chained_validators = [
+        forms.UnusedProposalTitle(),
+    ]
 
 
 class ProposalGeotagUpdateForm(formencode.Schema):
@@ -180,27 +188,59 @@ class ProposalController(BaseController):
     @guard.proposal.create()
     @validate(schema=ProposalNewForm(), form='bad_request',
               post_only=False, on_get=True)
-    def new(self, errors=None):
+    def new(self, errors=None, page=None, amendment=False, format='html'):
         c.pages = []
         c.exclude_pages = []
+        c.amendment = bool(amendment)
+        if c.amendment:
+            c.page = get_entity_or_abort(model.Page, page)
+
+        if ('cancel_url' in request.params and
+                len(request.params['cancel_url']) >= 2 and
+                request.params['cancel_url'][0] == '/' and
+                request.params['cancel_url'][1] != '/'):
+            c.cancel_url = request.params['cancel_url']
+        elif amendment:
+            c.cancel_url = h.entity_url(c.page, member='amendment')
+        else:
+            c.cancel_url = h.base_url('/proposal')
 
         self._set_categories()
 
-        if 'page' in request.params:
-            page = model.Page.find(request.params.get('page'))
-            if page and page.function == model.Page.NORM:
-                c.pages.append((page.id, page.title, page.head.text))
+        def append_page(pid, text=None):
+            page = model.Page.find(pid)
+            if (page
+                and page not in c.exclude_pages
+                and page.function == model.Page.NORM
+                and (page.allow_selection
+                     or c.instance.allow_propose_changes)):
+                c.pages.append((page.id, page.title,
+                                page.head.text if text is None else text))
                 c.exclude_pages.append(page)
+
+        if page is not None:
+            append_page(page)
+        if 'page' in request.params:
+            append_page(request.params.get('page'))
+
         try:
             val = formencode.variabledecode.NestedVariables()
             form = val.to_python(request.params)
             for pg in form.get('page', []):
-                page = model.Page.find(pg.get('id'))
-                if page and page.function == model.Page.NORM:
-                    c.pages.append((page.id, page.title, pg.get('text')))
-                    c.exclude_pages.append(page)
+                append_page(pg.get('id'), pg.get('text'))
         except:
             pass
+
+        if c.instance.use_norms and c.instance.allow_propose_changes:
+            q = model.meta.Session.query(model.Page)
+            q = q.filter(model.Page.function == model.Page.NORM)
+            q = q.filter(model.Page.instance == c.instance)
+            q = q.filter(model.Page.allow_selection == False)  # noqa
+            c.exclude_pages += q.all()
+            c.can_select = True
+        else:
+            c.can_select = False
+
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         return htmlfill.render(render("/proposal/new.html"),
@@ -210,14 +250,25 @@ class ProposalController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @guard.proposal.create()
-    def create(self, format='html'):
+    def create(self, page=None, format='html', amendment=False):
 
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
         except Invalid, i:
-            return self.new(errors=i.unpack_errors())
+            return self.new(errors=i.unpack_errors(), page=page,
+                            amendment=amendment)
 
         pages = self.form_result.get('page', [])
+        is_amendment = self.form_result.get('amendment', False)
+
+        if ((is_amendment and len(pages) != 1) or
+                any([not p['id'].allow_selection for p in pages]) or
+                (not is_amendment and not c.instance.allow_propose_changes and
+                    len(pages) != 0)):
+            return self.new(
+                errors={u'msg':
+                        u'Cannot change arbitrary norms within proposals'})
+
         if c.instance.require_selection and len(pages) < 1:
             h.flash(
                 _('Please select norm and propose a change to it.'),
@@ -226,7 +277,8 @@ class ProposalController(BaseController):
         proposal = model.Proposal.create(c.instance,
                                          self.form_result.get("label"),
                                          c.user, with_vote=can.user.vote(),
-                                         tags=self.form_result.get("tags"))
+                                         tags=self.form_result.get("tags"),
+                                         is_amendment=is_amendment)
         proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
@@ -270,14 +322,16 @@ class ProposalController(BaseController):
 
         model.meta.Session.commit()
         watchlist.check_watch(proposal)
-        event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-                   topics=[proposal], proposal=proposal, rev=description.head)
+        if not is_amendment:
+            event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
+                       topics=[proposal], proposal=proposal,
+                       rev=description.head)
         redirect(h.entity_url(proposal, format=format))
 
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
               post_only=False, on_get=True)
-    def edit(self, id, errors={}):
+    def edit(self, id, errors={}, page=None):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
         c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
@@ -354,7 +408,8 @@ class ProposalController(BaseController):
         require.proposal.show(c.proposal)
 
         c.num_selections = c.proposal.selections
-        c.show_selections = c.proposal.instance.use_norms
+        c.show_selections = (c.proposal.instance.use_norms
+                             and c.proposal.instance.allow_propose_changes)
         if c.show_selections:
             c.sorted_selections = sorting.sortable_text(
                 c.proposal.selections,
@@ -470,13 +525,17 @@ class ProposalController(BaseController):
     def delete(self, id):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
+        if c.proposal.is_amendment:
+            ret_url = h.entity_url(c.proposal.selection.page, member='amendment')
+        else:
+            ret_url = h.entity_url(c.instance)
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
                    topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.title,
                 'success')
-        redirect(h.entity_url(c.instance))
+        redirect(ret_url)
 
     @RequireInstance
     def ask_adopt(self, id):

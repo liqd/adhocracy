@@ -7,10 +7,9 @@
 </%def>
 
 <%block name="main_content">
-
 <h2>${c.page.title}</h2>
 
-<form name="ask_delete" class="inplace" method="POST" 
+<form name="ask_delete" class="inplace" method="POST"
     action="${h.entity_url(c.page)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />
@@ -19,10 +18,11 @@
     </div>
     <div class="mainbar">
         <div class="warning_box">
-            ${_("Are you sure you want to delete this page?")|n}
+            ${_("Are you sure you want to delete this page?")}
         </div>
-        <center>
-            <input type="submit" class="delete" value="${_('Confirm')}" />
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.entity_url(c.page), save_text=_('Confirm'))}
         </center>
     </div>
 </form>
