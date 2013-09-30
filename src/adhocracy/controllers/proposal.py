@@ -223,7 +223,7 @@ class ProposalController(BaseController):
 
         if ((is_amendment and len(pages) != 1) or
                 any([not p['id'].allow_selection for p in pages]) or
-                (not is_amendment and c.instance.allow_propose_changes and
+                (not is_amendment and not c.instance.allow_propose_changes and
                     len(pages) != 0)):
             return self.new(
                 errors={u'msg':
