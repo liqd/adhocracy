@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-17 01:44+0200\n"
-"PO-Revision-Date: 2013-07-16 23:44+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-10-01 11:42+0200\n"
+"PO-Revision-Date: 2013-10-01 09:42+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,11 +61,18 @@ msgstr "Мы не можем найти ярлык с номером %s"
 msgid "Badge changed successfully"
 msgstr "Ярлык изменён успешно"
 
+msgid "Badge deleted successfully"
+msgstr ""
+
 msgid "oldest"
 msgstr "более старые"
 
 msgid "newest"
 msgstr "более новые"
+
+#, python-format
+msgid "Topic %s does not allow comments"
+msgstr ""
 
 #, python-format
 msgid "Comment topic has no variant %s"
@@ -153,6 +160,15 @@ msgid "Delegations are disabled."
 msgstr ""
 
 msgid "tutorial_instance_show_intro"
+msgstr ""
+
+msgid "This instance is not yet open for public participation."
+msgstr ""
+
+msgid ""
+"This instance is not active for use and is archived. It isn't possible to "
+"perform any changes to the instance, but all content is available to be "
+"read."
 msgstr ""
 
 msgid "The logo has been deleted."
@@ -342,6 +358,10 @@ msgid "Original Version"
 msgstr "Оригинальная версия"
 
 #, python-format
+msgid "Page %s does not allow selections"
+msgstr ""
+
+#, python-format
 msgid "Variant %s does not exist!"
 msgstr "Вариант %s не существует!"
 
@@ -353,6 +373,10 @@ msgstr ""
 
 msgid "No such text revision."
 msgstr "Этой версии текста не существует. "
+
+#, python-format
+msgid "Page %s does not allow comments"
+msgstr ""
 
 msgid "Cannot compare identical text revisions."
 msgstr "Тексты версий сравнить невозможно. "
@@ -510,7 +534,7 @@ msgstr "Женский"
 msgid "Male"
 msgstr "Мужской"
 
-msgid "No optional atributes defined."
+msgid "No optional attributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
@@ -625,6 +649,18 @@ msgstr "Учетная запись удалена. "
 
 msgid "Invalid badge choice."
 msgstr "Неверный выбор ярлыка"
+
+msgid "Added badges"
+msgstr ""
+
+msgid "Added badge"
+msgstr ""
+
+msgid "Removed badges"
+msgstr ""
+
+msgid "Removed badge"
+msgstr ""
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -809,6 +845,14 @@ msgstr "Отсутствует название страницы. "
 #, python-format
 msgid "Invalid page name: %s"
 msgstr "Недействительное название страницы: %s."
+
+#, python-format
+msgid "Invalid entry name: %s"
+msgstr ""
+
+#, python-format
+msgid "Entry name cannot be purely numeric: %s"
+msgstr ""
 
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
@@ -1443,6 +1487,21 @@ msgstr "Для того, чтобы проголосовать, Вы должн�
 msgid "Click to see the list of votes"
 msgstr "Нажмите здесь, чтобы увидеть список голосующих"
 
+msgid "User badge"
+msgstr ""
+
+msgid "Instance badge"
+msgstr ""
+
+msgid "Proposal badge"
+msgstr ""
+
+msgid "Category"
+msgstr "Категория"
+
+msgid "Thumbnail badge"
+msgstr ""
+
 msgid "(Untitled)"
 msgstr "(Без названия)"
 
@@ -1503,9 +1562,6 @@ msgstr ""
 
 msgid "Send us your feedback"
 msgstr "Отправить отзыв"
-
-msgid "Category"
-msgstr "Категория"
 
 msgid "Title"
 msgstr "Название"
@@ -1602,8 +1658,11 @@ msgstr "Поиск"
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Поиск в  &ldquo;%s&rdquo;&hellip;"
 
+msgid "Intro"
+msgstr ""
+
 msgid "Overview"
-msgstr "Просмотреть"
+msgstr ""
 
 msgid "Norms"
 msgstr "Нормативные документы"
@@ -1637,6 +1696,15 @@ msgid "Sort:"
 msgstr "Сортировка:"
 
 msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
+msgid "Adhocracy works best with JavaScript enabled."
+msgstr ""
+
+#, python-format
+msgid ""
+"We could not display an overlay. See <a href=\"%s\">here</a> what it would "
+"have displayed."
 msgstr ""
 
 msgid "Welcome back!"
@@ -1774,6 +1842,9 @@ msgstr ""
 msgid "Include comments"
 msgstr ""
 
+msgid "Include proposal creator badges"
+msgstr ""
+
 msgid "Include ratings"
 msgstr ""
 
@@ -1890,13 +1961,13 @@ msgstr "Администрирование сайта"
 msgid "Admin: Import Users"
 msgstr "Администратор: ипмортировать список пользователей"
 
+msgid "Users CSV"
+msgstr "Пользователи CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
 "columns username, display name and email"
 msgstr "Ввести содержание файла CSV, экспортированное из Excel в три колонки: пользовательское имя, отображаемое имя и адрес электронной почты"
-
-msgid "Users CSV"
-msgstr "Пользователи CSV"
 
 msgid "Email Subject"
 msgstr "Тема письма"
@@ -1950,6 +2021,19 @@ msgstr "Данные учетные записи не могли быть соз
 
 msgid "These users where created, but we could not send out mails:"
 msgstr "Данные учетные записи были созданы, но мы не смогли послать им письма:"
+
+msgid ""
+"Note that the following entities will be unbadged if this badge is deleted:"
+msgstr ""
+
+msgid "This badge is not in use, so it can be removed safely."
+msgstr ""
+
+msgid "Are you sure you want to delete this badge?"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Подтвердить"
 
 msgid "Badge title"
 msgstr "Название ярлыка"
@@ -2018,11 +2102,17 @@ msgid ""
 "doesn't have any children)"
 msgstr ""
 
+msgid "Impact"
+msgstr ""
+
 msgid "Save Badge"
 msgstr "Сохранить ярлык"
 
 msgid "Edit"
 msgstr "Редактировать"
+
+msgid "Delete"
+msgstr "Удалить"
 
 msgid "No badges added yet."
 msgstr "Ярлыки пока не добавлены. "
@@ -2089,9 +2179,6 @@ msgstr "Вы уверены, что хотите удалить этот ком�
 msgid "Are you sure you want to delete this argument?"
 msgstr ""
 
-msgid "Confirm"
-msgstr "Подтвердить"
-
 msgid "Edit comment"
 msgstr "Редактировать коментарий"
 
@@ -2154,9 +2241,6 @@ msgstr "присоединиться к организации для комен
 msgid "Join instance to discuss."
 msgstr ""
 
-msgid "Add argument"
-msgstr ""
-
 msgid "Login to comment."
 msgstr "Зарегистрироваться для коментирования."
 
@@ -2203,6 +2287,9 @@ msgstr ""
 
 msgid "reply"
 msgstr "ответить"
+
+msgid "Add argument"
+msgstr ""
 
 msgid "Join instance to reply"
 msgstr "Присоединитесь к организации, чтобы ответить"
@@ -2427,9 +2514,6 @@ msgstr "Информация"
 msgid "Create a proposal to start debating in %(instance)s."
 msgstr "Создать предложение, с целью начала дебатов в %(instance)s."
 
-msgid "Delete"
-msgstr "Удалить"
-
 msgid "Delete instance"
 msgstr "Удалить организацию"
 
@@ -2454,17 +2538,17 @@ msgstr "Редактировать ярлыки"
 msgid "badge"
 msgstr "ярлык"
 
-msgid "new instance"
-msgstr "новая организация"
+msgid "Create new instance"
+msgstr "Создть новую организацию. "
 
 msgid "Instances are little democracies that are ran by their community."
 msgstr "Организации это малые демократии самоуправляющихся общин. "
 
+msgid "new instance"
+msgstr "новая организация"
+
 msgid "New Instance"
 msgstr "Новая организация"
-
-msgid "Create new instance"
-msgstr "Создть новую организацию. "
 
 msgid "Instance name"
 msgstr "Название организации"
@@ -2504,11 +2588,11 @@ msgstr "Действующий логотип"
 msgid "Delete current logo"
 msgstr "Удалить действующий логотип"
 
-msgid "You can add css that will be used to style the instance."
-msgstr ""
-
 msgid "Extra CSS"
 msgstr "Дополнительные CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr ""
 
 msgid "Thumbnail badges width"
 msgstr ""
@@ -2521,6 +2605,9 @@ msgstr "Использовать документы"
 
 msgid "Allow users to propose norms"
 msgstr "Разрешить пользователям предлагать документы"
+
+msgid "Allow users to change norms from within proposals"
+msgstr ""
 
 msgid "Require to propose a variant"
 msgstr "Требовать предложения варианта."
@@ -2627,7 +2714,7 @@ msgstr "Следующие указатели"
 msgid "Newest Events"
 msgstr "Новые события"
 
-msgid "Informations"
+msgid "Information"
 msgstr "Информация"
 
 msgid "Created"
@@ -2781,7 +2868,19 @@ msgstr "Дата срока"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Пожалуйста используйте формат DD.MM.YYYY"
 
+msgid "Show all proposals"
+msgstr ""
+
+msgid "Show all open proposals if milestone is in the future."
+msgstr ""
+
+msgid "Create new milestone"
+msgstr ""
+
 msgid "Upcoming Milestones"
+msgstr ""
+
+msgid "Past Milestones"
 msgstr ""
 
 msgid "Create a new milestone."
@@ -2789,9 +2888,6 @@ msgstr "Определить новый срок. "
 
 msgid "new milestone"
 msgstr "Новый срок"
-
-msgid "Past Milestones"
-msgstr ""
 
 msgid "tutorial_milestones_timeline"
 msgstr ""
@@ -2934,7 +3030,13 @@ msgstr "Название варианта"
 msgid "Text"
 msgstr "Текст"
 
-msgid "Formatting"
+msgid "Display subnorms as sections"
+msgstr ""
+
+msgid "Allow Comments"
+msgstr ""
+
+msgid "Allow Amendments"
 msgstr ""
 
 msgid "Use markdown formatting."
@@ -2946,14 +3048,17 @@ msgstr "исходная страница: "
 msgid "Relates to a milestone"
 msgstr "относится к сроку"
 
+msgid "Popular tags"
+msgstr "Популярные теги"
+
+msgid "Create new norm"
+msgstr ""
+
 msgid "Create a new norm."
 msgstr "Создать новый документ."
 
 msgid "new norm"
 msgstr "Новый нормативный документ"
-
-msgid "Popular tags"
-msgstr "Популярные теги"
 
 msgid "tutorial_norms_overview_table"
 msgstr ""
@@ -2991,8 +3096,8 @@ msgstr "Вкл"
 msgid "Off"
 msgstr "Вык"
 
-msgid "New Proposal"
-msgstr "Новое предложение"
+msgid "Propose New Amendment"
+msgstr ""
 
 msgid "Information about the norm"
 msgstr "Информация о документе"
@@ -3013,11 +3118,22 @@ msgstr "Поддокументы"
 msgid "View Proposal"
 msgstr "Просмотреть предложение"
 
+#, python-format
+msgid "Created by %(creator)s on %(datetime)s"
+msgstr ""
+
+#, python-format
+msgid "Proposed amendments for \"%s\""
+msgstr ""
+
 msgid "No text."
 msgstr "Нет содержания"
 
 msgid "Text compared to the original version"
 msgstr "Сравнить текст с оригинальной версией"
+
+msgid "Reasoning"
+msgstr ""
 
 msgid "Proposal"
 msgstr "Предложение"
@@ -3029,6 +3145,15 @@ msgid "tutorial_norm_show_diff"
 msgstr ""
 
 msgid "tutorial_norm_show_new"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Discussions"
+msgstr "Дискуссии"
+
+msgid "Amendments"
 msgstr ""
 
 msgid "hide sub-topics"
@@ -3193,26 +3318,41 @@ msgstr "Голосовать за вариант"
 msgid "Edit &ldquo;%s&rdquo;"
 msgstr "Редактировать &ldquo;%s&rdquo;"
 
-msgid "Title and Goals"
-msgstr "Названия и Цели"
+msgid "Amendment title"
+msgstr ""
 
 msgid "Proposal title"
 msgstr "Название предложения"
 
-msgid "A brief description of <b>the goals</b> of your proposal."
-msgstr "Краткое описание <b>целей</b> Вашего предложения"
+msgid "New amendment"
+msgstr ""
 
-msgid "The proposal would..."
-msgstr "Это предложение..."
+msgid "New proposal"
+msgstr "Новое предложение"
 
 msgid "Proposal goals"
 msgstr "Цели предложения"
 
+msgid "Give a brief explanation of the idea behind your amendment."
+msgstr ""
+
+msgid "Give a brief description of <b>the goals</b> of your proposal."
+msgstr "Дайте короткое описание <b>целей</b> Вашего предложения."
+
+msgid "The amendment would..."
+msgstr ""
+
+msgid "The proposal would..."
+msgstr "Это предложение..."
+
 msgid "Collaboration and Notification"
 msgstr "Сотрудничество и получение Уведомлений"
 
-msgid "Allow others to edit this proposal."
-msgstr "разрешить другим редактировать это предложение"
+msgid "Allow modifications by other users"
+msgstr ""
+
+msgid "Freeze proposal"
+msgstr ""
 
 msgid "Create new proposal"
 msgstr "Создать новое предложение"
@@ -3232,8 +3372,11 @@ msgstr ""
 msgid "tutorial_proposal_overview_new"
 msgstr ""
 
-msgid "New proposal"
-msgstr "Новое предложение"
+msgid "Create new amendment"
+msgstr ""
+
+msgid "Proposed changes"
+msgstr ""
 
 msgid "Change norms with this proposal"
 msgstr "Изменить документ с помощью нового предложения"
@@ -3248,17 +3391,11 @@ msgstr "Предложения осуществляются путем созд�
 msgid "Select a norm to change:"
 msgstr "Выбрать документ для изменения:"
 
-msgid "Give a brief description of <b>the goals</b> of your proposal."
-msgstr "Дайте короткое описание <b>целей</b> Вашего предложения."
-
 msgid "Multiple tags can be separated by commas."
 msgstr "Несколько тегов можно разделять запятой."
 
 msgid "Delete this proposal."
 msgstr "Удалить это предложение. "
-
-msgid "Topic and Description of the Proposal"
-msgstr "Тема и описание предложения"
 
 #, python-format
 msgid "%s Discussions"
@@ -3267,12 +3404,6 @@ msgstr "%s дискуссии"
 #, python-format
 msgid "%s Proposed Implementations"
 msgstr "%s предложенные реализации"
-
-msgid "Comments"
-msgstr ""
-
-msgid "Discussions"
-msgstr "Дискуссии"
 
 msgid "Proposed Implementations"
 msgstr "Предложенные реализации"
@@ -3347,9 +3478,6 @@ msgstr "%s%% одобрены"
 #, python-format
 msgid "%s:%s votes"
 msgstr "%s:%s голосов"
-
-msgid "Information"
-msgstr "Информация"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -3652,11 +3780,14 @@ msgstr "Редактировать ярлыки для %s"
 msgid "Badges for %s"
 msgstr "Ярлыки для %s"
 
-msgid "all instances"
-msgstr "все группы"
+msgid "Global badges"
+msgstr ""
 
 msgid "Example:"
 msgstr "Пример:"
+
+msgid "Badges in instance"
+msgstr ""
 
 msgid "Startpage"
 msgstr "Начальная страница"
@@ -3749,93 +3880,6 @@ msgstr "Получено"
 msgid "There are no delegations."
 msgstr "Делегирования не произведено"
 
-#, python-format
-msgid "Settings: %s"
-msgstr "Параметры : %s"
-
-msgid "Your User Details"
-msgstr "Ваши пользовательские данные"
-
-msgid "Display name for"
-msgstr "Показать имя для"
-
-msgid "You can chose which name other users see."
-msgstr "Вы можете выбрать, какое имя видят другие пользователи"
-
-msgid "Password"
-msgstr "Пароль"
-
-msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr "Выберите новый пароль или оставьте поля пустыми, чтобы сохранить старый. "
-
-msgid "Password:"
-msgstr "Пароль:"
-
-msgid "Password (confirm):"
-msgstr "Пароль : (подтвердить)"
-
-msgid "Gender"
-msgstr "Пол"
-
-msgid "I am..."
-msgstr ""
-
-msgid "Select how you would like to be notified of events."
-msgstr "Выберите как Вы хотите быть извещенными о происходящем. "
-
-msgid "Help."
-msgstr "Помощь"
-
-msgid "E-Mail:"
-msgstr "Адрес электронной почты:"
-
-msgid "fewer"
-msgstr "меньше"
-
-msgid "more notifications"
-msgstr "больше извещений"
-
-msgid "Not confirmed."
-msgstr "не подтверждено"
-
-msgid "Re-send activation link"
-msgstr "Переслать ccылку активации"
-
-msgid "Receive occasional news from instance administrators:"
-msgstr ""
-
-msgid "OpenID"
-msgstr "OpenID"
-
-msgid "OpenID allows you to use a single login on many web sites."
-msgstr "OpenID позволяет Вам использовать один вход для различных сайтов. "
-
-msgid "There are no associated OpenIDs."
-msgstr "Связанные OpenIDs отсутствуют. "
-
-msgid "remove"
-msgstr "удалить"
-
-msgid "Short biography"
-msgstr "Краткая биография"
-
-msgid ""
-"A bio will allow others to learn about you and perhaps even get you a few "
-"delegations."
-msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
-
-msgid "Advanced Settings"
-msgstr "Дополнительные настройки"
-
-msgid "The pre-set number of entries in listing pages:"
-msgstr ""
-
-msgid "Disable help messages and links to the documentation:"
-msgstr ""
-
-msgid "Change default sorting order for proposals:"
-msgstr ""
-
 msgid "Find users"
 msgstr "Найти пользователя"
 
@@ -3870,6 +3914,9 @@ msgstr ""
 
 msgid "Login via Shibboleth"
 msgstr ""
+
+msgid "Password:"
+msgstr "Пароль:"
 
 msgid "Forgot your password?"
 msgstr ""
@@ -3918,8 +3965,14 @@ msgstr ""
 msgid "E-mail"
 msgstr "Е-маил"
 
+msgid "Password"
+msgstr "Пароль"
+
 msgid "Enter password:"
 msgstr "Введите пароль:"
+
+msgid "Password (confirm):"
+msgstr "Пароль : (подтвердить)"
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -3957,6 +4010,9 @@ msgid ""
 "In order to retrieve your login, you will have to enter your email address."
 msgstr "Для получения подступа Вы должны будете ввести адрес электронной почты."
 
+msgid "E-Mail:"
+msgstr "Адрес электронной почты:"
+
 msgid "Reset"
 msgstr "Cброс"
 
@@ -3974,9 +4030,6 @@ msgstr ""
 msgid "Advanced settings"
 msgstr ""
 
-msgid "Default proposal sorting order"
-msgstr ""
-
 msgid "Pager size"
 msgstr ""
 
@@ -3992,8 +4045,41 @@ msgstr ""
 msgid "Login settings"
 msgstr ""
 
+msgid "Select a new password or leave the fields blank to keep your old one."
+msgstr "Выберите новый пароль или оставьте поля пустыми, чтобы сохранить старый. "
+
+msgid "OpenID"
+msgstr "OpenID"
+
+msgid "OpenID allows you to use a single login on many web sites."
+msgstr "OpenID позволяет Вам использовать один вход для различных сайтов. "
+
+msgid "There are no associated OpenIDs."
+msgstr "Связанные OpenIDs отсутствуют. "
+
+msgid "remove"
+msgstr "удалить"
+
 msgid "Notification settings"
 msgstr ""
+
+msgid "Select how you would like to be notified of events."
+msgstr "Выберите как Вы хотите быть извещенными о происходящем. "
+
+msgid "Help."
+msgstr "Помощь"
+
+msgid "fewer"
+msgstr "меньше"
+
+msgid "more notifications"
+msgstr "больше извещений"
+
+msgid "Not confirmed."
+msgstr "не подтверждено"
+
+msgid "Re-send activation link"
+msgstr "Переслать ccылку активации"
 
 msgid "News service"
 msgstr ""
@@ -4012,6 +4098,9 @@ msgstr ""
 msgid "Personal settings"
 msgstr ""
 
+msgid "You can chose which name other users see."
+msgstr "Вы можете выбрать, какое имя видят другие пользователи"
+
 msgid "Prefered user interface language"
 msgstr ""
 
@@ -4020,6 +4109,14 @@ msgstr ""
 
 msgid "Select your prefered gender"
 msgstr ""
+
+msgid "Short biography"
+msgstr "Краткая биография"
+
+msgid ""
+"A bio will allow others to learn about you and perhaps even get you a few "
+"delegations."
+msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
 
 #, python-format
 msgid "Signed up %s"
