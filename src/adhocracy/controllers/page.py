@@ -727,6 +727,15 @@ class PageController(BaseController):
 
     @RequireInstance
     def ask_delete(self, id):
+        c.section = u'section_parent' in request.params
+        if c.section:
+            c.parent = get_entity_or_abort(model.Page,
+                request.params.get(u'section_parent'))
+        if c.section:
+            c.ret_url = h.entity_url(c.parent)
+        else:
+            c.ret_url = h.entity_url(c.page.instance)
+
         c.page = get_entity_or_abort(model.Page, id)
         require.page.delete(c.page)
         c.tile = tiles.page.PageTile(c.page)
@@ -743,7 +752,7 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title,
                 'success')
-        redirect(h.entity_url(c.page.instance))
+        redirect(request.params.get('ret_url'))
 
     def _get_page_and_text(self, id, variant, text):
         page = get_entity_or_abort(model.Page, id)
