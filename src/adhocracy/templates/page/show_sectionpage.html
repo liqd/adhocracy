@@ -7,38 +7,6 @@
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 
-<%block name="sidebar">
-    <div class="sidebar_box">
-        <h3>${_(u"Information about the norm")}</h3>
-
-        ## Shortlink http://domain/d/1234
-        ${sidebar_defs.shortlink(c.page)}
-
-        <h6>${_(u'Last Activity')}</h6>
-        <p><time>${h.datetime_tag(c.page.find_latest_comment_time(recursive=True))|n}</time></p>
-
-        <h6>${_(u'Category')}</h6>
-        <p>
-            %if c.page.category:
-            ${c.page.category}
-            %else:
-            ${_(u"This page is not assigned to any category")}
-            %endif
-        </p>
-
-        %if c.page.milestone and c.instance.milestones:
-        <h6>${_(u'Milestones')}</h6>
-        <p>
-            ${_(u"This norm relates to the milestone %s."
-               ) % h.milestone.link(c.page.milestone)|n}
-        </p>
-        %endif
-
-        ${tiles.tag.sidebar(c.page)}
-    </div>
-</%block>
-
-
 <%def name="section(page)">
     <section id="subpage-${page.id}" class="subpage">
         <div class="body">
