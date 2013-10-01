@@ -5,8 +5,8 @@
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 
-<%block name="main_content">
 
+<%block name="main_content">
 <form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
 
     <h2>${_("Norm: %s") % c.page.title}</h2>
@@ -82,20 +82,19 @@
     </fieldset>
 
     <fieldset>
-      <legend>${_("Category")}</legend>
-      <div class="input_wrapper">
-        <select name="category"> 
-          <option value="">${_("No Category")}</option>
-          %for category in c.categories:
-          <option value="${category.id}" ${'selected="selected"' if category==c.category else '' | n}>${category.title}</option>
-          %endfor
-        </select>      
-      </div>
+        <legend>${_("Category")}</legend>
+        <div class="input_wrapper">
+            <select name="category">
+                <option value="">${_("No Category")}</option>
+                %for category in c.categories:
+                <option value="${category.id}" ${'selected="selected"' if category==c.category else '' | n}>${category.title}</option>
+                %endfor
+            </select>
+        </div>
     </fieldset>
 
     <label for="parent">${_("Parent page:")}</label>
     ${tiles.page.select_page(field_name="parent_page", select=c.page.parent, functions=model.Page.PARENT_FUNCTIONS)}
-
 
     %endif
 
@@ -112,4 +111,3 @@
 
 </form>
 </%block>
-
