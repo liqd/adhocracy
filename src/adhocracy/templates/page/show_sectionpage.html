@@ -57,7 +57,7 @@
                 </ul>
                 <div class="utility">
                     %if can.norm.edit(page):
-                    <a href="${h.entity_url(page, member='edit', query={'ret_url': h.entity_url(c.page, anchor='subpage-%i' % page.id)})}">${_(u"Edit")}</a>
+                    <a href="${h.entity_url(page, member='edit', query={'section_parent': c.page.id})}">${_(u"Edit")}</a>
                     %endif
                     %if can.page.delete(page):
                     <a href="${h.entity_url(page, member='ask_delete')}">${_(u"Delete")}</a>
@@ -109,4 +109,8 @@
         ${section(subpage)}
         %endfor
     </section>
+
+    %if can.page.create():
+    <a class="button highlight" href="${h.base_url('/page/new', query_params={'section_parent': c.page.id})}">${_(u"Add section")}</a>
+    %endif
 </%block>

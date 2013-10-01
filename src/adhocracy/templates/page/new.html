@@ -7,7 +7,7 @@
 </%def>
 
 <%block name="headline">
-    <h3>${_("Create norm")}</h3>
+    <h3>${_(u"Add section to %s") % c.parent.title if c.section else _("Create norm")}</h3>
 </%block>
 
 
@@ -15,17 +15,26 @@
 <form name="create_page" class="inplace" method="POST" action="${h.base_url('/page')}">
     ${h.field_token()|n}
     %if c.proposal:
-        <input type="hidden" value="${c.proposal}" name="proposal" />
+    <input type="hidden" value="${c.proposal}" name="proposal" />
+    %endif
+
+    %if c.section:
+    <input type="hidden" name="ret_url" value="${h.entity_url(c.parent)}" />
     %endif
 
     <div class="mainbar">
+        %if c.section:
+        <input type="hidden" name="title" value="${c.title}" />
+        %else:
         <fieldset>
             <legend>${_("Norm title")}</legend>
             <div class="input_wrapper page_title">
                 <input type="text" class="title" name="title" ${'' if c.title is None else 'value="%s"' % c.title} placeholder="${_('New norm')}" autofocus />
             </div>
         </fieldset>
+        %endif
 
+        %if not c.section:
         <fieldset>
             <legend>${_("Category")}</legend>
             <div class="input_wrapper">
@@ -37,19 +46,22 @@
                 </select>
             </div>
         </fieldset>
+        %endif
 
         <fieldset>
-            <legend>${_("Norm content")}</legend>
+            <legend>${_(u"Section content") if c.section else _(u"Norm content")}</legend>
             <textarea class="description normedit" cols="${model.Text.LINE_LENGTH}" name="text"></textarea>
         </fieldset>
 
         <fieldset>
+            %if not c.section:
             <div class="input_wrapper">
                 <label>
                     <input name="sectionpage" type="checkbox" value="1" />
                     ${_('Display subnorms as sections')}
                 </label>
             </div>
+            %endif
             <div class="input_wrapper">
                 <label>
                     <input name="allow_comment" type="checkbox" checked="checked" value="1" />
@@ -73,12 +85,15 @@
             </%doc>
             <div class="input_wrapper">
                 <label>
-                    <input name="formatting" type="checkbox" value="1" />
+                    <input name="formatting" type="checkbox" checked="checked" value="1" />
                     ${_("Use markdown formatting.")}
                 </label>
             </div>
         </fieldset>
 
+        %if c.section:
+        <input type="hidden" name="tags" value="" />
+        %else:
         <fieldset>
             <% h.need.autocomplete %>
 
@@ -87,22 +102,33 @@
                 <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags')}" data-instance-baseurl="${h.base_url(append_slash=True)}" />
             </div>
         </fieldset>
+        %endif
 
+        %if c.section:
+        <input type="hidden" name="parent" value="${c.parent.id}"/>
+        %else:
         <label for="parent">${_("Parent page:")}</label>
         ${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
         <span class="hint">${_("The new norm will be categorized under the specified parent theme.")}
         </span>
+        %endif
 
+        %if not c.section:
         %if c.instance.milestones:
           <label for="milestone">${_("Relates to a milestone")}</label>
           ${tiles.milestone.select(None)}
+        %endif
         %endif
     </div>
 
     <div style="clear:both;"></div>
     <div class="mainbar">
         <div class="submit">
+            %if c.section:
+            ${components.savebox(h.entity_url(c.parent))}
+            %else:
             ${components.savebox(h.base_url('/page'))}
+            %endif
         </div>
         ${components.form_watch(None, checked=True)}
     </div>
