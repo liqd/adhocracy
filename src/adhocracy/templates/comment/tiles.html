@@ -24,33 +24,6 @@
     _comments = h.comments_sorted(comments, root=root, variant=variant)
     %>
 
-    %if root is None:
-        %if not len(_comments):
-            <div class="comment_wrapper">
-                <div class="comment empty">
-                    ${_("No comments were made yet.") if h.comment.wording() else _("No discussions were started yet.")}
-                </div>
-            </div>
-        %endif
-    %endif
-
-    %if _comments:
-    <ul id="${root is not None and 'c%s_comments' % root.id or ''}"
-        class="${root is None and 'comments_list' or 'sub'}">
-        %for comment, tile in _comments:
-        %if tile.show:
-        <li>
-            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url)}
-
-            %if recurse:
-            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, ret_url=ret_url)}
-            %endif
-
-        </li>
-        %endif
-        %endfor
-    </ul>
-    %endif
     <% auth = check.comment.create_on(topic) %>
     %if root is None:
         %if auth:
@@ -62,7 +35,9 @@
              hide_form = False
         %>
         <div class="comment_wrapper"
-             style="${'display: none' if hide_form else ''}"
+             %if hide_form:
+             style="display: none"
+             %endif
              id="${target}"
              data-cancel=".cancel">
             <div class="comment">
@@ -110,6 +85,34 @@
         %endif
 
     %endif
+
+    %if root is None:
+        %if not len(_comments):
+            <div class="comment_wrapper">
+                <div class="comment empty">
+                    ${_("No comments were made yet.") if h.comment.wording() else _("No discussions were started yet.")}
+                </div>
+            </div>
+        %endif
+    %endif
+
+    %if _comments:
+    <ul id="${root is not None and 'c%s_comments' % root.id or ''}"
+        class="${root is None and 'comments_list' or 'sub'}">
+        %for comment, tile in _comments:
+        %if tile.show:
+        <li>
+            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url)}
+
+            %if recurse:
+            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, ret_url=ret_url)}
+            %endif
+
+        </li>
+        %endif
+        %endfor
+    </ul>
+    %endif
 </%def>
 
 
@@ -127,97 +130,48 @@
 
     <div id="c${comment.id}" class="comment">
 
-        ## comment title (username / pro/con / deleted)
-        %if not comment.is_deleted():
-        <h5>
-            ${h.user.link(comment.creator, scope=comment.topic)|n}
-            <span class="${sentiment['css']}">${sentiment['msg']}</span>
-        </h5>
-        %else:
-        <h5>${_("(deleted)")}</h5>
-        %endif
+        <div class="header">
+            <h5>
+                ## comment title (username / pro/con / deleted)
+                %if not comment.is_deleted():
+                    ${h.user.link(comment.creator, scope=comment.topic)|n}
+                    <span class="${sentiment['css']}">${sentiment['msg']}</span>
+                %else:
+                <h5>${_("(deleted)")}</h5>
+                %endif
+
+                <span class="utility hover_active" style="display: none">
+                    %if can.comment.edit(comment):
+                    <a class="edit_comment"
+                       data-comment="${comment.id}"
+                       data-instance-baseurl="${h.base_url(instance=comment.topic.instance, append_slash=True)}"
+                       href="${h.entity_url(comment, member='edit',
+                                            query=dict(ret_url=ret_url))}">
+                        ${_("edit")}</a>
+                    %endif
+
+                    %if can.comment.delete(comment):
+                    <a class="" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a>
+                    %endif
+                </span>
+            </h5>
+
+            <div class="vote_comment">
+                ${tiles.poll.widget(comment.poll)}
+            </div>
+        </div>
 
         ## comment text
-        %if not comment.is_deleted():
-        ${tile.text|n}
-        %else:
-        <span class="hint">${_("This comment has been deleted.") if h.comment.wording() else _("This argument has been deleted.")}</span>
-        %endif
+        <div class="body">
+            %if not comment.is_deleted():
+            ${tile.text|n}
+            %else:
+            <span class="hint">${_("This comment has been deleted.") if h.comment.wording() else _("This argument has been deleted.")}</span>
+            %endif
+        </div>
 
-        %if can.comment.edit(comment):
-        <a class="edit_comment"
-           data-comment="${comment.id}"
-           data-instance-baseurl="${h.base_url(instance=comment.topic.instance, append_slash=True)}"
-           href="${h.entity_url(comment, member='edit',
-                                query=dict(ret_url=ret_url))}">
-            ${_("edit")}
-        </a>
-        %endif
-
-        %if can.comment.delete(comment):
-        &nbsp;&nbsp;&nbsp;
-        <a class="" href="${h.entity_url(comment, member='ask_delete')}">${_("delete")}</a>
-        %endif
-
-        <div class="comment_actions floatbox">
-            <div>
-                <div class="vote_comment">
-                    ${tiles.poll.widget(comment.poll)}
-                </div>
-
-                ## Number of replies
-                %if tile.num_children > 0:
-                    %if tile.num_children == 1:
-                    <a class="show_comments" href="#">
-                        ${_('1 Comment') if h.comment.wording() else _('1 Argument')}
-                    </a>
-                    %else:
-                    <a class="show_comments" href="#">
-                        ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
-                    </a>
-                    %endif
-                %else:
-                    <span class="show_comments" href="#">
-                        ${(_('%s Comments') if h.comment.wording() else _('%s Arguments')) % tile.num_children}
-                    </span>
-                %endif
-
-                ## Reply button
-                <% auth = check.comment.reply(comment) %>
-                %if auth and recurse:
-                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id), query_params={'ret_url': ret_url})}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
-                %elif auth.propose_join():
-                <a class="new_comment" title="${_('Join instance to reply') if h.comment.wording() else _('Join instance to argue')}" rel="#overlay-join-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
-                %elif auth.propose_login():
-                <a class="new_comment" title="${_('Login to reply') if h.comment.wording() else _('Login to argue')}" rel="#overlay-login-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
-                %elif auth.propose_validate_email():
-                <a class="new_comment" title="${_('Validate email in order to reply') if h.comment.wording() else _('Validate email in order to argue')}" rel="#overlay-validate-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
-                %endif
-
-            </div>
+        <div class="footer">
             <div class="utility">
-                <span style="display: none;" class="hover_active">
-                    %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
-                    <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
-                    ·
-                    %endif
-                    %if len(comment.revisions) > 1:
-                    <span class="only-js">
-                        ## FIXME: remove when we can support no-js clients.
-                        <a href="${h.entity_url(comment, member='history')}"
-                           rel="#overlay-url">
-                            ${_("history")}
-                        </a>
-                        ·
-                    </span>
-                    %endif
-                    <%doc>
-                    FIXME: Add when we have implemented permalinks or details overlay dialogs
-                    <a href="#">Link</a> ·
-                    FIXME: Add when we implemented details dialog
-                    </%doc>
-                </span>
-
                 %if comment.is_deleted():
                 ${_("deleted %s") % h.datetime_tag(comment.delete_time)|n}
                 %else:
@@ -233,11 +187,42 @@
                   %endif
                 %endif
 
+                <span style="display: none;" class="hover_active">
+                    %if len(comment.revisions) > 1:
+                    <span class="only-js">
+                        ·
+                        ## FIXME: remove when we can support no-js clients.
+                        <a href="${h.entity_url(comment, member='history')}"
+                           rel="#overlay-url">${_("history")}</a>
+                    </span>
+                    %endif
+                    %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
+                    ·
+                    <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
+                    %endif
+                    <%doc>
+                    FIXME: Add when we have implemented permalinks or details overlay dialogs
+                    <a href="#">Link</a> ·
+                    FIXME: Add when we implemented details dialog
+                    </%doc>
+                </span>
+            </div>
+
+            <div>
+                ## Reply button
+                <% auth = check.comment.reply(comment) %>
+                %if auth and recurse:
+                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id), query_params={'ret_url': ret_url})}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                %elif auth.propose_join():
+                <a class="new_comment" title="${_('Join instance to reply') if h.comment.wording() else _('Join instance to argue')}" rel="#overlay-join-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                %elif auth.propose_login():
+                <a class="new_comment" title="${_('Login to reply') if h.comment.wording() else _('Login to argue')}" rel="#overlay-login-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                %elif auth.propose_validate_email():
+                <a class="new_comment" title="${_('Validate email in order to reply') if h.comment.wording() else _('Validate email in order to argue')}" rel="#overlay-validate-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                %endif
             </div>
         </div>
-
     </div>
-
 </%def>
 
 <%def name="edit_form(comment, ret_url='')">
@@ -308,7 +293,6 @@ else:
 if wiki is None:
     wiki = c.instance.editable_comments_default
 %>
-  <h4>${_(u'Enter comment text:') if h.comment.wording() else _(u'Enter argument text:')}</h4>
     <form name="new_comment" class="comment_form"
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
       ${h.field_token()|n}
