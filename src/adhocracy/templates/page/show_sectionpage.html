@@ -42,7 +42,7 @@
 
 
 <%block name="content_wrapper">
-    <h2>
+    <h2 id="tutorial-sectionpage">
         ${c.page.title}
         %if not c.variant_details['is_head']:
         &ndash; ${c.variant_details['display_title']}
@@ -53,7 +53,7 @@
         <div class="body">
             ${c.variant_details['text']|n}
 
-            <aside>
+            <aside id="tutorial-actions">
                 <ul class="flags">
                     %if c.page.allow_comment:
                     <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${len(c.page.comments)})</a></li>
@@ -77,4 +77,17 @@
         ${section(subpage)}
         %endfor
     </section>
+
+    <%components:tutorial>
+        <ol id="joyRideTipContent">
+            <li data-id="tutorial-sectionpage"
+                data-tip-location="top" class="custom">
+                <p>${_('This norm has been split into several sections.')}</p>
+            </li>
+            <li data-id="tutorial-actions" data-next="${_(u'Close')}"
+                data-tip-location="top" class="custom">
+                <p>${_('You can propose amendments and comment each section individually by using the controls on the right.')}</p>
+            </li>
+        </ol>
+    </%components:tutorial>
 </%block>
