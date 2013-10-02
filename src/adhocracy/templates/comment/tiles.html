@@ -140,7 +140,7 @@
                 <h5>${_("(deleted)")}</h5>
                 %endif
 
-                <span class="utility hover_active" style="display: none">
+                <span class="utility">
                     %if can.comment.edit(comment):
                     <a class="edit_comment"
                        data-comment="${comment.id}"
@@ -187,7 +187,7 @@
                   %endif
                 %endif
 
-                <span style="display: none;" class="hover_active">
+                <span class="utility_links">
                     %if len(comment.revisions) > 1:
                     <span class="only-js">
                         ·

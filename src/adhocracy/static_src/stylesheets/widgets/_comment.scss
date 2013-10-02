@@ -40,12 +40,26 @@
         .body > *:last-child {
             margin-bottom: 0.5em;
         }
+
+        .vote {
+            opacity: 0.7;
+        }
+        .header .utility, .footer .utility_links {
+            display: none;
+        }
+        &:hover {
+            .vote {
+                opacity: 1;
+            }
+            .header .utility, .footer .utility_links {
+                display: inline;
+            }
+        }
     }
 }
 a.new_comment {
     @include button-small($primary-color, $primary-color);
-    background: none;
-    color: $primary-color;
+    color: #fff;
 
     // copied from showhide_button
     &:after {
@@ -63,6 +77,10 @@ a.new_comment {
         border-top: 0;
         border-bottom: 4px solid;
     }
+}
+.comment:not(:hover) a.new_comment {
+    background: none;
+    color: $primary-color;
 }
 .comment_form {
     padding: 1em;
