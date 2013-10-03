@@ -121,6 +121,14 @@ T_PROPOSAL_EDIT = EventType(
     text=lambda e: e.rev.text if e.text else None,
     event_msg=lambda: _(u"edited %(proposal)s"))
 
+T_PROPOSAL_BADGE = EventType(
+    u"t_proposal_badge", pri=3,
+    subject=lambda: _(u"Proposal badged: %(proposal)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.proposal, absolute=absolute)),
+    text=lambda e: e.rev.text if e.text else None,
+    event_msg=lambda: _(u"badged %(proposal)s"))
+
 T_PROPOSAL_STATE_REDRAFT = EventType(
     u"t_proposal_state_draft", pri=3,
     subject=lambda: _(u"Poll cancelled: %(proposal)s"),

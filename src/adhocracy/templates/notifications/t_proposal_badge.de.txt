@@ -1,0 +1,17 @@
+${c.e.user.name} bearbeitete den Vorschlag ${c.e.proposal.title}.
+
+%if c.e.data['badges_added']:
+%if len(c.e.data['badges_added']) == 1:
+Folgendes Badge wurde hinzugefügt: ${c.e.data['badges_added'][0].title}
+%else:
+Folgende Badges wurden hinzugefügt: ${', '.join([b.title for b in c.e.data['badges_added']])}
+%endif
+%endif
+
+%if c.e.data['badges_removed']:
+%if len(c.e.data['badges_removed']) == 1:
+Folgendes Badge wurde entfernt: ${c.e.data['badges_removed'][0].title}
+%else:
+Folgende Badges wurden entfernt: ${', '.join([b.title for b in c.e.data['badges_removed']])}
+%endif
+%endif
