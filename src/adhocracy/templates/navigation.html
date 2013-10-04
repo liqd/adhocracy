@@ -139,27 +139,27 @@
             %endif
         </div>
 
-        %if search_action:
-        <div id="searchbox">
-          <form action="${search_action}" 
-                id="searchform" method="get">
-            <input type="text" id="s" name="serp_q" placeholder="${search_label|n}" />
-            <input type="submit" value="${search_button_text or _('Search')}" 
-                   id="searchsubmit" />
-          </form>
+        <div id="nav_row">
+            %if search_action:
+            <div id="searchbox">
+                <form action="${search_action}"
+                      id="searchform" method="get">
+                    <input type="text" id="s" name="serp_q" placeholder="${search_label|n}" />
+                    <input type="submit" value="${search_button_text or _('Search')}"
+                           id="searchsubmit" />
+                </form>
+            </div>
+            %endif
+
+            <!-- begin: sub navi -->
+            <nav>
+                <div class="hlist">
+                    <ul id="subnav">
+                        ${caller.body()}
+                    </ul>
+                </div>
+            </nav>
         </div>
-        %endif
-
-        <!-- begin: sub navi -->
-        <nav>
-          <div class="hlist">
-            <ul id="subnav">
-
-                ${caller.body()}
-
-            </ul>
-          </div>
-        </nav>
       </div>
     </div>
   </div>

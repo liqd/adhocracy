@@ -16,6 +16,7 @@ form {
     background-color: $bg1;
     @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     padding: 30px;
+    overflow: hidden;  // clearfix
 }
 
 form.list_filter {
