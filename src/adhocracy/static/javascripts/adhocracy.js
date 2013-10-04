@@ -629,7 +629,7 @@ $(document).ready(function () {
     $('input, textarea').placeholder();
 
     // comments
-    $('.comment, .paper').hover(
+    $('.paper').hover(
         function () {
             $(this).find('.hover_active').fadeIn('fast');
         },
