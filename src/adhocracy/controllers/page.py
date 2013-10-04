@@ -148,6 +148,13 @@ class PageController(BaseController):
         c.categories = model.CategoryBadge.all(
             c.instance, include_global=not c.instance.hide_global_categories)
 
+        c.section = u'section_parent' in request.params
+        if c.section:
+            c.parent = get_entity_or_abort(model.Page,
+                request.params.get(u'section_parent'))
+            if c.title is None:
+                c.title = u"%s.%i" % (c.parent.title, len(c.parent.children))
+
         html = None
         if proposal_id is not None:
             c.proposal = model.Proposal.find(proposal_id)
@@ -197,12 +204,15 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
-        target = h.entity_url(page)  # by default, redirect to the page
-        if proposal is not None and can.selection.create(proposal):
+        if 'ret_url' in request.params:
+            ret_url = request.params.get('ret_url')
+        elif proposal is not None and can.selection.create(proposal):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
-            target = h.page.url(page, member='branch',
+            ret_url = h.page.url(page, member='branch',
                                 query={'proposal': proposal.id})
+        else:
+            ret_url = h.entity_url(page)  # by default, redirect to the page
 
         categories = self.form_result.get('category')
         category = categories[0] if categories else None
@@ -212,7 +222,7 @@ class PageController(BaseController):
         watchlist.check_watch(page)
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
                    topics=[page], page=page, rev=page.head)
-        redirect(target)
+        redirect(ret_url)
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
@@ -227,6 +237,11 @@ class PageController(BaseController):
         c.always_show_original = request.params.get("always_show_original",
                                                     False)
         c.branch = branch
+
+        c.section = 'section_parent' in request.params
+        if c.section:
+            c.parent = get_entity_or_abort(model.Page,
+                request.params.get(u'section_parent'))
 
         if branch or c.variant is None:
             c.variant = ""
@@ -249,6 +264,8 @@ class PageController(BaseController):
                 request.params['ret_url'][0] == '/' and
                 request.params['ret_url'][1] != '/'):
             c.ret_url = request.params['ret_url']
+        elif c.section:
+            c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
         else:
             c.ret_url = h.entity_url(c.text)
 
@@ -713,6 +730,15 @@ class PageController(BaseController):
         c.page = get_entity_or_abort(model.Page, id)
         require.page.delete(c.page)
         c.tile = tiles.page.PageTile(c.page)
+
+        c.section = u'section_parent' in request.params
+        if c.section:
+            c.parent = get_entity_or_abort(model.Page,
+                request.params.get(u'section_parent'))
+            c.ret_url = h.entity_url(c.parent)
+        else:
+            c.ret_url = h.entity_url(c.page.instance)
+
         return render("/page/ask_delete.html")
 
     @RequireInstance
@@ -726,7 +752,7 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title,
                 'success')
-        redirect(h.entity_url(c.page.instance))
+        redirect(request.params.get('ret_url'))
 
     def _get_page_and_text(self, id, variant, text):
         page = get_entity_or_abort(model.Page, id)
