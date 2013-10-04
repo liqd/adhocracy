@@ -13,6 +13,7 @@
     action="${h.entity_url(c.page)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />
+    <input type="hidden" name="ret_url" value="${c.ret_url}"/>
     <div class="sidebar">
         &nbsp;
     </div>
@@ -22,7 +23,11 @@
         </div>
 
         <div class="input_wrapper submit">
+            %if c.section:
+            ${components.savebox(h.entity_url(c.parent, anchor=u'subpage-%i' % c.page.id), save_text=_('Confirm'))}
+            %else:
             ${components.savebox(h.entity_url(c.page), save_text=_('Confirm'))}
+            %endif
         </center>
     </div>
 </form>
