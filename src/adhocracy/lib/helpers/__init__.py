@@ -86,11 +86,14 @@ def immutable_proposal_message():
              "be modified.")
 
 
-def comments_sorted(comments, root=None, variant=None, key=None):
+def comments_sorted(comments, root=None, variant=None, key=None,
+                    include_deleted=False):
     from adhocracy.lib.tiles.comment_tiles import CommentTile
     comments = [c for c in comments if c.reply == root and
                 ((variant is None and c.variant == Text.HEAD)
                 or c.variant == variant)]
+    if not include_deleted:
+        comments = filter(lambda x: not x.is_deleted(), comments)
     _comments = []
     if key is None:
         comments = sorting.comment_order(comments)

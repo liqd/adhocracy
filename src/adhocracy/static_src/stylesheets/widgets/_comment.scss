@@ -1,81 +1,88 @@
-.comments_list, .comment_wrapper {
-    // without top/bottom padding the child elements' margin
-    // would collapse outside the comments list
-    padding: 1px 0;
-    background-color: $bg1;
-    @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
-}
-
 .comments_list, .comments_list .sub {
     list-style: none;
     margin: 0;
+    padding: 0;
+    border-left: 1px solid $bg1;
 
     > li {
-        border-bottom: 1px solid #fff;
-
-        &:last-child {
-            border-bottom: none;
-        }
-
-        // .comment, .sub or comment form
-        > * {
-            margin-top: 1.5em;
-            margin-bottom: 1.5em;
+        margin: 3em 0;
+        border-left: 1px solid $bg2;
+        margin-left: -1px;
+        padding-left: 0.5em;
+        @include transition(border-left-color .5s);
+        &:hover {
+            border-left-color: $primary-color;
         }
     }
 }
-.comments_list > li {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-}
-
-.comments_list .sub {
-    margin-left: 2em;
-}
-
-.comment.empty {
-    padding: 1em 0;
-    font-weight: bold;
-    font-style: italic;
-    color: $fg1;
-}
-
-.comment_actions, .paper_actions {
-    padding-top: 1em;
-
-    > div {
-        display: inline-block;
+.comments_list {
+    .sub {
+        margin-left: 3em;
     }
+    .comment {
+        .header {
+            text-align: right;
+            @include clearfix;
+            margin-bottom: 0.5em;
+            h5 {
+                float: left;
+                text-align: left;  // fix for firefox
+                margin: 0;
+            }
+        }
+        .footer {
+            text-align: right;
+            @include clearfix;
+            .utility {
+                float: left;
+            }
+        }
+        .body > *:last-child {
+            margin-bottom: 0.5em;
+        }
 
-    .vote_comment, .show_comments, .new_comment {
-        margin-right: 10px;
-        font-size: 11px;
+        .vote {
+            opacity: 0.7;
+        }
+        .header .utility, .footer .utility_links {
+            display: none;
+        }
+        &:hover {
+            .vote {
+                opacity: 1;
+            }
+            .header .utility, .footer .utility_links {
+                display: inline-block;
+            }
+        }
+    }
+}
+a.new_comment {
+    @include button-small($primary-color, $primary-color);
+    color: #fff;
 
+    // copied from showhide_button
+    &:after {
         display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        content: "";
         vertical-align: middle;
+        margin-left: 0.2em;
     }
-    .utility, .meta {
-        float: right;
+    &.less:after {
+        border-top: 0;
+        border-bottom: 4px solid;
     }
 }
-
-// top level comment form
-.comment_wrapper {
-    border-top: 1px solid #fff;
-    padding: 1px 1.5em;
+.comment:not(:hover) a.new_comment {
+    background: none;
+    color: $primary-color;
 }
-
-/* comment form */
 .comment_form {
-    background: none $bg2;
-    padding: 6px;
-
-    .comment_settings {
-        .input_wrapper {
-            margin-bottom: 5px;
-        }
-        hr {
-            margin-bottom: 10px;
-        }
-    }
+    padding: 1em;
+    margin: 1em 0;
 }
