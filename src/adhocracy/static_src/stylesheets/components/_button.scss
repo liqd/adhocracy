@@ -40,11 +40,6 @@ a.button_small {
     @include button-small($button-color, $primary-color);
 }
 
-a.show_comments, a.new_comment {
-    @include button-small($primary-color, $primary-color);
-    background: none;
-    color: $primary-color;
-}
 a.participate {
     @include button-small($primary-color, $primary-color);
     color: white;
