@@ -87,6 +87,12 @@ class PollTile(BaseTile):
             url = self._rate_url(self.poll, position)
             klass, title_func = action_class[(self.current_position, position)]
             title = title_func()
+        elif self.poll.scope.is_frozen():
+            url = self.votes_listing_url
+            title = _('Topic is frozen. Click to view the list of votes.')
+        elif c.instance.frozen:
+            url = self.votes_listing_url
+            title = _('Instance is frozen. Click to view the list of votes.')
         elif self.has_ended:
             url = self.votes_listing_url
             title = _('Voting has ended. Click to view the list of votes')

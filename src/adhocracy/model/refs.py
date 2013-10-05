@@ -19,6 +19,12 @@ import base64
 
 from pylons.i18n import _
 
+from badge import Badge
+from badge import DelegateableBadge
+from badge import CategoryBadge
+from badge import ThumbnailBadge
+from badge import InstanceBadge
+from badge import UserBadge
 from comment import Comment
 from delegation import Delegation
 from group import Group
@@ -57,7 +63,14 @@ TYPES = [Vote,
          Selection,
          Text,
          Milestone,
-         Tagging]
+         Tagging,
+         Badge,
+         DelegateableBadge,
+         CategoryBadge,
+         ThumbnailBadge,
+         InstanceBadge,
+         UserBadge,
+         ]
 
 
 def entity_type(entity):

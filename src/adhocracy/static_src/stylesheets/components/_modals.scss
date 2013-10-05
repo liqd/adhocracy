@@ -70,7 +70,7 @@ div.overlay {
     padding: 20px;
     @include border-radius(10px);
     border: 1px solid $border;
-    background-color: $flash;
+    background-color: #fff;
     @include box-shadow(0 0 10px 5px $fg1);
 
     .contentWrap, iframe {

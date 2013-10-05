@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy e77fb51\n"
+"Project-Id-Version: adhocracy 520cb03\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-02 13:02+0200\n"
+"POT-Creation-Date: 2013-10-01 11:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,10 +52,17 @@ msgstr ""
 msgid "Badge changed successfully"
 msgstr ""
 
+msgid "Badge deleted successfully"
+msgstr ""
+
 msgid "oldest"
 msgstr ""
 
 msgid "newest"
+msgstr ""
+
+#, python-format
+msgid "Topic %s does not allow comments"
 msgstr ""
 
 #, python-format
@@ -140,6 +147,12 @@ msgid "Delegations are disabled."
 msgstr ""
 
 msgid "tutorial_instance_show_intro"
+msgstr ""
+
+msgid "This instance is not yet open for public participation."
+msgstr ""
+
+msgid "This instance is not active for use and is archived. It isn't possible to perform any changes to the instance, but all content is available to be read."
 msgstr ""
 
 msgid "The logo has been deleted."
@@ -322,6 +335,10 @@ msgid "Original Version"
 msgstr ""
 
 #, python-format
+msgid "Page %s does not allow selections"
+msgstr ""
+
+#, python-format
 msgid "Variant %s does not exist!"
 msgstr ""
 
@@ -332,6 +349,10 @@ msgid "tutorial_norm_show_tab"
 msgstr ""
 
 msgid "No such text revision."
+msgstr ""
+
+#, python-format
+msgid "Page %s does not allow comments"
 msgstr ""
 
 msgid "Cannot compare identical text revisions."
@@ -593,6 +614,18 @@ msgstr ""
 msgid "Invalid badge choice."
 msgstr ""
 
+msgid "Added badges"
+msgstr ""
+
+msgid "Added badge"
+msgstr ""
+
+msgid "Removed badges"
+msgstr ""
+
+msgid "Removed badge"
+msgstr ""
+
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
 msgstr ""
@@ -773,6 +806,14 @@ msgstr ""
 
 #, python-format
 msgid "Invalid page name: %s"
+msgstr ""
+
+#, python-format
+msgid "Invalid entry name: %s"
+msgstr ""
+
+#, python-format
+msgid "Entry name cannot be purely numeric: %s"
 msgstr ""
 
 #, python-format
@@ -1402,6 +1443,21 @@ msgstr ""
 msgid "Click to see the list of votes"
 msgstr ""
 
+msgid "User badge"
+msgstr ""
+
+msgid "Instance badge"
+msgstr ""
+
+msgid "Proposal badge"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Thumbnail badge"
+msgstr ""
+
 msgid "(Untitled)"
 msgstr ""
 
@@ -1461,9 +1517,6 @@ msgid "Receive email notifications if changes occur."
 msgstr ""
 
 msgid "Send us your feedback"
-msgstr ""
-
-msgid "Category"
 msgstr ""
 
 msgid "Title"
@@ -1653,6 +1706,10 @@ msgid "You are using an outdated web browser. Click here to update."
 msgstr ""
 
 msgid "Adhocracy works best with JavaScript enabled."
+msgstr ""
+
+#, python-format
+msgid "We could not display an overlay. See <a href=\"%s\">here</a> what it would have displayed."
 msgstr ""
 
 msgid "Welcome back!"
@@ -1902,10 +1959,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
+msgid "Users CSV"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
 msgstr ""
 
 msgid "Email Subject"
@@ -1955,6 +2012,18 @@ msgid "These users could not be created:"
 msgstr ""
 
 msgid "These users where created, but we could not send out mails:"
+msgstr ""
+
+msgid "Note that the following entities will be unbadged if this badge is deleted:"
+msgstr ""
+
+msgid "This badge is not in use, so it can be removed safely."
+msgstr ""
+
+msgid "Are you sure you want to delete this badge?"
+msgstr ""
+
+msgid "Confirm"
 msgstr ""
 
 msgid "Badge title"
@@ -2020,10 +2089,16 @@ msgstr ""
 msgid "Description to select children of this badge (irrelevant if this badge doesn't have any children)"
 msgstr ""
 
+msgid "Impact"
+msgstr ""
+
 msgid "Save Badge"
 msgstr ""
 
 msgid "Edit"
+msgstr ""
+
+msgid "Delete"
 msgstr ""
 
 msgid "No badges added yet."
@@ -2091,9 +2166,6 @@ msgstr ""
 msgid "Are you sure you want to delete this argument?"
 msgstr ""
 
-msgid "Confirm"
-msgstr ""
-
 msgid "Edit comment"
 msgstr ""
 
@@ -2156,9 +2228,6 @@ msgstr ""
 msgid "Join instance to discuss."
 msgstr ""
 
-msgid "Add argument"
-msgstr ""
-
 msgid "Login to comment."
 msgstr ""
 
@@ -2204,6 +2273,9 @@ msgid "%s Arguments"
 msgstr ""
 
 msgid "reply"
+msgstr ""
+
+msgid "Add argument"
 msgstr ""
 
 msgid "Join instance to reply"
@@ -2421,9 +2493,6 @@ msgstr ""
 msgid "Create a proposal to start debating in %(instance)s."
 msgstr ""
 
-msgid "Delete"
-msgstr ""
-
 msgid "Delete instance"
 msgstr ""
 
@@ -2492,10 +2561,10 @@ msgstr ""
 msgid "Delete current logo"
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
 msgid "Thumbnail badges width"
@@ -2508,6 +2577,9 @@ msgid "Use Norms"
 msgstr ""
 
 msgid "Allow users to propose norms"
+msgstr ""
+
+msgid "Allow users to change norms from within proposals"
 msgstr ""
 
 msgid "Require to propose a variant"
@@ -2758,6 +2830,12 @@ msgstr ""
 msgid "Please use the DD.MM.YYYY format."
 msgstr ""
 
+msgid "Show all proposals"
+msgstr ""
+
+msgid "Show all open proposals if milestone is in the future."
+msgstr ""
+
 msgid "Create new milestone"
 msgstr ""
 
@@ -2907,7 +2985,13 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-msgid "Formatting"
+msgid "Display subnorms as sections"
+msgstr ""
+
+msgid "Allow Comments"
+msgstr ""
+
+msgid "Allow Amendments"
 msgstr ""
 
 msgid "Use markdown formatting."
@@ -2975,7 +3059,7 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "New Proposal"
+msgid "Propose New Amendment"
 msgstr ""
 
 msgid "Information"
@@ -3009,10 +3093,21 @@ msgstr ""
 msgid "View Proposal"
 msgstr ""
 
+#, python-format
+msgid "Created by %(creator)s on %(datetime)s"
+msgstr ""
+
+#, python-format
+msgid "Proposed amendments for \"%s\""
+msgstr ""
+
 msgid "No text."
 msgstr ""
 
 msgid "Text compared to the original version"
+msgstr ""
+
+msgid "Reasoning"
 msgstr ""
 
 msgid "Proposal"
@@ -3025,6 +3120,15 @@ msgid "tutorial_norm_show_diff"
 msgstr ""
 
 msgid "tutorial_norm_show_new"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Discussions"
+msgstr ""
+
+msgid "Amendments"
 msgstr ""
 
 msgid "hide sub-topics"
@@ -3180,25 +3284,40 @@ msgstr ""
 msgid "Edit &ldquo;%s&rdquo;"
 msgstr ""
 
-msgid "Title and Goals"
+msgid "Amendment title"
 msgstr ""
 
 msgid "Proposal title"
 msgstr ""
 
-msgid "A brief description of <b>the goals</b> of your proposal."
+msgid "New amendment"
 msgstr ""
 
-msgid "The proposal would..."
+msgid "New proposal"
 msgstr ""
 
 msgid "Proposal goals"
 msgstr ""
 
+msgid "Give a brief explanation of the idea behind your amendment."
+msgstr ""
+
+msgid "Give a brief description of <b>the goals</b> of your proposal."
+msgstr ""
+
+msgid "The amendment would..."
+msgstr ""
+
+msgid "The proposal would..."
+msgstr ""
+
 msgid "Collaboration and Notification"
 msgstr ""
 
-msgid "Allow others to edit this proposal."
+msgid "Allow modifications by other users"
+msgstr ""
+
+msgid "Freeze proposal"
 msgstr ""
 
 #, python-format
@@ -3227,7 +3346,10 @@ msgstr ""
 msgid "tutorial_proposal_overview_new"
 msgstr ""
 
-msgid "New proposal"
+msgid "Create new amendment"
+msgstr ""
+
+msgid "Proposed changes"
 msgstr ""
 
 msgid "Change norms with this proposal"
@@ -3237,9 +3359,6 @@ msgid "Proposals are implemented by including changes towards new or existing no
 msgstr ""
 
 msgid "Select a norm to change:"
-msgstr ""
-
-msgid "Give a brief description of <b>the goals</b> of your proposal."
 msgstr ""
 
 msgid "Multiple tags can be separated by commas."
@@ -3254,12 +3373,6 @@ msgstr ""
 
 #, python-format
 msgid "%s Proposed Implementations"
-msgstr ""
-
-msgid "Comments"
-msgstr ""
-
-msgid "Discussions"
 msgstr ""
 
 msgid "Proposed Implementations"
@@ -3632,10 +3745,13 @@ msgstr ""
 msgid "Badges for %s"
 msgstr ""
 
-msgid "all instances"
+msgid "Global badges"
 msgstr ""
 
 msgid "Example:"
+msgstr ""
+
+msgid "Badges in instance"
 msgstr ""
 
 msgid "Startpage"
@@ -3854,9 +3970,6 @@ msgstr ""
 msgid "Advanced settings"
 msgstr ""
 
-msgid "Default proposal sorting order"
-msgstr ""
-
 msgid "Pager size"
 msgstr ""
 
@@ -3935,10 +4048,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
 #, python-format

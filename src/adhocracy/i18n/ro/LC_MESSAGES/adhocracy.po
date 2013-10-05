@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-07-17 01:44+0200\n"
-"PO-Revision-Date: 2013-07-16 23:44+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-10-01 11:42+0200\n"
+"PO-Revision-Date: 2013-10-01 09:42+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,11 +59,18 @@ msgstr "Titlul cu id-ul %s nu a fost gasit"
 msgid "Badge changed successfully"
 msgstr "Titlul a fost modificat"
 
+msgid "Badge deleted successfully"
+msgstr ""
+
 msgid "oldest"
 msgstr "cele mai vechi"
 
 msgid "newest"
 msgstr "cele mai noi"
+
+#, python-format
+msgid "Topic %s does not allow comments"
+msgstr ""
 
 #, python-format
 msgid "Comment topic has no variant %s"
@@ -152,6 +159,15 @@ msgstr "Delegarile sunt nepermise."
 
 msgid "tutorial_instance_show_intro"
 msgstr "Tutorial: Comunitati"
+
+msgid "This instance is not yet open for public participation."
+msgstr ""
+
+msgid ""
+"This instance is not active for use and is archived. It isn't possible to "
+"perform any changes to the instance, but all content is available to be "
+"read."
+msgstr ""
 
 msgid "The logo has been deleted."
 msgstr "Logo-ul a fost sters."
@@ -340,6 +356,10 @@ msgid "Original Version"
 msgstr "Versiunea Initiala"
 
 #, python-format
+msgid "Page %s does not allow selections"
+msgstr ""
+
+#, python-format
 msgid "Variant %s does not exist!"
 msgstr "Varianta %s nu exista!"
 
@@ -351,6 +371,10 @@ msgstr "Tutorial: Vizualizarea documentelor"
 
 msgid "No such text revision."
 msgstr "Nu exista aceasta revizie de text."
+
+#, python-format
+msgid "Page %s does not allow comments"
+msgstr ""
 
 msgid "Cannot compare identical text revisions."
 msgstr "Nu se pot compara revizii ale textului identice."
@@ -508,7 +532,7 @@ msgstr "Feminin"
 msgid "Male"
 msgstr "Masculin"
 
-msgid "No optional atributes defined."
+msgid "No optional attributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
@@ -623,6 +647,18 @@ msgstr "Contul a fost sters."
 
 msgid "Invalid badge choice."
 msgstr "Alegere titlu nevalida."
+
+msgid "Added badges"
+msgstr ""
+
+msgid "Added badge"
+msgstr ""
+
+msgid "Removed badges"
+msgstr ""
+
+msgid "Removed badge"
+msgstr ""
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -807,6 +843,14 @@ msgstr "Nu a fost introdus nici un nume pentru pagina."
 #, python-format
 msgid "Invalid page name: %s"
 msgstr "Nume de pagina '%s'  inexistent"
+
+#, python-format
+msgid "Invalid entry name: %s"
+msgstr ""
+
+#, python-format
+msgid "Entry name cannot be purely numeric: %s"
+msgstr ""
 
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
@@ -1441,6 +1485,21 @@ msgstr "Adauga-te la comunitatea \"%s\" pentru a vota."
 msgid "Click to see the list of votes"
 msgstr "Click pentru lista de voturi"
 
+msgid "User badge"
+msgstr ""
+
+msgid "Instance badge"
+msgstr ""
+
+msgid "Proposal badge"
+msgstr ""
+
+msgid "Category"
+msgstr "Categorie"
+
+msgid "Thumbnail badge"
+msgstr ""
+
 msgid "(Untitled)"
 msgstr "(Fara titlu)"
 
@@ -1501,9 +1560,6 @@ msgstr ""
 
 msgid "Send us your feedback"
 msgstr "Trimite feedback"
-
-msgid "Category"
-msgstr "Categorie"
 
 msgid "Title"
 msgstr "Titlu"
@@ -1600,8 +1656,11 @@ msgstr "Cauta"
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
 
+msgid "Intro"
+msgstr ""
+
 msgid "Overview"
-msgstr "Imagine de ansamblu"
+msgstr ""
 
 msgid "Norms"
 msgstr "Documente"
@@ -1635,6 +1694,15 @@ msgid "Sort:"
 msgstr "Sortare:"
 
 msgid "You are using an outdated web browser. Click here to update."
+msgstr ""
+
+msgid "Adhocracy works best with JavaScript enabled."
+msgstr ""
+
+#, python-format
+msgid ""
+"We could not display an overlay. See <a href=\"%s\">here</a> what it would "
+"have displayed."
 msgstr ""
 
 msgid "Welcome back!"
@@ -1772,6 +1840,9 @@ msgstr "Include propuneri"
 msgid "Include comments"
 msgstr "Include comentarii"
 
+msgid "Include proposal creator badges"
+msgstr ""
+
 msgid "Include ratings"
 msgstr ""
 
@@ -1888,13 +1959,13 @@ msgstr "Administrare site"
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
 
+msgid "Users CSV"
+msgstr "Lista utilizatori CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
 "columns username, display name and email"
 msgstr "Copie continutul fisierului CSV, ex. exportat din Excel, cu 3 coloane nume utilizator, nume afisat si adresa de email"
-
-msgid "Users CSV"
-msgstr "Lista utilizatori CSV"
 
 msgid "Email Subject"
 msgstr "Subiect Email"
@@ -1948,6 +2019,19 @@ msgstr "Utilizatorii urmatori nu au putut fi creati:"
 
 msgid "These users where created, but we could not send out mails:"
 msgstr "Acesti utilizatori au fost creati, dar nu am reusit sa le trimitem emailuri:"
+
+msgid ""
+"Note that the following entities will be unbadged if this badge is deleted:"
+msgstr ""
+
+msgid "This badge is not in use, so it can be removed safely."
+msgstr ""
+
+msgid "Are you sure you want to delete this badge?"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Confirma"
 
 msgid "Badge title"
 msgstr "Titlu"
@@ -2016,11 +2100,17 @@ msgid ""
 "doesn't have any children)"
 msgstr ""
 
+msgid "Impact"
+msgstr ""
+
 msgid "Save Badge"
 msgstr "Salveaza Titlul"
 
 msgid "Edit"
 msgstr "Modifica"
+
+msgid "Delete"
+msgstr "Sterge"
 
 msgid "No badges added yet."
 msgstr "Nici un titlu inca."
@@ -2087,9 +2177,6 @@ msgstr "Esti sigur ca vrei sa stergi comentariul?"
 msgid "Are you sure you want to delete this argument?"
 msgstr ""
 
-msgid "Confirm"
-msgstr "Confirma"
-
 msgid "Edit comment"
 msgstr "Modifica comentariu"
 
@@ -2152,9 +2239,6 @@ msgstr "Alatura-te comunitatii pentru a comenta."
 msgid "Join instance to discuss."
 msgstr ""
 
-msgid "Add argument"
-msgstr ""
-
 msgid "Login to comment."
 msgstr "Logheaza-te pentru a comenta."
 
@@ -2201,6 +2285,9 @@ msgstr ""
 
 msgid "reply"
 msgstr "raspunde"
+
+msgid "Add argument"
+msgstr ""
 
 msgid "Join instance to reply"
 msgstr "Intra in comunitate pentru a raspunde la comentariu"
@@ -2425,9 +2512,6 @@ msgstr "Info..."
 msgid "Create a proposal to start debating in %(instance)s."
 msgstr "Creeaza o propunere pentru a incepe dezbaterea in comunitatea %(instance)s."
 
-msgid "Delete"
-msgstr "Sterge"
-
 msgid "Delete instance"
 msgstr "Sterge comunitatea"
 
@@ -2452,17 +2536,17 @@ msgstr "Modifica Titlul"
 msgid "badge"
 msgstr "titlu"
 
-msgid "new instance"
-msgstr "comunitate noua"
+msgid "Create new instance"
+msgstr "Creeaza o noua comunitate"
 
 msgid "Instances are little democracies that are ran by their community."
 msgstr "Comunitatile sunt mici democratii aflate sub controlul membrilor lor."
 
+msgid "new instance"
+msgstr "comunitate noua"
+
 msgid "New Instance"
 msgstr "Comunitate noua"
-
-msgid "Create new instance"
-msgstr "Creeaza o noua comunitate"
 
 msgid "Instance name"
 msgstr "Numele comunitatii"
@@ -2502,11 +2586,11 @@ msgstr "Logo curent"
 msgid "Delete current logo"
 msgstr "Sterge logo-ul curent"
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
-
 msgid "Extra CSS"
 msgstr "Still CSS aditional"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
 
 msgid "Thumbnail badges width"
 msgstr ""
@@ -2519,6 +2603,9 @@ msgstr "Utilizeaza documente"
 
 msgid "Allow users to propose norms"
 msgstr "Permite utilizatorilor sa propuna documente"
+
+msgid "Allow users to change norms from within proposals"
+msgstr ""
 
 msgid "Require to propose a variant"
 msgstr "Cere sa fie propusa o varianta"
@@ -2625,7 +2712,7 @@ msgstr "Urmatoarele date limita pentru voturi"
 msgid "Newest Events"
 msgstr "Ultimele evenimente"
 
-msgid "Informations"
+msgid "Information"
 msgstr "Informatii"
 
 msgid "Created"
@@ -2779,17 +2866,26 @@ msgstr "Data limita"
 msgid "Please use the DD.MM.YYYY format."
 msgstr "Te rugam sa folosesti formatul de data DD.MM.YYYY."
 
+msgid "Show all proposals"
+msgstr ""
+
+msgid "Show all open proposals if milestone is in the future."
+msgstr ""
+
+msgid "Create new milestone"
+msgstr ""
+
 msgid "Upcoming Milestones"
 msgstr ""
+
+msgid "Past Milestones"
+msgstr "Date limita depasite"
 
 msgid "Create a new milestone."
 msgstr "Creeaza o data limita."
 
 msgid "new milestone"
 msgstr "data limita noua"
-
-msgid "Past Milestones"
-msgstr "Date limita depasite"
 
 msgid "tutorial_milestones_timeline"
 msgstr "Tutorial: Data limita vot"
@@ -2932,8 +3028,14 @@ msgstr "Numele Variantei"
 msgid "Text"
 msgstr "Text"
 
-msgid "Formatting"
-msgstr "Formatare"
+msgid "Display subnorms as sections"
+msgstr ""
+
+msgid "Allow Comments"
+msgstr ""
+
+msgid "Allow Amendments"
+msgstr ""
 
 msgid "Use markdown formatting."
 msgstr "Utilizeaza formatarea cu taguri."
@@ -2944,14 +3046,17 @@ msgstr "Documentul initial"
 msgid "Relates to a milestone"
 msgstr "Legata de o data limita"
 
+msgid "Popular tags"
+msgstr "Etichete populare"
+
+msgid "Create new norm"
+msgstr ""
+
 msgid "Create a new norm."
 msgstr "Creeaza un document nou."
 
 msgid "new norm"
 msgstr "document nou"
-
-msgid "Popular tags"
-msgstr "Etichete populare"
 
 msgid "tutorial_norms_overview_table"
 msgstr "Aici este tabelul cu documentele comunitatii"
@@ -2989,8 +3094,8 @@ msgstr "Da"
 msgid "Off"
 msgstr "Nu"
 
-msgid "New Proposal"
-msgstr "Propuneri Noi"
+msgid "Propose New Amendment"
+msgstr ""
 
 msgid "Information about the norm"
 msgstr "Detalii despre acest document"
@@ -3011,11 +3116,22 @@ msgstr "Documente secundare"
 msgid "View Proposal"
 msgstr "Afiseaza Propunere"
 
+#, python-format
+msgid "Created by %(creator)s on %(datetime)s"
+msgstr ""
+
+#, python-format
+msgid "Proposed amendments for \"%s\""
+msgstr ""
+
 msgid "No text."
 msgstr "Continut gol."
 
 msgid "Text compared to the original version"
 msgstr "Textul comparat cu versiunea originala"
+
+msgid "Reasoning"
+msgstr ""
 
 msgid "Proposal"
 msgstr "Propunere"
@@ -3028,6 +3144,15 @@ msgstr "Tutorial: Aici vezi schimarile propuse documentului"
 
 msgid "tutorial_norm_show_new"
 msgstr "Tutorial: Aici faci propuneri noi"
+
+msgid "Comments"
+msgstr ""
+
+msgid "Discussions"
+msgstr "Discutii"
+
+msgid "Amendments"
+msgstr ""
 
 msgid "hide sub-topics"
 msgstr "ascunde subiectele secundare"
@@ -3191,26 +3316,41 @@ msgstr "Voturi pentru aceasta varianta"
 msgid "Edit &ldquo;%s&rdquo;"
 msgstr "Modifica &ldquo;%s&rdquo;"
 
-msgid "Title and Goals"
-msgstr "Titlu si scop"
+msgid "Amendment title"
+msgstr ""
 
 msgid "Proposal title"
 msgstr "Titlul Propunerii"
 
-msgid "A brief description of <b>the goals</b> of your proposal."
-msgstr "O scurta descriere a <b>scopului</b> propunerii tale."
+msgid "New amendment"
+msgstr ""
 
-msgid "The proposal would..."
-msgstr "Propunerea urmareste..."
+msgid "New proposal"
+msgstr "Propunere noua"
 
 msgid "Proposal goals"
 msgstr "Scopul propunerii"
 
+msgid "Give a brief explanation of the idea behind your amendment."
+msgstr ""
+
+msgid "Give a brief description of <b>the goals</b> of your proposal."
+msgstr "Introduceti o scurta descriere a <b>scopului</b> propunerii tale."
+
+msgid "The amendment would..."
+msgstr ""
+
+msgid "The proposal would..."
+msgstr "Propunerea urmareste..."
+
 msgid "Collaboration and Notification"
 msgstr "Setari pentru colaborare si notificari"
 
-msgid "Allow others to edit this proposal."
-msgstr "Permite celorlalti membri sa modifice aceasta propunere."
+msgid "Allow modifications by other users"
+msgstr ""
+
+msgid "Freeze proposal"
+msgstr ""
 
 msgid "Create new proposal"
 msgstr "Creeaza o propunere noua"
@@ -3230,8 +3370,11 @@ msgstr "Cauta propuneri"
 msgid "tutorial_proposal_overview_new"
 msgstr "Creeaza o propunere noua"
 
-msgid "New proposal"
-msgstr "Propunere noua"
+msgid "Create new amendment"
+msgstr ""
+
+msgid "Proposed changes"
+msgstr ""
 
 msgid "Change norms with this proposal"
 msgstr "Ce documente se modifica prin aceasta propunere"
@@ -3246,17 +3389,11 @@ msgstr "Propunerile sunt implementate prin crearea unor documente noi sau modifi
 msgid "Select a norm to change:"
 msgstr "Selecteaza documentul pe care-l modifici"
 
-msgid "Give a brief description of <b>the goals</b> of your proposal."
-msgstr "Introduceti o scurta descriere a <b>scopului</b> propunerii tale."
-
 msgid "Multiple tags can be separated by commas."
 msgstr "Etichetele multiple pot fi separate cu o virgula."
 
 msgid "Delete this proposal."
 msgstr "Sterge propunerea."
-
-msgid "Topic and Description of the Proposal"
-msgstr "Subiectul si descrierea Propunerii"
 
 #, python-format
 msgid "%s Discussions"
@@ -3265,12 +3402,6 @@ msgstr "%s Discutii"
 #, python-format
 msgid "%s Proposed Implementations"
 msgstr "%s Implementari propuse"
-
-msgid "Comments"
-msgstr ""
-
-msgid "Discussions"
-msgstr "Discutii"
 
 msgid "Proposed Implementations"
 msgstr "Implementari propuse"
@@ -3345,9 +3476,6 @@ msgstr "%s%% sustinere"
 #, python-format
 msgid "%s:%s votes"
 msgstr "%s:%s voturi"
-
-msgid "Information"
-msgstr "Informatii"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -3650,11 +3778,14 @@ msgstr "Modifica Titlul pentru %s"
 msgid "Badges for %s"
 msgstr "Titlul pentru %s"
 
-msgid "all instances"
-msgstr "toate comunitatile"
+msgid "Global badges"
+msgstr ""
 
 msgid "Example:"
 msgstr "Exemplu:"
+
+msgid "Badges in instance"
+msgstr ""
 
 msgid "Startpage"
 msgstr "Pagina de pornire"
@@ -3747,93 +3878,6 @@ msgstr "Primite"
 msgid "There are no delegations."
 msgstr "Nu sunt delegari."
 
-#, python-format
-msgid "Settings: %s"
-msgstr "Setarile: %s"
-
-msgid "Your User Details"
-msgstr "Detaliile utilizatorului tau:"
-
-msgid "Display name for"
-msgstr "Setarile utilizator pentru"
-
-msgid "You can chose which name other users see."
-msgstr "Numele vazut de catre ceilalti utilizatori."
-
-msgid "Password"
-msgstr "Parola"
-
-msgid "Select a new password or leave the fields blank to keep your old one."
-msgstr "Introduceti o parola noua sau lasati campurile goale pentru a pastra parola existenta."
-
-msgid "Password:"
-msgstr "Parola:"
-
-msgid "Password (confirm):"
-msgstr "Parola (confirma):"
-
-msgid "Gender"
-msgstr "Gen"
-
-msgid "I am..."
-msgstr ""
-
-msgid "Select how you would like to be notified of events."
-msgstr "Alege adresa pe care vrei sa primesti notificarile."
-
-msgid "Help."
-msgstr "Ajutor."
-
-msgid "E-Mail:"
-msgstr "E-Mail:"
-
-msgid "fewer"
-msgstr "mai putine"
-
-msgid "more notifications"
-msgstr "mai multe notificari"
-
-msgid "Not confirmed."
-msgstr "Ne-confirmat."
-
-msgid "Re-send activation link"
-msgstr "Re-trimite link de activare."
-
-msgid "Receive occasional news from instance administrators:"
-msgstr ""
-
-msgid "OpenID"
-msgstr "OpenID"
-
-msgid "OpenID allows you to use a single login on many web sites."
-msgstr "OpenID va permite sa utilizati acelasi utilizator pentru a va loga pe mai multe site-uri web."
-
-msgid "There are no associated OpenIDs."
-msgstr "Nu exista asociere la nici un cont OpenID."
-
-msgid "remove"
-msgstr "elimina"
-
-msgid "Short biography"
-msgstr "Scurta biografie"
-
-msgid ""
-"A bio will allow others to learn about you and perhaps even get you a few "
-"delegations."
-msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tine si iti maresc sansele sa obtii mai multe delegari de vot."
-
-msgid "Advanced Settings"
-msgstr "Setari Avansate"
-
-msgid "The pre-set number of entries in listing pages:"
-msgstr ""
-
-msgid "Disable help messages and links to the documentation:"
-msgstr ""
-
-msgid "Change default sorting order for proposals:"
-msgstr "Modifica sortarea implicita a propunerilor:"
-
 msgid "Find users"
 msgstr "Cauta utilizatori"
 
@@ -3868,6 +3912,9 @@ msgstr "Email:"
 
 msgid "Login via Shibboleth"
 msgstr ""
+
+msgid "Password:"
+msgstr "Parola:"
 
 msgid "Forgot your password?"
 msgstr ""
@@ -3916,8 +3963,14 @@ msgstr ""
 msgid "E-mail"
 msgstr "E-mail"
 
+msgid "Password"
+msgstr "Parola"
+
 msgid "Enter password:"
 msgstr "Introduceti parola:"
+
+msgid "Password (confirm):"
+msgstr "Parola (confirma):"
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -3955,6 +4008,9 @@ msgid ""
 "In order to retrieve your login, you will have to enter your email address."
 msgstr "Pentru ati retrimite datele de conectare, trebuie sa introduci adresa de email."
 
+msgid "E-Mail:"
+msgstr "E-Mail:"
+
 msgid "Reset"
 msgstr "Reseteaza parola"
 
@@ -3972,9 +4028,6 @@ msgstr ""
 msgid "Advanced settings"
 msgstr ""
 
-msgid "Default proposal sorting order"
-msgstr ""
-
 msgid "Pager size"
 msgstr ""
 
@@ -3990,8 +4043,41 @@ msgstr ""
 msgid "Login settings"
 msgstr ""
 
+msgid "Select a new password or leave the fields blank to keep your old one."
+msgstr "Introduceti o parola noua sau lasati campurile goale pentru a pastra parola existenta."
+
+msgid "OpenID"
+msgstr "OpenID"
+
+msgid "OpenID allows you to use a single login on many web sites."
+msgstr "OpenID va permite sa utilizati acelasi utilizator pentru a va loga pe mai multe site-uri web."
+
+msgid "There are no associated OpenIDs."
+msgstr "Nu exista asociere la nici un cont OpenID."
+
+msgid "remove"
+msgstr "elimina"
+
 msgid "Notification settings"
 msgstr ""
+
+msgid "Select how you would like to be notified of events."
+msgstr "Alege adresa pe care vrei sa primesti notificarile."
+
+msgid "Help."
+msgstr "Ajutor."
+
+msgid "fewer"
+msgstr "mai putine"
+
+msgid "more notifications"
+msgstr "mai multe notificari"
+
+msgid "Not confirmed."
+msgstr "Ne-confirmat."
+
+msgid "Re-send activation link"
+msgstr "Re-trimite link de activare."
 
 msgid "News service"
 msgstr ""
@@ -4010,6 +4096,9 @@ msgstr ""
 msgid "Personal settings"
 msgstr ""
 
+msgid "You can chose which name other users see."
+msgstr "Numele vazut de catre ceilalti utilizatori."
+
 msgid "Prefered user interface language"
 msgstr ""
 
@@ -4018,6 +4107,14 @@ msgstr ""
 
 msgid "Select your prefered gender"
 msgstr ""
+
+msgid "Short biography"
+msgstr "Scurta biografie"
+
+msgid ""
+"A bio will allow others to learn about you and perhaps even get you a few "
+"delegations."
+msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tine si iti maresc sansele sa obtii mai multe delegari de vot."
 
 #, python-format
 msgid "Signed up %s"

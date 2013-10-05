@@ -637,9 +637,9 @@ $(document).ready(function () {
     $('input, textarea').placeholder();
 
     // comments
-    $('.comment, .paper').hover(
+    $('.paper').hover(
         function () {
-            $(this).find('.hover_active').fadeIn('slow');
+            $(this).find('.hover_active').fadeIn('fast');
         },
         function () {
             $(this).find('.hover_active').fadeOut('fast');
@@ -657,12 +657,13 @@ $(document).ready(function () {
 
     $('.comment a.new_comment').click(function (event) {
         event.preventDefault();
-        var c_id = $(this).closest('.comment').attr('id');
-        var comment_form_id = 'comment_form_' + c_id;
-        var comment_form = $('#' + comment_form_id).attr('comment_id');
+        var button = $(this),
+            c_id = button.closest('.comment').attr('id'),
+            comment_form_id = 'comment_form_' + c_id,
+            comment_form = $('#' + comment_form_id).attr('comment_id');
         if (!comment_form) {
-            var form_url = $(this).data('reply-url');
-            var comment_div = $('#' + c_id);
+            var form_url = $(this).data('reply-url'),
+                comment_div = $('#' + c_id);
             // create a container and load the form into it.
             var form_div = comment_div.add('<div></div>').not(comment_div);
             form_div.insertAfter(comment_div);
@@ -672,13 +673,15 @@ $(document).ready(function () {
                 form_div.find('a.cancel').click(function (event) {
                     // the cancel button removes the form from the dom
                     form_div.remove();
+                    button.removeClass('less')
                     event.preventDefault();
                 });
             });
+            button.addClass('less')
         } else {
             $('#comment_form_' + c_id).remove();
+            button.removeClass('less')
         }
-        $(this).toggleClass('open');
     });
 
     // load the comment edit form into the page
@@ -721,13 +724,6 @@ $(document).ready(function () {
         var new_sentiment = $(this).data('status');
         comment_form.find('input[name="sentiment"]').attr('value', new_sentiment);
     });
-
-    (function () {
-        // function only to get a function local namespace
-        var second_level_comments = $('.comments_list > li > ul');
-        second_level_comments.hide();
-        second_level_comments.toggleClass('open');
-    }());
 
     var stats_baseurl = $('#main_comments').data('stats-baseurl');
     if (stats_baseurl) {
