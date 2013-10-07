@@ -46,6 +46,67 @@ var adhocracy = adhocracy || {};
     };
 
 
+    adhocracy.uniqueSelector = function(el) {
+        // check relative to the next window node
+        // in case we are inside an iframe
+        var context = el.parents('html').parent();
+        var unique = function(selector) {
+            return $(selector, context).length === 1;
+        };
+
+        var tag = el[0].tagName;
+        if (unique(tag)) {
+            return selector;
+        } else if (typeof el.attr('id') !== 'undefined') {
+            return tag + '#' + el.attr('id');
+        } else if (typeof el.attr('name') !== 'undefined') {
+            return tag + '[name="' + el.attr('name') + '"]';
+        }
+
+        if (typeof el.attr('class') !== 'undefined') {
+            tag += '.' + el.attr('class');
+            if (unique(tag)) {
+                return tag;
+            }
+        }
+
+        // if still nothing was found
+        return adhocracy.uniqueSelector(el.parent())
+            + ' > ' + tag + ':nth-child(' + (el.index()+1) + ')';
+    };
+
+    adhocracy.ajax_submit = function(form, success) {
+        // submits using ajax
+        // will magically insert error messages
+        // will call success() on success
+        form.submit(function(e) {
+            e.preventDefault();
+
+            var form = $(e.srcElement),  // form outside might be wrong
+                selector = adhocracy.uniqueSelector(form);
+
+            // ajax submit takes a while. Show some feedback
+            form.find('*[type="submit"]').addClass('loading');
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data) {
+                    // read the returned html document
+                    data = $(data);
+                    if (data.find('.error-message').length === 0) {
+                        success();
+                    } else {
+                        // replace by form with error messages
+                        form.html(data.find(selector).html());
+                    }
+                },
+            });
+        });
+    };
+
+
     /***************************************************
      * @namespace: adhocracy.overlay
      ***************************************************/
@@ -87,10 +148,11 @@ var adhocracy = adhocracy || {};
          */
 
         // grab wrapper element inside content
-        var overlay = this.getOverlay();
-        var wrap = overlay.find(".contentWrap");
+        var overlay = this.getOverlay(),
+            wrap = overlay.find(".contentWrap"),
+            trigger = this.getTrigger();
 
-        var url = new Uri(this.getTrigger().attr("href"));
+        var url = new Uri(trigger.attr("href"));
         url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
         url = url.toString();
 
@@ -174,6 +236,22 @@ var adhocracy = adhocracy || {};
                 }
             })
 
+            // FIXME: when trigger was created from query params it does not have that class
+            if (trigger.hasClass('overlay-close-on-submit')) {
+                $('.savebox .cancel', iframe.contents()).click(function(e) {
+                    e.preventDefault();
+                    overlay.find('.close').click();
+                });
+                adhocracy.ajax_submit($('form', iframe.contents()), function() {
+                    // reload parent url without overlay params
+                    var uri = new Uri(window.location.toString());
+                    uri.deleteQueryParam('overlay_path');
+                    uri.deleteQueryParam('overlay_target');
+                    window.location = uri.toString();
+                });
+            }
+
+            /* update history */
             var path = iframe.contents().attr('location').href,
                 target = '#' + overlay.attr('id');
             adhocracy.overlay.URIStateReplace(path, target);
