@@ -17,7 +17,7 @@ ${components.watch(c.milestone)}
     <p>
 <%
 created_msg = _("by %s on %s") % (
-    h.user.link(c.milestone.creator), 
+    h.user.link(c.milestone.creator),
     h.date_tag(c.milestone.create_time))
 %>
     ${created_msg|n}
@@ -51,18 +51,17 @@ created_msg = _("by %s on %s") % (
             </a>
         %endif
         %if can.milestone.delete(c.milestone):
-            <a class="button title delete ttip" 
-               title="${_('Delete this milestone.')}"  
+            <a class="button title delete ttip"
+               title="${_('Delete this milestone.')}"
                href="${h.entity_url(c.milestone, member='ask_delete')}">
                 ${_("delete")}
             </a>
         %endif
-        
+
     </div>
     ${tiles.milestone.header(c.milestone)}
 
     ${c.tile.text|n}
-    <br />
 
 
     <h4>${_("Associated Proposals")}</h4>
@@ -77,22 +76,22 @@ created_msg = _("by %s on %s") % (
         <% auth = check.proposal.create() %>
         <% url = h.base_url('/proposal/new?milestone=%d' % c.milestone.id) %>
         %if auth:
-            <a class="button add ttip" 
-               title="${_('Introduce a new idea to debate.')}" 
+            <a class="button add ttip"
+               title="${_('Introduce a new idea to debate.')}"
                href="${url}">${_("new proposal")}</a>
         %elif auth.propose_join():
-            <a class="button add ttip" 
-               title="${_('Join instance to create a new proposal.')}" 
-               href="${url}" 
+            <a class="button add ttip"
+               title="${_('Join instance to create a new proposal.')}"
+               href="${url}"
                rel="#overlay-join-button">${_("new proposal")}</a>
         %elif auth.propose_login():
-            <a class="button add ttip" 
-               title="${_('Login to create a new proposal.')}" 
-               href="${url}" 
+            <a class="button add ttip"
+               title="${_('Login to create a new proposal.')}"
+               href="${url}"
                rel="#overlay-login-button">${_("new proposal")}</a>
         %elif auth.propose_validate_email():
-            <a class="button add ttip" 
-               title="${_('Validate email in order to create a new proposal.')}" 
+            <a class="button add ttip"
+               title="${_('Validate email in order to create a new proposal.')}"
                rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 

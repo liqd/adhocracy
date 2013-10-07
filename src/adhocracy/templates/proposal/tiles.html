@@ -6,7 +6,7 @@
         <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
               data-id="${proposal.id}">
             ${tiles.badge.badges(proposal.thumbnails)}
-        </div>      
+        </div>
         <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
             %if tile.fresh:
                 ${_("(new)")}
@@ -19,113 +19,108 @@
                 ${tiles.badge.badges(proposal.categories)}
             </span>
         </h3>
-        <div class="meta">              
+        <div class="meta">
             %if proposal.is_adopt_polling():
                 ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
                 ·
-            %elif proposal.rate_poll: 
-                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n} 
+            %elif proposal.rate_poll:
+                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
                 ·
-    %endif
+            %endif
             %if proposal.instance.use_norms:
                 ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
                 ·
             %endif
-            
         </div>
     </li>
 </%def>
 
 
 <%def name="sidebar(tile, proposal)">
-    
-    %if proposal.is_adopt_polling(): 
+    %if proposal.is_adopt_polling():
         ${tiles.poll.booth(proposal.adopt_poll)}
     %endif
 
     <h3>${_("Information")}</h3>
     <div>
-        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n} 
-      %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
-    · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
-      %endif
-  </div>
-  %if proposal.milestone and c.instance.milestones:
-  <br/>
-  <div class="infobox">
-    ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
-  </div>
-  %endif
-  %if proposal.description.head.wiki:
-  <br/>
-  <div class="infobox">
-    ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
-  </div>
-  %endif
+        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n}
+        %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
+        · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+        %endif
+    </div>
+
+    %if proposal.milestone and c.instance.milestones:
+    <div class="infobox">
+        ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
+    </div>
+    %endif
+
+    %if proposal.description.head.wiki:
+    <div class="infobox">
+        ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
+    </div>
+    %endif
+
     <ul>
         <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
         <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
         %if c.instance.allow_delegate:
-            <li><a title="${_('Who is receiving delegations?')}" 
-                   href="${h.entity_url(proposal, member='delegations')}"
-            class="delegations ttip">${_("Delegations")} 
-            ##(${len(proposal.current_delegations())})
-            </a></li>
+        <li><a title="${_('Who is receiving delegations?')}"
+               href="${h.entity_url(proposal, member='delegations')}"
+               class="delegations ttip">${_("Delegations")}
+                ##(${len(proposal.current_delegations())})</a>
+        </li>
         %endif
     </ul>
-    <br/>
-    
+
     ${tiles.tag.sidebar(proposal)}
     ${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 
 
 <%def name="header(tile, proposal, active)">
-    
-    <div style="clear: both;"></div>
     %if proposal.rate_poll:
     <span class="${h.poll_position_css(proposal.rate_poll)}"  id="tile_p${proposal.id}">
         <div class="proposal rate">
             %if can.proposal.rate(proposal):
-                <a class="up icon ttip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&amp;${h.url_token()}" 
-                    onclick="return adhocracy.rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
-                    &nbsp;
-                </a>
-                <a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-                    class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-                    class="num_against">${proposal.rate_poll.tally.num_against}</a>
-                <a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=-1&amp;${h.url_token()}" 
-                    onclick="return adhocracy.rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
-                    &nbsp;
-                </a>
+            <a class="up icon ttip" title="${_("Support this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=1&amp;${h.url_token()}"
+                onclick="return adhocracy.rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, 1);">
+                &nbsp;
+            </a>
+            <a href="${h.entity_url(proposal.rate_poll, member='votes')}"
+                class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}"
+                class="num_against">${proposal.rate_poll.tally.num_against}</a>
+            <a class="down icon ttip" title="${_("Oppose this proposal")}" href="${h.entity_url(proposal.rate_poll, member='rate')}?position=-1&amp;${h.url_token()}"
+                onclick="return adhocracy.rate('#tile_p${proposal.id}', ${proposal.rate_poll.id}, -1);">
+                &nbsp;
+            </a>
             %else:
-                <a class="up icon inactive">&nbsp;</a>
-                <a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-                    class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}" 
-                    class="num_against">${proposal.rate_poll.tally.num_against}</a>
-                <a class="down icon inactive">&nbsp;</a>
+            <a class="up icon inactive">&nbsp;</a>
+            <a href="${h.entity_url(proposal.rate_poll, member='votes')}"
+                class="num_for">${proposal.rate_poll.tally.num_for}</a>:<a href="${h.entity_url(proposal.rate_poll, member='votes')}"
+                class="num_against">${proposal.rate_poll.tally.num_against}</a>
+            <a class="down icon inactive">&nbsp;</a>
             %endif
         </div>
     </span>
     %endif
-    
-    <h1>${h.delegateable.link(proposal, link=False)|n}  ${tiles.badge.badges(proposal.badges)} </h1>
-    <br/>
+
+    <h1>${h.delegateable.link(proposal, link=False)|n} ${tiles.badge.badges(proposal.badges)}</h1>
     ${tiles.proposal.panel(proposal, tile)}
 </%def>
 
 
 <%def name="panel(tile, proposal)">
     %if proposal.adopted:
-        <div class="panel">
-            <div class="info adoption adopted">
-                ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False),
-                                                  h.datetime_tag(proposal.adopt_poll.end_time))|n}
-            </div>
+    <div class="panel">
+        <div class="info adoption adopted">
+            ${_("%s has been adopted %s.") % (h.delegateable.link(proposal, link=False),
+                                              h.datetime_tag(proposal.adopt_poll.end_time))|n}
         </div>
-        %elif proposal.is_adopt_polling():
-        <!--
-        <div class="panel">
+    </div>
+    %elif proposal.is_adopt_polling():
+    <!--
+    <div class="panel">
         <div class="info adoption">
             <div class="given first">
                 ${_("Adoption requirements:")}
@@ -147,10 +142,10 @@
                 </div>
             %endif
             <div class="last">
-                ${_("stable majority for %s days") % c.instance.activation_delay} 
+                ${_("stable majority for %s days") % c.instance.activation_delay}
             </div>
         </div>
-      </div>
-      -->
+    </div>
+    -->
     %endif
 </%def>

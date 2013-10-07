@@ -9,20 +9,21 @@
 </%def>
 
 <%block name="headline">
-${tiles.poll.header(c.poll, active='votes')}
+    ${tiles.poll.header(c.poll, active='votes')}
 </%block>
+
 
 <%block name="sidebar">
     %if c.poll.action != c.poll.RATE:
         ${tiles.poll.booth(c.poll)}
-        <br/>
     %endif
-    
+
     <div class="infobox">
         ${_("Vote results are updated with a short delay. After casting " +
             "your vote, expect a short delay before the tally updates.")}
     </div>
 </%block>
+
 
 <%block name="main_content">
     <div class="table">
