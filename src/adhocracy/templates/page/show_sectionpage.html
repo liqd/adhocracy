@@ -25,7 +25,7 @@
                 </ul>
                 <div class="utility">
                     %if can.norm.edit(page):
-                    <a href="${h.entity_url(page, member='edit', query={'section_parent': c.page.id})}">${_(u"Edit")}</a>
+                    <a href="${h.entity_url(page, member='edit', query={'section_parent': c.page.id})}" rel="#overlay-form" >${_(u"Edit")}</a>
                     %endif
                     %if can.page.delete(page):
                     <a href="${h.entity_url(page, member='ask_delete', query={'section_parent': c.page.id})}">${_(u"Delete")}</a>
@@ -64,7 +64,7 @@
                 </ul>
                 <div class="utility">
                     %if c.variant_details['can_edit']:
-                    <a href="${c.variant_details['edit_url']}">${_(u"Edit")}</a>
+                    <a href="${c.variant_details['edit_url']}" rel="#overlay-form" >${_(u"Edit")}</a>
                     %endif
                     %if can.page.delete(c.page):
                     <a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a>
