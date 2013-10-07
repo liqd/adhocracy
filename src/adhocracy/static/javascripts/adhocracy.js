@@ -246,15 +246,15 @@ var adhocracy = adhocracy || {};
                     // reload parent url without overlay params
                     var uri = new Uri(window.location.toString());
                     uri.deleteQueryParam('overlay_path');
-                    uri.deleteQueryParam('overlay_target');
+                    uri.deleteQueryParam('overlay_type');
                     window.location = uri.toString();
                 });
             }
 
             /* update history */
             var path = iframe.contents().attr('location').href,
-                target = '#' + overlay.attr('id');
-            adhocracy.overlay.URIStateReplace(path, target);
+                type = trigger.attr('rel');
+            adhocracy.overlay.URIStateReplace(path, type);
         });
     };
 
@@ -284,21 +284,21 @@ var adhocracy = adhocracy || {};
     adhocracy.overlay.URIStateClear = function () {
         var state = new Uri(document.location.href)
             .deleteQueryParam('overlay_path')
-            .deleteQueryParam('overlay_target');
+            .deleteQueryParam('overlay_type');
         if (window.history && history.pushState) {
             history.pushState(null, null, state.toString());
         }
     }
 
-    adhocracy.overlay.URIStateReplace = function (overlay_path, overlay_target) {
+    adhocracy.overlay.URIStateReplace = function (overlay_path, overlay_type) {
         // throw away anything until path
         var _overlay_path = new Uri(overlay_path),
         overlay_path = overlay_path.substring(_overlay_path.origin().length)
 
         var state = new Uri(document.location.href)
             .replaceQueryParam('overlay_path', overlay_path);
-        if (typeof overlay_target !== 'undefined') {
-            state.replaceQueryParam('overlay_target', overlay_target);
+        if (typeof overlay_type !== 'undefined') {
+            state.replaceQueryParam('overlay_type', overlay_type);
         }
 
         if (window.history && history.pushState) {
@@ -306,16 +306,20 @@ var adhocracy = adhocracy || {};
         }
     }
 
-    adhocracy.overlay.trigger = function (path, target) {
+    adhocracy.overlay.trigger = function (path, type) {
         // minimal validation. not sure if this is enough
         if (path[0] !== '/' || path[1] === '/') {
             throw "Overlay path must be an absolute path.";
         }
-        if (typeof target === 'undefined') {
-            target = '#overlay-default';
+
+        var target = '#overlay-default';
+        if (type === '#overlay-url-big') {
+            target = '#overlay-big';
         }
+
         var trigger = $('<a>');
         trigger.attr('href', path);
+        trigger.attr('rel', type);
         trigger.overlay({
             fixed: false,
             target: target,
@@ -1130,8 +1134,8 @@ $(document).ready(function () {
 
     var uri = new Uri(document.location.href),
         overlay_path = uri.getQueryParamValue('overlay_path'),
-        overlay_target = uri.getQueryParamValue('overlay_target');
+        overlay_type = uri.getQueryParamValue('overlay_type');
     if (typeof overlay_path !== 'undefined') {
-        adhocracy.overlay.trigger(overlay_path, overlay_target);
+        adhocracy.overlay.trigger(overlay_path, overlay_type);
     }
 });
