@@ -31,8 +31,13 @@ a.button {
 .submit input, .submit button, button[type="submit"] {
     @include button($primary-color);
     font-size: 13px;
-    line-height: 27px;
     margin-right: 0.7em;
+
+    // these are replaced elements and therefore
+    // `line-height` does not apply in some browsers
+    line-height: 1;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 a.button_small {
