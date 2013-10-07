@@ -24,9 +24,10 @@ ${tiles.poll.header(c.poll)|n}
                 "that have been cast at this time <strong>will be " +
                 "invalidated</strong>.")|n}
         </div>
-        <center>
-            <input type="submit" class="delete" value="${_('Confirm')}" />
-        </center>
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.entity_url(c.poll), save_text=_('Confirm'))}
+        </div>
     </div>
 </form>
 </%block>

@@ -25,8 +25,10 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
         ${tiles.page.select_page(functions=[model.Page.NORM],
                                  exclude=c.exclude_pages,
                                  allow_empty=False)}
-        <br/><br/>
-        <input type="submit" value="${_('Include')}" />
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.entity_url(c.proposal), save_text=_('Include'))}
+        </div>
     </form>
 
   %if can.norm.propose():
