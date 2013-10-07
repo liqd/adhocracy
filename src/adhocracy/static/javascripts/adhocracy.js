@@ -236,8 +236,7 @@ var adhocracy = adhocracy || {};
                 }
             })
 
-            // FIXME: when trigger was created from query params it does not have that class
-            if (trigger.hasClass('overlay-close-on-submit')) {
+            if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
                     e.preventDefault();
                     overlay.find('.close').click();
@@ -371,6 +370,14 @@ var adhocracy = adhocracy || {};
                 fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-big',
+                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
+            });
+
+            wrapped.find("a[rel=#overlay-form]").overlay({
+                fixed: false,
+                target: '#overlay-default',
+                mask: adhocracy.overlay.mask,
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
                 onClose: adhocracy.overlay.URIStateClear,
             });
