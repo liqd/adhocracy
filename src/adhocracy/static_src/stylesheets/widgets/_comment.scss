@@ -15,45 +15,43 @@
         }
     }
 }
-.comments_list {
-    .sub {
-        margin-left: 3em;
+.comments_list .sub {
+    margin-left: 3em;
+}
+.comment {
+    .header {
+        text-align: right;
+        @include clearfix;
+        margin-bottom: 0.5em;
+        h5 {
+            float: left;
+            text-align: left;  // fix for firefox
+            margin: 0;
+        }
     }
-    .comment {
-        .header {
-            text-align: right;
-            @include clearfix;
-            margin-bottom: 0.5em;
-            h5 {
-                float: left;
-                text-align: left;  // fix for firefox
-                margin: 0;
-            }
+    .footer {
+        text-align: right;
+        @include clearfix;
+        .utility {
+            float: left;
         }
-        .footer {
-            text-align: right;
-            @include clearfix;
-            .utility {
-                float: left;
-            }
-        }
-        .body > *:last-child {
-            margin-bottom: 0.5em;
-        }
+    }
+    .body > *:last-child {
+        margin-bottom: 0.5em;
+    }
 
+    .vote {
+        opacity: 0.7;
+    }
+    .header .utility, .footer .utility_links {
+        display: none;
+    }
+    &:hover {
         .vote {
-            opacity: 0.7;
+            opacity: 1;
         }
         .header .utility, .footer .utility_links {
-            display: none;
-        }
-        &:hover {
-            .vote {
-                opacity: 1;
-            }
-            .header .utility, .footer .utility_links {
-                display: inline-block;
-            }
+            display: inline-block;
         }
     }
 }
