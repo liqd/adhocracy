@@ -70,6 +70,8 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
+    thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
     chained_validators = [
         forms.UnusedProposalTitle(),
     ]
@@ -291,6 +293,8 @@ class ProposalController(BaseController):
               post_only=False, on_get=True)
     def edit(self, id, errors={}, page=None, format=u'html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        c.badges = self._editable_badges(c.proposal)
+        c.thumbnailbadges = self._editable_thumbnailbadges(c.proposal)
         require.proposal.edit(c.proposal)
         c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
 
