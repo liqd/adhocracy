@@ -368,7 +368,8 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal, rev=_text)
+                   topics=[c.proposal], proposal=c.proposal, rev=_text,
+                   badges_added=added, badges_removed=removed)
         redirect(h.entity_url(c.proposal))
 
     @RequireInstance
