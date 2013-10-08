@@ -4,12 +4,12 @@
 <%def name="title()">${_("Edit badges for %s") % c.proposal.title}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
+${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
 </%def>
-  
-<%block name="main_content">
 
-<form name="settings" class="inplace" method="POST" 
+
+<%block name="main_content">
+<form name="settings" class="inplace" method="POST"
       action="${h.entity_url(c.proposal, member='update_badges')}">
 
     ${h.field_token()|n}
@@ -24,7 +24,7 @@
             %for badge in c.badges:
             <tr>
                 <td>
-                    <input type="checkbox" value="${badge.id}" 
+                    <input type="checkbox" value="${badge.id}"
                            name="badge" />
                 </td>
                 <td>${badge_tiles.badge(badge)}</td>
@@ -43,28 +43,26 @@
             %if c.thumbnailbadges:
             <tr>
                 <td>
-                    <input type="radio" value="" 
+                    <input type="radio" value=""
                            name="thumbnailbadge" />
                 </td>
                 <td>${_('No Thumbnail Badge')}</td>
-            </tr> 
-            %endif 
+            </tr>
+            %endif
             %for badge in c.thumbnailbadges:
             <tr>
                 <td>
-                    <input type="radio" value="${badge.id}" 
+                    <input type="radio" value="${badge.id}"
                            name="thumbnailbadge" />
                 </td>
                 <td>${badge_tiles.badge(badge)}</td>
             </tr>
             %endfor
         </tbody>
-    </table> 
+    </table>
 
     <div style="clear:both;"></div>
 
     ${components.savebox(h.base_url("/proposal/%s" % c.proposal.id))}
- 
 </form>
-
 </%block>
