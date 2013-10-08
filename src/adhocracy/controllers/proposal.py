@@ -19,7 +19,7 @@ from adhocracy.lib.auth import authorization, can, csrf, require, guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_def, render_json
+from adhocracy.lib.templating import render, render_def, render_json, ret_abort
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.util import get_entity_or_abort
@@ -331,6 +331,9 @@ class ProposalController(BaseController):
 
             self.form_result = ProposalUpdateForm().to_python(request.params,
                                                               state=state_())
+
+            badges = self.form_result.get('badge')
+            thumbnailbadges = self.form_result.get('thumbnailbadge')
         except Invalid, i:
             return self.edit(id, errors=i.unpack_errors())
 
@@ -339,6 +342,9 @@ class ProposalController(BaseController):
         c.proposal.label = self.form_result.get('label')
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
+
+        added, removed = self._update_badges(badges, thumbnailbadges,
+                                             c.proposal)
 
         # change the category
         categories = self.form_result.get('category')
@@ -617,24 +623,16 @@ class ProposalController(BaseController):
                 render("/proposal/badges.html", overlay=format == u'overlay'),
                 defaults=defaults)
 
-    @RequireInternalRequest()
-    @validate(schema=DelegateableBadgesForm(), form='badges')
-    @guard.perm("instance.admin")
-    @csrf.RequireInternalRequest(methods=['POST'])
-    def update_badges(self, id, format='html'):
-        proposal = get_entity_or_abort(model.Proposal, id)
+    def _update_badges(self, badges, thumbnailbadges, proposal):
         editable_badges = self._editable_badges(proposal)
         editable_badges.extend(self._editable_thumbnailbadges(c.proposal))
-        badges = self.form_result.get('badge')
-        thumbnailbadges = self.form_result.get('thumbnailbadge')
-        redirect_to_proposals = self.form_result.get('redirect_to_proposals')
         added = []
         removed = []
 
-        for badge in proposal.badges + proposal.thumbnails:
+        for badge in badges + thumbnailbadges:
             if badge not in editable_badges:
-                # the user can not edit the badge, so we don't remove it
-                continue
+                ret_abort(_(u"You are not allowed to edit badge %i")
+                          % badge.id, code=403)
 
         for badge in proposal.badges:
             if badge not in badges:
@@ -651,14 +649,29 @@ class ProposalController(BaseController):
                 added.append(badge)
 
         if added or removed:
+            # FIXME: needs commit() cause we do a redirect() which raises
+            # an Exception.
+            model.meta.Session.commit()
+            update_entity(proposal, model.UPDATE)
+
+        return added, removed
+
+    @RequireInternalRequest()
+    @validate(schema=DelegateableBadgesForm(), form='badges')
+    @guard.perm("instance.admin")
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def update_badges(self, id, format='html'):
+        proposal = get_entity_or_abort(model.Proposal, id)
+        badges = self.form_result.get('badge')
+        thumbnailbadges = self.form_result.get('thumbnailbadge')
+        redirect_to_proposals = self.form_result.get('redirect_to_proposals')
+
+        added, removed = self._update_badges(badges, thumbnailbadges, proposal)
+        if added or removed:
             event.emit(event.T_PROPOSAL_BADGE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        badges_added=added, badges_removed=removed)
 
-        # FIXME: needs commit() cause we do an redirect() which raises
-        # an Exception.
-        model.meta.Session.commit()
-        update_entity(proposal, model.UPDATE)
         if format == 'ajax':
             obj = {'badges_html': render_def('/badge/tiles.html', 'badges',
                                              badges=proposal.badges),
