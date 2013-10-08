@@ -42,6 +42,7 @@
             </div>
         </fieldset>
 
+        %if not h.config.get_bool('adhocracy.proposal.split_badge_edit'):
         %if can.perm("instance.admin"):
         <fieldset>
             <legend>${_("badge")}</legend>
@@ -98,6 +99,7 @@
             <p>${_(u"No Thumbnail Badges")}</p>
             %endif
         </fieldset>
+        %endif
         %endif
 
         %if not c.proposal.is_amendment:

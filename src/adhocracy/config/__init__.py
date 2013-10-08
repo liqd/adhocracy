@@ -48,6 +48,7 @@ DEFAULTS = {
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
     'adhocracy.redirect_startpage_to_instance': u'',
+    'adhocracy.proposal.split_badge_edit': True,
     'debug': False,
 }
 
