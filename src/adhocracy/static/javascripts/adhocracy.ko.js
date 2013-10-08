@@ -33,7 +33,7 @@ var adhocracy = adhocracy || {};
         this.checked = ko.observable(data.checked);
         this.thumbnail = ko.observable(data.thumbnail);
         this.css_class = ko.computed(function () {
-            return 'badge badge_' + self.id();
+            return 'abadge badge_' + self.id();
         });
     };
 

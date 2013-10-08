@@ -13,55 +13,54 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
       action="${h.entity_url(c.proposal, member='update_badges')}">
 
     ${h.field_token()|n}
+    <h3>Badges</h3>
 
-    <label for="badge">Badges</label>
-    <table>
-        <thead>
-            <th></th>
-            <th>${_("badge")}</th>
-        </thead>
-        <tbody>
+    <fieldset>
+        <legend>${_("badge")}</legend>
+
+        %if c.badges:
+        <ul class="nobullet">
             %for badge in c.badges:
-            <tr>
-                <td>
+            <li>
+                <label>
                     <input type="checkbox" value="${badge.id}"
                            name="badge" />
-                </td>
-                <td>${badge_tiles.badge(badge)}</td>
-            </tr>
+                    ${badge_tiles.badge(badge)}
+                </label>
+            </li>
             %endfor
-        </tbody>
-    </table>
+        </ul>
+        %else:
+        <p>${_(u"No Badges")}</p>
+        %endif
+    </fieldset>
 
-    <label for="thumbanilbadge">Thubmnail Badges</label>
-    <table>
-        <thead>
-            <th></th>
-            <th>${_("thumbnail badge")}</th>
-        </thead>
-        <tbody>
-            %if c.thumbnailbadges:
-            <tr>
-                <td>
+    <fieldset>
+        <legend>${_("thumbnail badge")}</legend>
+
+        %if c.thumbnailbadges:
+        <ul class="nobullet">
+            <li>
+                <label>
                     <input type="radio" value=""
                            name="thumbnailbadge" />
-                </td>
-                <td>${_('No Thumbnail Badge')}</td>
-            </tr>
-            %endif
+                    ${_('No Thumbnail Badge')}
+                </label>
+            </li>
             %for badge in c.thumbnailbadges:
-            <tr>
-                <td>
+            <li>
+                <label>
                     <input type="radio" value="${badge.id}"
                            name="thumbnailbadge" />
-                </td>
-                <td>${badge_tiles.badge(badge)}</td>
-            </tr>
+                    ${badge_tiles.badge(badge)}
+                </label>
+            </li>
             %endfor
-        </tbody>
-    </table>
-
-    <div style="clear:both;"></div>
+        </ul>
+        %else:
+        <p>${_(u"No Thumbnail Badges")}</p>
+        %endif
+    </fieldset>
 
     ${components.savebox(h.base_url("/proposal/%s" % c.proposal.id))}
 </form>

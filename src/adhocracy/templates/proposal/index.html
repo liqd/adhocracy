@@ -57,31 +57,38 @@ ${h.proposal.breadcrumbs(None)|n}
     <div class="overlay" id="edit_badges_container">
         <form id="edit_badges">
             ${h.field_token()|n}
-            <h5 data-bind="text: selected.title"></h5>
+            <h3 data-bind="text: selected.title"></h3>
 
-            <ul data-bind="foreach: selected.badges">
-                <li class="nobullet">
-                    <input class="badgetsform_input" type="checkbox"
-                           name="badge"
-                           data-bind="attr: {value: id, checked: checked}">
-                        <span data-bind="attr: {class: css_class()}">
-                            <a data-bind="text: title"></a>
-                        </span>
-                    </input>
-                </li>
-            </ul>
-            <ul data-bind="foreach: selected.thumbnailbadges">
-                <li class="nobullet">
-                    <input class="badgetsform_input" type="radio"
-                           name="thumbnailbadge"
-                           data-bind="attr: {value: id, checked: checked}">
-                        <span data-bind="html: thumbnail" />
-                        <span data-bind="attr: {class: css_class()}">
-                            <a data-bind="text: title"></a>
-                        </span>
-                    </input>
-                </li>
-            </ul>
+            <fieldset>
+                <legend>${_("badge")}</legend>
+                <ul data-bind="foreach: selected.badges" class="nobullet">
+                    <li>
+                        <label>
+                            <input class="badgetsform_input" type="checkbox"
+                                   name="badge"
+                                   data-bind="attr: {value: id, checked: checked}" />
+                            <span data-bind="attr: {class: css_class()}, text: title"></span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+
+            <fieldset>
+                <legend>${_("thumbnail badge")}</legend>
+                <ul data-bind="foreach: selected.thumbnailbadges" class="nobullet">
+                    <li>
+                        <label>
+                            <input class="badgetsform_input" type="radio"
+                                   name="thumbnailbadge"
+                                   data-bind="attr: {value: id, checked: checked}">
+                            <span class="thumbnailbadge"
+                                  data-bind="html: thumbnail">
+                            </span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+
             <a href="#" class="button" data-bind="click: save">${_(u'Save')}</a>
             or
             <a href="" data-bind="click: cancel">${_(u'Cancel')}</a>
