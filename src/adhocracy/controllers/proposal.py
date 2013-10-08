@@ -600,29 +600,9 @@ class ProposalController(BaseController):
                     '_tok': csrf.token_id(),
                     'thumbnailbadge': default_thumbnail,
                     }
-        if format == 'ajax':  # REFACT shouldn't this be 'json'?
-            checked = [badge.id for badge in c.proposal.badges]
-            checked_thumbnail = default_thumbnail
-            json = {'title': c.proposal.title,
-                    'badges': [{
-                        'id': badge.id,
-                        'description': badge.description,
-                        'title': badge.title,
-                        'thumbnail': '',
-                        'checked': badge.id in checked} for badge in c.badges],
-                    'thumbnailbadges': [{
-                        'id': badge.id,
-                        'description': badge.description,
-                        'title': badge.title,
-                        'thumbnail': generate_thumbnail_tag(badge),
-                        'checked': badge.id == checked_thumbnail} for badge in
-                        c.thumbnailbadges]
-                    }
-            return render_json(json)
-        else:
-            return formencode.htmlfill.render(
-                render("/proposal/badges.html", overlay=format == u'overlay'),
-                defaults=defaults)
+        return formencode.htmlfill.render(
+            render("/proposal/badges.html", overlay=format == u'overlay'),
+            defaults=defaults)
 
     def _update_badges(self, badges, thumbnailbadges, proposal):
         editable_badges = self._editable_badges(proposal)

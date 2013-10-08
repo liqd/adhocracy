@@ -52,58 +52,7 @@ ${h.proposal.breadcrumbs(None)|n}
 
 <div id="proposals_table" class="table">
     ${c.proposals_pager.render_pager()}
-
-    %if can.badge.edit_instance():
-    <div class="overlay" id="edit_badges_container">
-        <form id="edit_badges">
-            ${h.field_token()|n}
-            <h3 data-bind="text: selected.title"></h3>
-
-            <fieldset>
-                <legend>${_("badge")}</legend>
-                <ul data-bind="foreach: selected.badges" class="nobullet">
-                    <li>
-                        <label>
-                            <input class="badgetsform_input" type="checkbox"
-                                   name="badge"
-                                   data-bind="attr: {value: id, checked: checked}" />
-                            <span data-bind="attr: {class: css_class()}, text: title"></span>
-                        </label>
-                    </li>
-                </ul>
-            </fieldset>
-
-            <fieldset>
-                <legend>${_("thumbnail badge")}</legend>
-                <ul data-bind="foreach: selected.thumbnailbadges" class="nobullet">
-                    <li>
-                        <label>
-                            <input class="badgetsform_input" type="radio"
-                                   name="thumbnailbadge"
-                                   data-bind="attr: {value: id, checked: checked}">
-                            <span class="thumbnailbadge"
-                                  data-bind="html: thumbnail">
-                            </span>
-                        </label>
-                    </li>
-                </ul>
-            </fieldset>
-
-            <a href="#" class="button" data-bind="click: save">${_(u'Save')}</a>
-            or
-            <a href="" data-bind="click: cancel">${_(u'Cancel')}</a>
-        </form>
-    </div>
-    %endif
 </div>
-
-%if can.badge.edit_instance():
-<% h.need.adhocracy_ko %>
-<script>
-    var editModel = new adhocracy.ko.editBadges('proposal/');
-    editModel.applyToPager('#proposals_table');
-</script>
-%endif
 
 <div class="list_button" id="new-proposal">
     %if auth:

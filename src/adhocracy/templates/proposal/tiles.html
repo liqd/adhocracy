@@ -19,6 +19,11 @@
                 <span  class="badges">
                     ${tiles.badge.badges(proposal.categories)}
                 </span>
+                %if h.has_permission('instance.admin'):
+                <a class="button_small edit"
+                   href="${h.entity_url(proposal, member='badges')}"
+                   rel="#overlay-form">${_(u"Edit Badges")}</a>
+                %endif
             </h3>
             <div class="meta">
                 %if proposal.is_adopt_polling():
