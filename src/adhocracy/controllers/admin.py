@@ -184,7 +184,8 @@ class AdminController(BaseController):
                     absolute=True)
 
                 user_info['url'] = url
-                body = form_result['email_template'].format(**user_info)
+                body = form_result['email_template'].format(
+                           *user_info['rest'], **user_info)
                 to_user(user, form_result['email_subject'], body,
                         decorate_body=False)
                 mailed.append(user.user_name)
