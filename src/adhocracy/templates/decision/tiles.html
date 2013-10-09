@@ -1,4 +1,3 @@
-
 <%def name="row(tile, decision, focus_scope=False, focus_user=False)">
     <li class="tile decision">
         <div class="logo">
@@ -24,16 +23,16 @@
             &nbsp;
             %if focus_user:
                 ${h.user.link(decision.user)|n}
-            %endif      
+            %endif
             %if focus_scope:
                 ${tile.topic|n}
             %endif
         </h3>
-        
+
         <div class="text">
             %if decision.poll.scope.instance.allow_delegate:
                 %if not decision.is_decided():
-                    ${_("The user's delegates have voted, but no consensus was" + 
+                    ${_("The user's delegates have voted, but no consensus was" +
                         "reached among them. The decision is deferred.")}
                 %else:
                     %if decision.is_self_decided() and c.instance and c.instance.allow_delegate:

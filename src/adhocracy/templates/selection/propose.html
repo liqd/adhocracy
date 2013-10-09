@@ -14,29 +14,33 @@ ${tiles.proposal.header(c.proposal, active='implementation')}
 <%block name="main_content">
     <h2>${_("Propose a new norm")}</h2>
     <div class="infobox">
-        ${_("Create a new norm that you want to relate to. The norm will be created without any status quo. You can then add a text variant of that norm, specifying the change you want to implement.")|n}
+        ${_("Create a new norm that you want to relate to. The norm will be created without any status quo. You can then add a text variant of that norm, specifying the change you want to implement.")}
     </div>
     <form name="create_page" class="inplace" method="POST" action="/page">
         ${h.field_token()|n}
         <input type="hidden" value="${c.proposal.id}" name="proposal" />
         <input type="hidden" value="" name="text" />
         <input type="hidden" value="" name="tags" />
-        <div class="page_title">
-            <input tabindex="1" class="title" name="title" value="" placeholder="${_('New norm title')}" />
-        </div>
-            
+
+        <fieldset>
+            <legend>${_("Norm title")}</legend>
+            <div class="input_wrapper page_title">
+                <input type="text" class="title" name="title" placeholder="${_('New norm title')}" autofocus />
+            </div>
+        </fieldset>
+
         <label for="parent">${_("Parent page:")}</label>
         ${tiles.page.select_page(field_name="parent", functions=model.Page.PARENT_FUNCTIONS)}
         <span class="hint">${_("The new norm will be categorized under the specified parent page.")}
         </span>
-        
-        ${components.savebox(None)}
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.entity_url(c.proposal))}
+        </div>
     </form>
-    
+
     <h3>${_("Have you checked for exisiting norms?")}</h3>
-    <ul>
-        <li><a href="${h.proposal.url(c.proposal, member='implementation/include')}">
-            ${_("Include an existing norm instead")}</a>
-        </li>
-    </ul>
+    <a class="button" href="${h.proposal.url(c.proposal, member='implementation/include')}">
+        ${_("Include an existing norm instead")}
+    </a>
 </%block>

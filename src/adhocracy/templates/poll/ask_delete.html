@@ -12,7 +12,7 @@ ${tiles.poll.header(c.poll)|n}
 
 
 <%block name="main_content">
-<form name="release_proposal" class="inplace" method="POST" 
+<form name="release_proposal" class="inplace" method="POST"
     action="${h.entity_url(c.poll)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />
@@ -20,13 +20,14 @@ ${tiles.poll.header(c.poll)|n}
     <div class="mainbar">
         <div class="warning_box">
             ${_("You are about to cancel this poll. This means that the " +
-                "proposal will become editable again but that all votes " + 
-                "that have been cast at this time <strong>will be " + 
+                "proposal will become editable again but that all votes " +
+                "that have been cast at this time <strong>will be " +
                 "invalidated</strong>.")|n}
         </div>
-        <center>
-            <input type="submit" class="delete" value="${_('Confirm')}" />
-        </center>
+
+        <div class="input_wrapper submit">
+            ${components.savebox(h.entity_url(c.poll), save_text=_('Confirm'))}
+        </div>
     </div>
 </form>
 </%block>
