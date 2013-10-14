@@ -91,12 +91,13 @@ class MilestoneController(BaseController):
     @RequireInstance
     @validate(schema=MilestoneNewForm(), form='bad_request',
               post_only=False, on_get=True)
-    def new(self, errors=None):
+    def new(self, errors=None, format=u'html'):
         require.milestone.create()
         c.categories = model.CategoryBadge.all(instance=c.instance)
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
-        return htmlfill.render(render("/milestone/new.html"),
+        return htmlfill.render(render("/milestone/new.html",
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 

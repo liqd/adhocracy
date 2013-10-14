@@ -135,28 +135,29 @@ class AdminController(BaseController):
         return render("/admin/permissions.html", {})
 
     @guard.perm("global.admin")
-    def user_import_form(self, errors=None):
+    def user_import_form(self, errors=None, format='html'):
         return formencode.htmlfill.render(
-            render("/admin/userimport_form.html", {}),
+            render("/admin/userimport_form.html", {},
+                   overlay=format == 'overlay'),
             defaults=dict(request.params),
             errors=errors,
             force_defaults=False)
 
     @RequireInternalRequest(methods=['POST'])
     @guard.perm("global.admin")
-    def user_import(self):
+    def user_import(self, format='html'):
 
         if request.method == "POST":
             try:
                 self.form_result = UserImportForm().to_python(request.params)
                 # a proposal that this norm should be integrated with
-                return self._create_users(self.form_result)
+                return self._create_users(self.form_result, format=format)
             except formencode.Invalid as i:
                 return self.user_import_form(errors=i.unpack_errors())
         else:
-            return self.user_import_form()
+            return self.user_import_form(format=format)
 
-    def _create_users(self, form_result):
+    def _create_users(self, form_result, format='html'):
         names = []
         created = []
         mailed = []
@@ -200,16 +201,18 @@ class AdminController(BaseController):
             'not_mailed': set(created) - set(mailed),
             'errors': errors
         }
-        return render("/admin/userimport_success.html", data)
+        return render("/admin/userimport_success.html", data,
+                      overlay=format == u'overlay')
 
     @guard.perm("global.admin")
-    def import_dialog(self, errors=None, defaults=None):
+    def import_dialog(self, errors=None, defaults=None, format=u'html'):
         data = {
             'welcome_enabled': can_welcome()
         }
         if defaults is None:
             defaults = dict(request.POST)
-        tpl = render('admin/import_dialog.html', data)
+        tpl = render('admin/import_dialog.html', data,
+                     overlay=format == u'overlay')
         return formencode.htmlfill.render(
             tpl,
             defaults=defaults,
@@ -235,8 +238,9 @@ class AdminController(BaseController):
         return render('admin/import_success.html', {})
 
     @guard.perm("global.admin")
-    def export_dialog(self):
-        return render('admin/export_dialog.html', {})
+    def export_dialog(self, format=u'html'):
+        return render('admin/export_dialog.html', {},
+                      overlay=format == u'overlay')
 
     @RequireInternalRequest(methods=['POST'])
     @guard.perm("global.admin")

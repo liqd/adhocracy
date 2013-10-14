@@ -124,7 +124,7 @@ class BadgeController(BaseController):
     def index(self, format='html'):
         c.badges = self._available_badges()
         c.badge_base_url = self.base_url
-        return render(self.index_template)
+        return render(self.index_template, overlay=format == u'overlay')
 
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
@@ -153,7 +153,7 @@ class BadgeController(BaseController):
                 key=lambda x: x[1])
 
     @guard.instance.any_admin()
-    def add(self, badge_type=None, errors=None):
+    def add(self, badge_type=None, errors=None, format=u''):
         data = {
             'form_type': 'add',
             'groups': Group.all_instance(),
@@ -170,7 +170,7 @@ class BadgeController(BaseController):
 
         self._set_parent_categories()
 
-        html = render(self.form_template, data)
+        html = render(self.form_template, data, overlay=format == u'overlay')
         return htmlfill.render(html,
                                defaults=defaults,
                                errors=errors,
@@ -332,7 +332,7 @@ class BadgeController(BaseController):
         return badge
 
     @guard.instance.any_admin()
-    def edit(self, id, errors=None):
+    def edit(self, id, errors=None, format=u'html'):
         badge = self._get_badge_or_redirect(id)
         data = {
             'badge_type': self._get_badge_type(badge),
@@ -366,7 +366,8 @@ class BadgeController(BaseController):
             defaults['select_child_description'] =\
                 badge.select_child_description
 
-        return htmlfill.render(render(self.form_template, data),
+        return htmlfill.render(render(self.form_template, data,
+                                      overlay=format == u'overlay'),
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)
@@ -520,7 +521,7 @@ class BadgeController(BaseController):
         redirect(self.base_url)
 
     @guard.instance.any_admin()
-    def ask_delete(self, id):
+    def ask_delete(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
 
         data = {
@@ -530,7 +531,8 @@ class BadgeController(BaseController):
             'return_url': self.base_url,
         }
 
-        return render('/badge/ask_delete.html', data)
+        return render('/badge/ask_delete.html', data,
+                      overlay=format == u'overlay')
 
     @guard.instance.any_admin()
     @RequireInternalRequest()

@@ -191,7 +191,7 @@ class UserController(BaseController):
         c.users_pager = solr_global_users_pager()
         return render("/user/all.html")
 
-    def new(self, defaults=None):
+    def new(self, defaults=None, format=u'html'):
         if not h.allow_user_registration():
             return ret_abort(
                 _("Sorry, registration has been disabled by administrator."),
@@ -209,7 +209,8 @@ class UserController(BaseController):
             defaults['_tok'] = token_id()
             add_static_content(data, u'adhocracy.static_agree_text',
                                body_key=u'agree_text', title_key='_ignored')
-            return htmlfill.render(render("/user/register.html", data),
+            return htmlfill.render(render("/user/register.html", data,
+                                          overlay=format == u'overlay'),
                                    defaults=defaults)
 
     @RequireInternalRequest(methods=['POST'])
@@ -346,7 +347,7 @@ class UserController(BaseController):
         if c.instance is None:
             c.active_global_nav = 'user'
 
-    def _settings_personal_form(self, id):
+    def _settings_personal_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'personal')
 
@@ -362,10 +363,11 @@ class UserController(BaseController):
             {'value': u'm', 'label': _(u'Male')},
         ]
 
-        return render("/user/settings_personal.html")
+        return render("/user/settings_personal.html",
+                      overlay=format == u'overlay')
 
-    def settings_personal(self, id):
-        form_content = self._settings_personal_form(id)
+    def settings_personal(self, id, format=u'html'):
+        form_content = self._settings_personal_form(id, format=format)
         return htmlfill.render(
             form_content,
             defaults={
@@ -395,7 +397,7 @@ class UserController(BaseController):
 
         return self._settings_result(updated, c.page_user, 'personal')
 
-    def _settings_login_form(self, id):
+    def _settings_login_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'login')
         c.locales = []
@@ -404,10 +406,11 @@ class UserController(BaseController):
                               'label': locale.display_name,
                               'selected': locale == c.user.locale})
 
-        return render("/user/settings_login.html")
+        return render("/user/settings_login.html",
+                      overlay=format == u'overlay')
 
-    def settings_login(self, id):
-        form_content = self._settings_login_form(id)
+    def settings_login(self, id, format=u'html'):
+        form_content = self._settings_login_form(id, format=format)
         return htmlfill.render(
             form_content,
             defaults={
@@ -433,7 +436,7 @@ class UserController(BaseController):
 
         return self._settings_result(updated, c.page_user, 'login')
 
-    def _settings_notifications_form(self, id):
+    def _settings_notifications_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'notifications')
 
@@ -443,10 +446,11 @@ class UserController(BaseController):
                               'label': locale.display_name,
                               'selected': locale == c.user.locale})
 
-        return render("/user/settings_notifications.html")
+        return render("/user/settings_notifications.html",
+                      overlay=format == u'overlay')
 
-    def settings_notifications(self, id):
-        form_content = self._settings_notifications_form(id)
+    def settings_notifications(self, id, format=u'html'):
+        form_content = self._settings_notifications_form(id, format=format)
         return htmlfill.render(
             form_content,
             defaults={
@@ -488,7 +492,7 @@ class UserController(BaseController):
         #    model.meta.Session.add(c.page_user.twitter)
         return self._settings_result(updated, c.page_user, 'notifications')
 
-    def _settings_advanced_form(self, id):
+    def _settings_advanced_form(self, id, format=u'html'):
         self._settings_all(id)
         c.tile = tiles.user.UserTile(c.page_user)
         c.settings_menu = settings_menu(c.page_user, 'advanced')
@@ -499,10 +503,11 @@ class UserController(BaseController):
                          for size in [10, 20, 50, 100, 200]]
         c.sorting_orders = PROPOSAL_SORTS
 
-        return render("/user/settings_advanced.html")
+        return render("/user/settings_advanced.html",
+                      overlay=format == u'overlay')
 
-    def settings_advanced(self, id):
-        form_content = self._settings_advanced_form(id)
+    def settings_advanced(self, id, format=u'html'):
+        form_content = self._settings_advanced_form(id, format=format)
         return htmlfill.render(
             form_content,
             defaults={
@@ -526,7 +531,7 @@ class UserController(BaseController):
 
         return self._settings_result(updated, c.page_user, 'advanced')
 
-    def _settings_optional_form(self, id, data={}):
+    def _settings_optional_form(self, id, data={}, format=u'html'):
         if not config.get('adhocracy.user.optional_attributes'):
             abort(400, _("No optional attributes defined."))
         self._settings_all(id)
@@ -538,10 +543,11 @@ class UserController(BaseController):
         add_static_content(data,
                            u'adhocracy.static_optional_path')
 
-        return render("/user/settings_optional.html", data)
+        return render("/user/settings_optional.html", data,
+                      overlay=format == u'overlay')
 
-    def settings_optional(self, id):
-        form_content = self._settings_optional_form(id)
+    def settings_optional(self, id, format=u'html'):
+        form_content = self._settings_optional_form(id, format=format)
         defaults = c.page_user.optional_attributes or {}
 
         # Workaround, as htmlfill will match select option values in their
@@ -780,7 +786,7 @@ class UserController(BaseController):
         else:
             return self._render_loginform()
 
-    def _render_loginform(self, errors=None, defaults=None):
+    def _render_loginform(self, errors=None, defaults=None, format=u'html'):
         if defaults is None:
             defaults = dict(request.params)
             defaults.setdefault('have_password', 'true')
@@ -792,11 +798,13 @@ class UserController(BaseController):
             config.get_bool('adhocracy.hide_locallogin')
             and not 'locallogin' in request.GET)
         add_static_content(data, u'adhocracy.static_login_path')
-        form = render('/user/login_tile.html', data)
+        form = render('/user/login_tile.html', data,
+                      overlay=format == u'overlay')
         form = htmlfill.render(form,
                                errors=errors,
                                defaults=defaults)
-        return render('/user/login.html', {'login_form_code': form})
+        return render('/user/login.html', {'login_form_code': form},
+                      overlay=format == u'overlay')
 
     def perform_login(self):
         pass  # managed by repoze.who
@@ -1194,12 +1202,12 @@ class UserController(BaseController):
         return set(allowed[0]).union(set(allowed[1]))
 
     @guard.perm('instance.admin')
-    def edit_badges(self, id, errors=None):
+    def edit_badges(self, id, errors=None, format=u'html'):
         c.badges, c.instance_badges = self._allowed_badges()
         c.page_user = get_entity_or_abort(model.User, id)
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
-            render("/user/badges.html"),
+            render("/user/badges.html", overlay=format == u'overlay'),
             defaults=defaults,
             force_defaults=False)
 
