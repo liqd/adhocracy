@@ -16,6 +16,13 @@ DEFAULTS = {
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,
     'adhocracy.force_randomized_user_names': False,
+
+    # Final adoption voting has been disabled from the UI during the
+    # Adhocracy redesign originally done for enquetebeteiligung.de.
+    # Much of the functionality is still in the code, but as long as it's not
+    # in the UI, it makes sense to also hide it from the settings UI.
+    'adhocracy.hide_final_adoption_votings': False,
+
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,

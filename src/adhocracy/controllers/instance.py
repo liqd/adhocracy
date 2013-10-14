@@ -123,12 +123,13 @@ class InstanceContentsEditForm(formencode.Schema):
 
 class InstanceVotingEditForm(formencode.Schema):
     allow_extra_fields = True
-    allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
-                                        if_missing=False)
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
-    activation_delay = validators.Int(not_empty=True)
-    required_majority = validators.Number(not_empty=True)
+    if not config.get_bool('adhocracy.hide_final_adoption_votings'):
+        allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
+                                            if_missing=False)
+        activation_delay = validators.Int(not_empty=True)
+        required_majority = validators.Number(not_empty=True)
     votedetail_badges = forms.ValidUserBadges()
 
 
@@ -657,10 +658,12 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
+        updated_attributes = ['allow_delegate']
+        if not config.get_bool('adhocracy.hide_final_adoption_votings'):
+            updated_attributes.extend(
+                ['required_majority', 'activation_delay', 'allow_adopt'])
         updated = update_attributes(
-            c.page_instance, self.form_result,
-            ['required_majority', 'activation_delay', 'allow_adopt',
-             'allow_delegate'])
+            c.page_instance, self.form_result, updated_attributes)
 
         if votedetail.is_enabled():
             new_badges = self.form_result['votedetail_badges']
