@@ -349,7 +349,15 @@
     #settings #col1_content { padding: 0 15px 0 10px }
     #settings #col3_content { margin: 0 15px 0 23px }
 
-    #settings #col3 .affix { width: 164px; top: 20px; }
+    #settings #col3_content {
+        margin: 0;
+        .well {
+            width: 164px;
+        }
+        .affix {
+            top: 20px;
+        }
+    }
 
     .subcl { padding: 0 20px 0 0; }
     .subc { padding: 0 10px; }
