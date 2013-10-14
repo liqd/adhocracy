@@ -198,6 +198,7 @@
   ${nav_link(href=h.base_url('/proposal'),
              text=_("Proposals"),
              li_class=_class('proposals'),
+             condition=c.instance.show_proposals_navigation,
              id_='subnav-proposals')}
 
   ${nav_link(href=h.base_url('/milestone'),
