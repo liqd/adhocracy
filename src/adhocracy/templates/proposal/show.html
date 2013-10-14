@@ -14,16 +14,16 @@
 
 ## FIXME: Reenable for adopt poll
 ##%if can.proposal.adopt(proposal):
-##<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}" 
+##<a class="button title add ttip" title="${_('Call a vote on this proposal by freezing further development.')}"
 ##   href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 ##%endif
 
 %if h.has_permission('instance.admin'):
 <a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>
 %endif
-                                
+
 %if can.proposal.delete(c.proposal):
-<a class="button title delete ttip" title="${_('Delete this proposal.')}"   
+<a class="button title delete ttip" title="${_('Delete this proposal.')}"
    href="${h.entity_url(c.proposal, member='ask_delete')}">${_("delete")}</a>
 %endif
 </%components:admin_controls>
@@ -37,121 +37,119 @@ url = h.base_url('/delegation/new?scope=%s' % str(c.proposal.id))
 delegate_url = url if can.delegation.create(c.proposal) else None
 %>
 
-    %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
-    ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
-    %endif
+%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
+${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
+%endif
 
-    %if c.proposal.is_adopt_polling():
-    ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)}
-    %endif
+%if c.proposal.is_adopt_polling():
+${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)}
+%endif
 
-            <section>
-              <article>
-                <h2>
-                    ${h.delegateable.link(c.proposal, link=False)|n}
-                    <div class="utility">
-                        %if can.proposal.edit(c.proposal):
-                        <a href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
-                        %endif
-                    </div>
-                </h2>
-
-                <hr />
-
-                ${tiles.page.inline(c.proposal.description,
-                        hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
-
-                ${components.social_share_buttons(c.proposal.title)}
-
-                <div class="meta">
-                    <a href="#discussions">${
-                        _("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)
-                    }</a>
-                    %if c.show_selections:
-                    · 
-                    <a href="#proposals">${_("%s Proposed Implementations") % len(c.num_selections)}</a>
-                    %endif
-                    %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
-                    · 
-                    <a href="${h.abuse.for_entity(c.proposal)}">${_("report")}</a>
-                    %endif
-                    ·
-                    <a href="${c.history_url}"
-                       rel="#overlay-url">${'history'}</a>
-                </div>
-              </article>
-              <br />
-
-              <div id="main_comments"
-                  %if c.monitor_comment_url:
-                  data-stats-baseurl="${c.monitor_comment_url}"
-                  %endif
-              >
-              <h3 id="discussions">
-                  ${_('Comments') if h.comment.wording() else _('Discussions')}
-              </h3>
-                  ## comments are attached to the description which is a
-                  ## :class:`adhocracy.model.Page`
-                  ## proposal descriptions have no other variant than head.
-                  ${tiles.comment.list(c.proposal.description, 
-                                       variant=c.proposal.description.head.variant)}
+<section>
+    <article>
+        <h2>
+            ${h.delegateable.link(c.proposal, link=False)|n}
+            <div class="utility">
+                %if can.proposal.edit(c.proposal):
+                <a href="${h.entity_url(c.proposal, member='edit')}">${_("edit")}</a>
+                %endif
             </div>
-            </section>
-            
+        </h2>
 
+        <hr />
+
+        ${tiles.page.inline(c.proposal.description,
+                hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
+
+        ${components.social_share_buttons(c.proposal.title)}
+
+        <div class="meta">
+            <a href="#discussions">${
+                _("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)
+            }</a>
             %if c.show_selections:
-            <section>
-              <h3 id="proposals">${_("Proposed Implementations")}</h3>
-              <hr />
-              <ul class="papers_list">
-                  %for selection in c.sorted_selections: 
-                  <% h.need.adhocracy_ko %>
-                  ${tiles.selection.row(selection)}
-                  %endfor
-              </ul> 
-              <div class="list_button">
-              <% auth = check.selection.create(c.proposal) %>
-              <div id="propose-variant"></div>
-              %if auth:
-              <a class="button highlight" 
-                 href="${h.entity_url(c.proposal, member='implementation/include')}">
-                  ${_("Propose to change a norm")}
-              </a>
-              %elif auth.propose_login():
-              <a class="button highlight" 
-                 href="${h.entity_url(c.proposal, member='implementation/include')}" 
-                 rel="#overlay-login-button" 
-                 title="${_('Login to propose to change a norm')}">
-                  ${_("Propose to change a norm")}
-              </a>
-              %elif auth.propose_join():
-              <a class="button highlight" 
-                 href="${h.entity_url(c.proposal, member='implementation/include')}" 
-                 rel="#overlay-join-button" 
-                 title="${_('Join instance to propose to change a norm')}">
-                  ${_("Propose to change a norm")}
-              </a>
-              %elif auth.propose_validate_email():
-              <a class="button highlight" 
-                 rel="#overlay-validate-button" 
-                 title="${_('Validate email in order to propose to change a norm')}">
-                  ${_("Propose to change a norm")}
-              </a>
-              %endif          
-              </div>
-              <%doc> FIXME: Enable change existing norm option
-              %if norm.can.create
-              <a class="button" 
-                 title="${_('Propose to create a norm through this proposal.')}" 
-                 href="${h.entity_url(c.proposal, member='implementation/propose')}">
-                  ${_("propose new norm")}
-              </a>
-              </div>
-              </%doc>
-
-            </section>
-             
+            ·
+            <a href="#proposals">${_("%s Proposed Implementations") % len(c.num_selections)}</a>
             %endif
+            %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
+            ·
+            <a href="${h.abuse.for_entity(c.proposal)}">${_("report")}</a>
+            %endif
+            ·
+            <a href="${c.history_url}"
+               rel="#overlay-url">${'history'}</a>
+        </div>
+    </article>
+    <br />
+
+    <div id="main_comments"
+         %if c.monitor_comment_url:
+         data-stats-baseurl="${c.monitor_comment_url}"
+         %endif
+    >
+        <h3 id="discussions">
+            ${_('Comments') if h.comment.wording() else _('Discussions')}
+        </h3>
+        ## comments are attached to the description which is a
+        ## :class:`adhocracy.model.Page`
+        ## proposal descriptions have no other variant than head.
+        ${tiles.comment.list(c.proposal.description,
+                             variant=c.proposal.description.head.variant)}
+    </div>
+</section>
+
+
+%if c.show_selections:
+<section>
+    <h3 id="proposals">${_("Proposed Implementations")}</h3>
+    <hr />
+    <ul class="papers_list">
+        %for selection in c.sorted_selections:
+        <% h.need.adhocracy_ko %>
+        ${tiles.selection.row(selection)}
+        %endfor
+    </ul>
+    <div class="list_button">
+    <% auth = check.selection.create(c.proposal) %>
+    <div id="propose-variant"></div>
+    %if auth:
+    <a class="button highlight"
+       href="${h.entity_url(c.proposal, member='implementation/include')}">
+        ${_("Propose to change a norm")}
+    </a>
+    %elif auth.propose_login():
+    <a class="button highlight"
+       href="${h.entity_url(c.proposal, member='implementation/include')}"
+       rel="#overlay-login-button"
+       title="${_('Login to propose to change a norm')}">
+        ${_("Propose to change a norm")}
+    </a>
+    %elif auth.propose_join():
+    <a class="button highlight"
+       href="${h.entity_url(c.proposal, member='implementation/include')}"
+       rel="#overlay-join-button"
+       title="${_('Join instance to propose to change a norm')}">
+        ${_("Propose to change a norm")}
+    </a>
+    %elif auth.propose_validate_email():
+    <a class="button highlight"
+       rel="#overlay-validate-button"
+       title="${_('Validate email in order to propose to change a norm')}">
+        ${_("Propose to change a norm")}
+    </a>
+    %endif
+    </div>
+    <%doc> FIXME: Enable change existing norm option
+    %if norm.can.create
+    <a class="button"
+       title="${_('Propose to create a norm through this proposal.')}"
+       href="${h.entity_url(c.proposal, member='implementation/propose')}">
+        ${_("propose new norm")}
+    </a>
+    </div>
+    </%doc>
+</section>
+%endif
 
 <%components:tutorial>
 <ol id="joyRideTipContent">
@@ -205,7 +203,7 @@ delegate_url = url if can.delegation.create(c.proposal) else None
         data-tip-location="bottom" class="custom">
         <p>${_('tutorial_proposal_show_propose_variant')}</p>
     </li>
-  
+
 </ol>
 </%components:tutorial>
 
@@ -218,67 +216,65 @@ ${components.watch(c.proposal, id='follow_proposal')}
 
 <div class="sidebar_box">
 
-<h3 id="information">${_('Information')}</h3>
-<summary>
+    <h3 id="information">${_('Information')}</h3>
 
-    ${sidebar_defs.shortlink(c.proposal)}
+    <summary>
+        ${sidebar_defs.shortlink(c.proposal)}
 
-    <h6>${_('Last Activity')}</h6>
-    <p><time>
-        ${h.datetime_tag(
-        c.proposal.find_latest_comment_time())|n}
-    </time></p>
+        <h6>${_('Last Activity')}</h6>
+        <p><time>
+            ${h.datetime_tag(
+            c.proposal.find_latest_comment_time())|n}
+        </time></p>
 
-    <% tally = c.proposal.rate_poll.tally %>
+        <% tally = c.proposal.rate_poll.tally %>
 
-    ${sidebar_defs.votes(c.proposal.rate_poll)}
+        ${sidebar_defs.votes(c.proposal.rate_poll)}
 
-    ${sidebar_defs.votedetail(c.votedetail)}
+        ${sidebar_defs.votedetail(c.votedetail)}
 
-    <h6>${_('Category')}</h6>
-    <p>
-      %if c.proposal.category:
-      ${c.proposal.category}
-      %else:
-      ${_("This proposal is not assigned to any category")}
-      %endif
-    </p>
+        <h6>${_('Category')}</h6>
+        <p>
+          %if c.proposal.category:
+          ${c.proposal.category}
+          %else:
+          ${_("This proposal is not assigned to any category")}
+          %endif
+        </p>
 
-    <h6>${_('Milestones')}</h6>
-    <% milestone = c.proposal.milestone %>
-    <p>
-        %if milestone:
-        %if milestone.is_deleted():
-        ${_("This proposal relates to the deleted milestone %s."
-        ) % h.milestone.link(milestone)|n}
-        %else:
-        ${_("This proposal relates to the milestone %s."
-        ) % h.milestone.link(milestone)|n}
-        %endif
-        %else:
-        ${_("This proposal is not related to a milestone")}
-        %endif
-    </p>
-    <h6>${_('Created')}</h6>
-    ## FIXME: ensure caching of history count (make it a tile?)
-    <p>
-<%
-created_msg = _("by %s on %s, %s changes since then.") % (
-    h.user.link(c.proposal.creator), 
-    h.date_tag(c.proposal.create_time),
-    c.proposal.description.variant_changes_count(model.Text.HEAD))
-%>
-    ${created_msg|n}
-    </p>
+        <h6>${_('Milestones')}</h6>
+        <% milestone = c.proposal.milestone %>
+        <p>
+            %if milestone:
+            %if milestone.is_deleted():
+            ${_("This proposal relates to the deleted milestone %s."
+            ) % h.milestone.link(milestone)|n}
+            %else:
+            ${_("This proposal relates to the milestone %s."
+            ) % h.milestone.link(milestone)|n}
+            %endif
+            %else:
+            ${_("This proposal is not related to a milestone")}
+            %endif
+        </p>
+        <h6>${_('Created')}</h6>
+        ## FIXME: ensure caching of history count (make it a tile?)
+        <p>
+            <%
+            created_msg = _("by %s on %s, %s changes since then.") % (
+                h.user.link(c.proposal.creator),
+                h.date_tag(c.proposal.create_time),
+                c.proposal.description.variant_changes_count(model.Text.HEAD))
+            %>
+            ${created_msg|n}
+        </p>
 
-    ${tiles.tag.sidebar(c.proposal)}
-    
-    ## FIXME: Reimplement Tagging
-    ## <div class="only-js" id="add-tag">
-    ##     <a href="#">Schlagwort hinzufügen</a>
-    ## </div>
-</summary>
+        ${tiles.tag.sidebar(c.proposal)}
 
+        ## FIXME: Reimplement Tagging
+        ## <div class="only-js" id="add-tag">
+        ##     <a href="#">Schlagwort hinzufügen</a>
+        ## </div>
+    </summary>
 </div>
-
 </%block>
