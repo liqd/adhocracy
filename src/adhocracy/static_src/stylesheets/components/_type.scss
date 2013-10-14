@@ -20,6 +20,22 @@ h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
 h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
+/* don't allow headings in user generated content to be as big
+ * as our own */
+.comment .body,
+.proposal .body {
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1em;
+        margin: 10px 0;
+    }
+    h1 {
+        font-size: 1.2em;
+    }
+    h2 {
+        font-size: 1.1em;
+    }
+}
+
 p {
     margin-bottom: 20px;
     word-wrap: break-word;
