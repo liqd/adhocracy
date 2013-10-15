@@ -403,13 +403,16 @@ def entity_to_solr_token(entity):
 
 
 def solr_tokens_to_entities(tokens, entity_class):
-    """ Returns the entity according to the solr token string.
-        and entity_class.
+    """ Returns the facet entity according to the solr token string and
+        entity_class.
         For hierachical entities it supports tokens including the parents
         reference attribute values ("1/2/3").
     """
-    entity_ids = [t.rpartition('/')[-1] for t in tokens]
-    return model.refs.get_entities(entity_class, entity_ids)
+    if issubclass(entity_class, SolrFacetItem):
+        return [entity_class.get_item(token) for token in tokens]
+    else:
+        entity_ids = [t.rpartition('/')[-1] for t in tokens]
+        return model.refs.get_entities(entity_class, entity_ids)
 
 
 class SolrIndexer(object):
@@ -815,6 +818,25 @@ class InstanceBadgeFacet(SolrFacet):
             return
         d = [entity_to_solr_token(badge) for badge in instance.badges]
         index[cls.solr_field] = d
+
+
+class SolrFacetItem(object):
+    """
+    Base class for facet items, which aren't Adhocracy entities, e.g. entity
+    attribute values.
+    """
+
+    translate = False
+
+    def __init__(self, label):
+        if self.translate:
+            self.label = _(label)
+        else:
+            self.label = label
+
+    @classmethod
+    def get_item(cls, token):
+        return cls(token)
 
 
 class InstanceFacet(SolrFacet):
