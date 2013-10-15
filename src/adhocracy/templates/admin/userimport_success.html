@@ -32,7 +32,7 @@ ${self.success()}
   %endif
   %if c.not_mailed:
 <p>
-    ${_('These users where created, but we could not send out mails:')}
+    ${_('These users were created, but we could not send out mails:')}
     ${', '.join([u for u in c.not_mailed])}
 </p>
   %endif
