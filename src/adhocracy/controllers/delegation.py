@@ -50,10 +50,10 @@ class DelegationController(BaseController):
     @RequireInstance
     @validate(schema=DelegationNewForm(), form="bad_request",
               post_only=False, on_get=True)
-    def new(self):
+    def new(self, format=u'html'):
         c.scope = self.form_result.get('scope')
         require.delegation.create(c.scope)
-        return render("/delegation/new.html")
+        return render("/delegation/new.html", overlay=format == u'overlay')
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=["POST"])

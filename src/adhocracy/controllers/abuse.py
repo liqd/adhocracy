@@ -30,7 +30,7 @@ class AbuseController(BaseController):
     def new(self, format='html', errors={}):
         c.url = request.params.get('url', request.environ.get('HTTP_REFERER'))
         #require.user.message(c.page_user)
-        html = render("/abuse/new.html")
+        html = render("/abuse/new.html", overlay=format == u'overlay')
         return htmlfill.render(html, defaults=request.params,
                                errors=errors, force_defaults=False)
 

@@ -91,7 +91,7 @@ class CommentController(BaseController):
         if format == 'ajax':
             html = self._render_ajax_create_form(c.reply, c.topic, c.variant)
         else:
-            html = render('/comment/new.html')
+            html = render('/comment/new.html', overlay=format == u'overlay')
         return htmlfill.render(html, defaults=defaults,
                                errors=errors, force_defaults=False)
 
@@ -192,13 +192,14 @@ class CommentController(BaseController):
             redirect(h.entity_url(c.comment))
         elif format == 'json':
             return render_json(c.comment)
-        return render('/comment/show.html')
+        return render('/comment/show.html', overlay=format == u'overlay')
 
     @RequireInstance
-    def ask_delete(self, id):
+    def ask_delete(self, id, format=u'html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.delete(c.comment)
-        return render('/comment/ask_delete.html')
+        return render('/comment/ask_delete.html',
+                      overlay=format == u'overlay')
 
     @RequireInstance
     @csrf.RequireInternalRequest()

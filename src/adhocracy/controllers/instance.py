@@ -169,7 +169,7 @@ class InstanceController(BaseController):
             return render("/instance/index.html")
 
     @guard.instance.create()
-    def new(self):
+    def new(self, format=u'html'):
 
         data = {}
         protocol = config.get('adhocracy.protocol').strip()
@@ -184,7 +184,8 @@ class InstanceController(BaseController):
             data['url_post'] = '.%s' % domain
             data['url_right_align'] = True
 
-        return render("/instance/new.html", data)
+        return render("/instance/new.html", data,
+                      overlay=format == u'overlay')
 
     @csrf.RequireInternalRequest(methods=['POST'])
     @guard.instance.create()
@@ -346,7 +347,7 @@ class InstanceController(BaseController):
             return render_json(json)
         else:
             return formencode.htmlfill.render(
-                render("/instance/badges.html"),
+                render("/instance/badges.html", overlay=format == u'overlay'),
                 defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')
@@ -455,7 +456,7 @@ class InstanceController(BaseController):
         return render("/instance/settings_general.html")
 
     @RequireInstance
-    def settings_general(self, id):
+    def settings_general(self, id, format=u'html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         form_content = self._settings_general_form(id)

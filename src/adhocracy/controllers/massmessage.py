@@ -145,7 +145,7 @@ class MassmessageController(BaseController):
 
         return sender_options
 
-    def new(self, id=None, errors={}):
+    def new(self, id=None, errors={}, format=u'html'):
 
         if id is None:
             require.perm('global.message')
@@ -170,7 +170,8 @@ class MassmessageController(BaseController):
                                         include_global=True)
         }
 
-        return htmlfill.render(render(template, data),
+        return htmlfill.render(render(template, data,
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 

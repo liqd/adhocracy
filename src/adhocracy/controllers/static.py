@@ -43,13 +43,14 @@ class StaticController(BaseController):
         return render('/static/index.html', data)
 
     @guard_perms
-    def new(self, errors=None):
+    def new(self, errors=None, format=u'html'):
         data = {
             'all_language_infos': list(all_language_infos())
         }
         defaults = dict(request.params)
         defaults['_tok'] = csrf.token_id()
-        return htmlfill.render(render('/static/new.html', data),
+        return htmlfill.render(render('/static/new.html', data,
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors)
 
     @guard_perms
@@ -77,7 +78,7 @@ class StaticController(BaseController):
         return redirect(helpers.base_url('/static/'))
 
     @guard_perms
-    def edit(self, key, lang, errors=None):
+    def edit(self, key, lang, errors=None, format=u'html'):
         backend = get_backend()
         sp = backend.get(key, lang)
         if not sp:
@@ -89,7 +90,8 @@ class StaticController(BaseController):
         }
         defaults.update(dict(request.params))
         defaults['_tok'] = csrf.token_id()
-        return htmlfill.render(render('/static/edit.html', data),
+        return htmlfill.render(render('/static/edit.html', data,
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors)
 
     @guard_perms

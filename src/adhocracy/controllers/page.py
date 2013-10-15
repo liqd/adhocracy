@@ -140,7 +140,7 @@ class PageController(BaseController):
 
     @RequireInstance
     @guard.page.create()
-    def new(self, errors=None):
+    def new(self, errors=None, format=u'html'):
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
@@ -158,10 +158,11 @@ class PageController(BaseController):
         html = None
         if proposal_id is not None:
             c.proposal = model.Proposal.find(proposal_id)
-            html = render('/selection/propose.html')
+            html = render('/selection/propose.html',
+                          overlay=format == u'overlay')
         else:
             c.propose = None
-            html = render("/page/new.html")
+            html = render("/page/new.html", overlay=format == u'overlay')
 
         return htmlfill.render(html, defaults=defaults, errors=errors,
                                force_defaults=False)
@@ -226,7 +227,8 @@ class PageController(BaseController):
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
-    def edit(self, id, variant=None, text=None, branch=False, errors={}):
+    def edit(self, id, variant=None, text=None, branch=False, errors={},
+             format=u'html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
@@ -271,7 +273,7 @@ class PageController(BaseController):
 
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
-        html = render('/page/edit.html')
+        html = render('/page/edit.html', overlay=format == u'overlay')
         return htmlfill.render(html, defaults=defaults,
                                errors=errors, force_defaults=False)
 

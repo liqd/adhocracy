@@ -35,14 +35,16 @@ class SelectionController(BaseController):
 
     @RequireInstance
     @guard.norm.propose()
-    def propose(self, proposal_id, errors=None):
-        return self._new(proposal_id, '/selection/propose.html', errors)
+    def propose(self, proposal_id, errors=None, format=u'html'):
+        return self._new(proposal_id, '/selection/propose.html', errors,
+                         format=format)
 
     @RequireInstance
-    def include(self, proposal_id, errors={}):
-        return self._new(proposal_id, '/selection/include.html', errors)
+    def include(self, proposal_id, errors={}, format=u'html'):
+        return self._new(proposal_id, '/selection/include.html', errors,
+                         format=format)
 
-    def _new(self, proposal_id, template, errors):
+    def _new(self, proposal_id, template, errors, format=u'html'):
         c.proposal = get_entity_or_abort(model.Proposal, proposal_id)
         require.selection.create(c.proposal)
         defaults = dict(request.params)
@@ -55,7 +57,8 @@ class SelectionController(BaseController):
         q = q.filter(model.Page.allow_selection == False)  # noqa
         c.exclude_pages += q.all()
 
-        return htmlfill.render(render(template), defaults=defaults,
+        html = render(template, overlay=format == u'overlay')
+        return htmlfill.render(html, defaults=defaults,
                                errors=errors, force_defaults=False)
 
     @RequireInstance

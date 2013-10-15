@@ -30,10 +30,11 @@ class SearchController(BaseController):
     @guard.proposal.index()
     @validate(schema=SearchQueryForm(), form="_search_form",
               post_only=False, on_get=True)
-    def query(self):
+    def query(self, format=u'html'):
         c.query = self.form_result.get("serp_q", u"*:*")
         self._query_pager()
-        return formencode.htmlfill.render(render("search/results.html"),
+        html = render("search/results.html", overlay=format == u'overlay'),
+        return formencode.htmlfill.render(html,
                                           {'q': c.query, 'serp_q': c.query})
 
     @guard.proposal.index()
