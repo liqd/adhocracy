@@ -46,7 +46,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
 %endif
 
 <section>
-    <article>
+    <article class="proposal">
         <h2>
             ${h.delegateable.link(c.proposal, link=False)|n}
             <div class="utility">
@@ -58,8 +58,10 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
 
         <hr />
 
-        ${tiles.page.inline(c.proposal.description,
-                hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
+        <div class="body">
+            ${tiles.page.inline(c.proposal.description,
+                    hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
+        </div>
 
         ${components.social_share_buttons(c.proposal.title)}
 
