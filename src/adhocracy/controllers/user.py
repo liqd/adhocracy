@@ -772,7 +772,11 @@ class UserController(BaseController):
     def login(self):
         c.active_global_nav = "login"
         if c.user:
-            redirect('/')
+            came_from = request.params.get('came_from', None)
+            if came_from is not None:
+                redirect(urllib.unquote_plus(came_from))
+            else:
+                redirect(h.user.post_login_url(c.user))
         else:
             return self._render_loginform()
 
@@ -804,10 +808,11 @@ class UserController(BaseController):
             came_from = request.params.get('came_from', None)
             if came_from is not None:
                 redirect(urllib.unquote_plus(came_from))
-            # redirect to the dashboard inside the instance exceptionally
-            # to be able to link to proposals and norms in the welcome
-            # message.
-            redirect(h.user.post_login_url(c.user))
+            else:
+                # redirect to the dashboard inside the instance exceptionally
+                # to be able to link to proposals and norms in the welcome
+                # message.
+                redirect(h.user.post_login_url(c.user))
         else:
             login_configuration = h.allowed_login_types()
             error_message = _("Invalid login")

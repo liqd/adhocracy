@@ -19,6 +19,13 @@ DEFAULTS = {
     'adhocracy.geo.image_layers': [],
     'adhocracy.geo.instance_overwrites': False,
     'adhocracy.geo.use_instancebadge_colors': True,
+
+    # Final adoption voting has been disabled from the UI during the
+    # Adhocracy redesign originally done for enquetebeteiligung.de.
+    # Much of the functionality is still in the code, but as long as it's not
+    # in the UI, it makes sense to also hide it from the settings UI.
+    'adhocracy.hide_final_adoption_votings': False,
+
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
@@ -43,6 +50,7 @@ DEFAULTS = {
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
+    'adhocracy.redirect_startpage_to_instance': u'',
     'debug': False,
 }
 

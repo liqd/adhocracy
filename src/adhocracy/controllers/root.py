@@ -35,6 +35,11 @@ class RootController(BaseController):
         if format == 'rss':
             return EventController().all(format='rss')
 
+        name = config.get('adhocracy.redirect_startpage_to_instance')
+        if name != u'':
+            instance = model.Instance.find(name)
+            redirect(h.entity_url(instance))
+
         data = {}
 
         instances_in_root = config.get_int(

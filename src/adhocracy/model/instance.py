@@ -55,6 +55,7 @@ instance_table = Table(
     Column('thumbnailbadges_height', Integer, nullable=True),
     Column('thumbnailbadges_width', Integer, nullable=True),
     Column('show_norms_navigation', Boolean, nullable=True, default=True),
+    Column('show_proposals_navigation', Boolean, nullable=True, default=True),
     Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
     GeometryExtensionColumn('geo_centre',
                             Geometry(dimension=2, srid=900913),

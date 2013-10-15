@@ -118,6 +118,8 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     show_norms_navigation = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    show_proposals_navigation = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     require_selection = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     frozen = validators.StringBool(
@@ -134,12 +136,13 @@ class InstanceContentsEditForm(formencode.Schema):
 
 class InstanceVotingEditForm(formencode.Schema):
     allow_extra_fields = True
-    allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
-                                        if_missing=False)
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
-    activation_delay = validators.Int(not_empty=True)
-    required_majority = validators.Number(not_empty=True)
+    if not config.get_bool('adhocracy.hide_final_adoption_votings'):
+        allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
+                                            if_missing=False)
+        activation_delay = validators.Int(not_empty=True)
+        required_majority = validators.Number(not_empty=True)
     votedetail_badges = forms.ValidUserBadges()
 
 
@@ -593,6 +596,8 @@ class InstanceController(BaseController):
                 'editable_comments_default':
                 instance.editable_comments_default,
                 'show_norms_navigation': instance.show_norms_navigation,
+                'show_proposals_navigation':
+                instance.show_proposals_navigation,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
@@ -610,7 +615,8 @@ class InstanceController(BaseController):
             ['allow_propose', 'allow_index', 'frozen', 'milestones',
              'use_norms', 'require_selection', 'allow_propose_changes',
              'hide_global_categories', 'editable_comments_default',
-             'show_norms_navigation', 'allow_thumbnailbadges', 'use_maps'])
+             'show_norms_navigation', 'show_proposals_navigation',
+             'allow_thumbnailbadges', 'use_maps'])
         return self._settings_result(updated, c.page_instance, 'contents')
 
     def _settings_voting_form(self, id):
@@ -669,10 +675,12 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
+        updated_attributes = ['allow_delegate']
+        if not config.get_bool('adhocracy.hide_final_adoption_votings'):
+            updated_attributes.extend(
+                ['required_majority', 'activation_delay', 'allow_adopt'])
         updated = update_attributes(
-            c.page_instance, self.form_result,
-            ['required_majority', 'activation_delay', 'allow_adopt',
-             'allow_delegate'])
+            c.page_instance, self.form_result, updated_attributes)
 
         if votedetail.is_enabled():
             new_badges = self.form_result['votedetail_badges']
