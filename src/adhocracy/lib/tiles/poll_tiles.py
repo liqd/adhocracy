@@ -90,7 +90,7 @@ class PollTile(BaseTile):
         elif self.poll.scope.is_frozen():
             url = self.votes_listing_url
             title = _('Topic is frozen. Click to view the list of votes.')
-        elif c.instance.frozen:
+        elif self.poll.scope.instance.frozen:
             url = self.votes_listing_url
             title = _('Instance is frozen. Click to view the list of votes.')
         elif self.has_ended:
