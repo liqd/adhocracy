@@ -34,5 +34,6 @@ class UnicodeDictReader(csv.DictReader):
     thanks to http://stackoverflow.com/a/6187936/201743
     """
     def __init__(self, f, encoding="utf-8", fieldnames=None, **kwds):
-        csv.DictReader.__init__(self, f, fieldnames=fieldnames, **kwds)
+        csv.DictReader.__init__(self, f, fieldnames=fieldnames,
+                                restkey=u'rest', **kwds)
         self.reader = UnicodeCsvReader(f, encoding=encoding, **kwds)

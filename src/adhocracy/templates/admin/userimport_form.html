@@ -47,7 +47,9 @@ ${self.form()}
                {'name': '{display_name}',
                 'description': _('The name that will be displayed to other users.')},
                {'name': '{email}',
-                'description': _('The email address of the user.')}]
+                'description': _(u'The email address of the user.')},
+               {'name': '{0}, {1}, {2}, &hellip;',
+                'description': _(u'for additional columns.')}]
            %>
 
            <div class="help-block">
@@ -61,7 +63,7 @@ ${self.form()}
                <h6>${_('Optional')}</h6>
                <ul class="nobullet">
                    %for item in optional:
-                   <li><em>${item['name']}</em>: ${item['description']}</li>
+                   <li><em>${item['name']|n}</em>: ${item['description']}</li>
                    %endfor
                </ul>
            </div>
