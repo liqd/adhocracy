@@ -1457,7 +1457,7 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
     return pager
 
 
-def solr_instance_pager():
+def solr_instance_pager(include_hidden=False):
     # override default sort
     # TODO: is paging working? [joka]
     custom_default = config.get('adhocracy.listings.instance.sorting')
@@ -1468,10 +1468,15 @@ def solr_instance_pager():
     instance_sorts = copy.copy(INSTANCE_SORTS)
     if custom_default and custom_default in sorts:
         instance_sorts._default = sorts[custom_default].value
+    if include_hidden:
+        extra_filter = None
+    else:
+        extra_filter = {'hidden': False}
     # create pager
     pager = SolrPager('instances', tiles.instance.row,
                       entity_type=model.Instance,
                       sorts=instance_sorts,
+                      extra_filter=extra_filter,
                       facets=[InstanceBadgeFacet],
                       )
     return pager
