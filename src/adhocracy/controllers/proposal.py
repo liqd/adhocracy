@@ -341,8 +341,11 @@ class ProposalController(BaseController):
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
-        added, removed = self._update_badges(badges, thumbnailbadges,
-                                             c.proposal)
+        if not config.get_bool('adhocracy.proposal.split_badge_edit'):
+            added, removed = self._update_badges(badges, thumbnailbadges,
+                                                 c.proposal)
+        else:
+            added = removed = []
 
         # change the category
         categories = self.form_result.get('category')
