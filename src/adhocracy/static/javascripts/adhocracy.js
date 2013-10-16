@@ -56,7 +56,7 @@ var adhocracy = adhocracy || {};
 
         var tag = el[0].tagName;
         if (unique(tag)) {
-            return selector;
+            return tag;
         } else if (typeof el.attr('id') !== 'undefined') {
             return tag + '#' + el.attr('id');
         } else if (typeof el.attr('name') !== 'undefined') {
