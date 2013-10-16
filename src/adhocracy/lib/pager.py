@@ -866,6 +866,28 @@ class InstanceHiddenStateFacet(SolrFacet):
         index[cls.solr_field] = [hidden_val]
 
 
+class InstanceStateFacet(SolrFacet):
+
+    name = 'instance_state'
+    entity_type = InstanceStateFacetItem
+    title = lazy_ugettext(u'Instance state')
+    solr_field = 'facet.instance.state'
+
+    FROZEN = u'frozen'
+    OPEN = u'open'
+
+    # make sure these strings are extracted
+    lazy_ugettext(u'frozen')
+    lazy_ugettext(u'open')
+
+    @classmethod
+    def add_data_to_index(cls, instance, index):
+        if not isinstance(instance, model.Instance):
+            return
+        frozen_val = cls.FROZEN if instance.frozen else cls.OPEN
+        index[cls.solr_field] = [frozen_val]
+
+
 class InstanceFacet(SolrFacet):
 
     name = 'instance'
@@ -1519,10 +1541,11 @@ def solr_instance_pager(include_hidden=False):
         instance_sorts._default = sorts[custom_default].value
     if include_hidden:
         extra_filter = None
-        facets = [InstanceBadgeFacet, InstanceHiddenStateFacet]
+        facets = [InstanceBadgeFacet, InstanceStateFacet,
+                  InstanceHiddenStateFacet]
     else:
         extra_filter = {'hidden': False}
-        facets = [InstanceBadgeFacet]
+        facets = [InstanceBadgeFacet, InstanceStateFacet]
     # create pager
     pager = SolrPager('instances', tiles.instance.row,
                       entity_type=model.Instance,
