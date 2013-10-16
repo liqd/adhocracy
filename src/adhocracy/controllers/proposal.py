@@ -4,13 +4,12 @@ import urllib
 import formencode
 from formencode import htmlfill, Invalid, validators
 
-from paste.deploy.converters import asbool
-
-from pylons import config, request, tmpl_context as c
+from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
@@ -407,8 +406,8 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
-        monitor_comment_behavior = asbool(
-            config.get('adhocracy.monitor_comment_behavior', 'False'))
+        monitor_comment_behavior = config.get_bool(
+            'adhocracy.monitor_comment_behavior')
         if monitor_comment_behavior:
             c.monitor_comment_url = '%s?%s' % (
                 h.base_url('/stats/read_comments'),
