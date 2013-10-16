@@ -78,7 +78,8 @@ ${c.next_milestones_pager.here()}
 <div class="sidebar_box">
 <h3 class="map_h3">${_('Newest geotagged proposals')}</h3>
 <%doc>filter if p is not None in list comprehension is just a workaround, as SolrPager seems to return None proposals accidently</%doc>
-${map.show_region_map([p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None])}
+<% proposals = [p.id for p in c.new_proposals_pager.items if p is not None and p.geotag is not None] if c.new_proposals_pager else [] %>
+${map.show_region_map(proposals)}
 </div>
 %endif
 
