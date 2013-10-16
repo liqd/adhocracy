@@ -203,7 +203,8 @@ class ProposalController(BaseController):
 
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
-        return htmlfill.render(render("/proposal/new.html"),
+        return htmlfill.render(render("/proposal/new.html",
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 
@@ -288,7 +289,7 @@ class ProposalController(BaseController):
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
               post_only=False, on_get=True)
-    def edit(self, id, errors={}, page=None):
+    def edit(self, id, errors={}, page=None, format=u'html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.edit(c.proposal)
         c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
@@ -310,7 +311,8 @@ class ProposalController(BaseController):
             defaults['watch'] = h.find_watch(c.proposal) is not None
             defaults['frozen'] = c.proposal.frozen
         defaults.update({"category": c.category.id if c.category else None})
-        return htmlfill.render(render("/proposal/edit.html"),
+        return htmlfill.render(render("/proposal/edit.html",
+                                      overlay=format == u'overlay'),
                                defaults=defaults,
                                errors=errors, force_defaults=force_defaults)
 
@@ -608,7 +610,7 @@ class ProposalController(BaseController):
             return render_json(json)
         else:
             return formencode.htmlfill.render(
-                render("/proposal/badges.html"),
+                render("/proposal/badges.html", overlay=format == u'overlay'),
                 defaults=defaults)
 
     @RequireInternalRequest()
