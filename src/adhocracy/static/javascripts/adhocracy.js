@@ -81,7 +81,6 @@ var adhocracy = adhocracy || {};
         // will call success() on success
         form.submit(function(e) {
             e.preventDefault();
-            console.log(e);
 
             var form = $(e.target),  // form outside might be wrong
                 selector = adhocracy.uniqueSelector(form);
