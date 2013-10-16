@@ -728,7 +728,7 @@ class PageController(BaseController):
         redirect(h.entity_url(c.page))
 
     @RequireInstance
-    def ask_delete(self, id):
+    def ask_delete(self, id, format="html"):
         c.page = get_entity_or_abort(model.Page, id)
         require.page.delete(c.page)
         c.tile = tiles.page.PageTile(c.page)
@@ -741,7 +741,7 @@ class PageController(BaseController):
         else:
             c.ret_url = h.entity_url(c.page.instance)
 
-        return render("/page/ask_delete.html")
+        return render("/page/ask_delete.html", overlay=(format == u'overlay'))
 
     @RequireInstance
     @RequireInternalRequest()

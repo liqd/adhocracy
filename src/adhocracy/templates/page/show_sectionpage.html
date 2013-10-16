@@ -28,7 +28,7 @@
                     <a href="${h.entity_url(page, member='edit', query={'section_parent': c.page.id})}" rel="#overlay-form" >${_(u"Edit")}</a>
                     %endif
                     %if can.page.delete(page):
-                    <a href="${h.entity_url(page, member='ask_delete', query={'section_parent': c.page.id})}">${_(u"Delete")}</a>
+                    <a href="${h.entity_url(page, member='ask_delete', query={'section_parent': c.page.id})}" rel="#overlay-form">${_(u"Delete")}</a>
                     %endif
                 </div>
             </aside>

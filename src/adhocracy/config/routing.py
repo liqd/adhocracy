@@ -240,7 +240,7 @@ def make_map(config):
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/edit', controller='page', action='edit',
                 conditions=dict(method=['GET']))
-    map.connect('/page/{id}/ask_delete', controller='page',
+    map.connect('/page/{id}/ask_delete{.format}', controller='page',
                 action='ask_delete',
                 conditions=dict(method=['GET']))
     map.connect('/page/{id}/{variant};{text}.{format}', controller='page',
