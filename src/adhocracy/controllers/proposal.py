@@ -20,7 +20,6 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json, ret_abort
 from adhocracy.lib.queue import update_entity
-from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
 
@@ -495,7 +494,8 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
         if c.proposal.is_amendment:
-            ret_url = h.entity_url(c.proposal.selection.page, member='amendment')
+            ret_url = h.entity_url(c.proposal.selection.page,
+                                   member='amendment')
         else:
             ret_url = h.entity_url(c.instance)
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
