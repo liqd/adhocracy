@@ -119,3 +119,14 @@ a.button.delegate {
         border-bottom: 4px solid;
     }
 }
+
+.loading:after {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    content: ".";
+    text-indent: 100%;
+    display: inline-block;
+    background: url('/images/loading.gif');
+    margin-left: 0.5em;
+}
