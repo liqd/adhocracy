@@ -9,7 +9,6 @@
 <%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
 
 <%block name="admin_controls">
-
 <%components:admin_controls>
 
 ## FIXME: Reenable for adopt poll
@@ -18,8 +17,10 @@
 ##   href="${h.entity_url(proposal, member='ask_adopt')}">${_("call a vote")}</a>
 ##%endif
 
+%if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
 %if h.has_permission('instance.admin'):
 <a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>
+%endif
 %endif
 
 %if can.proposal.delete(c.proposal):
@@ -27,14 +28,13 @@
    href="${h.entity_url(c.proposal, member='ask_delete')}">${_("delete")}</a>
 %endif
 </%components:admin_controls>
-
 </%block>
 
 
 <%block name="main_content">
 <%
-url = h.base_url('/delegation/new?scope=%s' % str(c.proposal.id))
-delegate_url = url if can.delegation.create(c.proposal) else None
+    url = h.base_url('/delegation/new?scope=%s' % str(c.proposal.id))
+    delegate_url = url if can.delegation.create(c.proposal) else None
 %>
 
 %if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
@@ -89,9 +89,9 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
     <br />
 
     <div id="main_comments"
-         %if c.monitor_comment_url:
-         data-stats-baseurl="${c.monitor_comment_url}"
-         %endif
+        %if c.monitor_comment_url:
+        data-stats-baseurl="${c.monitor_comment_url}"
+        %endif
     >
         <h3 id="discussions">
             ${_('Comments') if h.comment.wording() else _('Discussions')}
@@ -109,42 +109,45 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
 <section>
     <h3 id="proposals">${_("Proposed Implementations")}</h3>
     <hr />
+
     <ul class="papers_list">
         %for selection in c.sorted_selections:
         <% h.need.adhocracy_ko %>
         ${tiles.selection.row(selection)}
         %endfor
     </ul>
+
     <div class="list_button">
-    <% auth = check.selection.create(c.proposal) %>
-    <div id="propose-variant"></div>
-    %if auth:
-    <a class="button highlight"
-       href="${h.entity_url(c.proposal, member='implementation/include')}">
-        ${_("Propose to change a norm")}
-    </a>
-    %elif auth.propose_login():
-    <a class="button highlight"
-       href="${h.entity_url(c.proposal, member='implementation/include')}"
-       rel="#overlay-login-button"
-       title="${_('Login to propose to change a norm')}">
-        ${_("Propose to change a norm")}
-    </a>
-    %elif auth.propose_join():
-    <a class="button highlight"
-       href="${h.entity_url(c.proposal, member='implementation/include')}"
-       rel="#overlay-join-button"
-       title="${_('Join instance to propose to change a norm')}">
-        ${_("Propose to change a norm")}
-    </a>
-    %elif auth.propose_validate_email():
-    <a class="button highlight"
-       rel="#overlay-validate-button"
-       title="${_('Validate email in order to propose to change a norm')}">
-        ${_("Propose to change a norm")}
-    </a>
-    %endif
+        <% auth = check.selection.create(c.proposal) %>
+        <div id="propose-variant"></div>
+        %if auth:
+        <a class="button highlight"
+           href="${h.entity_url(c.proposal, member='implementation/include')}">
+            ${_("Propose to change a norm")}
+        </a>
+        %elif auth.propose_login():
+        <a class="button highlight"
+           href="${h.entity_url(c.proposal, member='implementation/include')}"
+           rel="#overlay-login-button"
+           title="${_('Login to propose to change a norm')}">
+            ${_("Propose to change a norm")}
+        </a>
+        %elif auth.propose_join():
+        <a class="button highlight"
+           href="${h.entity_url(c.proposal, member='implementation/include')}"
+           rel="#overlay-join-button"
+           title="${_('Join instance to propose to change a norm')}">
+            ${_("Propose to change a norm")}
+        </a>
+        %elif auth.propose_validate_email():
+        <a class="button highlight"
+           rel="#overlay-validate-button"
+           title="${_('Validate email in order to propose to change a norm')}">
+            ${_("Propose to change a norm")}
+        </a>
+        %endif
     </div>
+
     <%doc> FIXME: Enable change existing norm option
     %if norm.can.create
     <a class="button"
@@ -152,14 +155,13 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
        href="${h.entity_url(c.proposal, member='implementation/propose')}">
         ${_("propose new norm")}
     </a>
-    </div>
+    %endif
     </%doc>
 </section>
 %endif
 
 <%components:tutorial>
 <ol id="joyRideTipContent">
-
     <li data-id="col1_content"
         data-tip-location="top left" class="custom">
         <p>${_('tutorial_proposal_show_vote')}</p>
@@ -212,16 +214,13 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
 
 </ol>
 </%components:tutorial>
-
 </%block>
 
 
 <%block name="sidebar">
-
 ${components.watch(c.proposal, id='follow_proposal')}
 
 <div class="sidebar_box">
-
     <h3 id="information">${_('Information')}</h3>
 
     <summary>
@@ -236,7 +235,6 @@ ${components.watch(c.proposal, id='follow_proposal')}
         <% tally = c.proposal.rate_poll.tally %>
 
         ${sidebar_defs.votes(c.proposal.rate_poll)}
-
         ${sidebar_defs.votedetail(c.votedetail)}
 
         <h6>${_('Category')}</h6>
@@ -263,6 +261,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
             ${_("This proposal is not related to a milestone")}
             %endif
         </p>
+
         <h6>${_('Created')}</h6>
         ## FIXME: ensure caching of history count (make it a tile?)
         <p>

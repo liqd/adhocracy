@@ -2,6 +2,7 @@
 <%namespace name="tiles_html" file="/proposal/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
 <%namespace name="forms" file="/forms.html"/>
+<%namespace name="badge_tiles" file="/badge/tiles.html"/>
 <%def name="title()">${_("Edit %s") % c.proposal.title}</%def>
 
 <%def name="breadcrumbs()">
@@ -40,6 +41,66 @@
                 ${components.formatting()}
             </div>
         </fieldset>
+
+        %if not h.config.get_bool('adhocracy.proposal.split_badge_edit'):
+        %if can.perm("instance.admin"):
+        <fieldset>
+            <legend>${_("badge")}</legend>
+
+            %if c.badges:
+            <ul class="nobullet">
+                %for badge in c.badges:
+                <li>
+                    <label>
+                        <input type="checkbox" value="${badge.id}"
+                               %if badge in c.proposal.badges:
+                               checked="checked"
+                               %endif
+                               name="badge" />
+                        ${badge_tiles.badge(badge)}
+                    </label>
+                </li>
+                %endfor
+            </ul>
+            %else:
+            <p>${_(u"No Badges")}</p>
+            %endif
+        </fieldset>
+
+        <fieldset>
+            <legend>${_(u"thumbnail badge")}</legend>
+
+            %if c.thumbnailbadges:
+            <ul class="nobullet">
+                <li>
+                    <label>
+                        <input type="radio" value=""
+                               %if all(badge not in c.proposal.thumbnails for proposal in c.thumbnailbadges):
+                               checked="checked"
+                               %endif
+                               name="thumbnailbadge" />
+                        ${_(u'No Thumbnail Badge')}
+                    </label>
+                </li>
+                %for badge in c.thumbnailbadges:
+                <li>
+                    <label>
+                        <input type="radio" value="${badge.id}"
+                               %if badge in c.proposal.thumbnails:
+                               checked="checked"
+                               %endif
+                               name="thumbnailbadge" />
+                        ${badge_tiles.badge(badge)}
+                    </label>
+                </li>
+                %endfor
+            </ul>
+            %else:
+            <p>${_(u"No Thumbnail Badges")}</p>
+            %endif
+        </fieldset>
+        %endif
+        %endif
 
         %if not c.proposal.is_amendment:
         %if c.instance.milestones:

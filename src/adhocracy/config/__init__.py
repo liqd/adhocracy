@@ -29,6 +29,7 @@ DEFAULTS = {
     'adhocracy.instance_footers': [],
     'adhocracy.instance_stylesheets': [],
     'adhocracy.milestone.allow_show_all_proposals': False,
+    'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.protocol': u'http',
     'adhocracy.relative_urls': False,
@@ -48,6 +49,7 @@ DEFAULTS = {
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
     'adhocracy.redirect_startpage_to_instance': u'',
+    'adhocracy.proposal.split_badge_edit': True,
     'debug': False,
 }
 
