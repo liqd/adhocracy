@@ -839,7 +839,7 @@ class SolrFacetItem(object):
         return cls(token)
 
 
-class InstanceStateFacetItem(SolrFacetItem):
+class TranslatedSolrFacetItem(SolrFacetItem):
 
     translate = True
 
@@ -847,7 +847,7 @@ class InstanceStateFacetItem(SolrFacetItem):
 class InstanceHiddenStateFacet(SolrFacet):
 
     name = 'instance_hidden_state'
-    entity_type = InstanceStateFacetItem
+    entity_type = TranslatedSolrFacetItem
     title = lazy_ugettext(u'Instance hidden state')
     solr_field = 'facet.instance.hidden_state'
 
@@ -869,7 +869,7 @@ class InstanceHiddenStateFacet(SolrFacet):
 class InstanceStateFacet(SolrFacet):
 
     name = 'instance_state'
-    entity_type = InstanceStateFacetItem
+    entity_type = TranslatedSolrFacetItem
     title = lazy_ugettext(u'Instance state')
     solr_field = 'facet.instance.state'
 
