@@ -30,17 +30,22 @@ DEFAULTS = {
     'adhocracy.instance_stylesheets': [],
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
-    'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.protocol': u'http',
     'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
     'adhocracy.propose_optional_attributes': False,
     'adhocracy.set_display_name_on_register': False,
-    'adhocracy.show_instance_overview_events': True,
-    'adhocracy.show_instance_overview_milestones': True,
-    'adhocracy.show_instance_overview_proposals_new': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
+    'adhocracy.number_instance_overview_milestones': 3,
+
+    # an arbitrary list of u'proposals' and u'milestones'
+    'adhocracy.instance_overview_contents': [u'proposals',
+                                             u'milestones'],
+
+    # an arbitrary list of u'events'
+    'adhocracy.instance_overview_sidebar_contents': [u'events'],
+
     'adhocracy.show_stats_on_frontpage': True,
     'adhocracy.startpage.instances.list_length': 0,
     'adhocracy.startpage.proposals.list_length': 0,

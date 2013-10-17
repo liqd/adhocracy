@@ -222,8 +222,12 @@ class InstanceController(BaseController):
                                  c.page_instance.allow_delegate else
                                  _('Delegations are disabled.'))
 
-        if config.get_bool('adhocracy.show_instance_overview_milestones')\
-           and c.page_instance.milestones:
+        overview_contents = config.get_list(
+            'adhocracy.instance_overview_contents')
+        overview_sidebar_contents = config.get_list(
+            'adhocracy.instance_overview_sidebar_contents')
+
+        if u'milestones' in overview_contents and c.page_instance.milestones:
 
             number = config.get_int(
                 'adhocracy.number_instance_overview_milestones')
@@ -235,27 +239,25 @@ class InstanceController(BaseController):
                 milestones, size=number, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.milestone_time)
 
-        c.events_pager = None
-        if config.get_bool('adhocracy.show_instance_overview_events'):
+        c.sidebar_events_pager = None
+        if u'events' in overview_sidebar_contents:
             events = model.Event.find_by_instance(c.page_instance, limit=3)
-            c.events_pager = pager.events(events,
-                                          enable_pages=False,
-                                          enable_sorts=False)
+            c.sidebar_events_pager = pager.events(events,
+                                                  enable_pages=False,
+                                                  enable_sorts=False)
 
-        proposals = model.Proposal.all(instance=c.page_instance)
+        c.proposals_pager = None
+        if u'proposals' in overview_contents:
+            proposals = model.Proposal.all(instance=c.page_instance)
 
-        show_new_proposals = config.get_bool(
-            'adhocracy.show_instance_overview_proposals_new')
-        c.new_proposals_pager = None
-        if show_new_proposals:
-            c.new_proposals_pager = pager.proposals(
-                proposals, size=7, enable_sorts=False,
-                enable_pages=False, default_sort=sorting.entity_newest)
-
-        c.all_proposals_pager = None
-        if config.get_bool('adhocracy.show_instance_overview_proposals_all'):
-            c.all_proposals_pager = pager.proposals(proposals, size=100,
+            if config.get_bool(
+                    'adhocracy.show_instance_overview_proposals_all'):
+                c.proposals_pager = pager.proposals(proposals, size=100,
                                                     initial_size=100)
+            else:
+                c.proposals_pager = pager.proposals(
+                    proposals, size=7, enable_sorts=False,
+                    enable_pages=False, default_sort=sorting.entity_newest)
 
         c.stats = None
         if config.get_bool('adhocracy.show_instance_overview_stats'):
@@ -277,6 +279,7 @@ class InstanceController(BaseController):
                       u"It isn't possible to perform any changes to the "
                       u"instance, but all content is available to be read."),
                     'warning')
+
         if format == 'overlay':
             return render("/instance/show.html", overlay=True)
         else:
