@@ -14,11 +14,11 @@
          data-bind="visible: !hideDiffSwitcher()">
         <span>${_("Highlight Changes")}</span>
         <div class="switch_buttons">
-            <a class="button_small" 
+            <a class="button_small"
                data-bind="css: {active: variants.switchDiff},
                           click: function () {variants.switchDiff(true)}"
-               href="#">${_("On")}</a> 
-            <a class="button_small" 
+               href="#">${_("On")}</a>
+            <a class="button_small"
                data-bind="css: {active: !variants.switchDiff()},
                           click: function () {variants.switchDiff(false)}"
                href="#">${_("Off")}</a>
@@ -33,30 +33,30 @@
         </a>
     </div>
     </%doc>
-    
+
     <div class="version_function">
         <% auth = check.proposal.create() %>
         %if auth:
-        <a class="button highlight" 
+        <a class="button highlight"
            href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}">
             ${_('Propose new Variant')}
         </a>
         %elif auth.propose_join():
-        <a class="button highlight" 
+        <a class="button highlight"
            title="${_('Join instance to propose a new variant.')}"
-           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}" 
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}"
            rel="#overlay-join-button">
             ${_('Propose new Variant')}
         </a>
         %elif auth.propose_login():
-        <a class="button highlight" 
+        <a class="button highlight"
            title="${_('Login to propose a new variant.')}"
-           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}" 
+           href="${h.entity_url(c.selection.page, member='branch')}?proposal=${c.selection.proposal.id}"
            rel="#overlay-login-button">
             ${_('Propose new Variant')}
         </a>
         %elif auth.propose_validate_email():
-        <a class="button highlight" 
+        <a class="button highlight"
            title="${_('Validate email in order to propose a new variant.')}"
            rel="#overlay-validate-button">
             ${_('Propose new Variant')}
@@ -83,11 +83,11 @@
         %endif
         ## Fixme: Info zur Version
         ## <h6>Angelegt</h6>
-        ## <p>von <a href="#">Timoteus</a> am 
-        ## <time pubdate="pubdate">01.01.2011</time>, 
+        ## <p>von <a href="#">Timoteus</a> am
+        ## <time pubdate="pubdate">01.01.2011</time>,
         ## setdem <a href="#">3 Änderungen</a>.</p>
 
-    ${tiles.tag.sidebar(c.page)}
+        ${tiles.tag.sidebar(c.page)}
 
     </summary>
 </%doc>
