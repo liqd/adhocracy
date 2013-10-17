@@ -239,6 +239,13 @@ class InstanceController(BaseController):
                 milestones, size=number, enable_sorts=False,
                 enable_pages=False, default_sort=sorting.milestone_time)
 
+        c.events_pager = None
+        if u'events' in overview_contents:
+            events = model.Event.find_by_instance(c.page_instance, limit=10)
+            c.events_pager = pager.events(events,
+                                          enable_pages=False,
+                                          enable_sorts=False)
+
         c.sidebar_events_pager = None
         if u'events' in overview_sidebar_contents:
             events = model.Event.find_by_instance(c.page_instance, limit=3)

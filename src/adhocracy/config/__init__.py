@@ -39,7 +39,7 @@ DEFAULTS = {
     'adhocracy.show_instance_overview_stats': True,
     'adhocracy.number_instance_overview_milestones': 3,
 
-    # an arbitrary list of u'proposals' and u'milestones'
+    # an arbitrary list of u'events', u'proposals' and u'milestones'
     'adhocracy.instance_overview_contents': [u'proposals',
                                              u'milestones'],
 

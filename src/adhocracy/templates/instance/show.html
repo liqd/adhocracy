@@ -61,6 +61,11 @@ ${c.tile.description|n}
 ${c.next_milestones_pager.here()}
 %endif
 
+%if type == u'events':
+<h3>${_('Newest Events')}</h3>
+${c.events_pager.here()}
+%endif
+
 %endfor
 </%block>
 
