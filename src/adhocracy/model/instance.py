@@ -272,15 +272,14 @@ class Instance(meta.Indexable):
     def to_index(self):
         from adhocracy.lib.event import stats as estats
         index = super(Instance, self).to_index()
-        if self.hidden:
-            index['skip'] = True
         index.update(dict(
             instance=self.key,
             title=self.label,
             tags=[],
             body=self.description,
             user=self.creator.user_name,
-            activity=estats.instance_activity(self)
+            activity=estats.instance_activity(self),
+            hidden=self.hidden,
         ))
         return index
 

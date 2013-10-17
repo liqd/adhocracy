@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="adhocracy" version="1.3">
+<schema name="adhocracy" version="1.4">
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
 
     <fieldType name="text_lowercase" class="solr.TextField"
                sortMissingLast="true"
@@ -105,6 +106,8 @@
    <field name="create_time" type="string" indexed="true" stored="true"/>
    <field name="text" type="text" indexed="true" stored="false"
           multiValued="true"/>
+
+   <field name="hidden" type="boolean" indexed="true" stored="true" />
 
    <!-- facets -->
    <dynamicField name="facet.*" type="string" indexed="true" stored="true"
