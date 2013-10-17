@@ -403,13 +403,16 @@ def entity_to_solr_token(entity):
 
 
 def solr_tokens_to_entities(tokens, entity_class):
-    """ Returns the entity according to the solr token string.
-        and entity_class.
+    """ Returns the facet entity according to the solr token string and
+        entity_class.
         For hierachical entities it supports tokens including the parents
         reference attribute values ("1/2/3").
     """
-    entity_ids = [t.rpartition('/')[-1] for t in tokens]
-    return model.refs.get_entities(entity_class, entity_ids)
+    if issubclass(entity_class, SolrFacetItem):
+        return [entity_class.get_item(token) for token in tokens]
+    else:
+        entity_ids = [t.rpartition('/')[-1] for t in tokens]
+        return model.refs.get_entities(entity_class, entity_ids)
 
 
 class SolrIndexer(object):
@@ -815,6 +818,74 @@ class InstanceBadgeFacet(SolrFacet):
             return
         d = [entity_to_solr_token(badge) for badge in instance.badges]
         index[cls.solr_field] = d
+
+
+class SolrFacetItem(object):
+    """
+    Base class for facet items, which aren't Adhocracy entities, e.g. entity
+    attribute values.
+    """
+
+    translate = False
+
+    def __init__(self, label):
+        if self.translate:
+            self.label = _(label)
+        else:
+            self.label = label
+
+    @classmethod
+    def get_item(cls, token):
+        return cls(token)
+
+
+class TranslatedSolrFacetItem(SolrFacetItem):
+
+    translate = True
+
+
+class InstanceHiddenStateFacet(SolrFacet):
+
+    name = 'instance_hidden_state'
+    entity_type = TranslatedSolrFacetItem
+    title = lazy_ugettext(u'Instance hidden state')
+    solr_field = 'facet.instance.hidden_state'
+
+    HIDDEN = u'hidden'
+    VISIBLE = u'visible'
+
+    # make sure these strings are extracted
+    lazy_ugettext(u'hidden')
+    lazy_ugettext(u'visible')
+
+    @classmethod
+    def add_data_to_index(cls, instance, index):
+        if not isinstance(instance, model.Instance):
+            return
+        hidden_val = cls.HIDDEN if instance.hidden else cls.VISIBLE
+        index[cls.solr_field] = [hidden_val]
+
+
+class InstanceStateFacet(SolrFacet):
+
+    name = 'instance_state'
+    entity_type = TranslatedSolrFacetItem
+    title = lazy_ugettext(u'Instance state')
+    solr_field = 'facet.instance.state'
+
+    FROZEN = u'frozen'
+    OPEN = u'open'
+
+    # make sure these strings are extracted
+    lazy_ugettext(u'frozen')
+    lazy_ugettext(u'open')
+
+    @classmethod
+    def add_data_to_index(cls, instance, index):
+        if not isinstance(instance, model.Instance):
+            return
+        frozen_val = cls.FROZEN if instance.frozen else cls.OPEN
+        index[cls.solr_field] = [frozen_val]
 
 
 class InstanceFacet(SolrFacet):
@@ -1457,7 +1528,7 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
     return pager
 
 
-def solr_instance_pager():
+def solr_instance_pager(include_hidden=False):
     # override default sort
     # TODO: is paging working? [joka]
     custom_default = config.get('adhocracy.listings.instance.sorting')
@@ -1468,11 +1539,19 @@ def solr_instance_pager():
     instance_sorts = copy.copy(INSTANCE_SORTS)
     if custom_default and custom_default in sorts:
         instance_sorts._default = sorts[custom_default].value
+    if include_hidden:
+        extra_filter = None
+        facets = [InstanceBadgeFacet, InstanceStateFacet,
+                  InstanceHiddenStateFacet]
+    else:
+        extra_filter = {'hidden': False}
+        facets = [InstanceBadgeFacet, InstanceStateFacet]
     # create pager
     pager = SolrPager('instances', tiles.instance.row,
                       entity_type=model.Instance,
                       sorts=instance_sorts,
-                      facets=[InstanceBadgeFacet],
+                      extra_filter=extra_filter,
+                      facets=facets,
                       )
     return pager
 

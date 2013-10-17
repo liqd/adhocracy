@@ -157,7 +157,9 @@ class InstanceController(BaseController):
     def index(self, format="html"):
 
         c.active_global_nav = 'instances'
-        c.instance_pager = pager.solr_instance_pager()
+
+        include_hidden = h.has_permission('global.admin')
+        c.instance_pager = pager.solr_instance_pager(include_hidden)
 
         if format == 'json':
             return render_json(c.instance_pager)
