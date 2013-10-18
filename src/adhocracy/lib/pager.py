@@ -1,4 +1,5 @@
 import copy
+from functools import partial
 from inspect import isclass
 import math
 import logging
@@ -368,8 +369,9 @@ def delegations(delegations):
                       default_sort=sorting.entity_newest)
 
 
-def events(events, **kwargs):
-    return NamedPager('events', events, tiles.event.row, **kwargs)
+def events(events, pager_name='events', row_type='row', **kwargs):
+    row = partial(tiles.event.event_row, row_type=row_type)
+    return NamedPager(pager_name, events, row, **kwargs)
 
 
 def polls(polls, default_sort=None, **kwargs):
