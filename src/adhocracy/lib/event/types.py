@@ -310,4 +310,6 @@ N_COMMENT_EDIT = NotificationType(
     text=lambda e: e.rev.text if e.rev else None)
 
 
-TYPES = [v for v in locals().values() if isinstance(v, NotificationType)]
+TYPE_MAPPINGS = dict([(v.code, v) for v in locals().values()
+                      if isinstance(v, NotificationType)])
+TYPES = TYPE_MAPPINGS.values()
