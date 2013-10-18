@@ -1,4 +1,4 @@
-<%def name="row(tile, event, avatars=True)">
+<%def name="row(tile, event, avatars=True, preview=True)">
     <%
     from adhocracy.lib.event import formatting
     event_html = formatting.as_html(event)
@@ -14,6 +14,16 @@
             <a href="${h.entity_url(event.user)}">${event.user.name}</a>
             ${event_html|n}
         </div>
+
+        %if preview:
+            %if event.event.code in [u't_proposal_create', u't_proposal_edit']:
+            ${row_text(h.entity_url(event.proposal), _(u'Show full proposal'), event.proposal.description.head.render())}
+
+            %elif event.event.code in [u't_comment_create', u't_comment_edit']:
+            ${row_text(h.entity_url(event.comment), _(u'Show full comment'), h.render(event.comment.latest.text))}
+
+            %endif
+        %endif
     </li>
 </%def>
 
@@ -24,5 +34,14 @@
 
 
 <%def name="sidebar_row(tile, event)">
-    ${row(tile, event, avatars=False)}
+    ${row(tile, event, avatars=False, preview=False)}
+</%def>
+
+
+<%def name="row_text(url, link_text, text)">
+    <blockquote class="preview">
+        <% short = h.text.truncate_html(text, 30, u'&hellip;') %>
+        ${short|n}
+        <a href="${url}" class="more_link">${link_text}</a>
+    </blockquote>
 </%def>

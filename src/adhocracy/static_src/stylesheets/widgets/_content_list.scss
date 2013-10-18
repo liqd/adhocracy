@@ -78,6 +78,17 @@
         position: relative;
         padding-right: 2em;
 
+        > blockquote {
+            margin: 0 0 1em;
+            font-style: normal;
+            color: $fg1;
+
+            // show morelink inline with paragraph before that
+            > p:nth-last-child(2) {
+                display: inline;
+            }
+        }
+
         // icons
         padding-left: 60px;
         &:before {
