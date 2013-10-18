@@ -64,6 +64,10 @@
 </%block>
 
 <%block name="sidebar">
+    %if c.user and c.page_user != c.user:
+        ${components.watch(c.page_user, show_skip=False)}
+    %endif
+
     <div id="meta" class="dashboard sidebar_box">
 
         <h3>${_('Information')}</h3>
@@ -98,6 +102,13 @@
         ${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}
         %else:
         ${_(u'None')}
+        %endif
+
+        %if c.instance and can.user.message(c.page_user):
+        <h6>${_('Contact')}</h6>
+        <div>
+          <a href="${h.entity_url(c.page_user, instance=c.instance, member='message/new')}">${_(u'Send message')}</a>
+        </div>
         %endif
 
         <%doc>

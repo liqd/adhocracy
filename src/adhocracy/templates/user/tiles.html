@@ -25,13 +25,6 @@
 <%def name="header(tile, user, active, show_delete_user_button=False)">
 
     <div class="top_actions title vcard">
-        %if can.user.message(user):
-        <a class="button add" 
-           href="${h.entity_url(user, instance=c.instance, member='message/new')}">
-            ${_("send a message")}
-        </a>
-        %endif
-    
         %if lib.auth.authorization.has('global.admin'):
         <a class="button edit" 
            href="${h.entity_url(user, instance=c.instance, member='settings')}">
@@ -72,10 +65,6 @@
         %if can.user.delete(user) and show_delete_user_button:
             <a class="button title delete ttip" title="${_('Delete this user.')}"
                 href="${h.entity_url(user, member='ask_delete')}">${_("delete")}</a>
-        %endif
-
-        %if c.user and user != c.user:
-            ${components.watch(user)}
         %endif
 
         %if lib.auth.welcome.can_welcome():
