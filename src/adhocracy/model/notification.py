@@ -32,13 +32,16 @@ class Notification(object):
     def __init__(self, event, user, type=None, watch=None):
         self.event = event
         self._type = type
+        if type is None:
+            self.event_type = self.event.event.code
+        else:
+            self.event_type = self._type.code
         self.user = user
         self.watch = watch
 
     def get_type(self):
-        if not self._type:
-            self._type = self.event.event
-        return self._type
+        from adhocracy.lib.event.types import TYPE_MAPPINGS
+        return TYPE_MAPPINGS[self.event_type]
 
     type = property(get_type)
 
@@ -93,5 +96,6 @@ class Notification(object):
     body = property(get_body)
 
     def __repr__(self):
-        return "<Notification(%s,%s,%s)>" % (self.type, self.user.user_name,
+        return "<Notification(%s,%s,%s)>" % (self.event_type,
+                                             self.user.user_name,
                                              self.priority)
