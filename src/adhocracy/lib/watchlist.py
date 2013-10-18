@@ -1,5 +1,4 @@
 import logging
-import urllib
 
 from pylons import tmpl_context as c, request
 

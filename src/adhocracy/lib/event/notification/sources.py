@@ -42,7 +42,7 @@ def vote_source(event):
 
 def delegation_source(event):
     """
-    Notifiy users of gained and lost delegations.
+    Notify users of gained and lost delegations.
     """
     if event.event == T_DELEGATION_CREATE:
         yield Notification(event, event.agent, type=N_DELEGATION_RECEIVED)
@@ -52,7 +52,7 @@ def delegation_source(event):
 
 def instance_source(event):
     """
-    Notifiy users of changes in their instance membership.
+    Notify users of changes in their instance membership.
     """
     if event.event == T_INSTANCE_FORCE_LEAVE:
         yield Notification(event, event.user,
