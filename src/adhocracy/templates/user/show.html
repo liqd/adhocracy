@@ -40,7 +40,7 @@
     %if c.about:
     <div class="dashboard_bio">
         %if c.bio:
-            ${c.bio}
+            ${h.render(c.bio)|n}
         %else:
         <div class="infobox">
             ${_("%s does not yet have a bio.") % c.page_user.name}
