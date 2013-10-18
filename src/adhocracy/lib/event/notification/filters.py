@@ -1,6 +1,6 @@
 from adhocracy.lib.event.types import (N_COMMENT_EDIT, N_COMMENT_REPLY,
                                        T_COMMENT_CREATE, T_COMMENT_EDIT)
-from adhocracy.lib.event.notification.notification import Notification
+from adhocracy.model import Notification
 
 
 def self_filter(pipeline):
