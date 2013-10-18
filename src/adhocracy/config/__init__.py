@@ -51,6 +51,9 @@ DEFAULTS = {
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.proposal.split_badge_edit': True,
     'debug': False,
+
+    #comma separated list of instance keys (slugs) or 'ALL'
+    #'adhocracy.instances.autojoin':
 }
 
 
