@@ -6,7 +6,7 @@ from sqlalchemy import Integer, Unicode
 
 from pylons.i18n import _
 
-from adhocracy import i18n, templates
+from adhocracy import templates
 from adhocracy.model import meta
 
 log = logging.getLogger(__name__)
@@ -51,6 +51,7 @@ class Notification(object):
         return "n-e%s-u%s" % (self.event.id, self.user.id)
 
     def language_context(self):
+        from adhocracy import i18n
         return i18n.user_language(self.user)
 
     def get_subject(self):
@@ -71,6 +72,7 @@ class Notification(object):
     link = property(_get_link)
 
     def get_body(self):
+        from adhocracy import i18n
         from adhocracy.lib.templating import render
         locale = self.language_context()
         data = {'n': self, 'e': self.event, 'u': self.user, 't': self.type}
