@@ -1060,7 +1060,7 @@ $(document).ready(function () {
         });
     });
 
-    $('body').delegate('select.sort_options', 'change', function (event) {
+    $('body').delegate('select.autoreload', 'change', function (event) {
         event.preventDefault();
         var url = $(this).find('option:selected').data('url');
         window.location.href = url;

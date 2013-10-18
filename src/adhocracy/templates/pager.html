@@ -183,7 +183,7 @@ help = lib.pager.help_strings()
 <div class="filter_box">
     <div class="only-js">
         ${_('Sort:')}
-        <select class="sort_options"
+        <select class="sort_options autoreload"
                 name="${pager.sort_param}">
             %for sort, i in zipped:
             <% selected = i == pager.selected_sort %>
@@ -212,7 +212,7 @@ help = lib.pager.help_strings()
     <div class="only-js">
         ${_('Sort:')}
         <% selected = sorts.selected() %>
-        <select class="sort_options"
+        <select class="sort_options autoreload"
                 name="${sorts.pager.sort_param}">
             %for (group, options) in sorts.grouped_options():
             %if group is not None:
