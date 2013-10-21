@@ -1,7 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 
-<%def name="title()">${c.page_user.name}</%def>
+<%def name="title()">${_(u"Dashboard") if c.dashboard else c.page_user.name}</%def>
 
 
 <%block name="headline">
@@ -25,7 +25,7 @@
             </select>
         </div>
 
-        <h2>${c.page_user.name}</h2>
+        <h2>${_(u"Dashboard") if c.dashboard else c.page_user.name}</h2>
         ${tiles.user.header(c.page_user, c.tile, active='activity')}
     </div>
 

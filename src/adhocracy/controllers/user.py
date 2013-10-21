@@ -776,6 +776,7 @@ class UserController(BaseController):
         return nav
 
     def _get_events(self, nr_events=None, event_filter=[]):
+        """get events triggerd by this user"""
         query = model.meta.Session.query(model.Event)
         query = query.filter(model.Event.user == c.page_user)
         if c.instance:
@@ -786,6 +787,18 @@ class UserController(BaseController):
         if nr_events is not None:
             query = query.limit(nr_events)
         return query.all()
+
+    def _get_notifications(self, nr_notifications=None, event_filter=[]):
+        """get notifications for this user"""
+        q = model.meta.Session.query(model.Notification)
+        q = q.filter(model.Notification.user == c.user)
+        if event_filter:
+            q = q.filter(model.Notification.event_type.in_(event_filter))
+        if c.instance:
+            q = q.join(model.Event).filter(model.Event.instance == c.instance)
+        if nr_notifications is not None:
+            q = q.limit(nr_notifications)
+        return q.all()
 
     def _show_common(self, id, user, events):
         """
@@ -833,6 +846,51 @@ class UserController(BaseController):
             return render("/user/show.html", overlay=True)
         else:
             return render("/user/show.html")
+
+    def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
+        require.user.show_dashboard(c.user)
+
+        c.page_user = c.user
+
+        notifications = self._get_notifications(100, event_filter)
+        c.events = [n.event for n in notifications]
+        self._show_common(id, user=c.user, events=c.events)
+
+        if format == 'json':
+            return render_json(c.user)
+
+        if format == 'rss':
+            return event.rss_feed(
+                c.events, "%s Latest Actions" % c.user.name,
+                h.base_url('/user/%s' % c.user.user_name, None),
+                c.user.bio)
+
+        c.events_pager = pager.events(c.events)
+
+        c.user_nav = self._get_user_nav(c.user, current_nav)
+        c.dashboard = True
+
+        return render("/user/show.html")
+
+    def dashboard_votes(self, format='html', current_nav=u'votes'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_VOTE)
+
+    def dashboard_delegations(self, format='html', current_nav=u'delegations'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_DELEGATION)
+
+    def dashboard_proposals(self, format='html', current_nav=u'proposals'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_PROPOSAL)
+
+    def dashboard_milestones(self, format='html', current_nav=u'milestones'):
+        # Milestone events don't exist yet
+        return NotImplemented
+
+    def dashboard_pages(self, format='html', current_nav=u'pages'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_PAGE)
 
     def about(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
@@ -999,7 +1057,7 @@ class UserController(BaseController):
             _("Sorry, registration has been disabled by administrator."),
             category='error', code=403)
 
-    def dashboard(self, id):
+    def legacy_dashboard(self, id):
         '''Render a personalized dashboard for users'''
 
         if 'logged_in' in session:
@@ -1065,7 +1123,7 @@ class UserController(BaseController):
         c.tutorial_intro = _('tutorial_dashboard_title')
         return render('/user/dashboard.html')
 
-    def dashboard_proposals(self, id):
+    def legacy_dashboard_proposals(self, id):
         '''Render all proposals for all instances the user is member'''
         #user object
         c.page_user = get_entity_or_abort(model.User, id,
@@ -1080,7 +1138,7 @@ class UserController(BaseController):
         #render result
         return render("/user/proposals.html")
 
-    def dashboard_pages(self, id):
+    def legacy_dashboard_pages(self, id):
         '''Render all proposals for all instances the user is member'''
         #user object
         c.page_user = get_entity_or_abort(model.User, id,

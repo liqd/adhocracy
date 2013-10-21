@@ -30,11 +30,28 @@ def make_map(config):
                 action='edit_badges', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
+    # Old dashboard
     map.connect('/user/{id}/dashboard', controller='user',
-                action='dashboard')
+                action='legacy_dashboard')
     map.connect('/user/{id}/dashboard_proposals', controller='user',
-                action='dashboard_proposals')
+                action='legacy_dashboard_proposals')
     map.connect('/user/{id}/dashboard_pages', controller='user',
+                action='legacy_dashboard_pages')
+
+    # New event stream dashboard
+    map.connect('/user/dashboard', controller='user',
+                action='dashboard')
+    map.connect('/user/dashboard/contributions', controller='user',
+                action='dashboard_contributions')
+    map.connect('/user/dashboard/votes', controller='user',
+                action='dashboard_votes')
+    map.connect('/user/dashboard/milestones', controller='user',
+                action='dashboard_milestones')
+    map.connect('/user/dashboard/delegations', controller='user',
+                action='dashboard_delegations')
+    map.connect('/user/dashboard/proposals', controller='user',
+                action='dashboard_proposals')
+    map.connect('/user/dashboard/pages', controller='user',
                 action='dashboard_pages')
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
