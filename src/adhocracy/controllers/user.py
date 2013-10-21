@@ -867,8 +867,8 @@ class UserController(BaseController):
 
         c.events_pager = pager.events(c.events)
 
-        c.user_nav = self._get_user_nav(c.user, current_nav)
         c.dashboard = True
+        c.user_nav = self._get_user_nav(c.user, current_nav)
 
         return render("/user/show.html")
 
@@ -1058,102 +1058,13 @@ class UserController(BaseController):
             category='error', code=403)
 
     def legacy_dashboard(self, id):
-        '''Render a personalized dashboard for users'''
-
-        if 'logged_in' in session:
-            c.fresh_logged_in = True
-            c.suppress_attention_getter = True
-            del session['logged_in']
-            came_from = request.params.get('came_from')
-            if came_from:
-                c.came_from = came_from
-
-        #user object
-        c.page_user = get_entity_or_abort(model.User, id,
-                                          instance_filter=False)
-        require.user.show_dashboard(c.page_user)
-        #instances
-        instances = c.page_user.instances
-        #proposals
-        proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = proposals and reduce(lambda x, y: x + y, proposals)
-        c.proposals = proposals
-        c.proposals_pager = pager.proposals(proposals, size=4,
-                                            default_sort=sorting.entity_newest,
-                                            enable_pages=False,
-                                            enable_sorts=False)
-        #polls
-        polls = [p.adopt_poll for p in proposals if p.is_adopt_polling()]
-        polls = filter(lambda p: not p.has_ended() and not p.is_deleted(),
-                       polls)
-        c.polls = polls
-        c.polls_pager = pager.polls(polls,
-                                    size=20,
-                                    default_sort=sorting.entity_newest,
-                                    enable_pages=False,
-                                    enable_sorts=False,)
-        #pages
-        c.show_pages = any(instance.use_norms for instance in instances)
-        if c.show_pages:
-            require.page.index()
-            pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
-                     for i in instances]
-            pages = pages and reduce(lambda x, y: x + y, pages)
-            c.pages = pages
-            c.pages_pager = pager.pages(pages, size=3,
-                                        default_sort=sorting.entity_newest,
-                                        enable_pages=False,
-                                        enable_sorts=False)
-        #watchlist
-        require.watch.index()
-        c.active_global_nav = 'user'
-        watches = model.Watch.all_by_user(c.page_user)
-        entities = [w.entity for w in watches if (w.entity is not None)
-                    and (not isinstance(w.entity, unicode))]
-        c.watchlist_pager = NamedPager(
-            'watches', entities,
-            tiles.dispatch_row_with_comments,
-            size=3,
-            enable_pages=False,
-            enable_sorts=False,
-            default_sort=sorting.entity_newest)
-
-        #render result
-        c.tutorial = 'user_dashboard'
-        c.tutorial_intro = _('tutorial_dashboard_title')
-        return render('/user/dashboard.html')
+        redirect(h.base_url(u'/user/dashboard'))
 
     def legacy_dashboard_proposals(self, id):
-        '''Render all proposals for all instances the user is member'''
-        #user object
-        c.page_user = get_entity_or_abort(model.User, id,
-                                          instance_filter=False)
-        require.user.show(c.page_user)
-        #instances
-        instances = c.page_user.instances
-        #proposals
-        proposals = [model.Proposal.all(instance=i) for i in instances]
-        proposals = proposals and reduce(lambda x, y: x + y, proposals)
-        c.proposals_pager = pager.proposals(proposals)
-        #render result
-        return render("/user/proposals.html")
+        redirect(h.base_url(u'/user/dashboard/proposals'))
 
     def legacy_dashboard_pages(self, id):
-        '''Render all proposals for all instances the user is member'''
-        #user object
-        c.page_user = get_entity_or_abort(model.User, id,
-                                          instance_filter=False)
-        require.user.show(c.page_user)
-        #instances
-        instances = c.page_user.instances
-        #pages
-        require.page.index()
-        pages = [model.Page.all(instance=i, functions=model.Page.LISTED)
-                 for i in instances]
-        pages = pages and reduce(lambda x, y: x + y, pages)
-        c.pages_pager = pager.pages(pages)
-        #render result
-        return render("/user/pages.html")
+        redirect(h.base_url(u'/user/dashboard/pages'))
 
     @guard.perm("user.view")
     def complete(self):
