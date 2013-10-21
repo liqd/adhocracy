@@ -16,12 +16,21 @@
         <div class="dashboard_select_instance">
             ${_(u'Activity in')}
             <select class="autoreload">
+                %if c.dashboard:
+                <option ${u' selected="selected"' if c.instance is None else u''|n}
+                    data-url="${h.base_url(u'/user/dashboard', instance=None, member=c.member)}">${_(u'All instances')}</option>
+                %for i in instances:
+                <option ${u' selected="selected"' if c.instance is i else u''|n}
+                    data-url="${h.base_url(u'/user/dashboard', instance=i, member=c.member)}">${i.label}</option>
+                %endfor
+                %else:
                 <option ${u' selected="selected"' if c.instance is None else u''|n}
                     data-url="${h.entity_url(c.page_user, instance=None, member=c.member)}">${_(u'All instances')}</option>
                 %for i in instances:
                 <option ${u' selected="selected"' if c.instance is i else u''|n}
                     data-url="${h.entity_url(c.page_user, instance=i, member=c.member)}">${i.label}</option>
                 %endfor
+                %endif
             </select>
         </div>
 
