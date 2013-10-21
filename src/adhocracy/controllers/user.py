@@ -775,6 +775,38 @@ class UserController(BaseController):
                                     member='latest_delegations')))
         return nav
 
+    @staticmethod
+    def _get_dashboard_nav(user, active_key):
+        c.member = {
+            u'all': None,
+            u'votes': u'votes',
+            u'milestones': u'milestones',
+            u'delegations': u'delegations',
+            u'proposals': u'proposals',
+            u'pages': u'pages',
+        }[active_key]
+        nav = [
+            (u'all' == active_key, _(u'All Events'), h.base_url(
+                u'/user/dashboard/all', instance=c.instance)),
+            (u'votes' == active_key, _(u'Votes'), h.base_url(
+                u'/user/dashboard/votes', instance=c.instance)),
+            (u'delegations' == active_key, _(u'Delegations'), h.base_url(
+                u'/user/dashboard/delegations', instance=c.instance)),
+        ]
+        if c.instance is None or c.instance.show_proposals_navigation:
+            nav.append((u'proposals' == active_key, _(u'Proposals'),
+                        h.base_url(u'/user/dashboard/proposals',
+                                   instance=c.instance)))
+        #if c.instance is None or c.instance.milestones:
+        #    nav.append((u'milestones' == active_key, _(u'Milestones'),
+        #                h.base_url(u'/user/dashboard/milestones',
+        #                           instance=c.instance)))
+        if c.instance is None or (c.instance.use_norms and
+                                  c.instance.show_norms_navigation):
+            nav.append((u'pages' == active_key, _(u'Norms'), h.base_url(
+                u'/user/dashboard/pages', instance=c.instance)))
+        return nav
+
     def _get_events(self, nr_events=None, event_filter=[]):
         """get events triggerd by this user"""
         query = model.meta.Session.query(model.Event)
@@ -868,7 +900,7 @@ class UserController(BaseController):
         c.events_pager = pager.events(c.events)
 
         c.dashboard = True
-        c.user_nav = self._get_user_nav(c.user, current_nav)
+        c.user_nav = self._get_dashboard_nav(c.user, current_nav)
 
         return render("/user/show.html")
 
