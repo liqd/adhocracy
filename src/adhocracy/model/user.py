@@ -1,3 +1,4 @@
+from copy import copy
 import hashlib
 import os
 import logging
@@ -127,6 +128,9 @@ class User(meta.Indexable):
     def groups(self):
         return list(set(self.badge_groups() + self.membership_groups()))
 
+    def instance_groups(self):
+        return filter(lambda g: g.is_instance_group(), self.groups)
+
     def _has_permission(self, permission_name):
         for group in self.groups:
             for perm in group.permissions:
@@ -159,6 +163,16 @@ class User(meta.Indexable):
                     (membership.instance is not None):
                 instances.append(membership.instance)
         return list(set(instances))
+
+    def real_instances(self, exclude_current=False):
+        excluded_keys = copy(Instance.SPECIAL_KEYS)
+        if exclude_current:
+            current_instance = ifilter.get_instance()
+            if current_instance is not None:
+                excluded_keys.append(ifilter.get_instance().key)
+        return sorted(
+            filter(lambda i: i.key not in excluded_keys, self.instances),
+            key=lambda i: i.key)
 
     @property
     def twitter(self):

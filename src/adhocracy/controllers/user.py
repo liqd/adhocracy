@@ -44,6 +44,9 @@ from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
+from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_PROPOSAL
+from adhocracy.lib.event.types import S_COMMENT, S_PAGE
+
 
 log = logging.getLogger(__name__)
 
@@ -746,34 +749,115 @@ class UserController(BaseController):
             entity=c.page_user, member='settings/notifications',
             format=None, force_path=path)
 
-    def show(self, id, format='html'):
+    @staticmethod
+    def _get_profile_nav(user, active_key):
+        c.member = {
+            u'about': u'about',
+            u'activity': None,
+            u'contributions': u'latest_contributions',
+            u'votes': u'latest_votes',
+            u'delegations': u'latest_delegations',
+        }[active_key]
+        nav = [
+            (u'about' == active_key, _(u'About me'), h.entity_url(
+                c.page_user, member='about')),
+            (u'activity' == active_key, _(u'Newest events'), h.entity_url(
+                c.page_user)),
+            (u'contributions' == active_key, _(u'Contributions'), h.entity_url(
+                c.page_user, member='latest_contributions')),
+            (u'votes' == active_key, _(u'Votes'), h.entity_url(
+                c.page_user, member='latest_votes')),
+        ]
+        if c.instance is None or c.instance.allow_delegate:
+            nav.append((u'delegations' == active_key,
+                       _(u'Delegations'),
+                       h.entity_url(c.page_user,
+                                    member='latest_delegations')))
+        return nav
+
+    def _get_events(self, nr_events=None, event_filter=[]):
+        query = model.meta.Session.query(model.Event)
+        query = query.filter(model.Event.user == c.page_user)
+        if c.instance:
+            query = query.filter(model.Event.instance == c.instance)
+        if event_filter:
+            query = query.filter(model.Event.event.in_(event_filter))
+        query = query.order_by(model.Event.time.desc())
+        if nr_events is not None:
+            query = query.limit(nr_events)
+        return query.all()
+
+    def _show_common(self, id, user, events):
+        """
+        Adds some pieces of information to the user info sidebar box.
+        Requires events list in order to determine last activity.
+        """
         if c.instance is None:
             c.active_global_nav = 'user'
+
+        c.last_activity = events[0].time if events else None
+        badges = user.badges
+        if c.instance:
+            c.local_badges = filter(lambda b: b.instance == c.instance, badges)
+        else:
+            c.local_badges = []
+        c.global_badges = filter(lambda b: b.instance is None, badges)
+
+        c.tile = tiles.user.UserTile(user)
+        self._common_metadata(user, add_canonical=True)
+
+    def show(self, id, format='html', current_nav=u'activity',
+             event_filter=[]):
+
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.show(c.page_user)
+        c.events = self._get_events(nr_events=100, event_filter=event_filter)
+        self._show_common(id, user=c.page_user, events=c.events)
 
         if format == 'json':
             return render_json(c.page_user)
 
-        query = model.meta.Session.query(model.Event)
-        query = query.filter(model.Event.user == c.page_user)
-        query = query.order_by(model.Event.time.desc())
-        query = query.limit(10)
         if format == 'rss':
-            query = query.limit(50)
             return event.rss_feed(
-                query.all(), "%s Latest Actions" % c.page_user.name,
+                c.events, "%s Latest Actions" % c.page_user.name,
                 h.base_url('/user/%s' % c.page_user.user_name, None),
                 c.page_user.bio)
-        c.events_pager = pager.events(query.all())
-        c.tile = tiles.user.UserTile(c.page_user)
-        self._common_metadata(c.page_user, add_canonical=True)
+
+        c.events_pager = pager.events(c.events,
+                                      row_type=u'profile_row')
+
+        c.user_nav = self._get_profile_nav(c.page_user, current_nav)
 
         if format == 'overlay':
             return render("/user/show.html", overlay=True)
         else:
             return render("/user/show.html")
+
+    def about(self, id, format='html'):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        require.user.show(c.page_user)
+        c.events = self._get_events()
+        self._show_common(id, user=c.page_user, events=c.events)
+        c.user_nav = self._get_profile_nav(c.page_user, u'about')
+        c.bio = c.page_user.bio
+        c.about = True
+        return render("/user/show.html")
+
+    def latest_contributions(self, id, format='html'):
+        return self.show(id, format, u'contributions',
+                         S_PROPOSAL + S_PAGE + S_COMMENT)
+
+    def latest_milestones(self, id, format='html'):
+        # Milestone events don't exist yet
+        return NotImplemented
+
+    def latest_votes(self, id, format='html'):
+        return self.show(id, format, u'votes', S_VOTE)
+
+    def latest_delegations(self, id, format='html'):
+        return self.show(id, format, u'delegations', S_DELEGATION)
 
     def login(self):
         c.active_global_nav = "login"

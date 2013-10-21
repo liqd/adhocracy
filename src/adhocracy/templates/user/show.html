@@ -10,27 +10,94 @@
 
 <%block name="main_content">
 
-<h3>${c.page_user.name}</h3>
-${tiles.user.header(c.page_user, c.tile, active='activity')}
-<p>  
-    ${_("Signed up %s") % h.datetime_tag(c.page_user.create_time)|n}
-</p>
+    <% instances = c.page_user.real_instances(exclude_current=False) %>
 
-    %if c.tile.bio:
-        <div class="description">
-            ${c.tile.bio|n}
+    <div class="dashboard_header_row">
+        <div class="dashboard_select_instance">
+            ${_(u'Activity in')}
+            <select class="autoreload">
+                <option ${u' selected="selected"' if c.instance is None else u''|n}
+                    data-url="${h.entity_url(c.page_user, instance=None, member=c.member)}">${_(u'All instances')}</option>
+                %for i in instances:
+                <option ${u' selected="selected"' if c.instance is i else u''|n}
+                    data-url="${h.entity_url(c.page_user, instance=i, member=c.member)}">${i.label}</option>
+                %endfor
+            </select>
         </div>
-    %else:
+
+        <h2>${c.page_user.name}</h2>
+        ${tiles.user.header(c.page_user, c.tile, active='activity')}
+    </div>
+
+    <ul class="content_nav">
+        %for (active, title, url) in c.user_nav:
+        <li${u' class="current"' if active else '' | n}>
+            <a${u' href="%s"'%url if not active else '' | n}>${title}</a>
+        </li>
+        %endfor
+    </ul>
+
+    %if c.about:
+    <div class="dashboard_bio">
+        %if c.bio:
+            ${c.bio}
+        %else:
         <div class="infobox">
             ${_("%s does not yet have a bio.") % c.page_user.name}
         </div>
-    %endif  
-    
-    <br/>
+        %endif
+    </div>
+    %else:
     <div class="table">
         ${c.events_pager.here()}
     </div>
-
+    %endif
 </%block>
 
+<%block name="sidebar">
+    <div id="meta" class="dashboard sidebar_box">
 
+        <h3>${_('Information')}</h3>
+
+        <h6>${_('Member since')}</h6>
+        ${h.date_tag(c.page_user.create_time)|n}
+
+        <% instance_groups = c.page_user.instance_groups() %>
+        %if instance_groups:
+        <h6>${_('User groups')}</h6>
+        ${u', '.join([_(g.group_name) for g in instance_groups])}
+        %endif
+
+        %if c.global_badges:
+        <h6>${_('User badges (global)')}</h6>
+        ${u', '.join([_(b.title) for b in c.global_badges])}
+        %endif
+
+        %if c.local_badges:
+        <h6>${_('User badges (in instance %s)') % c.instance.label}</h6>
+        ${u', '.join([_(b.title) for b in c.local_badges])}
+        %endif
+
+        %if c.last_activity:
+        <h6>${_('Most recent activity')}</h6>
+        ${h.date_tag(c.last_activity)|n}
+        %endif
+
+        <h6>${_('Member in other instances')}</h6>
+        <% instances = c.page_user.real_instances(exclude_current=True) %>
+        %if instances:
+        ${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}
+        %else:
+        ${_(u'None')}
+        %endif
+
+        <%doc>
+        To be added:
+        x Beiträge eingebracht
+        x Bewertungen vorgenommen
+        x Delegationen vergeben (momentan aktive)
+        Delegationen erhalten (momentan aktive)
+        </%doc>
+
+    </div>
+</%block>
