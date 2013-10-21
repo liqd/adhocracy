@@ -47,6 +47,11 @@
     * html iframe, * html frame { overflow:auto; }
     * html frameset { overflow:hidden; }
 
+    /* without this, html will be 100vw max */
+    html {
+        min-width: 1004px;
+    }
+
     body {
     /* (en) Fix for rounding errors when scaling font sizes in older versions of Opera browser */
     /* (de) Beseitigung von Rundungsfehler beim Skalieren von Schriftgrößen in älteren Opera Versionen */
