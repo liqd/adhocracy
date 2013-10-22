@@ -880,6 +880,11 @@ class UserController(BaseController):
             return render("/user/show.html")
 
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
+        if c.user is None:
+            redirect(h.base_url('/login', query_params={
+                u'came_from': request.url,
+            }))
+
         require.user.show_dashboard(c.user)
 
         c.page_user = c.user
