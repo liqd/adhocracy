@@ -78,8 +78,8 @@ class TestUserController(TestController):
         """Returns creator, badged user and badge"""
 
         from adhocracy import model
-        creator = tt_make_user('creator')
-        badged_user = tt_make_user('badged_user')
+        creator = tt_make_user(u'creator')
+        badged_user = tt_make_user(u'badged_user')
         badge = model.UserBadge.create(u'testbadge', u'#ccc', True,
                                        u'description')
         badge.assign(badged_user, creator)
@@ -92,7 +92,7 @@ class TestUserController(TestController):
         queried_badge = meta.Session.query(Badge).filter(
             Badge.title == u'testbadge').one()
         self.assertEqual(badge, queried_badge)
-        self.assertEqual(queried_badge.title, 'testbadge')
+        self.assertEqual(queried_badge.title, u'testbadge')
         # references on the badged user
         self.assertEqual(badged_user.badges, [badge])
         self.assertEqual(badged_user.badges[0].users, [badged_user])
@@ -127,11 +127,11 @@ class TestDelegateableController(TestController):
         """Returns creator, delegateable and badge"""
 
         from adhocracy.model import DelegateableBadge, Proposal, Instance
-        instance = Instance.find('test')
-        creator = tt_make_user('creator')
+        instance = Instance.find(u'test')
+        creator = tt_make_user(u'creator')
         delegateable = Proposal.create(instance, u"labeld", creator)
         badge = DelegateableBadge.create(u'testbadge', u'#ccc', True,
-                                         'description')
+                                         u'description')
 
         return creator, delegateable, badge
 
@@ -181,11 +181,11 @@ class TestCategoryController(TestController):
         """Returns creator, delegateable and badge"""
 
         from adhocracy.model import CategoryBadge, Proposal, Instance
-        instance = Instance.find('test')
-        creator = tt_make_user('creator')
+        instance = Instance.find(u'test')
+        creator = tt_make_user(u'creator')
         delegateable = Proposal.create(instance, u"labeld", creator)
         badge = CategoryBadge.create(u'testbadge', u'#ccc', True,
-                                     'description')
+                                     u'description')
 
         return creator, delegateable, badge
 
@@ -205,15 +205,16 @@ class TestCategoryController(TestController):
         from adhocracy.model import CategoryBadge
         creator, delegateable, badge = self._make_content()
         badge_parent = CategoryBadge.create(u'badge parent', u'#ccc', True,
-                                            'description')
-        badge_parent.select_child_description = "choose child"
+                                            u'description')
+        badge_parent.select_child_description = u"choose child"
         # create the delegateable badge
         badge.assign(delegateable, creator)
         # add parent badge
         badge.parent = badge_parent
         self.assertEqual(badge.parent, badge_parent)
         self.assertTrue(badge in badge_parent.children)
-        self.assertEqual(badge_parent.select_child_description, "choose child")
+        self.assertEqual(badge_parent.select_child_description,
+                         u"choose child")
         self.assertTrue(badge_parent.parent is None)
 
     def test_to_dict_category(self):
@@ -243,12 +244,12 @@ class TestThumbnailController(TestController):
         """Returns creator, delegateable and badge"""
 
         from adhocracy.model import ThumbnailBadge, Proposal, Instance
-        instance = Instance.find('test')
-        creator = tt_make_user('creator')
+        instance = Instance.find(u'test')
+        creator = tt_make_user(u'creator')
         delegateable = Proposal.create(instance, u"labeld", creator)
         thumbnail = b'binary'
         badge = ThumbnailBadge.create(u'testbadge', u'#ccc', True,
-                                      'description', thumbnail=thumbnail)
+                                      u'description', thumbnail=thumbnail)
 
         return creator, delegateable, badge
 
@@ -304,10 +305,10 @@ class TestInstanceController(TestController):
         """Returns creator, delegateable and badge"""
 
         from adhocracy.model import InstanceBadge, Instance
-        creator = tt_make_user('creator')
-        instance = Instance.create("instance2", u"instance2", creator)
+        creator = tt_make_user(u'creator')
+        instance = Instance.create(u"instance2", u"instance2", creator)
         badge = InstanceBadge.create(u'testbadge', u'#ccc2', True,
-                                     'description')
+                                     u'description')
 
         return creator, instance, badge
 

@@ -51,7 +51,7 @@ class AdhocracyClient(object):
 
     def open_url(self, location, method='GET', data=None, headers={}):
         try:
-            if data != None:
+            if data is not None:
                 data = urllib.urlencode(data)
 
             req = RequestWithMethod(method, location, data, headers)

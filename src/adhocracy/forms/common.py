@@ -606,6 +606,7 @@ class UnusedProposalTitle(formencode.validators.FormValidator):
 USER_NAME = 'user_name'
 DISPLAY_NAME = 'display_name'
 EMAIL = 'email'
+USER_BADGES = 'user_badges'
 USERNAME_VALIDATOR = formencode.All(
     formencode.validators.PlainText(not_empty=True),
     UniqueUsername(),
@@ -617,7 +618,7 @@ EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
 class UsersCSV(formencode.FancyValidator):
 
     def to_python(self, value, state):
-        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
+        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL, USER_BADGES]
         errors = []
         items = []
         self.usernames = {}
@@ -637,8 +638,8 @@ class UsersCSV(formencode.FancyValidator):
             line_content = value.split('\n')[reader.line_num]
             msg = _('Error "%(error)s" while reading line '
                     '<pre><i>%(line_content)s</i></pre>') % dict(
-                        line_content=line_content,
-                        error=str(E))
+                line_content=line_content,
+                error=str(E))
             errors.append((reader.line_num + 1, [msg]))
         if errors or self.duplicates:
             error_msg = _('The following errors occured while reading '
@@ -715,10 +716,10 @@ class ContainsEMailPlaceholders(formencode.FancyValidator):
 
 class ValidImageFileUpload(formencode.FancyValidator):
 
-    max_size = 5*1024*1024
+    max_size = 5 * 1024 * 1024
 
     def _to_python(self, value, state):
-        payload = value.file.read(self.max_size+1)
+        payload = value.file.read(self.max_size + 1)
         if len(payload) > 0:
             try:
                 value.file.seek(0)
@@ -733,7 +734,7 @@ class ValidImageFileUpload(formencode.FancyValidator):
 
 class ValidFileUpload(formencode.FancyValidator):
 
-    max_size = 1024*1024
+    max_size = 1024 * 1024
 
     def _to_python(self, value, state):
         payload = value.file.read(self.max_size)

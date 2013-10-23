@@ -32,31 +32,31 @@ class TestUrls(TestController):
 
     def test_build_global(self):
         from adhocracy.lib.helpers.url import build
-        url = build(None, 'base', 'id', query={'param': 'arg'},
+        url = build(None, 'base', 'id', query={'param': u'arg'},
                     anchor='anchor', member='member', format="html")
         self.assertEqual(
             url, u'http://test.lan/base/id/member.html#anchor?param=arg')
 
     def test_build_global_omit_base(self):
         from adhocracy.lib.helpers.url import build
-        url = build(None, None, 'id', query={'param': 'arg'},
+        url = build(None, None, 'id', query={'param': u'arg'},
                     anchor='anchor', member='member', format="html")
         self.assertEqual(url,
                          u'http://test.lan/id/member.html#anchor?param=arg')
-        url = build(None, '', 'id', query={'param': 'arg'},
+        url = build(None, '', 'id', query={'param': u'arg'},
                     anchor='anchor', member='member', format="html")
         self.assertEqual(url,
                          u'http://test.lan/id/member.html#anchor?param=arg')
 
     def test_build_global_omit_member_and_format(self):
         from adhocracy.lib.helpers.url import build
-        url = build(None, 'base', 'id', query={'param': 'arg'},
+        url = build(None, 'base', 'id', query={'param': u'arg'},
                     anchor='anchor')
         self.assertEqual(url, u'http://test.lan/base/id#anchor?param=arg')
 
     def test_build_global_omit_anchor_member_and_format(self):
         from adhocracy.lib.helpers.url import build
-        url = build(None, 'base', 'id', query={'param': 'arg'},
+        url = build(None, 'base', 'id', query={'param': u'arg'},
                     anchor='anchor')
         self.assertEqual(url, u'http://test.lan/base/id#anchor?param=arg')
 
@@ -69,7 +69,7 @@ class TestUrls(TestController):
 
     def test_build_query_is_encoded(self):
         from adhocracy.lib.helpers.url import build
-        url = build(None, 'base', 'id', query={'param': 'http://a@b:x'})
+        url = build(None, 'base', 'id', query={'param': u'http://a@b:x'})
         self.assertEqual(
             url, u'http://test.lan/base/id?param=http%3A%2F%2Fa%40b%3Ax')
 
@@ -81,7 +81,7 @@ class TestUrls(TestController):
     def test_login_redirect(self):
         from adhocracy.lib.helpers import login_redirect_url
 
-        proposal = tt_make_proposal(title='testproposal')
+        proposal = tt_make_proposal(title=u'testproposal')
         url = login_redirect_url(proposal)
         expected = (u'http://test.test.lan/login?came_from='
                     u'http%3A%2F%2Ftest.test.lan%2Fproposal%2F2-testproposal')
@@ -119,6 +119,7 @@ class TestInstanceUrls(TestController):
             url = h.instance.icon_url(test_instance, 48)
             self.assertEqual(
                 url, 'http://test.test.lan/instance/test_48.png?t=1234')
+
 
 class TestBaseUrl(TestController):
     def test_base_url_absolute(self):

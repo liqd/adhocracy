@@ -175,26 +175,34 @@ T_PAGE_DELETE = EventType(
 
 T_COMMENT_CREATE = EventType(
     u"t_comment_create", pri=3,
-    subject=lambda: _(u"New comment: in %(topic)s") if h.comment.wording() else _(u"New argument: in %(topic)s"),
+    subject=(lambda: _(u"New comment: in %(topic)s")
+             if h.comment.wording() else _(u"New argument: in %(topic)s")),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.comment, absolute=absolute)),
-    event_msg=lambda: _(u"commented on %(topic)s") if h.comment.wording() else _(u"discussed %(topic)s"),
+    event_msg=(lambda: _(u"commented on %(topic)s")
+               if h.comment.wording() else _(u"discussed %(topic)s")),
     text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_EDIT = EventType(
     u"t_comment_edit", pri=3,
-    subject=lambda: _(u"Edited comment: in %(topic)s") if h.comment.wording() else _(u"Edited argument: in %(topic)s"),
+    subject=(lambda: _(u"Edited comment: in %(topic)s")
+             if h.comment.wording() else _(u"Edited argument: in %(topic)s")),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.comment, absolute=absolute)),
-    event_msg=lambda: _(u"edited comment on %(topic)s") if h.comment.wording() else _(u"edited argument about %(topic)s"),
+    event_msg=(lambda: _(u"edited comment on %(topic)s")
+               if h.comment.wording()
+               else _(u"edited argument about %(topic)s")),
     text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_DELETE = EventType(
     u"t_comment_delete", pri=3,
-    subject=lambda: _(u"Deleted comment: in %(topic)s") if h.comment.wording() else _(u"Deleted argument: in %(topic)s"),
+    subject=(lambda: _(u"Deleted comment: in %(topic)s")
+             if h.comment.wording() else _(u"Deleted argument: in %(topic)s")),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.topic, absolute=absolute)),
-    event_msg=lambda: _(u"deleted comment from %(topic)s") if h.comment.wording() else _(u"deleted argument from %(topic)s"))
+    event_msg=(lambda: _(u"deleted comment from %(topic)s")
+               if h.comment.wording()
+               else _(u"deleted argument from %(topic)s")))
 
 T_DELEGATION_CREATE = EventType(
     u"t_delegation_create", pri=2,

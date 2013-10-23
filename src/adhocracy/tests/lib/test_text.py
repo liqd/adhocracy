@@ -2,6 +2,17 @@ from adhocracy.tests import TestController
 from adhocracy.tests.testtools import tt_make_user
 
 
+SANITIZE_TEST_STRING = """
+<h1>Hello</h1><script>XSS</script>
+<object>include_dangerous</object>
+<embed>include_dangerous</embed>
+<a href="javascript:bar()" onclick="javascript: alert(\'foo\')">lala</a>
+<iframe class="youtube-player" type="text/html" width="640" height="385"
+ src="http://www.youtube.com/embed/foo" frameborder="0">
+</iframe>
+"""
+
+
 class TestText(TestController):
 
     def test_render(self):
@@ -52,17 +63,10 @@ class TestText(TestController):
 
     def test_html_sanitizing(self):
         from adhocracy.lib.text import render
-        source = '<h1>Hello</h1><script>XSS</script>' \
-                '<object>include_dangerous</object>' \
-                '<embed>include_dangerous</embed>' \
-                '<a href="javascript:bar()" onclick="javascript: alert(\'foo\')">lala</a>' \
-                '<iframe class="youtube-player" type="text/html" width="640" height="385"' \
-                ' src="http://www.youtube.com/embed/foo" frameborder="0">' \
-                '</iframe>'
-        result = render(source, safe_mode='adhocracy_config', _testing_allow_user_html=True)
+        result = render(SANITIZE_TEST_STRING, safe_mode='adhocracy_config',
+                        _testing_allow_user_html=True)
         self.assertTrue('<script' not in result)
         self.assertTrue('<object' not in result)
         self.assertTrue('<embed' not in result)
         self.assertTrue('javascript' not in result)
         self.assertTrue('<iframe' in result)
-

@@ -5,15 +5,12 @@ import os.path
 
 import pylons
 import pylons.test
-from pylons import config
 
 import migrate.versioning.api as migrateapi
 try:
-    from migrate.versioning.exceptions import DatabaseAlreadyControlledError
     from migrate.versioning.exceptions import DatabaseNotControlledError
 except ImportError:
     # location changed in 0.6.1
-    from migrate.exceptions import DatabaseAlreadyControlledError
     from migrate.exceptions import DatabaseNotControlledError
 
 
@@ -27,7 +24,8 @@ log = logging.getLogger(__name__)
 def setup_app(command, conf, vars):
     """Place any commands to setup adhocracy here"""
     if not pylons.test.pylonsapp:
-        conf = load_environment(conf.global_conf, conf.local_conf, with_db=False)
+        conf = load_environment(conf.global_conf, conf.local_conf,
+                                with_db=False)
     _setup(conf)
 
 

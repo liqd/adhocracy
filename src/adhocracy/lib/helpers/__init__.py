@@ -91,7 +91,7 @@ def comments_sorted(comments, root=None, variant=None, key=None,
     from adhocracy.lib.tiles.comment_tiles import CommentTile
     comments = [c for c in comments if c.reply == root and
                 ((variant is None and c.variant == Text.HEAD)
-                or c.variant == variant)]
+                 or c.variant == variant)]
     if not include_deleted:
         comments = filter(lambda x: not x.is_deleted(), comments)
     _comments = []

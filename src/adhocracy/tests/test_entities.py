@@ -16,12 +16,14 @@ class TestEntities(unittest.TestCase):
     def test_template_dir(self):
         process_path(DEFAULT_PATH, on_error=lambda msg: self.fail(msg))
 
+
 def find_files(path, ext):
     """Find files recursively with a given file extension"""
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith(ext):
                 yield os.path.join(root, file)
+
 
 def process_file(fn, on_error):
     with open(fn, 'rb') as f:
@@ -35,16 +37,18 @@ def process_file(fn, on_error):
     success = True
     for k in re.finditer('&(?!#|([A-Z]|[a-z])[a-z]{1,5};)', content):
         ln = content[:k.start()].count('\n') + 1
-        on_error('Invalid entity "' + content[k.start():k.end()+10] + 
-               '" found in ' + absfn + ': ' + str(ln))
+        on_error('Invalid entity "' + content[k.start():k.end()+10] +
+                 '" found in ' + absfn + ': ' + str(ln))
         success = False
     return success
+
 
 def process_dir(dir_path, ext, on_error):
     return all(
         process_file(fn, on_error=on_error)
         for fn in find_files(dir_path, ext)
     )
+
 
 def process_path(path, ext=DEFAULT_EXTENSION, on_error=print):
     if os.path.isdir(path):
@@ -55,8 +59,9 @@ def process_path(path, ext=DEFAULT_EXTENSION, on_error=print):
 
 def main():
     parser = optparse.OptionParser('[files-or-dirs...]')
-    parser.add_option('-e', action="store", dest="ext", type="string", default=DEFAULT_EXTENSION,
-                        help="The file extension of the files you want to check")
+    parser.add_option('-e', action="store", dest="ext", type="string",
+                      default=DEFAULT_EXTENSION,
+                      help="The file extension of the files you want to check")
     (options, paths) = parser.parse_args()
 
     if not paths:
