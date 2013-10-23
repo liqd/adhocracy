@@ -8,7 +8,7 @@ metadata = MetaData()
 
 badge_table = Table(
     'badge', metadata,
-    #common attributes
+    # common attributes
     Column('id', Integer, primary_key=True),
     Column('type', String(40), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -21,7 +21,7 @@ badge_table = Table(
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
-    #Column('visible', Boolean, default=True))
+    # Column('visible', Boolean, default=True))
     )
 
 

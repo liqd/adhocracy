@@ -27,7 +27,7 @@ openid_table = Table('openid', meta,
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('identifier', Unicode(255), nullable=False, index=True) 
+    Column('identifier', Unicode(255), nullable=False, index=True)
     )
 
 
@@ -37,7 +37,7 @@ oid_nonces = Table('oid_nonces', meta,
     Column('salt', Unicode(40), nullable=False, index=True)
     )
 
-    
+
 oid_associations = Table('oid_associations', meta,
     Column('server_url', LargeBinary, nullable=False),
     Column('handle', Unicode(255), nullable=False, index=True),
@@ -47,7 +47,7 @@ oid_associations = Table('oid_associations', meta,
     Column('assoc_type', Unicode(64), nullable=False)
     )
 
-twitter_table = Table('twitter', meta, 
+twitter_table = Table('twitter', meta,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
@@ -59,7 +59,7 @@ twitter_table = Table('twitter', meta,
     Column('priority', Integer, default=4)
     )
 
-group_table = Table('group', meta, 
+group_table = Table('group', meta,
     Column('id', Integer, primary_key=True),
     Column('group_name', Unicode(255), nullable=False, unique=True),
     Column('code', Unicode(255), nullable=False, unique=True),
@@ -99,7 +99,7 @@ issue_table = Table('issue', meta,
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
     )
 
-delegation_table = Table('delegation', meta,                      
+delegation_table = Table('delegation', meta,
     Column('id', Integer, primary_key=True),
     Column('agent_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('principal_id', Integer, ForeignKey('user.id'), nullable=False),
@@ -113,7 +113,7 @@ proposal_table = Table('proposal', meta,
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
     )
 
-alternative_table = Table('alternative', meta, 
+alternative_table = Table('alternative', meta,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
@@ -134,10 +134,10 @@ poll_table = Table('poll', meta,
     Column('begin_time', DateTime, default=datetime.utcnow),
     Column('end_time', DateTime, nullable=True),
     Column('begin_user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)   
+    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)
     )
 
-vote_table = Table('vote', meta, 
+vote_table = Table('vote', meta,
     Column('id', Integer, primary_key=True),
     Column('orientation', Integer, nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -155,7 +155,7 @@ revision_table = Table('revision', meta,
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False)
     )
 
-comment_table = Table('comment', meta,                  
+comment_table = Table('comment', meta,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, default=None, nullable=True),
@@ -176,10 +176,10 @@ instance_table = Table('instance', meta,
     Column('access_time', DateTime, default=func.now(), onupdate=func.now()),
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)    
+    Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)
     )
 
-membership_table = Table('membership', meta, 
+membership_table = Table('membership', meta,
     Column('id', Integer, primary_key=True),
     Column('approved', Boolean, nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -196,7 +196,7 @@ karma_table = Table('karma', meta,
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False),
     Column('donor_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('recipient_id', Integer, ForeignKey('user.id'), nullable=False)     
+    Column('recipient_id', Integer, ForeignKey('user.id'), nullable=False)
     )
 
 watch_table = Table('watch', meta,
@@ -205,7 +205,7 @@ watch_table = Table('watch', meta,
     Column('delete_time', DateTime, nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('entity_type', Unicode(255), nullable=False, index=True),
-    Column('entity_ref', Unicode(255), nullable=False, index=True)                
+    Column('entity_ref', Unicode(255), nullable=False, index=True)
     )
 
 event_topic_table = Table('event_topic', meta,
@@ -216,7 +216,7 @@ event_topic_table = Table('event_topic', meta,
     )
 
 
-event_table = Table('event', meta, 
+event_table = Table('event', meta,
     Column('id', Integer, primary_key=True),
     Column('event', Unicode(255), nullable=False),
     Column('time', DateTime, default=datetime.utcnow),
@@ -254,8 +254,6 @@ def upgrade(migrate_engine):
     event_topic_table.create()
     event_table.create()
 
+
 def downgrade(migrate_engine):
     raise NotImplementedError()
-
-
-

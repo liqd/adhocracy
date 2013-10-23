@@ -15,7 +15,7 @@ poll_table = Table('poll', meta,
     Column('begin_time', DateTime, default=datetime.utcnow),
     Column('end_time', DateTime, nullable=True),
     Column('begin_user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)   
+    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)
     )
 
 dependency_table = Table('dependency', meta,
@@ -30,6 +30,7 @@ dependency_table = Table('dependency', meta,
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     dependency_table.drop()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

@@ -8,6 +8,7 @@ meta = MetaData()
 user_table = Table('user', meta)
 group_table = Table('group', meta)
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     instance_table = Table('instance', meta,
@@ -22,7 +23,7 @@ def upgrade(migrate_engine):
         Column('delete_time', DateTime, nullable=True),
         Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
         Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-        Column('allow_adopt', Boolean, default=True),       
+        Column('allow_adopt', Boolean, default=True),
         Column('allow_delegate', Boolean, default=True),
         Column('allow_index', Boolean, default=True),
         Column('hidden', Boolean, default=False),
@@ -30,7 +31,7 @@ def upgrade(migrate_engine):
         Column('css', UnicodeText(), nullable=True),
         Column('use_norms', Boolean, nullable=True, default=True)
     )
-    
+
     propose = Column('allow_propose', Boolean, default=True)
     propose.create(instance_table)
     u = instance_table.update(values={'allow_propose': True})
@@ -39,4 +40,3 @@ def upgrade(migrate_engine):
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
-

@@ -5,10 +5,10 @@ from sqlalchemy import (Boolean, Integer, DateTime, String, Unicode,
 
 metadata = MetaData()
 
-#table to update
+# table to update
 badge_table = Table(
     'badge', metadata,
-    #common attributes
+    # common attributes
     Column('id', Integer, primary_key=True),
     Column('type', String(40), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -27,13 +27,13 @@ badge_table = Table(
 
 
 def upgrade(migrate_engine):
-    #use sqlalchemy-migrate database connection
+    # use sqlalchemy-migrate database connection
     metadata.bind = migrate_engine
-    #autoload needed tables
+    # autoload needed tables
     instance_table = Table('instance', metadata, autoload=True)
-    #add thumbnail column to table
+    # add thumbnail column to table
     thumbnail = Column('thumbnail', LargeBinary, default=None, nullable=True)
-    #create/recreate the table
+    # create/recreate the table
     thumbnail.create(badge_table)
 
 

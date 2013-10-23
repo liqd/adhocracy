@@ -26,6 +26,7 @@ user_table = Table('user', meta,
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     )
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
 

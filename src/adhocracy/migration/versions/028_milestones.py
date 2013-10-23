@@ -5,6 +5,7 @@ from sqlalchemy import func, or_
 
 meta = MetaData()
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
 
@@ -34,6 +35,3 @@ def upgrade(migrate_engine):
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
-
-
-

@@ -16,8 +16,8 @@ delegateable_table = Table('delegateable', meta,
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
-    
-comment_table = Table('comment', meta,                  
+
+comment_table = Table('comment', meta,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, default=None, nullable=True),
@@ -38,7 +38,7 @@ category_graph = Table('category_graph', meta,
     Column('parent_id', Integer, ForeignKey('delegateable.id')),
     Column('child_id', Integer, ForeignKey('delegateable.id'))
     )
-    
+
 poll_table = Table('poll', meta,
     Column('id', Integer, primary_key=True),
     Column('begin_time', DateTime, default=datetime.utcnow),
@@ -49,17 +49,18 @@ poll_table = Table('poll', meta,
     Column('scope_id', Integer, ForeignKey('delegateable.id'), nullable=False)
     )
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     issue_table.drop()
     for vals in migrate_engine.execute(delegateable_table.select()):
         if vals[2] == 'issue':
-            migrate_engine.execute(category_graph.delete(category_graph.c.parent_id==vals[0]))
-            migrate_engine.execute(category_graph.delete(category_graph.c.child_id==vals[0]))
-            migrate_engine.execute(comment_table.delete(comment_table.c.topic_id==vals[0]))
-            migrate_engine.execute(poll_table.delete(poll_table.c.scope_id==vals[0]))
-            migrate_engine.execute(delegateable_table.delete(delegateable_table.c.id==vals[0]))
-            
+            migrate_engine.execute(category_graph.delete(category_graph.c.parent_id == vals[0]))
+            migrate_engine.execute(category_graph.delete(category_graph.c.child_id == vals[0]))
+            migrate_engine.execute(comment_table.delete(comment_table.c.topic_id == vals[0]))
+            migrate_engine.execute(poll_table.delete(poll_table.c.scope_id == vals[0]))
+            migrate_engine.execute(delegateable_table.delete(delegateable_table.c.id == vals[0]))
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

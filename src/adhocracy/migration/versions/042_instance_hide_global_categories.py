@@ -48,4 +48,3 @@ def upgrade(migrate_engine):
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
-

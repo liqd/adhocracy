@@ -1,5 +1,5 @@
 from datetime import datetime
-from pprint import pprint 
+from pprint import pprint
 
 from sqlalchemy import *
 from migrate import *
@@ -25,13 +25,13 @@ user_table = Table('user', meta,
     Column('delete_time', DateTime)
     )
 
-group_table = Table('group', meta, 
+group_table = Table('group', meta,
     Column('id', Integer, primary_key=True),
     Column('group_name', Unicode(255), nullable=False, unique=True),
     Column('code', Unicode(255), nullable=False, unique=True),
     Column('description', Unicode(1000))
     )
-    
+
 delegateable_table = Table('delegateable', meta,
     Column('id', Integer, primary_key=True),
     Column('label', Unicode(255), nullable=False),
@@ -42,11 +42,12 @@ delegateable_table = Table('delegateable', meta,
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
-    
-page_table = Table('page', meta,                      
+
+page_table = Table('page', meta,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('function', Unicode)
     )
+
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
@@ -62,11 +63,11 @@ def upgrade(migrate_engine):
         Column('delete_time', DateTime, nullable=True),
         Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
         Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-        Column('allow_adopt', Boolean, default=True),       
+        Column('allow_adopt', Boolean, default=True),
         Column('allow_delegate', Boolean, default=True),
         Column('allow_index', Boolean, default=True),
         Column('hidden', Boolean, default=False),
-        Column('locale', Unicode(7), nullable=True)  
+        Column('locale', Unicode(7), nullable=True)
         )
     css = Column('css', UnicodeText(), nullable=True)
     css.create(instance_table)
@@ -78,8 +79,7 @@ def upgrade(migrate_engine):
     if migrate_engine.url.drivername == "sqlite":
         norm_root_id = Column('norm_page_id', Integer, nullable=True)
     norm_root_id.create(instance_table)
-    
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
-    
