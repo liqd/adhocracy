@@ -606,7 +606,6 @@ class UnusedProposalTitle(formencode.validators.FormValidator):
 USER_NAME = 'user_name'
 DISPLAY_NAME = 'display_name'
 EMAIL = 'email'
-USER_BADGES = 'user_badges'
 USERNAME_VALIDATOR = formencode.All(
     formencode.validators.PlainText(not_empty=True),
     UniqueUsername(),
@@ -618,7 +617,7 @@ EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
 class UsersCSV(formencode.FancyValidator):
 
     def to_python(self, value, state):
-        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL, USER_BADGES]
+        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
         errors = []
         items = []
         self.usernames = {}
