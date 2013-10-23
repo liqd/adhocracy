@@ -21,7 +21,7 @@
     <div class="list_filter">
         <form action="?" class="list_form" method="GET" autocomplete="off">
             <input id="serp_q" name="serp_q" class="live_search q"
-                    value="${request.params.get('serp_q', '')}" 
+                    value="${c.serp_q}" 
                     type="text" tabindex="1" />
             <input type="submit" value="${_('Search')}" class="go" />
         </form>
