@@ -37,7 +37,7 @@ def process_file(fn, on_error):
     success = True
     for k in re.finditer('&(?!#|([A-Z]|[a-z])[a-z]{1,5};)', content):
         ln = content[:k.start()].count('\n') + 1
-        on_error('Invalid entity "' + content[k.start():k.end()+10] +
+        on_error('Invalid entity "' + content[k.start():k.end() + 10] +
                  '" found in ' + absfn + ': ' + str(ln))
         success = False
     return success

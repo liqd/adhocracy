@@ -160,20 +160,20 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
         self.assertEqual(len(dn.outbound()), 1)
 
         dn = DelegationNode(user1, proposal)
-        self.assertEqual(len(dn.outbound()),  1)
+        self.assertEqual(len(dn.outbound()), 1)
 
         dn = DelegationNode(user2, proposal)
-        self.assertEqual(len(dn.inbound()),  1)
+        self.assertEqual(len(dn.inbound()), 1)
 
         dn = DelegationNode(user2, proposal)
-        self.assertEqual(len(dn.inbound()),  1)
+        self.assertEqual(len(dn.inbound()), 1)
 
         d3to2 = Delegation(user3, user2, proposal)
         model.meta.Session.add(d3to2)
         model.meta.Session.flush()
 
         dn = DelegationNode(user2, proposal)
-        self.assertEqual(len(dn.inbound()),  2)
+        self.assertEqual(len(dn.inbound()), 2)
 
         dn = DelegationNode(user2, proposal)
         self.assertEqual(len(dn.inbound(recurse=False)), 2)
