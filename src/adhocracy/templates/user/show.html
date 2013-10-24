@@ -35,7 +35,15 @@
             </select>
         </div>
 
-        <h2>${_(u"Dashboard") if c.dashboard else c.page_user.name}</h2>
+        <h2>
+            ${_(u"Dashboard") if c.dashboard else c.page_user.name}
+
+            <div class="utility">
+                %if not c.dashboard and can.user.edit(c.page_user):
+                <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
+                %endif
+            </div>
+        </h2>
         ${tiles.user.header(c.page_user, c.tile, active='activity')}
     </div>
 

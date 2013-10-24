@@ -25,13 +25,6 @@
 <%def name="header(tile, user, active, show_delete_user_button=False)">
 
     <div class="top_actions title vcard">
-        %if lib.auth.authorization.has('global.admin'):
-        <a class="button edit" 
-           href="${h.entity_url(user, instance=c.instance, member='settings')}">
-            ${_('Edit Profile')}
-        </a>
-        %endif
-
         %if c.user and c.instance and c.user == c.page_user and can.instance.leave(c.instance):
         <a class="button delete ttip" title="${_('Resign from this instance.')}"
            href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a>
