@@ -76,9 +76,36 @@
         ${h.date_tag(c.page_user.create_time)|n}
 
         <% instance_groups = c.page_user.instance_groups() %>
-        %if instance_groups:
         <h6>${_('User groups')}</h6>
+        %if instance_groups:
         ${u', '.join([_(g.group_name) for g in instance_groups])}
+        %else:
+        ${_(u"None")}
+        %endif
+
+        %if c.user is not None and can.user.supervise(c.page_user):
+        <a href="#" class="showhide_button" id="groups-button" data-target="#groups-form">
+            ${_(u'change group')}</a>
+
+        <form action="${h.entity_url(c.page_user, member='groupmod')}" method="GET" style="display: none" id="groups-form" data-cancel=".cancel">
+            ${h.field_token()|n}
+
+            <%
+                m = c.page_user.instance_membership(c.instance)
+                current_group = m.group if m else None
+            %>
+            <select name="to_group">
+                %for group_code in model.Group.INSTANCE_GROUPS:
+                <option ${u'selected="selected"' if group_code == current_group.code else u'' | n}
+                        value="${group_code}">
+                    ${_(model.Group.by_code(group_code).group_name)}</option>
+                %endfor
+            </select>
+
+            <div class="input_wrapper submit">
+                ${components.savebox(h.entity_url(c.page_user))}
+            </div>
+        </form>
         %endif
 
         %if c.global_badges:
