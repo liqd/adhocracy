@@ -1,6 +1,7 @@
 .pager_wrapper {
     .floatbox {
-        padding: 5px 10px;
+        padding: 0 10px;
+        line-height: 2;
         background-color: $bg1;
         @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     }

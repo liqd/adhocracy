@@ -40,4 +40,3 @@ class TimerTestCase(TestCase):
         self.assertFalse(run_periodicals_mock.called)
         # but it setups up the timer anyway
         self.assertTrue(setup_timer.called)
-        

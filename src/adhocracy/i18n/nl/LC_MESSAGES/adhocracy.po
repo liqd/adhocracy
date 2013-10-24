@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-01 11:42+0200\n"
-"PO-Revision-Date: 2013-10-01 09:42+0000\n"
+"POT-Creation-Date: 2013-10-17 20:05+0200\n"
+"PO-Revision-Date: 2013-10-17 18:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -436,6 +436,10 @@ msgstr "Het voorstel %s is verwijderd."
 #, python-format
 msgid "Proposal: %(proposal)s"
 msgstr "Voorstel: %(proposal)s"
+
+#, python-format
+msgid "You are not allowed to edit badge %i"
+msgstr ""
 
 msgid "relevance"
 msgstr "relevantie"
@@ -1050,6 +1054,24 @@ msgstr "activiteit"
 msgid "Badge"
 msgstr "Badge"
 
+msgid "Instance hidden state"
+msgstr ""
+
+msgid "hidden"
+msgstr ""
+
+msgid "visible"
+msgstr "zichtbaar"
+
+msgid "Instance state"
+msgstr ""
+
+msgid "frozen"
+msgstr ""
+
+msgid "open"
+msgstr ""
+
 msgid "Instance"
 msgstr "Groep"
 
@@ -1237,6 +1259,14 @@ msgstr "Bewerk voorstel: %(proposal)s"
 #, python-format
 msgid "edited %(proposal)s"
 msgstr "heeft %(proposal)s aangepast"
+
+#, python-format
+msgid "Proposal badged: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "badged %(proposal)s"
+msgstr ""
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1471,6 +1501,12 @@ msgstr "Klik om tegen te stemmen"
 
 msgid "Your current vote is already con"
 msgstr "Uw stem is al tegen"
+
+msgid "Topic is frozen. Click to view the list of votes."
+msgstr ""
+
+msgid "Instance is frozen. Click to view the list of votes."
+msgstr ""
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Het stemmen is geëindigd. Klik om de lijst met stemmen te zien. "
@@ -1988,6 +2024,9 @@ msgstr "De naam die andere gebruikers te zien krijgen."
 msgid "The email address of the user."
 msgstr "Het e-mailadres van de gebruiker."
 
+msgid "for additional columns."
+msgstr ""
+
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
 " into the email text."
@@ -2017,8 +2056,8 @@ msgstr "De volgende fouten zijn opgetreden tijdens het aanmaken van de gebruiker
 msgid "These users could not be created:"
 msgstr "De volgende gebruikers konden niet worden aangemaakt:"
 
-msgid "These users where created, but we could not send out mails:"
-msgstr "De gebruikers zijn aangemaakt, maar we konden geen e-mail verzenden:"
+msgid "These users were created, but we could not send out mails:"
+msgstr ""
 
 msgid ""
 "Note that the following entities will be unbadged if this badge is deleted:"
@@ -2056,9 +2095,6 @@ msgstr "Upload thumbnail pictogram. Dit wordt in plaats van een kleur gebruikt o
 
 msgid "Check to hide badge in user interface"
 msgstr "Verberg badge in gebruikersinterface"
-
-msgid "visible"
-msgstr "zichtbaar"
 
 msgid "Group"
 msgstr "Groep"
@@ -2221,12 +2257,6 @@ msgstr "op %s"
 msgid "edited %s"
 msgstr "heeft %s aangepast"
 
-msgid "No comments were made yet."
-msgstr "Er zijn geen reacties."
-
-msgid "No discussions were started yet."
-msgstr "Er zijn geen discussies gestart."
-
 msgid "Add comment"
 msgstr "Voeg reactie toe"
 
@@ -2251,6 +2281,12 @@ msgstr "Bevestig uw e-mailadres om te reageren."
 msgid "Validate email in order to discuss."
 msgstr "Bevestig e-mailadres om mee te doen aan de discussie."
 
+msgid "No comments were made yet."
+msgstr "Er zijn geen reacties."
+
+msgid "No discussions were started yet."
+msgstr "Er zijn geen discussies gestart."
+
 msgid "is pro"
 msgstr "is voor"
 
@@ -2260,28 +2296,28 @@ msgstr "is tegen"
 msgid "(deleted)"
 msgstr "(verwijderd)"
 
+msgid "edit"
+msgstr "bewerk"
+
 msgid "This comment has been deleted."
 msgstr "Deze reactie is verwijderd."
 
 msgid "This argument has been deleted."
 msgstr "Dit argument is verwijderd."
 
-msgid "edit"
-msgstr "bewerk"
-
-msgid "1 Comment"
-msgstr "1 Reactie"
-
-msgid "1 Argument"
-msgstr "1 Argument"
+#, python-format
+msgid "deleted %s"
+msgstr "verwijderd %s"
 
 #, python-format
-msgid "%s Comments"
-msgstr "%s Reacties"
+msgid "edited %s by %s"
+msgstr "%s aangepast door %s"
 
-#, python-format
-msgid "%s Arguments"
-msgstr "%s Argumenten"
+msgid "history"
+msgstr "geschiedenis"
+
+msgid "report"
+msgstr "meld misbruik"
 
 msgid "reply"
 msgstr "antwoord"
@@ -2307,20 +2343,6 @@ msgstr "Bevestig uw e-mailadres om te antwoorden."
 msgid "Validate email in order to argue"
 msgstr "Bevestig e-mailadres om te betogen"
 
-msgid "report"
-msgstr "meld misbruik"
-
-msgid "history"
-msgstr "geschiedenis"
-
-#, python-format
-msgid "deleted %s"
-msgstr "verwijderd %s"
-
-#, python-format
-msgid "edited %s by %s"
-msgstr "%s aangepast door %s"
-
 msgid "Comment is..."
 msgstr "Reactie is..."
 
@@ -2335,12 +2357,6 @@ msgstr "Neutraal"
 
 msgid "Con"
 msgstr "Tegen"
-
-msgid "Enter comment text:"
-msgstr "Voer reactietekst in:"
-
-msgid "Enter argument text:"
-msgstr "Voer argumenttekst in:"
 
 msgid "Allow others to edit this comment."
 msgstr "Sta toe dat anderen deze reactie mogen aanpassen."
@@ -2612,6 +2628,9 @@ msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbreng
 
 msgid "Show norms navigation item"
 msgstr "Toon reglementennavigatie"
+
+msgid "Show proposals navigation item"
+msgstr ""
 
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
@@ -3016,6 +3035,9 @@ msgstr "Maak een nieuw voorstel..."
 msgid "Edit variant"
 msgstr "Bewerk variant"
 
+msgid "Edit section"
+msgstr ""
+
 #, python-format
 msgid "Norm: %s"
 msgstr "Reglement: %s"
@@ -3065,6 +3087,10 @@ msgstr "Voor een specifieker overzicht kunt u de reglementen filteren met deze t
 msgid "New page"
 msgstr "Nieuwe pagina"
 
+#, python-format
+msgid "Add section to %s"
+msgstr ""
+
 msgid "Create norm"
 msgstr "Maak reglement"
 
@@ -3073,6 +3099,9 @@ msgstr "Titel van het reglement"
 
 msgid "New norm"
 msgstr "Nieuw reglement"
+
+msgid "Section content"
+msgstr ""
 
 msgid "Norm content"
 msgstr "Reglement inhoud"
@@ -3150,6 +3179,17 @@ msgid "Discussions"
 msgstr "Discussies"
 
 msgid "Amendments"
+msgstr ""
+
+msgid "Add section"
+msgstr ""
+
+msgid "This norm has been split into several sections."
+msgstr ""
+
+msgid ""
+"You can propose amendments and comment each section individually by using "
+"the controls on the right."
 msgstr ""
 
 msgid "hide sub-topics"
@@ -3269,11 +3309,17 @@ msgstr "U staat op het punt om op te roepen tot een stemming. Wanneer u dit doet
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Weet u zeker dat u dit voorstel wilt verwijderen?"
 
+msgid "No Badges"
+msgstr ""
+
 msgid "thumbnail badge"
 msgstr "thumbnail badge"
 
 msgid "No Thumbnail Badge"
 msgstr "Geen Thumbnail Badge"
+
+msgid "No Thumbnail Badges"
+msgstr ""
 
 #, python-format
 msgid "Delegations: %s"
@@ -3396,6 +3442,9 @@ msgstr "Verwijder dit voorstel."
 msgid "%s Discussions"
 msgstr "%s Discussies"
 
+msgid "1 Proposed Implementation"
+msgstr ""
+
 #, python-format
 msgid "%s Proposed Implementations"
 msgstr "%s Voorgestelde Implementaties"
@@ -3488,12 +3537,6 @@ msgstr "Hoofdpagina"
 
 msgid "Who is receiving delegations?"
 msgstr "Wie zijn er gemachtigd?"
-
-msgid "Support this proposal"
-msgstr "Steun dit voorstel."
-
-msgid "Oppose this proposal"
-msgstr "Tegen dit voorstel"
 
 #, python-format
 msgid "%s has been adopted %s."

@@ -42,7 +42,8 @@ def tt_make_str(length=20):
     return u''.join([random.choice(string.letters) for i in range(length)])
 
 
-def tt_make_proposal(creator=None, voting=False, title=None, with_description=False):
+def tt_make_proposal(creator=None, voting=False, title=None,
+                     with_description=False):
     instance = tt_get_instance()
     creator = creator if creator is not None else tt_make_user()
     title = title if title is not None else tt_make_str()
@@ -59,10 +60,10 @@ def tt_make_proposal(creator=None, voting=False, title=None, with_description=Fa
 
     if with_description:
         description = model.Page.create(instance,
-                                tt_make_str(),
-                                tt_make_str(),
-                                creator,
-                                function=model.Page.DESCRIPTION)
+                                        tt_make_str(),
+                                        tt_make_str(),
+                                        creator,
+                                        function=model.Page.DESCRIPTION)
         description.parents = [proposal]
         proposal.description = description
         model.meta.Session.flush()

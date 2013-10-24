@@ -27,7 +27,7 @@ class MessageController(BaseController):
     def new(self, id, format='html', errors={}):
         c.page_user = get_entity_or_abort(model.User, id)
         require.user.message(c.page_user)
-        html = render("/message/new.html")
+        html = render("/message/new.html", overlay=format == u'overlay')
         return htmlfill.render(html, defaults=request.params,
                                errors=errors, force_defaults=False)
 

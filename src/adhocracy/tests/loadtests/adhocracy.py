@@ -14,7 +14,8 @@ class Adhocracy(FunkLoadTestCase):
         # begin of test ---------------------------------------------
         self.get(server_url, description='Get startpage url')
         self.get(server_url + "/instance", description='Go to instances')
-        self.get(server_url + "/i/test/instance/test", description='Go to test instance')
+        self.get(server_url + "/i/test/instance/test",
+                 description='Go to test instance')
         # end of test -----------------------------------------------
 
 if __name__ in ('main', '__main__'):

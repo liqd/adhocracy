@@ -75,7 +75,7 @@
         %>
         <label for="watch">
         <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch" id="watch" />
-        ${_("Notify me of updates.")}        
+        ${_("Notify me of updates.")}
         </label>
     %endif
 </%def>
@@ -204,7 +204,7 @@ $(document).ready(function () {
     %>
     <title>${full_title}</title>
 
-    <meta http-equiv="X-XRDS-Location" 
+    <meta http-equiv="X-XRDS-Location"
           content="${h.base_url('/openid/xrds', absolute=True)}" />
 
     %for key, value in c.html_meta.items():
@@ -261,21 +261,21 @@ $(document).ready(function () {
     <!-- /template -->
 
     %if c.instance and c.instance.css:
-        <link  rel="stylesheet" type="text/css" 
+        <link  rel="stylesheet" type="text/css"
             href="${h.base_url('/instance/%s/style' % c.instance.key)}"/>
     %endif
-    
+
     %for link in c.html_head_links:
-    <link rel="${link['rel']}" type="${link['type']}" 
+    <link rel="${link['rel']}" type="${link['type']}"
           title="${link['title']}" href="${link['href']}" />
     %endfor
 
     %if c.user and c.user.no_help:
-    <style type="text/css"> 
+    <style type="text/css">
         .help {display: none;}
     </style>
     %endif
-    
+
     ${tiles.badge.badge_styles(c.instance)}
 </%def>
 
@@ -332,14 +332,14 @@ ${caller.body()}
       <div class="select_header">${toplevel_question}</div>
       %endif
       <div class="input_wrapper">
-        <select class="drilldown" id="${id}" name="category"> 
+        <select class="drilldown" id="${id}" name="category">
           <option value="">${_("No Category")}</option>
           %for (cat_id, key, child_desc) in categories:
           <option value="${cat_id}" data-header="${child_desc|n}">${key}</option>
           %endfor
-        </select>      
+        </select>
       </div>
-    </fieldset> 
+    </fieldset>
     <script type="text/javascript">
       $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
     </script>

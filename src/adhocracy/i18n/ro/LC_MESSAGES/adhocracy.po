@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-01 11:42+0200\n"
-"PO-Revision-Date: 2013-10-01 09:42+0000\n"
+"POT-Creation-Date: 2013-10-17 20:05+0200\n"
+"PO-Revision-Date: 2013-10-17 18:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -436,6 +436,10 @@ msgstr "Propunerea %s a fost stearsa."
 #, python-format
 msgid "Proposal: %(proposal)s"
 msgstr "Propunerea: %(proposal)s"
+
+#, python-format
+msgid "You are not allowed to edit badge %i"
+msgstr ""
 
 msgid "relevance"
 msgstr "relevanta"
@@ -1050,6 +1054,24 @@ msgstr "activitate"
 msgid "Badge"
 msgstr "Titlu"
 
+msgid "Instance hidden state"
+msgstr ""
+
+msgid "hidden"
+msgstr ""
+
+msgid "visible"
+msgstr "vizibil"
+
+msgid "Instance state"
+msgstr ""
+
+msgid "frozen"
+msgstr ""
+
+msgid "open"
+msgstr ""
+
 msgid "Instance"
 msgstr "Comunitate"
 
@@ -1237,6 +1259,14 @@ msgstr "Modifica propunerea: %(proposal)s"
 #, python-format
 msgid "edited %(proposal)s"
 msgstr "a editat %(proposal)s"
+
+#, python-format
+msgid "Proposal badged: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "badged %(proposal)s"
+msgstr ""
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1470,6 +1500,12 @@ msgid "Click to vote con"
 msgstr "Click pentru a vota contra"
 
 msgid "Your current vote is already con"
+msgstr ""
+
+msgid "Topic is frozen. Click to view the list of votes."
+msgstr ""
+
+msgid "Instance is frozen. Click to view the list of votes."
 msgstr ""
 
 msgid "Voting has ended. Click to view the list of votes"
@@ -1988,6 +2024,9 @@ msgstr "Numele care va fi afisat celorlalti utilizatori."
 msgid "The email address of the user."
 msgstr "Adresa email a utilizatorului."
 
+msgid "for additional columns."
+msgstr ""
+
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
 " into the email text."
@@ -2017,8 +2056,8 @@ msgstr "Urmatoarele erori au aparut cand s-au generat utilizatorii"
 msgid "These users could not be created:"
 msgstr "Utilizatorii urmatori nu au putut fi creati:"
 
-msgid "These users where created, but we could not send out mails:"
-msgstr "Acesti utilizatori au fost creati, dar nu am reusit sa le trimitem emailuri:"
+msgid "These users were created, but we could not send out mails:"
+msgstr ""
 
 msgid ""
 "Note that the following entities will be unbadged if this badge is deleted:"
@@ -2056,9 +2095,6 @@ msgstr ""
 
 msgid "Check to hide badge in user interface"
 msgstr "Selecteaza pentru a ascunde titlul in interfata utilizator"
-
-msgid "visible"
-msgstr "vizibil"
 
 msgid "Group"
 msgstr "Grup"
@@ -2221,12 +2257,6 @@ msgstr "pe %s"
 msgid "edited %s"
 msgstr "a editat %s"
 
-msgid "No comments were made yet."
-msgstr "Nici un comentariu deocamdata."
-
-msgid "No discussions were started yet."
-msgstr ""
-
 msgid "Add comment"
 msgstr "Adauga un comentariu"
 
@@ -2251,6 +2281,12 @@ msgstr "Valideaza adresa de email pentru a aduga comentarii."
 msgid "Validate email in order to discuss."
 msgstr ""
 
+msgid "No comments were made yet."
+msgstr "Nici un comentariu deocamdata."
+
+msgid "No discussions were started yet."
+msgstr ""
+
 msgid "is pro"
 msgstr "este pentru"
 
@@ -2260,28 +2296,28 @@ msgstr "este contra"
 msgid "(deleted)"
 msgstr "(sters)"
 
+msgid "edit"
+msgstr "modifica"
+
 msgid "This comment has been deleted."
 msgstr "Acest comentariu a fost sters."
 
 msgid "This argument has been deleted."
 msgstr ""
 
-msgid "edit"
-msgstr "modifica"
-
-msgid "1 Comment"
-msgstr "1 Comentariu"
-
-msgid "1 Argument"
-msgstr ""
+#, python-format
+msgid "deleted %s"
+msgstr "a fost sters %s"
 
 #, python-format
-msgid "%s Comments"
-msgstr "%s Comentarii"
+msgid "edited %s by %s"
+msgstr "editat %s de catre %s"
 
-#, python-format
-msgid "%s Arguments"
-msgstr ""
+msgid "history"
+msgstr "istoric"
+
+msgid "report"
+msgstr "raport"
 
 msgid "reply"
 msgstr "raspunde"
@@ -2307,20 +2343,6 @@ msgstr "Valideaza adresa de email pentru a aduga comentarii."
 msgid "Validate email in order to argue"
 msgstr ""
 
-msgid "report"
-msgstr "raport"
-
-msgid "history"
-msgstr "istoric"
-
-#, python-format
-msgid "deleted %s"
-msgstr "a fost sters %s"
-
-#, python-format
-msgid "edited %s by %s"
-msgstr "editat %s de catre %s"
-
 msgid "Comment is..."
 msgstr "Comentariul este..."
 
@@ -2335,12 +2357,6 @@ msgstr "Neutru"
 
 msgid "Con"
 msgstr "Contra"
-
-msgid "Enter comment text:"
-msgstr ""
-
-msgid "Enter argument text:"
-msgstr ""
 
 msgid "Allow others to edit this comment."
 msgstr "Permite celorlalti sa editeze acest comentariu"
@@ -2611,6 +2627,9 @@ msgid "Require to propose a variant"
 msgstr "Cere sa fie propusa o varianta"
 
 msgid "Show norms navigation item"
+msgstr ""
+
+msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Use milestones"
@@ -3018,6 +3037,9 @@ msgstr "Creeaza o propunere noua..."
 msgid "Edit variant"
 msgstr "Modifica varianta"
 
+msgid "Edit section"
+msgstr ""
+
 #, python-format
 msgid "Norm: %s"
 msgstr "Document: %s"
@@ -3067,6 +3089,10 @@ msgstr "Etichetele documentelor"
 msgid "New page"
 msgstr "Pagina noua"
 
+#, python-format
+msgid "Add section to %s"
+msgstr ""
+
 msgid "Create norm"
 msgstr "Creeaza document"
 
@@ -3075,6 +3101,9 @@ msgstr "Titlul documentului"
 
 msgid "New norm"
 msgstr "Document nou"
+
+msgid "Section content"
+msgstr ""
 
 msgid "Norm content"
 msgstr "Continut document"
@@ -3152,6 +3181,17 @@ msgid "Discussions"
 msgstr "Discutii"
 
 msgid "Amendments"
+msgstr ""
+
+msgid "Add section"
+msgstr ""
+
+msgid "This norm has been split into several sections."
+msgstr ""
+
+msgid ""
+"You can propose amendments and comment each section individually by using "
+"the controls on the right."
 msgstr ""
 
 msgid "hide sub-topics"
@@ -3272,10 +3312,16 @@ msgstr "Urmeaza sa pornesti votul. Cand faci asta, nu vei mai putea sa <strong>m
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Confirmi stergerea propunerii?"
 
+msgid "No Badges"
+msgstr ""
+
 msgid "thumbnail badge"
 msgstr ""
 
 msgid "No Thumbnail Badge"
+msgstr ""
+
+msgid "No Thumbnail Badges"
 msgstr ""
 
 #, python-format
@@ -3399,6 +3445,9 @@ msgstr "Sterge propunerea."
 msgid "%s Discussions"
 msgstr "%s Discutii"
 
+msgid "1 Proposed Implementation"
+msgstr ""
+
 #, python-format
 msgid "%s Proposed Implementations"
 msgstr "%s Implementari propuse"
@@ -3491,12 +3540,6 @@ msgstr "Pagina principala"
 
 msgid "Who is receiving delegations?"
 msgstr "Cine a primit delegari?"
-
-msgid "Support this proposal"
-msgstr "Sustine propunerea"
-
-msgid "Oppose this proposal"
-msgstr "Opune-te propunerii"
 
 #, python-format
 msgid "%s has been adopted %s."

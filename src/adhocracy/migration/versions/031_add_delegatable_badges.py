@@ -26,23 +26,24 @@ delegateable_badge_table = Table(
            nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False))
- 
+
+
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
 
-    #setup
+    # setup
     group_table = Table('group', metadata, autoload=True)
     user_table = Table('user', metadata, autoload=True)
     proposal_table = Table('proposal', metadata, autoload=True)
     delegateable_table = Table('delegateable', metadata, autoload=True)
 
-    #add column badge_delegateable to badge_table
+    # add column badge_delegateable to badge_table
     badge_delegateable = Column('badge_delegateable', Boolean, default=False)
     badge_delegateable.create(badge_table)
 
-    #add new table delegateable_badge
+    # add new table delegateable_badge
     delegateable_badge_table.create()
 
 
 def downgrade(migrate_engine):
-    raise NotImplementedError()     
+    raise NotImplementedError()

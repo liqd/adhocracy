@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-01 11:42+0200\n"
-"PO-Revision-Date: 2013-10-01 09:42+0000\n"
+"POT-Creation-Date: 2013-10-17 20:05+0200\n"
+"PO-Revision-Date: 2013-10-17 18:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -434,6 +434,10 @@ msgstr "La proposta %s è stata eliminata."
 #, python-format
 msgid "Proposal: %(proposal)s"
 msgstr "Proposta: %(proposal)s"
+
+#, python-format
+msgid "You are not allowed to edit badge %i"
+msgstr ""
 
 msgid "relevance"
 msgstr "pertinenza"
@@ -1048,6 +1052,24 @@ msgstr "attività"
 msgid "Badge"
 msgstr "Badge"
 
+msgid "Instance hidden state"
+msgstr ""
+
+msgid "hidden"
+msgstr ""
+
+msgid "visible"
+msgstr "visibile"
+
+msgid "Instance state"
+msgstr ""
+
+msgid "frozen"
+msgstr ""
+
+msgid "open"
+msgstr ""
+
 msgid "Instance"
 msgstr "Gruppo"
 
@@ -1235,6 +1257,14 @@ msgstr "Modifica la proposta: %(proposal)s"
 #, python-format
 msgid "edited %(proposal)s"
 msgstr "modificata %(proposal)s"
+
+#, python-format
+msgid "Proposal badged: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "badged %(proposal)s"
+msgstr ""
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1469,6 +1499,12 @@ msgstr "Clicca qui per votare contro"
 
 msgid "Your current vote is already con"
 msgstr "Il tuo voto attuale é gía non favorevole."
+
+msgid "Topic is frozen. Click to view the list of votes."
+msgstr ""
+
+msgid "Instance is frozen. Click to view the list of votes."
+msgstr ""
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Il voto termina qui. Clicca qui per visualizzare la lista dei voti"
@@ -1986,6 +2022,9 @@ msgstr "Il nome che verrà visualizzato dagli altri utenti."
 msgid "The email address of the user."
 msgstr "L'indirizzo email dell'utente."
 
+msgid "for additional columns."
+msgstr ""
+
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
 " into the email text."
@@ -2015,8 +2054,8 @@ msgstr "Si sono verificati i seguenti errori durante la creazione degli utenti"
 msgid "These users could not be created:"
 msgstr "Impossibile crare i seguenti utenti "
 
-msgid "These users where created, but we could not send out mails:"
-msgstr "I seguenti utenti sono stati creati, ma risulta impossibile inviare loro delle email:"
+msgid "These users were created, but we could not send out mails:"
+msgstr ""
 
 msgid ""
 "Note that the following entities will be unbadged if this badge is deleted:"
@@ -2054,9 +2093,6 @@ msgstr "Carica l'anteprima. Questa verrá usata al posto della funzione \"colore
 
 msgid "Check to hide badge in user interface"
 msgstr "Controlla per nascondere il badge nell'interfaccia utente"
-
-msgid "visible"
-msgstr "visibile"
 
 msgid "Group"
 msgstr "Ruolo utente"
@@ -2219,12 +2255,6 @@ msgstr "riguardo a  %s"
 msgid "edited %s"
 msgstr "modificato %s"
 
-msgid "No comments were made yet."
-msgstr "Non è stato inserito ancora nessun commento."
-
-msgid "No discussions were started yet."
-msgstr "Non esiste ancora nessuna discussione."
-
 msgid "Add comment"
 msgstr "Aggiungi un commento"
 
@@ -2249,6 +2279,12 @@ msgstr "Conferma la tua email per poter inserire un commento"
 msgid "Validate email in order to discuss."
 msgstr "Verifica il tuo indirizzo email per poter inserire un commento"
 
+msgid "No comments were made yet."
+msgstr "Non è stato inserito ancora nessun commento."
+
+msgid "No discussions were started yet."
+msgstr "Non esiste ancora nessuna discussione."
+
 msgid "is pro"
 msgstr "è a favore di"
 
@@ -2258,28 +2294,28 @@ msgstr "è contro"
 msgid "(deleted)"
 msgstr "(eliminato)"
 
+msgid "edit"
+msgstr "modifica"
+
 msgid "This comment has been deleted."
 msgstr "Il commento è stato eliminato."
 
 msgid "This argument has been deleted."
 msgstr "Questa discussione é stata eliminata"
 
-msgid "edit"
-msgstr "modifica"
-
-msgid "1 Comment"
-msgstr "1 Commento"
-
-msgid "1 Argument"
-msgstr "1 Discussione"
+#, python-format
+msgid "deleted %s"
+msgstr "eliminato %s"
 
 #, python-format
-msgid "%s Comments"
-msgstr "Mostra %s tutti i commenti"
+msgid "edited %s by %s"
+msgstr "%s modificato da %s"
 
-#, python-format
-msgid "%s Arguments"
-msgstr "%s Discussioni"
+msgid "history"
+msgstr "cronologia"
+
+msgid "report"
+msgstr "segnala"
 
 msgid "reply"
 msgstr "Inserisci un nuovo commento"
@@ -2305,20 +2341,6 @@ msgstr "Conferma la tua email per poter rispondere ai commenti"
 msgid "Validate email in order to argue"
 msgstr "Verifica il tuo indirizzo email per poter partecipare alla discussione"
 
-msgid "report"
-msgstr "segnala"
-
-msgid "history"
-msgstr "cronologia"
-
-#, python-format
-msgid "deleted %s"
-msgstr "eliminato %s"
-
-#, python-format
-msgid "edited %s by %s"
-msgstr "%s modificato da %s"
-
 msgid "Comment is..."
 msgstr "Commento su..."
 
@@ -2333,12 +2355,6 @@ msgstr "neutrale"
 
 msgid "Con"
 msgstr "contro"
-
-msgid "Enter comment text:"
-msgstr "Inserisci il testo del commento:"
-
-msgid "Enter argument text:"
-msgstr "Inserisci il testo della discussione:"
 
 msgid "Allow others to edit this comment."
 msgstr "Permetti agli altri di modificare questo commento."
@@ -2609,6 +2625,9 @@ msgid "Require to propose a variant"
 msgstr "È necessario proporre una delibera"
 
 msgid "Show norms navigation item"
+msgstr ""
+
+msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Use milestones"
@@ -3014,6 +3033,9 @@ msgstr "Crea una nuova proposta..."
 msgid "Edit variant"
 msgstr "Modifica versione"
 
+msgid "Edit section"
+msgstr ""
+
 #, python-format
 msgid "Norm: %s"
 msgstr "Delibera: %s"
@@ -3063,6 +3085,10 @@ msgstr "Per una migliore visualizzazione puoi ordinare la scelta delle delibere 
 msgid "New page"
 msgstr "Nuova pagina"
 
+#, python-format
+msgid "Add section to %s"
+msgstr ""
+
 msgid "Create norm"
 msgstr "Crea delibera"
 
@@ -3071,6 +3097,9 @@ msgstr "Titolo della delibera"
 
 msgid "New norm"
 msgstr "Nuova delibera"
+
+msgid "Section content"
+msgstr ""
 
 msgid "Norm content"
 msgstr "Contenuto della delibera"
@@ -3148,6 +3177,17 @@ msgid "Discussions"
 msgstr "Discussioni"
 
 msgid "Amendments"
+msgstr ""
+
+msgid "Add section"
+msgstr ""
+
+msgid "This norm has been split into several sections."
+msgstr ""
+
+msgid ""
+"You can propose amendments and comment each section individually by using "
+"the controls on the right."
 msgstr ""
 
 msgid "hide sub-topics"
@@ -3267,11 +3307,17 @@ msgstr "Stai per esprimere il tuo voto. Una volta fatto, perderai la possibilit�
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Sei sicuro di voler eliminare questa proposta?"
 
+msgid "No Badges"
+msgstr ""
+
 msgid "thumbnail badge"
 msgstr "anteprima del badge"
 
 msgid "No Thumbnail Badge"
 msgstr "Non esiste un'anteprima del badge"
+
+msgid "No Thumbnail Badges"
+msgstr ""
 
 #, python-format
 msgid "Delegations: %s"
@@ -3394,6 +3440,9 @@ msgstr "Elimina questa proposta."
 msgid "%s Discussions"
 msgstr "%s Discussioni"
 
+msgid "1 Proposed Implementation"
+msgstr ""
+
 #, python-format
 msgid "%s Proposed Implementations"
 msgstr "%s Suggerimenti di modifica"
@@ -3486,12 +3535,6 @@ msgstr "Pagina principale"
 
 msgid "Who is receiving delegations?"
 msgstr "Chi riceve le deleghe?"
-
-msgid "Support this proposal"
-msgstr "Sostieni questa proposta"
-
-msgid "Oppose this proposal"
-msgstr "Rifiuta questa proposta"
 
 #, python-format
 msgid "%s has been adopted %s."

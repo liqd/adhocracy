@@ -1,11 +1,12 @@
 from datetime import datetime
-from pprint import pprint 
+from pprint import pprint
 
 from sqlalchemy import *
 from migrate import *
 import migrate.changeset
 
 meta = MetaData()
+
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
@@ -28,6 +29,7 @@ def upgrade(migrate_engine):
     no_help.create(user_table)
     page_size = Column('page_size', Integer, default=10, nullable=True)
     page_size.create(user_table)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

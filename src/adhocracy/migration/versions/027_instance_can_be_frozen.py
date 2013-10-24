@@ -8,6 +8,7 @@ meta = MetaData()
 user_table = Table('user', meta)
 group_table = Table('group', meta)
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     instance_table = Table('instance', meta,
@@ -40,6 +41,3 @@ def upgrade(migrate_engine):
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
-
-
-

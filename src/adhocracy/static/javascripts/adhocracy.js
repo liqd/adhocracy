@@ -46,6 +46,67 @@ var adhocracy = adhocracy || {};
     };
 
 
+    adhocracy.uniqueSelector = function(el) {
+        // check relative to the next window node
+        // in case we are inside an iframe
+        var context = el.parents('html').parent();
+        var unique = function(selector) {
+            return $(selector, context).length === 1;
+        };
+
+        var tag = el[0].tagName;
+        if (unique(tag)) {
+            return tag;
+        } else if (typeof el.attr('id') !== 'undefined') {
+            return tag + '#' + el.attr('id');
+        } else if (typeof el.attr('name') !== 'undefined') {
+            return tag + '[name="' + el.attr('name') + '"]';
+        }
+
+        if (typeof el.attr('class') !== 'undefined') {
+            tag += '.' + el.attr('class');
+            if (unique(tag)) {
+                return tag;
+            }
+        }
+
+        // if still nothing was found
+        return adhocracy.uniqueSelector(el.parent())
+            + ' > ' + tag + ':nth-child(' + (el.index()+1) + ')';
+    };
+
+    adhocracy.ajax_submit = function(form, success) {
+        // submits using ajax
+        // will magically insert error messages
+        // will call success() on success
+        form.submit(function(e) {
+            e.preventDefault();
+
+            var form = $(e.target),  // form outside might be wrong
+                selector = adhocracy.uniqueSelector(form);
+
+            // ajax submit takes a while. Show some feedback
+            form.find('*[type="submit"]').addClass('loading');
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data) {
+                    // read the returned html document
+                    data = $(data);
+                    if (data.find('.error-message').length === 0) {
+                        success();
+                    } else {
+                        // replace by form with error messages
+                        form.html(data.find(selector).html());
+                    }
+                },
+            });
+        });
+    };
+
+
     /***************************************************
      * @namespace: adhocracy.overlay
      ***************************************************/
@@ -87,10 +148,11 @@ var adhocracy = adhocracy || {};
          */
 
         // grab wrapper element inside content
-        var overlay = this.getOverlay();
-        var wrap = overlay.find(".contentWrap");
+        var overlay = this.getOverlay(),
+            wrap = overlay.find(".contentWrap"),
+            trigger = this.getTrigger();
 
-        var url = new Uri(this.getTrigger().attr("href"));
+        var url = new Uri(trigger.attr("href"));
         url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
         url = url.toString();
 
@@ -174,9 +236,24 @@ var adhocracy = adhocracy || {};
                 }
             })
 
+            if (trigger.attr('rel') === '#overlay-form') {
+                $('.savebox .cancel', iframe.contents()).click(function(e) {
+                    e.preventDefault();
+                    overlay.find('.close').click();
+                });
+                adhocracy.ajax_submit($('form', iframe.contents()), function() {
+                    // reload parent url without overlay params
+                    var uri = new Uri(window.location.toString());
+                    uri.deleteQueryParam('overlay_path');
+                    uri.deleteQueryParam('overlay_type');
+                    window.location = uri.toString();
+                });
+            }
+
+            /* update history */
             var path = iframe.contents().attr('location').href,
-                target = '#' + overlay.attr('id');
-            adhocracy.overlay.URIStateReplace(path, target);
+                type = trigger.attr('rel');
+            adhocracy.overlay.URIStateReplace(path, type);
         });
     };
 
@@ -206,21 +283,21 @@ var adhocracy = adhocracy || {};
     adhocracy.overlay.URIStateClear = function () {
         var state = new Uri(document.location.href)
             .deleteQueryParam('overlay_path')
-            .deleteQueryParam('overlay_target');
+            .deleteQueryParam('overlay_type');
         if (window.history && history.pushState) {
             history.pushState(null, null, state.toString());
         }
     }
 
-    adhocracy.overlay.URIStateReplace = function (overlay_path, overlay_target) {
+    adhocracy.overlay.URIStateReplace = function (overlay_path, overlay_type) {
         // throw away anything until path
         var _overlay_path = new Uri(overlay_path),
         overlay_path = overlay_path.substring(_overlay_path.origin().length)
 
         var state = new Uri(document.location.href)
             .replaceQueryParam('overlay_path', overlay_path);
-        if (typeof overlay_target !== 'undefined') {
-            state.replaceQueryParam('overlay_target', overlay_target);
+        if (typeof overlay_type !== 'undefined') {
+            state.replaceQueryParam('overlay_type', overlay_type);
         }
 
         if (window.history && history.pushState) {
@@ -228,16 +305,20 @@ var adhocracy = adhocracy || {};
         }
     }
 
-    adhocracy.overlay.trigger = function (path, target) {
+    adhocracy.overlay.trigger = function (path, type) {
         // minimal validation. not sure if this is enough
         if (path[0] !== '/' || path[1] === '/') {
             throw "Overlay path must be an absolute path.";
         }
-        if (typeof target === 'undefined') {
-            target = '#overlay-default';
+
+        var target = '#overlay-default';
+        if (type === '#overlay-url-big') {
+            target = '#overlay-big';
         }
+
         var trigger = $('<a>');
         trigger.attr('href', path);
+        trigger.attr('rel', type);
         trigger.overlay({
             fixed: false,
             target: target,
@@ -289,6 +370,14 @@ var adhocracy = adhocracy || {};
                 fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-big',
+                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
+            });
+
+            wrapped.find("a[rel=#overlay-form]").overlay({
+                fixed: false,
+                target: '#overlay-default',
+                mask: adhocracy.overlay.mask,
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
                 onClose: adhocracy.overlay.URIStateClear,
             });
@@ -1060,8 +1149,8 @@ $(document).ready(function () {
 
     var uri = new Uri(document.location.href),
         overlay_path = uri.getQueryParamValue('overlay_path'),
-        overlay_target = uri.getQueryParamValue('overlay_target');
+        overlay_type = uri.getQueryParamValue('overlay_type');
     if (typeof overlay_path !== 'undefined') {
-        adhocracy.overlay.trigger(overlay_path, overlay_target);
+        adhocracy.overlay.trigger(overlay_path, overlay_type);
     }
 });

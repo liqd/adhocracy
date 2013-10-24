@@ -92,7 +92,8 @@ class TestBadgeHelper(TestController):
         badge0 = CategoryBadge.create(u'testbadge0', u'#ccc', True, u'descr')
         badge11 = CategoryBadge.create(u'testbadge11', u'#ccc', True, u'descr')
         badge12 = CategoryBadge.create(u'testbadge12', u'#ccc', True, u'descr')
-        badge121 = CategoryBadge.create(u'testbadge121', u'#ccc', True, u'descr')
+        badge121 = CategoryBadge.create(u'testbadge121', u'#ccc', True,
+                                        u'descr')
         badge11.parent = badge0
         badge12.parent = badge0
         badge121.parent = badge12

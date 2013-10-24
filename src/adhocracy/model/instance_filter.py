@@ -22,7 +22,7 @@ def teardown_thread():
 
 
 def has_instance():
-    return thread_instance.get() != None
+    return thread_instance.get() is not None
 
 
 def get_instance():

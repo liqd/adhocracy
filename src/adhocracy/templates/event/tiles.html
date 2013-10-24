@@ -6,7 +6,7 @@
     %>
     <li class="tile event">
         <div class="meta">
-            <a href="/user/${event.user.user_name}">${event.user.name}</a>
+            <a href="${h.entity_url(event.user)}">${event.user.name}</a>
             ${tiles.badge.badges(event.user.badges)} ${event_html|n}
             %if tile.text:
                 <div class="event_text">

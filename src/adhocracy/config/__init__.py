@@ -27,20 +27,28 @@ DEFAULTS = {
     'adhocracy.hide_final_adoption_votings': False,
 
     'adhocracy.hide_locallogin': False,
+    'adhocracy.instance_footers': [],
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
-    'adhocracy.instance_footers': [],
+
+    # an arbitrary list of u'events', u'proposals' and u'milestones'
+    'adhocracy.instance_overview_contents': [u'proposals',
+                                             u'milestones'],
+
+    # an arbitrary list of u'events'
+    'adhocracy.instance_overview_sidebar_contents': [u'events'],
+
     'adhocracy.instance_stylesheets': [],
     'adhocracy.milestone.allow_show_all_proposals': False,
+    'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
+    'adhocracy.proposal.split_badge_edit': True,
+    'adhocracy.propose_optional_attributes': False,
     'adhocracy.protocol': u'http',
+    'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
-    'adhocracy.propose_optional_attributes': False,
     'adhocracy.set_display_name_on_register': False,
-    'adhocracy.show_instance_overview_events': True,
-    'adhocracy.show_instance_overview_milestones': True,
-    'adhocracy.show_instance_overview_proposals_new': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
     'adhocracy.show_stats_on_frontpage': True,
@@ -50,8 +58,10 @@ DEFAULTS = {
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,
-    'adhocracy.redirect_startpage_to_instance': u'',
     'debug': False,
+
+    #comma separated list of instance keys (slugs) or 'ALL'
+    #'adhocracy.instances.autojoin':
 }
 
 

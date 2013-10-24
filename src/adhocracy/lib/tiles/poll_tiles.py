@@ -11,22 +11,21 @@ from adhocracy.lib.tiles.util import render_tile, BaseTile
 
 # A mapping from (current_position, action) to (css_class, title)
 # title is a lambda to defer the call of _() until we have a request
-action_class = {(model.Vote.YES, model.Vote.YES):
-                    ('vote_up active disabled',
-                     lambda: _('Your current vote is already pro')),
-                (model.Vote.YES, model.Vote.NO):
-                    ('vote_down',
-                     lambda: _('Click to change you vote to neutral')),
-                (model.Vote.ABSTAIN, model.Vote.YES):
-                    ('vote_up', lambda: _('Click to vote pro')),
-                (model.Vote.ABSTAIN, model.Vote.NO):
-                    ('vote_down', lambda: _('Click to vote con')),
-                (model.Vote.NO, model.Vote.YES):
-                    ('vote_up',
-                     lambda: _('Click to change you vote to neutral')),
-                (model.Vote.NO, model.Vote.NO):
-                    ('vote_down active disabled',
-                     lambda: _('Your current vote is already con'))}
+action_class = {
+    (model.Vote.YES, model.Vote.YES): (
+        'vote_up active disabled',
+        lambda: _('Your current vote is already pro')),
+    (model.Vote.YES, model.Vote.NO): (
+        'vote_down', lambda: _('Click to change you vote to neutral')),
+    (model.Vote.ABSTAIN, model.Vote.YES): (
+        'vote_up', lambda: _('Click to vote pro')),
+    (model.Vote.ABSTAIN, model.Vote.NO): (
+        'vote_down', lambda: _('Click to vote con')),
+    (model.Vote.NO, model.Vote.YES): (
+        'vote_up', lambda: _('Click to change you vote to neutral')),
+    (model.Vote.NO, model.Vote.NO): (
+        'vote_down active disabled',
+        lambda: _('Your current vote is already con'))}
 
 
 class PollTile(BaseTile):
@@ -90,7 +89,7 @@ class PollTile(BaseTile):
         elif self.poll.scope.is_frozen():
             url = self.votes_listing_url
             title = _('Topic is frozen. Click to view the list of votes.')
-        elif c.instance.frozen:
+        elif self.poll.scope.instance.frozen:
             url = self.votes_listing_url
             title = _('Instance is frozen. Click to view the list of votes.')
         elif self.has_ended:

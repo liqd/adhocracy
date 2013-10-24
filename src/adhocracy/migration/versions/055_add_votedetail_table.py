@@ -40,7 +40,7 @@ instance_table = Table(
 
 badge_table = Table(
     'badge', metadata,
-    #common attributes
+    # common attributes
     Column('id', Integer, primary_key=True),
     Column('type', String(40), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),

@@ -94,8 +94,8 @@ class DelegationNode(object):
 
         delegations = self._filter_out_overriden_delegations(delegations)
         if is_counting_delegations:
-            delegations = self._filter_out_delegations_where_a_more_specific_delegation_exists(delegations)
-        delegations = self._filter_out_delegations_that_are_overriden_by_direct_votes(delegations)
+            delegations = self._filter_out_delegations_where_a_more_specific_delegation_exists(delegations)  # noqa
+        delegations = self._filter_out_delegations_that_are_overriden_by_direct_votes(delegations)  # noqa
         return delegations
 
     def transitive_inbound(self, recurse=True, at_time=None, _path=None,

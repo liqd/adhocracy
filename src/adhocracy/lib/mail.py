@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 import logging
 import smtplib
 from time import time
+import textwrap
 
 from pylons.i18n import _
 from pylons import config
@@ -36,6 +37,10 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
                     _(u"Cheers,\r\n\r\n"
                       u"    the %s Team\r\n") %
                     config.get('adhocracy.site.name'))
+
+        # wrap body, but leave long words (e.g. links) intact
+        body = u'\n'.join(textwrap.fill(line, break_long_words=False)
+                          for line in body.split(u'\n'))
 
         msg = MIMEText(body.encode(ENCODING), 'plain', ENCODING)
 

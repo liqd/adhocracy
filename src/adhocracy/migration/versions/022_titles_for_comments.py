@@ -1,5 +1,5 @@
 from datetime import datetime
-from pprint import pprint 
+from pprint import pprint
 
 from sqlalchemy import *
 from migrate import *
@@ -26,7 +26,7 @@ user_table = Table('user', meta,
     Column('page_size', Integer, default=10, nullable=True)
     )
 
-comment_table = Table('comment', meta,                  
+comment_table = Table('comment', meta,
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('delete_time', DateTime, default=None, nullable=True),
@@ -52,6 +52,7 @@ def upgrade(migrate_engine):
         )
     title = Column('title', Unicode(255), nullable=True)
     title.create(revision_table)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

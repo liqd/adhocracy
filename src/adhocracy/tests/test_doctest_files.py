@@ -28,7 +28,7 @@ use_cases = find_use_cases()
 flags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
 globs = {"browser": make_browser(),
          'make_browser': make_browser,
-         "app":  ADHOCRACY_LAYER_APP,
+         "app": ADHOCRACY_LAYER_APP,
          'self': ADHOCRACY_LAYER,
          "app_url": app_url,
          "instance_url": instance_url,

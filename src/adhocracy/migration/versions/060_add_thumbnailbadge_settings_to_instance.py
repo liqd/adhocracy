@@ -4,7 +4,7 @@ from sqlalchemy import Boolean, Integer, DateTime, Unicode,\
 
 metadata = MetaData()
 
-#table to update
+# table to update
 instance_table = \
     Table('instance', metadata,
           Column('id', Integer, primary_key=True),
@@ -41,16 +41,16 @@ instance_table = \
 
 
 def upgrade(migrate_engine):
-    #use sqlalchemy-migrate database connection
+    # use sqlalchemy-migrate database connection
     metadata.bind = migrate_engine
-    #autoload needed tables
+    # autoload needed tables
     user = Table('user', metadata, autoload=True)
     group = Table('group', metadata, autoload=True)
-    #add thumbnailbage settings to the instance table
+    # add thumbnailbage settings to the instance table
     allow = Column('allow_thumbnailbadges', Boolean, default=False)
     height = Column('thumbnailbadges_height', Integer, nullable=True)
     width = Column('thumbnailbadges_width', Integer, nullable=True)
-    #create/recreate the table
+    # create/recreate the table
     allow.create(instance_table)
     height.create(instance_table)
     width.create(instance_table)

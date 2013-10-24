@@ -4,14 +4,13 @@ import urllib
 import formencode
 from formencode import htmlfill, Invalid, validators
 
-from paste.deploy.converters import asbool
-
-from pylons import config, request, tmpl_context as c
+from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.controllers.util import abort
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
@@ -20,10 +19,9 @@ from adhocracy.lib.auth import authorization, can, csrf, require, guard
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_def, render_json
+from adhocracy.lib.templating import render, render_def, render_json, ret_abort
 from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.queue import update_entity
-from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
 from adhocracy.lib.geo import format_json_feature_to_geotag
@@ -74,6 +72,8 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
+    thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
     chained_validators = [
         forms.UnusedProposalTitle(),
     ]
@@ -147,9 +147,8 @@ class ProposalController(BaseController):
             c.toplevel_question = None
             root = None
 
-        if asbool(config.get(
-           'adhocracy.proposal.category_chooser.show_descriptions',
-           'false')):
+        if config.get_bool(
+           'adhocracy.proposal.category_chooser.show_descriptions'):
             option_attribute = 'description'
         else:
             option_attribute = 'title'
@@ -243,7 +242,8 @@ class ProposalController(BaseController):
 
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
-        return htmlfill.render(render("/proposal/new.html"),
+        return htmlfill.render(render("/proposal/new.html",
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 
@@ -331,8 +331,10 @@ class ProposalController(BaseController):
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
               post_only=False, on_get=True)
-    def edit(self, id, errors={}, page=None):
+    def edit(self, id, errors={}, page=None, format=u'html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        c.badges = self._editable_badges(c.proposal)
+        c.thumbnailbadges = self._editable_thumbnailbadges(c.proposal)
         require.proposal.edit(c.proposal)
         c.can_edit_wiki = self._can_edit_wiki(c.proposal, c.user)
 
@@ -353,7 +355,8 @@ class ProposalController(BaseController):
             defaults['watch'] = h.find_watch(c.proposal) is not None
             defaults['frozen'] = c.proposal.frozen
         defaults.update({"category": c.category.id if c.category else None})
-        return htmlfill.render(render("/proposal/edit.html"),
+        return htmlfill.render(render("/proposal/edit.html",
+                                      overlay=format == u'overlay'),
                                defaults=defaults,
                                errors=errors, force_defaults=force_defaults)
 
@@ -368,6 +371,9 @@ class ProposalController(BaseController):
 
             self.form_result = ProposalUpdateForm().to_python(request.params,
                                                               state=state_())
+
+            badges = self.form_result.get('badge')
+            thumbnailbadges = self.form_result.get('thumbnailbadge')
         except Invalid, i:
             return self.edit(id, errors=i.unpack_errors())
 
@@ -376,6 +382,12 @@ class ProposalController(BaseController):
         c.proposal.label = self.form_result.get('label')
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
+
+        if not config.get_bool('adhocracy.proposal.split_badge_edit'):
+            added, removed = self._update_badges(badges, thumbnailbadges,
+                                                 c.proposal)
+        else:
+            added = removed = []
 
         # change the category
         categories = self.form_result.get('category')
@@ -399,7 +411,8 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         watchlist.check_watch(c.proposal)
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal, rev=_text)
+                   topics=[c.proposal], proposal=c.proposal, rev=_text,
+                   badges_added=added, badges_removed=removed)
         redirect(h.entity_url(c.proposal))
 
     @RequireInstance
@@ -437,8 +450,8 @@ class ProposalController(BaseController):
         self._common_metadata(c.proposal)
         c.tutorial_intro = _('tutorial_proposal_show_tab')
         c.tutorial = 'proposal_show'
-        monitor_comment_behavior = asbool(
-            config.get('adhocracy.monitor_comment_behavior', 'False'))
+        monitor_comment_behavior = config.get_bool(
+            'adhocracy.monitor_comment_behavior')
         if monitor_comment_behavior:
             c.monitor_comment_url = '%s?%s' % (
                 h.base_url('/stats/read_comments'),
@@ -526,7 +539,8 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
         if c.proposal.is_amendment:
-            ret_url = h.entity_url(c.proposal.selection.page, member='amendment')
+            ret_url = h.entity_url(c.proposal.selection.page,
+                                   member='amendment')
         else:
             ret_url = h.entity_url(c.instance)
         event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
@@ -630,48 +644,20 @@ class ProposalController(BaseController):
                     '_tok': csrf.token_id(),
                     'thumbnailbadge': default_thumbnail,
                     }
-        if format == 'ajax':  # REFACT shouldn't this be 'json'?
-            checked = [badge.id for badge in c.proposal.badges]
-            checked_thumbnail = default_thumbnail
-            json = {'title': c.proposal.title,
-                    'badges': [{
-                        'id': badge.id,
-                        'description': badge.description,
-                        'title': badge.title,
-                        'thumbnail': '',
-                        'checked': badge.id in checked} for badge in c.badges],
-                    'thumbnailbadges': [{
-                        'id': badge.id,
-                        'description': badge.description,
-                        'title': badge.title,
-                        'thumbnail': generate_thumbnail_tag(badge),
-                        'checked': badge.id == checked_thumbnail} for badge in
-                        c.thumbnailbadges]
-                    }
-            return render_json(json)
-        else:
-            return formencode.htmlfill.render(
-                render("/proposal/badges.html"),
-                defaults=defaults)
+        return formencode.htmlfill.render(
+            render("/proposal/badges.html", overlay=format == u'overlay'),
+            defaults=defaults)
 
-    @RequireInternalRequest()
-    @validate(schema=DelegateableBadgesForm(), form='badges')
-    @guard.perm("instance.admin")
-    @csrf.RequireInternalRequest(methods=['POST'])
-    def update_badges(self, id, format='html'):
-        proposal = get_entity_or_abort(model.Proposal, id)
+    def _update_badges(self, badges, thumbnailbadges, proposal):
         editable_badges = self._editable_badges(proposal)
         editable_badges.extend(self._editable_thumbnailbadges(c.proposal))
-        badges = self.form_result.get('badge')
-        thumbnailbadges = self.form_result.get('thumbnailbadge')
-        redirect_to_proposals = self.form_result.get('redirect_to_proposals')
         added = []
         removed = []
 
-        for badge in proposal.badges + proposal.thumbnails:
+        for badge in badges + thumbnailbadges:
             if badge not in editable_badges:
-                # the user can not edit the badge, so we don't remove it
-                continue
+                ret_abort(_(u"You are not allowed to edit badge %i")
+                          % badge.id, code=403)
 
         for badge in proposal.badges:
             if badge not in badges:
@@ -688,14 +674,29 @@ class ProposalController(BaseController):
                 added.append(badge)
 
         if added or removed:
+            # FIXME: needs commit() cause we do a redirect() which raises
+            # an Exception.
+            model.meta.Session.commit()
+            update_entity(proposal, model.UPDATE)
+
+        return added, removed
+
+    @RequireInternalRequest()
+    @validate(schema=DelegateableBadgesForm(), form='badges')
+    @guard.perm("instance.admin")
+    @csrf.RequireInternalRequest(methods=['POST'])
+    def update_badges(self, id, format='html'):
+        proposal = get_entity_or_abort(model.Proposal, id)
+        badges = self.form_result.get('badge')
+        thumbnailbadges = self.form_result.get('thumbnailbadge')
+        redirect_to_proposals = self.form_result.get('redirect_to_proposals')
+
+        added, removed = self._update_badges(badges, thumbnailbadges, proposal)
+        if added or removed:
             event.emit(event.T_PROPOSAL_BADGE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        badges_added=added, badges_removed=removed)
 
-        # FIXME: needs commit() cause we do an redirect() which raises
-        # an Exception.
-        model.meta.Session.commit()
-        update_entity(proposal, model.UPDATE)
         if format == 'ajax':
             obj = {'badges_html': render_def('/badge/tiles.html', 'badges',
                                              badges=proposal.badges),

@@ -371,14 +371,14 @@ adhocracy.put_watchlist_in_user_menu = False
 # useful in settings where users can create instances
 adhocracy.show_instance_creators = False
 
-# show next milestones in instance overview
-adhocracy.show_instance_overview_milestones = True
+# an arbitrary list of 'proposals', 'milestones' and 'events'
+# adhocracy.instance_overview_contents = proposals, milestones
+
+# an arbitrary list of 'events'
+# adhocracy.instance_overview_sidebar_contents = events
 
 # number of upcoming milestones to show in instance overview
 adhocracy.number_instance_overview_milestones = 3
-
-# show newest proposals in instance overview
-# adhocracy.show_instance_overview_proposals_new = False
 
 # hide categories in facet navigation if no proposal is assigned to it
 adhocracy.hide_empty_categories_in_facet_list = True

@@ -10,10 +10,10 @@ poll_table = Table('poll', meta,
     Column('begin_time', DateTime, default=datetime.utcnow),
     Column('end_time', DateTime, nullable=True),
     Column('begin_user_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)   
+    Column('proposal_id', Integer, ForeignKey('proposal.id'), nullable=False)
     )
 
-vote_table = Table('vote', meta, 
+vote_table = Table('vote', meta,
     Column('id', Integer, primary_key=True),
     Column('orientation', Integer, nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -32,9 +32,11 @@ tally_table = Table('tally', meta,
     Column('num_abstain', Integer, nullable=True)
     )
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     tally_table.create()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

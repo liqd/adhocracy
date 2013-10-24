@@ -273,6 +273,43 @@ class ValidUserBadges(formencode.FancyValidator):
         return badges
 
 
+class ValidUserBadgeNames(formencode.FancyValidator):
+
+    def __init__(self, instance_filter=True, **kwargs):
+        super(formencode.FancyValidator, self).__init__(**kwargs)
+        self.instance_filter = instance_filter
+
+    def _to_python(self, value, state):
+        from adhocracy.model import UserBadge
+
+        if value is None or value == '':
+            return []
+
+        labels = [l.strip() for l in value.split(',')]
+
+        if len(labels) != len(set(labels)):
+            raise formencode.Invalid(
+                _("Duplicates in input set of user badge labels"),
+                value, state)
+
+        badges = set()
+        missing = set()
+
+        for label in labels:
+            badge = UserBadge.find(label, instance_filter=self.instance_filter)
+            if badge is None:
+                missing.add(label)
+            else:
+                badges.add(badge)
+
+        if missing:
+            raise formencode.Invalid(
+                _("Could not find badges %s") % ','.join(missing),
+                value, state)
+        else:
+            return badges
+
+
 class ValidInstanceBadge(formencode.FancyValidator):
 
     def _to_python(self, value, state):
@@ -606,6 +643,7 @@ class UnusedProposalTitle(formencode.validators.FormValidator):
 USER_NAME = 'user_name'
 DISPLAY_NAME = 'display_name'
 EMAIL = 'email'
+USER_BADGES = 'user_badges'
 USERNAME_VALIDATOR = formencode.All(
     formencode.validators.PlainText(not_empty=True),
     UniqueUsername(),
@@ -617,7 +655,7 @@ EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
 class UsersCSV(formencode.FancyValidator):
 
     def to_python(self, value, state):
-        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
+        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL, USER_BADGES]
         errors = []
         items = []
         self.usernames = {}
@@ -637,8 +675,8 @@ class UsersCSV(formencode.FancyValidator):
             line_content = value.split('\n')[reader.line_num]
             msg = _('Error "%(error)s" while reading line '
                     '<pre><i>%(line_content)s</i></pre>') % dict(
-                        line_content=line_content,
-                        error=str(E))
+                line_content=line_content,
+                error=str(E))
             errors.append((reader.line_num + 1, [msg]))
         if errors or self.duplicates:
             error_msg = _('The following errors occured while reading '
@@ -676,12 +714,19 @@ class UsersCSV(formencode.FancyValidator):
         error_list = []
         user_name = item.get(USER_NAME, '').strip()
         email = item.get(EMAIL, '')
+        badges = item.get(USER_BADGES, '')
         if email is not None:
             email = email.strip()
+        validated = {}
+        USERBADGE_VALIDATOR = ValidUserBadgeNames(
+            not_empty=False, if_empty=[],
+            instance_filter=(not has('global.admin')))
         for (validator, value) in ((USERNAME_VALIDATOR, user_name),
-                                   (EMAIL_VALIDATOR, email)):
+                                   (EMAIL_VALIDATOR, email),
+                                   (USERBADGE_VALIDATOR, badges),
+                                   ):
             try:
-                validator.to_python(value, None)
+                validated[validator] = validator.to_python(value, None)
             except formencode.Invalid, E:
                 error_list.append(u'%s (%s)' % (E.msg, value))
         emails = self.emails.setdefault(email, [])
@@ -692,7 +737,9 @@ class UsersCSV(formencode.FancyValidator):
             self.duplicates = True
         cleaned_item = item.copy()
         cleaned_item.update({USER_NAME: user_name,
-                             EMAIL: email})
+                             EMAIL: email,
+                             USER_BADGES: validated.get(validator),
+                             })
         return error_list, cleaned_item
 
 
@@ -715,10 +762,10 @@ class ContainsEMailPlaceholders(formencode.FancyValidator):
 
 class ValidImageFileUpload(formencode.FancyValidator):
 
-    max_size = 5*1024*1024
+    max_size = 5 * 1024 * 1024
 
     def _to_python(self, value, state):
-        payload = value.file.read(self.max_size+1)
+        payload = value.file.read(self.max_size + 1)
         if len(payload) > 0:
             try:
                 value.file.seek(0)
@@ -733,7 +780,7 @@ class ValidImageFileUpload(formencode.FancyValidator):
 
 class ValidFileUpload(formencode.FancyValidator):
 
-    max_size = 1024*1024
+    max_size = 1024 * 1024
 
     def _to_python(self, value, state):
         payload = value.file.read(self.max_size)

@@ -1,4 +1,5 @@
 import logging
+import textwrap
 
 from pylons import config
 from pylons import request
@@ -145,7 +146,7 @@ class MassmessageController(BaseController):
 
         return sender_options
 
-    def new(self, id=None, errors={}):
+    def new(self, id=None, errors={}, format=u'html'):
 
         if id is None:
             require.perm('global.message')
@@ -170,7 +171,8 @@ class MassmessageController(BaseController):
                                         include_global=True)
         }
 
-        return htmlfill.render(render(template, data),
+        return htmlfill.render(render(template, data,
+                                      overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
                                force_defaults=False)
 
@@ -186,6 +188,10 @@ class MassmessageController(BaseController):
                 rendered_body = _('Could not render message: %s') % str(e)
         else:
             rendered_body = body
+
+        # wrap body, but leave long words (e.g. links) intact
+        rendered_body = u'\n'.join(textwrap.fill(line, break_long_words=False)
+                                   for line in rendered_body.split(u'\n'))
 
         data = {
             'sender_email': sender_email,

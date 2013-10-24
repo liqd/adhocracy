@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-01 11:42+0200\n"
-"PO-Revision-Date: 2013-10-01 09:42+0000\n"
+"POT-Creation-Date: 2013-10-17 20:05+0200\n"
+"PO-Revision-Date: 2013-10-17 18:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -438,6 +438,10 @@ msgstr "Предложение %s удалено."
 #, python-format
 msgid "Proposal: %(proposal)s"
 msgstr "Предложение: %(proposal)s"
+
+#, python-format
+msgid "You are not allowed to edit badge %i"
+msgstr ""
 
 msgid "relevance"
 msgstr "отношение"
@@ -1052,6 +1056,24 @@ msgstr "активность"
 msgid "Badge"
 msgstr "Ярлык"
 
+msgid "Instance hidden state"
+msgstr ""
+
+msgid "hidden"
+msgstr ""
+
+msgid "visible"
+msgstr "видимый"
+
+msgid "Instance state"
+msgstr ""
+
+msgid "frozen"
+msgstr ""
+
+msgid "open"
+msgstr ""
+
 msgid "Instance"
 msgstr "Организация"
 
@@ -1239,6 +1261,14 @@ msgstr "редактировать предложение: %(proposal)s"
 #, python-format
 msgid "edited %(proposal)s"
 msgstr "отредактировано %(proposal)s"
+
+#, python-format
+msgid "Proposal badged: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "badged %(proposal)s"
+msgstr ""
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1472,6 +1502,12 @@ msgid "Click to vote con"
 msgstr "Нажмите чтобы проголосовать \"Против\""
 
 msgid "Your current vote is already con"
+msgstr ""
+
+msgid "Topic is frozen. Click to view the list of votes."
+msgstr ""
+
+msgid "Instance is frozen. Click to view the list of votes."
 msgstr ""
 
 msgid "Voting has ended. Click to view the list of votes"
@@ -1990,6 +2026,9 @@ msgstr "Имя, которое видят другие пользователи"
 msgid "The email address of the user."
 msgstr "E-mail адрес пользователя"
 
+msgid "for additional columns."
+msgstr ""
+
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
 " into the email text."
@@ -2019,8 +2058,8 @@ msgstr "следующие ошибки произошли в процессе �
 msgid "These users could not be created:"
 msgstr "Данные учетные записи не могли быть созданы:"
 
-msgid "These users where created, but we could not send out mails:"
-msgstr "Данные учетные записи были созданы, но мы не смогли послать им письма:"
+msgid "These users were created, but we could not send out mails:"
+msgstr ""
 
 msgid ""
 "Note that the following entities will be unbadged if this badge is deleted:"
@@ -2058,9 +2097,6 @@ msgstr ""
 
 msgid "Check to hide badge in user interface"
 msgstr "Не показывать ярлыки в пользовательском интерфейсе"
-
-msgid "visible"
-msgstr "видимый"
 
 msgid "Group"
 msgstr "Группа"
@@ -2223,12 +2259,6 @@ msgstr "на %s"
 msgid "edited %s"
 msgstr "отредактировано %s"
 
-msgid "No comments were made yet."
-msgstr "Коментариев еще нет. "
-
-msgid "No discussions were started yet."
-msgstr ""
-
 msgid "Add comment"
 msgstr "добавить коментарий"
 
@@ -2253,6 +2283,12 @@ msgstr ""
 msgid "Validate email in order to discuss."
 msgstr ""
 
+msgid "No comments were made yet."
+msgstr "Коментариев еще нет. "
+
+msgid "No discussions were started yet."
+msgstr ""
+
 msgid "is pro"
 msgstr "За"
 
@@ -2262,28 +2298,28 @@ msgstr "Против"
 msgid "(deleted)"
 msgstr "(удалено)"
 
+msgid "edit"
+msgstr "редактировать"
+
 msgid "This comment has been deleted."
 msgstr "Этот коментарий удален."
 
 msgid "This argument has been deleted."
 msgstr ""
 
-msgid "edit"
-msgstr "редактировать"
-
-msgid "1 Comment"
-msgstr "1 коментарий"
-
-msgid "1 Argument"
-msgstr ""
+#, python-format
+msgid "deleted %s"
+msgstr "удалено %s"
 
 #, python-format
-msgid "%s Comments"
-msgstr " %s коментариев"
+msgid "edited %s by %s"
+msgstr "отредактировано %s пользователем %s"
 
-#, python-format
-msgid "%s Arguments"
-msgstr ""
+msgid "history"
+msgstr "история"
+
+msgid "report"
+msgstr "сообщить"
 
 msgid "reply"
 msgstr "ответить"
@@ -2309,20 +2345,6 @@ msgstr ""
 msgid "Validate email in order to argue"
 msgstr ""
 
-msgid "report"
-msgstr "сообщить"
-
-msgid "history"
-msgstr "история"
-
-#, python-format
-msgid "deleted %s"
-msgstr "удалено %s"
-
-#, python-format
-msgid "edited %s by %s"
-msgstr "отредактировано %s пользователем %s"
-
 msgid "Comment is..."
 msgstr "Коментарий это..."
 
@@ -2337,12 +2359,6 @@ msgstr "\"Воздержался\""
 
 msgid "Con"
 msgstr "Против\""
-
-msgid "Enter comment text:"
-msgstr ""
-
-msgid "Enter argument text:"
-msgstr ""
 
 msgid "Allow others to edit this comment."
 msgstr "отредактировано %s участником %s"
@@ -2613,6 +2629,9 @@ msgid "Require to propose a variant"
 msgstr "Требовать предложения варианта."
 
 msgid "Show norms navigation item"
+msgstr ""
+
+msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Use milestones"
@@ -3020,6 +3039,9 @@ msgstr "Создать новое предложение..."
 msgid "Edit variant"
 msgstr "Редактировать вариант"
 
+msgid "Edit section"
+msgstr ""
+
 #, python-format
 msgid "Norm: %s"
 msgstr "Документ: %s"
@@ -3069,6 +3091,10 @@ msgstr ""
 msgid "New page"
 msgstr "Новая страница"
 
+#, python-format
+msgid "Add section to %s"
+msgstr ""
+
 msgid "Create norm"
 msgstr "Создать документ"
 
@@ -3077,6 +3103,9 @@ msgstr "Название документа"
 
 msgid "New norm"
 msgstr "Новый документ"
+
+msgid "Section content"
+msgstr ""
 
 msgid "Norm content"
 msgstr "Новое содержание"
@@ -3154,6 +3183,17 @@ msgid "Discussions"
 msgstr "Дискуссии"
 
 msgid "Amendments"
+msgstr ""
+
+msgid "Add section"
+msgstr ""
+
+msgid "This norm has been split into several sections."
+msgstr ""
+
+msgid ""
+"You can propose amendments and comment each section individually by using "
+"the controls on the right."
 msgstr ""
 
 msgid "hide sub-topics"
@@ -3274,10 +3314,16 @@ msgstr "Вы начинаете процесс голосования. Посл�
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Вы уверены, что желаете удалить это предложение?"
 
+msgid "No Badges"
+msgstr ""
+
 msgid "thumbnail badge"
 msgstr ""
 
 msgid "No Thumbnail Badge"
+msgstr ""
+
+msgid "No Thumbnail Badges"
 msgstr ""
 
 #, python-format
@@ -3401,6 +3447,9 @@ msgstr "Удалить это предложение. "
 msgid "%s Discussions"
 msgstr "%s дискуссии"
 
+msgid "1 Proposed Implementation"
+msgstr ""
+
 #, python-format
 msgid "%s Proposed Implementations"
 msgstr "%s предложенные реализации"
@@ -3493,12 +3542,6 @@ msgstr "Главная страница. "
 
 msgid "Who is receiving delegations?"
 msgstr "Кто принимает делегирование?"
-
-msgid "Support this proposal"
-msgstr "поддержать это предложение"
-
-msgid "Oppose this proposal"
-msgstr "выступить против этого предложения"
 
 #, python-format
 msgid "%s has been adopted %s."

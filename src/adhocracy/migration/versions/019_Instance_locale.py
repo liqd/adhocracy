@@ -1,5 +1,5 @@
 from datetime import datetime
-from pprint import pprint 
+from pprint import pprint
 
 from sqlalchemy import *
 from migrate import *
@@ -25,12 +25,13 @@ user_table = Table('user', meta,
     Column('delete_time', DateTime)
     )
 
-group_table = Table('group', meta, 
+group_table = Table('group', meta,
     Column('id', Integer, primary_key=True),
     Column('group_name', Unicode(255), nullable=False, unique=True),
     Column('code', Unicode(255), nullable=False, unique=True),
     Column('description', Unicode(1000))
     )
+
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
@@ -46,13 +47,14 @@ def upgrade(migrate_engine):
         Column('delete_time', DateTime, nullable=True),
         Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
         Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-        Column('allow_adopt', Boolean, default=True),       
+        Column('allow_adopt', Boolean, default=True),
         Column('allow_delegate', Boolean, default=True),
         Column('allow_index', Boolean, default=True),
-        Column('hidden', Boolean, default=False)   
+        Column('hidden', Boolean, default=False)
         )
     locale = Column('locale', Unicode(7), nullable=True)
     locale.create(instance_table)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

@@ -148,7 +148,7 @@ class PageController(BaseController):
 
     @RequireInstance
     @guard.page.create()
-    def new(self, errors=None):
+    def new(self, errors=None, format=u'html'):
         defaults = dict(request.params)
         defaults['watch'] = defaults.get('watch', True)
         c.title = request.params.get('title', None)
@@ -158,18 +158,19 @@ class PageController(BaseController):
 
         c.section = u'section_parent' in request.params
         if c.section:
-            c.parent = get_entity_or_abort(model.Page,
-                request.params.get(u'section_parent'))
+            c.parent = get_entity_or_abort(
+                model.Page, request.params.get(u'section_parent'))
             if c.title is None:
                 c.title = u"%s.%i" % (c.parent.title, len(c.parent.children))
 
         html = None
         if proposal_id is not None:
             c.proposal = model.Proposal.find(proposal_id)
-            html = render('/selection/propose.html')
+            html = render('/selection/propose.html',
+                          overlay=format == u'overlay')
         else:
             c.propose = None
-            html = render("/page/new.html")
+            html = render("/page/new.html", overlay=format == u'overlay')
 
         return htmlfill.render(html, defaults=defaults, errors=errors,
                                force_defaults=False)
@@ -218,7 +219,7 @@ class PageController(BaseController):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
             ret_url = h.page.url(page, member='branch',
-                                query={'proposal': proposal.id})
+                                 query={'proposal': proposal.id})
         else:
             ret_url = h.entity_url(page)  # by default, redirect to the page
 
@@ -234,7 +235,8 @@ class PageController(BaseController):
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
-    def edit(self, id, variant=None, text=None, branch=False, errors={}):
+    def edit(self, id, variant=None, text=None, branch=False, errors={},
+             format=u'html'):
         c.page, c.text, c.variant = self._get_page_and_text(id, variant, text)
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
@@ -248,8 +250,8 @@ class PageController(BaseController):
 
         c.section = 'section_parent' in request.params
         if c.section:
-            c.parent = get_entity_or_abort(model.Page,
-                request.params.get(u'section_parent'))
+            c.parent = get_entity_or_abort(
+                model.Page, request.params.get(u'section_parent'))
 
         if branch or c.variant is None:
             c.variant = ""
@@ -279,7 +281,7 @@ class PageController(BaseController):
 
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
-        html = render('/page/edit.html')
+        html = render('/page/edit.html', overlay=format == u'overlay')
         return htmlfill.render(html, defaults=defaults,
                                errors=errors, force_defaults=False)
 
@@ -425,11 +427,15 @@ class PageController(BaseController):
                     selection.proposal.description.head.text),
                 'proposal_url': h.selection.url(selection),
                 'proposal_creator_name': selection.proposal.creator.name,
-                'proposal_creator_url': h.entity_url(selection.proposal.creator),
-                'proposal_create_time': h.datetime_tag(selection.proposal.create_time),
-                'proposal_edit_url': h.entity_url(selection.proposal, member='edit'),
+                'proposal_creator_url': h.entity_url(
+                    selection.proposal.creator),
+                'proposal_create_time': h.datetime_tag(
+                    selection.proposal.create_time),
+                'proposal_edit_url': h.entity_url(
+                    selection.proposal, member='edit'),
                 'proposal_can_edit': can.proposal.edit(selection.proposal),
-                'proposal_delete_url': h.entity_url(selection.proposal, member='ask_delete'),
+                'proposal_delete_url': h.entity_url(selection.proposal,
+                                                    member='ask_delete'),
                 'proposal_can_delete': can.proposal.delete(selection.proposal),
                 'current': current,
                 }
@@ -734,20 +740,20 @@ class PageController(BaseController):
         redirect(h.entity_url(c.page))
 
     @RequireInstance
-    def ask_delete(self, id):
+    def ask_delete(self, id, format="html"):
         c.page = get_entity_or_abort(model.Page, id)
         require.page.delete(c.page)
         c.tile = tiles.page.PageTile(c.page)
 
         c.section = u'section_parent' in request.params
         if c.section:
-            c.parent = get_entity_or_abort(model.Page,
-                request.params.get(u'section_parent'))
+            c.parent = get_entity_or_abort(
+                model.Page, request.params.get(u'section_parent'))
             c.ret_url = h.entity_url(c.parent)
         else:
             c.ret_url = h.entity_url(c.page.instance)
 
-        return render("/page/ask_delete.html")
+        return render("/page/ask_delete.html", overlay=(format == u'overlay'))
 
     @RequireInstance
     @RequireInternalRequest()
