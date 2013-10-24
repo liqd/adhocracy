@@ -1,4 +1,5 @@
 import logging
+import textwrap
 
 from pylons import config
 from pylons import request
@@ -187,6 +188,10 @@ class MassmessageController(BaseController):
                 rendered_body = _('Could not render message: %s') % str(e)
         else:
             rendered_body = body
+
+        # wrap body, but leave long words (e.g. links) intact
+        rendered_body = u'\n'.join(textwrap.fill(line, break_long_words=False)
+                                   for line in rendered_body.split(u'\n'))
 
         data = {
             'sender_email': sender_email,
