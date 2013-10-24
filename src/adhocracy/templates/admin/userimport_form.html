@@ -18,12 +18,13 @@ ${self.form()}
     ${h.field_token()|n}
 
     <div class="input_wrapper">
-        <%forms:textarea 
+        <%forms:textarea
             label="${_('Users CSV')}"
             name="users_csv"
             value=""
             tabindex="1"
-            help="${_('Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email')}">
+            placeholder="testuser, &quot;Test User&quot;, test@example.com, &quot;badge1, badge2&quot;"
+            help="${_('Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)')}">
 
         </%forms:textarea>
 
