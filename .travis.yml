@@ -1,3 +1,6 @@
+branches:
+    except:
+        - geo
 language: python
 python:
     - "2.6"
