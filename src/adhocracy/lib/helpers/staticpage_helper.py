@@ -55,7 +55,7 @@ def render_kotti_navigation(current_key):
     base = config.get('adhocracy.kotti_navigation_base', None)
     result = api.staticpages_get(base=base)
     nav = result.json()
-    if nav is None:
+    if nav is None or nav['children']:
         log.error('Kotti based navigation not found for configured languages')
         return ''
 
