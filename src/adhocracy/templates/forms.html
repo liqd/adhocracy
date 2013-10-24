@@ -46,7 +46,7 @@
 </label>
 </%def>
 
-<%def name="textarea(label, name, value, tabindex=None, rows=3, cls='', help=None)">
+<%def name="textarea(label, name, value, tabindex=None, rows=3, cls='', placeholder='', help=None)">
 ## This renders a textarea like this:
 ##
 ## <label />
@@ -63,8 +63,9 @@
 %if hasattr(caller, 'before'):
 ${caller.before()}
 %endif
-<textarea class="${cls}" name="${name}" rows="${rows}" 
-          ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}>${value}</textarea>
+<textarea class="${cls}" name="${name}" rows="${rows}"
+          ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}
+          ${'placeholder="%s"' % placeholder if placeholder else '' | n}>${value}</textarea>
 %if hasattr(caller, 'after'):
 ${caller.after()}
 %endif

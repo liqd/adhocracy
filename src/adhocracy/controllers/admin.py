@@ -3,6 +3,7 @@ import logging
 import formencode
 import formencode.htmlfill
 from pylons import config, request
+from pylons import tmpl_context as c
 from pylons.i18n import lazy_ugettext as L_, _
 from pylons.controllers.util import redirect
 
@@ -175,6 +176,10 @@ class AdminController(BaseController):
                 password = random_token()
                 user_info['password'] = password
                 user.password = password
+
+                for badge in user_info['user_badges']:
+                    badge.assign(user, creator=c.user)
+
                 model.meta.Session.add(user)
                 model.meta.Session.commit()
                 users.append(user)
