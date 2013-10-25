@@ -39,7 +39,8 @@ class RootController(BaseController):
         if name != u'':
             # get_entity_or_abort does no work for instances
             instance = model.Instance.find(name)
-            redirect(h.entity_url(instance))
+            if instance is not None:
+                redirect(h.entity_url(instance))
 
         data = {}
 

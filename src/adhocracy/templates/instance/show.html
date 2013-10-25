@@ -52,7 +52,7 @@ ${c.tile.description|n}
 </div>
 %endif
 
-%if type == u'milestones':
+%if type == u'milestones' and c.page_instance.milestones:
 %if h.config.get_int('adhocracy.number_instance_overview_milestones') == 1:
 <h3 class="section">${_("Next milestone")}</h3>
 %else:
