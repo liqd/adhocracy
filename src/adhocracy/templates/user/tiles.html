@@ -25,11 +25,6 @@
 <%def name="header(tile, user, active, show_delete_user_button=False)">
 
     <div class="top_actions title vcard">
-        %if c.user and c.instance and c.user == c.page_user and can.instance.leave(c.instance):
-        <a class="button delete ttip" title="${_('Resign from this instance.')}"
-           href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a>
-        %endif
-
         %if lib.auth.welcome.can_welcome():
         <form method="post" class="inline-form" action="${h.entity_url(user, instance=c.instance, member='generate_welcome_link')}">
         ${h.field_token()|n}

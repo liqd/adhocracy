@@ -49,6 +49,11 @@
                     <a class="ttip" title="${_('Delete this user.')}"
                        href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
                     %endif
+                %else:
+                    %if c.user and c.user == c.page_user and can.instance.leave(c.instance):
+                    <a class="ttip" title="${_('Resign from this instance.')}"
+                       href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave")}</a>
+                    %endif
                 %endif
 
                 %if c.instance is not None and can.user.manage(c.page_user):
