@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="badge_tiles" file="/badge/tiles.html"/>
 
 <%def name="title()">${_(u"Dashboard") if c.dashboard else c.page_user.name}</%def>
 
@@ -108,14 +109,25 @@
         </form>
         %endif
 
-        %if c.global_badges:
-        <h6>${_('User badges (global)')}</h6>
-        ${u', '.join([_(b.title) for b in c.global_badges])}
-        %endif
+        <h6>
+            ${_('User badges')}
 
-        %if c.local_badges:
-        <h6>${_('User badges (in instance %s)') % c.instance.label}</h6>
-        ${u', '.join([_(b.title) for b in c.local_badges])}
+            %if lib.auth.authorization.has('instance.admin'):
+            <div class="utility">
+                <a href="${h.entity_url(c.page_user, member='badges')}">
+                    ${_("edit")}
+                </a>
+            </div>
+            %endif
+        </h6>
+        %if c.global_badges + c.local_badges:
+        <ul class="nobullet">
+            %for badge in c.global_badges + c.local_badges:
+            <li>${badge_tiles.badge(badge)}</li>
+            %endfor
+        </ul>
+        %else:
+        ${_(u"None")}
         %endif
 
         %if c.last_activity:
