@@ -38,11 +38,20 @@
         <h2>
             ${_(u"Dashboard") if c.dashboard else c.page_user.name}
 
+            %if not c.dashboard:
             <div class="utility">
-                %if not c.dashboard and can.user.edit(c.page_user):
+                %if can.user.edit(c.page_user):
                 <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
                 %endif
+
+                %if c.instance is None:
+                    %if can.user.delete(c.page_user):
+                    <a class="ttip" title="${_('Delete this user.')}"
+                       href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
+                    %endif
+                %endif
             </div>
+            %endif
         </h2>
         ${tiles.user.header(c.page_user, c.tile, active='activity')}
     </div>

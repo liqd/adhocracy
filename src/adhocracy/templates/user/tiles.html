@@ -38,11 +38,6 @@
             member='ban')}?${h.url_token()}">${_("ban")}</a>
         %endif
 
-        %if can.user.delete(user) and show_delete_user_button:
-            <a class="button title delete ttip" title="${_('Delete this user.')}"
-                href="${h.entity_url(user, member='ask_delete')}">${_("delete")}</a>
-        %endif
-
         %if lib.auth.welcome.can_welcome():
         <form method="post" class="inline-form" action="${h.entity_url(user, instance=c.instance, member='generate_welcome_link')}">
         ${h.field_token()|n}
