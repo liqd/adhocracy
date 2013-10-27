@@ -70,13 +70,13 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         zope.testbrowser.wsgi._allowed_2nd_level.add(adhocracy_domain)
         return app
 
-    def setUp(test, *args, **kwargs):
+    def setUp(self, *args, **kwargs):
         # we skip this test if we don't have a full stack
         # test environment
         tests.is_integrationtest()
 
         connection = meta.engine.connect()
-        test.trans = connection.begin()
+        self.trans = connection.begin()
         meta.Session.configure(bind=connection)
         # delete and reindex solr
         drop_all()
@@ -84,8 +84,8 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
 
         # mock the mail.send() function. Make sure to stop()
         # the patcher in tearDown.
-        test.patcher = patch('adhocracy.lib.mail.send')
-        test.mocked_mail_send = test.patcher.start()
+        self.patcher = patch('adhocracy.lib.mail.send')
+        self.mocked_mail_send = self.patcher.start()
         #TODO start solr and co
 
     def tearDown(self, test):
