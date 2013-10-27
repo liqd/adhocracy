@@ -5,11 +5,11 @@ As a global administrator:
 
 
     >>> admin = make_browser()
-    >>> admin.login('admin')
-    >>> admin.open('http://test.lan/admin')
+    >>> admin.real_login('admin', 'password')
 
 Open and fill out the *Import Users* form:
 
+    >>> admin.open('http://test.lan/admin')
     >>> admin.follow('Import Users')
     >>> admin.url
     'http://test.lan/admin/users/import'

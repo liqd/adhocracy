@@ -25,7 +25,7 @@ We can also instanciate a new browser and login as a certain user::
     >>> admin_browser.open(app_url)
     >>> 'http://test.lan/user/admin/dashboard' in admin_browser.contents
     False
-    >>> admin_browser.login('admin')
+    >>> admin_browser.real_login('admin', 'password')
     >>> admin_browser.open(app_url)
     >>> 'http://test.lan/user/admin/dashboard' in admin_browser.contents
     True
