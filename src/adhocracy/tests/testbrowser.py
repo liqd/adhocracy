@@ -41,6 +41,18 @@ class Browser(zope.testbrowser.wsgi.Browser):
                                         self.mech_browser.addheaders if
                                         header[0] != self.REMOTE_USER_HEADER]
 
+    def real_login(self, username, password):
+        self.real_logout()
+        self.open(u'http://test.lan/login')
+        form = self.getForm(name=u'login_form', index=1)
+        form.getControl(name=u'login').value = username
+        form.getControl(name=u'password').value = password
+        form.submit()
+        assert(u'dashboard' in self.contents)
+
+    def real_logout(self):
+        self.open(u'http://test.lan/logout')
+
     @property
     def status(self):
         return self.headers['Status']
