@@ -431,7 +431,7 @@ class User(meta.Indexable):
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
                openid_identity=None, global_admin=False, display_name=None,
-               shibboleth_persistent_id=None):
+               autojoin=True, shibboleth_persistent_id=None):
         """
         Create a user. If user_name is None, a random user name is generated.
         """
@@ -469,7 +469,7 @@ class User(meta.Indexable):
 
         # Autojoin the user in instances
         config_autojoin = config.get('adhocracy.instances.autojoin')
-        if config_autojoin:
+        if autojoin and config_autojoin:
             instances = Instance.all(include_hidden=True)
             if config_autojoin != 'ALL':
                 instance_keys = [key.strip() for key in
