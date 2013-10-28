@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-17 20:05+0200\n"
-"PO-Revision-Date: 2013-10-17 20:48+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2013-10-28 14:20+0100\n"
+"PO-Revision-Date: 2013-10-28 13:26+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,7 +72,7 @@ msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
 
 msgid "Badge deleted successfully"
-msgstr ""
+msgstr "Badge erfolgreich gelöscht"
 
 msgid "oldest"
 msgstr "älteste"
@@ -369,7 +369,7 @@ msgstr "Originalversion"
 
 #, python-format
 msgid "Page %s does not allow selections"
-msgstr ""
+msgstr "Beschluss %s kann nicht selektiert werden"
 
 #, python-format
 msgid "Variant %s does not exist!"
@@ -785,6 +785,9 @@ msgstr "Duplikate bei der Eingabe von Benutzer Badge IDs"
 #, python-format
 msgid "Could not find badges %s"
 msgstr "%s Badges konnten nicht gefunden werden"
+
+msgid "Duplicates in input set of user badge labels"
+msgstr "Duplikate bei der Eingabe von Userbadge labels"
 
 #, python-format
 msgid "Cannot use global category %s in this instance"
@@ -1274,11 +1277,11 @@ msgstr "bearbeitete den Vorschlag %(proposal)s"
 
 #, python-format
 msgid "Proposal badged: %(proposal)s"
-msgstr ""
+msgstr "Vorschlag mit Badge versehen. %(proposal)s"
 
 #, python-format
 msgid "badged %(proposal)s"
-msgstr ""
+msgstr "badgte %(proposal)s"
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1515,7 +1518,7 @@ msgid "Your current vote is already con"
 msgstr "Sie haben bereits mit \"dagegen\" abgestimmt"
 
 msgid "Topic is frozen. Click to view the list of votes."
-msgstr ""
+msgstr "Thema ist eingefroren. Klicken Sie hier für eine Übersicht über die abgegebenen Stimmen."
 
 msgid "Instance is frozen. Click to view the list of votes."
 msgstr "Die Gruppe ist eingefroren. Klicke hier für eine Übersicht über die abgegebenen Stimmen"
@@ -1635,6 +1638,9 @@ msgstr "Kein Bereich"
 
 msgid "Others"
 msgstr "Andere"
+
+msgid "Default proposal sort order"
+msgstr "Standard-Sortierreihenfolge von Vorschläge"
 
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
@@ -2007,13 +2013,14 @@ msgstr "Seiteneinstellungen"
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
 
+msgid ""
+"Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
+"columns username, display name, email and badges (badges are optional, comma"
+" separated and with quotes around the list)"
+msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, Badges und E-mail (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
+
 msgid "Users CSV"
 msgstr "Benutzer CSV"
-
-msgid ""
-"Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
-"columns username, display name and email"
-msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 3 Spalten Benutzername, Anzeigename und E-Mail "
 
 msgid "Email Subject"
 msgstr "E-Mail-Betreff"
@@ -2069,7 +2076,7 @@ msgid "These users could not be created:"
 msgstr "Diese Benutzer konnten nicht erstellt werden:"
 
 msgid "These users were created, but we could not send out mails:"
-msgstr "Diese Nutzer*innen wurden angelegt, aber wir konnten ihnen keine Mails schicken"
+msgstr "Diese Nutzer*innen wurden erstellt, wir konnten jedoch keine E-Mails versenden:"
 
 msgid ""
 "Note that the following entities will be unbadged if this badge is deleted:"
@@ -3455,7 +3462,7 @@ msgid "%s Discussions"
 msgstr "%s Diskussionen"
 
 msgid "1 Proposed Implementation"
-msgstr ""
+msgstr "1 Änderungsvorschlag"
 
 #, python-format
 msgid "%s Proposed Implementations"
