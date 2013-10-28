@@ -193,7 +193,7 @@
                   %endif
                   %else:  # h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
                   <div class="register">
-                      <a class="button" href="${h.entity_url(c.user, member='settings/optional')}">${_("Provide information")}</a>
+                      <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='settings/optional')}">${_("Provide information")}</a>
                   </div>
                   <p>
                       ${_(u'Please provide statistical information to help scientific evaluation!')}<br />
