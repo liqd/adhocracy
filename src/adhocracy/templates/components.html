@@ -346,6 +346,7 @@ ${caller.body()}
 </%def>
 
 <%def name="proposal_sort_order(name, sorting_orders, include_empty=True, default=None)">
+<label>${_(u'Default proposal sort order')}</label>
 <select name="${name}">
     %if include_empty:
     <option value=""></option>
