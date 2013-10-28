@@ -1,0 +1,55 @@
+/*
+ * TODO:
+ * -   profile_photo upload button
+ * -   profile_photo shadow
+ */
+
+.dashboard_select_instance {
+    float: right;
+
+    select {
+        margin: 0;
+    }
+}
+
+.dashboard_header_row {
+    vertical-align: middle;
+}
+
+.dashboard_bio {
+    margin-top: 1em;
+}
+
+ul.content_nav {
+    display: table;
+    width: 100%;
+    list-style: none;
+    background-color: $bg1;
+    border-bottom: 1px solid $border;
+    padding: 0;
+    margin: 1em 0 0;
+    > li {
+        display: table-cell;
+        a {
+            text-align: center;
+            padding: 0.5em;
+            white-space: nowrap;
+            color: $fg1;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-decoration: none;
+            display: block;
+
+            // don't loose vertical align when adding a bottom border
+            border-top: 0.3em solid transparent;
+            border-bottom: 0.3em solid transparent;
+        }
+        &.current a, a:hover {
+            border-bottom-color: $primary-color;
+            color: $primary-color;
+        }
+    }
+    &:hover > li.current a:not(:hover) {
+        border-bottom-color: transparent;
+    }
+}
