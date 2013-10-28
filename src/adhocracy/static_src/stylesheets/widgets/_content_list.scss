@@ -65,6 +65,104 @@
     }
 }
 
+#col3 ul.content_list.events_pager {
+    font-size: 0.85em;
+    color: $fg1;
+}
+#col1 ul.content_list.events_pager {
+    .body {
+        clear: both;
+    }
+
+    > li {
+        position: relative;
+        padding-right: 2em;
+
+        // icons
+        padding-left: 60px;
+        &:before {
+            background-image: url("/images/event-unknown.png");
+            content: "";
+            display: block;
+            width: 38px;
+            height: 38px;
+            position: absolute;
+            top: 1em;
+            left: 0;
+        }
+
+        &.infobox {
+            padding-left: 0;
+            &:before {
+                background-image: none;
+            }
+        }
+
+        &.t_instance_create:before,
+        &.t_instance_edit:before,
+        &.t_instance_membership_update:before,
+        &.n_instance_membership_update:before,
+        &.t_instance_join:before,
+        &.t_instance_leave:before,
+        &.t_instance_delete:before,
+        &.n_instance_force_leave:before,
+        &.t_instance_force_leave:before {
+            background-image: url("/images/event-instance.png");
+        }
+
+        &.t_select_variant:before,
+        &.t_page_create:before,
+        &.t_page_edit:before,
+        &.t_page_delete:before {
+            background-image: url("/images/event-page.png");
+        }
+
+        &.t_comment_edit:before,
+        &.t_comment_create:before,
+        &.t_comment_delete:before,
+        &.n_comment_reply:before,
+        &.n_comment_edit:before {
+            background-image: url("/images/event-comment.png");
+        }
+
+        &.t_proposal_create:before,
+        &.t_proposal_edit:before,
+        &.t_proposal_delete:before,
+        &.t_proposal_state_voting:before,
+        &.t_proposal_state_draft:before {
+            background-image: url("/images/event-proposal.png");
+        }
+
+        &.t_delegation_create:before,
+        &.t_delegation_revoke {
+            background-image: url("/images/event-delegation-out.png");
+        }
+
+        &.n_delegation_receive:before,
+        &.n_delegation_lost:before {
+            background-image: url("/images/event-delegation-in.png");
+        }
+
+        &.n_self_voted:before,
+        &.t_vote_cast:before,
+        &.t_rating_cast:before,
+        &.n_delegate_voted:before {
+            background-image: url("/images/event-vote.png");
+        }
+
+        &.t_proposal_badge:before {
+            background-image: url("/images/event-badge.png");
+        }
+    }
+}
+
+// avatar in events pager
+img.avatar {
+    height: 2.5em;
+    float: left;
+    margin: 0 0.5em 0.5em 0;
+}
+
 /* force markdown created text to be small */
 .event_text * {
     margin: 0 !important;
