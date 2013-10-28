@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy d8d358e\n"
+"Project-Id-Version: adhocracy 679aedc\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-17 20:05+0200\n"
+"POT-Creation-Date: 2013-10-28 14:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -736,6 +736,9 @@ msgstr ""
 
 #, python-format
 msgid "Could not find badges %s"
+msgstr ""
+
+msgid "Duplicates in input set of user badge labels"
 msgstr ""
 
 #, python-format
@@ -1576,6 +1579,9 @@ msgstr ""
 msgid "Others"
 msgstr ""
 
+msgid "Default proposal sort order"
+msgstr ""
+
 msgid "code of conduct"
 msgstr ""
 
@@ -1938,10 +1944,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 3 columns username, display name and email"
+msgid "Users CSV"
 msgstr ""
 
 msgid "Email Subject"
