@@ -22,6 +22,7 @@ h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
 /* don't allow headings in user generated content to be as big
  * as our own */
+blockquote,
 .comment .body {
     h1, h2, h3, h4, h5, h6 {
         font-size: 1em;
