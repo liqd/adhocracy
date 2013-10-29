@@ -5,6 +5,7 @@ from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
+from paste.deploy.config import make_prefix_middleware
 from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
@@ -64,6 +65,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
     app = setup_auth(app, config)
+    app = make_prefix_middleware(app, config,
+                                 scheme=config['adhocracy.protocol'])
     app = setup_discriminator(app, config)
     if asbool(config.get('adhocracy.requestlog_active', 'False')):
         app = RequestLogger(app, config)
