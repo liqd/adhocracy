@@ -263,7 +263,7 @@ class PageController(BaseController):
         c.category = c.page.category
 
         defaults = dict(request.params)
-        if not defaults:
+        if not 'watch' in defaults:
             defaults['watch'] = h.find_watch(c.page)
 
         if branch and c.text is None:
