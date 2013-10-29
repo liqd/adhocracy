@@ -66,7 +66,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
     app = setup_auth(app, config)
     app = make_prefix_middleware(app, config,
-                                 scheme=config['adhocracy.protocol'])
+                                 scheme=config.get('adhocracy.protocol',
+                                                   'http'))
     app = setup_discriminator(app, config)
     if asbool(config.get('adhocracy.requestlog_active', 'False')):
         app = RequestLogger(app, config)
