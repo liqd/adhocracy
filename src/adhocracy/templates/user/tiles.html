@@ -30,14 +30,6 @@
            href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a>
         %endif
 
-        %if user.banned and can.user.manage(user):
-          <a class="button add" href="${h.entity_url(user,
-            member='unban')}?${h.url_token()}">${_("un-ban")}</a>
-        %elif can.user.manage(user):
-          <a class="button delete" href="${h.entity_url(user,
-            member='ban')}?${h.url_token()}">${_("ban")}</a>
-        %endif
-
         %if lib.auth.welcome.can_welcome():
         <form method="post" class="inline-form" action="${h.entity_url(user, instance=c.instance, member='generate_welcome_link')}">
         ${h.field_token()|n}

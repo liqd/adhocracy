@@ -50,6 +50,16 @@
                        href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
                     %endif
                 %endif
+
+                %if c.instance is not None and can.user.manage(c.page_user):
+                    %if c.page_user.banned:
+                    <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
+                       class="add">${_("un-ban")}</a>
+                    %else:
+                    <a href="${h.entity_url(c.page_user, member='ban')}?${h.url_token()}"
+                       class="delete">${_("ban")}</a>
+                    %endif
+                %endif
             </div>
             %endif
         </h2>
