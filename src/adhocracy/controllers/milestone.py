@@ -12,6 +12,7 @@ from pylons.i18n import _
 from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import helpers as h, pager, tiles, watchlist
+from adhocracy.lib.auth import can
 from adhocracy.lib.auth import csrf, require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
@@ -35,6 +36,8 @@ class MilestoneCreateForm(MilestoneNewForm):
     show_all_proposals = validators.StringBool(not_empty=False, if_empty=False,
                                                if_missing=False)
     time = forms.ValidDate()
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
 
 
 class MilestoneEditForm(formencode.Schema):
@@ -48,6 +51,8 @@ class MilestoneUpdateForm(MilestoneEditForm):
     show_all_proposals = validators.StringBool(not_empty=False, if_empty=False,
                                                if_missing=False)
     time = forms.ValidDate()
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
 
 
 class MilestoneController(BaseController):
@@ -122,7 +127,8 @@ class MilestoneController(BaseController):
                 'show_all_proposals')
 
         model.meta.Session.commit()
-        watchlist.check_watch(milestone)
+        if can.watch.create():
+            watchlist.set_watch(milestone, self.form_result.get('watch'))
         #event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
         #           topics=[proposal], proposal=proposal, rev=description.head)
         redirect(h.entity_url(milestone, format=format))
@@ -137,6 +143,7 @@ class MilestoneController(BaseController):
         defaults = {'category': (str(c.milestone.category.id) if
                                  c.milestone.category else None),
                     'show_all_proposals': c.milestone.show_all_proposals,
+                    'watch': h.find_watch(c.milestone),
                     }
         defaults.update(dict(request.params))
         return htmlfill.render(render("/milestone/edit.html"),
@@ -162,7 +169,8 @@ class MilestoneController(BaseController):
             c.milestone.show_all_proposals = self.form_result.get(
                 'show_all_proposals')
         model.meta.Session.commit()
-        watchlist.check_watch(c.milestone)
+        if can.watch.create():
+            watchlist.set_watch(c.milestone, self.form_result.get('watch'))
         #event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
         #           topics=[c.proposal], proposal=c.proposal, rev=_text)
         redirect(h.entity_url(c.milestone))

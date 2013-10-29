@@ -100,8 +100,10 @@ class Watch(object):
         return q.all()
 
     @classmethod
-    def create(cls, user, entity):
-        watch = Watch(user, entity)
+    def create(cls, user, entity, check_existing=False):
+        if check_existing and cls.find_by_entity(user, entity):
+            raise WatchAlreadyExists()
+        watch = cls(user, entity)
         meta.Session.add(watch)
         meta.Session.flush()
         return watch
@@ -121,3 +123,7 @@ class Watch(object):
     def __repr__(self):
         return "<Watch(%s,%s,%s)>" % (self.id, self.user.user_name,
                                       self.entity_ref)
+
+
+class WatchAlreadyExists(Exception):
+    pass
