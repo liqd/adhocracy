@@ -34,12 +34,10 @@ def set_watch(entity, set_watch=True):
 def clean_stale_watches():
     log.debug("Beginning to clean up watchlist entries...")
     count = 0
-    print count
     for watch in Watch.all():
         if hasattr(watch.entity, 'is_deleted') and \
                 watch.entity.is_deleted():
             count += 1
-            print count
             watch.delete()
     meta.Session.commit()
     if count > 0:
