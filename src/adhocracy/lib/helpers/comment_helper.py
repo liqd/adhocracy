@@ -12,14 +12,13 @@ def url(comment, member=None, format=None, comment_page=False, **kwargs):
     if member is None and format is None and not comment_page:
         if isinstance(comment.topic, model.Page):
             if comment.topic.function == model.Page.DESCRIPTION:
-                return (proposal.url(comment.topic.proposal, **kwargs) + '#c' +
-                        str(comment.id))
+                return (proposal.url(comment.topic.proposal,
+                                     anchor=u'c%i' % comment.id, **kwargs))
             return (text.url(comment.topic.variant_head(comment.variant),
-                             **kwargs) +
-                    '#c' + str(comment.id))
+                             anchor=u'c%i' % comment.id, **kwargs))
         elif isinstance(comment.topic, model.Proposal):
-            return (proposal.url(comment.topic, **kwargs) +
-                    '#c' + str(comment.id))
+            return (proposal.url(comment.topic, anchor=u'c%i' % comment.id,
+                                 **kwargs))
     return _url.build(comment.topic.instance, 'comment',
                       comment.id, member=member, format=format, **kwargs)
 
