@@ -17,9 +17,10 @@ delegateable_table = Table('delegateable', meta,
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
-    page_table = Table('page', meta,                      
+    page_table = Table('page', meta,
         Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
         Column('has_variants', Boolean, default=True),
         Column('freeze', Boolean, default=False)
@@ -27,15 +28,14 @@ def upgrade(migrate_engine):
     page_table.c.has_variants.drop()
     page_table.c.freeze.drop()
     #function = Column('function', Unicode)
-    #function.create(page_table)
-    #u = page_table.update(values={
+    # function.create(page_table)
+    # u = page_table.update(values={
     #    'function': 'document'
     #    })
     print "WARNING ---- THERE IS A NON-WORKING MIGRATION PART ---- "
     print "CREATE A NEW function COLUMN ON THE page TABLE "
-    #migrate_engine.execute(u)
-    
+    # migrate_engine.execute(u)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()
-    

@@ -6,6 +6,7 @@ import migrate.changeset
 
 meta = MetaData()
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     proposal_table = Table('proposal', meta,
@@ -16,6 +17,7 @@ def upgrade(migrate_engine):
         )
     adopted = Column('adopted', Boolean, default=False)
     adopted.create(proposal_table)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

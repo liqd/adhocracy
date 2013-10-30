@@ -90,7 +90,7 @@ def make_map(config):
     map.connect('/user/{id}/settings/notifications{.format}',
                 controller='user', action='settings_notifications',
                 conditions=dict(method=['GET']))
-    map.connect('/user/{id}/settings/notifications{format}',
+    map.connect('/user/{id}/settings/notifications{.format}',
                 controller='user', action='settings_notifications_update',
                 conditions=dict(method=['PUT']))
     map.connect('/user/{id}/settings/advanced{.format}',

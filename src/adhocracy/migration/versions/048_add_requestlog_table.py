@@ -14,9 +14,11 @@ requestlog_table = Table('requestlog', meta,
     Column('user_agent', UnicodeText(), nullable=True),
 )
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     requestlog_table.create()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

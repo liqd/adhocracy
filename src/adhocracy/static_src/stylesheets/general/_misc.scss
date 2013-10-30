@@ -117,3 +117,9 @@ iframe {
 }
 
 .staticpage_edit {float: right;}
+
+/* Images should never be bigger than their surrounding element */
+
+img {
+    max-width: 100%;
+}

@@ -22,7 +22,7 @@ user_table = Table('user', meta,
     Column('delete_time', DateTime)
     )
 
-    
+
 delegateable_table = Table('delegateable', meta,
     Column('id', Integer, primary_key=True),
     Column('label', Unicode(255), nullable=False),
@@ -34,11 +34,11 @@ delegateable_table = Table('delegateable', meta,
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=False)
     )
 
-page_table = Table('page', meta,                      
+page_table = Table('page', meta,
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True)
     )
- 
- 
+
+
 text_table = Table('text', meta,
     Column('id', Integer, primary_key=True),
     Column('page_id', Integer, ForeignKey('page.id'), nullable=False),
@@ -56,6 +56,7 @@ def upgrade(migrate_engine):
     meta.bind = migrate_engine
     page_table.create()
     text_table.create()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

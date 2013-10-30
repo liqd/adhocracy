@@ -58,6 +58,8 @@ class PageCreateForm(formencode.Schema):
     always_show_original = validators.StringBool(not_empty=False,
                                                  if_empty=False,
                                                  if_missing=False)
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -90,6 +92,8 @@ class PageUpdateForm(formencode.Schema):
     always_show_original = validators.StringBool(not_empty=False,
                                                  if_empty=False,
                                                  if_missing=False)
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
 
 
 class PageFilterForm(formencode.Schema):
@@ -150,10 +154,10 @@ class PageController(BaseController):
 
         c.section = u'section_parent' in request.params
         if c.section:
-            c.parent = get_entity_or_abort(model.Page,
-                request.params.get(u'section_parent'))
+            c.parent = get_entity_or_abort(
+                model.Page, request.params.get(u'section_parent'))
             if c.title is None:
-                c.title = u"%s.%i" % (c.parent.title, len(c.parent.children))
+                c.title = u"%s %i" % (c.parent.title, len(c.parent.children))
 
         html = None
         if proposal_id is not None:
@@ -211,7 +215,7 @@ class PageController(BaseController):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
             ret_url = h.page.url(page, member='branch',
-                                query={'proposal': proposal.id})
+                                 query={'proposal': proposal.id})
         else:
             ret_url = h.entity_url(page)  # by default, redirect to the page
 
@@ -220,7 +224,8 @@ class PageController(BaseController):
         page.set_category(category, c.user)
 
         model.meta.Session.commit()
-        watchlist.check_watch(page)
+        if can.watch.create():
+            watchlist.set_watch(page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
                    topics=[page], page=page, rev=page.head)
         redirect(ret_url)
@@ -242,8 +247,8 @@ class PageController(BaseController):
 
         c.section = 'section_parent' in request.params
         if c.section:
-            c.parent = get_entity_or_abort(model.Page,
-                request.params.get(u'section_parent'))
+            c.parent = get_entity_or_abort(
+                model.Page, request.params.get(u'section_parent'))
 
         if branch or c.variant is None:
             c.variant = ""
@@ -258,6 +263,9 @@ class PageController(BaseController):
         c.category = c.page.category
 
         defaults = dict(request.params)
+        if not 'watch' in defaults:
+            defaults['watch'] = h.find_watch(c.page)
+
         if branch and c.text is None:
             c.text = c.page.head.text
 
@@ -356,7 +364,8 @@ class PageController(BaseController):
                 model.Tally.create_from_poll(poll)
 
         model.meta.Session.commit()
-        watchlist.check_watch(c.page)
+        if can.watch.create():
+            watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
         if 'ret_url' in request.params:
@@ -419,11 +428,15 @@ class PageController(BaseController):
                     selection.proposal.description.head.text),
                 'proposal_url': h.selection.url(selection),
                 'proposal_creator_name': selection.proposal.creator.name,
-                'proposal_creator_url': h.entity_url(selection.proposal.creator),
-                'proposal_create_time': h.datetime_tag(selection.proposal.create_time),
-                'proposal_edit_url': h.entity_url(selection.proposal, member='edit'),
+                'proposal_creator_url': h.entity_url(
+                    selection.proposal.creator),
+                'proposal_create_time': h.datetime_tag(
+                    selection.proposal.create_time),
+                'proposal_edit_url': h.entity_url(
+                    selection.proposal, member='edit'),
                 'proposal_can_edit': can.proposal.edit(selection.proposal),
-                'proposal_delete_url': h.entity_url(selection.proposal, member='ask_delete'),
+                'proposal_delete_url': h.entity_url(selection.proposal,
+                                                    member='ask_delete'),
                 'proposal_can_delete': can.proposal.delete(selection.proposal),
                 'current': current,
                 }
@@ -735,8 +748,8 @@ class PageController(BaseController):
 
         c.section = u'section_parent' in request.params
         if c.section:
-            c.parent = get_entity_or_abort(model.Page,
-                request.params.get(u'section_parent'))
+            c.parent = get_entity_or_abort(
+                model.Page, request.params.get(u'section_parent'))
             c.ret_url = h.entity_url(c.parent)
         else:
             c.ret_url = h.entity_url(c.page.instance)

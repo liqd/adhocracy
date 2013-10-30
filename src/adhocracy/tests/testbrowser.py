@@ -41,6 +41,18 @@ class Browser(zope.testbrowser.wsgi.Browser):
                                         self.mech_browser.addheaders if
                                         header[0] != self.REMOTE_USER_HEADER]
 
+    def real_login(self, username, password):
+        self.real_logout()
+        self.open(u'http://test.lan/login')
+        form = self.getForm(name=u'login_form', index=1)
+        form.getControl(name=u'login').value = username
+        form.getControl(name=u'password').value = password
+        form.submit()
+        assert(u'dashboard' in self.contents)
+
+    def real_logout(self):
+        self.open(u'http://test.lan/logout')
+
     @property
     def status(self):
         return self.headers['Status']
@@ -70,13 +82,13 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         zope.testbrowser.wsgi._allowed_2nd_level.add(adhocracy_domain)
         return app
 
-    def setUp(test, *args, **kwargs):
+    def setUp(self, *args, **kwargs):
         # we skip this test if we don't have a full stack
         # test environment
         tests.is_integrationtest()
 
         connection = meta.engine.connect()
-        test.trans = connection.begin()
+        self.trans = connection.begin()
         meta.Session.configure(bind=connection)
         # delete and reindex solr
         drop_all()
@@ -84,8 +96,8 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
 
         # mock the mail.send() function. Make sure to stop()
         # the patcher in tearDown.
-        test.patcher = patch('adhocracy.lib.mail.send')
-        test.mocked_mail_send = test.patcher.start()
+        self.patcher = patch('adhocracy.lib.mail.send')
+        self.mocked_mail_send = self.patcher.start()
         #TODO start solr and co
 
     def tearDown(self, test):

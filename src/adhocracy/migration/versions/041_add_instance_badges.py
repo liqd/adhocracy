@@ -8,7 +8,7 @@ metadata = MetaData()
 
 badge_table = Table(
     'badge', metadata,
-    #common attributes
+    # common attributes
     Column('id', Integer, primary_key=True),
     Column('type', String(40), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -36,12 +36,12 @@ instance_badges_table = Table(
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
 
-    #setup
+    # setup
     group_table = Table('group', metadata, autoload=True)
     user_table = Table('user', metadata, autoload=True)
     instance_table = Table('instance', metadata, autoload=True)
 
-    #add new table instance_badge
+    # add new table instance_badge
     instance_badges_table.create()
 
 

@@ -49,6 +49,8 @@ class ProposalCreateForm(ProposalNewForm):
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
     chained_validators = [
         forms.UnusedProposalTitle(),
     ]
@@ -68,6 +70,8 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
     thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
     chained_validators = [
@@ -279,7 +283,8 @@ class ProposalController(BaseController):
                 model.Tally.create_from_poll(poll)
 
         model.meta.Session.commit()
-        watchlist.check_watch(proposal)
+        if can.watch.create():
+            watchlist.set_watch(proposal, self.form_result.get('watch'))
         if not is_amendment:
             event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
@@ -367,7 +372,8 @@ class ProposalController(BaseController):
                                   parent=c.proposal.description.head,
                                   wiki=wiki)
         model.meta.Session.commit()
-        watchlist.check_watch(c.proposal)
+        if can.watch.create():
+            watchlist.set_watch(c.proposal, self.form_result.get('watch'))
         event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
                    topics=[c.proposal], proposal=c.proposal, rev=_text,
                    badges_added=added, badges_removed=removed)

@@ -32,10 +32,10 @@ karma_table = Table('karma', meta,
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('comment_id', Integer, ForeignKey('comment.id'), nullable=False),
     Column('donor_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('recipient_id', Integer, ForeignKey('user.id'), nullable=False),   
+    Column('recipient_id', Integer, ForeignKey('user.id'), nullable=False),
     )
 
-vote_table = Table('vote', meta, 
+vote_table = Table('vote', meta,
     Column('id', Integer, primary_key=True),
     Column('orientation', Integer, nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
@@ -60,9 +60,10 @@ user_table = Table('user', meta,
     Column('delete_time', DateTime)
     )
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
-    comment_table = Table('comment', meta,                  
+    comment_table = Table('comment', meta,
         Column('id', Integer, primary_key=True),
         Column('create_time', DateTime, default=datetime.utcnow),
         Column('delete_time', DateTime, default=None, nullable=True),
@@ -71,16 +72,16 @@ def upgrade(migrate_engine):
         Column('canonical', Boolean, default=False),
         Column('reply_id', Integer, ForeignKey('comment.id'), nullable=True)
         )
-    
+
     poll_id = Column('poll_id', Integer, ForeignKey('poll.id'), nullable=True)
     poll_id.create(comment_table)
-    
+
     q = migrate_engine.execute(comment_table.select())
-    for (comment_id, create_time, 
-         delete_time, creator_id, 
+    for (comment_id, create_time,
+         delete_time, creator_id,
          topic_id, _, _, _) in q:
-        
-        q = poll_table.insert(values={'scope_id': topic_id, 
+
+        q = poll_table.insert(values={'scope_id': topic_id,
                                       'action': u'rate',
                                       'subject': u"@[comment:%s]" % comment_id,
                                       'user_id': creator_id,
@@ -94,21 +95,22 @@ def upgrade(migrate_engine):
                                        'num_against': 0,
                                        'num_abstain': 0})
         r = migrate_engine.execute(z)
-        
-        a = migrate_engine.execute(karma_table.select(karma_table.c.comment_id==comment_id))
+
+        a = migrate_engine.execute(karma_table.select(karma_table.c.comment_id == comment_id))
         for (_, value, k_time, _, donor_id, _) in a:
             y = vote_table.insert(values={'create_time': k_time,
-                                          'poll_id': poll_id,                             
+                                          'poll_id': poll_id,
                                           'user_id': donor_id,
                                           'orientation': value})
             r = migrate_engine.execute(y)
-        
-        u = comment_table.update(comment_table.c.id==comment_id, values={
+
+        u = comment_table.update(comment_table.c.id == comment_id, values={
             'poll_id': poll_id
             })
         migrate_engine.execute(u)
-    
+
     karma_table.drop()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

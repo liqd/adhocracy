@@ -74,7 +74,7 @@
             checked = checked or (h.find_watch(entity) is not None)
         %>
         <label for="watch">
-        <input class="watch" type="checkbox" ${'checked=\"checked\"' if checked else ''} name="watch" id="watch" />
+        <input class="watch" type="checkbox" ${'checked="checked"' if checked else '' | n} name="watch" id="watch" />
         ${_("Notify me of updates.")}
         </label>
     %endif
@@ -346,6 +346,7 @@ ${caller.body()}
 </%def>
 
 <%def name="proposal_sort_order(name, sorting_orders, include_empty=True, default=None)">
+<label>${_(u'Default proposal sort order')}</label>
 <select name="${name}">
     %if include_empty:
     <option value=""></option>

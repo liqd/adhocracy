@@ -22,8 +22,8 @@ h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
 /* don't allow headings in user generated content to be as big
  * as our own */
-.comment .body,
-.proposal .body {
+blockquote,
+.comment .body {
     h1, h2, h3, h4, h5, h6 {
         font-size: 1em;
         margin: 10px 0;
@@ -33,6 +33,33 @@ h6 { font-size: 14px; font-weight: normal; color: $fg1; }
     }
     h2 {
         font-size: 1.1em;
+    }
+}
+.proposal .body {
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1em;
+        margin: 10px 0;
+    }
+    h1 {
+        font-size: 1.4em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    h3 {
+        font-size: 1.1em;
+    }
+}
+section.subpage {
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.2em;
+        margin: 10px 0;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.5em;
     }
 }
 
@@ -152,6 +179,7 @@ pre {
 .meta, .utility {
     color: $fg1;
     font-size: 11px;
+    font-family: Arial, sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
     .utility {

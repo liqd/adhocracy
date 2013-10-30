@@ -6,6 +6,7 @@ import migrate.changeset
 
 meta = MetaData()
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     instance_table = Table('instance', meta,
@@ -19,7 +20,7 @@ def upgrade(migrate_engine):
         Column('access_time', DateTime, default=func.now(), onupdate=func.now()),
         Column('delete_time', DateTime, nullable=True),
         Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-        Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)    
+        Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True)
         )
     allow_adopt = Column('allow_adopt', Boolean, default=True)
     allow_adopt.create(instance_table)

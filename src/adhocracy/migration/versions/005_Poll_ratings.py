@@ -25,20 +25,21 @@ tally_table = Table('tally', meta,
     Column('num_against', Integer, nullable=True),
     Column('num_abstain', Integer, nullable=True)
     )
-    
+
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     proposal_table = Table('proposal', meta,
         Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
         Column('comment_id', Integer, ForeignKey('comment.id'), nullable=True)
         )
-    
+
     rate_poll_id = Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True)
     rate_poll_id.create(proposal_table)
-    
+
     for vals in migrate_engine.execute(proposal_table.select()):
         proposal_id = vals[0]
-        q = poll_table.insert(values={'scope_id': proposal_id, 
+        q = poll_table.insert(values={'scope_id': proposal_id,
                                       'action': u'rate',
                                       'subject': u"@[proposal:%s]" % proposal_id,
                                       'user_id': 1,
@@ -51,9 +52,10 @@ def upgrade(migrate_engine):
                                        'num_against': 0,
                                        'num_abstain': 0})
         r = migrate_engine.execute(q)
-        q = proposal_table.update(proposal_table.c.id==proposal_id,
+        q = proposal_table.update(proposal_table.c.id == proposal_id,
                                   {'rate_poll_id': poll_id})
         migrate_engine.execute(q)
-    
+
+
 def downgrade(migrate_engine):
     raise NotImplementedError()

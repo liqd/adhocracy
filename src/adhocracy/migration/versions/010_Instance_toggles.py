@@ -6,6 +6,7 @@ import migrate.changeset
 
 meta = MetaData()
 
+
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
     instance_table = Table('instance', meta,
@@ -22,7 +23,7 @@ def upgrade(migrate_engine):
         Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
         Column('allow_adopt', Boolean, default=True)
         )
-              
+
     allow_delegate = Column('allow_delegate', Boolean, default=True)
     allow_delegate.create(instance_table)
     allow_index = Column('allow_index', Boolean, default=True)

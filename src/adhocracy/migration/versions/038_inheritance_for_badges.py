@@ -16,20 +16,20 @@ def are_elements_equal(x, y):
 
 badge_table = Table(
     'badge', metadata,
-    #common attributes
+    # common attributes
     Column('id', Integer, primary_key=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('title', Unicode(40), nullable=False),
     Column('color', Unicode(7), nullable=False),
     Column('description', Unicode(255), default=u'', nullable=False),
-    #badges for groups/users
+    # badges for groups/users
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
-    #badges for delegateables
+    # badges for delegateables
     Column('badge_delegateable', Boolean, default=False),
-    #badges to make categories for delegateables
+    # badges to make categories for delegateables
     Column('badge_delegateable_category', Boolean, default=False),
-    #badges only valid inside an specific instance
+    # badges only valid inside an specific instance
     Column('instance_id', Integer, ForeignKey('instance.id',
                                         ondelete="CASCADE",), nullable=True))
 

@@ -12,16 +12,15 @@
 
 ${c.tile.description|n}
 
-%if c.new_proposals_pager is not None or c.all_proposals_pager is not None:
+%for type in h.config.get_list('adhocracy.instance_overview_contents'):
 <hr />
+
+%if type == u'proposals':
 <div id="new_proposals_table" class="table">
-    %if c.new_proposals_pager is not None:
+    %if not h.config.get_bool('adhocracy.show_instance_overview_proposals_all'):
     <h3 class="section">${_("Newest Proposals")}</h3>
-    ${c.new_proposals_pager.here()}
     %endif
-    %if c.all_proposals_pager is not None:
-    ${c.all_proposals_pager.here()}
-    %endif
+    ${c.proposals_pager.here()}
 
     <div id="proposal-actions" class="list_button">
         <% auth = check.proposal.create() %>
@@ -43,7 +42,7 @@ ${c.tile.description|n}
            rel="#overlay-validate-button">${_("new proposal")}</a>
         %endif
 
-        %if c.all_proposals_pager is None:
+        %if not h.config.get_bool('adhocracy.show_instance_overview_proposals_all'):
         <a href="${h.base_url('/proposal')}"
            class="button edit ttip"
            title="${_('show a list of proposals')}">${_("more proposals")}</a>
@@ -53,9 +52,8 @@ ${c.tile.description|n}
 </div>
 %endif
 
-%if h.asbool(config.get('adhocracy.show_instance_overview_milestones')) and c.instance.milestones:
-<hr />
-%if h.asint(config.get('adhocracy.number_instance_overview_milestones')) == 1:
+%if type == u'milestones' and c.page_instance.milestones:
+%if h.config.get_int('adhocracy.number_instance_overview_milestones') == 1:
 <h3 class="section">${_("Next milestone")}</h3>
 %else:
 <h3 class="section">${_("Next milestones")}</h3>
@@ -63,20 +61,28 @@ ${c.tile.description|n}
 ${c.next_milestones_pager.here()}
 %endif
 
+%if type == u'events':
+<h3>${_('Newest Events')}</h3>
+${c.events_pager.here()}
+%endif
+
+%endfor
 </%block>
 
 <%block name="sidebar">
-%if c.events_pager is not None:
+%for type in h.config.get_list('adhocracy.instance_overview_sidebar_contents'):
 <div class="sidebar_box">
+    %if type == u'events':
     <h3>${_('Newest Events')}</h3>
-    ${c.events_pager.here()}
+    ${c.sidebar_events_pager.here()}
+    %endif
 </div>
-%endif
+%endfor
 
 <div class="sidebar_box">
     <h3 id="information">${_('Information')}</h3>
     <div class="summary">
-        %if h.asbool(config.get('adhocracy.show_instance_creators')):
+        %if h.config.get_bool('adhocracy.show_instance_creators'):
         <h6>${_('Created')}</h6>
         <p>${_("by %s on %s") % (h.user.link(c.instance.creator), h.date_tag(c.instance.create_time))|n}</p>
         %endif
@@ -88,7 +94,9 @@ ${c.next_milestones_pager.here()}
         <h6>${_('By the numbers')}</h6>
         <ul class="nobullet">
             <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
+            %if c.instance.show_proposals_navigation:
             <li>${_("<b>%s</b> proposals") % c.stats.get('proposals')|n}</li>
+            %endif
             <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
         </ul>
         %endif

@@ -1257,7 +1257,7 @@ class UserController(BaseController):
         bio = user.bio
         if not bio:
             bio = _("%(user)s is using Adhocracy, a democratic "
-                    "decision-making tool.") % {'user': c.page_user.name}
+                    "decision-making tool.") % {'user': user.name}
         description = h.truncate(text.meta_escape(bio), length=200,
                                  whole_word=True)
         h.add_meta("description", description)

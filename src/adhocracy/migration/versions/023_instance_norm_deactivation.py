@@ -1,5 +1,5 @@
 from datetime import datetime
-from pprint import pprint 
+from pprint import pprint
 
 from sqlalchemy import *
 from migrate import *
@@ -12,10 +12,11 @@ meta = MetaData()
 user_table = Table('user', meta)
 
 group_table = Table('group', meta)
-    
+
 delegateable_table = Table('delegateable', meta)
-    
+
 page_table = Table('page', meta)
+
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
@@ -31,7 +32,7 @@ def upgrade(migrate_engine):
         Column('delete_time', DateTime, nullable=True),
         Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
         Column('default_group_id', Integer, ForeignKey('group.id'), nullable=True),
-        Column('allow_adopt', Boolean, default=True),       
+        Column('allow_adopt', Boolean, default=True),
         Column('allow_delegate', Boolean, default=True),
         Column('allow_index', Boolean, default=True),
         Column('hidden', Boolean, default=False),
@@ -44,6 +45,7 @@ def upgrade(migrate_engine):
         'use_norms': True
         })
     migrate_engine.execute(u)
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

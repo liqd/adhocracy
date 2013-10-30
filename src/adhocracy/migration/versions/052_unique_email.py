@@ -29,13 +29,14 @@ user_table = Table('user', metadata,
     Column('gender', Unicode(1), default=None),
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     )
-    
-    
+
+
 def upgrade(migrate_engine):
     metadata.bind = migrate_engine
-    
+
     cons = UniqueConstraint('email', table=user_table)
     cons.create()
-    
+
+
 def downgrade(migrate_engine):
     raise NotImplementedError()

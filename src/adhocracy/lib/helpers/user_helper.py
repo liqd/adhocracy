@@ -56,7 +56,6 @@ def url(user, instance=None, **kwargs):
     the instance argument for all other urls so they are always in the
     main domain.
     '''
-    @cache.memoize('user_url')
     def url_(user, instance, **kwargs):
         return _url.build(instance, 'user', user.user_name, **kwargs)
 

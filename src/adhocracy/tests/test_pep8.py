@@ -15,32 +15,13 @@ class AdhocracyStyleGuide(pep8.StyleGuide):
         IGNORED = [
             'E111',  # indentation is not a multiple of four
             'E121',  # continuation line indentation is not a multiple of four
-            'E122',  # continuation line missing indentation or outdented
             'E123',  # closing bracket does not match indentation of opening
                      # bracket
             'E124',  # closing bracket does not match visual indentation
             'E126',  # continuation line over
             'E127',  # continuation line over
             'E128',  # continuation line under
-            'E225',  # missing whitespace around operator
-            'E226',  # missing optional whitespace around operator
-            'E231',  # missing whitespace after
-            'E241',  # multiple spaces after
-            'E251',  # no spaces around keyword
-            'E261',  # at least two spaces before inline comment
-            'E301',  # expected 1 blank line
-            'E302',  # expected 2 blank lines
-            'E303',  # too many blank lines
             'E501',  # line too long
-            'E701',  # multiple statements on one line
-            'E702',  # multiple statements on one line
-            'E711',  # comparison to None should be 'if cond is None:'
-            'E712',  # comparison to True should be 'if cond is True:' or
-                     # 'if cond:'
-            'W291',  # trailing whitespace
-            'W292',  # no newline at end of file
-            'W293',  # blank line contains whitespace
-            'W391',  # blank line at end of file
         ]
         return code in IGNORED
 

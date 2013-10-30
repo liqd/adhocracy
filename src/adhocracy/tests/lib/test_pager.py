@@ -73,10 +73,11 @@ class TestSolrTokenHelpers(TestCase):
     def test_entity_to_solr_token_with_hierachy(self):
         from adhocracy.model import CategoryBadge
         from adhocracy.lib.pager import entity_to_solr_token
-        badge0 = CategoryBadge.create('testbadge0', '#ccc', True, 'descr')
-        badge11 = CategoryBadge.create('testbadge11', '#ccc', True, 'descr')
-        badge12 = CategoryBadge.create('testbadge12', '#ccc', True, 'descr')
-        badge121 = CategoryBadge.create('testbadge121', '#ccc', True, 'descr')
+        badge0 = CategoryBadge.create(u'testbadge0', u'#ccc', True, u'descr')
+        badge11 = CategoryBadge.create(u'testbadge11', u'#ccc', True, u'descr')
+        badge12 = CategoryBadge.create(u'testbadge12', u'#ccc', True, u'descr')
+        badge121 = CategoryBadge.create(u'testbadge121', u'#ccc', True,
+                                        u'descr')
         badge11.parent = badge0
         badge12.parent = badge0
         badge121.parent = badge12
@@ -88,7 +89,7 @@ class TestSolrTokenHelpers(TestCase):
     def test_entity_to_solr_token_no_hierachy(self):
         from adhocracy.model import UserBadge
         from adhocracy.lib.pager import entity_to_solr_token
-        badge = UserBadge.create('testbadge', '#ccc', True, 'description')
+        badge = UserBadge.create(u'testbadge', u'#ccc', True, u'description')
         result = entity_to_solr_token(badge)
         shouldbe = u"%s" % str(badge.id)
         self.assertEqual(result, shouldbe)
@@ -96,7 +97,8 @@ class TestSolrTokenHelpers(TestCase):
     def test_solr_token_to_entity_with_hierachy(self):
         from adhocracy.model import CategoryBadge
         from adhocracy.lib.pager import solr_tokens_to_entities
-        badge = CategoryBadge.create('testbadge', '#ccc', True, 'description')
+        badge = CategoryBadge.create(u'testbadge', u'#ccc', True,
+                                     u'description')
         token = u"1/2/%s" % str(badge.id)
         self.assertEqual(solr_tokens_to_entities([token], CategoryBadge),
                          [badge])
@@ -104,7 +106,8 @@ class TestSolrTokenHelpers(TestCase):
     def test_solr_token_to_entity_no_hierachy(self):
         from adhocracy.model import CategoryBadge
         from adhocracy.lib.pager import solr_tokens_to_entities
-        badge = CategoryBadge.create('testbadge', '#ccc', True, 'description')
+        badge = CategoryBadge.create(u'testbadge', u'#ccc', True,
+                                     u'description')
         token = u"%s" % str(badge.id)
         self.assertEqual(solr_tokens_to_entities([token], CategoryBadge),
                          [badge])

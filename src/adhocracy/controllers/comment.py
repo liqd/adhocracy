@@ -133,7 +133,6 @@ class CommentController(BaseController):
         # watch comments by default!
         model.Watch.create(c.user, comment)
         model.meta.Session.commit()
-        #watchlist.check_watch(comment)
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance,
                    topics=[topic], comment=comment, topic=topic,
                    rev=comment.latest)
@@ -172,8 +171,9 @@ class CommentController(BaseController):
             if not decision.result == model.Vote.YES:
                 decision.make(model.Vote.YES)
         model.meta.Session.commit()
-        watchlist.check_watch(c.comment)
-        #watch = model.Watch.create(c.user, c.comment)
+
+        # do not modify watch state as comments are always watched
+
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance,
                    topics=[c.comment.topic], comment=c.comment,
                    topic=c.comment.topic, rev=rev)

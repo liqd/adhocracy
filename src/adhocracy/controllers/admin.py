@@ -3,6 +3,7 @@ import logging
 import formencode
 import formencode.htmlfill
 from pylons import config, request
+from pylons import tmpl_context as c
 from pylons.i18n import lazy_ugettext as L_, _
 from pylons.controllers.util import redirect
 
@@ -170,11 +171,16 @@ class AdminController(BaseController):
                 display_name = user_info['display_name']
                 names.append(name)
                 user = model.User.create(name, email,
-                                         display_name=display_name)
+                                         display_name=display_name,
+                                         autojoin=False)
                 user.activation_code = user.IMPORT_MARKER + random_token()
                 password = random_token()
                 user_info['password'] = password
                 user.password = password
+
+                for badge in user_info['user_badges']:
+                    badge.assign(user, creator=c.user)
+
                 model.meta.Session.add(user)
                 model.meta.Session.commit()
                 users.append(user)
@@ -186,7 +192,7 @@ class AdminController(BaseController):
 
                 user_info['url'] = url
                 body = form_result['email_template'].format(
-                           *user_info.get('rest', []), **user_info)
+                    *user_info.get('rest', []), **user_info)
                 to_user(user, form_result['email_subject'], body,
                         decorate_body=False)
                 mailed.append(user.user_name)

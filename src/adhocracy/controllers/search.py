@@ -33,9 +33,9 @@ class SearchController(BaseController):
     def query(self, format=u'html'):
         c.query = self.form_result.get("serp_q", u"*:*")
         self._query_pager()
-        html = render("search/results.html", overlay=format == u'overlay'),
-        return formencode.htmlfill.render(html,
-                                          {'q': c.query, 'serp_q': c.query})
+        html = render("search/results.html", {'q': c.query, 'serp_q': c.query},
+                      overlay=format == u'overlay')
+        return formencode.htmlfill.render(html)
 
     @guard.proposal.index()
     @validate(schema=SearchQueryForm(), post_only=False, on_get=True)

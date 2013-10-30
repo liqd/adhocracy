@@ -96,9 +96,11 @@ html.overlay {
     }
     body {
         overflow: hidden;
+        min-height: 0;
     }
 
     &.overlay-small {
+        min-width: 665px;
         .page_margins {
             width: auto;
         }
