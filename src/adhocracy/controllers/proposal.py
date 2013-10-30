@@ -285,10 +285,9 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(proposal, self.form_result.get('watch'))
-        if not is_amendment:
-            event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-                       topics=[proposal], proposal=proposal,
-                       rev=description.head)
+        event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
+                   topics=[proposal], proposal=proposal,
+                   rev=description.head)
         redirect(h.entity_url(proposal, format=format))
 
     @RequireInstance
