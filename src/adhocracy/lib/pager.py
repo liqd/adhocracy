@@ -302,7 +302,8 @@ def help_strings():
                       'then by the difference between number of votes '
                       'for and against and also prefer newer proposals'),
         _("Controversy"): _('Prefer proposals where the gap between votes for '
-                            'and against is close'),
+                            'and against is close, also proposals with more '
+                            'absolut votes are rated slightly higher'),
         _("Alphabetically"): _('Sort by the characters of the proposal title'),
     }
 
