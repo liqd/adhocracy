@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-17 20:05+0200\n"
-"PO-Revision-Date: 2013-10-17 18:05+0000\n"
+"POT-Creation-Date: 2013-10-30 23:05+0100\n"
+"PO-Revision-Date: 2013-10-30 22:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgid "Badge changed successfully"
 msgstr "De badge is veranderd"
 
 msgid "Badge deleted successfully"
-msgstr ""
+msgstr "Badge verwijderd"
 
 msgid "oldest"
 msgstr "oudste"
@@ -70,7 +70,7 @@ msgstr "nieuwste"
 
 #, python-format
 msgid "Topic %s does not allow comments"
-msgstr ""
+msgstr "Onderwerp %s staat geen reacties toe"
 
 #, python-format
 msgid "Comment topic has no variant %s"
@@ -161,13 +161,13 @@ msgid "tutorial_instance_show_intro"
 msgstr "Welkom op de hoofdpagina van deze groep."
 
 msgid "This instance is not yet open for public participation."
-msgstr ""
+msgstr "Deze groep is nog niet geopend voor publieke participatie"
 
 msgid ""
 "This instance is not active for use and is archived. It isn't possible to "
 "perform any changes to the instance, but all content is available to be "
 "read."
-msgstr ""
+msgstr "Deze groep is niet gearchiveerd en niet actief te gebruiken. Het is niet mogelijk om veranderingen te maken aan deze groep, maar alle inhoud kan nog steeds gelezen worden."
 
 msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
@@ -357,7 +357,7 @@ msgstr "Originele Versie"
 
 #, python-format
 msgid "Page %s does not allow selections"
-msgstr ""
+msgstr "Pagina %s staat geen selecties toe"
 
 #, python-format
 msgid "Variant %s does not exist!"
@@ -374,7 +374,7 @@ msgstr "Deze tekst revisie bestaat niet."
 
 #, python-format
 msgid "Page %s does not allow comments"
-msgstr ""
+msgstr "Pagina %s staat geen reacties toe"
 
 msgid "Cannot compare identical text revisions."
 msgstr "Identieke tekst revisies kunnen niet vergeleken worden."
@@ -439,7 +439,7 @@ msgstr "Voorstel: %(proposal)s"
 
 #, python-format
 msgid "You are not allowed to edit badge %i"
-msgstr ""
+msgstr "Het is u niet toegestaan om deze badge te bewerken %i"
 
 msgid "relevance"
 msgstr "relevantie"
@@ -653,16 +653,16 @@ msgid "Invalid badge choice."
 msgstr "Ongeldige badge keuze."
 
 msgid "Added badges"
-msgstr ""
+msgstr "Badges toegevoegd"
 
 msgid "Added badge"
-msgstr ""
+msgstr "Badge toegevoegd"
 
 msgid "Removed badges"
-msgstr ""
+msgstr "Badges verwijderd"
 
 msgid "Removed badge"
-msgstr ""
+msgstr "Badge verwijderd"
 
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
@@ -774,6 +774,9 @@ msgstr "Er zijn duplicaten in de ingevoerde set van gebruikersbadge IDs"
 msgid "Could not find badges %s"
 msgstr "Kon badge %s niet vinden"
 
+msgid "Duplicates in input set of user badge labels"
+msgstr "Dubbele invoer bij gebruikers badge labels"
+
 #, python-format
 msgid "Cannot use global category %s in this instance"
 msgstr "De algemene categorie %s is niet te gebruiken in deze groep"
@@ -850,11 +853,11 @@ msgstr "Ongeldige pagina naam: %s"
 
 #, python-format
 msgid "Invalid entry name: %s"
-msgstr ""
+msgstr "Ongeldige naam: %s"
 
 #, python-format
 msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
+msgstr "Naam mag niet enkel uit cijfers bestaan: %s"
 
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
@@ -1029,9 +1032,9 @@ msgid "Sort by number of votes for the proposal"
 msgstr "Sorteer op aantal stemmen voor het voorstel"
 
 msgid ""
-"Sort by the difference between number of votes for and against, and prefer "
-"newer proposals"
-msgstr "Sorteer op het verschil tussen het aantal stemmen voor en tegen, en prefereer nieuwere voorstellen."
+"First sort by proposals with important badges, then by the difference "
+"between number of votes for and against and also prefer newer proposals"
+msgstr ""
 
 msgid "Prefer proposals where the gap between votes for and against is close"
 msgstr "Prefereer voorstellen waar het gat tussen voors en tegens klein is"
@@ -1055,22 +1058,22 @@ msgid "Badge"
 msgstr "Badge"
 
 msgid "Instance hidden state"
-msgstr ""
+msgstr "Groep verborgen status"
 
 msgid "hidden"
-msgstr ""
+msgstr "verborgen"
 
 msgid "visible"
 msgstr "zichtbaar"
 
 msgid "Instance state"
-msgstr ""
+msgstr "Groep status"
 
 msgid "frozen"
-msgstr ""
+msgstr "bevroren"
 
 msgid "open"
-msgstr ""
+msgstr "open"
 
 msgid "Instance"
 msgstr "Groep"
@@ -1262,11 +1265,11 @@ msgstr "heeft %(proposal)s aangepast"
 
 #, python-format
 msgid "Proposal badged: %(proposal)s"
-msgstr ""
+msgstr "Badge voor voorstel: %(proposal)s"
 
 #, python-format
 msgid "badged %(proposal)s"
-msgstr ""
+msgstr "badges voor %(proposal)s"
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1503,10 +1506,10 @@ msgid "Your current vote is already con"
 msgstr "Uw stem is al tegen"
 
 msgid "Topic is frozen. Click to view the list of votes."
-msgstr ""
+msgstr "Onderwerp is bevroren. Klik om de lijst met stemmen te zien"
 
 msgid "Instance is frozen. Click to view the list of votes."
-msgstr ""
+msgstr "Groep is bevroren. Klik om de lijst met stemmen te zien."
 
 msgid "Voting has ended. Click to view the list of votes"
 msgstr "Het stemmen is geëindigd. Klik om de lijst met stemmen te zien. "
@@ -1522,19 +1525,19 @@ msgid "Click to see the list of votes"
 msgstr "Klik hier om de lijst met stemmen te zien"
 
 msgid "User badge"
-msgstr ""
+msgstr "Gebruikersbadge"
 
 msgid "Instance badge"
-msgstr ""
+msgstr "Groepsbadge"
 
 msgid "Proposal badge"
-msgstr ""
+msgstr "Voorstelbadge"
 
 msgid "Category"
 msgstr "Categorie"
 
 msgid "Thumbnail badge"
-msgstr ""
+msgstr "Thumbnailbadge"
 
 msgid "(Untitled)"
 msgstr "(Naamloos)"
@@ -1606,6 +1609,9 @@ msgstr "Eenregelige samenvatting"
 msgid "Description"
 msgstr "Beschrijving"
 
+msgid "Please enter your feedback in here and help us to improve our website"
+msgstr ""
+
 msgid "Submit"
 msgstr "Verzend"
 
@@ -1623,6 +1629,9 @@ msgstr "Geen Categorie"
 
 msgid "Others"
 msgstr "Anderen"
+
+msgid "Default proposal sort order"
+msgstr "Standaard voorstel sorteervolgorde"
 
 msgid "code of conduct"
 msgstr "gedragscode"
@@ -1693,10 +1702,10 @@ msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Zoek in &ldquo;%s&rdquo;&hellip;"
 
 msgid "Intro"
-msgstr ""
+msgstr "Intro"
 
 msgid "Overview"
-msgstr ""
+msgstr "Overzicht"
 
 msgid "Norms"
 msgstr "Reglementen"
@@ -1739,7 +1748,7 @@ msgstr "Adhocracy werkt het beste als JavaScript is ingeschakeld."
 msgid ""
 "We could not display an overlay. See <a href=\"%s\">here</a> what it would "
 "have displayed."
-msgstr ""
+msgstr "Wij kunnen de 'overlay' niet tonen. Kijk <a href=\"%s\">hier</a> om te zien wat het getoond zou hebben."
 
 msgid "Welcome back!"
 msgstr "Welkom terug!"
@@ -1995,13 +2004,14 @@ msgstr "Site administratie"
 msgid "Admin: Import Users"
 msgstr "Admin: Importeer Gebruikers"
 
+msgid ""
+"Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
+"columns username, display name, email and badges (badges are optional, comma"
+" separated and with quotes around the list)"
+msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de volgende vier kolommen: gebruikersnaam, weergavenaam, e-mail en badges (badges zijn optioneel, gescheiden door komma's en met aanhalingstekens rondom de lijst)"
+
 msgid "Users CSV"
 msgstr "Gebruikers CSV"
-
-msgid ""
-"Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
-"columns username, display name and email"
-msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de 4 kolommen, gebruikersnaam, weergavenaam en e-mail"
 
 msgid "Email Subject"
 msgstr "E-mail Onderwerp"
@@ -2025,7 +2035,7 @@ msgid "The email address of the user."
 msgstr "Het e-mailadres van de gebruiker."
 
 msgid "for additional columns."
-msgstr ""
+msgstr "voor overige kolommen."
 
 msgid ""
 "The template for the mail to the users. You need to insert some placeholders"
@@ -2057,17 +2067,17 @@ msgid "These users could not be created:"
 msgstr "De volgende gebruikers konden niet worden aangemaakt:"
 
 msgid "These users were created, but we could not send out mails:"
-msgstr ""
+msgstr "Deze gebruikers zijn aangemaakt, maar hebben we geen e-mails kunnen versturen:"
 
 msgid ""
 "Note that the following entities will be unbadged if this badge is deleted:"
-msgstr ""
+msgstr "Houd er rekening mee dat de volgende entiteiten hun badge zullen verliezen als deze badge wordt verwijderd:"
 
 msgid "This badge is not in use, so it can be removed safely."
-msgstr ""
+msgstr "Deze badge wordt niet gebruikt en kan dus veilig verwijderd worden."
 
 msgid "Are you sure you want to delete this badge?"
-msgstr ""
+msgstr "Weet u zeker dat u deze badge wilt verwijderen?"
 
 msgid "Confirm"
 msgstr "Bevestig"
@@ -2137,7 +2147,7 @@ msgid ""
 msgstr "Beschrijving voor het selecteren van children van deze badge (ongeacht of deze badge children heeft)"
 
 msgid "Impact"
-msgstr ""
+msgstr "Impact"
 
 msgid "Save Badge"
 msgstr "Sla Badge op"
@@ -2621,7 +2631,7 @@ msgid "Allow users to propose norms"
 msgstr "Sta gebruikers toe om nieuwe reglementen te maken"
 
 msgid "Allow users to change norms from within proposals"
-msgstr ""
+msgstr "Sta gebruikers toe om reglementen te veranderen vanuit voorstellen"
 
 msgid "Require to propose a variant"
 msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbrengen"
@@ -2630,7 +2640,7 @@ msgid "Show norms navigation item"
 msgstr "Toon reglementennavigatie"
 
 msgid "Show proposals navigation item"
-msgstr ""
+msgstr "Toon voorstel navigatie item"
 
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
@@ -2884,10 +2894,10 @@ msgid "Please use the DD.MM.YYYY format."
 msgstr "Gebruik alstublieft het DD.MM.JJJJ formaat."
 
 msgid "Show all proposals"
-msgstr ""
+msgstr "Toon alle voorstellen"
 
 msgid "Show all open proposals if milestone is in the future."
-msgstr ""
+msgstr "Toon alle openstaande voorstellen als de mijlpaal in de toekomst ligt."
 
 msgid "Create new milestone"
 msgstr "Maak nieuwe mijlpaal"
@@ -3036,7 +3046,7 @@ msgid "Edit variant"
 msgstr "Bewerk variant"
 
 msgid "Edit section"
-msgstr ""
+msgstr "Bewerk sectie"
 
 #, python-format
 msgid "Norm: %s"
@@ -3049,13 +3059,13 @@ msgid "Text"
 msgstr "Tekst"
 
 msgid "Display subnorms as sections"
-msgstr ""
+msgstr "Toon subvoorstellen als secties"
 
 msgid "Allow Comments"
-msgstr ""
+msgstr "Reacties Toestaan"
 
 msgid "Allow Amendments"
-msgstr ""
+msgstr "Amendementen Toestaan"
 
 msgid "Use markdown formatting."
 msgstr "Gebruik markdown opmaak."
@@ -3089,7 +3099,7 @@ msgstr "Nieuwe pagina"
 
 #, python-format
 msgid "Add section to %s"
-msgstr ""
+msgstr "Voeg sectie toe %s"
 
 msgid "Create norm"
 msgstr "Maak reglement"
@@ -3101,7 +3111,7 @@ msgid "New norm"
 msgstr "Nieuw reglement"
 
 msgid "Section content"
-msgstr ""
+msgstr "Sectie inhoud"
 
 msgid "Norm content"
 msgstr "Reglement inhoud"
@@ -3122,7 +3132,7 @@ msgid "Off"
 msgstr "Uit"
 
 msgid "Propose New Amendment"
-msgstr ""
+msgstr "Nieuw Amendement Voorstellen"
 
 msgid "Information about the norm"
 msgstr "Informatie over het reglement"
@@ -3145,11 +3155,11 @@ msgstr "Bekijk Voorstel"
 
 #, python-format
 msgid "Created by %(creator)s on %(datetime)s"
-msgstr ""
+msgstr "Aangemaakt door %(creator)s op %(datetime)s"
 
 #, python-format
 msgid "Proposed amendments for \"%s\""
-msgstr ""
+msgstr "Voorgestelde amendementen voor \"%s\""
 
 msgid "No text."
 msgstr "Geen tekst."
@@ -3158,7 +3168,7 @@ msgid "Text compared to the original version"
 msgstr "Tekst vergeleken met de originele versie"
 
 msgid "Reasoning"
-msgstr ""
+msgstr "Redenering"
 
 msgid "Proposal"
 msgstr "Voorstel"
@@ -3179,18 +3189,18 @@ msgid "Discussions"
 msgstr "Discussies"
 
 msgid "Amendments"
-msgstr ""
+msgstr "Amendementen"
 
 msgid "Add section"
-msgstr ""
+msgstr "Sectie toevoegen"
 
 msgid "This norm has been split into several sections."
-msgstr ""
+msgstr "Dit reglement is opgesplitst in verscheidene secties."
 
 msgid ""
 "You can propose amendments and comment each section individually by using "
 "the controls on the right."
-msgstr ""
+msgstr "U kunt amendementen voorstellen en op elke sectie individueel reageren door gebruik te maken van de bedieningen aan de rechterkant."
 
 msgid "hide sub-topics"
 msgstr "verberg sub-onderwerpen"
@@ -3310,7 +3320,7 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "Weet u zeker dat u dit voorstel wilt verwijderen?"
 
 msgid "No Badges"
-msgstr ""
+msgstr "Geen Badges"
 
 msgid "thumbnail badge"
 msgstr "thumbnail badge"
@@ -3319,7 +3329,7 @@ msgid "No Thumbnail Badge"
 msgstr "Geen Thumbnail Badge"
 
 msgid "No Thumbnail Badges"
-msgstr ""
+msgstr "Geen Thumbnailbadges"
 
 #, python-format
 msgid "Delegations: %s"
@@ -3360,13 +3370,13 @@ msgid "Edit &ldquo;%s&rdquo;"
 msgstr "Bewerk &ldquo;%s&rdquo;"
 
 msgid "Amendment title"
-msgstr ""
+msgstr "Amendement titel"
 
 msgid "Proposal title"
 msgstr "Voorstel titel"
 
 msgid "New amendment"
-msgstr ""
+msgstr "Nieuw amendement"
 
 msgid "New proposal"
 msgstr "Nieuw voorstel"
@@ -3375,13 +3385,13 @@ msgid "Proposal goals"
 msgstr "Voorstel doelstellingen"
 
 msgid "Give a brief explanation of the idea behind your amendment."
-msgstr ""
+msgstr "Leg het idee achter uw amendement kort uit."
 
 msgid "Give a brief description of <b>the goals</b> of your proposal."
 msgstr "Geef een korte beschrijving van <b>de doelstellingen</b> van uw voorstel."
 
 msgid "The amendment would..."
-msgstr ""
+msgstr "Het amendement zal..."
 
 msgid "The proposal would..."
 msgstr "Het voorstel zal..."
@@ -3390,10 +3400,10 @@ msgid "Collaboration and Notification"
 msgstr "Samenwerking en Meldingen"
 
 msgid "Allow modifications by other users"
-msgstr ""
+msgstr "Sta bewerkingen door andere gebruikers toe"
 
 msgid "Freeze proposal"
-msgstr ""
+msgstr "Voorstel Bevriezen"
 
 msgid "Create new proposal"
 msgstr "Maak nieuw voorstel"
@@ -3414,10 +3424,10 @@ msgid "tutorial_proposal_overview_new"
 msgstr "Als u een nieuw idee heeft dan kunt u zelf een nieuw voorstel indienen."
 
 msgid "Create new amendment"
-msgstr ""
+msgstr "Maak nieuw amendement"
 
 msgid "Proposed changes"
-msgstr ""
+msgstr "Voorgestelde veranderingen"
 
 msgid "Change norms with this proposal"
 msgstr "Pas een reglement aan met dit voorstel"
@@ -3443,7 +3453,7 @@ msgid "%s Discussions"
 msgstr "%s Discussies"
 
 msgid "1 Proposed Implementation"
-msgstr ""
+msgstr "1 Voorgestelde Implementatie"
 
 #, python-format
 msgid "%s Proposed Implementations"
@@ -3819,13 +3829,13 @@ msgid "Badges for %s"
 msgstr "Badges voor %s"
 
 msgid "Global badges"
-msgstr ""
+msgstr "Globale badges"
 
 msgid "Example:"
 msgstr "Voorbeeld:"
 
 msgid "Badges in instance"
-msgstr ""
+msgstr "Badges in groep"
 
 msgid "Startpage"
 msgstr "Startpagina"

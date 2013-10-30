@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-17 20:05+0200\n"
-"PO-Revision-Date: 2013-10-17 18:05+0000\n"
+"POT-Creation-Date: 2013-10-30 23:05+0100\n"
+"PO-Revision-Date: 2013-10-30 22:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -774,6 +774,9 @@ msgstr ""
 msgid "Could not find badges %s"
 msgstr ""
 
+msgid "Duplicates in input set of user badge labels"
+msgstr ""
+
 #, python-format
 msgid "Cannot use global category %s in this instance"
 msgstr ""
@@ -1029,8 +1032,8 @@ msgid "Sort by number of votes for the proposal"
 msgstr ""
 
 msgid ""
-"Sort by the difference between number of votes for and against, and prefer "
-"newer proposals"
+"First sort by proposals with important badges, then by the difference "
+"between number of votes for and against and also prefer newer proposals"
 msgstr ""
 
 msgid "Prefer proposals where the gap between votes for and against is close"
@@ -1606,6 +1609,9 @@ msgstr ""
 msgid "Description"
 msgstr "Description"
 
+msgid "Please enter your feedback in here and help us to improve our website"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -1622,6 +1628,9 @@ msgid "No Category"
 msgstr "Aucune catégorie"
 
 msgid "Others"
+msgstr ""
+
+msgid "Default proposal sort order"
 msgstr ""
 
 msgid "code of conduct"
@@ -1995,13 +2004,14 @@ msgstr "Administration du site"
 msgid "Admin: Import Users"
 msgstr "Admin: Importer des utilisateurs"
 
+msgid ""
+"Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
+"columns username, display name, email and badges (badges are optional, comma"
+" separated and with quotes around the list)"
+msgstr ""
+
 msgid "Users CSV"
 msgstr "CSV des utilisateurs"
-
-msgid ""
-"Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
-"columns username, display name and email"
-msgstr "Collez le contenu d'un fichier CSV,  par exemple exporté d'Excel avec le nom d'utilisateurde de trois colonnes, montrez le nom et adresse e-mail"
 
 msgid "Email Subject"
 msgstr "Sujet du message"
