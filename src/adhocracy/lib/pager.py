@@ -298,8 +298,9 @@ def help_strings():
         _("Newest"): _('Sort by proposal creation date'),
         _("Newest Comment"): _('Sort by date of the last comment'),
         _("Most Support"): _('Sort by number of votes for the proposal'),
-        _("Mixed"): _('Sort by the difference between number of votes for and '
-                      'against, and prefer newer proposals'),
+        _("Mixed"): _('First sort by proposals with important badges, '
+                      'then by the difference between number of votes '
+                      'for and against and also prefer newer proposals'),
         _("Controversy"): _('Prefer proposals where the gap between votes for '
                             'and against is close'),
         _("Alphabetically"): _('Sort by the characters of the proposal title'),
