@@ -726,7 +726,7 @@ class UserController(BaseController):
                 model.meta.Session.commit()
                 redirect(h.entity_url(c.instance))
             else:
-                redirect(h.base_url('/instance', None))
+                redirect(h.user.post_register_url(c.page_user))
         else:
             h.flash(_("Your email has been confirmed."), 'success')
             redirect(h.entity_url(c.page_user))
