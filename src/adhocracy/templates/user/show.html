@@ -56,7 +56,7 @@
                     %endif
                 %endif
 
-                %if c.instance is not None and can.user.manage(c.page_user):
+                %if c.instance is None and can.user.manage(c.page_user):
                     %if c.page_user.banned:
                     <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
                        class="add">${_("un-ban")}</a>
