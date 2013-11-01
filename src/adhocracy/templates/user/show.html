@@ -38,35 +38,37 @@
         <h2>
             ${_(u"Dashboard") if c.dashboard else c.page_user.name}
 
-            %if not c.dashboard:
             <div class="utility">
-                %if c.instance is None and can.user.edit(c.page_user):
-                <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
-                %endif
+                %if not c.dashboard:
+                    %if c.instance is None and can.user.edit(c.page_user):
+                    <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
+                    %endif
 
-                %if c.instance is None:
-                    %if can.user.delete(c.page_user):
-                    <a class="ttip" title="${_('Delete this user.')}"
-                       href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
+                    %if c.instance is None:
+                        %if can.user.delete(c.page_user):
+                        <a class="ttip" title="${_('Delete this user.')}"
+                           href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
+                        %endif
+                    %else:
+                        %if c.user and c.user == c.page_user and can.instance.leave(c.instance):
+                        <a class="ttip" title="${_('Resign from this instance.')}"
+                           href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave")}</a>
+                        %endif
+                    %endif
+
+                    %if c.instance is None and can.user.manage(c.page_user):
+                        %if c.page_user.banned:
+                        <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
+                           class="add">${_("un-ban")}</a>
+                        %else:
+                        <a href="${h.entity_url(c.page_user, member='ban')}?${h.url_token()}"
+                           class="delete">${_("ban")}</a>
+                        %endif
                     %endif
                 %else:
-                    %if c.user and c.user == c.page_user and can.instance.leave(c.instance):
-                    <a class="ttip" title="${_('Resign from this instance.')}"
-                       href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave")}</a>
-                    %endif
-                %endif
-
-                %if c.instance is None and can.user.manage(c.page_user):
-                    %if c.page_user.banned:
-                    <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
-                       class="add">${_("un-ban")}</a>
-                    %else:
-                    <a href="${h.entity_url(c.page_user, member='ban')}?${h.url_token()}"
-                       class="delete">${_("ban")}</a>
-                    %endif
+                    <a href="${h.entity_url(c.page_user)}">${_(u'Show my public profile')}</a>
                 %endif
             </div>
-            %endif
         </h2>
         ${tiles.user.header(c.page_user, c.tile, active='activity')}
     </div>
