@@ -40,7 +40,7 @@
 
             %if not c.dashboard:
             <div class="utility">
-                %if can.user.edit(c.page_user):
+                %if c.instance is None and can.user.edit(c.page_user):
                 <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
                 %endif
 
