@@ -107,8 +107,15 @@
 
         <h3>${_('Information')}</h3>
 
-        <h6>${_('Member since')}</h6>
+        %if c.instance is None:
+        <h6>${_(u'Account created')}</h6>
         ${h.date_tag(c.page_user.create_time)|n}
+        %elif c.instance in c.page_user.instances:
+        <h6>${_(u'Member in "%s" since') % c.instance.label}</h6>
+        ${h.date_tag(c.page_user.instance_membership(c.instance).create_time)|n}
+        %else:
+        <h6>${_(u'Not a member in "%s"') % c.instance.label}</h6>
+        %endif
 
         <% instance_groups = c.page_user.instance_groups() %>
         <h6>${_('User groups')}</h6>
