@@ -167,7 +167,7 @@
         ${h.date_tag(c.last_activity)|n}
         %endif
 
-        <h6>${_('Member in other instances')}</h6>
+        <h6>${_('Member in the following instances') if c.instance is None else _('Member in other instances')}</h6>
         <% instances = c.page_user.real_instances(exclude_current=True) %>
         %if instances:
         ${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}
