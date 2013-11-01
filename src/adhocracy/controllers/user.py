@@ -815,10 +815,11 @@ class UserController(BaseController):
         """get notifications for this user"""
         q = model.meta.Session.query(model.Notification)
         q = q.filter(model.Notification.user == c.user)
+        q = q.join(model.Event).order_by(model.Event.time.desc())
         if event_filter:
             q = q.filter(model.Notification.event_type.in_(event_filter))
         if c.instance:
-            q = q.join(model.Event).filter(model.Event.instance == c.instance)
+            q = q.filter(model.Event.instance == c.instance)
         if nr_notifications is not None:
             q = q.limit(nr_notifications)
         return q.all()
