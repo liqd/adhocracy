@@ -779,32 +779,23 @@ class UserController(BaseController):
     def _get_dashboard_nav(user, active_key):
         c.member = {
             u'all': None,
+            u'contributions': u'contributions',
             u'votes': u'votes',
-            u'milestones': u'milestones',
             u'delegations': u'delegations',
-            u'proposals': u'proposals',
-            u'pages': u'pages',
         }[active_key]
         nav = [
             (u'all' == active_key, _(u'All Events'), h.base_url(
-                u'/user/dashboard/all', instance=c.instance)),
+                u'/user/dashboard', instance=c.instance)),
+            (u'contributions' == active_key, _(u'Contributions'), h.base_url(
+                u'/user/dashboard/contributions', instance=c.instance)),
             (u'votes' == active_key, _(u'Votes'), h.base_url(
                 u'/user/dashboard/votes', instance=c.instance)),
-            (u'delegations' == active_key, _(u'Delegations'), h.base_url(
-                u'/user/dashboard/delegations', instance=c.instance)),
         ]
-        if c.instance is None or c.instance.show_proposals_navigation:
-            nav.append((u'proposals' == active_key, _(u'Proposals'),
-                        h.base_url(u'/user/dashboard/proposals',
-                                   instance=c.instance)))
-        #if c.instance is None or c.instance.milestones:
-        #    nav.append((u'milestones' == active_key, _(u'Milestones'),
-        #                h.base_url(u'/user/dashboard/milestones',
-        #                           instance=c.instance)))
-        if c.instance is None or (c.instance.use_norms and
-                                  c.instance.show_norms_navigation):
-            nav.append((u'pages' == active_key, _(u'Norms'), h.base_url(
-                u'/user/dashboard/pages', instance=c.instance)))
+        if c.instance is None or c.instance.allow_delegate:
+            nav.append((u'delegations' == active_key,
+                       _(u'Delegations'),
+                       h.base_url(u'/user/dashboard/delegations',
+                                  instance=c.instance)))
         return nav
 
     def _get_events(self, nr_events=None, event_filter=[]):
@@ -909,6 +900,11 @@ class UserController(BaseController):
 
         return render("/user/show.html")
 
+    def dashboard_contributions(self, format='html',
+                                current_nav=u'contributions'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_PROPOSAL + S_PAGE + S_COMMENT)
+
     def dashboard_votes(self, format='html', current_nav=u'votes'):
         return self.dashboard(format=format, current_nav=current_nav,
                               event_filter=S_VOTE)
@@ -916,18 +912,6 @@ class UserController(BaseController):
     def dashboard_delegations(self, format='html', current_nav=u'delegations'):
         return self.dashboard(format=format, current_nav=current_nav,
                               event_filter=S_DELEGATION)
-
-    def dashboard_proposals(self, format='html', current_nav=u'proposals'):
-        return self.dashboard(format=format, current_nav=current_nav,
-                              event_filter=S_PROPOSAL)
-
-    def dashboard_milestones(self, format='html', current_nav=u'milestones'):
-        # Milestone events don't exist yet
-        return NotImplemented
-
-    def dashboard_pages(self, format='html', current_nav=u'pages'):
-        return self.dashboard(format=format, current_nav=current_nav,
-                              event_filter=S_PAGE)
 
     def about(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,

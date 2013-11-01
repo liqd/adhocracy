@@ -45,14 +45,8 @@ def make_map(config):
                 action='dashboard_contributions')
     map.connect('/user/dashboard/votes', controller='user',
                 action='dashboard_votes')
-    map.connect('/user/dashboard/milestones', controller='user',
-                action='dashboard_milestones')
     map.connect('/user/dashboard/delegations', controller='user',
                 action='dashboard_delegations')
-    map.connect('/user/dashboard/proposals', controller='user',
-                action='dashboard_proposals')
-    map.connect('/user/dashboard/pages', controller='user',
-                action='dashboard_pages')
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
 
