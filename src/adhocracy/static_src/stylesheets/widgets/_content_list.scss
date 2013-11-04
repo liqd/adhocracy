@@ -91,6 +91,7 @@
 
         // icons
         padding-left: 60px;
+        min-height: 38px;
         &:before {
             background-image: url("/images/event-unknown.png");
             content: "";
@@ -104,6 +105,7 @@
 
         &.infobox {
             padding-left: 0;
+            min-height: 0;
             &:before {
                 background-image: none;
             }
