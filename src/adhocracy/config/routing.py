@@ -30,19 +30,34 @@ def make_map(config):
                 action='edit_badges', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
+    # Old dashboard
     map.connect('/user/{id}/dashboard', controller='user',
-                action='dashboard')
+                action='legacy_dashboard')
     map.connect('/user/{id}/dashboard_proposals', controller='user',
-                action='dashboard_proposals')
+                action='legacy_dashboard_proposals')
     map.connect('/user/{id}/dashboard_pages', controller='user',
-                action='dashboard_pages')
+                action='legacy_dashboard_pages')
+
+    # New event stream dashboard
+    map.connect('/user/dashboard', controller='user',
+                action='dashboard')
+    map.connect('/user/dashboard/contributions', controller='user',
+                action='dashboard_contributions')
+    map.connect('/user/dashboard/votes', controller='user',
+                action='dashboard_votes')
+    map.connect('/user/dashboard/delegations', controller='user',
+                action='dashboard_delegations')
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
 
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
-                                         'votes': 'GET',
                                          'instances': 'GET',
+                                         'about': 'GET',
+                                         'latest_contributions': 'GET',
+                                         'latest_milestones': 'GET',
+                                         'latest_votes': 'GET',
+                                         'latest_delegations': 'GET',
                                          'watchlist': 'GET',
                                          'groupmod': 'GET',
                                          'ban': 'GET',
@@ -90,7 +105,7 @@ def make_map(config):
     map.connect('/user/{id}/settings/notifications{.format}',
                 controller='user', action='settings_notifications',
                 conditions=dict(method=['GET']))
-    map.connect('/user/{id}/settings/notifications{format}',
+    map.connect('/user/{id}/settings/notifications{.format}',
                 controller='user', action='settings_notifications_update',
                 conditions=dict(method=['PUT']))
     map.connect('/user/{id}/settings/advanced{.format}',

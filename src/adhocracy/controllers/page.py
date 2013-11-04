@@ -62,6 +62,8 @@ class PageCreateForm(formencode.Schema):
     always_show_original = validators.StringBool(not_empty=False,
                                                  if_empty=False,
                                                  if_missing=False)
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
 
 
 class PageEditForm(formencode.Schema):
@@ -94,6 +96,8 @@ class PageUpdateForm(formencode.Schema):
     always_show_original = validators.StringBool(not_empty=False,
                                                  if_empty=False,
                                                  if_missing=False)
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
 
 
 class PageFilterForm(formencode.Schema):
@@ -161,7 +165,7 @@ class PageController(BaseController):
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
             if c.title is None:
-                c.title = u"%s.%i" % (c.parent.title, len(c.parent.children))
+                c.title = u"%s %i" % (c.parent.title, len(c.parent.children))
 
         html = None
         if proposal_id is not None:
@@ -228,7 +232,8 @@ class PageController(BaseController):
         page.set_category(category, c.user)
 
         model.meta.Session.commit()
-        watchlist.check_watch(page)
+        if can.watch.create():
+            watchlist.set_watch(page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
                    topics=[page], page=page, rev=page.head)
         redirect(ret_url)
@@ -266,6 +271,9 @@ class PageController(BaseController):
         c.category = c.page.category
 
         defaults = dict(request.params)
+        if not 'watch' in defaults:
+            defaults['watch'] = h.find_watch(c.page)
+
         if branch and c.text is None:
             c.text = c.page.head.text
 
@@ -364,7 +372,8 @@ class PageController(BaseController):
                 model.Tally.create_from_poll(poll)
 
         model.meta.Session.commit()
-        watchlist.check_watch(c.page)
+        if can.watch.create():
+            watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
         if 'ret_url' in request.params:

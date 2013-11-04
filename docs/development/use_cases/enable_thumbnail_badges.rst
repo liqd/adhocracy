@@ -5,7 +5,7 @@ As a global administrator:
 
 
     >>> admin = make_browser()
-    >>> admin.login('admin')
+    >>> admin.real_login('admin', 'password')
     >>> admin.open('http://test.lan/')
 
 Go to the instance settings form:

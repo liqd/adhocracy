@@ -41,6 +41,7 @@ from adhocracy.model.instance import Instance, instance_table
 from adhocracy.model.membership import Membership, membership_table
 from adhocracy.model.watch import Watch, watch_table
 from adhocracy.model.event import Event, event_topic_table, event_table
+from adhocracy.model.notification import Notification, notification_table
 from adhocracy.model.tally import Tally, tally_table
 from adhocracy.model.tag import Tag, tag_table
 from adhocracy.model.tagging import Tagging, tagging_table
@@ -413,6 +414,17 @@ mapper(Event, event_table, properties={
         Instance, lazy=True,
         primaryjoin=event_table.c.instance_id == instance_table.c.id),
     'topics': relation(Delegateable, secondary=event_topic_table, lazy=True)
+})
+
+
+mapper(Notification, notification_table, properties={
+    # Note: There's explicitly no Event.notifications backref, as this would
+    # trigger all initialized notifications to go from transient to pending
+    # state and makes them exist in the database even if they're never
+    # Session.add()-ed.
+    'event': relation(Event),
+    'user': relation(User, lazy=False),
+    'watch': relation(Watch, lazy=True),
 })
 
 

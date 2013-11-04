@@ -1,4 +1,4 @@
-from adhocracy.lib.event.notification.notification import Notification
+from adhocracy.model import Notification
 from adhocracy.lib import democracy, watchlist
 from adhocracy.lib.event.types import (
     N_COMMENT_EDIT,

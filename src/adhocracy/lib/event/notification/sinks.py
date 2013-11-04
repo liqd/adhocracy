@@ -4,6 +4,7 @@ from pylons import config
 from webhelpers import text
 
 from adhocracy.lib import mail, microblog
+from adhocracy.model import meta
 
 TWITTER_LENGTH = 140
 TRUNCATE_EXT = '...'
@@ -44,7 +45,7 @@ def mail_sink(pipeline):
         if notification.user.is_email_activated() and \
                 notification.priority >= notification.user.email_priority:
             notification.language_context()
-            headers = {'X-Notification-Id': notification.id,
+            headers = {'X-Notification-Id': notification.get_id(),
                        'X-Notification-Priority': str(notification.priority)}
 
             log.debug("mail to %s: %s" % (notification.user.email,
@@ -56,3 +57,9 @@ def mail_sink(pipeline):
 
         else:
             yield notification
+
+
+def database_sink(pipeline):
+    for notification in pipeline:
+        meta.Session.add(notification)
+        yield notification

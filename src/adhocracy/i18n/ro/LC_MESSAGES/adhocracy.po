@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-17 20:05+0200\n"
-"PO-Revision-Date: 2013-10-17 18:05+0000\n"
+"POT-Creation-Date: 2013-10-30 23:05+0100\n"
+"PO-Revision-Date: 2013-10-30 22:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -774,6 +774,9 @@ msgstr "Duplicate in ID-urile titlurilor introduse"
 msgid "Could not find badges %s"
 msgstr "Nu am gaist titlurile %s"
 
+msgid "Duplicates in input set of user badge labels"
+msgstr ""
+
 #, python-format
 msgid "Cannot use global category %s in this instance"
 msgstr "Nu se poate folosi categoria globala %s in aceasta comunitate"
@@ -1029,8 +1032,8 @@ msgid "Sort by number of votes for the proposal"
 msgstr ""
 
 msgid ""
-"Sort by the difference between number of votes for and against, and prefer "
-"newer proposals"
+"First sort by proposals with important badges, then by the difference "
+"between number of votes for and against and also prefer newer proposals"
 msgstr ""
 
 msgid "Prefer proposals where the gap between votes for and against is close"
@@ -1606,6 +1609,9 @@ msgstr "Sumar scurt"
 msgid "Description"
 msgstr "Descriere"
 
+msgid "Please enter your feedback in here and help us to improve our website"
+msgstr ""
+
 msgid "Submit"
 msgstr "Trimite"
 
@@ -1622,6 +1628,9 @@ msgid "No Category"
 msgstr "Nici o categorie"
 
 msgid "Others"
+msgstr ""
+
+msgid "Default proposal sort order"
 msgstr ""
 
 msgid "code of conduct"
@@ -1995,13 +2004,14 @@ msgstr "Administrare site"
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
 
+msgid ""
+"Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
+"columns username, display name, email and badges (badges are optional, comma"
+" separated and with quotes around the list)"
+msgstr ""
+
 msgid "Users CSV"
 msgstr "Lista utilizatori CSV"
-
-msgid ""
-"Paste the content of a CSV file, e.g. exported from Excel, with the 3 "
-"columns username, display name and email"
-msgstr "Copie continutul fisierului CSV, ex. exportat din Excel, cu 3 coloane nume utilizator, nume afisat si adresa de email"
 
 msgid "Email Subject"
 msgstr "Subiect Email"

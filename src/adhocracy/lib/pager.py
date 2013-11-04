@@ -1,4 +1,5 @@
 import copy
+from functools import partial
 from inspect import isclass
 import math
 import logging
@@ -298,10 +299,12 @@ def help_strings():
         _("Newest"): _('Sort by proposal creation date'),
         _("Newest Comment"): _('Sort by date of the last comment'),
         _("Most Support"): _('Sort by number of votes for the proposal'),
-        _("Mixed"): _('Sort by the difference between number of votes for and '
-                      'against, and prefer newer proposals'),
+        _("Mixed"): _('First sort by proposals with important badges, '
+                      'then by the difference between number of votes '
+                      'for and against and also prefer newer proposals'),
         _("Controversy"): _('Prefer proposals where the gap between votes for '
-                            'and against is close'),
+                            'and against is close, also proposals with more '
+                            'absolut votes are rated slightly higher'),
         _("Alphabetically"): _('Sort by the characters of the proposal title'),
     }
 
@@ -368,8 +371,9 @@ def delegations(delegations):
                       default_sort=sorting.entity_newest)
 
 
-def events(events, **kwargs):
-    return NamedPager('events', events, tiles.event.row, **kwargs)
+def events(events, pager_name='events', row_type='row', **kwargs):
+    row = partial(tiles.event.event_row, row_type=row_type)
+    return NamedPager(pager_name, events, row, **kwargs)
 
 
 def polls(polls, default_sort=None, **kwargs):

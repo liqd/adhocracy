@@ -38,12 +38,12 @@ class WatchController(BaseController):
               on_get=True)
     def create(self, format='html'):
         entity = self.form_result.get('ref')
-        if model.Watch.find_by_entity(c.user, entity):
-            h.flash(_("A watchlist entry for this entity already exists."),
-                    'notice')
-        else:
-            model.Watch.create(c.user, entity)
+        try:
+            model.Watch.create(c.user, entity, check_existing=True)
             model.meta.Session.commit()
+        except model.watch.WatchAlreadyExists:
+            h.flash(_(u"A watchlist entry for this entity already exists."),
+                    u'notice')
         redirect(h.entity_url(entity))
 
     @RequireInternalRequest()

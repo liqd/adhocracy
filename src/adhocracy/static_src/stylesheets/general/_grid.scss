@@ -311,7 +311,10 @@
 
     /* (en) Marginal areas */
     /* (de) Randbereiche */
-    body { padding: 0; }
+    body {
+        padding: 0;
+        min-height: 100vh;
+    }
 
     /* Layout Alignment | Layout-Ausrichtung */
     .page_margins { margin: 0 auto; }

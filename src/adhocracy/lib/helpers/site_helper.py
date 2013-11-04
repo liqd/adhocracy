@@ -27,7 +27,7 @@ def relative_urls(config=config):
 
 def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
              append_slash=False, config=config, query_params=None,
-             query_string=None):
+             query_string=None, member=None):
     """
     Constructs an URL.
 
@@ -80,6 +80,9 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
             subdomain = '%s.' % instance.key
 
         result = '%s://%s%s%s' % (protocol, subdomain, domain, path)
+
+    if member is not None:
+        result += '/' + member
 
     if result == '':
         result = '/'

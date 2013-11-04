@@ -3,7 +3,7 @@
 <%def name="row(tile, user)">
     <li class="content_box vcard">
         <h3>
-            <a class="link fn nickname" href="${h.entity_url(user, instance=c.instance)}">${user.name}</a> 
+            <a class="link fn nickname" href="${h.entity_url(user, instance=c.instance)}">${user.name}</a>
             ${tiles.badge.badges([b for b in user.badges if b.instance is None or b.instance is c.instance])}
         </h3>
         <div class="meta">
@@ -15,7 +15,7 @@
                     ${tile.translated_instance_role_names()}
                     </span> ·
                 ${_("joined %s") % h.datetime_tag(mem.create_time)|n}
-            %else: 
+            %else:
                 ${_("signed up %s") % h.datetime_tag(user.create_time)|n}
             %endif
         </div>
@@ -25,60 +25,6 @@
 <%def name="header(tile, user, active, show_delete_user_button=False)">
 
     <div class="top_actions title vcard">
-        %if can.user.message(user):
-        <a class="button add" 
-           href="${h.entity_url(user, instance=c.instance, member='message/new')}">
-            ${_("send a message")}
-        </a>
-        %endif
-    
-        %if lib.auth.authorization.has('global.admin'):
-        <a class="button edit" 
-           href="${h.entity_url(user, instance=c.instance, member='settings')}">
-            ${_('Edit Profile')}
-        </a>
-        %endif
-
-        %if lib.auth.authorization.has('instance.admin'):
-        <a class="button edit"
-           href="${h.entity_url(user, instance=c.instance, member='badges')}">
-            ${_("Edit Badges")}
-        </a>
-        %endif
-        
-        %if can.user.supervise(user):
-            %for group_code in model.Group.INSTANCE_GROUPS:
-                %if group_code != tile.instance_group.code:
-                    <a class="button admin" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&amp;${h.url_token()}">
-                        ${_("make %s") % _(model.Group.by_code(group_code).group_name)}</a>
-                %endif
-            %endfor
-            
-        %endif
-
-        %if c.user and c.instance and c.user == c.page_user and can.instance.leave(c.instance):
-        <a class="button delete ttip" title="${_('Resign from this instance.')}" 
-           href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave instance")}</a> 
-        %endif
-
-        
-        %if user.banned and can.user.manage(user):
-          <a class="button add" href="${h.entity_url(user,
-            member='unban')}?${h.url_token()}">${_("un-ban")}</a>
-        %elif can.user.manage(user):
-          <a class="button delete" href="${h.entity_url(user,
-            member='ban')}?${h.url_token()}">${_("ban")}</a>
-        %endif 
-        
-        %if can.user.delete(user) and show_delete_user_button:
-            <a class="button title delete ttip" title="${_('Delete this user.')}"   
-                href="${h.entity_url(user, member='ask_delete')}">${_("delete")}</a>
-        %endif
-
-        %if c.user and user != c.user:
-            ${components.watch(user)}
-        %endif
-
         %if lib.auth.welcome.can_welcome():
         <form method="post" class="inline-form" action="${h.entity_url(user, instance=c.instance, member='generate_welcome_link')}">
         ${h.field_token()|n}
@@ -88,7 +34,7 @@
     </div>
 
 
-<%doc> FIXME: move to new design?    
+<%doc> FIXME: move to new design?
     <div class="panel ${active}">
         <ul class="menu">
             <li><a href="${h.entity_url(user)}" rel="profile url" class="activity">${_("Activity")}</a></li>
@@ -97,18 +43,18 @@
                     <li><a href="${h.entity_url(user, member='votes')}" class="votes">${_("Votes")}</a></li>
                 %endif
                 %if c.instance.allow_delegate:
-                    <li><a href="${h.entity_url(user, member='delegations')}" 
-                        class="delegations">${_("Delegations")} 
+                    <li><a href="${h.entity_url(user, member='delegations')}"
+                        class="delegations">${_("Delegations")}
                         (${len(user.current_agencies())})</a></li>
                 %endif
-                <li><a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")} 
+                <li><a href="${h.entity_url(user, member='proposals')}" class="proposals">${_("Proposals")}
                     (${tile.num_proposals})</a></li>
-                
+
                 <li><a href="${h.entity_url(user, member='watchlist')}" class="watchlist">${_("Watchlist")}
                     (${user.num_watches})</a></li>
-            %endif  
+            %endif
             %if g.single_instance is None:
-                <li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Instances")}     
+                <li><a href="${h.entity_url(user, member='instances')}" class="instances">${_("Instances")}
                     (${tile.num_instances})</a></li>
             %endif
         </ul>

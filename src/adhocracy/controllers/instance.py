@@ -262,7 +262,8 @@ class InstanceController(BaseController):
             events = model.Event.find_by_instance(c.page_instance, limit=3)
             c.sidebar_events_pager = pager.events(events,
                                                   enable_pages=False,
-                                                  enable_sorts=False)
+                                                  enable_sorts=False,
+                                                  row_type=u'sidebar_row')
 
         c.proposals_pager = None
         if u'proposals' in overview_contents:

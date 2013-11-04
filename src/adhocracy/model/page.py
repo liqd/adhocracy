@@ -338,8 +338,6 @@ class Page(Delegateable):
     def delete(self, delete_time=None):
         if delete_time is None:
             delete_time = datetime.utcnow()
-        for text in self.texts:
-            text.delete(delete_time=delete_time)
         for selection in self.selections:
             selection.delete(delete_time=delete_time)
         if self.delete_time is None:

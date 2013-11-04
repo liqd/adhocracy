@@ -310,4 +310,43 @@ N_COMMENT_EDIT = NotificationType(
     text=lambda e: e.rev.text if e.rev else None)
 
 
-TYPES = [v for v in locals().values() if isinstance(v, NotificationType)]
+# Sets
+S_VOTE = [
+    't_vote_cast',
+    't_rating_cast',
+    'n_delegate_voted',
+]
+
+S_DELEGATION = [
+    't_delegation_create',
+    't_delegation_revoke',
+    'n_delegation_receive',
+    'n_delegation_lost',
+]
+
+S_PROPOSAL = [
+    't_proposal_create',
+    't_proposal_edit',
+    't_proposal_delete',
+    't_proposal_state_voting',
+    't_proposal_state_draft',
+]
+
+S_COMMENT = [
+    't_comment_edit',
+    't_comment_create',
+    't_comment_delete',
+    'n_comment_reply',
+    'n_comment_edit',
+]
+
+S_PAGE = [
+    't_page_create',
+    't_page_edit',
+    't_page_delete',
+]
+
+
+TYPE_MAPPINGS = dict([(v.code, v) for v in locals().values()
+                      if isinstance(v, NotificationType)])
+TYPES = TYPE_MAPPINGS.values()

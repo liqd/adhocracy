@@ -17,23 +17,17 @@ section.subpage {
         min-height: 7em;
 
         &:hover {
-            > h1, > aside {
+            > aside {
                 opacity: 1;
             }
             border-right-color: $primary-color;
             border-left-color: $bg2;
         }
 
-        h1, aside {
+        aside {
             opacity: 0.3;
             @include transition(opacity .5s);
-        }
 
-        h1 {
-            display: none;
-        }
-
-        aside {
             position: absolute;
             height: 100%;
             width: $border-width;

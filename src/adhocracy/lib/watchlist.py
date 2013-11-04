@@ -1,6 +1,6 @@
 import logging
 
-from pylons import tmpl_context as c, request
+from pylons import tmpl_context as c
 
 from adhocracy.model import meta, Watch, Comment, Delegateable
 import adhocracy.model.refs as refs
@@ -17,26 +17,27 @@ def make_watch(entity):
     return refs.to_url(entity)
 
 
-def check_watch(entity):
-    if not c.user:
-        return None
-    watch = Watch.find_by_entity(c.user, entity)
-    if request.params.get('watch') and not watch:
+def set_watch(entity, set_watch=True):
+    """
+    Make sure that the current user watches entity, if set_watch is True. Make
+    sure that the current user doesn't watch entity, if set_watch is False.
+    """
+    has_watch = Watch.find_by_entity(c.user, entity)
+    if set_watch and has_watch is None:
         Watch.create(c.user, entity)
-    elif watch:
-        watch.delete()
-    meta.Session.commit()
+        meta.Session.commit()
+    elif not set_watch and has_watch is not None:
+        has_watch.delete()
+        meta.Session.commit()
 
 
 def clean_stale_watches():
     log.debug("Beginning to clean up watchlist entries...")
     count = 0
-    print count
     for watch in Watch.all():
         if hasattr(watch.entity, 'is_deleted') and \
                 watch.entity.is_deleted():
             count += 1
-            print count
             watch.delete()
     meta.Session.commit()
     if count > 0:

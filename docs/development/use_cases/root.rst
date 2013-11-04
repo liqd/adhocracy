@@ -49,7 +49,7 @@ If we add content in the test instance the feed contains an item
 for the event::
 
     >>> admin = make_browser()
-    >>> admin.login('admin')
+    >>> admin.real_login('admin', 'password')
     >>> admin.open(instance_url)
     >>> admin.follow('Proposals')
     >>> admin.follow('new proposal')
