@@ -1,6 +1,9 @@
 <%inherit file="../template.html" />
 <%def name="title()">${_("Error %s") % c.error_code}</%def>
 
+<%block name="attention_getter">
+## disable the attention getter on error pages
+</%block>
 
 <%block name="main_content">
 %if not c.hide_code:
