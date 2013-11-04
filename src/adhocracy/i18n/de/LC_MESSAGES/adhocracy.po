@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-30 23:05+0100\n"
-"PO-Revision-Date: 2013-10-30 22:08+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2013-11-04 03:27+0100\n"
+"PO-Revision-Date: 2013-11-04 02:38+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -624,6 +624,24 @@ msgstr "Ihre E-Mail wurde verifiziert."
 msgid "The activation link has been re-sent to your email address."
 msgstr "Der Aktivierungs-Link wurde an Ihre E-Mail-Adresse geschickt."
 
+msgid "About me"
+msgstr "Über mich"
+
+msgid "Newest events"
+msgstr "Neueste Ereignisse"
+
+msgid "Contributions"
+msgstr "Beiträge"
+
+msgid "Votes"
+msgstr "Stimmen"
+
+msgid "Delegations"
+msgstr "Delegationen"
+
+msgid "All Events"
+msgstr "Alle Ereignisse"
+
 msgid "Invalid login"
 msgstr "Ungültiger Login."
 
@@ -667,9 +685,6 @@ msgstr "Ein Benutzer wollte sich auf %s mit der E-Mail-Adresse %s registrieren. 
 #, python-format
 msgid "Registration attempt on %s"
 msgstr "Registrierungswunsch für %s"
-
-msgid "tutorial_dashboard_title"
-msgstr "Sie befinden sich in Ihrem persönlichem Dashboard. Es bietet Ihnen eine Übersicht über eingebrachte Vorschläge und Beschlüsse, Ihre Gruppen und über Ihre Beobachtungsliste."
 
 msgid "The account has been suspended."
 msgstr "Der Nutzer wurde suspendiert."
@@ -1083,8 +1098,10 @@ msgid ""
 "between number of votes for and against and also prefer newer proposals"
 msgstr "Sortiere zuerst nach wichtigen Badges, dann nach der Differenz der Stimmen für und gegen den Vorschlag und bevorzuge außerdem neuere Vorschläge"
 
-msgid "Prefer proposals where the gap between votes for and against is close"
-msgstr "Bevorzuge Vorschläge bei denen der Unterschied zwischen Dafür- und Dagegen-Stimmen knapp ist"
+msgid ""
+"Prefer proposals where the gap between votes for and against is close, also "
+"proposals with more absolut votes are rated slightly higher"
+msgstr "Bevorzuge Vorschläge, bei denen der Abstand zwischen Pro- und Contra-Stimmen knapp ist; auch werden Vorschläge mit mehr absoluten Stimmen etwas höher bewertet"
 
 msgid "Sort by the characters of the proposal title"
 msgstr "Sortiere nach den Buchstaben des Vorschlagstitels"
@@ -1205,6 +1222,15 @@ msgstr "enthält sich bei"
 
 msgid "is against"
 msgstr "ist gegen"
+
+msgid "is"
+msgstr "ist"
+
+msgid "for"
+msgstr "für"
+
+msgid "against"
+msgstr "gegen"
 
 #, python-format
 msgid "comment on %s"
@@ -1491,16 +1517,6 @@ msgstr "Neuer Kommentar bei: %(topic)s"
 msgid "Comment Edit: %(topic)s"
 msgstr "Bearbeiteter Kommentar: %(topic)s"
 
-#, python-format
-msgid ""
-"\r\n"
-"\r\n"
-"More info: %(url)s"
-msgstr ""
-"\r\n"
-"\r\n"
-"Mehr Informationen: %(url)s"
-
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr ""
 "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht "
@@ -1593,6 +1609,13 @@ msgstr "Kategorie"
 
 msgid "Thumbnail badge"
 msgstr "Miniaturbildbadge"
+
+#, python-format
+msgid ""
+"\r\n"
+"\r\n"
+"More info: %(url)s"
+msgstr "\r\n\r\nMehr Informationen: %(url)s"
 
 msgid "(Untitled)"
 msgstr "(Unbenannt)"
@@ -1934,9 +1957,6 @@ msgstr "Insgesamt <a href=\"%(url)s\">%(votes)s Stimmen</a>, davon %(for)s dafü
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 msgstr "Insgesamt %(votes)s Stimmen, davon %(for)s dafür und %(against)s dagegen."
 
-msgid "Votes"
-msgstr "Stimmen"
-
 msgid "Votes by User Group"
 msgstr "Stimmen nach Benutzergruppe"
 
@@ -2070,9 +2090,6 @@ msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Gruppe ausschließen
 
 msgid "Permissions"
 msgstr "Rechte"
-
-msgid "All Events"
-msgstr "Alle Ereignisse"
 
 msgid "Import Users"
 msgstr "Benutzer importieren"
@@ -2484,12 +2501,6 @@ msgstr "Kontext"
 msgid "History"
 msgstr "Historie"
 
-msgid "for"
-msgstr "für"
-
-msgid "against"
-msgstr "gegen"
-
 msgid "abstained"
 msgstr "enthalten"
 
@@ -2626,12 +2637,11 @@ msgstr "Was ist der Stand der Dinge?"
 msgid "All current events."
 msgstr "Alle aktuellen Ereignisse."
 
-#, python-format
-msgid "%s"
-msgstr "%s"
+msgid "Show full proposal"
+msgstr "Zeige ganzen Vorschlag"
 
-msgid "more"
-msgstr "Mehr..."
+msgid "Show full comment"
+msgstr "Zeige ganzen Kommentar"
 
 msgid "Add geographic location"
 msgstr "Geographische Verortung hinzufügen"
@@ -2733,11 +2743,11 @@ msgstr "Aktuelles Logo"
 msgid "Delete current logo"
 msgstr "Lösche aktuelles Logo"
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Thumbnail badges width"
 msgstr "Miniaturbild-Badges Breite"
@@ -3495,9 +3505,6 @@ msgstr "Keine Miniaturbildbadges"
 msgid "Delegations: %s"
 msgstr "Delegationen: %s"
 
-msgid "Delegations"
-msgstr "Delegationen"
-
 msgid "Propose new Variant"
 msgstr "Neue Version anlegen"
 
@@ -4047,89 +4054,6 @@ msgstr "Beispiel:"
 msgid "Badges in instance"
 msgstr "Badges in der Gruppe"
 
-msgid "Startpage"
-msgstr "Dashboard"
-
-#, python-format
-msgid "Hi %s."
-msgstr "Hi %s."
-
-#, python-format
-msgid ""
-"Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
-"href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
-"href=\"%s\">instances</a></b>."
-msgstr "Beginnen Sie, indem Sie einige <b><a href=\"%s\">Vorschläge</a></b> oder <b><a href=\"%s\">Beschlüsse</a></b> lesen. Oder werfen Sie einen Blick auf einige der anderen <b><a href=\"%s\">Gruppen</a></b>."
-
-#, python-format
-msgid ""
-"Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
-"the proposals and norms in the instances."
-msgstr "Beginnen Sie, indem Sie die <b><a href=\"%s\">Gruppen</a></b> erkunden und einige der Vorschläge und Beschlüsse in den Gruppen lesen. "
-
-msgid ""
-"If you join an instance, norms and proposals of the instance will be shown "
-"on your dashboard."
-msgstr "Wenn Sie einer Gruppe beitreten, werden Beschlüsse und Vorschläge der Gruppe in Ihrem Dashboard angezeigt."
-
-msgid ""
-"You can reach your dashboard anytime by clicking on your user name on the "
-"top of the page."
-msgstr "Sie können Ihr Dashboard jederzeit erreichen, indem Sie oben rechts auf Ihren Benutzernamen klicken."
-
-msgid ""
-"This is your Dashboard. Here you can find the list of instances your a "
-"member in, norms and proposals from these instance and a list of the pages "
-"you follow."
-msgstr "Dies ist Ihr Dashboard. Hier finden Sie eine Liste der Gruppen, in denen Sie Mitglied sind, Beschlüsse und Vorschläge dieser Gruppen und eine Liste der Vorschläge, Termine und Benutzer, denen Sie folgen."
-
-#, python-format
-msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr "Sie können auch zu der <a href=\"%s\">Page you came from</a> zurückkehren."
-
-msgid "Proposals in your instances"
-msgstr "Vorschläge in Ihren Gruppen"
-
-msgid "List all proposals"
-msgstr "Zeige alle Vorschläge"
-
-msgid "list all"
-msgstr "zeige alle"
-
-msgid "Norms in your instances"
-msgstr "Beschlüsse in Ihren Gruppen"
-
-msgid "List all pages"
-msgstr "Zeige alle Beschlüsse"
-
-msgid "tutorial_dashboard_username"
-msgstr ""
-"Sie können Ihr Dashboard jederzeit durch einen Klick auf Ihren "
-"Benutzernamen aufrufen."
-
-msgid "tutorial_dashboard_proposals"
-msgstr "Ihr Dashboard bietet Ihnen unter anderem eine Liste aller in den Gruppen eingebrachter Vorschläge."
-
-msgid "tutorial_dashboard_show_all"
-msgstr ""
-"Durch einen Klick auf \"Zeige alle\" können Sie sich die vollständige "
-"Liste aller Vorschläge anzeigen lassen."
-
-msgid "tutorial_dashboard_instances"
-msgstr "Hier finden Sie eine Liste der Gruppen, in denen Sie Mitglied sind. Durch einen Klick auf den Gruppennamen gelangen Sie zur Gruppe."
-
-msgid "tutorial_dashboard_watchlist"
-msgstr "In der Beobachtungsliste finden Sie Inhalte, denen sie folgen. Durch einen Klick auf \"Zeige alle\" erhalten Sie eine Übersicht über alle Vorschläge, Termine und Benutzer denen Sie folgen."
-
-msgid "Your Instances"
-msgstr "Ihre Gruppen"
-
-msgid "Your Watchlist"
-msgstr "Ihre Beobachtungsliste"
-
-msgid "Current polls in your instances"
-msgstr "Aktuelle Abstimmungen in Ihren Gruppen"
-
 msgid "Topic"
 msgstr "Thema"
 
@@ -4385,21 +4309,79 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
-msgid "Short biography"
-msgstr "Kurzbiographie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
 
-#, python-format
-msgid "Signed up %s"
-msgstr "%s angemeldet"
+msgid "Short biography"
+msgstr "Kurzbiographie"
+
+msgid "Activity in"
+msgstr "Aktivität in"
+
+msgid "All instances"
+msgstr "Alle Gruppen"
+
+msgid "Delete this user."
+msgstr "Benutzer löschen"
+
+msgid "Resign from this instance."
+msgstr "Die Gruppe verlassen."
+
+msgid "leave"
+msgstr "verlassen"
+
+msgid "un-ban"
+msgstr "Verbannung aufheben"
+
+msgid "ban"
+msgstr "verbannen"
+
+msgid "Show my public profile"
+msgstr "Zeige mein öffentliches Profil"
 
 #, python-format
 msgid "%s does not yet have a bio."
 msgstr "%s hat noch keine Kurzbiographie angegeben."
+
+msgid "Account created"
+msgstr "Konto erstellt"
+
+#, python-format
+msgid "Member in \"%s\" since"
+msgstr "Mitglied in \"%s\" seit"
+
+#, python-format
+msgid "Not a member in \"%s\""
+msgstr "Kein Mitglied in \"%s\""
+
+msgid "User groups"
+msgstr "Nutzergruppen"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "change group"
+msgstr "Gruppe ändern"
+
+msgid "User badges"
+msgstr "Nutzerbadges"
+
+msgid "Most recent activity"
+msgstr "Letzte Aktivität"
+
+msgid "Member in the following instances"
+msgstr "Mitglied in folgenden Gruppen"
+
+msgid "Member in other instances"
+msgstr "Mitglied in anderen Gruppen"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Send message"
+msgstr "Nachricht senden"
 
 #, python-format
 msgid "joined %s"
@@ -4408,28 +4390,6 @@ msgstr " trat %s bei"
 #, python-format
 msgid "signed up %s"
 msgstr "%s angemeldet"
-
-msgid "send a message"
-msgstr "Eine Nachricht senden"
-
-#, python-format
-msgid "make %s"
-msgstr "Zu einem %s machen"
-
-msgid "Resign from this instance."
-msgstr "Die Gruppe verlassen."
-
-msgid "leave instance"
-msgstr "Gruppe verlassen"
-
-msgid "un-ban"
-msgstr "Verbannung aufheben"
-
-msgid "ban"
-msgstr "verbannen"
-
-msgid "Delete this user."
-msgstr "Benutzer löschen"
 
 msgid "Generate welcome link"
 msgstr "Generiere Einladungs-Link"

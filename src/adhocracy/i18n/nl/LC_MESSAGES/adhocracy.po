@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-30 23:05+0100\n"
-"PO-Revision-Date: 2013-10-30 22:05+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2013-11-04 03:27+0100\n"
+"PO-Revision-Date: 2013-11-04 02:27+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -593,6 +593,24 @@ msgstr "Uw e-mail is bevestigd."
 msgid "The activation link has been re-sent to your email address."
 msgstr "De activatie link is opnieuw verzonden naar uw e-mailadres."
 
+msgid "About me"
+msgstr ""
+
+msgid "Newest events"
+msgstr ""
+
+msgid "Contributions"
+msgstr ""
+
+msgid "Votes"
+msgstr "Stemmen"
+
+msgid "Delegations"
+msgstr "Volmachtigingen"
+
+msgid "All Events"
+msgstr "Alle Evenementen"
+
 msgid "Invalid login"
 msgstr "Ongeldige inlog"
 
@@ -636,9 +654,6 @@ msgstr "Een gebruiker heeft geprobeerd om zich te registeren op %s met e-mailadr
 #, python-format
 msgid "Registration attempt on %s"
 msgstr "Registratie poging op %s"
-
-msgid "tutorial_dashboard_title"
-msgstr "U bevindt zich op uw persoonlijk Dashboard. Hier vindt u een overzicht van alle voorstellen en reglementen in uw groepen en uw volglijst."
 
 msgid "The account has been suspended."
 msgstr "Het account is opgeschort."
@@ -1036,8 +1051,10 @@ msgid ""
 "between number of votes for and against and also prefer newer proposals"
 msgstr ""
 
-msgid "Prefer proposals where the gap between votes for and against is close"
-msgstr "Prefereer voorstellen waar het gat tussen voors en tegens klein is"
+msgid ""
+"Prefer proposals where the gap between votes for and against is close, also "
+"proposals with more absolut votes are rated slightly higher"
+msgstr ""
 
 msgid "Sort by the characters of the proposal title"
 msgstr "Sorteer op voorsteltitel"
@@ -1157,6 +1174,15 @@ msgstr "onthoudt zich van stemming op"
 
 msgid "is against"
 msgstr "is tegen"
+
+msgid "is"
+msgstr ""
+
+msgid "for"
+msgstr "voor"
+
+msgid "against"
+msgstr "tegen"
 
 #, python-format
 msgid "comment on %s"
@@ -1443,13 +1469,6 @@ msgstr "Reactie Antwoord: %(topic)s"
 msgid "Comment Edit: %(topic)s"
 msgstr "Reactie Bewerken: %(topic)s"
 
-#, python-format
-msgid ""
-"\r\n"
-"\r\n"
-"More info: %(url)s"
-msgstr " \n\nMeer informatie: %(url)s"
-
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aangepast."
 
@@ -1538,6 +1557,13 @@ msgstr "Categorie"
 
 msgid "Thumbnail badge"
 msgstr "Thumbnailbadge"
+
+#, python-format
+msgid ""
+"\r\n"
+"\r\n"
+"More info: %(url)s"
+msgstr " \n\nMeer informatie: %(url)s"
 
 msgid "(Untitled)"
 msgstr "(Naamloos)"
@@ -1840,9 +1866,6 @@ msgstr "Een totaal van <a href=\"%(url)s\">%(votes)s stemmen</a>, waarvan %(for)
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 msgstr "Een totaal van %(votes)s stemmen, waarvan %(for)s voor en %(against)s tegen"
 
-msgid "Votes"
-msgstr "Stemmen"
-
 msgid "Votes by User Group"
 msgstr "Stemmen per Gebruikersgroep"
 
@@ -1976,9 +1999,6 @@ msgstr "WAARSCHUWING: Hiermee kunt u zich uit Adhocracy buitensluiten. Ga hier v
 
 msgid "Permissions"
 msgstr "Rechten"
-
-msgid "All Events"
-msgstr "Alle Evenementen"
 
 msgid "Import Users"
 msgstr "Importeer Gebruikers"
@@ -2388,12 +2408,6 @@ msgstr "Context"
 msgid "History"
 msgstr "Geschiedenis"
 
-msgid "for"
-msgstr "voor"
-
-msgid "against"
-msgstr "tegen"
-
 msgid "abstained"
 msgstr "onthielden"
 
@@ -2515,12 +2529,11 @@ msgstr "Whazza"
 msgid "All current events."
 msgstr "Alle huidige evenementen."
 
-#, python-format
-msgid "%s"
-msgstr "%s"
+msgid "Show full proposal"
+msgstr ""
 
-msgid "more"
-msgstr "meer"
+msgid "Show full comment"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Laatste evenementen"
@@ -2612,11 +2625,11 @@ msgstr "Huidig logo"
 msgid "Delete current logo"
 msgstr "Verwijder huidig logo"
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "U kunt CSS toevoegen om de opmaak van deze groep aan te passen."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Thumbnail badges width"
 msgstr "Thumbnail badges breedte"
@@ -3335,9 +3348,6 @@ msgstr "Geen Thumbnailbadges"
 msgid "Delegations: %s"
 msgstr "Volmachtigingen: %s"
 
-msgid "Delegations"
-msgstr "Volmachtigingen"
-
 msgid "Propose new Variant"
 msgstr "Stel nieuwe Variant voor"
 
@@ -3837,85 +3847,6 @@ msgstr "Voorbeeld:"
 msgid "Badges in instance"
 msgstr "Badges in groep"
 
-msgid "Startpage"
-msgstr "Startpagina"
-
-#, python-format
-msgid "Hi %s."
-msgstr "Hallo %s."
-
-#, python-format
-msgid ""
-"Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
-"href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
-"href=\"%s\">instances</a></b>."
-msgstr "Begin met het lezen van enkele <b><a href=\"%s\">voorstellen</a></b> of <b><a href=\"%s\">reglementen</a></b>. Of neem een kijkje bij andere <b><a href=\"%s\">groepen</a></b>."
-
-#, python-format
-msgid ""
-"Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
-"the proposals and norms in the instances."
-msgstr "Begin met verkennen van de <b><a href=\"%s\">groepen</a></b> en lees de voorstellen en reglementen in de groepen."
-
-msgid ""
-"If you join an instance, norms and proposals of the instance will be shown "
-"on your dashboard."
-msgstr "Als u lid wordt van een groep dan worden de reglementen en voorstellen van de groep op uw dashboard getoond."
-
-msgid ""
-"You can reach your dashboard anytime by clicking on your user name on the "
-"top of the page."
-msgstr "U kunt altijd terugkeren naar uw dashboard door bovenaan de pagina op uw naam te klikken."
-
-msgid ""
-"This is your Dashboard. Here you can find the list of instances your a "
-"member in, norms and proposals from these instance and a list of the pages "
-"you follow."
-msgstr "Dit is uw Dashboard. Hier vindt u een lijst met groepen waar u lid van bent, reglementen en voorstellen van deze groepen en een lijst met pagina's die u volgt."
-
-#, python-format
-msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr "U kunt ook terugkeren naar de <a href=\"%s\">pagina waar u vandaan kwam</a>."
-
-msgid "Proposals in your instances"
-msgstr "Voorstellen in uw groepen"
-
-msgid "List all proposals"
-msgstr "Toon alle voorstellen"
-
-msgid "list all"
-msgstr "toon alles"
-
-msgid "Norms in your instances"
-msgstr "Reglementen in uw groepen"
-
-msgid "List all pages"
-msgstr "Toon alle pagina's"
-
-msgid "tutorial_dashboard_username"
-msgstr "U kunt op elk moment terugkeren naar uw Dashboard door bovenaan de pagina op uw naam te klikken."
-
-msgid "tutorial_dashboard_proposals"
-msgstr "In uw Dashboard ziet u onder andere een lijst van alle reglementen die in uw groepen gelden."
-
-msgid "tutorial_dashboard_show_all"
-msgstr "Klik hier om de volledige lijst van alle voorstellen te tonen."
-
-msgid "tutorial_dashboard_instances"
-msgstr "Hier ziet u alle groepen waar u lid van bent. Als u op de naam van een groep klikt wordt u naar de groep doorgestuurd."
-
-msgid "tutorial_dashboard_watchlist"
-msgstr "De volglijst biedt een overzicht van de items die u volgt. Klik op \"toon alles\" voor een volledige lijst."
-
-msgid "Your Instances"
-msgstr "Uw Groepen"
-
-msgid "Your Watchlist"
-msgstr "Uw Volglijst"
-
-msgid "Current polls in your instances"
-msgstr "Huidige stemmingen in uw groepen"
-
 msgid "Topic"
 msgstr "Onderwerp"
 
@@ -4158,21 +4089,79 @@ msgstr "Begroeting"
 msgid "Select your prefered gender"
 msgstr "Selecteer uw gewenste geslacht"
 
-msgid "Short biography"
-msgstr "Korte biografie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Door middel van een biografie kunnen andere wat over u te weten komen en misschien krijgt u er wel een aantal machtigingen door."
 
-#, python-format
-msgid "Signed up %s"
-msgstr "Registratiedatum %s"
+msgid "Short biography"
+msgstr "Korte biografie"
+
+msgid "Activity in"
+msgstr ""
+
+msgid "All instances"
+msgstr ""
+
+msgid "Delete this user."
+msgstr "Verwijder deze gebruiker."
+
+msgid "Resign from this instance."
+msgstr "Verlaat deze groep."
+
+msgid "leave"
+msgstr ""
+
+msgid "un-ban"
+msgstr "verbanning opheffen"
+
+msgid "ban"
+msgstr "verbannen"
+
+msgid "Show my public profile"
+msgstr ""
 
 #, python-format
 msgid "%s does not yet have a bio."
 msgstr "%s heeft geen biografie"
+
+msgid "Account created"
+msgstr ""
+
+#, python-format
+msgid "Member in \"%s\" since"
+msgstr ""
+
+#, python-format
+msgid "Not a member in \"%s\""
+msgstr ""
+
+msgid "User groups"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "change group"
+msgstr ""
+
+msgid "User badges"
+msgstr ""
+
+msgid "Most recent activity"
+msgstr ""
+
+msgid "Member in the following instances"
+msgstr ""
+
+msgid "Member in other instances"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send message"
+msgstr ""
 
 #, python-format
 msgid "joined %s"
@@ -4181,28 +4170,6 @@ msgstr "lid geworden op %s"
 #, python-format
 msgid "signed up %s"
 msgstr "registratiedatum %s"
-
-msgid "send a message"
-msgstr "stuur een bericht"
-
-#, python-format
-msgid "make %s"
-msgstr "maak %s"
-
-msgid "Resign from this instance."
-msgstr "Verlaat deze groep."
-
-msgid "leave instance"
-msgstr "verlaat groep"
-
-msgid "un-ban"
-msgstr "verbanning opheffen"
-
-msgid "ban"
-msgstr "verbannen"
-
-msgid "Delete this user."
-msgstr "Verwijder deze gebruiker."
 
 msgid "Generate welcome link"
 msgstr "Genereer welkomlink"

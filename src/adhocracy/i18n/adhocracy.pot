@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 6854b4b\n"
+"Project-Id-Version: adhocracy 227b080\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-30 23:05+0100\n"
+"POT-Creation-Date: 2013-11-04 03:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -566,6 +566,24 @@ msgstr ""
 msgid "The activation link has been re-sent to your email address."
 msgstr ""
 
+msgid "About me"
+msgstr ""
+
+msgid "Newest events"
+msgstr ""
+
+msgid "Contributions"
+msgstr ""
+
+msgid "Votes"
+msgstr ""
+
+msgid "Delegations"
+msgstr ""
+
+msgid "All Events"
+msgstr ""
+
 msgid "Invalid login"
 msgstr ""
 
@@ -601,9 +619,6 @@ msgstr ""
 
 #, python-format
 msgid "Registration attempt on %s"
-msgstr ""
-
-msgid "tutorial_dashboard_title"
 msgstr ""
 
 msgid "The account has been suspended."
@@ -995,7 +1010,7 @@ msgstr ""
 msgid "First sort by proposals with important badges, then by the difference between number of votes for and against and also prefer newer proposals"
 msgstr ""
 
-msgid "Prefer proposals where the gap between votes for and against is close"
+msgid "Prefer proposals where the gap between votes for and against is close, also proposals with more absolut votes are rated slightly higher"
 msgstr ""
 
 msgid "Sort by the characters of the proposal title"
@@ -1114,6 +1129,15 @@ msgid "abstains on"
 msgstr ""
 
 msgid "is against"
+msgstr ""
+
+msgid "is"
+msgstr ""
+
+msgid "for"
+msgstr ""
+
+msgid "against"
 msgstr ""
 
 #, python-format
@@ -1401,13 +1425,6 @@ msgstr ""
 msgid "Comment Edit: %(topic)s"
 msgstr ""
 
-#, python-format
-msgid ""
-"\r\n"
-"\r\n"
-"More info: %(url)s"
-msgstr ""
-
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr ""
 
@@ -1495,6 +1512,13 @@ msgid "Category"
 msgstr ""
 
 msgid "Thumbnail badge"
+msgstr ""
+
+#, python-format
+msgid ""
+"\r\n"
+"\r\n"
+"More info: %(url)s"
 msgstr ""
 
 msgid "(Untitled)"
@@ -1842,9 +1866,6 @@ msgstr ""
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 msgstr ""
 
-msgid "Votes"
-msgstr ""
-
 msgid "Votes by User Group"
 msgstr ""
 
@@ -1975,9 +1996,6 @@ msgid "WARNING: This allows you to shut yourself out of your adhocracy. Handle w
 msgstr ""
 
 msgid "Permissions"
-msgstr ""
-
-msgid "All Events"
 msgstr ""
 
 msgid "Import Users"
@@ -2376,12 +2394,6 @@ msgstr ""
 msgid "History"
 msgstr ""
 
-msgid "for"
-msgstr ""
-
-msgid "against"
-msgstr ""
-
 msgid "abstained"
 msgstr ""
 
@@ -2492,11 +2504,10 @@ msgstr ""
 msgid "All current events."
 msgstr ""
 
-#, python-format
-msgid "%s"
+msgid "Show full proposal"
 msgstr ""
 
-msgid "more"
+msgid "Show full comment"
 msgstr ""
 
 msgid "Add geographic location"
@@ -2586,10 +2597,10 @@ msgstr ""
 msgid "Delete current logo"
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
 msgid "Thumbnail badges width"
@@ -3303,9 +3314,6 @@ msgstr ""
 msgid "Delegations: %s"
 msgstr ""
 
-msgid "Delegations"
-msgstr ""
-
 msgid "Propose new Variant"
 msgstr ""
 
@@ -3804,73 +3812,6 @@ msgstr ""
 msgid "Badges in instance"
 msgstr ""
 
-msgid "Startpage"
-msgstr ""
-
-#, python-format
-msgid "Hi %s."
-msgstr ""
-
-#, python-format
-msgid "Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a href=\"%s\">instances</a></b>."
-msgstr ""
-
-#, python-format
-msgid "Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of the proposals and norms in the instances."
-msgstr ""
-
-msgid "If you join an instance, norms and proposals of the instance will be shown on your dashboard."
-msgstr ""
-
-msgid "You can reach your dashboard anytime by clicking on your user name on the top of the page."
-msgstr ""
-
-msgid "This is your Dashboard. Here you can find the list of instances your a member in, norms and proposals from these instance and a list of the pages you follow."
-msgstr ""
-
-#, python-format
-msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr ""
-
-msgid "Proposals in your instances"
-msgstr ""
-
-msgid "List all proposals"
-msgstr ""
-
-msgid "list all"
-msgstr ""
-
-msgid "Norms in your instances"
-msgstr ""
-
-msgid "List all pages"
-msgstr ""
-
-msgid "tutorial_dashboard_username"
-msgstr ""
-
-msgid "tutorial_dashboard_proposals"
-msgstr ""
-
-msgid "tutorial_dashboard_show_all"
-msgstr ""
-
-msgid "tutorial_dashboard_instances"
-msgstr ""
-
-msgid "tutorial_dashboard_watchlist"
-msgstr ""
-
-msgid "Your Instances"
-msgstr ""
-
-msgid "Your Watchlist"
-msgstr ""
-
-msgid "Current polls in your instances"
-msgstr ""
-
 msgid "Topic"
 msgstr ""
 
@@ -4098,39 +4039,25 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Short biography"
-msgstr ""
-
 msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
-#, python-format
-msgid "Signed up %s"
+msgid "Short biography"
 msgstr ""
 
-#, python-format
-msgid "%s does not yet have a bio."
+msgid "Activity in"
 msgstr ""
 
-#, python-format
-msgid "joined %s"
+msgid "All instances"
 msgstr ""
 
-#, python-format
-msgid "signed up %s"
-msgstr ""
-
-msgid "send a message"
-msgstr ""
-
-#, python-format
-msgid "make %s"
+msgid "Delete this user."
 msgstr ""
 
 msgid "Resign from this instance."
 msgstr ""
 
-msgid "leave instance"
+msgid "leave"
 msgstr ""
 
 msgid "un-ban"
@@ -4139,7 +4066,57 @@ msgstr ""
 msgid "ban"
 msgstr ""
 
-msgid "Delete this user."
+msgid "Show my public profile"
+msgstr ""
+
+#, python-format
+msgid "%s does not yet have a bio."
+msgstr ""
+
+msgid "Account created"
+msgstr ""
+
+#, python-format
+msgid "Member in \"%s\" since"
+msgstr ""
+
+#, python-format
+msgid "Not a member in \"%s\""
+msgstr ""
+
+msgid "User groups"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "change group"
+msgstr ""
+
+msgid "User badges"
+msgstr ""
+
+msgid "Most recent activity"
+msgstr ""
+
+msgid "Member in the following instances"
+msgstr ""
+
+msgid "Member in other instances"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send message"
+msgstr ""
+
+#, python-format
+msgid "joined %s"
+msgstr ""
+
+#, python-format
+msgid "signed up %s"
 msgstr ""
 
 msgid "Generate welcome link"

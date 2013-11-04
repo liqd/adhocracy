@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-30 23:05+0100\n"
-"PO-Revision-Date: 2013-10-30 22:05+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2013-11-04 03:27+0100\n"
+"PO-Revision-Date: 2013-11-04 02:27+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -595,6 +595,24 @@ msgstr "Ваш емаил был подтвержден"
 msgid "The activation link has been re-sent to your email address."
 msgstr "Ссылка активации послана на Вашу электронную почту. "
 
+msgid "About me"
+msgstr ""
+
+msgid "Newest events"
+msgstr ""
+
+msgid "Contributions"
+msgstr ""
+
+msgid "Votes"
+msgstr "Голоса"
+
+msgid "Delegations"
+msgstr "Делегирования"
+
+msgid "All Events"
+msgstr "Все события"
+
 msgid "Invalid login"
 msgstr ""
 
@@ -637,9 +655,6 @@ msgstr ""
 
 #, python-format
 msgid "Registration attempt on %s"
-msgstr ""
-
-msgid "tutorial_dashboard_title"
 msgstr ""
 
 msgid "The account has been suspended."
@@ -1038,7 +1053,9 @@ msgid ""
 "between number of votes for and against and also prefer newer proposals"
 msgstr ""
 
-msgid "Prefer proposals where the gap between votes for and against is close"
+msgid ""
+"Prefer proposals where the gap between votes for and against is close, also "
+"proposals with more absolut votes are rated slightly higher"
 msgstr ""
 
 msgid "Sort by the characters of the proposal title"
@@ -1159,6 +1176,15 @@ msgstr "воздерживается"
 
 msgid "is against"
 msgstr "против "
+
+msgid "is"
+msgstr ""
+
+msgid "for"
+msgstr "за"
+
+msgid "against"
+msgstr "против"
 
 #, python-format
 msgid "comment on %s"
@@ -1445,13 +1471,6 @@ msgstr "Ответ на коментарий: %(topic)s"
 msgid "Comment Edit: %(topic)s"
 msgstr "Редактирование коментария: %(topic)s"
 
-#, python-format
-msgid ""
-"\r\n"
-"\r\n"
-"More info: %(url)s"
-msgstr "⏎ \n⏎ \nБольше информации: %(url)s"
-
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Предложение в данный момент находится в процессе голосования и не может быть изменено. "
 
@@ -1540,6 +1559,13 @@ msgstr "Категория"
 
 msgid "Thumbnail badge"
 msgstr ""
+
+#, python-format
+msgid ""
+"\r\n"
+"\r\n"
+"More info: %(url)s"
+msgstr "⏎ \n⏎ \nБольше информации: %(url)s"
 
 msgid "(Untitled)"
 msgstr "(Без названия)"
@@ -1842,9 +1868,6 @@ msgstr ""
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 msgstr ""
 
-msgid "Votes"
-msgstr "Голоса"
-
 msgid "Votes by User Group"
 msgstr ""
 
@@ -1978,9 +2001,6 @@ msgstr "ОСТОРОЖНО: Здесь Вы можете исключить са
 
 msgid "Permissions"
 msgstr "Права"
-
-msgid "All Events"
-msgstr "Все события"
 
 msgid "Import Users"
 msgstr "Импортировать список пользователей"
@@ -2390,12 +2410,6 @@ msgstr "Контекст"
 msgid "History"
 msgstr "История"
 
-msgid "for"
-msgstr "за"
-
-msgid "against"
-msgstr "против"
-
 msgid "abstained"
 msgstr "воздержался"
 
@@ -2517,12 +2531,11 @@ msgstr "Whazza"
 msgid "All current events."
 msgstr "Все события происходящие сейчас. "
 
-#, python-format
-msgid "%s"
-msgstr "%s"
+msgid "Show full proposal"
+msgstr ""
 
-msgid "more"
-msgstr "еще"
+msgid "Show full comment"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Последние события"
@@ -2614,11 +2627,11 @@ msgstr "Действующий логотип"
 msgid "Delete current logo"
 msgstr "Удалить действующий логотип"
 
-msgid "Extra CSS"
-msgstr "Дополнительные CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr ""
+
+msgid "Extra CSS"
+msgstr "Дополнительные CSS"
 
 msgid "Thumbnail badges width"
 msgstr ""
@@ -3340,9 +3353,6 @@ msgstr ""
 msgid "Delegations: %s"
 msgstr "Делегирования %s"
 
-msgid "Delegations"
-msgstr "Делегирования"
-
 msgid "Propose new Variant"
 msgstr "Предложить новый вариант"
 
@@ -3842,85 +3852,6 @@ msgstr "Пример:"
 msgid "Badges in instance"
 msgstr ""
 
-msgid "Startpage"
-msgstr "Начальная страница"
-
-#, python-format
-msgid "Hi %s."
-msgstr ""
-
-#, python-format
-msgid ""
-"Start by reading some <b><a href=\"%s\">proposals</a></b> or <b><a "
-"href=\"%s\">norms</a></b>. Or take a look at some of the other <b><a "
-"href=\"%s\">instances</a></b>."
-msgstr "Начните с чтения <b><a href=\"%s\">предложений</a></b> or <b><a href=\"%s\">документов</a></b>. Или ознакомьтесь с другими <b><a href=\"%s\">организациями</a></b>."
-
-#, python-format
-msgid ""
-"Start by exploring the <b><a href=\"%s\">instances</a></b> and read some of "
-"the proposals and norms in the instances."
-msgstr "Начните с изучения <b><a href=\"%s\">организаций</a></b> и прочитайте некоторые документы и предложения в организациях."
-
-msgid ""
-"If you join an instance, norms and proposals of the instance will be shown "
-"on your dashboard."
-msgstr "Если вы присоединитесь к организации, то документы и предложения этой орагизации будет показаны на Вашей панели инструментов."
-
-msgid ""
-"You can reach your dashboard anytime by clicking on your user name on the "
-"top of the page."
-msgstr "Вы можете вернуться на панель инструментов, нажав на своё имя в верхней части страницы"
-
-msgid ""
-"This is your Dashboard. Here you can find the list of instances your a "
-"member in, norms and proposals from these instance and a list of the pages "
-"you follow."
-msgstr "Эта Ваша панель инструментов. Здесь Вы можете видеть список организаций в которых Вы состоите, документы и предложения этих организаций групп, и список страниц, на которые Вы подписаны. "
-
-#, python-format
-msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
-msgstr "Вы можете вернуться на <a href=\"%s\">страницу, с которой Вы пришли</a>."
-
-msgid "Proposals in your instances"
-msgstr "Предложения в Ваших организациях"
-
-msgid "List all proposals"
-msgstr "Список предложений"
-
-msgid "list all"
-msgstr "Список"
-
-msgid "Norms in your instances"
-msgstr "Документы в Ваших организациях"
-
-msgid "List all pages"
-msgstr "Список всех страниц"
-
-msgid "tutorial_dashboard_username"
-msgstr ""
-
-msgid "tutorial_dashboard_proposals"
-msgstr ""
-
-msgid "tutorial_dashboard_show_all"
-msgstr ""
-
-msgid "tutorial_dashboard_instances"
-msgstr ""
-
-msgid "tutorial_dashboard_watchlist"
-msgstr ""
-
-msgid "Your Instances"
-msgstr "Ваши организации"
-
-msgid "Your Watchlist"
-msgstr "Ваш список наблюдения"
-
-msgid "Current polls in your instances"
-msgstr "Актуальные опросы в Ваших организациях"
-
 msgid "Topic"
 msgstr "Тема"
 
@@ -4163,21 +4094,79 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Краткая биография"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
 
-#, python-format
-msgid "Signed up %s"
-msgstr "Вошел в систему %s"
+msgid "Short biography"
+msgstr "Краткая биография"
+
+msgid "Activity in"
+msgstr ""
+
+msgid "All instances"
+msgstr ""
+
+msgid "Delete this user."
+msgstr "Удалить пользователя"
+
+msgid "Resign from this instance."
+msgstr "покинуть организацию"
+
+msgid "leave"
+msgstr ""
+
+msgid "un-ban"
+msgstr "Разбанить"
+
+msgid "ban"
+msgstr "Забанить"
+
+msgid "Show my public profile"
+msgstr ""
 
 #, python-format
 msgid "%s does not yet have a bio."
 msgstr "%s пока не опубликовал свою биографию"
+
+msgid "Account created"
+msgstr ""
+
+#, python-format
+msgid "Member in \"%s\" since"
+msgstr ""
+
+#, python-format
+msgid "Not a member in \"%s\""
+msgstr ""
+
+msgid "User groups"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "change group"
+msgstr ""
+
+msgid "User badges"
+msgstr ""
+
+msgid "Most recent activity"
+msgstr ""
+
+msgid "Member in the following instances"
+msgstr ""
+
+msgid "Member in other instances"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send message"
+msgstr ""
 
 #, python-format
 msgid "joined %s"
@@ -4186,28 +4175,6 @@ msgstr "присоединился %s"
 #, python-format
 msgid "signed up %s"
 msgstr "%s в системе"
-
-msgid "send a message"
-msgstr "послать сообщение"
-
-#, python-format
-msgid "make %s"
-msgstr "Сделать %s"
-
-msgid "Resign from this instance."
-msgstr "покинуть организацию"
-
-msgid "leave instance"
-msgstr "Покинуть организацию"
-
-msgid "un-ban"
-msgstr "Разбанить"
-
-msgid "ban"
-msgstr "Забанить"
-
-msgid "Delete this user."
-msgstr "Удалить пользователя"
 
 msgid "Generate welcome link"
 msgstr ""
