@@ -81,7 +81,7 @@
 </%def>
 
 
-<%def name="watch(entity, id=None)">
+<%def name="watch(entity, id=None, show_skip=True)">
     ## FIXME: turn into an ajax call
     %if c.user:
     <%
@@ -126,6 +126,7 @@
         skip = True
     %>
     %if skip:
+    %if show_skip:
     <div class="skip_follow">
         <%doc>
         placeholder div to fill the space if we cannot render a widget.
@@ -133,6 +134,7 @@
         to watch/unwatch
         </%doc>
     </div>
+    %endif
     %else:
     <a ${id_attr} class="follow_paper ${css_cls}" href="${href}"
        data-text="${text}" data-hover-text="${hover_text}"
