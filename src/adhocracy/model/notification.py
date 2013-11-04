@@ -22,10 +22,36 @@ notification_table = Table(
 )
 
 
-# The Notification class itself is in adhocracy.lib.events.notification
-
-
 class Notification(object):
+    """ Notification class connects events to their recipients.
+
+    If an event is created, Notification objects are created in the module
+    functions of adhocracy.lib.event.notification.sources for various reason:
+    An entity related to an event is on a user's watchlist, or has been voted
+    on, etc.
+
+    These notifications are then filtered to avoid duplicates etc. The filter
+    functions are in adhocracy.lib.event.notification.filters.
+
+    The remaining notifications are passed through a chain of sinks which
+    are module functions of adhocracy.lib.event.notification.sinks. Sinks are
+    notification consumers, which may either stop further propagation of the
+    notification to other sinks or pass them on.
+
+    The entire pipeline of Notification objects is defined in the notify
+    function in adhocracy.lib.event.notification.
+
+    From an ORM perspective the Notification class is somewhat special, as
+    many notifications are created without ever being added to the SQLAlchemy
+    session and thus never being added to the database, but merely exist as
+    normal Python objects. Only some notifications will ever make it to the
+    database: Those which are explictly added to the SQLAlchemy session in
+    the database sink.
+
+    In order to avoid to accidently add notifications to the database, there
+    is no backref Event.notifications in the mapper definition in
+    adhocracy.model.
+    """
 
     TPL_NAME = os.path.join("", "notifications", "%s.%s.txt")
 
