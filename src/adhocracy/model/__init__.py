@@ -409,7 +409,11 @@ mapper(Event, event_table, properties={
 
 
 mapper(Notification, notification_table, properties={
-    'event': relation(Event, backref=backref('notifications')),
+    # Note: There's explicitly no Event.notifications backref, as this would
+    # trigger all initialized notifications to go from transient to pending
+    # state and makes them exist in the database even if they're never
+    # Session.add()-ed.
+    'event': relation(Event),
     'user': relation(User, lazy=False),
     'watch': relation(Watch, lazy=True),
 })
