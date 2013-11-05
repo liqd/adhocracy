@@ -35,30 +35,30 @@ class TestUrls(TestController):
         url = build(None, 'base', 'id', query={'param': u'arg'},
                     anchor='anchor', member='member', format="html")
         self.assertEqual(
-            url, u'http://test.lan/base/id/member.html#anchor?param=arg')
+            url, u'http://test.lan/base/id/member.html?param=arg#anchor')
 
     def test_build_global_omit_base(self):
         from adhocracy.lib.helpers.url import build
         url = build(None, None, 'id', query={'param': u'arg'},
                     anchor='anchor', member='member', format="html")
         self.assertEqual(url,
-                         u'http://test.lan/id/member.html#anchor?param=arg')
+                         u'http://test.lan/id/member.html?param=arg#anchor')
         url = build(None, '', 'id', query={'param': u'arg'},
                     anchor='anchor', member='member', format="html")
         self.assertEqual(url,
-                         u'http://test.lan/id/member.html#anchor?param=arg')
+                         u'http://test.lan/id/member.html?param=arg#anchor')
 
     def test_build_global_omit_member_and_format(self):
         from adhocracy.lib.helpers.url import build
         url = build(None, 'base', 'id', query={'param': u'arg'},
                     anchor='anchor')
-        self.assertEqual(url, u'http://test.lan/base/id#anchor?param=arg')
+        self.assertEqual(url, u'http://test.lan/base/id?param=arg#anchor')
 
     def test_build_global_omit_anchor_member_and_format(self):
         from adhocracy.lib.helpers.url import build
         url = build(None, 'base', 'id', query={'param': u'arg'},
                     anchor='anchor')
-        self.assertEqual(url, u'http://test.lan/base/id#anchor?param=arg')
+        self.assertEqual(url, u'http://test.lan/base/id?param=arg#anchor')
 
     def test_build_global_omit_query(self):
         from adhocracy.lib.helpers.url import build
