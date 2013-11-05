@@ -304,7 +304,10 @@ class UserController(BaseController):
 
     def edit(self, id):
         """ legacy url """
-        redirect(h.entity_url(c.user, instance=c.instance, member='settings'))
+        page_user = get_entity_or_abort(model.User, id,
+                                        instance_filter=False)
+        redirect(h.entity_url(page_user, instance=c.instance,
+                              member='settings'))
 
     def _settings_result(self, updated, user, setting_name, message=None):
         '''
