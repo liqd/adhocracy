@@ -17,7 +17,7 @@
         </div>
 
         %if preview:
-            %if event.event.code in [u't_proposal_create', u't_proposal_edit']:
+            %if event.event.code in [u't_proposal_create', u't_proposal_edit'] and event.proposal.description.head is not None:
             ${row_text(h.entity_url(event.proposal), _(u'Show full proposal'), event.proposal.description.head.render())}
 
             %elif event.event.code in [u't_comment_create', u't_comment_edit']:
