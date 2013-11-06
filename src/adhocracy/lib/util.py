@@ -168,3 +168,7 @@ def split_filter(condition, seq):
     for item in seq:
         (a if condition(item) else b).append(item)
     return a, b
+
+
+def validate_ret_url(ret_url):
+    return len(ret_url) > 2 and ret_url[0] == u'/' and ret_url[1] != u'/'
