@@ -346,6 +346,8 @@ S_PAGE = [
     't_page_delete',
 ]
 
+S_CONTRIBUTION = S_PROPOSAL + S_COMMENT + S_PAGE
+
 
 TYPE_MAPPINGS = dict([(v.code, v) for v in locals().values()
                       if isinstance(v, NotificationType)])

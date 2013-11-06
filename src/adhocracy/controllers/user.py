@@ -44,8 +44,8 @@ from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_PROPOSAL
-from adhocracy.lib.event.types import S_COMMENT, S_PAGE
+from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_PROPOSAL,
+                                       S_COMMENT, S_PAGE, S_CONTRIBUTION)
 
 
 log = logging.getLogger(__name__)
@@ -907,7 +907,7 @@ class UserController(BaseController):
     def dashboard_contributions(self, format='html',
                                 current_nav=u'contributions'):
         return self.dashboard(format=format, current_nav=current_nav,
-                              event_filter=S_PROPOSAL + S_PAGE + S_COMMENT)
+                              event_filter=S_CONTRIBUTION)
 
     def dashboard_votes(self, format='html', current_nav=u'votes'):
         return self.dashboard(format=format, current_nav=current_nav,
@@ -929,8 +929,7 @@ class UserController(BaseController):
         return render("/user/show.html")
 
     def latest_contributions(self, id, format='html'):
-        return self.show(id, format, u'contributions',
-                         S_PROPOSAL + S_PAGE + S_COMMENT)
+        return self.show(id, format, u'contributions', S_CONTRIBUTION)
 
     def latest_milestones(self, id, format='html'):
         # Milestone events don't exist yet
