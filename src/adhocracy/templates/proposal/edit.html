@@ -43,7 +43,7 @@
         </fieldset>
 
         %if not h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-        %if can.perm("instance.admin"):
+        %if can.perm("instance.admin") and not c.proposal.is_amendment:
         <fieldset>
             <legend>${_("badge")}</legend>
 
