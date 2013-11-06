@@ -285,9 +285,14 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(proposal, self.form_result.get('watch'))
-        event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-                   topics=[proposal], proposal=proposal,
-                   rev=description.head)
+        if amendment:
+            event.emit(event.T_AMENDMENT_CREATE, c.user, instance=c.instance,
+                       topics=[proposal, page], proposal=proposal,
+                       rev=description.head, page=page)
+        else:
+            event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
+                       topics=[proposal], proposal=proposal,
+                       rev=description.head)
         redirect(h.entity_url(proposal, format=format))
 
     @RequireInstance
@@ -373,9 +378,16 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(c.proposal, self.form_result.get('watch'))
-        event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal, rev=_text,
-                   badges_added=added, badges_removed=removed)
+        if c.proposal.is_amendment:
+            page = c.proposal.selection.page
+            event.emit(event.T_AMENDMENT_EDIT, c.user, instance=c.instance,
+                       topics=[c.proposal, page], proposal=c.proposal,
+                       page=page, rev=_text,
+                       badges_added=added, badges_removed=removed)
+        else:
+            event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+                       topics=[c.proposal], proposal=c.proposal, rev=_text,
+                       badges_added=added, badges_removed=removed)
         redirect(h.entity_url(c.proposal))
 
     @RequireInstance
@@ -504,10 +516,14 @@ class ProposalController(BaseController):
         if c.proposal.is_amendment:
             ret_url = h.entity_url(c.proposal.selection.page,
                                    member='amendment')
+            page = c.proposal.selection.page
+            event.emit(event.T_AMENDMENT_DELETE, c.user, instance=c.instance,
+                       topics=[c.proposal, page], proposal=c.proposal,
+                       page=page)
         else:
             ret_url = h.entity_url(c.instance)
-        event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal)
+            event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
+                       topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.title,
