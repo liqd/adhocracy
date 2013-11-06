@@ -188,7 +188,7 @@ class MilestoneController(BaseController):
         if (config.get_bool('adhocracy.milestone.allow_show_all_proposals')
            and c.milestone.show_all_proposals
            and not c.milestone.over):
-            proposals = model.Proposal.all_q()\
+            proposals = model.Proposal.all_q(instance=c.instance)\
                 .filter(model.Proposal.frozen == False).all()  # noqa
         else:
 
