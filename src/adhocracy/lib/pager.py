@@ -1542,7 +1542,8 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
                       sorts=get_user_sorts(None, default_sorting),
-                      facets=[(UserBadgeFacet, {}), (InstanceFacet, {})]
+                      facets=[(UserBadgeFacet, {'instance': None}),
+                              (InstanceFacet, {})]
                       )
     return pager
 
