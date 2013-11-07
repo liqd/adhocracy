@@ -75,7 +75,7 @@
                 <li>
                     <label>
                         <input type="radio" value=""
-                               %if all(badge not in c.proposal.thumbnails for proposal in c.thumbnailbadges):
+                               %if all(badge not in c.proposal.thumbnails for badge in c.thumbnailbadges):
                                checked="checked"
                                %endif
                                name="thumbnailbadge" />
