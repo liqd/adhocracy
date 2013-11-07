@@ -6,10 +6,10 @@
 <%def name="breadcrumbs()">
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
 </%def>
-  
+
 <%block name="main_content">
 
-<form name="settings" class="inplace" method="POST" 
+<form name="settings" class="inplace" method="POST"
       action="${h.entity_url(c.instance, member='update_badges')}">
 
     ${h.field_token()|n}
@@ -24,7 +24,7 @@
             %for badge in c.badges:
             <tr>
                 <td>
-                    <input type="checkbox" value="${badge.id}" 
+                    <input type="checkbox" value="${badge.id}"
                            name="badge" />
                 </td>
                 <td>${badge_tiles.badge(badge)}</td>
@@ -36,7 +36,7 @@
     <div style="clear:both;"></div>
 
     ${components.savebox(h.base_url("/instance/%s" % c.instance.key))}
- 
+
 </form>
 
 </%block>
