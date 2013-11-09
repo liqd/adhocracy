@@ -50,17 +50,6 @@ ${h.site.name()} &raquo; ${_("Instances")}
     </div>
     %endif
 
-    %if can.badge.edit_instance():
-
-    <% h.need.adhocracy_ko %>
-
-    <script>
-        var basepath = 'instance/';
-        var editModel = new adhocracy.ko.editBadges(basepath);
-        editModel.applyToPager('#instance_table');
-    </script>
-    %endif
-
 </div>
 
 <div class="list_button">
