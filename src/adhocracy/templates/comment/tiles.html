@@ -269,18 +269,18 @@ klass_con = klass(-1)
               <input type="hidden" name="sentiment"
                      value="${str(comment.latest.sentiment)}" />
             </div>
-            %if allow_mediafiles: 
+            %if allow_mediafiles:
             <div class="hr"><hr /></div>
             <div class="input_wrapper">
                 %if image_src:
                 <img src="${image_src}/logo" />
                 <button name="delete_image" value="1">
                    <i class="icon-remove"></i>${_('Delete image')}
-                </button>     
+                </button>
                 %endif
               <label for="image">${_('Add image to this comment.')}</label>
-              <input id="image" name="image" type="file" accept="image/jpeg">   
-            </div>  
+              <input id="image" name="image" type="file" accept="image/*">
+            </div>
             %endif
             <hr />
             <div class="input_wrapper submit">
@@ -345,13 +345,13 @@ if wiki is None:
                   ${_("Allow others to edit this comment.") if h.comment.wording() else _("Allow others to edit this argument.")}
               </label>
             </div>
-            %if allow_mediafiles: 
+            %if allow_mediafiles:
             <div class="hr"><hr /></div>
             <div class="input_wrapper">
               <label for="image">${_('Add image to this comment.')}</label>
-              <input id="image" name="image" type="file" accept="image/jpeg">   
+              <input id="image" name="image" type="file" accept="image/*">
             </div>
-            %endif        
+            %endif
             <hr />
             <div class="input_wrapper submit">
               <input type="submit" value="${_('Save')}" />&nbsp;
