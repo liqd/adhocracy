@@ -146,6 +146,12 @@
             background-image: url("/images/event-proposal.png");
         }
 
+        &.t_amendment_create:before,
+        &.t_amendment_edit:before,
+        &.t_amendment_delete:before {
+            background-image: url("/images/event-amendment.png");
+        }
+
         &.t_delegation_create:before,
         &.t_delegation_revoke {
             background-image: url("/images/event-delegation-out.png");

@@ -40,7 +40,7 @@ class Proposal(Delegateable):
     @property
     def selection(self):
         assert(self.is_amendment)
-        return self.selections[0]
+        return self._selections[0]
 
     @property
     def title(self):
