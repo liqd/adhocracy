@@ -111,6 +111,7 @@ def setup_entities(config, initial_setup):
         u'page.delete': [moderator],
         u'page.delete_history': [moderator],
         u'page.edit': [advisor],
+        u'page.edit_head': [moderator],
         u'page.show': [anonymous],
         u'page.view': [anonymous],
         u'poll.create': [moderator],
