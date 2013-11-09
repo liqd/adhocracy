@@ -120,9 +120,9 @@
         <% instance_groups = c.page_user.instance_groups() %>
         <h6>${_('User groups')}</h6>
         %if instance_groups:
-        ${u', '.join([_(g.group_name) for g in instance_groups])}
+        <span>${u', '.join([_(g.group_name) for g in instance_groups])}</span>
         %else:
-        ${_(u"None")}
+        <span>${_(u"None")}</span>
         %endif
 
         %if not c.dashboard and can.user.supervise(c.page_user):
@@ -168,7 +168,7 @@
             %endfor
         </ul>
         %else:
-        ${_(u"None")}
+        <span>${_(u"None")}</span>
         %endif
 
         %if c.last_activity:
@@ -179,9 +179,9 @@
         <h6>${_('Member in the following instances') if c.instance is None else _('Member in other instances')}</h6>
         <% instances = c.page_user.real_instances(exclude_current=True) %>
         %if instances:
-        ${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}
+        <div>${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}</div>
         %else:
-        ${_(u'None')}
+        <span>${_(u'None')}</span>
         %endif
 
         %if c.instance and can.user.message(c.page_user):

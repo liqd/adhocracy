@@ -10,14 +10,14 @@ from pylons.i18n import _
 
 from adhocracy import forms, model
 from adhocracy.lib import democracy
-from adhocracy.lib import event, helpers as h, sorting, tiles, watchlist
+from adhocracy.lib import event, helpers as h, sorting, tiles
 from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import (render, render_def, render_json,
                                       ret_abort, ret_success)
-from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.util import get_entity_or_abort, validate_ret_url
 
 log = logging.getLogger(__name__)
 
@@ -147,9 +147,14 @@ class CommentController(BaseController):
     def edit(self, id, format='html'):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
+        extra_vars = {'comment': c.comment}
+        ret_url = request.params.get(u'ret_url', u'')
+        if validate_ret_url(ret_url):
+            extra_vars[u'ret_url'] = ret_url
+            c.ret_url = ret_url
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
-                              {'comment': c.comment})
+                              extra_vars=extra_vars)
         elif format == 'overlay':
             return render('/comment/edit.html', overlay=True)
         else:

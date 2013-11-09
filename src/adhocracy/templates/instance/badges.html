@@ -7,37 +7,32 @@
 <%def name="breadcrumbs()">
     ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
 </%def>
-  
+
 <%block name="main_content">
 
-<form name="settings" class="inplace" method="POST" 
+<form name="settings" class="inplace" method="POST"
       action="${h.entity_url(c.instance, member='update_badges')}">
 
     ${h.field_token()|n}
+    <h3>Badges</h3>
 
-    <label for="badge">Badges</label>
-    <table>
-        <thead>
-            <th></th>
-            <th>${_("badge")}</th>
-        </thead>
-        <tbody>
-            %for badge in c.badges:
-            <tr>
-                <td>
-                    <input type="checkbox" value="${badge.id}" 
-                           name="badge" />
-                </td>
-                <td>${badge_tiles.badge(badge)}</td>
-            </tr>
-            %endfor
-        </tbody>
-    </table>
-
-    <div style="clear:both;"></div>
+    %if c.badges:
+    <ul class="nobullet">
+        %for badge in c.badges:
+        <li>
+            <label>
+                <input type="checkbox" value="${badge.id}"
+                       name="badge" />
+                ${badge_tiles.badge(badge)}
+            </label>
+        </li>
+        %endfor
+    </ul>
+    %else:
+    <p>${_(u"No Badges")}</p>
+    %endif
 
     ${components.savebox(h.base_url("/instance/%s" % c.instance.key))}
- 
 </form>
 
 </%block>

@@ -91,6 +91,7 @@
 
         // icons
         padding-left: 60px;
+        min-height: 38px;
         &:before {
             background-image: url("/images/event-unknown.png");
             content: "";
@@ -104,6 +105,7 @@
 
         &.infobox {
             padding-left: 0;
+            min-height: 0;
             &:before {
                 background-image: none;
             }
@@ -142,6 +144,12 @@
         &.t_proposal_state_voting:before,
         &.t_proposal_state_draft:before {
             background-image: url("/images/event-proposal.png");
+        }
+
+        &.t_amendment_create:before,
+        &.t_amendment_edit:before,
+        &.t_amendment_delete:before {
+            background-image: url("/images/event-amendment.png");
         }
 
         &.t_delegation_create:before,

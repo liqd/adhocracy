@@ -12,6 +12,11 @@
                     <!--TODO: update tile cache after changing badges [joka]-->
                     ${tiles.badge.badges(instance.badges)}
                 </span>
+                %if can.badge.edit_instance():
+                <a class="button_small edit"
+                   href="${h.entity_url(instance, member='badges')}"
+                   rel="#overlay-form">${_(u"Edit Badges")}</a>
+                %endif
             </h3>
             <div class="meta">
                 ##${h.user.link(instance.creator)|n} ·

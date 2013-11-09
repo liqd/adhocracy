@@ -9,8 +9,12 @@
 ${admin_tiles.headline()}
 </%block>
 
-<%block name="main_content"
-_('Administrate the Installation')
+<%block name="main_content">
+
+<dl>
+  <dt>Adhocracy version</dt>
+  <dd>${h.version.get_version()}</dd>
+</dl>
 </%block>
 
 <%block name="sidebar">
