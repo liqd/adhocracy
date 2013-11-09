@@ -149,7 +149,6 @@ class CommentController(BaseController):
         require.comment.edit(c.comment)
         extra_vars = {'comment': c.comment}
         ret_url = request.params.get(u'ret_url', u'')
-        data = {}
         if validate_ret_url(ret_url):
             extra_vars[u'ret_url'] = ret_url
             c.ret_url = ret_url
