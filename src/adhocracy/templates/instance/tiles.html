@@ -13,8 +13,9 @@
                     ${tiles.badge.badges(instance.badges)}
                 </span>
                 %if can.badge.edit_instance():
+                ## NOTE: Don't use entity_url in href due to same-origin-policy issue (#621)
                 <a class="button_small edit"
-                   href="${h.entity_url(instance, member='badges')}"
+                   href="${'/instance/%s/badges' % instance.key}"
                    rel="#overlay-form">${_(u"Edit Badges")}</a>
                 %endif
             </h3>

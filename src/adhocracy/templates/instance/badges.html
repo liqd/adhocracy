@@ -9,8 +9,9 @@
 
 <%block name="main_content">
 
+## NOTE: Don't use entity_url in href due to same-origin-policy issue (#621)
 <form name="settings" class="inplace" method="POST"
-      action="${h.entity_url(c.instance, member='update_badges')}">
+    action="${'/instance/%s/update_badges' % c.page_instance.key}">
 
     ${h.field_token()|n}
     <h3>Badges</h3>
@@ -31,7 +32,7 @@
     <p>${_(u"No Badges")}</p>
     %endif
 
-    ${components.savebox(h.base_url("/instance/%s" % c.instance.key))}
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 </form>
 
 </%block>
