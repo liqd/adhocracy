@@ -15,7 +15,7 @@
       %endif
   </head>
 
-<body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}<%block name="body_class"></%block></%block>"
+<body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}</%block>"
     data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
     data-stats-interval="${c.monitor_page_time_interval}"

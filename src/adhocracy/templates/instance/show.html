@@ -2,7 +2,6 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("Home")}</%def>
-<%block name="body_class">instancename-${c.page_instance.key} instance-startpage</%block>
 
 <%def name="breadcrumbs()">
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Home")}
