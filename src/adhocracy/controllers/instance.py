@@ -354,15 +354,15 @@ class InstanceController(BaseController):
 
     @guard.perm("global.admin")
     def badges(self, id, errors=None, format='html'):
-        instance = get_entity_or_abort(model.Instance, id)
-        c.badges = self._editable_badges(instance)
+        c.page_instance = get_entity_or_abort(model.Instance, id)
+        c.badges = self._editable_badges(c.page_instance)
         defaults = {
-            'badge': [str(badge.id) for badge in instance.badges],
+            'badge': [str(badge.id) for badge in c.page_instance.badges],
             '_tok': csrf.token_id(),
         }
         if format == 'ajax':
-            checked = [badge.id for badge in instance.badges]
-            json = {'title': instance.label,
+            checked = [badge.id for badge in c.page_instance.badges]
+            json = {'title': c.page_instance.label,
                     'badges': [{
                         'id': badge.id,
                         'description': badge.description,

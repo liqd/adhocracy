@@ -1,17 +1,18 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="badge_tiles" file="/badge/tiles.html"/>
-<%def name="title()">${_("Edit badges for %s") % c.proposal.title}</%def>
+<%def name="title()">${_("Edit badges for %s") % c.page_instance.title}</%def>
 <%block name="body_class">instancename-${c.page_instance.key} instance-badges</%block>
 
 <%def name="breadcrumbs()">
-    ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
+    ${h.instance.breadcrumbs(c.page_instance)|n} &raquo; ${_("Edit Badges")}
 </%def>
 
 <%block name="main_content">
 
+## NOTE: Don't use entity_url in href due to same-origin-policy issue (#621)
 <form name="settings" class="inplace" method="POST"
-      action="${h.entity_url(c.instance, member='update_badges')}">
+    action="${'/instance/%s/update_badges' % c.page_instance.key}">
 
     ${h.field_token()|n}
     <h3>Badges</h3>
@@ -32,7 +33,7 @@
     <p>${_(u"No Badges")}</p>
     %endif
 
-    ${components.savebox(h.base_url("/instance/%s" % c.instance.key))}
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 </form>
 
 </%block>
