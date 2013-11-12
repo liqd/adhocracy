@@ -1,3 +1,4 @@
+# coding: utf-8
 import cgi
 import logging
 
@@ -108,7 +109,13 @@ class VoteFormatter(ObjectFormatter):
                 -1: _("is against")}[vote.orientation]
 
     def html(self, value):
-        return self.unicode(value)
+        return {
+            1: u'%s <span class="pro">%s ✓</span>' % (
+                _(u'is'), _(u'for')),
+            0: _(u'abstains on'),
+            -1: u'%s <span class="con">%s ×</span>' % (
+                _(u'is'), _(u'against')),
+        }[value.orientation]
 
 
 class CommentFormatter(ObjectFormatter):

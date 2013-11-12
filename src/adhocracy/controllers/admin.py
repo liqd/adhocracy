@@ -171,7 +171,8 @@ class AdminController(BaseController):
                 display_name = user_info['display_name']
                 names.append(name)
                 user = model.User.create(name, email,
-                                         display_name=display_name)
+                                         display_name=display_name,
+                                         autojoin=False)
                 user.activation_code = user.IMPORT_MARKER + random_token()
                 password = random_token()
                 user_info['password'] = password

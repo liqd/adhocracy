@@ -1,4 +1,5 @@
 import copy
+from functools import partial
 from inspect import isclass
 import math
 import logging
@@ -298,10 +299,12 @@ def help_strings():
         _("Newest"): _('Sort by proposal creation date'),
         _("Newest Comment"): _('Sort by date of the last comment'),
         _("Most Support"): _('Sort by number of votes for the proposal'),
-        _("Mixed"): _('Sort by the difference between number of votes for and '
-                      'against, and prefer newer proposals'),
+        _("Mixed"): _('First sort by proposals with important badges, '
+                      'then by the difference between number of votes '
+                      'for and against and also prefer newer proposals'),
         _("Controversy"): _('Prefer proposals where the gap between votes for '
-                            'and against is close'),
+                            'and against is close, also proposals with more '
+                            'absolut votes are rated slightly higher'),
         _("Alphabetically"): _('Sort by the characters of the proposal title'),
     }
 
@@ -368,8 +371,9 @@ def delegations(delegations):
                       default_sort=sorting.entity_newest)
 
 
-def events(events, **kwargs):
-    return NamedPager('events', events, tiles.event.row, **kwargs)
+def events(events, pager_name='events', row_type='row', **kwargs):
+    row = partial(tiles.event.event_row, row_type=row_type)
+    return NamedPager(pager_name, events, row, **kwargs)
 
 
 def polls(polls, default_sort=None, **kwargs):
@@ -793,15 +797,29 @@ class UserBadgeFacet(SolrFacet):
     name = 'userbadge'
     entity_type = model.Badge
     title = u'Badge'
-    solr_field = 'facet.badges'
     show_current_empty = False
+
+    @staticmethod
+    def get_solr_field(instance):
+        solr_field = 'facet.badges'
+        if instance is None:
+            return solr_field
+        else:
+            return '%s.%s' % (solr_field, instance.key)
+
+    @property
+    def solr_field(self):
+        # self.instance needs to be set
+        return self.get_solr_field(self.instance)
 
     @classmethod
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [entity_to_solr_token(badge) for
-                                 badge in user.badges]
+        for instance in model.Instance.all(include_hidden=True):
+            index[cls.get_solr_field(instance)] =\
+                [entity_to_solr_token(badge) for badge in user.badges
+                 if badge.instance is None or badge.instance == instance]
 
 
 class InstanceBadgeFacet(SolrFacet):
@@ -1219,7 +1237,8 @@ class SolrPager(PagerMixin):
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
         self.extra_filter = extra_filter
-        self.facets = [Facet(self.name, request) for Facet in facets]
+        self.facets = [Facet(self.name, request, **kwargs)
+                       for Facet, kwargs in facets]
         self.wildcard_queries = wildcard_queries or {}
         self.initial_size = initial_size
         if size is not None:
@@ -1515,7 +1534,7 @@ def solr_instance_users_pager(instance, default_sorting='ACTIVITY'):
                       entity_type=model.User,
                       sorts=get_user_sorts(instance, default_sorting),
                       extra_filter=extra_filter,
-                      facets=[UserBadgeFacet])
+                      facets=[(UserBadgeFacet, {'instance': instance})])
     return pager
 
 
@@ -1523,7 +1542,8 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
     pager = SolrPager('users', tiles.user.row,
                       entity_type=model.User,
                       sorts=get_user_sorts(None, default_sorting),
-                      facets=[UserBadgeFacet, InstanceFacet]
+                      facets=[(UserBadgeFacet, {'instance': None}),
+                              (InstanceFacet, {})]
                       )
     return pager
 
@@ -1541,11 +1561,13 @@ def solr_instance_pager(include_hidden=False):
         instance_sorts._default = sorts[custom_default].value
     if include_hidden:
         extra_filter = None
-        facets = [InstanceBadgeFacet, InstanceStateFacet,
-                  InstanceHiddenStateFacet]
+        facets = [(InstanceBadgeFacet, {}),
+                  (InstanceStateFacet, {}),
+                  (InstanceHiddenStateFacet, {})]
     else:
         extra_filter = {'hidden': False}
-        facets = [InstanceBadgeFacet, InstanceStateFacet]
+        facets = [(InstanceBadgeFacet, {}),
+                  (InstanceStateFacet, {})]
     # create pager
     pager = SolrPager('instances', tiles.instance.row,
                       entity_type=model.Instance,
@@ -1576,12 +1598,12 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
                       entity_type=model.Proposal,
                       sorts=sorts,
                       extra_filter=extra_filter,
-                      facets=[DelegateableBadgeCategoryFacet,
-                              DelegateableMilestoneFacet,
-                              DelegateableBadgeFacet,
-                              DelegateableAddedByBadgeFacet,
-                              DelegateableBadgeThumbnailFacet,
-                              DelegateableTags],
+                      facets=[(DelegateableBadgeCategoryFacet, {}),
+                              (DelegateableMilestoneFacet, {}),
+                              (DelegateableBadgeFacet, {}),
+                              (DelegateableAddedByBadgeFacet, {}),
+                              (DelegateableBadgeThumbnailFacet, {}),
+                              (DelegateableTags, {})],
                       wildcard_queries=wildcard_queries)
     return pager
 

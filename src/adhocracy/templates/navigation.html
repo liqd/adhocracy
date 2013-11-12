@@ -67,11 +67,11 @@
                            id_="nav_login")}
                 %else:
                 <li id="user_menu" class="${_class('user')}">
-                    <a class="icon_link show_me" 
-                       href="${h.entity_url(c.user, member='dashboard')}">${c.user.name}</a>
+                    <a class="icon_link show_me"
+                       href="${h.base_url(u'/user/dashboard')}">${c.user.name}</a>
                     <ul class="children">
                         <li>
-                            <a href="${h.entity_url(c.user, member='dashboard')}">
+                            <a href="${h.base_url(u'/user/dashboard')}">
                                 ${_('Dashboard')}
                             </a>
                         </li>

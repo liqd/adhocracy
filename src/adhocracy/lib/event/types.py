@@ -149,6 +149,28 @@ T_PROPOSAL_DELETE = EventType(
         h.entity_url(e.instance, absolute=absolute)),
     event_msg=lambda: _(u"deleted %(proposal)s"))
 
+T_AMENDMENT_CREATE = EventType(
+    u"t_amendment_create", pri=3,
+    subject=lambda: _(u"New amendment to %(page)s: %(proposal)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.amendment, absolute=absolute)),
+    event_msg=lambda: _(u"created amendment %(proposal)s to %(page)s"),
+    text=lambda e: e.rev.text if e.rev else None)
+
+T_AMENDMENT_EDIT = EventType(
+    u"t_amendment_edit", pri=2,
+    subject=lambda: _(u"Edit amendment to %(page)s: %(proposal)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.amendment, absolute=absolute)),
+    text=lambda e: e.rev.text if e.text else None,
+    event_msg=lambda: _(u"edited amendment %(proposal)s to %(page)s"))
+
+T_AMENDMENT_DELETE = EventType(
+    u"t_amendment_delete", pri=3,
+    subject=lambda: _(u"Deleted amendment to %(page)s: %(proposal)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.instance, absolute=absolute)),
+    event_msg=lambda: _(u"deleted amendment %(proposal)s to %(page)s"))
 
 T_PAGE_CREATE = EventType(
     u"t_page_create", pri=4,
@@ -310,4 +332,51 @@ N_COMMENT_EDIT = NotificationType(
     text=lambda e: e.rev.text if e.rev else None)
 
 
-TYPES = [v for v in locals().values() if isinstance(v, NotificationType)]
+# Sets
+S_VOTE = [
+    't_vote_cast',
+    't_rating_cast',
+    'n_delegate_voted',
+]
+
+S_DELEGATION = [
+    't_delegation_create',
+    't_delegation_revoke',
+    'n_delegation_receive',
+    'n_delegation_lost',
+]
+
+S_PROPOSAL = [
+    't_proposal_create',
+    't_proposal_edit',
+    't_proposal_delete',
+    't_proposal_state_voting',
+    't_proposal_state_draft',
+]
+
+S_AMENDMENT = [
+    't_amendment_create',
+    't_amendment_edit',
+    't_amendment_delete',
+]
+
+S_COMMENT = [
+    't_comment_edit',
+    't_comment_create',
+    't_comment_delete',
+    'n_comment_reply',
+    'n_comment_edit',
+]
+
+S_PAGE = [
+    't_page_create',
+    't_page_edit',
+    't_page_delete',
+]
+
+S_CONTRIBUTION = S_PROPOSAL + S_AMENDMENT + S_COMMENT + S_PAGE
+
+
+TYPE_MAPPINGS = dict([(v.code, v) for v in locals().values()
+                      if isinstance(v, NotificationType)])
+TYPES = TYPE_MAPPINGS.values()

@@ -1,22 +1,51 @@
-
-<%def name="row(tile, event)">
+<%def name="row(tile, event, avatars=True, preview=True)">
     <%
     from adhocracy.lib.event import formatting
     event_html = formatting.as_html(event)
     %>
-    <li class="tile event">
-        <div class="meta">
+    <li class="${event.event.code}">
+        <%doc>  FIXME: Reactivate when ready
+        %if avatars:
+        <img class="avatar" src="/images/example_user.jpg"/>
+        %endif
+        </%doc>
+        <div class="time">${h.datetime_tag(event.time)|n}</div>
+        <div class="action">
             <a href="${h.entity_url(event.user)}">${event.user.name}</a>
-            ${tiles.badge.badges(event.user.badges)} ${event_html|n}
-            %if tile.text:
-                <div class="event_text">
-                    ${tile.text|n}
-                </div>
-            %endif
-            <div class="meta noclear">
-                ${_("%s") % h.datetime_tag(event.time)|n}
-                <a href="${event.link()}" class="more_link">${_("more")}</a>
-            </div>
+            ${tiles.badge.badges(event.user.badges)}
+            ${event_html|n}
         </div>
+
+        %if preview:
+            %if event.event.code in [u't_proposal_create', u't_proposal_edit'] and event.proposal.description.head is not None:
+            ${row_text(h.entity_url(event.proposal), _(u'Show full proposal'), event.proposal.description.head.render())}
+
+            %elif event.event.code in [u't_amendment_create', u't_amendment_edit'] and event.proposal.description.head is not None:
+            ${row_text(h.entity_url(event.proposal), _(u'Show full amendment'), event.proposal.description.head.render())}
+
+            %elif event.event.code in [u't_comment_create', u't_comment_edit'] and event.comment.__class__.__name__=='Comment':
+            ${row_text(h.entity_url(event.comment), _(u'Show full comment'), h.render(event.comment.latest.text))}
+
+            %endif
+        %endif
     </li>
+</%def>
+
+
+<%def name="profile_row(tile, event)">
+    ${row(tile, event, avatars=False)}
+</%def>
+
+
+<%def name="sidebar_row(tile, event)">
+    ${row(tile, event, avatars=False, preview=False)}
+</%def>
+
+
+<%def name="row_text(url, link_text, text)">
+    <blockquote class="preview">
+        <% short = h.text.truncate_html(text, 30, u'&hellip;') %>
+        ${short|n}
+        <a href="${url}" class="more_link">${link_text}</a>
+    </blockquote>
 </%def>

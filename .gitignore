@@ -48,9 +48,10 @@ adhocracy-test-chroot
 RELEASE-VERSION
 dist
 buildout_current.cfg
+buildout-*.cfg
 /python
 /.cache
 .sass-cache
 src/adhocracy/static/stylesheets/adhocracy.css
-src/adhocracy/tests/loadtests/data  
+src/adhocracy/tests/loadtests/data
 src/adhocracy/static/stylesheets/min/

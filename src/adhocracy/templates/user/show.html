@@ -1,7 +1,8 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="badge_tiles" file="/badge/tiles.html"/>
 
-<%def name="title()">${c.page_user.name}</%def>
+<%def name="title()">${_(u"Dashboard") if c.dashboard else c.page_user.name}</%def>
 
 
 <%block name="headline">
@@ -10,27 +11,193 @@
 
 <%block name="main_content">
 
-<h3>${c.page_user.name}</h3>
-${tiles.user.header(c.page_user, c.tile, active='activity')}
-<p>  
-    ${_("Signed up %s") % h.datetime_tag(c.page_user.create_time)|n}
-</p>
+    <% instances = c.page_user.real_instances(exclude_current=False) %>
 
-    %if c.tile.bio:
-        <div class="description">
-            ${c.tile.bio|n}
+    <div class="dashboard_header_row">
+        <div class="dashboard_select_instance">
+            ${_(u'Activity in')}
+            <select class="autoreload">
+                %if c.dashboard:
+                <option ${u' selected="selected"' if c.instance is None else u''|n}
+                    data-url="${h.base_url(u'/user/dashboard', instance=None, member=c.member)}">${_(u'All instances')}</option>
+                %for i in instances:
+                <option ${u' selected="selected"' if c.instance is i else u''|n}
+                    data-url="${h.base_url(u'/user/dashboard', instance=i, member=c.member)}">${i.label}</option>
+                %endfor
+                %else:
+                <option ${u' selected="selected"' if c.instance is None else u''|n}
+                    data-url="${h.entity_url(c.page_user, instance=None, member=c.member)}">${_(u'All instances')}</option>
+                %for i in instances:
+                <option ${u' selected="selected"' if c.instance is i else u''|n}
+                    data-url="${h.entity_url(c.page_user, instance=i, member=c.member)}">${i.label}</option>
+                %endfor
+                %endif
+            </select>
         </div>
-    %else:
+
+        <h2>
+            ${_(u"Dashboard") if c.dashboard else c.page_user.name}
+
+            <div class="utility">
+                %if not c.dashboard:
+                    %if c.instance is None and can.user.edit(c.page_user):
+                    <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
+                    %endif
+
+                    %if c.instance is None:
+                        %if can.user.delete(c.page_user):
+                        <a class="ttip" title="${_('Delete this user.')}"
+                           href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
+                        %endif
+                    %else:
+                        %if c.user and c.user == c.page_user and can.instance.leave(c.instance):
+                        <a class="ttip" title="${_('Resign from this instance.')}"
+                           href="${h.entity_url(c.instance, member='ask_leave')}">${_("leave")}</a>
+                        %endif
+                    %endif
+
+                    %if c.instance is None and can.user.manage(c.page_user):
+                        %if c.page_user.banned:
+                        <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
+                           class="add">${_("un-ban")}</a>
+                        %else:
+                        <a href="${h.entity_url(c.page_user, member='ban')}?${h.url_token()}"
+                           class="delete">${_("ban")}</a>
+                        %endif
+                    %endif
+                %else:
+                    <a href="${h.entity_url(c.page_user)}">${_(u'Show my public profile')}</a>
+                %endif
+            </div>
+        </h2>
+        ${tiles.user.header(c.page_user, c.tile, active='activity')}
+    </div>
+
+    <ul class="content_nav">
+        %for (active, title, url) in c.user_nav:
+        <li${u' class="current"' if active else '' | n}>
+            <a${u' href="%s"'%url if not active else '' | n}>${title}</a>
+        </li>
+        %endfor
+    </ul>
+
+    %if c.about:
+    <div class="dashboard_bio">
+        %if c.bio:
+            ${h.render(c.bio)|n}
+        %else:
         <div class="infobox">
             ${_("%s does not yet have a bio.") % c.page_user.name}
         </div>
-    %endif  
-    
-    <br/>
+        %endif
+    </div>
+    %else:
     <div class="table">
         ${c.events_pager.here()}
     </div>
-
+    %endif
 </%block>
 
+<%block name="sidebar">
+    %if c.user and c.page_user != c.user:
+        ${components.watch(c.page_user, show_skip=False)}
+    %endif
 
+    <div id="meta" class="dashboard sidebar_box">
+
+        <h3>${_('Information')}</h3>
+
+        %if c.instance is None:
+        <h6>${_(u'Account created')}</h6>
+        ${h.date_tag(c.page_user.create_time)|n}
+        %elif c.instance in c.page_user.instances:
+        <h6>${_(u'Member in "%s" since') % c.instance.label}</h6>
+        ${h.date_tag(c.page_user.instance_membership(c.instance).create_time)|n}
+        %else:
+        <h6>${_(u'Not a member in "%s"') % c.instance.label}</h6>
+        %endif
+
+        <% instance_groups = c.page_user.instance_groups() %>
+        <h6>${_('User groups')}</h6>
+        %if instance_groups:
+        <span>${u', '.join([_(g.group_name) for g in instance_groups])}</span>
+        %else:
+        <span>${_(u"None")}</span>
+        %endif
+
+        %if not c.dashboard and can.user.supervise(c.page_user):
+        <a href="#" class="showhide_button" id="groups-button" data-target="#groups-form">
+            ${_(u'change group')}</a>
+
+        <form action="${h.entity_url(c.page_user, member='groupmod')}" method="GET" style="display: none" id="groups-form" data-cancel=".cancel">
+            ${h.field_token()|n}
+
+            <%
+                m = c.page_user.instance_membership(c.instance)
+                current_group = m.group if m else None
+            %>
+            <select name="to_group">
+                %for group_code in model.Group.INSTANCE_GROUPS:
+                <option ${u'selected="selected"' if group_code == current_group.code else u'' | n}
+                        value="${group_code}">
+                    ${_(model.Group.by_code(group_code).group_name)}</option>
+                %endfor
+            </select>
+
+            <div class="input_wrapper submit">
+                ${components.savebox(h.entity_url(c.page_user))}
+            </div>
+        </form>
+        %endif
+
+        <h6>
+            ${_('User badges')}
+
+            %if not c.dashboard and lib.auth.authorization.has('instance.admin'):
+            <div class="utility">
+                <a href="${h.entity_url(c.page_user, member='badges')}">
+                    ${_("edit")}
+                </a>
+            </div>
+            %endif
+        </h6>
+        %if c.global_badges + c.local_badges:
+        <ul class="nobullet">
+            %for badge in c.global_badges + c.local_badges:
+            <li>${badge_tiles.badge(badge)}</li>
+            %endfor
+        </ul>
+        %else:
+        <span>${_(u"None")}</span>
+        %endif
+
+        %if c.last_activity:
+        <h6>${_('Most recent activity')}</h6>
+        ${h.date_tag(c.last_activity)|n}
+        %endif
+
+        <h6>${_('Member in the following instances') if c.instance is None else _('Member in other instances')}</h6>
+        <% instances = c.page_user.real_instances(exclude_current=True) %>
+        %if instances:
+        <div>${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}</div>
+        %else:
+        <span>${_(u'None')}</span>
+        %endif
+
+        %if c.instance and can.user.message(c.page_user):
+        <h6>${_('Contact')}</h6>
+        <div>
+          <a href="${h.entity_url(c.page_user, instance=c.instance, member='message/new')}">${_(u'Send message')}</a>
+        </div>
+        %endif
+
+        <%doc>
+        To be added:
+        x Beiträge eingebracht
+        x Bewertungen vorgenommen
+        x Delegationen vergeben (momentan aktive)
+        Delegationen erhalten (momentan aktive)
+        </%doc>
+
+    </div>
+</%block>

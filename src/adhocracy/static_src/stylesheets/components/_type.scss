@@ -22,6 +22,7 @@ h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
 /* don't allow headings in user generated content to be as big
  * as our own */
+blockquote,
 .comment .body {
     h1, h2, h3, h4, h5, h6 {
         font-size: 1em;
@@ -90,10 +91,18 @@ table {
     margin-bottom: 20px;
 
     td, th {
+        text-align: left;
         padding: 0.5em;
-    }
-    td {
         border-top: 1px solid $border;
+    }
+    thead, tfoot {
+        th {
+            text-align: center;
+        }
+    }
+
+    caption {
+        font-size: small;
     }
 
     &.line_based {
@@ -169,6 +178,14 @@ pre {
     code {
         background-color: transparent;
     }
+}
+
+// figure
+figure {
+    margin: 1em 0;
+}
+figcaption {
+    font-size: small;
 }
 
 .pro, .con { font-size: 14px; }

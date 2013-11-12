@@ -774,8 +774,9 @@ $(document).ready(function () {
         var comment_id = $(this).data('comment');
         var comment_form = $('#' + comment_edit_form_id).attr('comment_id');
         if (!comment_form) {
-            var baseUrl = $(this).data('instance-baseurl');
-            var form_url = baseUrl + 'comment/' + comment_id + '/edit.ajax';
+            var uri = new Uri($(this).attr('href'));
+            uri.setPath(uri.path().replace(/(\.[^.]+)?$/, '.ajax'));
+            var form_url = uri.toString();
             var comment_div = $('#' + c_id);
             // create a container and load the form into it.
             var form_div = comment_div.add('<div></div>').not(comment_div);
@@ -1060,7 +1061,7 @@ $(document).ready(function () {
         });
     });
 
-    $('body').delegate('select.sort_options', 'change', function (event) {
+    $('body').delegate('select.autoreload', 'change', function (event) {
         event.preventDefault();
         var url = $(this).find('option:selected').data('url');
         window.location.href = url;

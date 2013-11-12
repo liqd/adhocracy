@@ -49,6 +49,8 @@ class ProposalCreateForm(ProposalNewForm):
                                      if_missing=None)
     page = formencode.foreach.ForEach(PageInclusionForm())
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
     chained_validators = [
         forms.UnusedProposalTitle(),
     ]
@@ -68,6 +70,8 @@ class ProposalUpdateForm(ProposalEditForm):
     milestone = forms.MaybeMilestone(if_empty=None,
                                      if_missing=None)
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
+    watch = validators.StringBool(not_empty=False, if_empty=False,
+                                  if_missing=False)
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
     thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
     chained_validators = [
@@ -279,8 +283,13 @@ class ProposalController(BaseController):
                 model.Tally.create_from_poll(poll)
 
         model.meta.Session.commit()
-        watchlist.check_watch(proposal)
-        if not is_amendment:
+        if can.watch.create():
+            watchlist.set_watch(proposal, self.form_result.get('watch'))
+        if amendment:
+            event.emit(event.T_AMENDMENT_CREATE, c.user, instance=c.instance,
+                       topics=[proposal, page], proposal=proposal,
+                       rev=description.head, page=page)
+        else:
             event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        rev=description.head)
@@ -367,10 +376,18 @@ class ProposalController(BaseController):
                                   parent=c.proposal.description.head,
                                   wiki=wiki)
         model.meta.Session.commit()
-        watchlist.check_watch(c.proposal)
-        event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal, rev=_text,
-                   badges_added=added, badges_removed=removed)
+        if can.watch.create():
+            watchlist.set_watch(c.proposal, self.form_result.get('watch'))
+        if c.proposal.is_amendment:
+            page = c.proposal.selection.page
+            event.emit(event.T_AMENDMENT_EDIT, c.user, instance=c.instance,
+                       topics=[c.proposal, page], proposal=c.proposal,
+                       page=page, rev=_text,
+                       badges_added=added, badges_removed=removed)
+        else:
+            event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+                       topics=[c.proposal], proposal=c.proposal, rev=_text,
+                       badges_added=added, badges_removed=removed)
         redirect(h.entity_url(c.proposal))
 
     @RequireInstance
@@ -499,10 +516,14 @@ class ProposalController(BaseController):
         if c.proposal.is_amendment:
             ret_url = h.entity_url(c.proposal.selection.page,
                                    member='amendment')
+            page = c.proposal.selection.page
+            event.emit(event.T_AMENDMENT_DELETE, c.user, instance=c.instance,
+                       topics=[c.proposal, page], proposal=c.proposal,
+                       page=page)
         else:
             ret_url = h.entity_url(c.instance)
-        event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
-                   topics=[c.proposal], proposal=c.proposal)
+            event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
+                       topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.title,
