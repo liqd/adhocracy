@@ -2,9 +2,7 @@ import logging
 from time import time
 from itertools import chain
 
-from paste.deploy.converters import asbool
-from pylons import config
-
+from adhocracy import config
 from sources import watchlist_source, vote_source, instance_source
 from sources import delegation_source, tag_source, comment_source
 from filters import self_filter, duplicates_filter, comment_filter
@@ -44,7 +42,7 @@ def notify(event):
     pipeline = duplicates_filter(pipeline)
 
     pipeline = log_sink(pipeline)
-    if asbool(config.get('adhocracy.store_notification_events', 'true')):
+    if config.get_bool('adhocracy.store_notification_events'):
         pipeline = database_sink(pipeline)
     pipeline = twitter_sink(pipeline)
     pipeline = mail_sink(pipeline)
