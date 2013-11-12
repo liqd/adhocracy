@@ -10,7 +10,7 @@ from adhocracy.lib.util import random_token
 log = logging.getLogger(__name__)
 
 
-def user_import(_users, email_subject, email_template):
+def user_import(_users, email_subject, email_template, reinvite=False):
     names = []
     created = []
     mailed = []
@@ -24,10 +24,13 @@ def user_import(_users, email_subject, email_template):
             try:
                 display_name = user_info['display_name']
                 names.append(name)
-                user = model.User.create(name, email,
-                                         display_name=display_name,
-                                         autojoin=False)
-                user.activation_code = user.IMPORT_MARKER + random_token()
+                if reinvite:
+                    user = model.User.find(name)
+                else:
+                    user = model.User.create(name, email,
+                                             display_name=display_name,
+                                             autojoin=False)
+                    user.activation_code = user.IMPORT_MARKER + random_token()
                 password = random_token()
                 user_info['password'] = password
                 user.password = password
