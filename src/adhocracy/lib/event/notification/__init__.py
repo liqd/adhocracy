@@ -19,9 +19,12 @@ def echo(f):
         yield x
 
 
-def notify(event):
+def notify(event, database_only=False):
     '''
     been too smart today ;)
+
+    If database_only is True, the given event only creates Notfication
+    database entries without sending out email and such notifications.
     '''
     if not event:
         log.warn("Received null as event, shouldn't happen!")
@@ -44,8 +47,9 @@ def notify(event):
     pipeline = log_sink(pipeline)
     if config.get_bool('adhocracy.store_notification_events'):
         pipeline = database_sink(pipeline)
-    pipeline = twitter_sink(pipeline)
-    pipeline = mail_sink(pipeline)
+    if not database_only:
+        pipeline = twitter_sink(pipeline)
+        pipeline = mail_sink(pipeline)
 
     for _ in pipeline:
         pass
