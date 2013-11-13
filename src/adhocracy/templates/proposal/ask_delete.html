@@ -13,7 +13,7 @@
         ${h.delegateable.link(c.proposal, link=False)|n}
     </h2>
     <form name="ask_delete" class="inplace" method="POST"
-        action="${h.entity_url(c.proposal)}">
+        action="${h.entity_url(c.proposal, in_overlay=False)}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="DELETE" />
         <div class="warning_box">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="input_wrapper submit">
-            ${components.savebox(h.entity_url(c.proposal), save_text=_('Confirm'))}
+            ${components.savebox(h.entity_url(c.proposal, in_overlay=False), save_text=_('Confirm'))}
         </div>
     </form>
 </div>

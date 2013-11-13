@@ -296,7 +296,7 @@ class ProposalController(BaseController):
             event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        rev=description.head)
-        redirect(h.entity_url(proposal, format=format))
+        redirect(h.entity_url(proposal, format=format, in_overlay=False))
 
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
@@ -391,7 +391,7 @@ class ProposalController(BaseController):
             event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
                        topics=[c.proposal], proposal=c.proposal, rev=_text,
                        badges_added=added, badges_removed=removed)
-        redirect(h.entity_url(c.proposal))
+        redirect(h.entity_url(c.proposal, format=format, in_overlay=False))
 
     @RequireInstance
     def show(self, id, format='html'):
@@ -549,7 +549,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance,
                    topics=[c.proposal], proposal=c.proposal, poll=poll)
-        redirect(h.entity_url(c.proposal))
+        redirect(h.entity_url(c.proposal, in_overlay=False))
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)

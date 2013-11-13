@@ -17,14 +17,24 @@ def link(proposal, link=True, **kwargs):
 
 
 @cache.memoize('proposal_url', 3600)
-def url(proposal, **kwargs):
-    if proposal.is_amendment:
-        page = proposal.selection.page
-        base = u'page/%s/amendment' % page.label
-        return _url.build(proposal.instance, base, proposal.id, **kwargs)
+def url(proposal, member=None, in_overlay=True, **kwargs):
+    if proposal.is_amendment and member is None:
+        base = u'page/%s/amendment' % proposal.selection.page.label
+        if in_overlay:
+            from adhocracy.lib.helpers import page_helper as page
+            kwargs[u'format'] = u'overlay'
+            query = {
+                u'overlay_path': _url.build(proposal.instance, base,
+                                            proposal.id, **kwargs),
+                u'overlay_type': u'#overlay-url-big',
+            }
+            return page.url(proposal.selection.page, query=query)
+        else:
+            return _url.build(proposal.instance, base, proposal.id, **kwargs)
     else:
         ext = str(proposal.id) + '-' + label2url(proposal.title)
-        return _url.build(proposal.instance, 'proposal', ext, **kwargs)
+        return _url.build(proposal.instance, 'proposal', ext,
+                          member=member, **kwargs)
 
 
 @cache.memoize('proposal_bc')
