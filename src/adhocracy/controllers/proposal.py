@@ -216,6 +216,9 @@ class ProposalController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @guard.proposal.create()
     def create(self, page=None, format='html', amendment=False):
+        """amendment does only indicate if this controller was called from
+        the amendment route. The information about wether this will be an
+        amendment or classic proposal must be given in the form."""
 
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
@@ -285,7 +288,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(proposal, self.form_result.get('watch'))
-        if amendment:
+        if is_amendment:
             event.emit(event.T_AMENDMENT_CREATE, c.user, instance=c.instance,
                        topics=[proposal, page], proposal=proposal,
                        rev=description.head, page=page)
