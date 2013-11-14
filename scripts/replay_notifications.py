@@ -12,6 +12,8 @@ sys.path.insert(0,  os.path.abspath(os.path.dirname(__file__)))
 # /end boilerplate code
 
 from paste.deploy import appconfig
+import pylons
+from pylons.i18n.translation import _get_translator
 
 from adhocracy.config.environment import load_environment
 from adhocracy.lib.event.notification import notify
@@ -21,6 +23,8 @@ from adhocracy.model import meta, Event
 def load_config(filename):
     conf = appconfig('config:' + os.path.abspath(filename) + '#content')
     load_environment(conf.global_conf, conf.local_conf)
+    translator = _get_translator(pylons.config.get('lang'))
+    pylons.translator._push_object(translator)
 
 
 def parse_args():
