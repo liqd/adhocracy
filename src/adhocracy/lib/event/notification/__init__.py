@@ -6,6 +6,7 @@ from adhocracy import config
 from sources import watchlist_source, vote_source, instance_source
 from sources import delegation_source, tag_source, comment_source
 from filters import self_filter, duplicates_filter, comment_filter
+from filters import hidden_instance_filter
 from sinks import log_sink, mail_sink, twitter_sink
 from sinks import database_sink
 
