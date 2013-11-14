@@ -836,7 +836,8 @@ class InstanceController(BaseController):
                    topics=[])
         return ret_success(format=format,
                            message=_("The instance %s has been deleted.") %
-                           c.page_instance.label)
+                           c.page_instance.label,
+                           force_path='/')
 
     @RequireInstance
     @csrf.RequireInternalRequest()
