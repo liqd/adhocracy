@@ -26,7 +26,7 @@ def hidden_instance_filter(pipeline):
         # we cannot access notification.event directly as that would add
         # the notifications to the database, so we take a detour
         event = Event.find(notification.event.id)
-        if not event.instance.hidden:
+        if event.instance is None or not event.instance.hidden:
             yield notification
 
 
