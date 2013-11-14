@@ -6,6 +6,8 @@ import urllib
 import formencode
 from formencode import ForEach, htmlfill, validators
 
+from sqlalchemy.sql.expression import not_
+
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
@@ -807,6 +809,9 @@ class UserController(BaseController):
         query = query.filter(model.Event.user == c.page_user)
         if c.instance:
             query = query.filter(model.Event.instance == c.instance)
+        else:
+            query = query.join(model.Instance) \
+                         .filter(not_(model.Instance.hidden))
         if event_filter:
             query = query.filter(model.Event.event.in_(event_filter))
         query = query.order_by(model.Event.time.desc())

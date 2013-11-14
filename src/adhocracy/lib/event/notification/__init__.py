@@ -40,6 +40,7 @@ def notify(event):
     pipeline = comment_filter(pipeline)
     pipeline = self_filter(pipeline)
     pipeline = duplicates_filter(pipeline)
+    pipeline = hidden_instance_filter(pipeline)
 
     pipeline = log_sink(pipeline)
     if config.get_bool('adhocracy.store_notification_events'):
