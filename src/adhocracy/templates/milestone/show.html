@@ -9,7 +9,7 @@
 ${components.watch(c.milestone)}
 
 <div class="sidebar_box">
-    <h3 id="information">${_('Information')}</h3>
+    <h2 id="information">${_('Information')}</h2>
     <div class="summary">
 
         <h6>${_('Created')}</h6>
@@ -58,7 +58,7 @@ ${components.watch(c.milestone)}
     ${c.tile.text|n}
 
 
-    <h4>${_("Associated Proposals")}</h4>
+    <h3>${_("Associated Proposals")}</h3>
     %if c.show_proposals_pager:
     <div id="proposals_table" class="table">
         ${c.proposals_pager.here()}
@@ -93,7 +93,7 @@ ${components.watch(c.milestone)}
 
     <div id="associated-norms">
         %if c.instance.use_norms:
-        <h4>${_("Associated Norms")}</h4>
+        <h3>${_("Associated Norms")}</h3>
         %if c.show_pages_pager:
         <div id="pages_table" class="table" style="padding-bottom: 1em;">
             ${c.pages_pager.here()}
