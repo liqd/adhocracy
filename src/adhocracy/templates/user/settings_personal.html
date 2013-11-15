@@ -26,6 +26,17 @@ ${tiles.user.header(c.page_user)}
     ${forms.select(_("Salutation"), 'gender', c.salutations, help=_("Select your prefered gender"))}
     %endif
 
+    <%forms:input label="${_(u'Avatar')}" name="avatar" type="file" help="${_(u'Select a profile picture')}">
+    %if c.current_avatar:
+    <div>
+        <img src="${c.current_avatar}" alt="${_('Current avatar')}" />
+        <button name="delete_logo" type="button" value="1">
+            <i class="icon-remove"></i>${_('Delete current avatar')}
+        </button>
+    </div>
+    %endif
+    </%forms:input>
+
     <%forms:textarea label="${_('Short biography')}" name="bio" value=""
     help="${_('A bio will allow others to learn about you and perhaps even get you a few delegations.')}">
     ${components.formatting()}

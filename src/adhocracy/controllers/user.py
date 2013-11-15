@@ -371,6 +371,9 @@ class UserController(BaseController):
             {'value': u'm', 'label': _(u'Male')},
         ]
 
+        if logo.exists(c.page_user):
+            c.current_avatar = h.user.avatar_url(c.page_user, 64)
+
         return render("/user/settings_personal.html",
                       overlay=format == u'overlay')
 
@@ -395,6 +398,26 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         updated = update_attributes(c.page_user, self.form_result,
                                     ['display_name', 'locale', 'bio'])
+
+        # delete the logo if the button was pressed and exit
+        if 'delete_avatar' in self.form_result:
+            updated = logo.delete(c.page_user)
+            return self._settings_result(
+                updated, c.page_user, 'personal',
+                message=_(u'The avatar has been deleted.'))
+
+        try:
+            # fixme: show logo errors in the form
+            if ('avatar' in request.POST and
+                    hasattr(request.POST.get('avatar'), 'file') and
+                    request.POST.get('avatar').file):
+                logo.store(c.page_user, request.POST.get('avatar').file)
+                updated = True
+        except Exception, e:
+            model.meta.Session.rollback()
+            h.flash(unicode(e), 'error')
+            log.debug(e)
+            return self.settings_personal(id)
 
         if config.get_bool('adhocracy.enable_gender'):
             gender = self.form_result.get("gender")
