@@ -851,7 +851,7 @@ class UserController(BaseController):
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
 
-    def show(self, id, format='html', current_nav=None, event_filter=[]):
+    def show(self, id, format=None, current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
 
