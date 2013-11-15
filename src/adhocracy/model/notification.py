@@ -3,6 +3,7 @@ import logging
 
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Integer, Unicode
+from sqlalchemy import UniqueConstraint
 
 from pylons.i18n import _
 
@@ -19,6 +20,7 @@ notification_table = Table(
     Column('event_type', Unicode(255), nullable=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('watch_id', Integer, ForeignKey('watch.id'), nullable=True),
+    UniqueConstraint('event_id', 'user_id'),
 )
 
 

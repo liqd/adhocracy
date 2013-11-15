@@ -4,7 +4,7 @@ from pylons import config
 from webhelpers import text
 
 from adhocracy.lib import mail, microblog
-from adhocracy.model import meta
+from adhocracy.model import meta, Notification
 
 TWITTER_LENGTH = 140
 TRUNCATE_EXT = '...'
@@ -61,5 +61,11 @@ def mail_sink(pipeline):
 
 def database_sink(pipeline):
     for notification in pipeline:
-        meta.Session.add(notification)
+        if meta.Session.query(Notification)\
+                .filter(Notification.event_id == notification.event.id)\
+                .filter(Notification.user_id == notification.user.id).all():
+            log.warn('Notification already present: %s' % notification)
+        else:
+            meta.Session.add(notification)
+
         yield notification
