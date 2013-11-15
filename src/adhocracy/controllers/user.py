@@ -856,8 +856,7 @@ class UserController(BaseController):
                                           instance_filter=False)
 
         if current_nav is None:
-            redirect(h.entity_url(c.page_user, member=u'latest_events',
-                                  format=format))
+            redirect(h.entity_url(c.page_user, member=u'about', format=format))
 
         require.user.show(c.page_user)
         c.events = self._get_events(nr_events=100, event_filter=event_filter)
