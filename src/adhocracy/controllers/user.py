@@ -851,11 +851,14 @@ class UserController(BaseController):
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
 
-    def show(self, id, format='html', current_nav=u'activity',
-             event_filter=[]):
-
+    def show(self, id, format='html', current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+
+        if current_nav is None:
+            redirect(h.entity_url(c.page_user, member=u'latest_events',
+                                  format=format))
+
         require.user.show(c.page_user)
         c.events = self._get_events(nr_events=100, event_filter=event_filter)
         self._show_common(id, user=c.page_user, events=c.events)
