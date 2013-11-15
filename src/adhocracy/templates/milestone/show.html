@@ -57,6 +57,7 @@ ${components.watch(c.milestone)}
 
     ${c.tile.text|n}
 
+    <hr />
 
     <h3>${_("Associated Proposals")}</h3>
     %if c.show_proposals_pager:
@@ -90,6 +91,8 @@ ${components.watch(c.milestone)}
         %endif
 
     </div>
+
+    <hr />
 
     <div id="associated-norms">
         %if c.instance.use_norms:
