@@ -758,7 +758,7 @@ class UserController(BaseController):
     def _get_profile_nav(user, active_key):
         c.member = {
             u'about': u'about',
-            u'activity': None,
+            u'activity': u'latest_events',
             u'contributions': u'latest_contributions',
             u'votes': u'latest_votes',
             u'delegations': u'latest_delegations',
@@ -767,7 +767,7 @@ class UserController(BaseController):
             (u'about' == active_key, _(u'About me'), h.entity_url(
                 c.page_user, member='about')),
             (u'activity' == active_key, _(u'Newest events'), h.entity_url(
-                c.page_user)),
+                c.page_user, member='latest_events')),
             (u'contributions' == active_key, _(u'Contributions'), h.entity_url(
                 c.page_user, member='latest_contributions')),
             (u'votes' == active_key, _(u'Votes'), h.entity_url(
@@ -932,6 +932,9 @@ class UserController(BaseController):
         c.bio = c.page_user.bio
         c.about = True
         return render("/user/show.html")
+
+    def latest_events(self, id, format='html'):
+        return self.show(id, format, u'activity')
 
     def latest_contributions(self, id, format='html'):
         return self.show(id, format, u'contributions', S_CONTRIBUTION)
