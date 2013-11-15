@@ -16,6 +16,7 @@ section.subpage {
 
         min-height: 7em;
 
+        // FIXME not accessible
         &:hover {
             > aside {
                 opacity: 1;
@@ -78,7 +79,7 @@ section.subpage {
                         border-left: none;
                     }
 
-                    &:hover {
+                    &:hover, &:focus {
                         background-color: darken($primary-color, 7%);
                         text-decoration: none;
 

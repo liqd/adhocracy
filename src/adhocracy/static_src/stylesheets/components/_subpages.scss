@@ -1,4 +1,9 @@
-ul.subpages li a:hover, ul.subpages li.current_page_item a, ul.subpages ul.children li a:hover, ul.subpages ul.children li.current_page_item a {
+ul.subpages li a:hover,
+ul.subpages li a:focus,
+ul.subpages li.current_page_item a,
+ul.subpages ul.children li a:hover,
+ul.subpages ul.children li a:focus,
+ul.subpages ul.children li.current_page_item a {
     color: #9fb5d9;
 }
 .widget-area .shailan_SubpagesWidget {

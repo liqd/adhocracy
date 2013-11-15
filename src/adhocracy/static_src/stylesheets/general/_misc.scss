@@ -48,7 +48,8 @@ a.icon_link {
     font-size:13px;
 
     a.link_more_info,
-    a.link_more_info:hover {
+    a.link_more_info:hover,
+    a.link_more_info:focus {
         color: $primary-color;
     }
 }
