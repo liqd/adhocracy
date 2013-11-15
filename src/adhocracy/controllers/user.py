@@ -876,10 +876,15 @@ class UserController(BaseController):
 
         c.user_nav = self._get_profile_nav(c.page_user, current_nav)
 
+        data = {
+            u'show_upload_avatar': c.page_user == c.user and \
+                                   not logo.exists(c.page_user),
+        }
+
         if format == 'overlay':
-            return render("/user/show.html", overlay=True)
+            return render("/user/show.html", overlay=True, data=data)
         else:
-            return render("/user/show.html")
+            return render("/user/show.html", data=data)
 
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
@@ -909,7 +914,10 @@ class UserController(BaseController):
         c.dashboard = True
         c.user_nav = self._get_dashboard_nav(c.user, current_nav)
 
-        return render("/user/show.html")
+        if format == 'overlay':
+            return render("/user/show.html", overlay=True)
+        else:
+            return render("/user/show.html")
 
     def dashboard_contributions(self, format='html',
                                 current_nav=u'contributions'):
@@ -931,9 +939,18 @@ class UserController(BaseController):
         c.events = self._get_events()
         self._show_common(id, user=c.page_user, events=c.events)
         c.user_nav = self._get_profile_nav(c.page_user, u'about')
-        c.bio = c.page_user.bio
-        c.about = True
-        return render("/user/show.html")
+
+        data = {
+            u'show_upload_avatar': c.page_user == c.user and \
+                                   not logo.exists(c.page_user),
+            u'about': True,
+            u'bio': c.page_user.bio,
+        }
+
+        if format == 'overlay':
+            return render("/user/show.html", overlay=True, data=data)
+        else:
+            return render("/user/show.html", data=data)
 
     def latest_events(self, id, format='html'):
         return self.show(id, format, u'activity')

@@ -106,6 +106,15 @@
         ${components.watch(c.page_user, show_skip=False)}
     %endif
 
+    %if not c.dashboard:
+    <div id="avatar" class="sidebar_box">
+        <img src="${h.user.avatar_url(c.page_user, 246)}" alt="${c.page_user.name}" />
+        %if c.show_upload_avatar:
+        <div><a class="button_round" href="${h.entity_url(c.user, member=u'settings')}">Upload avatar</a></div>
+        %endif
+    </div>
+    %endif
+
     <div id="meta" class="dashboard sidebar_box">
 
         <h3>${_('Information')}</h3>
