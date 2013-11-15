@@ -63,6 +63,8 @@
     }
     .inactive & {
         background: $bg2 !important;
+        color: $border !important;
+        cursor: default;
         @include box-shadow(none);
     }
 }
