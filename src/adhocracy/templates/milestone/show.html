@@ -36,24 +36,26 @@ ${components.watch(c.milestone)}
 
 <%block name="main_content">
 <div id="milestone">
-    <div class="top_actions">
-        %if can.milestone.edit(c.milestone):
-            <a class="button title edit ttip"
-               title="${_('Edit this milestone.')}"
-               href="${h.entity_url(c.milestone, member='edit')}">
-                ${_("edit")}
-            </a>
-        %endif
-        %if can.milestone.delete(c.milestone):
-            <a class="button title delete ttip"
-               title="${_('Delete this milestone.')}"
-               href="${h.entity_url(c.milestone, member='ask_delete')}">
-                ${_("delete")}
-            </a>
-        %endif
+    <h2 id="milestone_title">
+        <span class="date">
+            %if c.milestone.time:
+            ${h.date_tag(c.milestone.time, format=u'medium')|n}
+            %else:
+            ${_(u'(unknown)')}
+            %endif
+        </span>
+        <br />
+        ${c.milestone.title}
 
-    </div>
-    ${tiles.milestone.header(c.milestone)}
+        <div class="utility">
+            %if can.milestone.edit(c.milestone):
+            <a href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
+            %endif
+            %if can.milestone.delete(c.milestone):
+            <a href="${h.entity_url(c.milestone, member='ask_delete')}">${_("delete")}</a>
+            %endif
+        </div>
+    </h2>
 
     ${c.tile.text|n}
 
