@@ -266,13 +266,7 @@ var adhocracy = adhocracy || {};
             if (val === undefined) {
                 return undefined;
             }
-            var separator;
-            if (val.indexOf('?') !== -1) {
-                separator = '&';
-            } else {
-                separator = '?';
-            }
-            return val + separator + 'came_from=' + encodeURIComponent(came_from);
+            return new Uri(val).replaceQueryParam('came_from', came_from);
         };
         this.getOverlay().find('.patch_camefrom').attr({
             'action': patch_camefrom,
