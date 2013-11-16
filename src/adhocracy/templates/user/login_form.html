@@ -16,12 +16,12 @@ else:
 <div class="form_wrapper">
   %if 'shibboleth' in login_types:
   <div>
-    <a href="/shibboleth/request_auth${h.camefrom_querystring()}" class="button ${components.add_patch_camefrom_class()}">${_(u"Login") if c.hide_locallogin else _(u"Login via Shibboleth")}</a>
+    <a href="${h.get_redirect_url('shibboleth/request_auth')}" class="button ${components.add_patch_camefrom_class()}">${_(u"Login") if c.hide_locallogin else _(u"Login via Shibboleth")}</a>
   </div>
   %endif
 
   %if not c.hide_locallogin:
-  <form method="POST" action="/perform_login${h.camefrom_querystring()}" class="${components.add_patch_camefrom_class()} login_form">
+  <form method="POST" action="${h.get_redirect_url(u'perform_login')}" class="${components.add_patch_camefrom_class()} login_form">
     <div class="input_wrapper">
       <label>${field_title}
         <input type="${field_type}" name="login" autofocus="autofocus" />
@@ -37,7 +37,7 @@ else:
       <input type="submit" value="${_('Login')}" />
     %if h.allow_user_registration():
         ${_("or")}
-        <a href="/register${h.camefrom_querystring()}" class="more_uppercase ${components.add_patch_camefrom_class()}">
+        <a href="${h.register_redirect_url()}" class="more_uppercase ${components.add_patch_camefrom_class()}">
             ${_("Register new account")|n}</a>
     %endif
     </div>

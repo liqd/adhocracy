@@ -1,5 +1,5 @@
 <div class="form_wrapper">
-  <form name="create_user" method="POST" action="/user${h.camefrom_querystring()}">
+  <form name="create_user" method="POST" action="${h.get_redirect_url(u'user')}">
     ${h.field_token()|n}
 
     %if not h.config.get_bool('adhocracy.force_randomized_user_names'):

@@ -179,48 +179,32 @@ def help_link(text, page, anchor=None):
             u">%s</a>") % (page, full_url, text)
 
 
-def camefrom_querystring():
-    came_from = request.params.get('came_from', '')
-    query_string = u''
-    if came_from:
-        encoded = urllib.urlencode({'came_from': came_from.encode('utf-8')})
-        query_string = u'?' + encoded
-    return query_string
+def get_redirect_url(target=u'login', entity=None, **kwargs):
+    '''
+    Builds an URL similar to  ".../login?came_from=http...." pointing to the
+    target path in the current instance domain. If we already have a
+    ``came_from`` parameter in the path, this is going to be used as the new
+    ``came_from`` target. Otherwise, if ``entity`` is set, this will redirect
+    to the given entity after successful login. If ``entity`` is None, it will
+    redirect to the current URL.
+    '''
+    came_from_url = request.params.get('came_from')
+    if came_from_url is None:
+        if entity is None:
+            came_from_url = base_url(request.path,
+                                     query_string=request.query_string)
+        else:
+            came_from_url = entity_url(entity, **kwargs)
+
+    return build(c.instance, '', target, query={'came_from': came_from_url})
 
 
 def login_redirect_url(entity=None, **kwargs):
-    '''
-    Builds an ".../login?came_from=http...." pointing to the /login
-    form in the current instance domain. If ``entity`` is set, this
-    will redirect to the given entity after successful login. If
-    ``entity`` is None, it will redirect to the current URL.
-    '''
-    if entity is None:
-        came_from_url = base_url(request.path,
-                                 query_string=request.query_string)
-    else:
-        came_from_url = entity_url(entity, **kwargs)
-
-    login_url = build(c.instance, '', 'login',
-                      query={'came_from': came_from_url})
-    return login_url
+    return get_redirect_url(u'login', entity, **kwargs)
 
 
 def register_redirect_url(entity=None, **kwargs):
-    '''
-    Builds an ".../login?came_from=http...." pointing to the /login
-    form in the current instance domain. If ``entity`` is set, this
-    will redirect to the given entity after successful login. If
-    ``entity`` is None, it will redirect to the current URL.
-    '''
-    if entity is None:
-        came_from_url = base_url(request.path)
-    else:
-        came_from_url = entity_url(entity, **kwargs)
-
-    login_url = build(c.instance, '', 'register',
-                      query={'came_from': came_from_url})
-    return login_url
+    return get_redirect_url(u'register', entity, **kwargs)
 
 
 def entity_url(entity, **kwargs):
