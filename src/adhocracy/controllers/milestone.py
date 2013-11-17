@@ -100,7 +100,8 @@ class MilestoneController(BaseController):
         require.milestone.create()
         c.categories = model.CategoryBadge.all(instance=c.instance)
         defaults = dict(request.params)
-        defaults['watch'] = defaults.get('watch', True)
+        if not defaults:
+            defaults['watch'] = True
         return htmlfill.render(render("/milestone/new.html",
                                       overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,

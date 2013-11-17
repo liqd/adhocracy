@@ -146,7 +146,10 @@ class PageController(BaseController):
     @guard.page.create()
     def new(self, errors=None, format=u'html'):
         defaults = dict(request.params)
-        defaults['watch'] = defaults.get('watch', True)
+
+        if not defaults:
+            defaults['watch'] = True
+
         c.title = request.params.get('title', None)
         proposal_id = request.params.get("proposal")
         c.categories = model.CategoryBadge.all(

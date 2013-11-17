@@ -51,6 +51,8 @@ class ProposalCreateForm(ProposalNewForm):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    wiki = validators.StringBool(not_empty=False, if_empty=False,
+                                 if_missing=False)
     chained_validators = [
         forms.UnusedProposalTitle(),
     ]
@@ -206,7 +208,10 @@ class ProposalController(BaseController):
             c.can_select = False
 
         defaults = dict(request.params)
-        defaults['watch'] = defaults.get('watch', True)
+        if not defaults:
+            defaults['watch'] = True
+            defaults['wiki'] = c.instance.editable_proposals_default
+
         return htmlfill.render(render("/proposal/new.html",
                                       overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
