@@ -26,9 +26,6 @@
         color: #bdbdbd;
     }
 
-    &:hover {
-        color: $black;
-    }
     &.admin:before {
         color: #f98c8c
     }
@@ -37,10 +34,6 @@
     }
     &.user:before {
         color: #a8d37e
-    }
-
-    a:hover {
-        text-decoration: none;
     }
 }
 

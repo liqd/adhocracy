@@ -129,7 +129,7 @@ table {
 a {
     text-decoration: none;
     color: $primary-color;
-    &:hover {
+    &:hover, &:focus {
         text-decoration: underline;
     }
 
@@ -141,7 +141,7 @@ a {
     &.follow {
         background-position: right -254px;
         padding-right: 23px;
-        &:hover {
+        &:hover, &:focus {
             background-position: right -304px;
             text-decoration: underline !important;
         }
