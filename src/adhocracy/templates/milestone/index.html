@@ -39,6 +39,7 @@ ${tiles.milestone.timeline(c.milestones)}
 <div id="milestones_table" class="table">
     ${c.past_milestones_pager.here()}
 </div>
+%endif
 
 <div class="list_button">
     %if can.milestone.create():
@@ -46,8 +47,6 @@ ${tiles.milestone.timeline(c.milestones)}
       href="${h.base_url('/milestone/new')}">${_("new milestone")}</a>
     %endif
 </div>
-%endif
-
 
 <%components:tutorial>
 <ol id="joyRideTipContent">
