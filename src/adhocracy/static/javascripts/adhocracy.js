@@ -266,7 +266,7 @@ var adhocracy = adhocracy || {};
             if (val === undefined) {
                 return undefined;
             }
-            return new Uri(val).replaceQueryParam('came_from', came_from);
+            return new Uri(val).replaceQueryParam('came_from', came_from).toString();
         };
         this.getOverlay().find('.patch_camefrom').attr({
             'action': patch_camefrom,
