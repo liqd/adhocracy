@@ -54,6 +54,7 @@ def make_map(config):
                                          'delegations': 'GET',
                                          'instances': 'GET',
                                          'about': 'GET',
+                                         'latest_events': 'GET',
                                          'latest_contributions': 'GET',
                                          'latest_milestones': 'GET',
                                          'latest_votes': 'GET',
