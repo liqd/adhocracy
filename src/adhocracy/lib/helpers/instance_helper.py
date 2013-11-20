@@ -13,7 +13,7 @@ def icon_url(instance, y, x=None):
     else:
         size = "%sx%s" % (x, y)
     filename = "%s_%s.png" % (instance.key, size)
-    (path, mtime) = logo.path_and_mtime(instance.key)
+    (path, mtime) = logo.path_and_mtime(instance)
     return _url.build(instance, 'instance', filename, query={'t': str(mtime)})
 
 

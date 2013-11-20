@@ -430,6 +430,8 @@ class InstanceController(BaseController):
 
     @guard.perm('instance.index')
     def icon(self, id, y=24, x=None):
+        instance = get_entity_or_abort(model.Instance, id,
+                                       instance_filter=False)
         try:
             y = int(y)
         except ValueError, ve:
@@ -439,11 +441,9 @@ class InstanceController(BaseController):
             x = int(x)
         except:
             x = None
-        (path, mtime, io) = logo.load(id, size=(x, y))
+        (path, mtime, io) = logo.load(instance, size=(x, y))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime != mtime:
-            instance = get_entity_or_abort(model.Instance, id,
-                                           instance_filter=False)
             redirect(h.instance.icon_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
