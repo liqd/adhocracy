@@ -14,7 +14,7 @@
     action="${'/instance/%s/update_badges' % c.page_instance.key}">
 
     ${h.field_token()|n}
-    <h3>Badges</h3>
+    <h3>${_(u"Badges")}</h3>
 
     %if c.badges:
     <ul class="nobullet">
