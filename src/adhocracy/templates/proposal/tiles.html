@@ -41,7 +41,7 @@
                     ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
                     ·
                 %endif
-                %if proposal.instance.use_norms:
+                %if proposal.instance.use_norms and proposal.instance.allow_propose_changes:
                     ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
                     ·
                 %endif
