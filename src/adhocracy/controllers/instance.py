@@ -543,9 +543,9 @@ class InstanceController(BaseController):
 
         # delete the logo if the button was pressed and exit
         if 'delete_logo' in self.form_result:
-            logo.delete(c.page_instance)
+            updated = logo.delete(c.page_instance)
             return self._settings_result(
-                True, c.page_instance, 'appearance',
+                updated, c.page_instance, 'appearance',
                 message=_(u'The logo has been deleted.'))
 
         # process the normal form

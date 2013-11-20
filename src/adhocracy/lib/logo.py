@@ -58,6 +58,7 @@ def delete(entity):
         key = _entity_key(entity)
         path = _logo_path(key)
         os.remove(path)
+        return True
 
 
 def exists(entity):
