@@ -27,6 +27,19 @@ def _entity_key(entity):
         return u"%s-%i" % (entity.__class__.__name__, entity.id)
 
 
+def validate_xy(x, y, y_default=24):
+    try:
+        y = int(y)
+    except ValueError, ve:
+        log.debug(ve)
+        y = y_default
+    try:
+        x = int(x)
+    except:
+        x = None
+    return x, y
+
+
 def _logo_path(key):
     """the folder is called "instance" for backwards compability"""
     util.create_site_subdirectory('uploads', 'instance')

@@ -432,15 +432,7 @@ class InstanceController(BaseController):
     def icon(self, id, y=24, x=None):
         instance = get_entity_or_abort(model.Instance, id,
                                        instance_filter=False)
-        try:
-            y = int(y)
-        except ValueError, ve:
-            log.debug(ve)
-            y = 24
-        try:
-            x = int(x)
-        except:
-            x = None
+        (x, y) = logo.validate_xy(x, y, y_default=24)
         (path, mtime, io) = logo.load(instance, size=(x, y))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime != mtime:
