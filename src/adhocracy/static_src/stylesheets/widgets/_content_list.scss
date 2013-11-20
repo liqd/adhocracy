@@ -78,6 +78,19 @@
         position: relative;
         padding-right: 2em;
 
+        > .time, > .action {
+            font-size: 0.9em;
+        }
+        > .action {
+            margin-bottom: 0.5em;
+        }
+
+        img.avatar {
+            height: 2.5em;
+            float: left;
+            margin: 0 0.5em 0 0;
+        }
+
         > blockquote {
             margin: 0 0 1em;
             font-style: normal;
@@ -173,13 +186,6 @@
             background-image: url("/images/event-badge.png");
         }
     }
-}
-
-// avatar in events pager
-img.avatar {
-    height: 2.5em;
-    float: left;
-    margin: 0 0.5em 0.5em 0;
 }
 
 /* force markdown created text to be small */
