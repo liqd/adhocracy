@@ -53,6 +53,7 @@ class ImportExportTest(TestController):
         self.instance.is_authenticated = True
         self.instance.hide_global_categories = True
         self.instance.editable_comments_default = False
+        self.instance.editable_proposals_default = False
         self.instance.require_valid_email = False
         self.instance.allow_thumbnailbadges = True
         self.instance.thumbnailbadges_height = 42
@@ -143,8 +144,8 @@ class ImportExportTest(TestController):
             u'allow_propose', u'allow_index', u'hidden', u'locale', u'css',
             u'frozen', u'milestones', u'use_norms', u'require_selection',
             u'is_authenticated', u'hide_global_categories',
-            u'editable_comments_default', u'require_valid_email',
-            u'allow_thumbnailbadges',
+            u'editable_comments_default', u'editable_proposals_default',
+            u'require_valid_email', u'allow_thumbnailbadges',
             u'thumbnailbadges_height', u'thumbnailbadges_width',
         ]
         for p in INSTANCE_PROPS:

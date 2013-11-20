@@ -1,3 +1,4 @@
+<%namespace name="components" file="/components.html"/>
 <%
 login_titleandtype = h.allowed_login_types()
 if 'email+password' in login_titleandtype:
@@ -12,7 +13,7 @@ else:
     field_title = _('My user name:')
     field_type =  'text'
 %>
-<form class="login-alternate patch_camefrom login_form" method="POST" action="/perform_login${h.camefrom_querystring()}">
+<form class="login-alternate ${components.add_patch_camefrom_class()} login_form" method="POST" action="${h.get_redirect_url(u'perform_login')}">
   ${h.field_token()|n}
 
   <form:error name="login"></form:error>

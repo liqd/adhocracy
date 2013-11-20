@@ -160,7 +160,8 @@ class User(meta.Indexable):
         instances = []
         for membership in self.memberships:
             if (not membership.is_expired()) and \
-                    (membership.instance is not None):
+                    (membership.instance is not None) and \
+                    not membership.instance.hidden:
                 instances.append(membership.instance)
         return list(set(instances))
 

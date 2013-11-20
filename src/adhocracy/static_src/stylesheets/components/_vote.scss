@@ -48,7 +48,7 @@
 }
 
 .vote_up {
-    &:hover {
+    &:hover, &:focus {
         @include vote-background($green);
         text-decoration: none;
     }
@@ -62,13 +62,13 @@
         width: 10px;
         display: inline-block;
     }
-    &:hover span, &.active span {
+    &:hover span, &:focus span, &.active span {
         background-position: -19px -256px;
     }
 }
 
 .vote_down {
-    &:hover {
+    &:hover, &:focus {
         @include vote-background($red);
         text-decoration: none;
     }
@@ -82,7 +82,7 @@
         width: 10px;
         display: inline-block;
     }
-    &:hover span, &.active span {
+    &:hover span, &:focus span, &.active span {
         background-position: -19px -356px;
     }
 }
@@ -105,7 +105,7 @@
         display: inline-block;
     }
     .vote_up {
-        &:hover {
+        &:hover, &:focus {
             text-decoration: none;
         }
         &:active, &.active {
@@ -117,12 +117,12 @@
             width: 15px;
             display: inline-block;
         }
-        &:hover span, &.active span {
+        &:hover span, &:focus span, &.active span {
             background-position: -15px -451px;
         }
     }
     .vote_down {
-        &:hover {
+        &:hover, &:focus {
             text-decoration: none;
         }
         &:active, &.active {
@@ -134,7 +134,7 @@
             width: 15px;
             display: inline-block;
         }
-        &:hover span, &.active span {
+        &:hover span, &:focus span, &.active span {
             background-position: -15px -501px;
         }
     }

@@ -2,7 +2,7 @@
     background-color: $color;
     @include background-image(linear-gradient(170deg, lighten($color, 14%), $color));
 
-    &:hover {
+    &:hover, &:focus {
         background-color: darken($color, 7%);
         @include background-image(linear-gradient(170deg, lighten($color, 7%), darken($color, 7%)));
     }
@@ -11,7 +11,7 @@
 @mixin button-round-background() {
     background-color: #dedede;
     @include background-image(linear-gradient(top, #eaeaea, #dedede));
-    &:hover {
+    &:hover, &:focus {
         background-color: #d1d1d1;
         @include background-image(linear-gradient(top, #ececec, #d1d1d1));
     }
@@ -26,7 +26,7 @@
     white-space: nowrap;
     vertical-align: middle;
     border: none;
-    &:hover {
+    &:hover, &:focus {
         text-decoration: none;
     }
 }
@@ -51,7 +51,7 @@
 
     background-color: lighten($color1, 14%);
     @include background-image(linear-gradient(top, lighten($color1, 23%), lighten($color1, 14%)));
-    &:hover {
+    &:hover, &:focus {
         color: #fff;
         background-color: $color2;
         @include background-image(linear-gradient(top, lighten($color2, 7%), $color2));
@@ -63,6 +63,8 @@
     }
     .inactive & {
         background: $bg2 !important;
+        color: $border !important;
+        cursor: default;
         @include box-shadow(none);
     }
 }
@@ -78,7 +80,7 @@
     color: $black;
     @include button-round-background();
 
-    &:hover {
+    &:hover, &:focus {
         text-decoration: none;
     }
 }

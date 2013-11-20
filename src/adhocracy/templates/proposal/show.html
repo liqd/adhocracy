@@ -84,7 +84,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
             %endif
             ·
             <a href="${c.history_url}"
-               rel="#overlay-url">${'history'}</a>
+               rel="#overlay-url">${_('history')}</a>
         </div>
     </article>
     <br />
@@ -257,10 +257,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
         ${sidebar_defs.shortlink(c.proposal)}
 
         <h6>${_('Last Activity')}</h6>
-        <p><time>
-            ${h.datetime_tag(
-            c.proposal.find_latest_comment_time())|n}
-        </time></p>
+        <p>${h.datetime_tag(c.proposal.find_latest_comment_time())|n}</p>
 
         <% tally = c.proposal.rate_poll.tally %>
 

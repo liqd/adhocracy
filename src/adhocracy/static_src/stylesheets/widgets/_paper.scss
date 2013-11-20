@@ -72,7 +72,7 @@
             position: relative;
             min-height: 25px;
 
-            &:hover, &.current {
+            &:hover, &:focus, &.current {
                 text-decoration: none;
                 background-color: $button-color;
                 @include background-image(linear-gradient(170deg, $button-color 40%, darken($button-color, 14%)));
@@ -136,9 +136,6 @@
         float: right;
     }
 
-    &.inactive {
-        color: $border;
-    }
     .no-js & {
         display: none;
     }

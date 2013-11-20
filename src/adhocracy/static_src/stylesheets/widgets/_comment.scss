@@ -10,13 +10,14 @@
         margin-left: -1px;
         padding-left: 0.5em;
         @include transition(border-left-color .5s);
+        // FIXME not accessible
         &:hover {
             border-left-color: $primary-color;
         }
     }
 }
 .comments_list .sub {
-    margin-left: 3em;
+    margin-left: 2em;
 }
 .comment {
     .header {
@@ -46,6 +47,7 @@
     .header .utility, .footer .utility_links {
         display: none;
     }
+    // FIXME not accessible
     &:hover {
         .vote {
             opacity: 1;
@@ -76,6 +78,7 @@ a.new_comment {
         border-bottom: 4px solid;
     }
 }
+// FIXME not accessible
 .comment:not(:hover) a.new_comment {
     background: none;
     color: $primary-color;

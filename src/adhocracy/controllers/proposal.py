@@ -54,6 +54,8 @@ class ProposalCreateForm(ProposalNewForm):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    wiki = validators.StringBool(not_empty=False, if_empty=False,
+                                 if_missing=False)
     geotag = validators.String(if_empty=None, if_missing=None)
     chained_validators = [
         forms.UnusedProposalTitle(),
@@ -245,7 +247,10 @@ class ProposalController(BaseController):
             c.can_select = False
 
         defaults = dict(request.params)
-        defaults['watch'] = defaults.get('watch', True)
+        if not defaults:
+            defaults['watch'] = True
+            defaults['wiki'] = c.instance.editable_proposals_default
+
         return htmlfill.render(render("/proposal/new.html",
                                       overlay=format == u'overlay'),
                                defaults=defaults, errors=errors,
@@ -255,6 +260,9 @@ class ProposalController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @guard.proposal.create()
     def create(self, page=None, format='html', amendment=False):
+        """amendment does only indicate if this controller was called from
+        the amendment route. The information about wether this will be an
+        amendment or classic proposal must be given in the form."""
 
         try:
             self.form_result = ProposalCreateForm().to_python(request.params)
@@ -327,7 +335,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(proposal, self.form_result.get('watch'))
-        if amendment:
+        if is_amendment:
             event.emit(event.T_AMENDMENT_CREATE, c.user, instance=c.instance,
                        topics=[proposal, page], proposal=proposal,
                        rev=description.head, page=page)
@@ -335,7 +343,7 @@ class ProposalController(BaseController):
             event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
                        topics=[proposal], proposal=proposal,
                        rev=description.head)
-        redirect(h.entity_url(proposal, format=format))
+        redirect(h.entity_url(proposal, format=format, in_overlay=False))
 
     @RequireInstance
     @validate(schema=ProposalEditForm(), form="bad_request",
@@ -430,7 +438,7 @@ class ProposalController(BaseController):
             event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
                        topics=[c.proposal], proposal=c.proposal, rev=_text,
                        badges_added=added, badges_removed=removed)
-        redirect(h.entity_url(c.proposal))
+        redirect(h.entity_url(c.proposal, format=format, in_overlay=False))
 
     @RequireInstance
     def show(self, id, format='html'):
@@ -588,7 +596,7 @@ class ProposalController(BaseController):
         model.meta.Session.commit()
         event.emit(event.T_PROPOSAL_STATE_VOTING, c.user, instance=c.instance,
                    topics=[c.proposal], proposal=c.proposal, poll=poll)
-        redirect(h.entity_url(c.proposal))
+        redirect(h.entity_url(c.proposal, in_overlay=False))
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)

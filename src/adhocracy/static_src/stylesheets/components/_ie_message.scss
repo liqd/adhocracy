@@ -7,7 +7,7 @@
     text-align: center;
     background: $red;
 
-    &:hover {
+    &:hover, &:focus {
         color: white;
         background: $red;
     }

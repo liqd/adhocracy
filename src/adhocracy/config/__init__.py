@@ -55,6 +55,7 @@ DEFAULTS = {
     'adhocracy.startpage.instances.list_length': 0,
     'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.static_agree_text': None,
+    'adhocracy.store_notification_events': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,

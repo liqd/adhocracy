@@ -10,7 +10,7 @@
             color: $black;
             border-bottom: 1px solid #fff;
 
-            &.active, &:hover {
+            &.active, &:hover, &:focus {
                 background: $bg1;
                 text-decoration: none;
 
