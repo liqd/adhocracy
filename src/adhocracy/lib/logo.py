@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 
 
 INSTANCE = ['static', 'img', 'icons', 'site_64.png']
+USER = ['static', 'img', 'icons', 'user.png']
 
 
 def _entity_key(entity):

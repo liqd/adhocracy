@@ -50,6 +50,12 @@ def make_map(config):
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
 
+    # avatar
+    map.connect('/user/{id}_{x}x{y}.png',
+                controller='user', action='avatar')
+    map.connect('/user/{id}_{y}.png',
+                controller='user', action='avatar')
+
     map.resource('user', 'user', member={'votes': 'GET',
                                          'delegations': 'GET',
                                          'instances': 'GET',

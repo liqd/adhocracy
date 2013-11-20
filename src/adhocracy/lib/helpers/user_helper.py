@@ -5,7 +5,7 @@ from pylons import tmpl_context as c
 from pylons import config
 from pylons.i18n import _
 
-from adhocracy.lib import cache
+from adhocracy.lib import cache, logo
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.site_helper import CURRENT_INSTANCE
 from adhocracy.model import Instance
@@ -58,6 +58,17 @@ def url(user, instance=CURRENT_INSTANCE, **kwargs):
     main domain.
     '''
     return _url.build(instance, 'user', user.user_name, **kwargs)
+
+
+def avatar_url(user, y, x=None):
+    from adhocracy.lib.helpers import base_url
+    if x is None:
+        size = "%s" % y
+    else:
+        size = "%sx%s" % (x, y)
+    filename = u"%s_%s.png" % (user.name, size)
+    (path, mtime) = logo.path_and_mtime(user)
+    return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})
 
 
 @cache.memoize('user_bc')

@@ -22,7 +22,7 @@ from repoze.who.api import get_api
 from adhocracy import config
 from adhocracy import forms, model
 from adhocracy import i18n
-from adhocracy.lib import democracy, event, helpers as h, pager
+from adhocracy.lib import democracy, event, helpers as h, pager, logo
 from adhocracy.lib import sorting, search as libsearch, tiles, text
 from adhocracy.lib.auth import require, login_user, guard
 from adhocracy.lib.auth.authorization import has
@@ -41,7 +41,7 @@ from adhocracy.lib.settings import Menu
 from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
-from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import render, render_json, ret_abort, render_png
 from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
@@ -950,6 +950,18 @@ class UserController(BaseController):
 
     def latest_delegations(self, id, format='html'):
         return self.show(id, format, u'delegations', S_DELEGATION)
+
+    @guard.perm('user.view')
+    def avatar(self, id, y=24, x=None):
+        user = get_entity_or_abort(model.User, id, instance_filter=False)
+        (x, y) = logo.validate_xy(x, y)
+        (path, mtime, io) = logo.load(user, size=(x, y), fallback=logo.USER)
+        request_mtime = int(request.params.get('t', 0))
+        if request_mtime > mtime:
+            # This will set the appropriate mtime
+            redirect(h.user.avatar_url(user, y, x=x))
+        return render_png(io, mtime, cache_forever=True)
+
 
     def login(self):
         c.active_global_nav = "login"
