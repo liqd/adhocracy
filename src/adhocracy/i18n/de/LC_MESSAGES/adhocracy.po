@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-19 20:25+0100\n"
-"PO-Revision-Date: 2013-11-19 19:38+0000\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:10+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1812,6 +1812,11 @@ msgid ""
 "have displayed."
 msgstr "Ein Overlay konnte nicht angezeigt werden. Schau <a href=\"%s\">hier</a>, wie es ausgesehen hätte."
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr "Diese Adhocracy-Installation wurde eingefroren. Du kannst alles ansehen aber nichts bearbeiten."
+
 msgid "Welcome back!"
 msgstr "Willkommen zurück!"
 
@@ -2981,14 +2986,14 @@ msgstr "Neuer Termin"
 msgid "Last Change"
 msgstr "Letzte Änderung"
 
-msgid "Edit this milestone."
-msgstr "Diesen Termin bearbeiten."
-
-msgid "Delete this milestone."
-msgstr "Diesen Termin entfernen."
+msgid "(unknown)"
+msgstr "(unbekannt)"
 
 msgid "Associated Proposals"
 msgstr "Verknüpfte Vorschläge"
+
+msgid "Create new proposal"
+msgstr "Neuen Vorschlag anlegen"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Mit diesem Termin sind keine Vorschläge verknüpft"
@@ -3010,9 +3015,6 @@ msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für d
 
 msgid "See more"
 msgstr "Mehr erfahren"
-
-msgid "(unknown)"
-msgstr "(unbekannt)"
 
 msgid "with an abstention on"
 msgstr "mit Enthaltung bei"
@@ -3456,9 +3458,6 @@ msgstr "Änderungen von anderen erlauben"
 
 msgid "Freeze proposal"
 msgstr "Vorschlag einfrieren"
-
-msgid "Create new proposal"
-msgstr "Neuen Vorschlag anlegen"
 
 msgid "Find proposals"
 msgstr "Vorschläge suchen"

@@ -5,9 +5,9 @@
 ##, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 909889f\n"
+"Project-Id-Version: adhocracy a13ea6c\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-19 20:25+0100\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1748,6 +1748,9 @@ msgstr ""
 msgid "We could not display an overlay. See <a href=\"%s\">here</a> what it would have displayed."
 msgstr ""
 
+msgid "This installation of adhocracy has been frozen. You can look at all content but editing is disabled."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -2869,13 +2872,13 @@ msgstr ""
 msgid "Last Change"
 msgstr ""
 
-msgid "Edit this milestone."
-msgstr ""
-
-msgid "Delete this milestone."
+msgid "(unknown)"
 msgstr ""
 
 msgid "Associated Proposals"
+msgstr ""
+
+msgid "Create new proposal"
 msgstr ""
 
 msgid "No proposals are connected to this milestone"
@@ -2897,9 +2900,6 @@ msgid "tutorial_milestone_details_listing"
 msgstr ""
 
 msgid "See more"
-msgstr ""
-
-msgid "(unknown)"
 msgstr ""
 
 msgid "with an abstention on"
@@ -3326,9 +3326,6 @@ msgid "Allow modifications by other users"
 msgstr ""
 
 msgid "Freeze proposal"
-msgstr ""
-
-msgid "Create new proposal"
 msgstr ""
 
 msgid "Find proposals"

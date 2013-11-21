@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-19 20:25+0100\n"
-"PO-Revision-Date: 2013-11-19 19:28+0000\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1797,6 +1797,11 @@ msgid ""
 "have displayed."
 msgstr ""
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -2968,14 +2973,14 @@ msgstr "Nowy termin"
 msgid "Last Change"
 msgstr "Ostatnia zmiana"
 
-msgid "Edit this milestone."
-msgstr "Edytuj termin"
-
-msgid "Delete this milestone."
-msgstr "Usuń ten termin."
+msgid "(unknown)"
+msgstr "(nieznane)"
 
 msgid "Associated Proposals"
 msgstr "Powiązane propozycje"
+
+msgid "Create new proposal"
+msgstr "Stwórz nową propozycję"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Z terminem tym nie są powiązane żadne propozycje"
@@ -2997,9 +3002,6 @@ msgstr "Znajdziesz tu listę wszystkich propozycji i dokumentów, które są zwi
 
 msgid "See more"
 msgstr "Więcej..."
-
-msgid "(unknown)"
-msgstr "(nieznane)"
 
 msgid "with an abstention on"
 msgstr ""
@@ -3444,9 +3446,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Create new proposal"
-msgstr "Stwórz nową propozycję"
 
 msgid "Find proposals"
 msgstr "Znajdź propozycję"
