@@ -156,7 +156,7 @@
         <h6>
             ${_('User badges')}
 
-            %if not c.dashboard and lib.auth.authorization.has('instance.admin'):
+            %if not c.dashboard and can.user.supervise(c.page_user):
             <div class="utility">
                 <a href="${h.entity_url(c.page_user, member='badges')}">
                     ${_("edit")}
