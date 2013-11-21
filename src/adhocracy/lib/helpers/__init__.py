@@ -63,7 +63,8 @@ need = FanstaticNeedHelper(static)
 
 
 def allow_user_registration():
-    return config.get_bool('adhocracy.allow_registration')
+    return (config.get_bool('adhocracy.allow_registration')
+            and not config.get_bool('adhocracy.readonly'))
 
 
 def sorted_flash_messages():
