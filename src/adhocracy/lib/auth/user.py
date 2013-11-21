@@ -14,10 +14,12 @@ def show(check, u):
 
 
 def create(check):
+    check.readonly()
     check.other('user_logged_in', c.user is not None)
 
 
 def edit(check, u):
+    check.readonly()
     if has('user.manage'):
         return
     show(check, u)
@@ -26,10 +28,12 @@ def edit(check, u):
 
 
 def manage(check, u):
+    check.readonly()
     check.perm('user.manage')
 
 
 def message(check, u):
+    check.readonly()
     check.perm('user.message')
     check.other('user_is_self', u == c.user)
     check.other('user_without_email', u.email is None)
@@ -39,6 +43,7 @@ def message(check, u):
 
 
 def supervise(check, u):
+    check.readonly()
     check.other('not_in_instance', not c.instance)
     check.other('no_member_in_instance', not u.is_member(c.instance))
     check.other('not_user.manage_or_instance.admin',
@@ -60,6 +65,7 @@ def delete(check, u):
 
 
 def vote(check):
+    check.readonly()
     check.other('vote_prohibited', has('vote.prohibit'))
     check.other('not_in_instance', not c.instance)
     check.other(NOT_LOGGED_IN, not c.user)

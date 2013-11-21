@@ -4,23 +4,21 @@
 <%def name="title()">${c.page_user.name}</%def>
 
 
-<%block name="headline">
+<%block name="main_content">
+<div class="mainbar">
+    ${tiles.user.header(c.page_user)}
 
-${tiles.user.header(c.page_user)}
-
-<form name="ask_delete" class="inplace" method="POST" 
-    action="${h.entity_url(c.page_user)}">
-    ${h.field_token()|n}
-    <input type="hidden" name="_method" value="DELETE" />
-    <div class="sidebar">&nbsp;</div>
-    <div class="mainbar">
+    <form name="ask_delete" class="inplace" method="POST"
+          action="${h.entity_url(c.page_user)}">
+        ${h.field_token()|n}
+        <input type="hidden" name="_method" value="DELETE" />
         <div class="warning_box">
-            ${_("Are you sure you want to delete your profile? This step cannot be reversed.")|n}
+            ${_("Are you sure you want to delete your profile? This step cannot be reversed.")}
         </div>
-        <center>
-            <input type="submit" class="delete" value="${_('Confirm')}" />
-        </center>
-    </div>
-</form>
 
+        <div class="input_wrapper submit">
+            ${components.savebox(h.entity_url(c.page_user), save_text=_('Confirm'))}
+        </div>
+    </form>
+</div>
 </%block>

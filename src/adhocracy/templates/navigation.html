@@ -84,16 +84,20 @@
                         </li>
                         %endif
 
+                        %if can.user.edit(c.user):
                         <li>
                             <a href="${h.entity_url(c.user, instance=c.instance, member='settings')}">
                                 ${_('Edit Profile')}
                             </a>
                         </li>
+                        %endif
+                        %if can.user.show(c.user):
                         <li>
                             <a href="${h.entity_url(c.user, instance=c.instance)}">
                                 ${_('View Profile')}
                             </a>
                         </li>
+                        %endif
                         %if h.has_permission("global.admin"):
                         <li>
                             <a href="${h.base_url('/admin', None)}">

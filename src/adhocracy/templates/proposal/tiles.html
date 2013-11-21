@@ -20,7 +20,7 @@
                     ${tiles.badge.badges(proposal.categories)}
                 </span>
                 %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-                %if h.has_permission('instance.admin'):
+                %if can.proposal.edit_badges(proposal):
                 <a class="button_small edit"
                    href="${h.entity_url(proposal, member='badges')}"
                    rel="#overlay-form">${_(u"Edit Badges")}</a>

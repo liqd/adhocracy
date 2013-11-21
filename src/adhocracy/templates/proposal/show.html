@@ -18,7 +18,7 @@
 ##%endif
 
 %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-%if h.has_permission('instance.admin'):
+%if can.proposal.edit_badges(c.proposal):
 <a class="button edit" href="${h.entity_url(c.proposal, member='badges')}">${_("Edit Badges")}</a>
 %endif
 %endif
