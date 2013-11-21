@@ -338,6 +338,10 @@ adhocracy.show_overview_map_on_index = True
 adhocracy.show_overview_map_on_instance_index = False
 {% end %}
 
+# freeze entire installation
+# adhocracy.readonly = True
+# adhocracy.readonly.global_admin_exception = False
+
 # show tutorials
 adhocracy.show_tutorials = True
 

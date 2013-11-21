@@ -41,6 +41,8 @@ DEFAULTS = {
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
+    'adhocracy.readonly': False,
+    'adhocracy.readonly.global_admin_exception': True,
     'adhocracy.protocol': u'http',
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.relative_urls': False,
