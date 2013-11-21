@@ -22,12 +22,14 @@ def show(check, p):
 
 
 def create(check):
+    check.readonly()
     check.valid_email()
     check.other('instance_frozen', c.instance.frozen)
     check.perm('proposal.create')
 
 
 def edit(check, p):
+    check.readonly()
     check.valid_email()
     if has('instance.admin') or has('global.admin'):
         # Admins can always edit proposals.
@@ -46,6 +48,7 @@ def edit(check, p):
 
 
 def delete(check, p):
+    check.readonly()
     check.valid_email()
     if has('instance.admin'):
         return
@@ -55,6 +58,7 @@ def delete(check, p):
 
 
 def rate(check, p):
+    check.readonly()
     check.valid_email()
     check.other('proposal_frozen', p.frozen)
     check.other('instance_frozen', c.instance.frozen)

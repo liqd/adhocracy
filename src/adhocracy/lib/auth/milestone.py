@@ -23,12 +23,14 @@ def show(check, m):
 
 
 def create(check):
+    check.readonly()
     check.valid_email()
     check.other('instance_without_milestones', not c.instance.milestones)
     check.perm('milestone.create')
 
 
 def edit(check, m):
+    check.readonly()
     check.valid_email()
     check.other('instance_without_milestones', not c.instance.milestones)
     if has('instance.admin'):
@@ -38,6 +40,7 @@ def edit(check, m):
 
 
 def delete(check, m):
+    check.readonly()
     check.valid_email()
     check.perm('milestone.delete')
     show(check, m)

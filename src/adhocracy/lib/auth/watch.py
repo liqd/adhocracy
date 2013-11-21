@@ -8,9 +8,11 @@ def show(check, w):
 
 
 def create(check):
+    check.readonly()
     check.perm('watch.create')
 
 
 def delete(check, w):
+    check.readonly()
     check.perm('watch.delete')
     show(check, w)

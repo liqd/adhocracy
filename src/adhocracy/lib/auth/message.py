@@ -2,6 +2,7 @@ from authorization import has
 
 
 def create(check, instance):
+    check.readonly()
 
     if has('global.message'):
         return
