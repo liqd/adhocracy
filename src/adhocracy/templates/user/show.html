@@ -85,7 +85,7 @@
             ${h.render(c.bio)|n}
         %else:
         <div class="infobox">
-            %if c.user == c.page_user:
+            %if c.user == c.page_user and can.user.edit(c.page_user):
             <p>${_(u"In order to inform other users about your interests please create a personal bio.")}</p>
             <a href="${h.entity_url(c.user, member=u'settings')}" class="button highlight">${_(u"Create a bio")}</a>
             %else:
