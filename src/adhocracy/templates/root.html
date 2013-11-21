@@ -48,6 +48,17 @@
         <strong class="ie-message">${_('We could not display an overlay. See <a href="%s">here</a> what it would have displayed.') % h.overlay_link()|n}</strong>
     </noscript>
     %endif
+    %if h.config.get_bool(u'adhocracy.readonly'):
+    <%
+        msg = h.config.get(u'adhocracy.readonly.message')
+        if msg == u'__default__':
+            # translation happens twice in this case, but there should be no problem
+            msg = _(u'This installation of adhocracy has been frozen. You can look at all content but editing is disabled.')
+    %>
+    %if msg:
+    <strong class="ie-message">${_(msg)}</strong>
+    %endif
+    %endif
 
     <div class="overlay" id="overlay-default">
       <a class="close"></a>

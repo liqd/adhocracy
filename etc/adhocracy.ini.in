@@ -342,6 +342,11 @@ adhocracy.show_overview_map_on_instance_index = False
 # adhocracy.readonly = True
 # adhocracy.readonly.global_admin_exception = False
 
+# this message is shown if adhocracy.readinly is True.
+# Leave it empty to show no warning at all
+# This string is translatable
+# adhocracy.readonly.message =
+
 # show tutorials
 adhocracy.show_tutorials = True
 

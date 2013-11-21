@@ -43,6 +43,7 @@ DEFAULTS = {
     'adhocracy.propose_optional_attributes': False,
     'adhocracy.readonly': False,
     'adhocracy.readonly.global_admin_exception': True,
+    'adhocracy.readonly.message': u'__default__',
     'adhocracy.protocol': u'http',
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.relative_urls': False,
