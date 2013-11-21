@@ -21,10 +21,12 @@ def show(check, p):
     check.other('proposal_deleted', p.is_deleted())
 
 
-def create(check):
+def create(check, instance=None):
     check.readonly()
     check.valid_email()
-    check.other('instance_frozen', c.instance.frozen)
+    if instance is None:
+        instance = c.instance
+    check.other('instance_frozen', instance.frozen)
     check.perm('proposal.create')
 
 

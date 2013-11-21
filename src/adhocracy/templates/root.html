@@ -279,7 +279,9 @@
     %endif
 
     %if h.feedback.is_configured():
+    %if can.proposal.create(instance=h.feedback.get_feedback_instance()):
       ${components.feedback()}
+    %endif
     %endif
 
   </body>
