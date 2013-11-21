@@ -47,6 +47,10 @@ def edit(check, p):
                 not is_own(p) and not p.description.head.wiki)
 
 
+def edit_badges(check, p):
+    check.readonly()
+    check.perm('instance.admin')
+
 def delete(check, p):
     check.readonly()
     check.valid_email()
