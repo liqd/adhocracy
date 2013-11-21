@@ -77,7 +77,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
             <a href="#proposals">${_("%s Proposed Implementations") % len(c.num_selections)}</a>
             %endif
             %endif
-            %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
+            %if h.config.get_bool('adhocracy.show_abuse_button'):
             ·
             <a href="${h.abuse.for_entity(c.proposal)}">${_("report")}</a>
             %endif

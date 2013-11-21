@@ -194,7 +194,7 @@
                            rel="#overlay-url">${_("history")}</a>
                     </span>
                     %endif
-                    %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
+                    %if h.config.get_bool('adhocracy.show_abuse_button'):
                     ·
                     <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
                     %endif

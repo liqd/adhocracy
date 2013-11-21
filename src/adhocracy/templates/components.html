@@ -175,7 +175,7 @@
 
 
 <%def name="social_share_buttons(title)">
-%if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
+%if h.config.get_bool('adhocracy.show_social_buttons'):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()

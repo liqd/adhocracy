@@ -30,7 +30,7 @@
                 li_class=_class('home'),
                 id_="nav_home")}
 
-                %if not h.asbool(config.get('adhocracy.hide_instance_list_in_navigation')):
+                %if not h.config.get_bool('adhocracy.hide_instance_list_in_navigation'):
                 %if app_globals.single_instance is None:
                 ${nav_link(href=h.base_url('/instance', None),
                            a_rel='#overlay-default',
@@ -40,7 +40,7 @@
                 %endif
                 %endif
 
-                %if not h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')) and c.user:
+                %if not h.config.get_bool('adhocracy.put_watchlist_in_user_menu') and c.user:
                 ${nav_link(href=h.entity_url(c.user, member='watchlist'),
                            li_class=_class('watchlist'),
                            text=_("Watchlist"),
@@ -76,7 +76,7 @@
                             </a>
                         </li>
 
-                        %if h.asbool(config.get('adhocracy.put_watchlist_in_user_menu')):
+                        %if h.config.get_bool('adhocracy.put_watchlist_in_user_menu'):
                         <li>
                             <a href="${h.entity_url(c.user, member='watchlist')}">
                                 ${_('Watchlist')}
