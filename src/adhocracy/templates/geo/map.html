@@ -13,8 +13,8 @@
 <% h.need.openlayers %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map ${map_class}"></div>
-${attribution()}
+<div id="map" class="map ${map_class}">
+${attribution()}</div>
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.loadSingleProposalMap(${h.geo.map_config(instanceKey=c.instance.key, proposalId=proposal_id)|n});
 }</script>
@@ -24,8 +24,8 @@ ${attribution()}
 <% h.need.openlayers %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map small_boxed_map"></div>
-${attribution()}
+<div id="map" class="map small_boxed_map">
+${attribution()}</div>
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.loadPageMap(${h.geo.map_config(instanceKey=c.instance.key, pageId=page_id)|n});
 }</script>
@@ -36,8 +36,8 @@ ${attribution()}
 <% h.need.ole %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map midsize_map"></div>
-${attribution()}
+<div id="map" class="map midsize_map">
+${attribution()}</div>
 <div id="edit_map_buttons" />
 <form id="edit_geotag" method='post' action='${h.entity_url(c.page, member="update_geotag")}'>
     <input id='geotag_field' name='geotag' type='hidden' />
@@ -56,8 +56,8 @@ ${attribution()}
 <% h.need.openlayers %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map midsize_map"></div>
-${attribution()}
+<div id="map" class="map midsize_map">
+${attribution()}</div>
 <div id="edit_map_buttons" />
 <form method='post' action='${h.entity_url(c.proposal, member="update_geotag")}'>
     <input id='geotag_field' name='geotag' type='hidden' />
@@ -104,8 +104,8 @@ ${attribution(long=False)}</div>
 <% h.need.openlayers %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map large_map"></div>
-${attribution(long=True)}
+<div id="map" class="map large_map">
+${attribution(long=True)}</div>
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.loadRegionMap(${h.geo.map_config(instanceKey=c.instance.key, initialProposals=initial_proposals, initialPages=initial_pages, largeMap=True, fullRegion=full_region)|n});
 }</script>
