@@ -19,7 +19,7 @@
 
     <h2>${c.settings_menu.current['label']}</h2>
 
-    ${forms.input(_("Name"), 'label', 1)}
+    ${forms.input(_("Name"), 'label', autofocus=True)}
 
     <%forms:textarea label="${_('Description')}" name="description" value=""
     help="${_('Describe what the goals of this instance are and who constitutes its community.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
