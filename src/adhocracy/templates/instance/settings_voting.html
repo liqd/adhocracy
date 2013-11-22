@@ -26,8 +26,8 @@
         delay_help = _("Before activating, the defined majority must be continuously held " +
                        "by the proposal for the specified interval.")
         %>
-        ${forms.select(_("Majority"), 'required_majority', c.majority_options, 5, help=delay_help)}
-        ${forms.select(_("Delay"), 'activation_delay', c.delay_options, 10, help=delay_help)}
+        ${forms.select(_("Majority"), 'required_majority', c.majority_options, help=delay_help)}
+        ${forms.select(_("Delay"), 'activation_delay', c.delay_options, help=delay_help)}
     </div>
     %endif
 

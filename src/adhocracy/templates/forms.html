@@ -74,10 +74,10 @@ ${caller.body()}
 </%self:group>
 </%def>
 
-<%def name="select(label, name, values, tabindex=None, cls='', help=None)">
+<%def name="select(label, name, values, autofocus=None, cls='', help=None)">
 <%self:group name="${name}">
 <label for="${name}">${label}</label>
-<select name="${name}" ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}>
+<select name="${name}" ${'autofocus="autofocus"' if autofocus else '' | n}>
     %for option in values:
     <option value="${option['value']}"
             ${h.literal('selected="selected"') if option.get('selected') else '' | n}>
