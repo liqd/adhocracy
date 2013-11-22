@@ -24,7 +24,7 @@ from adhocracy import forms, model
 from adhocracy import i18n
 from adhocracy.lib import democracy, event, helpers as h, pager, logo
 from adhocracy.lib import sorting, search as libsearch, tiles, text
-from adhocracy.lib.auth import require, login_user, guard
+from adhocracy.lib.auth import require, can, login_user, guard
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest, token_id
 from adhocracy.lib.auth.welcome import (welcome_enabled, can_welcome,
@@ -901,6 +901,7 @@ class UserController(BaseController):
 
         data = {
             u'show_upload_avatar': c.page_user == c.user and \
+                                   can.user.edit(c.page_user) and \
                                    not logo.exists(c.page_user),
         }
 
@@ -965,6 +966,7 @@ class UserController(BaseController):
 
         data = {
             u'show_upload_avatar': c.page_user == c.user and \
+                                   can.user.edit(c.page_user) and \
                                    not logo.exists(c.page_user),
             u'about': True,
             u'bio': c.page_user.bio,
