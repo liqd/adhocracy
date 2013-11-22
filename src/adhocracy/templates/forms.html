@@ -14,12 +14,13 @@
 </%self:group>
 </%def>
 
-<%def name="radio(label, name, value, tabindex=None, cls='', help=None, checked=False)">
+<%def name="radio(label, name, value, autofocus=None, cls='', help=None, checked=False)">
 <%self:group name="${name}">
 <label class="radio ${cls}">
     <form:error name="field_name" />
     <input name="${name}" value="${value}" type="radio"
-           ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n} ${'checked="checked"' if checked else '' | n} />
+           ${'autofocus="autofocus"' if autofocus else '' | n}
+           ${'checked="checked"' if checked else '' | n} />
     ${label}
 </label>
 </%self:group>
