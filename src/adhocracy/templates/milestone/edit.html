@@ -19,7 +19,7 @@
 
     <div>
         <label for="title" class="">${_("Milestone title")}</label>
-        <input tabindex="1" name="title" value="${c.milestone.title}" />
+        <input autofocus="autofocus" name="title" value="${c.milestone.title}" />
     </div>
 
         <label for="text">${_("Milestone description")}</label>
@@ -27,7 +27,7 @@
             ${_("Give a brief description of the milestone.")|n}
         </div>
 
-        <textarea tabindex="2" class="description" name="text">${c.milestone.text}</textarea>
+        <textarea class="description" name="text">${c.milestone.text}</textarea>
         ${components.formatting()}
         <br/>
         <label for="time">${_("Date of the milestone")}</label>
