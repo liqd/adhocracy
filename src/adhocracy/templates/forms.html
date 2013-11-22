@@ -47,7 +47,7 @@
 </label>
 </%def>
 
-<%def name="textarea(label, name, value, tabindex=None, rows=3, cls='', placeholder='', help=None)">
+<%def name="textarea(label, name, value, autofocus=None, rows=3, cls='', placeholder='', help=None)">
 ## This renders a textarea like this:
 ##
 ## <label />
@@ -65,7 +65,7 @@
 ${caller.before()}
 %endif
 <textarea class="${cls}" name="${name}" rows="${rows}"
-          ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n}
+          ${'autofocus="autofocus"' if autofocus else '' | n}
           ${'placeholder="%s"' % placeholder if placeholder else '' | n}>${value}</textarea>
 %if hasattr(caller, 'after'):
 ${caller.after()}
