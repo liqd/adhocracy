@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-19 20:25+0100\n"
-"PO-Revision-Date: 2013-11-19 19:28+0000\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1802,6 +1802,11 @@ msgid ""
 "have displayed."
 msgstr ""
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -2973,14 +2978,14 @@ msgstr "Новый срок"
 msgid "Last Change"
 msgstr "Последнее изменение"
 
-msgid "Edit this milestone."
-msgstr "редактировать срок"
-
-msgid "Delete this milestone."
-msgstr "удалить этот срок"
+msgid "(unknown)"
+msgstr "(неизвестно)"
 
 msgid "Associated Proposals"
 msgstr "Ассоциированные предложения"
+
+msgid "Create new proposal"
+msgstr "Создать новое предложение"
 
 msgid "No proposals are connected to this milestone"
 msgstr "По указателю нет подключённых предложений"
@@ -3002,9 +3007,6 @@ msgstr ""
 
 msgid "See more"
 msgstr "Подробнее..."
-
-msgid "(unknown)"
-msgstr "(неизвестно)"
 
 msgid "with an abstention on"
 msgstr ""
@@ -3449,9 +3451,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Create new proposal"
-msgstr "Создать новое предложение"
 
 msgid "Find proposals"
 msgstr "найти предложения"

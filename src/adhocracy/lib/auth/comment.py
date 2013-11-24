@@ -22,11 +22,13 @@ def show(check, co):
 
 
 def create(check):
+    check.readonly()
     check.valid_email()
     check.perm('comment.create')
 
 
 def create_on(check, topic):
+    check.readonly()
     check.valid_email()
     if has('instance.admin'):
         return
@@ -42,6 +44,7 @@ def reply(check, parent):
 
 
 def edit(check, co):
+    check.readonly()
     check.valid_email()
     if has('instance.admin'):
         return
@@ -56,6 +59,7 @@ revert = edit
 
 
 def delete(check, co):
+    check.readonly()
     check.valid_email()
     if has('instance.admin'):
         return

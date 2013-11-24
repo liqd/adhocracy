@@ -17,8 +17,8 @@
 
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
-        
-    <% 
+
+    <%
     help_text = _("Select a logo file to appear in the header "
                   "area of this Instance.")
     %>
@@ -33,10 +33,10 @@
     </div>
     %endif
     </%forms:input>
-    
-    <%forms:textarea label="${_('Extra CSS')}" name="css" value="" 
+
+    <%forms:textarea label="${_('Extra CSS')}" name="css" value=""
     tabindex="2" help="${_('You can add css that will be used to style the instance.')}">
-    ${components.formatting()}    
+    ${components.formatting()}
     </%forms:textarea>
 
     %if c.instance and c.instance.allow_thumbnailbadges:
@@ -47,8 +47,8 @@
         <input type="hidden" name="thumbnailbadges_height" value="" />
     %endif
 
-    
+
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
-</form> 
+</form>
 </%block>

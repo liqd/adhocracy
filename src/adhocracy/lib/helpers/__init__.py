@@ -9,7 +9,6 @@ import hashlib
 import json
 import urllib
 
-from paste.deploy.converters import asbool, asint
 from pylons import tmpl_context as c, request
 from pylons.i18n import _, get_lang
 from webhelpers.html import literal
@@ -66,7 +65,8 @@ need = FanstaticNeedHelper(static)
 
 
 def allow_user_registration():
-    return asbool(config.get('adhocracy.allow_registration', 'True'))
+    return (config.get_bool('adhocracy.allow_registration')
+            and not config.get_bool('adhocracy.readonly'))
 
 
 def sorted_flash_messages():

@@ -21,13 +21,17 @@ def show(check, p):
     check.other('proposal_deleted', p.is_deleted())
 
 
-def create(check):
+def create(check, instance=None):
+    check.readonly()
     check.valid_email()
-    check.other('instance_frozen', c.instance.frozen)
+    if instance is None:
+        instance = c.instance
+    check.other('instance_frozen', instance.frozen)
     check.perm('proposal.create')
 
 
 def edit(check, p):
+    check.readonly()
     check.valid_email()
     if has('instance.admin') or has('global.admin'):
         # Admins can always edit proposals.
@@ -45,7 +49,13 @@ def edit(check, p):
                 not is_own(p) and not p.description.head.wiki)
 
 
+def edit_badges(check, p):
+    check.readonly()
+    check.perm('instance.admin')
+
+
 def delete(check, p):
+    check.readonly()
     check.valid_email()
     if has('instance.admin'):
         return
@@ -55,6 +65,7 @@ def delete(check, p):
 
 
 def rate(check, p):
+    check.readonly()
     check.valid_email()
     check.other('proposal_frozen', p.frozen)
     check.other('instance_frozen', c.instance.frozen)

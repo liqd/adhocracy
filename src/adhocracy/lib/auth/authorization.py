@@ -141,6 +141,12 @@ class AuthCheck(object):
         if value is True:
             self.other_refusals.add(label)
 
+    def readonly(self):
+        if config.get_bool(u'adhocracy.readonly'):
+            e = config.get_bool(u'adhocracy.readonly.global_admin_exception')
+            if not (e and has(u'global.admin')):
+                self.other_refusals.add(u'readonly')
+
     def valid_email(self):
         if (c.instance is not None
                 and config.get_bool('adhocracy.require_email')

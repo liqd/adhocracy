@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-19 20:25+0100\n"
-"PO-Revision-Date: 2013-11-19 19:28+0000\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1800,6 +1800,11 @@ msgid ""
 "have displayed."
 msgstr ""
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr ""
 
@@ -2971,14 +2976,14 @@ msgstr "O noua data limita"
 msgid "Last Change"
 msgstr "Ultima modificare"
 
-msgid "Edit this milestone."
-msgstr "Modifica data limita."
-
-msgid "Delete this milestone."
-msgstr "Sterge data limita."
+msgid "(unknown)"
+msgstr "(necunoscut)"
 
 msgid "Associated Proposals"
 msgstr "Propuneri asociate"
+
+msgid "Create new proposal"
+msgstr "Creeaza o propunere noua"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Nu exista propuneri asociate la aceasta data limita"
@@ -3000,9 +3005,6 @@ msgstr "tutorial_data_limita_detalii_lista"
 
 msgid "See more"
 msgstr "Afiseaza mai mult"
-
-msgid "(unknown)"
-msgstr "(necunoscut)"
 
 msgid "with an abstention on"
 msgstr ""
@@ -3447,9 +3449,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Create new proposal"
-msgstr "Creeaza o propunere noua"
 
 msgid "Find proposals"
 msgstr "Cauta propuneri"

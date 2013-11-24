@@ -11,11 +11,13 @@ def show(check, p):
 
 
 def create(check):
+    check.readonly()
     check.valid_email()
     check.perm('page.create')
 
 
 def edit(check, p):
+    check.readonly()
     check.valid_email()
     check.other('page_not_mutable', not p.is_mutable())
     if has('instance.admin'):
@@ -25,11 +27,13 @@ def edit(check, p):
 
 
 def manage(check, p):
+    check.readonly()
     check.valid_email()
     check.perm('instance.admin')
 
 
 def delete(check, p):
+    check.readonly()
     check.valid_email()
     check.other('page_not_mutable', not p.is_mutable())
     check.perm('page.delete')
@@ -37,5 +41,6 @@ def delete(check, p):
 
 
 def delete_history(check, p):
+    check.readonly()
     check.valid_email()
     check.perm('page.delete_history')

@@ -16,6 +16,7 @@ def create(check, variant=Text.HEAD):
 
 
 def propose(check):
+    check.readonly()
     check.valid_email()
     check.other('instance_without_norms', not c.instance.use_norms)
     if has('instance.admin'):
@@ -32,5 +33,6 @@ def edit(check, page, variant=Text.HEAD):
 
 
 def delete(check, n):
+    check.readonly()
     check.valid_email()
     check.other('norms_cannot_be_deleted', True)

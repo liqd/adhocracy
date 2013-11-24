@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-19 20:25+0100\n"
-"PO-Revision-Date: 2013-11-19 19:28+0000\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -1799,6 +1799,11 @@ msgid ""
 "have displayed."
 msgstr "Non è stato possibile mostrare una sovrapposizione. Vedi <a href=\"%s\">qui</a> che cosa sarebbe stato mostrato. "
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr "Bentornato!"
 
@@ -2968,14 +2973,14 @@ msgstr "Nuovo evento"
 msgid "Last Change"
 msgstr "Ultima modifica"
 
-msgid "Edit this milestone."
-msgstr "Modifica questo evento."
-
-msgid "Delete this milestone."
-msgstr "Elimina questo evento."
+msgid "(unknown)"
+msgstr "(sconosciuto)"
 
 msgid "Associated Proposals"
 msgstr "Proposte associate"
+
+msgid "Create new proposal"
+msgstr "Suggerisci una nuova proposta"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Non esiste nessuna proposta associata a questo evento."
@@ -2997,9 +3002,6 @@ msgstr "Qui troverai una lista di proposte e di delibere relative all'evento."
 
 msgid "See more"
 msgstr "Vedi altro"
-
-msgid "(unknown)"
-msgstr "(sconosciuto)"
 
 msgid "with an abstention on"
 msgstr "con l'astensione da"
@@ -3443,9 +3445,6 @@ msgstr "Permetti modifiche da altri utenti"
 
 msgid "Freeze proposal"
 msgstr "Blocca proposta"
-
-msgid "Create new proposal"
-msgstr "Suggerisci una nuova proposta"
 
 msgid "Find proposals"
 msgstr "Cerca proposte"
