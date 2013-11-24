@@ -39,7 +39,8 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
                     config.get('adhocracy.site.name'))
 
         # wrap body, but leave long words (e.g. links) intact
-        body = u'\n'.join(textwrap.fill(line, break_long_words=False)
+        body = u'\n'.join(textwrap.fill(line, break_long_words=False,
+                                        break_on_hyphens=False)
                           for line in body.split(u'\n'))
 
         msg = MIMEText(body.encode(ENCODING), 'plain', ENCODING)
