@@ -26,7 +26,7 @@
   %endif
   </div>
 
-  %if h.asbool(config.get('adhocracy.show_overview_map_on_index')):
+  %if h.config.get_bool('adhocracy.show_overview_map_on_index'):
   <div id="map_wrapper" class="map_size_normal">
     <div id="map" class="select_instance_map">
       ${map.show_select_instance()}
