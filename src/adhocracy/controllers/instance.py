@@ -771,7 +771,8 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
         user_import(self.form_result['users_csv'],
                     self.form_result['email_subject'],
-                    self.form_result['email_template'])
+                    self.form_result['email_template'],
+                    c.user)
         # FIXME: display user_import result
         return(render("/instance/settings_members_import_success.html"))
 

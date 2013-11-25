@@ -10,7 +10,8 @@ from adhocracy.lib.util import random_token
 log = logging.getLogger(__name__)
 
 
-def user_import(_users, email_subject, email_template, reinvite=False):
+def user_import(_users, email_subject, email_template, creator,
+                reinvite=False):
     names = []
     created = []
     mailed = []
@@ -36,7 +37,7 @@ def user_import(_users, email_subject, email_template, reinvite=False):
                 user.password = password
 
                 for badge in user_info['user_badges']:
-                    badge.assign(user, creator=c.user)
+                    badge.assign(user, creator=creator)
 
                 model.meta.Session.add(user)
                 model.meta.Session.commit()
