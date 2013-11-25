@@ -3,7 +3,6 @@ import logging
 import formencode
 import formencode.htmlfill
 from pylons import config, request
-from pylons import tmpl_context as c
 from pylons.i18n import lazy_ugettext as L_, _
 from pylons.controllers.util import redirect
 
@@ -13,10 +12,9 @@ from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth.welcome import can_welcome
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import base_url, flash
-from adhocracy.lib.mail import to_user
 from adhocracy.lib.templating import render, ret_abort
-from adhocracy.lib.util import random_token
 from adhocracy.lib.search import index
+from adhocracy.lib.user_import import user_import
 import adhocracy.lib.importexport
 
 log = logging.getLogger(__name__)
@@ -152,64 +150,15 @@ class AdminController(BaseController):
             try:
                 self.form_result = UserImportForm().to_python(request.params)
                 # a proposal that this norm should be integrated with
-                return self._create_users(self.form_result, format=format)
+                data = user_import(self.form_result['users_csv'],
+                                   self.form_result['email_subject'],
+                                   self.form_result['email_template'])
+                return render("/admin/userimport_success.html", data,
+                              overlay=format == u'overlay')
             except formencode.Invalid as i:
                 return self.user_import_form(errors=i.unpack_errors())
         else:
             return self.user_import_form(format=format)
-
-    def _create_users(self, form_result, format='html'):
-        names = []
-        created = []
-        mailed = []
-        errors = False
-        users = []
-        for user_info in form_result['users_csv']:
-            try:
-                name = user_info['user_name']
-                email = user_info['email']
-                display_name = user_info['display_name']
-                names.append(name)
-                user = model.User.create(name, email,
-                                         display_name=display_name,
-                                         autojoin=False)
-                user.activation_code = user.IMPORT_MARKER + random_token()
-                password = random_token()
-                user_info['password'] = password
-                user.password = password
-
-                for badge in user_info['user_badges']:
-                    badge.assign(user, creator=c.user)
-
-                model.meta.Session.add(user)
-                model.meta.Session.commit()
-                users.append(user)
-                created.append(user.user_name)
-                url = base_url(
-                    "/user/%s/activate?c=%s" % (user.user_name,
-                                                user.activation_code),
-                    absolute=True)
-
-                user_info['url'] = url
-                body = form_result['email_template'].format(
-                    *user_info.get('rest', []), **user_info)
-                to_user(user, form_result['email_subject'], body,
-                        decorate_body=False)
-                mailed.append(user.user_name)
-
-            except Exception, E:
-                log.error('user import for user %s, email %s, exception %s' %
-                          (name, email, E))
-                errors = True
-                continue
-        data = {
-            'users': users,
-            'not_created': set(names) - set(created),
-            'not_mailed': set(created) - set(mailed),
-            'errors': errors
-        }
-        return render("/admin/userimport_success.html", data,
-                      overlay=format == u'overlay')
 
     @guard.perm("global.admin")
     def import_dialog(self, errors=None, defaults=None, format=u'html'):
