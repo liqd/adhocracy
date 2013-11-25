@@ -763,7 +763,8 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=UserImportForm(),
               form="_settings_members_import_form",
-              post_only=True, auto_error_formatter=error_formatter)
+              post_only=True, auto_error_formatter=error_formatter,
+              state={'global_admin': h.has_permission('global.admin')})
     def settings_members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance,

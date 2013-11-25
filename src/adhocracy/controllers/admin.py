@@ -8,6 +8,7 @@ from pylons.controllers.util import redirect
 
 from adhocracy import model, forms
 from adhocracy.lib.auth import guard
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth.welcome import can_welcome
 from adhocracy.lib.base import BaseController
@@ -148,7 +149,8 @@ class AdminController(BaseController):
 
         if request.method == "POST":
             try:
-                self.form_result = UserImportForm().to_python(request.params)
+                self.form_result = UserImportForm().to_python(request.params,
+                    state={'global_admin': has('global.admin'))
                 # a proposal that this norm should be integrated with
                 data = user_import(self.form_result['users_csv'],
                                    self.form_result['email_subject'],
