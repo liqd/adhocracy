@@ -33,6 +33,8 @@
                 %endif
                 %endif
             </h3>
+            
+            %if not c.instance.voting_disabled:
             <div class="meta">
                 %if proposal.is_adopt_polling():
                     ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
@@ -46,6 +48,8 @@
                     ·
                 %endif
             </div>
+            %endif
+            
         </div>
     </li>
 </%def>

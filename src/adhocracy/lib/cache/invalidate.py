@@ -83,6 +83,13 @@ def invalidate_poll(poll):
         invalidate_comment(poll.subject)
 
 
+def invalidate_instance_polls(instance):
+    # invalidates all polls of an instance
+    for deleg in instance.delegateables:
+        for poll in deleg.polls:
+            invalidate_poll(poll)
+
+
 def invalidate_instance(instance):
     # muharhar cache epic fail
     clear_tag(instance)

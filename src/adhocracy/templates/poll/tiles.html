@@ -12,6 +12,8 @@ pro = tile.widget_action_attrs(model.Vote.YES)
 con = tile.widget_action_attrs(model.Vote.NO)
 %>
 <div class="vote_wrapper">
+
+%if not c.instance.voting_disabled:
 <div id="${tile.html_id}" class="${tile.widget_class}">
     %if tile.can_show:
         <a href="${tile.votes_listing_url}" rel="#overlay-url" class="vote_count ${tile.count_class}"
@@ -32,6 +34,7 @@ con = tile.widget_action_attrs(model.Vote.NO)
     %endif
     >
 </div>
+%endif
 
 %if delegate_url:
 <span class="or">${_('or:')}</span>

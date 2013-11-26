@@ -154,9 +154,11 @@
                 </span>
             </h5>
 
+            %if not c.instance.voting_disabled:
             <div class="vote_comment">
                 ${tiles.poll.widget(comment.poll)}
             </div>
+            %endif
         </div>
 
         ## comment text

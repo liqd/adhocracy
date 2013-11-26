@@ -100,6 +100,9 @@ class PollController(BaseController):
         # rating is like polling but steps via abstention, i.e. if you have
         # first voted "for", rating will first go to "abstain" and only
         # then produce "against"-
+        if c.instance.voting_disabled:
+            abort(403, _("Voting disabled."))
+        
         c.poll = self._get_open_poll(id)
         if c.poll.action not in [model.Poll.RATE, model.Poll.SELECT]:
             abort(400, _("This is not a rating poll."))

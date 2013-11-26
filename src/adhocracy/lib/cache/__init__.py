@@ -6,7 +6,8 @@ from util import memoize
 from invalidate import (invalidate_user, invalidate_vote, invalidate_page,
                         invalidate_delegateable, invalidate_delegation,
                         invalidate_revision, invalidate_comment,
-                        invalidate_poll, invalidate_tagging, invalidate_text,
+                        invalidate_poll, invalidate_instance_polls,
+                        invalidate_tagging, invalidate_text,
                         invalidate_selection, invalidate_badge,
                         invalidate_userbadges, invalidate_delegateablebadges,
                         invalidate_instance)

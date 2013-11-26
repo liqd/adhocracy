@@ -129,6 +129,9 @@ class InstanceVotingEditForm(formencode.Schema):
     allow_extra_fields = True
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
+
+    voting_disabled = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
     if not config.get_bool('adhocracy.hide_final_adoption_votings'):
         allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
                                             if_missing=False)
@@ -664,6 +667,7 @@ class InstanceController(BaseController):
             'activation_delay': c.page_instance.activation_delay,
             'allow_adopt': c.page_instance.allow_adopt,
             'allow_delegate': c.page_instance.allow_delegate,
+            'voting_disabled': c.page_instance.voting_disabled,
             '_tok': csrf.token_id()}
         if votedetail.is_enabled():
             defaults['votedetail_badges'] = [
@@ -681,13 +685,19 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
-        updated_attributes = ['allow_delegate']
+        old_voting_disabled = getattr(c.page_instance, 'voting_disabled')
+
+        updated_attributes = ['allow_delegate', 'voting_disabled']
         if not config.get_bool('adhocracy.hide_final_adoption_votings'):
             updated_attributes.extend(
                 ['required_majority', 'activation_delay', 'allow_adopt'])
         updated = update_attributes(
             c.page_instance, self.form_result, updated_attributes)
-
+             
+        if old_voting_disabled != getattr(c.page_instance, 'voting_disabled'):
+            from adhocracy.lib.cache import invalidate_instance_polls
+            invalidate_instance_polls(c.page_instance)
+                       
         if votedetail.is_enabled():
             new_badges = self.form_result['votedetail_badges']
             updated_vd = c.page_instance.votedetail_userbadges != new_badges
