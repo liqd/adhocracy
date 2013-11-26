@@ -46,17 +46,18 @@ ${self.form()}
     </script>
 
     %if c.badge_type == 'thumbnail':
+    <fieldset class="logo">
+        <%forms:input label="${_('Thumbnail')}" name="thumbnail" type="file"
+                      help="${_('Upload thumbnail icon. This is used instead of color to show the badge')}">
+        </%forms:input>
         %if c.badge_thumbnail:
-            <div>
-                ${h.literal(c.badge_thumbnail)}
-                <button name="delete_thumbnail" value="1">
-                    <i class="icon-remove"></i>${_('Delete current thumbnail image')}
-                </button>
-            </div>
+        <div class="current">
+            ${h.literal(c.badge_thumbnail)}
+            <br />
+            <input type="submit" name="delete_thumbnail" value="${_('Delete current thumbnail image')}" />
+        </div>
         %endif
-    <label for="thumbnail">${_('Upload thumbnail icon. This is used instead of color to show the badge')}</label>
-    <input id="thumbnail" name="thumbnail" type="file" />
-    <br />
+    </fieldset>
     %endif
 
     <input type="checkbox" name="visible" id="badge_form_visible" />
