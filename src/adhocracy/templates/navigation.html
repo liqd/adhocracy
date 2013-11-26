@@ -9,7 +9,7 @@
 
 <%def name="global_nav(active)">
 
-<% 
+<%
    active_nav = {}
    active_nav[active] = 'current'
 
@@ -117,7 +117,7 @@
 </%def>
 
 
-<%def name="subheader_navigation(logo, label, search_action=None, search_label='', 
+<%def name="subheader_navigation(logo, label, search_action=None, search_label='',
                                  search_button_text=None, url=None)">
 
   <div id="subheader" class="${'logo' if logo else ''}">
@@ -172,7 +172,7 @@
 
 <%def name="subheader_instance_navigation(active)">
 
-<% 
+<%
    import cgi
    from adhocracy.lib.tiles.instance_tiles import InstanceTile
    active_subnav = {}
@@ -184,14 +184,14 @@
        if InstanceTile(c.instance).show_icon():
            logo = h.instance.icon_url(c.instance, 48)
            url = h.entity_url(c.instance)
-   
+
    def _class(identifier):
        return active_subnav.get(identifier, '')
 %>
 
-<%call expr="subheader_navigation(logo, c.instance.label, 
-                                  search_action=h.base_url('/search'), 
-                                  search_label=search_label, 
+<%call expr="subheader_navigation(logo, c.instance.label,
+                                  search_action=h.base_url('/search'),
+                                  search_label=search_label,
                                   url=url)">
 
   ${nav_link(href=h.entity_url(c.instance),

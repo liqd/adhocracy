@@ -5,10 +5,10 @@
         <div class="index">${revision.index}</div>
         ${h.user.link(revision.user, scope=revision.comment.topic)|n}
         · ${_("created %s") % h.datetime_tag(revision.create_time)|n}
-        
+
         <div class="meta">
             &nbsp;
-        
+
             %if can.comment.revert(revision.comment) and not revision.is_latest:
             <span> <a href="${h.entity_url(revision.comment, member='revert')}?${h.url_token()}&amp;to=${revision.id}">(${_("revert here")})</a></span>
             %endif
@@ -19,7 +19,7 @@
         </div>
         <div style="clear: both;"></div>
     </div>
-    
+
     <div class="headrev">
         %if revision.is_latest:
             <div class="hide_edit">

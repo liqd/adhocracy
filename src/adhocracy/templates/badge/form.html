@@ -26,20 +26,20 @@ ${self.form()}
            value="" autofocus />
 
     <label for="description" class="">${_("Badge description")}</label>
-    <textarea name="description" id="description" 
+    <textarea name="description" id="description"
               style="width:90%; height: 10em"></textarea>
 
-    <label for="color" 
+    <label for="color"
            class="">${_("The color that is used to show the badge")}</label>
     <input name="color" style="width: 8em" id="color" class=""
            value=""/>
     <span class="hint only-no-js">${_("Like '#a4a4a4'")}</span>
-    
+
     %if c.badge_type != 'thumbnail':
     <span id="badge-preview" class="hidden">
         ${_('Preview:')} &nbsp;&nbsp; ${badge_tiles.badge('dummy')}
     </span>
-    %endif       
+    %endif
     <script>
         $(document).ready(function() {
             adhocracy.helpers.initializeBadgeColorPicker('#color', '#badge_form_visible', '#badge_form_title', '${h.site.domain()}.colors.badge')})
@@ -53,21 +53,21 @@ ${self.form()}
                     <i class="icon-remove"></i>${_('Delete current thumbnail image')}
                 </button>
             </div>
-        %endif    
+        %endif
     <label for="thumbnail">${_('Upload thumbnail icon. This is used instead of color to show the badge')}</label>
     <input id="thumbnail" name="thumbnail" type="file" />
     <br />
-    %endif       
+    %endif
 
     <input type="checkbox" name="visible" id="badge_form_visible" />
     <label for="badge_form_visible" style="display: inline;" title="${_('Check to hide badge in user interface')}">${_("visible")}</label>
- 
+
     %if c.badge_type == 'user':
     <label for="group" class="">
         ${_("Group")}
     </label>
 
-    <select name="group"> 
+    <select name="group">
         <option value="">${_("No Group")}</option>
         %for group in c.groups:
         <option value="${group.code}">${group.group_name}</option>
@@ -119,8 +119,8 @@ ${self.form()}
         %if h.has_permission('global.admin'):
         </optgroup>
         %endif
-    </select>  
-    
+    </select>
+
     <label for="select_child_description" class="">${_("Description to select children of this badge (irrelevant if this badge doesn't have any children)")}</label>
     <input name="select_child_description" id="badge_select_child_description" class="" style="width:20em"
            value="" />

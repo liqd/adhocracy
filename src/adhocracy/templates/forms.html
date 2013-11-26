@@ -18,7 +18,7 @@
 <%self:group name="${name}">
 <label class="radio ${cls}">
     <form:error name="field_name" />
-    <input name="${name}" value="${value}" type="radio" 
+    <input name="${name}" value="${value}" type="radio"
            ${'tabindex="%s"' % tabindex if tabindex is not None else '' | n} ${'checked="checked"' if checked else '' | n} />
     ${label}
 </label>

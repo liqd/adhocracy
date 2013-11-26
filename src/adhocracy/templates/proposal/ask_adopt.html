@@ -11,15 +11,15 @@ ${tiles.proposal.header(c.proposal, active='')}
 </%block>
 
 <%block name="main_content">
-<form name="release_proposal" class="inplace" method="POST" 
+<form name="release_proposal" class="inplace" method="POST"
     action="${h.entity_url(c.proposal, member='adopt')}">
     ${h.field_token()|n}
     <div class="sidebar">&nbsp;</div>
     <div class="mainbar">
         <div class="warning_box">
             ${_("You are about to call for a vote. When you do this, you " +
-                "will lose the ability to <strong>change the proposal's "+ 
-                "wording</strong> unless you cancel the vote.")|n} 
+                "will lose the ability to <strong>change the proposal's "+
+                "wording</strong> unless you cancel the vote.")|n}
         </div>
         <center>
             <input type="submit" value="${_("Confirm")}" />

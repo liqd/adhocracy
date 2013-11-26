@@ -32,7 +32,7 @@ ${tiles.user.header(c.page_user, active='delegations')}
                 %for delegation in filter(lambda d: d.scope==delegateable and not d.revoke_time, c.page_user.delegated):
                     <% dcount += 1 %>
                     <li class="nobullet">${tiles.delegation.outbound(delegation)}</li>
-                %endfor 
+                %endfor
                 </ul>
             </td>
             <td>
@@ -40,10 +40,10 @@ ${tiles.user.header(c.page_user, active='delegations')}
                 %for delegation in filter(lambda d: d.scope==delegateable and not d.revoke_time, c.page_user.agencies):
                     <% dcount += 1 %>
                     <li class="nobullet">${tiles.delegation.inbound(delegation)}</li>
-                %endfor 
+                %endfor
                 </ul>
             </td>
-        </tr>   
+        </tr>
         %endif
     %endfor
 </table>

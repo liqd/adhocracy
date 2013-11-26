@@ -17,7 +17,7 @@
             %endif
         </div>
     </div>
-    
+
     <div class="headrev">
             %if text.has_text:
                 <div class="text" style="width: auto;">
@@ -55,15 +55,15 @@
             ${_("This norm has not yet been decided and is thus no official position of this group.")}
         </div>
     %endif
-    
+
     %if subpages_pager is not None and len(subpages_pager._items):
         <div id="pages_table" class="table">
             ${subpages_pager.here()}
         </div>
     %endif
-    
+
     <br/>
-    
+
     %if hide_discussion:
         <div class="discuss">
             <a class="discuss_button">
@@ -71,21 +71,21 @@
             </a>
             <div class="discuss_details">
     %endif
-    
+
     ${tiles.comment.list(text.page, variant=text.variant)}
-    
+
     %if hide_discussion:
             </div>
         </div>
     %endif
-        
+
 </%def>
 
 
 
 <%def name="descbox(tile, this, other, options, field)">
     %if options:
-        <form action="/page/diff" method="GET" id="diff_left_form"> 
+        <form action="/page/diff" method="GET" id="diff_left_form">
         <input type="hidden" name="right" value="${other.id}" />
     %endif
 
@@ -110,18 +110,18 @@
                 </select>
                 <a href="${h.entity_url(this)|n}">${_("see")}</a>
             %else:
-                ${_("Variant:")} 
+                ${_("Variant:")}
                 %if field is not None:
                     <input name="variant" maxlength="75" value="${field}" placeholder="${_('Variant Name')}" />
                 %else:
                     <b><a href="${h.entity_url(this)|n}">${this.variant_html|n}</a></b>
                 %endif
             %endif
-            
+
             </li>
             %if field is None:
                 <li>
-                    ${_("%s by %s") % (h.datetime_tag(this.create_time), 
+                    ${_("%s by %s") % (h.datetime_tag(this.create_time),
                                                         h.user.link(this.user, scope=this.page))|n}
                     · <b><a href="${h.entity_url(this, member='history')|n}">${_("History")}</a></b>
                 </li>
@@ -133,7 +133,7 @@
             </noscript>
         %endif
     </div>
-    
+
     %if options:
         </form>
     %endif
