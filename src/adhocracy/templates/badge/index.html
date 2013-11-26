@@ -201,9 +201,11 @@ ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
 ${render_tables(c.badges, 'thumbnail', c.groups, thumbnail_badges_table)}
 %endif
 
+%if can.badge.manage_global():
 <h2>${_("Instance Badges")}
     <a class="button_small plus"
        href="${c.badge_base_url}/instance/add">${_("New")}</a>
 </h2>
 ${render_tables(c.badges, 'instance', c.groups, instance_badges_table)}
+%endif
 </%def>
