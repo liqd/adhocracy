@@ -119,8 +119,11 @@ iframe {
 
 .staticpage_edit {float: right;}
 
-/* Images should never be bigger than their surrounding element */
-
-img {
-    max-width: 100%;
+/* Images in user generated contend should never be bigger than their surrounding element */
+.comment .body,
+.proposal .body,
+section.subpage {
+    img {
+        max-width: 100%;
+    }
 }
