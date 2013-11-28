@@ -48,6 +48,7 @@ instance_table = Table(
     Column('is_authenticated', Boolean, nullable=True, default=False),
     Column('hide_global_categories', Boolean, nullable=True, default=False),
     Column('editable_comments_default', Boolean, nullable=True, default=True),
+    Column('editable_proposals_default', Boolean, nullable=True, default=True),
     Column('require_valid_email', Boolean, nullable=True, default=True),
     Column('allow_thumbnailbadges', Boolean, default=False),
     Column('thumbnailbadges_height', Integer, nullable=True),
@@ -210,6 +211,7 @@ class Instance(meta.Indexable):
                              Instance.hidden == False))
         if limit is not None:
             q = q.limit(limit)
+        q = q.order_by(Instance.label)
         return q.all()
 
     @classmethod

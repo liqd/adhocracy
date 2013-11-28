@@ -1,5 +1,5 @@
 <div class="form_wrapper">
-  <form name="create_user" method="POST" action="/user${h.camefrom_querystring()}">
+  <form name="create_user" method="POST" action="${h.get_redirect_url(u'user')}">
     ${h.field_token()|n}
 
     %if not h.config.get_bool('adhocracy.force_randomized_user_names'):
@@ -27,7 +27,7 @@
         <input type="text" tabindex="2" name="email" />
       </div>
     </fieldset>
-        
+
     <fieldset>
       <legend>${_("Password")}</legend>
       <div class="input_wrapper">
@@ -37,7 +37,7 @@
         <input type="password" name="password_confirm" tabindex="4" />
       </div>
     </fieldset>
-    
+
     <p>
       %if c.agree_text is None:
         ${_("By registering, you agree with the %s.") % ("<a class='staticlink_terms' href='/static/terms.html'>%s</a>" % _("Terms and Conditions")) |n}
@@ -57,7 +57,7 @@
       <input name="input_css" />
     </div>
     ${c.recaptcha}
-    
+
     <div class="input_wrapper submit">
       <input type="submit" value="${_('Register')}" tabindex="5" />
     </div>

@@ -60,7 +60,7 @@
         @include border-radius(15px);
         border: 1px solid $border;
     }
-    a:hover {
+    a:hover, a:focus {
         color: #fff;
         background-color: lighten($button-color, 10%);
         text-decoration: none;

@@ -14,7 +14,7 @@
     <h2>${_(u'Edit &ldquo;%s&rdquo;') % c.proposal.title|n}</h2>
     <hr />
 
-    <form name="edit_proposal" class="inplace" method="POST" action="${h.entity_url(c.proposal)}">
+    <form name="edit_proposal" class="inplace" method="POST" action="${h.entity_url(c.proposal, in_overlay=False)}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
 
@@ -43,7 +43,7 @@
         </fieldset>
 
         %if not h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-        %if can.perm("instance.admin") and not c.proposal.is_amendment:
+        %if can.proposal.edit_badges(c.proposal) and not c.proposal.is_amendment:
         <fieldset>
             <legend>${_("badge")}</legend>
 
@@ -136,7 +136,7 @@
         </fieldset>
 
         <div class="input_wrapper submit">
-            ${components.savebox(h.entity_url(c.proposal))}
+            ${components.savebox(h.entity_url(c.proposal, in_overlay=False))}
         </div>
     </form>
 </div>

@@ -119,6 +119,8 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     editable_comments_default = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    editable_proposals_default = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     allow_thumbnailbadges = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
 
@@ -597,6 +599,8 @@ class InstanceController(BaseController):
                 'hide_global_categories': instance.hide_global_categories,
                 'editable_comments_default':
                 instance.editable_comments_default,
+                'editable_proposals_default':
+                instance.editable_proposals_default,
                 'show_norms_navigation': instance.show_norms_navigation,
                 'show_proposals_navigation':
                 instance.show_proposals_navigation,
@@ -617,8 +621,8 @@ class InstanceController(BaseController):
             ['allow_propose', 'allow_index', 'frozen', 'milestones',
              'use_norms', 'require_selection', 'allow_propose_changes',
              'hide_global_categories', 'editable_comments_default',
-             'show_norms_navigation', 'show_proposals_navigation',
-             'allow_thumbnailbadges'])
+             'editable_proposals_default', 'show_norms_navigation',
+             'show_proposals_navigation', 'allow_thumbnailbadges'])
         return self._settings_result(updated, c.page_instance, 'contents')
 
     def _settings_voting_form(self, id):
@@ -836,7 +840,8 @@ class InstanceController(BaseController):
                    topics=[])
         return ret_success(format=format,
                            message=_("The instance %s has been deleted.") %
-                           c.page_instance.label)
+                           c.page_instance.label,
+                           force_path='/')
 
     @RequireInstance
     @csrf.RequireInternalRequest()

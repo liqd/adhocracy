@@ -157,6 +157,7 @@ class BadgeController(BaseController):
         data = {
             'form_type': 'add',
             'groups': Group.all_instance(),
+            'return_url': self.base_url,
             'sorting_orders': PROPOSAL_SORTS,
         }
         if badge_type is not None:

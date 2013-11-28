@@ -10,7 +10,7 @@
 
 ${tiles.page.header(c.page, c.tile, active='')}
 
-<form name="ask_purge" class="inplace" method="POST" 
+<form name="ask_purge" class="inplace" method="POST"
     action="${h.entity_url(c.text, member='purge')}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />

@@ -175,7 +175,7 @@
 
 
 <%def name="social_share_buttons(title)">
-%if h.asbool(config.get('adhocracy.show_social_buttons', 'True')):
+%if h.config.get_bool('adhocracy.show_social_buttons'):
 <%
 h.need.socialshareprivacy
 base_url = h.get_socialshareprivacy_url()
@@ -363,3 +363,7 @@ ${caller.body()}
 </select>
 
 </%def>
+
+## Makes sure the rebindCameFrom javascript function is only called if the patched target wouldn't also lead to a 403.
+## If the rebindCameFrom function isn't called, we usually (in these cases) redirect to the page we came from.
+<%def name="add_patch_camefrom_class()">${u'' if c.instance and c.instance.require_valid_email else u'patch_camefrom'}</%def>

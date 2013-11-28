@@ -20,7 +20,7 @@
                     ${tiles.badge.badges(proposal.categories)}
                 </span>
                 %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-                %if h.has_permission('instance.admin'):
+                %if can.proposal.edit_badges(proposal):
                 <a class="button_small edit"
                    href="${h.entity_url(proposal, member='badges')}"
                    rel="#overlay-form">${_(u"Edit Badges")}</a>
@@ -41,7 +41,7 @@
                     ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
                     ·
                 %endif
-                %if proposal.instance.use_norms:
+                %if proposal.instance.use_norms and proposal.instance.allow_propose_changes:
                     ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
                     ·
                 %endif
@@ -59,7 +59,7 @@
     <h3>${_("Information")}</h3>
     <div>
         ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n}
-        %if h.asbool(config.get('adhocracy.show_abuse_button', 'True')):
+        %if h.config.get_bool('adhocracy.show_abuse_button'):
         · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
         %endif
     </div>

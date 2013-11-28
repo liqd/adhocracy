@@ -24,12 +24,14 @@ def create(check, scope=None):
 
 
 def edit(check, d):
+    check.readonly()
     check.valid_email()
     check.other('scope_frozen', d.scope.is_frozen())
     check.other('cannot_edit_delegations', True)
 
 
 def delete(check, d):
+    check.readonly()
     check.valid_email()
     check.perm('delegation.delete')
     show(check, d)

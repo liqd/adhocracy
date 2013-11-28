@@ -48,6 +48,17 @@
         <strong class="ie-message">${_('We could not display an overlay. See <a href="%s">here</a> what it would have displayed.') % h.overlay_link()|n}</strong>
     </noscript>
     %endif
+    %if h.config.get_bool(u'adhocracy.readonly'):
+    <%
+        msg = h.config.get(u'adhocracy.readonly.message')
+        if msg == u'__default__':
+            # translation happens twice in this case, but there should be no problem
+            msg = _(u'This installation of adhocracy has been frozen. You can look at all content but editing is disabled.')
+    %>
+    %if msg:
+    <strong class="ie-message">${_(msg)}</strong>
+    %endif
+    %endif
 
     <div class="overlay" id="overlay-default">
       <a class="close"></a>
@@ -89,7 +100,7 @@
              <p class="patch_description">
                  ${_('Join this instance to start contributing.')}
              </p>
-             <a class="button patch_camefrom" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a>
+             <a class="button ${components.add_patch_camefrom_class()}" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a>
          </div>
       </div>
     </div>
@@ -140,7 +151,7 @@
   </header>
 
   <%block name="attention_getter">
-  %if not c.suppress_attention_getter and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.require_valid_email and c.user and not c.user.is_email_activated()) or (h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
+  %if not h.config.get_bool(u'adhocracy.readonly') and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.require_valid_email and c.user and not c.user.is_email_activated()) or (h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
       <div class="page_margins">
@@ -268,7 +279,9 @@
     %endif
 
     %if h.feedback.is_configured():
+    %if can.proposal.create(instance=h.feedback.get_feedback_instance()):
       ${components.feedback()}
+    %endif
     %endif
 
   </body>

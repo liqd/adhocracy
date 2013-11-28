@@ -199,6 +199,14 @@ class Page(Delegateable):
                 c.function in self.LISTED and not c.is_deleted()]
 
     @property
+    def root(self):
+        parent = self.parent
+        if parent is None:
+            return self
+        else:
+            return parent.root
+
+    @property
     def has_variants(self):
         return self.function in Page.WITH_VARIANTS and self.allow_selection
 

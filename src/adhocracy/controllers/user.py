@@ -6,6 +6,8 @@ import urllib
 import formencode
 from formencode import ForEach, htmlfill, validators
 
+from sqlalchemy.sql.expression import not_
+
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
@@ -756,7 +758,7 @@ class UserController(BaseController):
     def _get_profile_nav(user, active_key):
         c.member = {
             u'about': u'about',
-            u'activity': None,
+            u'activity': u'latest_events',
             u'contributions': u'latest_contributions',
             u'votes': u'latest_votes',
             u'delegations': u'latest_delegations',
@@ -765,7 +767,7 @@ class UserController(BaseController):
             (u'about' == active_key, _(u'About me'), h.entity_url(
                 c.page_user, member='about')),
             (u'activity' == active_key, _(u'Newest events'), h.entity_url(
-                c.page_user)),
+                c.page_user, member='latest_events')),
             (u'contributions' == active_key, _(u'Contributions'), h.entity_url(
                 c.page_user, member='latest_contributions')),
             (u'votes' == active_key, _(u'Votes'), h.entity_url(
@@ -807,6 +809,9 @@ class UserController(BaseController):
         query = query.filter(model.Event.user == c.page_user)
         if c.instance:
             query = query.filter(model.Event.instance == c.instance)
+        else:
+            query = query.join(model.Instance) \
+                         .filter(not_(model.Instance.hidden))
         if event_filter:
             query = query.filter(model.Event.event.in_(event_filter))
         query = query.order_by(model.Event.time.desc())
@@ -846,11 +851,13 @@ class UserController(BaseController):
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
 
-    def show(self, id, format='html', current_nav=u'activity',
-             event_filter=[]):
-
+    def show(self, id, format=None, current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+
+        if current_nav is None:
+            redirect(h.entity_url(c.page_user, member=u'about', format=format))
+
         require.user.show(c.page_user)
         c.events = self._get_events(nr_events=100, event_filter=event_filter)
         self._show_common(id, user=c.page_user, events=c.events)
@@ -927,6 +934,9 @@ class UserController(BaseController):
         c.bio = c.page_user.bio
         c.about = True
         return render("/user/show.html")
+
+    def latest_events(self, id, format='html'):
+        return self.show(id, format, u'activity')
 
     def latest_contributions(self, id, format='html'):
         return self.show(id, format, u'contributions', S_CONTRIBUTION)

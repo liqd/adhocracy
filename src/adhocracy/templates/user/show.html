@@ -65,8 +65,6 @@
                            class="delete">${_("ban")}</a>
                         %endif
                     %endif
-                %else:
-                    <a href="${h.entity_url(c.page_user)}">${_(u'Show my public profile')}</a>
                 %endif
             </div>
         </h2>
@@ -87,7 +85,12 @@
             ${h.render(c.bio)|n}
         %else:
         <div class="infobox">
+            %if c.user == c.page_user and can.user.edit(c.page_user):
+            <p>${_(u"In order to inform other users about your interests please create a personal bio.")}</p>
+            <a href="${h.entity_url(c.user, member=u'settings')}" class="button highlight">${_(u"Create a bio")}</a>
+            %else:
             ${_("%s does not yet have a bio.") % c.page_user.name}
+            %endif
         </div>
         %endif
     </div>
@@ -153,7 +156,7 @@
         <h6>
             ${_('User badges')}
 
-            %if not c.dashboard and lib.auth.authorization.has('instance.admin'):
+            %if not c.dashboard and can.user.supervise(c.page_user):
             <div class="utility">
                 <a href="${h.entity_url(c.page_user, member='badges')}">
                     ${_("edit")}

@@ -75,7 +75,7 @@ a.follow_paper {
         line-height: 16px;
         @include border-radius(50%);
     }
-    &:hover:before {
+    &:hover:before, &:focus:before {
         background-color: $green;
         @include background-image(linear-gradient(170deg, lighten($green, 14%), $green));
     }
@@ -84,7 +84,7 @@ a.follow_paper {
         background-color: $green;
         @include background-image(linear-gradient(170deg, lighten($green, 14%), $green));
     }
-    &.active:hover:before {
+    &.active:hover:before, &.active:focus:before {
         content: "×";
         background-color: $red;
         @include background-image(linear-gradient(170deg, lighten($red, 14%), $red));

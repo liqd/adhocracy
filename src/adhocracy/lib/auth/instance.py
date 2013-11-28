@@ -14,12 +14,14 @@ def show(check, i):
 
 
 def create(check):
+    check.readonly()
     check.valid_email()
     check.other('is_single_instance', g.single_instance)
     check.perm('instance.create')
 
 
 def edit(check, i):
+    check.readonly()
     check.perm('instance.admin')
     show(check, i)
 
@@ -27,6 +29,7 @@ admin = edit
 
 
 def any_admin(check):
+    check.readonly()
     if has('global.admin'):
         return
     check.perm('instance.admin')
@@ -41,12 +44,14 @@ def authenticated_edit(check, instance):
 
 
 def delete(check, i):
+    check.readonly()
     check.other('is_single_instance', g.single_instance)
     check.perm('global.admin')
     show(check, i)
 
 
 def join(check, i):
+    check.readonly()
     check.other('instance_frozen', i.frozen)
     show(check, i)
     check.perm('instance.join')
@@ -56,6 +61,7 @@ def join(check, i):
 
 
 def leave(check, i):
+    check.readonly()
     check.other('is_single_instance', g.single_instance)
     check.other('instance_frozen', i.frozen)
     show(check, i)

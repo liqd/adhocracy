@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-04 03:27+0100\n"
-"PO-Revision-Date: 2013-11-04 02:27+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:09+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1319,6 +1319,30 @@ msgid "deleted %(proposal)s"
 msgstr "usunął(ęła) propozycję %(proposal)s"
 
 #, python-format
+msgid "New amendment to %(page)s: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "created amendment %(proposal)s to %(page)s"
+msgstr ""
+
+#, python-format
+msgid "Edit amendment to %(page)s: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "edited amendment %(proposal)s to %(page)s"
+msgstr ""
+
+#, python-format
+msgid "Deleted amendment to %(page)s: %(proposal)s"
+msgstr ""
+
+#, python-format
+msgid "deleted amendment %(proposal)s to %(page)s"
+msgstr ""
+
+#, python-format
 msgid "New page: %(page)s"
 msgstr "Nowa strona: %(page)s"
 
@@ -1771,6 +1795,11 @@ msgstr ""
 msgid ""
 "We could not display an overlay. See <a href=\"%s\">here</a> what it would "
 "have displayed."
+msgstr ""
+
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
 msgstr ""
 
 msgid "Welcome back!"
@@ -2529,6 +2558,9 @@ msgstr "Wszystkie bieżące wydarzenia."
 msgid "Show full proposal"
 msgstr ""
 
+msgid "Show full amendment"
+msgstr ""
+
 msgid "Show full comment"
 msgstr ""
 
@@ -2569,8 +2601,8 @@ msgstr "Edytuj etykiety %s"
 msgid "Edit Badges"
 msgstr "Edytuj etykiety"
 
-msgid "badge"
-msgstr "etykieta"
+msgid "No Badges"
+msgstr ""
 
 msgid "Create new instance"
 msgstr "Utwórz nową grupę"
@@ -2622,11 +2654,11 @@ msgstr "Bieżące logo"
 msgid "Delete current logo"
 msgstr "Usuń bieżące logo"
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Możesz dodać CSS, by zmienić wygląd grupy."
-
 msgid "Extra CSS"
 msgstr "Zewnętrzny CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Możesz dodać CSS, by zmienić wygląd grupy."
 
 msgid "Thumbnail badges width"
 msgstr ""
@@ -2662,6 +2694,9 @@ msgid "Hide global categories"
 msgstr ""
 
 msgid "Allow editing of comments by default"
+msgstr ""
+
+msgid "Allow editing of proposals by default"
 msgstr ""
 
 msgid "Freeze this instance"
@@ -2938,14 +2973,14 @@ msgstr "Nowy termin"
 msgid "Last Change"
 msgstr "Ostatnia zmiana"
 
-msgid "Edit this milestone."
-msgstr "Edytuj termin"
-
-msgid "Delete this milestone."
-msgstr "Usuń ten termin."
+msgid "(unknown)"
+msgstr "(nieznane)"
 
 msgid "Associated Proposals"
 msgstr "Powiązane propozycje"
+
+msgid "Create new proposal"
+msgstr "Stwórz nową propozycję"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Z terminem tym nie są powiązane żadne propozycje"
@@ -2967,9 +3002,6 @@ msgstr "Znajdziesz tu listę wszystkich propozycji i dokumentów, które są zwi
 
 msgid "See more"
 msgstr "Więcej..."
-
-msgid "(unknown)"
-msgstr "(nieznane)"
 
 msgid "with an abstention on"
 msgstr ""
@@ -3332,8 +3364,8 @@ msgstr "Zamierzasz rozpocząć głosowanie. W trakcie głosowania </strong>nie d
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Czy na pewno chcesz usunąć tę propozycję?"
 
-msgid "No Badges"
-msgstr ""
+msgid "badge"
+msgstr "etykieta"
 
 msgid "thumbnail badge"
 msgstr ""
@@ -3414,9 +3446,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Create new proposal"
-msgstr "Stwórz nową propozycję"
 
 msgid "Find proposals"
 msgstr "Znajdź propozycję"
@@ -4089,13 +4118,13 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
+msgid "Short biography"
+msgstr "Krótka biografia"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Napisz parę słów o sobie, by inni użytkownicy lepiej cię poznali. Kto wie, może przekażą ci swój głos."
-
-msgid "Short biography"
-msgstr "Krótka biografia"
 
 msgid "Activity in"
 msgstr ""
@@ -4118,7 +4147,12 @@ msgstr "zdejmij blokadę"
 msgid "ban"
 msgstr "zablokuj"
 
-msgid "Show my public profile"
+msgid ""
+"In order to inform other users about your interests please create a personal"
+" bio."
+msgstr ""
+
+msgid "Create a bio"
 msgstr ""
 
 #, python-format

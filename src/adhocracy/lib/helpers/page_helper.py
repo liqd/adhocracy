@@ -28,6 +28,10 @@ def link(page, variant=model.Text.HEAD, link=True):
 def url(page, in_context=True, member=None, **kwargs):
     if in_context and page.proposal and not member:
         return proposal.url(page.proposal, **kwargs)
+    if in_context and page.is_sectionpage() and page.parent and member is None:
+        if u'anchor' not in kwargs:
+            kwargs[u'anchor'] = u'subpage-%i' % page.id
+        return url(page.root, in_context=False, **kwargs)
     label = urllib.quote(page.label.encode('utf-8'))
     return _url.build(page.instance, 'page', label, member=member, **kwargs)
 

@@ -7,6 +7,7 @@ from pylons.i18n import _
 
 
 DEFAULTS = {
+    'adhocracy.allow_registration': True,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
@@ -22,6 +23,7 @@ DEFAULTS = {
     # Much of the functionality is still in the code, but as long as it's not
     # in the UI, it makes sense to also hide it from the settings UI.
     'adhocracy.hide_final_adoption_votings': False,
+    'adhocracy.hide_instance_list_in_navigation': False,
 
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance_footers': [],
@@ -41,17 +43,24 @@ DEFAULTS = {
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
+    'adhocracy.put_watchlist_in_user_menu': False,
+    'adhocracy.readonly': False,
+    'adhocracy.readonly.global_admin_exception': True,
+    'adhocracy.readonly.message': u'__default__',
     'adhocracy.protocol': u'http',
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.show_abuse_button': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
+    'adhocracy.show_social_buttons': True,
     'adhocracy.show_stats_on_frontpage': True,
     'adhocracy.startpage.instances.list_length': 0,
     'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.static_agree_text': None,
+    'adhocracy.store_notification_events': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,

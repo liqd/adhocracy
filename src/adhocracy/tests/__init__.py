@@ -53,6 +53,8 @@ class MockBase(object):
 class MockRequest(MockBase):
     '''A mocked request'''
 
+    params = {}
+
     def __init__(self, **kwargs):
         for arg, value in kwargs.items():
             setattr(self, arg, value)

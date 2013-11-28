@@ -5,7 +5,7 @@
     // overwrite
     @include text-shadow(none);
     @include border-radius(0);
-    &:hover {
+    &:hover, &:focus {
         border: none !important;
     }
 }

@@ -22,9 +22,7 @@ ${components.watch(c.milestone)}
 
         %if c.milestone.modify_time is not None:
         <h6>${_('Last Change')}</h6>
-        <p><time>
-            ${h.datetime_tag(c.milestone.modify_time)|n}
-        </time></p>
+        <p>${h.datetime_tag(c.milestone.modify_time)|n}</p>
         %endif
 
         %if c.milestone.category:
@@ -38,29 +36,56 @@ ${components.watch(c.milestone)}
 
 <%block name="main_content">
 <div id="milestone">
-    <div class="top_actions">
-        %if can.milestone.edit(c.milestone):
-            <a class="button title edit ttip"
-               title="${_('Edit this milestone.')}"
-               href="${h.entity_url(c.milestone, member='edit')}">
-                ${_("edit")}
-            </a>
-        %endif
-        %if can.milestone.delete(c.milestone):
-            <a class="button title delete ttip"
-               title="${_('Delete this milestone.')}"
-               href="${h.entity_url(c.milestone, member='ask_delete')}">
-                ${_("delete")}
-            </a>
-        %endif
+    <h2 id="milestone_title">
+        <span class="date">
+            %if c.milestone.time:
+            ${h.date_tag(c.milestone.time, format=u'medium')|n}
+            %else:
+            ${_(u'(unknown)')}
+            %endif
+        </span>
+        <br />
+        ${c.milestone.title}
 
-    </div>
-    ${tiles.milestone.header(c.milestone)}
+        <div class="utility">
+            %if can.milestone.edit(c.milestone):
+            <a href="${h.entity_url(c.milestone, member='edit')}">${_("edit")}</a>
+            %endif
+            %if can.milestone.delete(c.milestone):
+            <a href="${h.entity_url(c.milestone, member='ask_delete')}">${_("delete")}</a>
+            %endif
+        </div>
+    </h2>
 
     ${c.tile.text|n}
 
+    <hr />
 
-    <h4>${_("Associated Proposals")}</h4>
+    <% auth = check.proposal.create() %>
+    <% url = h.base_url('/proposal/new?milestone=%d' % c.milestone.id) %>
+    <div class="morelink_header">
+        <h3>${_("Associated Proposals")}</h3>
+
+        %if auth:
+            <a class="more_link"
+               title="${_('Introduce a new idea to debate.')}"
+               href="${url}">${_("Create new proposal")}</a>
+        %elif auth.propose_join():
+            <a class="more_link"
+               title="${_('Join instance to create a new proposal.')}"
+               href="${url}"
+               rel="#overlay-join-button">${_("Create new proposal")}</a>
+        %elif auth.propose_login():
+            <a class="more_link"
+               title="${_('Login to create a new proposal.')}"
+               href="${url}"
+               rel="#overlay-login-button">${_("Create new proposal")}</a>
+        %elif auth.propose_validate_email():
+            <a class="more_link"
+               title="${_('Validate email in order to create a new proposal.')}"
+               rel="#overlay-validate-button">${_("Create new proposal")}</a>
+        %endif
+    </div>
     %if c.show_proposals_pager:
     <div id="proposals_table" class="table">
         ${c.proposals_pager.here()}
@@ -69,8 +94,6 @@ ${components.watch(c.milestone)}
     ${_('No proposals are connected to this milestone')}
     %endif
     <div class="list_button" id="new-proposal">
-        <% auth = check.proposal.create() %>
-        <% url = h.base_url('/proposal/new?milestone=%d' % c.milestone.id) %>
         %if auth:
             <a class="button add ttip"
                title="${_('Introduce a new idea to debate.')}"
@@ -93,9 +116,11 @@ ${components.watch(c.milestone)}
 
     </div>
 
+    <hr />
+
     <div id="associated-norms">
         %if c.instance.use_norms:
-        <h4>${_("Associated Norms")}</h4>
+        <h3>${_("Associated Norms")}</h3>
         %if c.show_pages_pager:
         <div id="pages_table" class="table" style="padding-bottom: 1em;">
             ${c.pages_pager.here()}

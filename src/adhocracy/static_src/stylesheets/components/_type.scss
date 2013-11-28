@@ -20,6 +20,12 @@ h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
 h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
 h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
+// increase spacing between blocks
+// looks better in /badges and does not break anything else
+h2:not(:first-of-type) {
+    margin-top: 1.5em;
+}
+
 /* don't allow headings in user generated content to be as big
  * as our own */
 blockquote,
@@ -129,7 +135,7 @@ table {
 a {
     text-decoration: none;
     color: $primary-color;
-    &:hover {
+    &:hover, &:focus {
         text-decoration: underline;
     }
 
@@ -141,7 +147,7 @@ a {
     &.follow {
         background-position: right -254px;
         padding-right: 23px;
-        &:hover {
+        &:hover, &:focus {
             background-position: right -304px;
             text-decoration: underline !important;
         }

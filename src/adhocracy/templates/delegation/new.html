@@ -14,7 +14,7 @@
 <form name="create_delegation" class="inplace" method="POST" action="${h.base_url('/delegation')}">
     ${h.field_token()|n}
     <input name="scope" value="${c.scope.id}" type="hidden" />
-    
+
     <div class="sidebar">
         <div class="infobox">
             ${_("These people might be a good match for your delegation. Either select " +
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="mainbar">
-            
+
         <%
         scope_agents = lib.recommend(c.scope, c.user)
         %>
@@ -32,18 +32,18 @@
             %for user in scope_agents:
             <tr>
                 <td width="1%">
-                    <input type="radio" name="agent" value="${user.user_name}" />   
+                    <input type="radio" name="agent" value="${user.user_name}" />
                 </td>
                 <td>
                     ${tiles.user.row(user)}
                 </td>
             </tr>
             %endfor
-            
+
         %endif
             <tr>
                 <td width="1%">
-                    <input type="radio" value="" name="agent" checked="checked" />  
+                    <input type="radio" value="" name="agent" checked="checked" />
                 </td>
                 <td>
                     <div class="tile">
@@ -60,11 +60,11 @@
                 </td>
             </tr>
         </table>
-        
-        <input name="replay" value="1" checked="checked" type="checkbox" /> 
+
+        <input name="replay" value="1" checked="checked" type="checkbox" />
         ${_("Include decisions made before now.")}
     </div>
     ${components.savebox(h.base_url('/d/%s' % c.scope.id))}
-    
+
 </form>
 </%block>

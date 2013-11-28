@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-04 03:27+0100\n"
-"PO-Revision-Date: 2013-11-04 02:27+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 18:09+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -593,13 +593,13 @@ msgid "The activation link has been re-sent to your email address."
 msgstr "Il link di attivazione è stato rinviato al tuo indirizzo email."
 
 msgid "About me"
-msgstr ""
+msgstr "Su di me"
 
 msgid "Newest events"
-msgstr ""
+msgstr "Eventi recenti"
 
 msgid "Contributions"
-msgstr ""
+msgstr "Contributi"
 
 msgid "Votes"
 msgstr "Voti"
@@ -1048,12 +1048,12 @@ msgstr "Ordina per il numero di voti per la proposta"
 msgid ""
 "First sort by proposals with important badges, then by the difference "
 "between number of votes for and against and also prefer newer proposals"
-msgstr ""
+msgstr "Prima ordina per proposte con badge importanti, poi per la differenza tra numero di voti a favore e contro e infine preferisce le proposte più nuove"
 
 msgid ""
 "Prefer proposals where the gap between votes for and against is close, also "
 "proposals with more absolut votes are rated slightly higher"
-msgstr ""
+msgstr "Preferisce le proposte con divario minimo tra voti a favore e voti contro; inoltre, le proposte con più voti assoluti hanno un valore leggermente maggiore"
 
 msgid "Sort by the characters of the proposal title"
 msgstr "Ordina per lettere del titolo della proposta"
@@ -1175,7 +1175,7 @@ msgid "is against"
 msgstr "è contro"
 
 msgid "is"
-msgstr ""
+msgstr "è"
 
 msgid "for"
 msgstr "per"
@@ -1319,6 +1319,30 @@ msgstr "Proposta eliminata: %(proposal)s"
 #, python-format
 msgid "deleted %(proposal)s"
 msgstr "eliminata: %(proposal)s"
+
+#, python-format
+msgid "New amendment to %(page)s: %(proposal)s"
+msgstr "Nuova correzione di  %(page)s: %(proposal)s"
+
+#, python-format
+msgid "created amendment %(proposal)s to %(page)s"
+msgstr "Crea correzione %(proposal)s a %(page)s"
+
+#, python-format
+msgid "Edit amendment to %(page)s: %(proposal)s"
+msgstr "Modifica correzione di %(page)s: %(proposal)s"
+
+#, python-format
+msgid "edited amendment %(proposal)s to %(page)s"
+msgstr "Correzione modificata %(proposal)s in %(page)s"
+
+#, python-format
+msgid "Deleted amendment to %(page)s: %(proposal)s"
+msgstr "Correzione eliminata di  %(page)s: %(proposal)s"
+
+#, python-format
+msgid "deleted amendment %(proposal)s to %(page)s"
+msgstr "Correzione eliminata %(proposal)s in %(page)s"
 
 #, python-format
 msgid "New page: %(page)s"
@@ -1635,7 +1659,7 @@ msgid "Description"
 msgstr "Descrizione"
 
 msgid "Please enter your feedback in here and help us to improve our website"
-msgstr ""
+msgstr "Inserisci il tuo commento qui e aiutaci a migliorare il nostro sito"
 
 msgid "Submit"
 msgstr "Inoltra"
@@ -1775,6 +1799,11 @@ msgid ""
 "have displayed."
 msgstr "Non è stato possibile mostrare una sovrapposizione. Vedi <a href=\"%s\">qui</a> che cosa sarebbe stato mostrato. "
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr ""
+
 msgid "Welcome back!"
 msgstr "Bentornato!"
 
@@ -1795,7 +1824,7 @@ msgid "Join this instance to start contributing."
 msgstr "Devi essere iscritto a questo gruppo per poter iniziare la conversazione."
 
 msgid "join"
-msgstr "iscritto/a"
+msgstr "iscriviti"
 
 msgid "Validate email to start contributing."
 msgstr "Verifica il tuo indirizzo email per poter iniziare una discussione."
@@ -2529,10 +2558,13 @@ msgid "All current events."
 msgstr "Tutti gli eventi del momento."
 
 msgid "Show full proposal"
-msgstr ""
+msgstr "Mostra la proposta per intero"
+
+msgid "Show full amendment"
+msgstr "Mostra correzione completa"
 
 msgid "Show full comment"
-msgstr ""
+msgstr "Mostra commento per intero"
 
 msgid "Latest Events"
 msgstr "Ultimi eventi"
@@ -2571,8 +2603,8 @@ msgstr "Modifica badges per %s"
 msgid "Edit Badges"
 msgstr "modifica Badges"
 
-msgid "badge"
-msgstr "badge"
+msgid "No Badges"
+msgstr "Nessun badge\n "
 
 msgid "Create new instance"
 msgstr "Crea un nuovo gruppo"
@@ -2624,11 +2656,11 @@ msgstr "Logo attuale"
 msgid "Delete current logo"
 msgstr "Elimina logo attuale"
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Puoi aggiungere i CSS che verranno utilizzati per modificare il gruppo."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Puoi aggiungere i CSS che verranno utilizzati per modificare il gruppo."
 
 msgid "Thumbnail badges width"
 msgstr "Larghezza dell'anteprima dei badges"
@@ -2665,6 +2697,9 @@ msgstr "Nascondi categorie globali"
 
 msgid "Allow editing of comments by default"
 msgstr "Consenti la modifica dei commenti per impostazione predefinita"
+
+msgid "Allow editing of proposals by default"
+msgstr "Consenti la modifica delle proposte per impostazione predefinita"
 
 msgid "Freeze this instance"
 msgstr "Blocca questo gruppo"
@@ -2938,14 +2973,14 @@ msgstr "Nuovo evento"
 msgid "Last Change"
 msgstr "Ultima modifica"
 
-msgid "Edit this milestone."
-msgstr "Modifica questo evento."
-
-msgid "Delete this milestone."
-msgstr "Elimina questo evento."
+msgid "(unknown)"
+msgstr "(sconosciuto)"
 
 msgid "Associated Proposals"
 msgstr "Proposte associate"
+
+msgid "Create new proposal"
+msgstr "Suggerisci una nuova proposta"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Non esiste nessuna proposta associata a questo evento."
@@ -2967,9 +3002,6 @@ msgstr "Qui troverai una lista di proposte e di delibere relative all'evento."
 
 msgid "See more"
 msgstr "Vedi altro"
-
-msgid "(unknown)"
-msgstr "(sconosciuto)"
 
 msgid "with an abstention on"
 msgstr "con l'astensione da"
@@ -3331,8 +3363,8 @@ msgstr "Stai per esprimere il tuo voto. Una volta fatto, perderai la possibilit�
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Sei sicuro di voler eliminare questa proposta?"
 
-msgid "No Badges"
-msgstr "Nessun badge\n "
+msgid "badge"
+msgstr "badge"
 
 msgid "thumbnail badge"
 msgstr "anteprima del badge"
@@ -3413,9 +3445,6 @@ msgstr "Permetti modifiche da altri utenti"
 
 msgid "Freeze proposal"
 msgstr "Blocca proposta"
-
-msgid "Create new proposal"
-msgstr "Suggerisci una nuova proposta"
 
 msgid "Find proposals"
 msgstr "Cerca proposte"
@@ -4088,19 +4117,19 @@ msgstr "Saluto"
 msgid "Select your prefered gender"
 msgstr "Selezione il tuo genere preferito"
 
+msgid "Short biography"
+msgstr "Breve biografia"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Scrivendo una breve biografia su di te, gli altri utenti ti potranno conoscere meglio e potranno eventualmente delegarti determinate scelte."
 
-msgid "Short biography"
-msgstr "Breve biografia"
-
 msgid "Activity in"
-msgstr ""
+msgstr "Attività in"
 
 msgid "All instances"
-msgstr ""
+msgstr "Tutte le istanze"
 
 msgid "Delete this user."
 msgstr "Elimina questo utente."
@@ -4109,7 +4138,7 @@ msgid "Resign from this instance."
 msgstr "Esci dal gruppo."
 
 msgid "leave"
-msgstr ""
+msgstr "Esci"
 
 msgid "un-ban"
 msgstr "Annulla sospensione"
@@ -4117,7 +4146,12 @@ msgstr "Annulla sospensione"
 msgid "ban"
 msgstr "sospendi"
 
-msgid "Show my public profile"
+msgid ""
+"In order to inform other users about your interests please create a personal"
+" bio."
+msgstr ""
+
+msgid "Create a bio"
 msgstr ""
 
 #, python-format
@@ -4125,42 +4159,42 @@ msgid "%s does not yet have a bio."
 msgstr "%s non ha ancora completato il campo \"Breve biografia\""
 
 msgid "Account created"
-msgstr ""
+msgstr "Profilo creato"
 
 #, python-format
 msgid "Member in \"%s\" since"
-msgstr ""
+msgstr "Membro di \"%s\" da"
 
 #, python-format
 msgid "Not a member in \"%s\""
-msgstr ""
+msgstr "Non membro di  \"%s\""
 
 msgid "User groups"
-msgstr ""
+msgstr "Gruppi dell'utente"
 
 msgid "None"
-msgstr ""
+msgstr "Nessuno"
 
 msgid "change group"
-msgstr ""
+msgstr "Cambia gruppo"
 
 msgid "User badges"
-msgstr ""
+msgstr "Badge utente"
 
 msgid "Most recent activity"
-msgstr ""
+msgstr "Attività più recente"
 
 msgid "Member in the following instances"
-msgstr ""
+msgstr "Membri nelle seguenti istanze"
 
 msgid "Member in other instances"
-msgstr ""
+msgstr "Membro in altre istanze"
 
 msgid "Contact"
-msgstr ""
+msgstr "Contatto"
 
 msgid "Send message"
-msgstr ""
+msgstr "Invia messaggio"
 
 #, python-format
 msgid "joined %s"

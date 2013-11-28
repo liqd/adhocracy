@@ -1,6 +1,6 @@
 from adhocracy.lib.event.types import (N_COMMENT_EDIT, N_COMMENT_REPLY,
                                        T_COMMENT_CREATE, T_COMMENT_EDIT)
-from adhocracy.model import Notification
+from adhocracy.model import Notification, Event
 
 
 def self_filter(pipeline):
@@ -19,6 +19,15 @@ def duplicates_filter(pipeline):
             recipient_map[notification.user] = notification
     for notification in recipient_map.values():
         yield notification
+
+
+def hidden_instance_filter(pipeline):
+    for notification in pipeline:
+        # we cannot access notification.event directly as that would add
+        # the notifications to the database, so we take a detour
+        event = Event.find(notification.event.id)
+        if event.instance is None or not event.instance.hidden:
+            yield notification
 
 
 def _map_pipeline(mapper):

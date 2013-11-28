@@ -123,35 +123,39 @@ def local_datetime(dt):
         return dt.astimezone(tz)
 
 
-def format_date(dt, set_timezone=True):
+def format_date(dt, set_timezone=True, format=None):
     '''
     Format the date in a local aware format.
     '''
     from pylons import tmpl_context as c
+    if format is None:
+        format = u'long'
     if set_timezone:
         dt = local_datetime(dt)
-    return babel.dates.format_date(dt, format='long', locale=c.locale or
+    return babel.dates.format_date(dt, format=format, locale=c.locale or
                                    babel.Locale('en', 'US'))
 
 
-def format_time(dt, set_timezone=True):
+def format_time(dt, set_timezone=True, format=None):
     '''
     Format the date in a local aware format.
     '''
     from pylons import tmpl_context as c
+    if format is None:
+        format = u'short'
     if set_timezone:
         dt = local_datetime(dt)
-    return babel.dates.format_time(dt, format='short', locale=c.locale or
+    return babel.dates.format_time(dt, format=format, locale=c.locale or
                                    babel.Locale('en', 'US'))
 
 
-def date_tag(dt):
+def date_tag(dt, format=None):
     """ Display a <time> html tag for the given datetime ``dt``. """
     fmt = "<time datetime='%(iso)s'>%(formatted)s</time>"
     dt = dt.replace(microsecond=0)
     dt = local_datetime(dt)
 
-    formatted = format_date(dt, False)
+    formatted = format_date(dt, False, format)
     return fmt % dict(iso=dt.isoformat(), formatted=formatted)
 
 

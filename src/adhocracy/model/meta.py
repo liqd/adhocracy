@@ -1,7 +1,6 @@
 """SQLAlchemy Metadata and Session object"""
 
 from sqlalchemy import MetaData
-from adhocracy.lib.core import CustomDict
 
 __all__ = ['Session', 'data', 'engine']
 
@@ -27,6 +26,7 @@ class Indexable(object):
     def to_index(self):
         import refs
         from adhocracy.lib.pager import INDEX_DATA_FINDERS
+        from adhocracy.lib.core import CustomDict
         index = CustomDict(
             filter_invalid_strings,
             ref=refs.to_ref(self),

@@ -23,7 +23,7 @@
     ${forms.checkbox(_("Enable (final) adoption voting"), 'allow_adopt', 1)}
     <div style="padding-left: 2em;">
         <%
-        delay_help = _("Before activating, the defined majority must be continuously held " + 
+        delay_help = _("Before activating, the defined majority must be continuously held " +
                        "by the proposal for the specified interval.")
         %>
         ${forms.select(_("Majority"), 'required_majority', c.majority_options, 5, help=delay_help)}
@@ -45,5 +45,5 @@
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
-</form> 
+</form>
 </%block>

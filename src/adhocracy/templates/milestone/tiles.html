@@ -6,7 +6,7 @@
       <div>
         %if milestone.time:
         <span class="milestone_row_date">
-          ${milestone.time.strftime("%d.%m.%Y")} 
+          ${h.date_tag(milestone.time, format=u'medium')|n}
         </span>
         %endif
         <h3>
@@ -25,17 +25,17 @@
 </%def>
 
 <%def name="header(tile, milestone)">
-<%
-if milestone.time:
-    display_time = milestone.time.strftime("%d.%m.%Y")
-else:
-    display_time = _('(unknown)')
-%>
     <h3 id="milestone_title">
-        <span class="date">${display_time}<br /></span>
-        ${milestone.title} 
+        <span class="date">
+            %if milestone.time:
+            ${h.date_tag(milestone.time, format=u'medium')|n}
+            %else:
+            ${_(u'(unknown)')}
+            %endif
+        </span>
+        <br />
+        ${milestone.title}
     </h3>
-    <div style="clear: both;"></div>
 </%def>
 
 <%def name="select(tile, options, name)">
@@ -53,7 +53,7 @@ else:
 <%def name="timeline(tile, milestones)">
   <script>
     var Timeline_ajax_url='${h.base_url('/timeline/timeline_ajax/simile-ajax-api.js', None)}';
-    var Timeline_urlPrefix='${h.base_url('/timeline/timeline_js/', None)}'; 
+    var Timeline_urlPrefix='${h.base_url('/timeline/timeline_js/', None)}';
     var Timeline_parameters='bundle=true';
   </script>
   <script src="/timeline/timeline_js/timeline-api.js"></script>
@@ -69,14 +69,14 @@ else:
         var bandInfos = [
           Timeline.createBandInfo({
             eventSource:    eventSource,
-            width:          "80%", 
-            intervalUnit:   Timeline.DateTime.DAY, 
+            width:          "80%",
+            intervalUnit:   Timeline.DateTime.DAY,
             intervalPixels: 50
           }),
           Timeline.createBandInfo({
             eventSource:    eventSource,
-            width:          "20%", 
-            intervalUnit:   Timeline.DateTime.MONTH, 
+            width:          "20%",
+            intervalUnit:   Timeline.DateTime.MONTH,
             intervalPixels: 200
           })
           ];
@@ -101,7 +101,7 @@ else:
       });
     });
   </script>
-  
+
   <div role="presentation" id="timeline_wrapper" style="margin-bottom: 20px;">
       <div id="timeline" style="height: 280px;"></div>
   </div>

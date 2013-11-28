@@ -264,6 +264,8 @@ class InstanceTransform(_Transform):
             'adhocracy_hide_global_categories': obj.hide_global_categories,
             'adhocracy_editable_comments_default': (
                 obj.editable_comments_default),
+            'adhocracy_editable_proposals_default': (
+                obj.editable_proposals_default),
             'adhocracy_require_valid_email': obj.require_valid_email,
             'adhocracy_allow_thumbnailbadges': obj.allow_thumbnailbadges,
             'adhocracy_thumbnailbadges_height': obj.thumbnailbadges_height,
@@ -330,6 +332,7 @@ class InstanceTransform(_Transform):
         _set_optional(o, data, 'is_authenticated', 'adhocracy_')
         _set_optional(o, data, 'hide_global_categories', 'adhocracy_')
         _set_optional(o, data, 'editable_comments_default', 'adhocracy_')
+        _set_optional(o, data, 'editable_proposals_default', 'adhocracy_')
         _set_optional(o, data, 'require_valid_email', 'adhocracy_')
         _set_optional(o, data, 'allow_thumbnailbadges', 'adhocracy_')
         _set_optional(o, data, 'thumbnailbadges_height', 'adhocracy_')

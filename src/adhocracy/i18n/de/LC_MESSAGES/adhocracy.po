@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-04 03:27+0100\n"
-"PO-Revision-Date: 2013-11-04 02:38+0000\n"
+"POT-Creation-Date: 2013-11-21 19:08+0100\n"
+"PO-Revision-Date: 2013-11-21 19:03+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1334,6 +1334,30 @@ msgid "deleted %(proposal)s"
 msgstr "löschte den Vorschlag %(proposal)s"
 
 #, python-format
+msgid "New amendment to %(page)s: %(proposal)s"
+msgstr "Neuer Änderungsvorschlag zu %(page)s: %(proposal)s"
+
+#, python-format
+msgid "created amendment %(proposal)s to %(page)s"
+msgstr "Änderungsvorschlag %(proposal)s zu %(page)s erstellt"
+
+#, python-format
+msgid "Edit amendment to %(page)s: %(proposal)s"
+msgstr "Bearbeite Änderungsvorschlag zu %(page)s: %(proposal)s"
+
+#, python-format
+msgid "edited amendment %(proposal)s to %(page)s"
+msgstr "Änderungsvorschlag %(proposal)s zu %(page)s bearbeitet"
+
+#, python-format
+msgid "Deleted amendment to %(page)s: %(proposal)s"
+msgstr "Änderungsvorschlag zu %(page)s: %(proposal)s gelöscht"
+
+#, python-format
+msgid "deleted amendment %(proposal)s to %(page)s"
+msgstr "Änderungsvorschlag %(proposal)s zu %(page)s gelöscht"
+
+#, python-format
 msgid "New page: %(page)s"
 msgstr "Neue Seite: %(page)s"
 
@@ -1788,6 +1812,11 @@ msgid ""
 "have displayed."
 msgstr "Ein Overlay konnte nicht angezeigt werden. Schau <a href=\"%s\">hier</a>, wie es ausgesehen hätte."
 
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr "Diese Adhocracy-Installation wurde eingefroren. Sie können alles ansehen aber nichts bearbeiten."
+
 msgid "Welcome back!"
 msgstr "Willkommen zurück!"
 
@@ -2040,7 +2069,7 @@ msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
-msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, Badges und E-mail (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
+msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, E-mail und Badges (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
 
 msgid "Users CSV"
 msgstr "Benutzer CSV"
@@ -2544,6 +2573,9 @@ msgstr "Alle aktuellen Ereignisse."
 msgid "Show full proposal"
 msgstr "Zeige ganzen Vorschlag"
 
+msgid "Show full amendment"
+msgstr "Zeige ganzen Änderungsvorschlag"
+
 msgid "Show full comment"
 msgstr "Zeige ganzen Kommentar"
 
@@ -2584,8 +2616,8 @@ msgstr "Badges von %s bearbeiten"
 msgid "Edit Badges"
 msgstr "badge bearbeiten"
 
-msgid "badge"
-msgstr "Badge"
+msgid "No Badges"
+msgstr "Keine Badges"
 
 msgid "Create new instance"
 msgstr "Neue Gruppe erstellen"
@@ -2637,11 +2669,11 @@ msgstr "Aktuelles Logo"
 msgid "Delete current logo"
 msgstr "Lösche aktuelles Logo"
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
 
 msgid "Thumbnail badges width"
 msgstr "Miniaturbild-Badges Breite"
@@ -2678,6 +2710,9 @@ msgstr "Verstecke globale Kategorien"
 
 msgid "Allow editing of comments by default"
 msgstr "Erlaube Bearbeiten von Kommentaren standardmäßig"
+
+msgid "Allow editing of proposals by default"
+msgstr "Erlaube Bearbeiten von Vorschlägen standardmäßig"
 
 msgid "Freeze this instance"
 msgstr "Die Arbeit in dieser Gruppe einfrieren"
@@ -2774,7 +2809,7 @@ msgstr "angelegt"
 
 #, python-format
 msgid "by %s on %s"
-msgstr "von „%s“ am „%s“"
+msgstr "von %s am %s"
 
 msgid "By the numbers"
 msgstr "nach Anzahl"
@@ -2951,14 +2986,14 @@ msgstr "Neuer Termin"
 msgid "Last Change"
 msgstr "Letzte Änderung"
 
-msgid "Edit this milestone."
-msgstr "Diesen Termin bearbeiten."
-
-msgid "Delete this milestone."
-msgstr "Diesen Termin entfernen."
+msgid "(unknown)"
+msgstr "(unbekannt)"
 
 msgid "Associated Proposals"
 msgstr "Verknüpfte Vorschläge"
+
+msgid "Create new proposal"
+msgstr "Neuen Vorschlag anlegen"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Mit diesem Termin sind keine Vorschläge verknüpft"
@@ -2980,9 +3015,6 @@ msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für d
 
 msgid "See more"
 msgstr "Mehr erfahren"
-
-msgid "(unknown)"
-msgstr "(unbekannt)"
 
 msgid "with an abstention on"
 msgstr "mit Enthaltung bei"
@@ -3344,8 +3376,8 @@ msgstr "Sie sind im Begriff, eine Abstimmung zu beginnen. Während der Abstimmun
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
-msgid "No Badges"
-msgstr "Keine Badges"
+msgid "badge"
+msgstr "Badge"
 
 msgid "thumbnail badge"
 msgstr "Miniaturbild-Badge"
@@ -3426,9 +3458,6 @@ msgstr "Änderungen von anderen erlauben"
 
 msgid "Freeze proposal"
 msgstr "Vorschlag einfrieren"
-
-msgid "Create new proposal"
-msgstr "Neuen Vorschlag anlegen"
 
 msgid "Find proposals"
 msgstr "Vorschläge suchen"
@@ -4101,13 +4130,13 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
+msgid "Short biography"
+msgstr "Kurzbiographie"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
-
-msgid "Short biography"
-msgstr "Kurzbiographie"
 
 msgid "Activity in"
 msgstr "Aktivität in"
@@ -4130,8 +4159,13 @@ msgstr "Verbannung aufheben"
 msgid "ban"
 msgstr "verbannen"
 
-msgid "Show my public profile"
-msgstr "Zeige mein öffentliches Profil"
+msgid ""
+"In order to inform other users about your interests please create a personal"
+" bio."
+msgstr "Bitte erstellen sie eine kurze Selbstbeschreibung, um sich anderen Nutzer*innen vorzustellen."
+
+msgid "Create a bio"
+msgstr "Kurzbiographie erstellen"
 
 #, python-format
 msgid "%s does not yet have a bio."

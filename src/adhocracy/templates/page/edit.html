@@ -7,7 +7,7 @@
 
 
 <%block name="main_content">
-<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page)}">
+<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page, in_context=False)}">
 
     <h2>${_(u"Edit section") if c.section else _(u"Norm: %s") % c.page.title}</h2>
     ${h.field_token()|n}

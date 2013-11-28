@@ -44,11 +44,12 @@ ul.content_nav {
             border-top: 0.3em solid transparent;
             border-bottom: 0.3em solid transparent;
         }
-        &.current a, a:hover {
+        &.current a, a:hover, a:focus {
             border-bottom-color: $primary-color;
             color: $primary-color;
         }
     }
+    // FIXME not accessible
     &:hover > li.current a:not(:hover) {
         border-bottom-color: transparent;
     }

@@ -32,7 +32,7 @@ body.logged_in #logo {
     a {
         color: #969ba2;
         text-decoration: none;
-        &:hover {
+        &:hover, &:focus {
             text-decoration: underline;
         }
     }
@@ -90,6 +90,7 @@ body.logged_in #logo {
                 color: #c1c4c9;
             }
         }
+        // FIXME not accessible
         &:hover {
             background-color: lighten($header-color2, 4%);
             @include background-image(linear-gradient(to bottom, lighten($header-color2, 5%), $header-color2));
@@ -102,6 +103,7 @@ body.logged_in #logo {
     border-left: 1px solid $header-color2;
 }
 
+// FIXME not accessible
 #nav li:hover ul.children {
     display: block;
 }
@@ -140,7 +142,7 @@ body.logged_in #logo {
             height: auto;
             padding: 0;
         }
-        a:hover, &.current a {
+        a:hover, a:focus, &.current a {
             color: #c1c4c9;
         }
     }
