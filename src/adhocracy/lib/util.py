@@ -149,8 +149,9 @@ def generate_sequence(initial=10,
     yield int(current)
 
 
-def get_client_ip(environ):
-    if asbool(config.get('adhocracy.behind_proxy', 'false')):
+def get_client_ip(environ, config=config):
+    import adhocracy.config
+    if adhocracy.config.get_bool('adhocracy.behind_proxy', config=config):
         try:
             header_val = environ['HTTP_X_FORWARDED_FOR']
             return header_val.rpartition(u',')[2].strip()

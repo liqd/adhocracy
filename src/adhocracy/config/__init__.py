@@ -8,6 +8,7 @@ from pylons.i18n import _
 
 DEFAULTS = {
     'adhocracy.allow_registration': True,
+    'adhocracy.behind_proxy': False,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
