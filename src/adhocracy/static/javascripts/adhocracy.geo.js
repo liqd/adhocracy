@@ -1045,47 +1045,77 @@ var adhocracy = adhocracy || {};
             'imageLayers': [],
         }, p);
 
-        var osmOptions = {
-            displayInLayerSwitcher: true,
-            zoomOffset: min_zoom_level,
-            numZoomLevels: max_zoom_level - min_zoom_level + 1,
-            maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[min_zoom_level],
-            tileOptions: {crossOriginKeyword: null},
-        };
-        var osmOptionsOverlay = $.extend({isBaseLayer: false}, osmOptions);
+        var baseLayers = [];
 
-        var admin_boundary_layer = new OpenLayers.Layer.OSM("OSM Admin Boundaries",
-            "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}", osmOptionsOverlay);
-
-        var baseLayers = [
-            // top definition is selected if setBaseLayer isn't called
+        // top definition is selected if setBaseLayer isn't called
+        var osmLayers = [
             // default Openstreetmap Baselayer
-            new OpenLayers.Layer.OSM("Open Street Map", "", osmOptions),
-            new OpenLayers.Layer.OSM("OSM Roads Greyscale",
-                        "http://129.206.74.245:8008/tms_rg.ashx?x=${x}&y=${y}&z=${z}", osmOptions),
-            new OpenLayers.Layer.OSM("Public Transport",
-                        "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", osmOptions),
-            new OpenLayers.Layer.OSM("Transport Map",
-                        "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png", osmOptions),
-            new OpenLayers.Layer.OSM("&Ouml;pnv Deutschland",
-                        "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", osmOptions),
-            admin_boundary_layer
+            {name: "OpenStreetMap",
+             minZoom: 0,
+             maxZoom: 19},
+            {name: "OSM Roads Greyscale",
+             url: "http://129.206.74.245:8008/tms_rg.ashx?x=${x}&y=${y}&z=${z}",
+             minZoom: 0,
+             maxZoom: 18},
+            {name: "Public Transport",
+             url: "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png",
+             minZoom: 0,
+             maxZoom: 18},
+            {name: "Transport Map",
+             url: "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png",
+             minZoom: 0,
+             maxZoom: 18},
+            {name: "&Ouml;pnv Deutschland",
+             url: "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png",
+             minZoom: 0,
+             maxZoom: 18},
+            {name: "OSM Admin Boundaries",
+             url: "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}",
+             minZoom: 0,
+             maxZoom: 18,
+             overlay: true,
+             visible: (admin_boundaries === undefined) ? false : admin_boundaries
+            }
         ];
-        
+
         var i = 0;
+        for (i = 0; i < osmLayers.length; i++) {
+            var l = osmLayers[i];
+            var minZoom = Math.max(min_zoom_level, l.minZoom);
+            var maxZoom = Math.min(max_zoom_level, l.maxZoom);
+            if (minZoom <= maxZoom) {
+                var options = {
+                    isBaseLayer: ! ((l.overlay === undefined) ? false : l.overlay),
+                    displayInLayerSwitcher: true,
+                    zoomOffset: minZoom,
+                    numZoomLevels: maxZoom - minZoom + 1,
+                    maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[minZoom],
+                    tileOptions: {crossOriginKeyword: null},
+                    visibility: (l.visible === undefined) ? true : l.visible,
+                };
+                baseLayers.push(new OpenLayers.Layer.OSM(l.name, l.url, options));
+            }
+        };
+
         for (i = 0; i < p.imageLayers.length; i++) {
             var l = p.imageLayers[i];
+            var minZoom = Math.max(min_zoom_level, l.minZoom || min_zoom_level)
+            var maxZoom = Math.min(max_zoom_level, l.maxZoom || max_zoom_level)
+
             baseLayers.push(new OpenLayers.Layer.Image(
                 l.title,
                 l.url,
                 new OpenLayers.Bounds(l.bounds),
                 new OpenLayers.Size(l.size),
-                $.extend({'visibility': l.visible}, osmOptionsOverlay)));
+                {isBaseLayer: false,
+                 displayInLayerSwitcher: true,
+                 zoomOffset: minZoom,
+                 numZoomLevels: maxZoom - minZoom + 1,
+                 maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[minZoom],
+                 tileOptions: {crossOriginKeyword: null},
+                 visibility: l.visible || false
+                }));
         };
-
-        if (!admin_boundaries) {
-            admin_boundary_layer.setVisibility(false);
-        }
 
         // Blank Baselayer
         if (blank) {
