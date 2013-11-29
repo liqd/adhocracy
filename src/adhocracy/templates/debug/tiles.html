@@ -1,9 +1,9 @@
 <%def name="queries()">
     %if h.config.get('adhocracy.debug.sql'):
-    <% 
-    queries = c.pdtb_sqla_queries 
+    <%
+    queries = c.pdtb_sqla_queries
     times = [query['duration'] for query in queries]
-    total_time = '%0.4fs' % sum(times) 
+    total_time = '%0.4fs' % sum(times)
     %>
     <div class="debug">
         <h3>Queries</h3>

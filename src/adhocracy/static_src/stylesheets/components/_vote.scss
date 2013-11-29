@@ -28,7 +28,7 @@
     padding: 0 5px;
 
     &.neutral {
-        color: $button-color;
+        color: $fg1;
     }
     &.negative {
         @include vote-background($red);

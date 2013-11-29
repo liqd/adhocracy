@@ -4,7 +4,7 @@
         <div class="base" style="background-image: url(/img/icons/tag_24.png);">
             <h3><a class="link" href="${h.entity_url(tag)}">${tag.name}</a></h3>
             <div class="meta noclear">
-                ${_("created %s") % h.datetime_tag(tag.create_time)|n} 
+                ${_("created %s") % h.datetime_tag(tag.create_time)|n}
                 %if c.instance:
                      ·   ${_("used %s times") % len(tag)}
                 %endif
@@ -30,14 +30,14 @@
     <h6>${_("Tagged with")}</h6>
     <p>
         %if len(delegateable.tags):
-        ${", ".join([h.tag.link_with_untag(tag, delegateable, simple=True) for 
+        ${", ".join([h.tag.link_with_untag(tag, delegateable, simple=True) for
                      (tag, count) in delegateable.tags])|n}
         %else:
         ${_('Not tagged yet')}
         %endif
     </p>
     %if can.tag.create():
-    <div class="only-js" id="add_tags"> 
+    <div class="only-js" id="add_tags">
         <a href="#" class="showhide_button button_small"
            data-target="#tags_form">
             ${_("add tags")}
@@ -51,7 +51,7 @@
             <div>
                 ${_("Multiple tags can be separated by commas or spaces.")}
             </div>
-            <div class="submit">        
+            <div class="submit">
                 <input type="submit" value="${_('Add tags')}" />&nbsp;
                 <a href="#" class="cancel">${_('Cancel')}</a>
                 </div>

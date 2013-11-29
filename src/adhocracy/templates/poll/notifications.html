@@ -1,6 +1,6 @@
 
-<%def name="_orientationstr(vote)"><% 
-if vote.orientation == 1: 
+<%def name="_orientationstr(vote)"><%
+if vote.orientation == 1:
     return _("for")
 elif vote.orientation == -1:
     return _("against")

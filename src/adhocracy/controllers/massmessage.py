@@ -109,10 +109,11 @@ class MassmessageController(BaseController):
             return Instance.all()
         else:
             perm = Permission.find('instance.message')
-            return [m.instance for m in user.memberships
-                    if (m.instance is not None
-                        and m.instance.is_authenticated
-                        and perm in m.group.permissions)]
+            instances = [m.instance for m in user.memberships
+                         if (m.instance is not None
+                             and m.instance.is_authenticated
+                             and perm in m.group.permissions)]
+            return sorted(instances, key=lambda i: i.label)
 
     @classmethod
     def _get_allowed_sender_options(cls, user):

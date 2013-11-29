@@ -10,35 +10,35 @@
 <%block name="settings_content">
 <form name="create_instance" class="well" method="POST"
       enctype="multipart/form-data">
-    
+
     <input type="hidden" name="_method" value="PUT" />
 
     ${h.field_token()|n}
-    
+
     ${components.flashmessages()}
-    
+
     <h2>${c.settings_menu.current['label']}</h2>
 
-    ${forms.input(_("Name"), 'label', 1)}
-    
-    <%forms:textarea label="${_('Description')}" name="description" value="" tabindex="5"
+    ${forms.input(_("Name"), 'label', autofocus=True)}
+
+    <%forms:textarea label="${_('Description')}" name="description" value=""
     help="${_('Describe what the goals of this instance are and who constitutes its community.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
-    ${components.formatting()}    
+    ${components.formatting()}
     </%forms:textarea>
 
-   
-    ${forms.select(_("Language"), 'locale', c.locales, 10, help=_("The language setting will be overridden by the user's personal setting."))}
 
-    ${forms.select(_("Default group"), 'default_group', c.default_group_options, 15)}
+    ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
 
-    ${forms.checkbox(_("Hide this instance"), 'hidden', 20, 4, help=_("Select whether this instance will be shown in public listings."))}
+    ${forms.select(_("Default group"), 'default_group', c.default_group_options)}
 
-    ${forms.checkbox(_("Require email validation"), 'require_valid_email', 22, 4, help=_("Require instance members to validate their email address."))}
+    ${forms.checkbox(_("Hide this instance"), 'hidden', help=_("Select whether this instance will be shown in public listings."))}
+
+    ${forms.checkbox(_("Require email validation"), 'require_valid_email', help=_("Require instance members to validate their email address."))}
 
     %if h.has_permission('global.admin'):
-    ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated', 25, 5)}
+    ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated')}
     %endif
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
-</form> 
+</form>
 </%block>

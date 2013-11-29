@@ -10,16 +10,16 @@
   <form name="create_message" class="inplace" method="POST" action="${h.entity_url(c.page_user, instance=c.instance, member='message')}">
       ${h.field_token()|n}
       <div class="page_title">
-          <input tabindex="1" class="title" name="subject" placeholder="${_('Subject')}" />
+          <input autofocus="autofocus" class="title" name="subject" placeholder="${_('Subject')}" />
       </div>
 
       <div class="sidebar">
           <div class="infobox">${_("Your e-mail address will be included in this message to give the recipient a method to reply to you.")|n}</div>
       </div>
       <div class="mainbar">
-          <textarea tabindex="2" class="description" name="body" placeholder="${_('Dear %s, ...') % c.page_user.name}"></textarea>
+          <textarea class="description" name="body" placeholder="${_('Dear %s, ...') % c.page_user.name}"></textarea>
       </div>
-      
+
       <div style="clear:both;"></div>
 
       <div class="mainbar">

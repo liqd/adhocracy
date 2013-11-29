@@ -219,6 +219,7 @@ class Instance(meta.Indexable):
                              Instance.hidden == False))
         if limit is not None:
             q = q.limit(limit)
+        q = q.order_by(Instance.label)
         return q.all()
 
     @classmethod

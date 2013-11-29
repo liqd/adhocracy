@@ -53,7 +53,7 @@
 <%def name="timeline(tile, milestones)">
   <script>
     var Timeline_ajax_url='${h.base_url('/timeline/timeline_ajax/simile-ajax-api.js', None)}';
-    var Timeline_urlPrefix='${h.base_url('/timeline/timeline_js/', None)}'; 
+    var Timeline_urlPrefix='${h.base_url('/timeline/timeline_js/', None)}';
     var Timeline_parameters='bundle=true';
   </script>
   <script src="/timeline/timeline_js/timeline-api.js"></script>
@@ -69,14 +69,14 @@
         var bandInfos = [
           Timeline.createBandInfo({
             eventSource:    eventSource,
-            width:          "80%", 
-            intervalUnit:   Timeline.DateTime.DAY, 
+            width:          "80%",
+            intervalUnit:   Timeline.DateTime.DAY,
             intervalPixels: 50
           }),
           Timeline.createBandInfo({
             eventSource:    eventSource,
-            width:          "20%", 
-            intervalUnit:   Timeline.DateTime.MONTH, 
+            width:          "20%",
+            intervalUnit:   Timeline.DateTime.MONTH,
             intervalPixels: 200
           })
           ];
@@ -101,7 +101,7 @@
       });
     });
   </script>
-  
+
   <div role="presentation" id="timeline_wrapper" style="margin-bottom: 20px;">
       <div id="timeline" style="height: 280px;"></div>
   </div>

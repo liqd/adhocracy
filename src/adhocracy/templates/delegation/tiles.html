@@ -1,7 +1,7 @@
 
 <%def name="inbound(tile, delegation)">
             <img class='user_icon' src="/img/icons/delegated_to_16.png" />
-            ${_("from %s") % h.user.link(delegation.principal)|n}:  
+            ${_("from %s") % h.user.link(delegation.principal)|n}:
             <a href="${h.entity_url(delegation)}">${_("track record")}</a>
 </%def>
 
@@ -36,7 +36,7 @@
     %if can.delegation.create():
     <div class="not_a_tile sidebar_box">
         <h3 class="section"><img src="/img/icons/delegate_16.png" class="cd" /> ${_("Delegate voting")}</h3>
-        
+
             %if not tile.has_delegated:
             <p>${_("You have not delegated voting.")}</p>
             %else:
@@ -52,10 +52,10 @@
             %endfor
         </ul>
         <div class="top_actions">
-            <a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}" 
+            <a class="button title add ttip" title="${_('Delegate your say in this debate to another participant.')}"
                 href="${h.base_url('/delegation/new?scope=%d' % delegateable.id)}')">${_("delegate")}</a>
         </div>
-        
+
         %if tile.num_principals:
             <p>
             %if tile.num_principals == 1:
