@@ -45,8 +45,8 @@ A postgres superuser has to install the postgis extension.
 
 We do this with the following commands:
 
-    psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.0/postgis.sql
-    psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.0/spatial_ref_sys.sql
+    psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.1/postgis.sql
+    psql -d adhocracy -f parts/postgresql/share/contrib/postgis-2.1/spatial_ref_sys.sql
 
 
 Because geoalchemy doesn't fully work with PostGIS 2.x yet, we remove PostGIS
