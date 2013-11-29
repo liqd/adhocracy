@@ -22,19 +22,18 @@ ${self.form()}
             label="${_('Users CSV')}"
             name="users_csv"
             value=""
-            tabindex="1"
+            autofocus="autofocus"
             placeholder="testuser, &quot;Test User&quot;, test@example.com, &quot;badge1, badge2&quot;"
             help="${_('Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)')}">
 
         </%forms:textarea>
 
 
-        ${forms.input(_("Email Subject"), "email_subject", 2)}
+        ${forms.input(_("Email Subject"), "email_subject")}
 
         <%forms:textarea label="${_('Email Template')}"
                          name="email_template"
-                         value=""
-                         tabindex="3">
+                         value="">
            <%def name="before()">
            <%
            required = [

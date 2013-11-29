@@ -36,7 +36,7 @@
     <input type="hidden" name="ret_url" value="${c.ret_url}" />
 
     <label for="text">${_("Text")}</label>
-    <textarea tabindex="2" rows="${c.text_rows}"
+    <textarea rows="${c.text_rows}"
               cols="${model.Text.LINE_LENGTH}"
               name="text">${c.text.text if c.text.text is not None else ''}</textarea>
     %if c.page.formatting:

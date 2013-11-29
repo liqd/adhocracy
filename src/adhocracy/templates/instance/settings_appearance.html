@@ -22,7 +22,7 @@
     help_text = _("Select a logo file to appear in the header "
                   "area of this Instance.")
     %>
-    <%forms:input label="${_('Logo')}" name="logo" tabindex="1" type="file"
+    <%forms:input label="${_('Logo')}" name="logo" autofocus="autofocus" type="file"
                   help="${help_text}">
     %if c.current_logo:
     <div>
@@ -35,13 +35,13 @@
     </%forms:input>
 
     <%forms:textarea label="${_('Extra CSS')}" name="css" value=""
-    tabindex="2" help="${_('You can add css that will be used to style the instance.')}">
+    help="${_('You can add css that will be used to style the instance.')}">
     ${components.formatting()}
     </%forms:textarea>
 
     %if c.instance and c.instance.allow_thumbnailbadges:
-        ${forms.input(_("Thumbnail badges width"), 'thumbnailbadges_width', 2)}
-        ${forms.input(_("Thumbnail badges height"), 'thumbnailbadges_height', 3)}
+        ${forms.input(_("Thumbnail badges width"), 'thumbnailbadges_width')}
+        ${forms.input(_("Thumbnail badges height"), 'thumbnailbadges_height')}
     %else:
         <input type="hidden" name="thumbnailbadges_width" value="" />
         <input type="hidden" name="thumbnailbadges_height" value="" />
