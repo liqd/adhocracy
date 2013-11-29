@@ -35,7 +35,7 @@ var adhocracy = adhocracy || {};
         38.218514137268066, 19.109257068634033, 9.554628534317017,
         4.777314267158508, 2.388657133579254, 1.194328566789627,
         0.5971642833948135, 0.29858214169740677, 0.14929107084870338,
-        0.07464553542435169
+        0.07464553542435169, 0.037322767712175846
     ];
 
     adhocracy.geo.layersWithPopup = [];
@@ -1048,7 +1048,7 @@ var adhocracy = adhocracy || {};
         var osmOptions = {
             displayInLayerSwitcher: true,
             zoomOffset: min_zoom_level,
-            numZoomLevels: max_zoom_level - min_zoom_level,
+            numZoomLevels: max_zoom_level - min_zoom_level + 1,
             maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[min_zoom_level],
             tileOptions: {crossOriginKeyword: null},
         };
