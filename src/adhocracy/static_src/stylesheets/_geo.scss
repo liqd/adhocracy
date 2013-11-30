@@ -475,10 +475,9 @@ div.marker img {
     margin-bottom: none;
 }
 
-/* put dotted line on top of header instead of below */
+/* no dotted line for sidebar header on top of map (design demand) */
 #col3 .map_h3 {
-  background: url('/images/line_dotted.gif') repeat-x top left;
-  margin-top: 0px;
+    border-bottom: none;
 }
 
 /* override quirk in offenekommune_theme style_custom */
