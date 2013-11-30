@@ -138,6 +138,7 @@ def setup_entities(config, initial_setup):
         u'vote.prohibit': [organization],
         u'watch.create': [observer, default],
         u'watch.delete': [observer],
+        u'watch.instance': [moderator],
         u'watch.show': [anonymous],
     }
 
