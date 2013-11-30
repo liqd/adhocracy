@@ -16,7 +16,7 @@ milestone_table = Table(
     Column('category_id', Integer, ForeignKey('badge.id'), nullable=True),
     Column('title', Unicode(255), nullable=True),
     Column('text', UnicodeText(), nullable=True),
-    Column('time', DateTime),
+    Column('time', DateTime, nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('modify_time', DateTime, nullable=True, onupdate=datetime.utcnow),
     Column('delete_time', DateTime),
