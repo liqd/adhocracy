@@ -28,7 +28,7 @@ ${tiles.user.header(c.page_user)}
 
     %if h.config.get_bool('adhocracy.use_avatars'):
     <fieldset class="logo">
-        <%forms:input label="${_(u'Avatar')}" name="avatar" type="file" help="${_(u'Select a profile picture')}">
+        <%forms:input label="${_(u'Avatar')}" name="avatar" type="file" help="${_(u'Select a profile picture. The image should be square. If it is not it may be scaled accordingly.')}">
         </%forms:input>
         %if c.current_avatar:
         <div class="current">
