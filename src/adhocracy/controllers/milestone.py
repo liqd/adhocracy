@@ -35,7 +35,7 @@ class MilestoneCreateForm(MilestoneNewForm):
     category = forms.ValidCategoryBadge(if_missing=None, if_empty=None)
     show_all_proposals = validators.StringBool(not_empty=False, if_empty=False,
                                                if_missing=False)
-    time = forms.ValidDate()
+    time = forms.ValidDate(not_empty=True)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
 
@@ -50,7 +50,7 @@ class MilestoneUpdateForm(MilestoneEditForm):
     category = forms.ValidCategoryBadge(if_missing=None, if_empty=None)
     show_all_proposals = validators.StringBool(not_empty=False, if_empty=False,
                                                if_missing=False)
-    time = forms.ValidDate()
+    time = forms.ValidDate(not_empty=True)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
 
