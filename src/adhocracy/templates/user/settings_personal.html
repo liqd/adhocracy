@@ -26,6 +26,7 @@ ${tiles.user.header(c.page_user)}
     ${forms.select(_("Salutation"), 'gender', c.salutations, help=_("Select your prefered gender"))}
     %endif
 
+    %if h.config.get_bool('adhocracy.use_avatars'):
     <fieldset class="logo">
         <%forms:input label="${_(u'Avatar')}" name="avatar" type="file" help="${_(u'Select a profile picture')}">
         </%forms:input>
@@ -37,6 +38,7 @@ ${tiles.user.header(c.page_user)}
         </div>
         %endif
     </fieldset>
+    %endif
 
     <%forms:textarea label="${_('Short biography')}" name="bio" value=""
     help="${_('A bio will allow others to learn about you and perhaps even get you a few delegations.')}">

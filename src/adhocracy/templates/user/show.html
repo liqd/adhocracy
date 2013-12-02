@@ -106,7 +106,7 @@
         ${components.watch(c.page_user, show_skip=False)}
     %endif
 
-    %if not c.dashboard:
+    %if h.config.get_bool('adhocracy.use_avatars') and not c.dashboard:
     <div id="avatar" class="sidebar_box">
         <img src="${h.user.avatar_url(c.page_user, 246)}" alt="${c.page_user.name}" />
         %if c.show_upload_avatar:

@@ -4,7 +4,7 @@
     event_html = formatting.as_html(event)
     %>
     <li class="${event.event.code}">
-        %if avatars:
+        %if avatars and h.config.get_bool('adhocracy.use_avatars'):
         <img class="avatar" src="${h.user.avatar_url(event.user, 32, x=32)}"/>
         %endif
         <div class="time">${h.datetime_tag(event.time)|n}</div>
