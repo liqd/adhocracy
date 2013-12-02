@@ -36,7 +36,7 @@
             href = h.entity_url(c.page, member='amendment/new')
             text = _("Propose New Amendment")
         else:
-            href = h.base_url('/proposal/new')
+            href = h.base_url('/proposal/new', query_params={'page': c.page.id})
             text = _("New Proposal")
     %>
     ## FIXME: Button for unauth users
