@@ -31,13 +31,21 @@
     </div>
 
     %if can.proposal.create() and c.page.allow_selection:
+    <%
+        if c.amendment:
+            href = h.entity_url(c.page, member='amendment/new')
+            text = _("Propose New Amendment")
+        else:
+            href = h.base_url('/proposal/new')
+            text = _("New Proposal")
+    %>
     ## FIXME: Button for unauth users
     <div class="version_function">
         <a id="new-proposal-button"
 	       class="button highlight"
            target="_self"
-           href="${h.entity_url(c.page, member='amendment/new')}">
-            ${_("Propose New Amendment")}
+           href="${href}">
+            ${text}
         </a>
     </div>
     %endif
