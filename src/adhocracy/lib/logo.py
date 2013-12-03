@@ -20,6 +20,16 @@ log = logging.getLogger(__name__)
 INSTANCE = ['static', 'img', 'icons', 'site_64.png']
 USER = ['static', 'img', 'icons', 'user.png']
 
+ALLOWED_SIZES = [
+    (32, 32), (None, 32),
+    (48, 48), (None, 48),
+    (256, 256), (None, 256),
+]
+
+
+class NoSuchSizeError(Exception):
+    pass
+
 
 def _entity_key(entity):
     if hasattr(entity, u'key'):
@@ -139,6 +149,8 @@ def _load_with_mtime(logo_path, mtime, size):
     Returns:
          A string containing the resized image data.
     """
+    if size not in ALLOWED_SIZES:
+        raise NoSuchSizeError()
     x, y = size
     logo_image = Image.open(logo_path)
     if x is None:

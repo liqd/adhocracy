@@ -433,7 +433,10 @@ class InstanceController(BaseController):
         instance = get_entity_or_abort(model.Instance, id,
                                        instance_filter=False)
         (x, y) = logo.validate_xy(x, y, y_default=24)
-        (path, mtime, io) = logo.load(instance, size=(x, y))
+        try:
+            (path, mtime, io) = logo.load(instance, size=(x, y))
+        except logo.NoSuchSizeError:
+            abort(404, _(u"The image is not avaliable in that size"))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime != mtime:
             redirect(h.instance.icon_url(instance, y, x=x))

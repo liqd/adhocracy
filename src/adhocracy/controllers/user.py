@@ -997,7 +997,11 @@ class UserController(BaseController):
     def avatar(self, id, y=24, x=None):
         user = get_entity_or_abort(model.User, id, instance_filter=False)
         (x, y) = logo.validate_xy(x, y)
-        (path, mtime, io) = logo.load(user, size=(x, y), fallback=logo.USER)
+        try:
+            (path, mtime, io) = logo.load(user, size=(x, y),
+                                          fallback=logo.USER)
+        except logo.NoSuchSizeError:
+            abort(404, _(u"The image is not avaliable in that size"))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime > mtime:
             # This will set the appropriate mtime
