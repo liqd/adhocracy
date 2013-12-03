@@ -5,7 +5,11 @@
     %>
     <li class="${event.event.code}">
         %if avatars and h.config.get_bool('adhocracy.use_avatars'):
+        %if event.user.is_deleted():
+        <img class="avatar" src="/img/icons/user.png"/>
+        %else:
         <img class="avatar" src="${h.user.avatar_url(event.user, 32, x=32)}"/>
+        %endif
         %endif
         <div class="time">${h.datetime_tag(event.time)|n}</div>
         <div class="action">
