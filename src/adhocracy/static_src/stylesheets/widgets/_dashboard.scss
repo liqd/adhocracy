@@ -1,8 +1,18 @@
-/*
- * TODO:
- * -   profile_photo upload button
- * -   profile_photo shadow
- */
+#avatar.sidebar_box {
+    position: relative;
+
+    img {
+        width: 100%;
+    }
+    div {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 50%;
+        text-align: center;
+        margin-top: -13px;
+    }
+}
 
 .dashboard_select_instance {
     float: right;

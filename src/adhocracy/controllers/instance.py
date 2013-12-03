@@ -430,20 +430,15 @@ class InstanceController(BaseController):
 
     @guard.perm('instance.index')
     def icon(self, id, y=24, x=None):
+        instance = get_entity_or_abort(model.Instance, id,
+                                       instance_filter=False)
+        (x, y) = logo.validate_xy(x, y, y_default=24)
         try:
-            y = int(y)
-        except ValueError, ve:
-            log.debug(ve)
-            y = 24
-        try:
-            x = int(x)
-        except:
-            x = None
-        (path, mtime, io) = logo.load(id, size=(x, y))
+            (path, mtime, io) = logo.load(instance, size=(x, y))
+        except logo.NoSuchSizeError:
+            abort(404, _(u"The image is not avaliable in that size"))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime != mtime:
-            instance = get_entity_or_abort(model.Instance, id,
-                                           instance_filter=False)
             redirect(h.instance.icon_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
@@ -551,9 +546,9 @@ class InstanceController(BaseController):
 
         # delete the logo if the button was pressed and exit
         if 'delete_logo' in self.form_result:
-            logo.delete(c.page_instance)
+            updated = logo.delete(c.page_instance)
             return self._settings_result(
-                True, c.page_instance, 'appearance',
+                updated, c.page_instance, 'appearance',
                 message=_(u'The logo has been deleted.'))
 
         # process the normal form

@@ -22,9 +22,9 @@ from repoze.who.api import get_api
 from adhocracy import config
 from adhocracy import forms, model
 from adhocracy import i18n
-from adhocracy.lib import democracy, event, helpers as h, pager
+from adhocracy.lib import democracy, event, helpers as h, pager, logo
 from adhocracy.lib import sorting, search as libsearch, tiles, text
-from adhocracy.lib.auth import require, login_user, guard
+from adhocracy.lib.auth import require, can, login_user, guard
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest, token_id
 from adhocracy.lib.auth.welcome import (welcome_enabled, can_welcome,
@@ -41,7 +41,7 @@ from adhocracy.lib.settings import Menu
 from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
-from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import render, render_json, ret_abort, render_png
 from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
@@ -371,6 +371,9 @@ class UserController(BaseController):
             {'value': u'm', 'label': _(u'Male')},
         ]
 
+        if logo.exists(c.page_user):
+            c.current_avatar = h.user.avatar_url(c.page_user, 64)
+
         return render("/user/settings_personal.html",
                       overlay=format == u'overlay')
 
@@ -395,6 +398,26 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         updated = update_attributes(c.page_user, self.form_result,
                                     ['display_name', 'locale', 'bio'])
+
+        # delete the logo if the button was pressed and exit
+        if 'delete_avatar' in self.form_result:
+            updated = logo.delete(c.page_user)
+            return self._settings_result(
+                updated, c.page_user, 'personal',
+                message=_(u'The avatar has been deleted.'))
+
+        try:
+            # fixme: show logo errors in the form
+            if ('avatar' in request.POST and
+                    hasattr(request.POST.get('avatar'), 'file') and
+                    request.POST.get('avatar').file):
+                logo.store(c.page_user, request.POST.get('avatar').file)
+                updated = True
+        except Exception, e:
+            model.meta.Session.rollback()
+            h.flash(unicode(e), 'error')
+            log.debug(e)
+            return self.settings_personal(id)
 
         if config.get_bool('adhocracy.enable_gender'):
             gender = self.form_result.get("gender")
@@ -876,10 +899,16 @@ class UserController(BaseController):
 
         c.user_nav = self._get_profile_nav(c.page_user, current_nav)
 
+        data = {
+            u'show_upload_avatar': c.page_user == c.user and \
+                                   can.user.edit(c.page_user) and \
+                                   not logo.exists(c.page_user),
+        }
+
         if format == 'overlay':
-            return render("/user/show.html", overlay=True)
+            return render("/user/show.html", overlay=True, data=data)
         else:
-            return render("/user/show.html")
+            return render("/user/show.html", data=data)
 
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
@@ -909,7 +938,10 @@ class UserController(BaseController):
         c.dashboard = True
         c.user_nav = self._get_dashboard_nav(c.user, current_nav)
 
-        return render("/user/show.html")
+        if format == 'overlay':
+            return render("/user/show.html", overlay=True)
+        else:
+            return render("/user/show.html")
 
     def dashboard_contributions(self, format='html',
                                 current_nav=u'contributions'):
@@ -931,9 +963,19 @@ class UserController(BaseController):
         c.events = self._get_events()
         self._show_common(id, user=c.page_user, events=c.events)
         c.user_nav = self._get_profile_nav(c.page_user, u'about')
-        c.bio = c.page_user.bio
-        c.about = True
-        return render("/user/show.html")
+
+        data = {
+            u'show_upload_avatar': c.page_user == c.user and \
+                                   can.user.edit(c.page_user) and \
+                                   not logo.exists(c.page_user),
+            u'about': True,
+            u'bio': c.page_user.bio,
+        }
+
+        if format == 'overlay':
+            return render("/user/show.html", overlay=True, data=data)
+        else:
+            return render("/user/show.html", data=data)
 
     def latest_events(self, id, format='html'):
         return self.show(id, format, u'activity')
@@ -950,6 +992,22 @@ class UserController(BaseController):
 
     def latest_delegations(self, id, format='html'):
         return self.show(id, format, u'delegations', S_DELEGATION)
+
+    @guard.perm('user.view')
+    def avatar(self, id, y=24, x=None):
+        user = get_entity_or_abort(model.User, id, instance_filter=False)
+        (x, y) = logo.validate_xy(x, y)
+        try:
+            (path, mtime, io) = logo.load(user, size=(x, y),
+                                          fallback=logo.USER)
+        except logo.NoSuchSizeError:
+            abort(404, _(u"The image is not avaliable in that size"))
+        request_mtime = int(request.params.get('t', 0))
+        if request_mtime > mtime:
+            # This will set the appropriate mtime
+            redirect(h.user.avatar_url(user, y, x=x))
+        return render_png(io, mtime, cache_forever=True)
+
 
     def login(self):
         c.active_global_nav = "login"

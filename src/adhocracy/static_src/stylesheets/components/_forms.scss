@@ -216,3 +216,15 @@ form.inline-form {
     background: none;
     padding: 0;
 }
+
+fieldset.logo {
+    @include clearfix();
+
+    .control-group {
+        float: left;
+    }
+    .current {
+        float: right;
+        text-align: center;
+    }
+}

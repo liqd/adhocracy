@@ -13,48 +13,87 @@ import util
 
 log = logging.getLogger(__name__)
 
-HEADER = ['static', 'img', 'header_logo.png']
-DEFAULT = ['static', 'img', 'icons', 'site_64.png']
 
-header_image = None
+"""This provides a simple api for adding logos to entities."""
 
 
-def _instance_logo_path(key):
+INSTANCE = ['static', 'img', 'icons', 'site_64.png']
+USER = ['static', 'img', 'icons', 'user.png']
+
+ALLOWED_SIZES = [
+    (32, 32), (None, 32),
+    (48, 48), (None, 48),
+    (64, 64), (None, 64),
+    (256, 256), (None, 256),
+]
+
+
+class NoSuchSizeError(Exception):
+    pass
+
+
+def _entity_key(entity):
+    if hasattr(entity, u'key'):
+        return entity.key
+    else:
+        return u"%s-%i" % (entity.__class__.__name__, entity.id)
+
+
+def validate_xy(x, y, y_default=24):
+    try:
+        y = int(y)
+    except ValueError, ve:
+        log.debug(ve)
+        y = y_default
+    try:
+        x = int(x)
+    except:
+        x = None
+    return x, y
+
+
+def _logo_path(key):
+    """the folder is called "instance" for backwards compability"""
     util.create_site_subdirectory('uploads', 'instance')
     return util.get_site_path('uploads', 'instance', key + '.png')
 
 
-def store(instance, file):
+def store(entity, file):
     logo_image = Image.open(file)
-    logo_image.save(_instance_logo_path(instance.key))
+    key = _entity_key(entity)
+    logo_image.save(_logo_path(key))
 
 
-def delete(instance):
-    if exists(instance.key):
-        path = _instance_logo_path(instance.key)
+def delete(entity):
+    if exists(entity):
+        key = _entity_key(entity)
+        path = _logo_path(key)
         os.remove(path)
+        return True
 
 
-def exists(key):
-    instance_path = _instance_logo_path(key)
-    return os.path.exists(instance_path)
+def exists(entity):
+    key = _entity_key(entity)
+    entity_path = _logo_path(key)
+    return os.path.exists(entity_path)
 
 
-def path_and_mtime(key, fallback=DEFAULT):
+def path_and_mtime(entity, fallback=INSTANCE):
     """
-    Return a tuple with the path to the instance's and
+    Return a tuple with the path to the entity's logo and
     the mtime (converted to an int).
 
-    *key* (str)
-        The key of the instance.
+    *entity*
+        Get path and mtime for this entity
     *fallback* (tuple of str)
-        A fallback path tuple to a logo if the instance
+        A fallback path tuple to a logo if the entity
         doesn't have one.
 
     Returns:
        a (path (`str`), mtime (`int`)) tuple.
     """
-    logo_path = _instance_logo_path(key)
+    key = _entity_key(entity)
+    logo_path = _logo_path(key)
     if not os.path.exists(logo_path):
         logo_path = util.get_path(*fallback)
     mtime = os.path.getmtime(logo_path)
@@ -63,13 +102,13 @@ def path_and_mtime(key, fallback=DEFAULT):
     return logo_path, mtime
 
 
-def load(key, size, fallback=DEFAULT):
+def load(entity, size, fallback=INSTANCE):
     '''
-    Load an instance logo or the fallback logo in a
+    Load an entity logo or the fallback logo in a
     certain size.
 
-    *key* (string)
-         The instances key
+    *entity*
+         Get logo for this entity
     *size* (two-tuple of int)
          A tuple with the size like (x_size, y_size) where
          both are int values. x_size may be None in which case
@@ -82,7 +121,8 @@ def load(key, size, fallback=DEFAULT):
          mtime is the mtime of the image file, and image_data
          is a string containing the image data.
     '''
-    logo_path, mtime = path_and_mtime(key, fallback)
+    key = _entity_key(entity)
+    logo_path, mtime = path_and_mtime(entity, fallback)
     image_data = _load_with_mtime(logo_path, mtime, size)
     return (logo_path, mtime, image_data)
 
@@ -110,6 +150,8 @@ def _load_with_mtime(logo_path, mtime, size):
     Returns:
          A string containing the resized image data.
     """
+    if size not in ALLOWED_SIZES:
+        raise NoSuchSizeError()
     x, y = size
     logo_image = Image.open(logo_path)
     if x is None:

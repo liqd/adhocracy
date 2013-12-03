@@ -350,6 +350,9 @@ adhocracy.show_overview_map_on_instance_index = False
 # show tutorials
 adhocracy.show_tutorials = True
 
+# use avatars
+# adhocracy.use_avatars = True
+
 # hide instance list in main navigation
 adhocracy.hide_instance_list_in_navigation = False
 
