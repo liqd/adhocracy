@@ -23,6 +23,7 @@ USER = ['static', 'img', 'icons', 'user.png']
 ALLOWED_SIZES = [
     (32, 32), (None, 32),
     (48, 48), (None, 48),
+    (64, 64), (None, 64),
     (256, 256), (None, 256),
 ]
 
