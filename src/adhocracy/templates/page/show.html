@@ -30,7 +30,8 @@
         </div>
     </div>
 
-    %if can.proposal.create() and c.page.allow_selection:
+    %if can.proposal.create() and c.page.allow_selection and \
+        (c.instance.allow_propose_changes or c.amendment):
     <%
         if c.amendment:
             href = h.entity_url(c.page, member='amendment/new')
