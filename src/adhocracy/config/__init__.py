@@ -52,6 +52,7 @@ DEFAULTS = {
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
+    'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
     'adhocracy.show_abuse_button': True,
     'adhocracy.show_instance_overview_proposals_all': False,

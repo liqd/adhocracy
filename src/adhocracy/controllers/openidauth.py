@@ -13,6 +13,7 @@ from webob.exc import HTTPFound
 from openid.consumer.consumer import SUCCESS
 from openid.extensions import sreg, ax
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import event, helpers as h
 from adhocracy.lib.auth import login_user, require
@@ -34,6 +35,8 @@ AX_MEMBERSHIP_SCHEMA = u'http://schema.liqd.de/membership/signed/'
 MYOPENID_RE = r'https?://[^./]+\.myopenid\.com/?$'
 GOOGLE_RE = r'https://www\.google\.com/accounts/.*'
 YAHOO_RE = r'https?://me\.yahoo\.com(?:/?$|/.*)'
+
+SESSION_KEY = 'openid_session'
 
 TRUSTED_PROVIDER_RES = [
     MYOPENID_RE,
@@ -124,7 +127,7 @@ class OpenidauthController(BaseController):
             return render('/user/login.html', {'login_form_code': form})
 
     def __before__(self):
-        self.openid_session = session.get("openid_session", {})
+        self.openid_session = self.get_session()
 
     @validate(schema=OpenIDInitForm(), post_only=False, on_get=True)
     def init(self):
@@ -152,7 +155,7 @@ class OpenidauthController(BaseController):
                 h.base_url('/', absolute=True),
                 return_to=h.base_url('/openid/verify', absolute=True),
                 immediate=False)
-            session['openid_session'] = self.openid_session
+            self.set_session(self.openid_session)
             session.save()
             return redirect(redirecturl)
         except HTTPFound:
@@ -226,7 +229,7 @@ class OpenidauthController(BaseController):
                 email = email
 
         if 'openid_session' in session:
-            del session['openid_session']
+            self.delete_session()
 
         oid = model.OpenID.find(info.identity_url)
         if oid:
@@ -337,3 +340,23 @@ class OpenidauthController(BaseController):
         response.headers['Content-Type'] = ("application/xrds+xml; "
                                             "charset=utf-8")
         return render('/openid/xrds.xml')
+
+    # If we're using a JSON based session backend, we need to serialize some
+    # openid related stuff first. See liqd/adhocracy#469 and
+    # openid/python-openid#17.
+
+    def get_session(self):
+        ses = session.get(SESSION_KEY, {})
+        if ses and config.get('adhocracy.session.implementation') == 'cookie':
+            import pickle
+            ses = pickle.loads(ses)
+        return ses
+
+    def set_session(self, ses):
+        if config.get('adhocracy.session.implementation') == 'cookie':
+            import pickle
+            ses = pickle.dumps(ses)
+        session[SESSION_KEY] = ses
+
+    def delete_session(self):
+        del session[SESSION_KEY]
