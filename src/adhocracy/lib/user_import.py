@@ -1,7 +1,5 @@
 import logging
 
-from pylons import tmpl_context as c
-
 from adhocracy import model
 from adhocracy.lib.helpers import base_url
 from adhocracy.lib.mail import to_user
