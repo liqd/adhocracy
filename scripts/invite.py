@@ -185,7 +185,7 @@ def main():
         for user_info in csv_data:
             user_info[u'user_badges'].add(invited_badge)
 
-        ret = user_import(csv_data, args.subject, template, creator)
+        ret = user_import(csv_data, args.subject, template, creator, instance)
         print_invite_result(ret)
     elif args.action == u'reinvite':
         template = valid_template(args.template)
@@ -198,7 +198,7 @@ def main():
                     u'user_badges': set(),
                     } for u in users]
 
-        ret = user_import(csv_data, args.subject, template, creator,
+        ret = user_import(csv_data, args.subject, template, creator, instance,
                           reinvite=True)
         print_invite_result(ret, reinvite=True)
     elif args.action == u'revoke':

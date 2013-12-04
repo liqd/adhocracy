@@ -8,7 +8,7 @@ from adhocracy.lib.util import random_token
 log = logging.getLogger(__name__)
 
 
-def user_import(_users, email_subject, email_template, creator,
+def user_import(_users, email_subject, email_template, creator, instance,
                 reinvite=False):
     names = []
     created = []
@@ -44,6 +44,7 @@ def user_import(_users, email_subject, email_template, creator,
                 url = base_url(
                     "/user/%s/activate?c=%s" % (user.user_name,
                                                 user.activation_code),
+                    instance=instance,
                     absolute=True)
 
                 user_info['url'] = url
