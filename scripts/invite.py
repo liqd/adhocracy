@@ -137,7 +137,7 @@ def valid_template(filename):
     try:
         return template_validator.to_python(template_string)
     except formencode.Invalid as e:
-        print "Invalid template: %s" % str(e).replace('<br />', '\n')
+        print u"Invalid template: %s" % unicode(e.msg).replace('<br />', '\n')
         sys.exit(1)
 
 
@@ -149,7 +149,7 @@ def valid_csv(filename):
     try:
         return csv_validator.to_python(csv_string, None)
     except formencode.Invalid as e:
-        print "Invalid csv: %s" % str(e).replace('<br />', '\n')
+        print u"Invalid csv: %s" % unicode(e.msg).replace('<br />', '\n')
         sys.exit(1)
 
 
