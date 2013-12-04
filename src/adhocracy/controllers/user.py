@@ -900,9 +900,9 @@ class UserController(BaseController):
         c.user_nav = self._get_profile_nav(c.page_user, current_nav)
 
         data = {
-            u'show_upload_avatar': c.page_user == c.user and \
-                                   can.user.edit(c.page_user) and \
-                                   not logo.exists(c.page_user),
+            u'show_upload_avatar': (c.page_user == c.user and
+                                    can.user.edit(c.page_user) and
+                                    not logo.exists(c.page_user)),
         }
 
         if format == 'overlay':
@@ -965,9 +965,9 @@ class UserController(BaseController):
         c.user_nav = self._get_profile_nav(c.page_user, u'about')
 
         data = {
-            u'show_upload_avatar': c.page_user == c.user and \
-                                   can.user.edit(c.page_user) and \
-                                   not logo.exists(c.page_user),
+            u'show_upload_avatar': (c.page_user == c.user and
+                                    can.user.edit(c.page_user) and
+                                    not logo.exists(c.page_user)),
             u'about': True,
             u'bio': c.page_user.bio,
         }
@@ -1007,7 +1007,6 @@ class UserController(BaseController):
             # This will set the appropriate mtime
             redirect(h.user.avatar_url(user, y, x=x))
         return render_png(io, mtime, cache_forever=True)
-
 
     def login(self):
         c.active_global_nav = "login"
