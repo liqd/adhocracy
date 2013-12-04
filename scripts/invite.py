@@ -153,18 +153,20 @@ def valid_csv(filename):
         sys.exit(1)
 
 
-def print_invite_result(data):
+def print_invite_result(data, reinvite=False):
     if len(data['users']) != 0:
         for user in data['users']:
             if user.user_name in data['not_created'] or \
                user.user_name in data['not_mailed']:
-                print(u"Errors while (re)inviting user %s:" % user.user_name)
+                print(u"Errors while %sinviting user %s:" %
+                      (u're' if reinvite else u'', user.user_name))
                 if user.user_name in data['not_created']:
                     print(u"    not created")
                 if user.user_name in data['not_mailed']:
                     print(u"    not mailed")
             else:
-                print(u"(re)invited user %s" % user.user_name)
+                print(u"%sinvited user %s" %
+                      (u're' if reinvite else u'', user.user_name))
     else:
         print(u"No users to reinvite")
 
@@ -198,7 +200,7 @@ def main():
 
         ret = user_import(csv_data, args.subject, template, creator,
                           reinvite=True)
-        print_invite_result(ret)
+        print_invite_result(ret, reinvite=True)
     elif args.action == u'revoke':
         users = invited_users(invited_badge, instance, joined=False)
         if len(users) != 0:
