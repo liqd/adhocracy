@@ -341,8 +341,8 @@ class OpenidauthController(BaseController):
                                             "charset=utf-8")
         return render('/openid/xrds.xml')
 
-    # If we're using a JSON based session backend, we neeed to serialize some
-    # the openid related stuff first. See liqd/adhocracy#469 and
+    # If we're using a JSON based session backend, we need to serialize some
+    # openid related stuff first. See liqd/adhocracy#469 and
     # openid/python-openid#17.
 
     def get_session(self):
