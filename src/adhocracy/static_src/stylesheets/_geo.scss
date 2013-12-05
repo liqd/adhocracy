@@ -67,9 +67,8 @@
 }
 
 #main_content_register_button a.button {
-    width: 240px;
-    padding: 0;
-    background-position: 0 -500px;
+    margin: 0;
+    float: none;
 }
 
 #main_content_register_or_text {
@@ -99,7 +98,6 @@
 }
 
 #content-bottom {
-    height: 155px;
     padding: 20px 0;
     width: 100%;
 }
@@ -108,20 +106,12 @@
     float: left;
     padding: 15px 20px;
     width: 268px;
-    height: 155px;
-}
-
-/* workaround: hiding elements via css as it's hard to
- * customize pager items */
-
-#newest-proposals-bottom-left li.content_box:nth-child(2n+2) {
-    background: none;
-    border-bottom: none;
-    border-top: none;
+    height: 190px;
 }
 
 #newest-proposals-bottom-left li.content_box {
-    padding-top: 5px;
+    padding: 0;
+    border-bottom: 1px dotted $border;
 }
 
 #newest-proposals-bottom-left li.content_box h3 {
@@ -152,14 +142,14 @@
     padding: 15px 20px;
     margin: 0 20px;
     width: 268px;
-    height: 155px;
+    height: 190px;
 }
 
 #content-bottom-right {
     background-color: #f5f4f0;
     padding: 15px 20px;
     width: 268px;
-    height: 155px;
+    height: 190px;
     float: left;
 }
 
