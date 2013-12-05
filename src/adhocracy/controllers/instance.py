@@ -9,7 +9,6 @@ from pylons import request, response, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from pylons.i18n import lazy_ugettext as L_
 
 from adhocracy import config
 from adhocracy import forms, i18n, model
@@ -65,11 +64,12 @@ def settings_url(instance, path):
 def settings_menu(instance, current):
 
     return Menu.create(instance, current, OrderedDict([
-        ('general', (_(u'General'), True, 'settings')),
-        ('appearance', (_('Appearance'),)),
-        ('contents', (_('Contents'),)),
-        ('voting', (_('Votings'),)),
+        ('overview', (_(u'Overview'),)),
+        ('general', (_('General settings'),)),
+        ('process', (_('Process settings'),)),
+        ('members', (_('Manage members'),)),
         ('badges', (_('Badges'),)),
+        ('advanced', (_('Advanced settings'),)),
         ('presets', (_('Process presets'),)),
     ]))
 
@@ -90,7 +90,7 @@ class InstanceCreateForm(formencode.Schema):
     description = validators.String(max=100000, if_empty=None, not_empty=False)
 
 
-class InstanceGeneralEditForm(formencode.Schema):
+class InstanceOverviewEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
@@ -105,14 +105,14 @@ class InstanceGeneralEditForm(formencode.Schema):
                                              if_missing=False)
 
 
-class InstanceAppearanceEditForm(formencode.Schema):
+class InstanceGeneralEditForm(formencode.Schema):
     allow_extra_fields = True
     thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None)
     thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None)
     css = validators.String(max=100000, if_empty=None, not_empty=False)
 
 
-class InstanceContentsEditForm(formencode.Schema):
+class InstanceMembersEditForm(formencode.Schema):
     allow_extra_fields = True
     allow_propose = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
@@ -142,7 +142,7 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
 
 
-class InstanceVotingEditForm(formencode.Schema):
+class InstanceAdvancedEditForm(formencode.Schema):
     allow_extra_fields = True
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
@@ -156,11 +156,6 @@ class InstanceVotingEditForm(formencode.Schema):
 
 class InstanceBadgesEditForm(formencode.Schema):
     allow_extra_fields = True
-
-
-class InstanceMembersEditForm(formencode.Schema):
-    allow_extra_fields = True
-    pass
 
 
 class InstanceSnameEditForm(formencode.Schema):
@@ -468,9 +463,9 @@ class InstanceController(BaseController):
             redirect(h.instance.icon_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
-    def _settings_general_form(self, id):
+    def _settings_overview_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'general')
+        c.settings_menu = settings_menu(c.page_instance, 'overview')
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
@@ -489,13 +484,13 @@ class InstanceController(BaseController):
                  'label': h.literal(_(group.group_name)),
                  'selected': group.code == c.default_group})
 
-        return render("/instance/settings_general.html")
+        return render("/instance/settings_overview.html")
 
     @RequireInstance
-    def settings_general(self, id, format=u'html'):
+    def settings_overview(self, id, format=u'html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
-        form_content = self._settings_general_form(id)
+        form_content = self._settings_overview_form(id)
         return htmlfill.render(
             form_content,
             defaults={
@@ -511,9 +506,10 @@ class InstanceController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceGeneralEditForm(), form="_settings_general_form",
+    @validate(schema=InstanceOverviewEditForm(),
+              form="_settings_overview_form",
               post_only=True, auto_error_formatter=error_formatter)
-    def settings_general_update(self, id):
+    def settings_overview_update(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
@@ -529,23 +525,23 @@ class InstanceController(BaseController):
                                                self.form_result,
                                                ['default_group'])
 
-        return self._settings_result(updated, c.page_instance, 'general')
+        return self._settings_result(updated, c.page_instance, 'overview')
 
-    def _settings_appearance_form(self, id):
+    def _settings_general_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.current_logo = None
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
             c.current_logo = h.instance.icon_url(c.page_instance, 48)
 
-        c.settings_menu = settings_menu(c.page_instance, 'appearance')
-        return render("/instance/settings_appearance.html")
+        c.settings_menu = settings_menu(c.page_instance, 'general')
+        return render("/instance/settings_general.html")
 
     @RequireInstance
-    def settings_appearance(self, id):
+    def settings_general(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         return htmlfill.render(
-            self._settings_appearance_form(id),
+            self._settings_general_form(id),
             defaults={
                 '_method': 'PUT',
                 'css': c.page_instance.css,
@@ -557,10 +553,10 @@ class InstanceController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceAppearanceEditForm(),
-              form="_settings_appearance_form",
+    @validate(schema=InstanceGeneralEditForm(),
+              Form="_settings_general_form",
               post_only=True, auto_error_formatter=error_formatter)
-    def settings_appearance_update(self, id, format='html'):
+    def settings_general_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
@@ -568,7 +564,7 @@ class InstanceController(BaseController):
         if 'delete_logo' in self.form_result:
             updated = logo.delete(c.page_instance)
             return self._settings_result(
-                updated, c.page_instance, 'appearance',
+                updated, c.page_instance, 'general',
                 message=_(u'The logo has been deleted.'))
 
         # process the normal form
@@ -591,18 +587,18 @@ class InstanceController(BaseController):
 
         return self._settings_result(updated, c.page_instance, 'appearance')
 
-    def _settings_contents_form(self, id):
+    def _settings_members_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'contents')
-        return render("/instance/settings_contents.html")
+        c.settings_menu = settings_menu(c.page_instance, 'members')
+        return render("/instance/settings_members.html")
 
     @RequireInstance
-    def settings_contents(self, id):
+    def settings_members(self, id):
         instance = self._get_current_instance(id)
         require.instance.edit(instance)
         c.page_instance = instance
         return htmlfill.render(
-            self._settings_contents_form(id),
+            self._settings_members_form(id),
             defaults={
                 '_method': 'PUT',
                 'allow_propose': instance.allow_propose,
@@ -625,10 +621,10 @@ class InstanceController(BaseController):
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceContentsEditForm(),
-              form="_settings_contents_form",
+    @validate(schema=InstanceMembersEditForm(),
+              form="_settings_members_form",
               post_only=True)
-    def settings_contents_update(self, id, format='html'):
+    def settings_members_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
@@ -639,11 +635,11 @@ class InstanceController(BaseController):
              'hide_global_categories', 'editable_comments_default',
              'editable_proposals_default', 'show_norms_navigation',
              'show_proposals_navigation', 'display_category_pages'])
-        return self._settings_result(updated, c.page_instance, 'contents')
+        return self._settings_result(updated, c.page_instance, 'members')
 
-    def _settings_voting_form(self, id):
+    def _settings_advanced_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'voting')
+        c.settings_menu = settings_menu(c.page_instance, 'advanced')
         c.delay_options = []
         for delay in ((0, _("No delay")),
                       (1, _("1 Day")),
@@ -668,10 +664,10 @@ class InstanceController(BaseController):
         else:
             c.votedetail_all_userbadges = None
 
-        return render("/instance/settings_voting.html")
+        return render("/instance/settings_advanced.html")
 
     @RequireInstance
-    def settings_voting(self, id):
+    def settings_advanced(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         defaults = {
@@ -685,20 +681,20 @@ class InstanceController(BaseController):
             defaults['votedetail_badges'] = [
                 b.id for b in c.page_instance.votedetail_userbadges]
         return htmlfill.render(
-            self._settings_voting_form(id),
+            self._settings_advanced_form(id),
             defaults=defaults)
 
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
-    @validate(schema=InstanceVotingEditForm(),
-              form="_settings_voting_form",
+    @validate(schema=InstanceAdvancedEditForm(),
+              form="_settings_advanced_form",
               post_only=True, auto_error_formatter=error_formatter)
-    def settings_voting_update(self, id, format='html'):
+    def settings_advanced_update(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
         updated_attributes = ['allow_delegate']
-        if not config.get_bool('adhocracy.hide_final_adoption_votings'):
+        if not config.get_bool('adhocracy.hide_final_adoption_advanceds'):
             updated_attributes.extend(
                 ['required_majority', 'activation_delay', 'allow_adopt'])
         updated = update_attributes(
@@ -711,7 +707,7 @@ class InstanceController(BaseController):
                 c.page_instance.votedetail_userbadges = new_badges
             updated = updated or updated_vd
 
-        return self._settings_result(updated, c.page_instance, 'voting')
+        return self._settings_result(updated, c.page_instance, 'advanced')
 
     def badge_controller(self, instance):
         '''
