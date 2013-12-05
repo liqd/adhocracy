@@ -94,64 +94,63 @@ class InstanceOverviewEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
-    locale = forms.ValidLocale()
-    default_group = forms.ValidInstanceGroup(not_empty=True)
-    hidden = validators.StringBool(not_empty=False, if_empty=False,
-                                   if_missing=False)
-    require_valid_email = validators.StringBool(not_empty=False,
-                                                if_empty=False,
-                                                if_missing=False)
-    is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
-                                             if_missing=False)
 
 
 class InstanceGeneralEditForm(formencode.Schema):
     allow_extra_fields = True
-    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None)
-    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None)
-    css = validators.String(max=100000, if_empty=None, not_empty=False)
+    allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
+    use_norms = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    milestones = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    locale = forms.ValidLocale()
 
 
-class InstanceMembersEditForm(formencode.Schema):
+class InstanceProcessEditForm(formencode.Schema):
     allow_extra_fields = True
     allow_propose = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     allow_propose_changes = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
-    allow_index = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    use_norms = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
     show_norms_navigation = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     show_proposals_navigation = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
-    display_category_pages = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    require_selection = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    frozen = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    milestones = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    hide_global_categories = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    editable_comments_default = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    editable_proposals_default = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
+
+
+class InstanceMembersEditForm(formencode.Schema):
+    allow_extra_fields = True
+    require_valid_email = validators.StringBool(not_empty=False,
+                                                if_empty=False,
+                                                if_missing=False)
+    default_group = forms.ValidInstanceGroup(not_empty=True)
 
 
 class InstanceAdvancedEditForm(formencode.Schema):
     allow_extra_fields = True
-    allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
-                                           if_missing=False)
-    if not config.get_bool('adhocracy.hide_final_adoption_votings'):
-        allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
-                                            if_missing=False)
-        activation_delay = validators.Int(not_empty=True)
-        required_majority = validators.Number(not_empty=True)
-    votedetail_badges = forms.ValidUserBadges()
+    editable_comments_default = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    editable_proposals_default = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    require_selection = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    display_category_pages = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    hide_global_categories = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    hidden = validators.StringBool(not_empty=False, if_empty=False,
+                                   if_missing=False)
+    # currently no ui
+    # allow_index = validators.StringBool(
+    #     not_empty=False, if_empty=False, if_missing=False)
+    frozen = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    css = validators.String(max=100000, if_empty=None, not_empty=False)
+    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None)
+    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None)
+    is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
+                                             if_missing=False)
 
 
 class InstanceBadgesEditForm(formencode.Schema):
