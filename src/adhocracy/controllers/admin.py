@@ -151,7 +151,6 @@ class AdminController(BaseController):
             try:
                 self.form_result = UserImportForm().to_python(request.params,
                     state={'global_admin': has('global.admin')})
-                # a proposal that this norm should be integrated with
                 data = user_import(self.form_result['users_csv'],
                                    self.form_result['email_subject'],
                                    self.form_result['email_template'],
