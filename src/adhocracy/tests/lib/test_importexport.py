@@ -297,7 +297,7 @@ class ImportExportTest(TestController):
         self.assertEqual(u.email, u'test@test_importexport.de')
         self.assertEqual(u.display_name, u'Mr. Imported')
         self.assertEqual(u.bio, u'hey')
-        self.assertEqual(u.locale, u'de_DE')
+        self.assertEqual(str(u.locale), u'de_DE')
         self.assertTrue(not u.banned)
 
         opts[u'replacement_strategy'] = u'skip'
