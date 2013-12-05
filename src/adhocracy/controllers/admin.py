@@ -15,7 +15,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import base_url, flash
 from adhocracy.lib.templating import render, ret_abort
 from adhocracy.lib.search import index
-from adhocracy.lib.user_import import user_import
+from adhocracy.lib.user_import import user_import, get_user_import_state
 import adhocracy.lib.importexport
 
 log = logging.getLogger(__name__)
@@ -150,7 +150,7 @@ class AdminController(BaseController):
         if request.method == "POST":
             try:
                 self.form_result = UserImportForm().to_python(request.params,
-                    state={'global_admin': has('global.admin')})
+                    state=get_user_import_state())
                 data = user_import(self.form_result['users_csv'],
                                    self.form_result['email_subject'],
                                    self.form_result['email_template'],

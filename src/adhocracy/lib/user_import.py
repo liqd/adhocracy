@@ -1,7 +1,7 @@
 import logging
 
 from adhocracy import model
-from adhocracy.lib.helpers import base_url
+from adhocracy.lib.helpers import base_url, has_permission
 from adhocracy.lib.mail import to_user
 from adhocracy.lib.util import random_token
 
@@ -68,3 +68,18 @@ def user_import(_users, email_subject, email_template, creator, instance,
         'not_mailed': set(created) - set(mailed),
         'errors': errors
     }
+
+
+def get_user_import_state():
+    """user import state
+
+    This function can be used to generate state objects for formencode.
+    """
+
+    class State(object):
+        pass
+
+    state = State()
+    state.global_admin = has_permission('global.admin')
+
+    return state

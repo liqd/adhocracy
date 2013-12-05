@@ -668,7 +668,7 @@ class UsersCSV(formencode.FancyValidator):
         if state is None:
             global_admin = False
         else:
-            global_admin = state.get(u'global_admin', False)
+            global_admin = getattr(state, u'global_admin', False)
         fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL, USER_BADGES]
         errors = []
         items = []

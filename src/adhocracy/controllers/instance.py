@@ -28,7 +28,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_def)
-from adhocracy.lib.user_import import user_import
+from adhocracy.lib.user_import import user_import, get_user_import_state
 from adhocracy.lib.util import get_entity_or_abort
 
 
@@ -764,7 +764,7 @@ class InstanceController(BaseController):
     @validate(schema=UserImportForm(),
               form="_settings_members_import_form",
               post_only=True, auto_error_formatter=error_formatter,
-              state={'global_admin': h.has_permission('global.admin')})
+              state=get_user_import_state())
     def settings_members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance,
