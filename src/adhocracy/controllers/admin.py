@@ -154,7 +154,8 @@ class AdminController(BaseController):
                 data = user_import(self.form_result['users_csv'],
                                    self.form_result['email_subject'],
                                    self.form_result['email_template'],
-                                   c.user)
+                                   c.user,
+                                   c.instance)
                 return render("/admin/userimport_success.html", data,
                               overlay=format == u'overlay')
             except formencode.Invalid as i:
