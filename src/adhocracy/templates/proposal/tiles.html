@@ -71,11 +71,6 @@ FIXME - stupid code duplication, see lib.pager.proposals_small
                 ${_(u"from %s · on %s") % (h.user.link(proposal.creator), h.format_date(proposal.create_time))|n} 
             </div>
         </div>
-        <div class="marker">
-            %if proposal.has_geotag():
-                <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
-            %endif
-        </div>
     </li>
 </%def>
 
