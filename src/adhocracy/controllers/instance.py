@@ -483,11 +483,6 @@ class InstanceController(BaseController):
                 '_method': 'PUT',
                 'label': c.page_instance.label,
                 'description': c.page_instance.description,
-                'default_group': c.default_group,
-                'hidden': c.page_instance.hidden,
-                'locale': c.page_instance.locale,
-                'is_authenticated': c.page_instance.is_authenticated,
-                'require_valid_email': c.page_instance.require_valid_email,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -533,11 +528,10 @@ class InstanceController(BaseController):
             self._settings_general_form(id),
             defaults={
                 '_method': 'PUT',
-                'css': c.page_instance.css,
-                'thumbnailbadges_width':
-                c.page_instance.thumbnailbadges_width,
-                'thumbnailbadges_height':
-                c.page_instance.thumbnailbadges_height,
+                'allow_delegate': c.page_instance.allow_delegate,
+                'milestones': c.page_instance.milestones,
+                'use_norms': c.page_instance.use_norms,
+                'locale': c.page_instance.locale,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -582,6 +576,21 @@ class InstanceController(BaseController):
 
         return render("/instance/settings_process.html")
 
+    @RequireInstance
+    def settings_process(self, id):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        return htmlfill.render(
+            self._settings_process_form(id),
+            defaults={
+                '_method': 'PUT',
+                'allow_propose': c.page_instance.allow_propose,
+                'allow_propose_changes': c.page_instance.allow_propose_changes,
+                'show_norms_navigation': c.page_instance.show_norms_navigation,
+                'show_proposals_navigation':
+                c.page_instance.show_proposals_navigation,
+                '_tok': csrf.token_id()})
+
     def _settings_members_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'members')
@@ -602,29 +611,14 @@ class InstanceController(BaseController):
 
     @RequireInstance
     def settings_members(self, id):
-        instance = self._get_current_instance(id)
-        require.instance.edit(instance)
-        c.page_instance = instance
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
         return htmlfill.render(
             self._settings_members_form(id),
             defaults={
                 '_method': 'PUT',
-                'allow_propose': instance.allow_propose,
-                'allow_propose_changes': instance.allow_propose_changes,
-                'milestones': instance.milestones,
-                'use_norms': instance.use_norms,
-                'require_selection': instance.require_selection,
-                'hide_global_categories': instance.hide_global_categories,
-                'editable_comments_default':
-                instance.editable_comments_default,
-                'editable_proposals_default':
-                instance.editable_proposals_default,
-                'show_norms_navigation': instance.show_norms_navigation,
-                'show_proposals_navigation':
-                instance.show_proposals_navigation,
-                'display_category_pages':
-                c.page_instance.display_category_pages,
-                'frozen': instance.frozen,
+                'require_valid_email': c.page_instance.require_valid_email,
+                'default_group': c.default_group,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -657,14 +651,22 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
         defaults = {
             '_method': 'PUT',
-            'required_majority': c.page_instance.required_majority,
-            'activation_delay': c.page_instance.activation_delay,
-            'allow_adopt': c.page_instance.allow_adopt,
-            'allow_delegate': c.page_instance.allow_delegate,
+            'editable_comments_default':
+            c.page_instance.editable_comments_default,
+            'editable_proposals_default':
+            c.page_instance.editable_proposals_default,
+            'require_selection': c.page_instance.require_selection,
+            'display_category_pages': c.page_instance.display_category_pages,
+            'hide_global_categories': c.page_instance.hide_global_categories,
+            'hidden': c.page_instance.hidden,
+            'frozen': c.page_instance.frozen,
+            'css': c.page_instance.css,
+            'thumbnailbadges_width':
+            c.page_instance.thumbnailbadges_width,
+            'thumbnailbadges_height':
+            c.page_instance.thumbnailbadges_height,
+            'is_authenticated': c.page_instance.is_authenticated,
             '_tok': csrf.token_id()}
-        if votedetail.is_enabled():
-            defaults['votedetail_badges'] = [
-                b.id for b in c.page_instance.votedetail_userbadges]
         return htmlfill.render(
             self._settings_advanced_form(id),
             defaults=defaults)
