@@ -37,7 +37,7 @@
         <input type="hidden" name="thumbnailbadges_width" value="" />
         <input type="hidden" name="thumbnailbadges_height" value="" />
     %endif
-    ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated')}
+    ${forms.checkbox(_("Authenticate this instance"), 'is_authenticated')}
     %endif
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}

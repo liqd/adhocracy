@@ -13,9 +13,9 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    ${forms.input(_("Name"), 'label', autofocus=True)}
+    ${forms.input(_("Name of the instance"), 'label', autofocus=True)}
 
-    <%forms:textarea label="${_('Description')}" name="description" value=""
+    <%forms:textarea label="${_('Description of the instance')}" name="description" value=""
     help="${_('Describe what the goals of this instance are and who constitutes its community.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
     ${components.formatting()}
     </%forms:textarea>
