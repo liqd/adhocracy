@@ -1,8 +1,6 @@
 from collections import OrderedDict
 import logging
 
-from babel import Locale
-
 import formencode
 from formencode import htmlfill
 from formencode import validators
@@ -77,7 +75,7 @@ class InstanceGeneralEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
-    locale = validators.String(not_empty=False)
+    locale = forms.ValidLocale()
     default_group = forms.ValidInstanceGroup(not_empty=True)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
@@ -493,7 +491,7 @@ class InstanceController(BaseController):
 
         updated = update_attributes(c.page_instance, self.form_result,
                                     ['description', 'label', 'hidden',
-                                     'require_valid_email'])
+                                     'locale', 'require_valid_email'])
         if h.has_permission('global.admin'):
             auth_updated = update_attributes(c.page_instance, self.form_result,
                                              ['is_authenticated'])
@@ -502,12 +500,6 @@ class InstanceController(BaseController):
         updated = updated or update_attributes(c.page_instance,
                                                self.form_result,
                                                ['default_group'])
-
-        locale = Locale(self.form_result.get("locale"))
-        if locale and locale in i18n.LOCALES:
-            if c.page_instance.locale != locale:
-                c.page_instance.locale = locale
-                updated = True
 
         return self._settings_result(updated, c.page_instance, 'general')
 
