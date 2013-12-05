@@ -2,7 +2,7 @@ import logging
 
 import formencode
 import formencode.htmlfill
-from pylons import config, request
+from pylons import config, request, tmpl_context as c
 from pylons.i18n import lazy_ugettext as L_, _
 from pylons.controllers.util import redirect
 
