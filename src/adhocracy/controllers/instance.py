@@ -494,17 +494,28 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
-        updated = update_attributes(c.page_instance, self.form_result,
-                                    ['description', 'label', 'hidden',
-                                     'locale', 'require_valid_email'])
-        if h.has_permission('global.admin'):
-            auth_updated = update_attributes(c.page_instance, self.form_result,
-                                             ['is_authenticated'])
-            updated = updated or auth_updated
+        # delete the logo if the button was pressed and exit
+        if 'delete_logo' in self.form_result:
+            updated = logo.delete(c.page_instance)
+            return self._settings_result(
+                updated, c.page_instance, 'overview',
+                message=_(u'The logo has been deleted.'))
 
-        updated = updated or update_attributes(c.page_instance,
-                                               self.form_result,
-                                               ['default_group'])
+        updated = update_attributes(c.page_instance, self.form_result,
+                                    ['description', 'label'])
+
+        try:
+            # fixme: show logo errors in the form
+            if ('logo' in request.POST and
+                hasattr(request.POST.get('logo'), 'file') and
+                    request.POST.get('logo').file):
+                logo.store(c.page_instance, request.POST.get('logo').file)
+                updated = True
+        except Exception, e:
+            model.meta.Session.rollback()
+            h.flash(unicode(e), 'error')
+            log.debug(e)
+            return self.settings_appearance(id)
 
         return self._settings_result(updated, c.page_instance, 'overview')
 
@@ -543,32 +554,11 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
-        # delete the logo if the button was pressed and exit
-        if 'delete_logo' in self.form_result:
-            updated = logo.delete(c.page_instance)
-            return self._settings_result(
-                updated, c.page_instance, 'general',
-                message=_(u'The logo has been deleted.'))
-
-        # process the normal form
         updated = update_attributes(c.page_instance, self.form_result,
-                                    ['css',
-                                     'thumbnailbadges_width',
-                                     'thumbnailbadges_height'])
-        try:
-            # fixme: show logo errors in the form
-            if ('logo' in request.POST and
-                hasattr(request.POST.get('logo'), 'file') and
-                    request.POST.get('logo').file):
-                logo.store(c.page_instance, request.POST.get('logo').file)
-                updated = True
-        except Exception, e:
-            model.meta.Session.rollback()
-            h.flash(unicode(e), 'error')
-            log.debug(e)
-            return self.settings_appearance(id)
+                                    ['allow_delegate', 'use_norms',
+                                     'locale', 'milestones'])
 
-        return self._settings_result(updated, c.page_instance, 'appearance')
+        return self._settings_result(updated, c.page_instance, 'general')
 
     def _settings_process_form(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -590,6 +580,22 @@ class InstanceController(BaseController):
                 'show_proposals_navigation':
                 c.page_instance.show_proposals_navigation,
                 '_tok': csrf.token_id()})
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    @validate(schema=InstanceProcessEditForm(),
+              Form="_settings_process_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_process_update(self, id, format='html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+
+        updated = update_attributes(
+            c.page_instance, self.form_result,
+            ['allow_propose', 'allow_propose_changes',
+             'show_norms_navigation', 'show_proposals_navigation'])
+
+        return self._settings_result(updated, c.page_instance, 'process')
 
     def _settings_members_form(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -631,12 +637,9 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
 
         updated = update_attributes(
-            c.page_instance, self.form_result,
-            ['allow_propose', 'allow_index', 'frozen', 'milestones',
-             'use_norms', 'require_selection', 'allow_propose_changes',
-             'hide_global_categories', 'editable_comments_default',
-             'editable_proposals_default', 'show_norms_navigation',
-             'show_proposals_navigation', 'display_category_pages'])
+            c.page_instance, self.form_result, ['require_valid_email',
+                                                'default_group'])
+
         return self._settings_result(updated, c.page_instance, 'members')
 
     def _settings_advanced_form(self, id):
@@ -680,19 +683,19 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
-        updated_attributes = ['allow_delegate']
-        if not config.get_bool('adhocracy.hide_final_adoption_advanceds'):
-            updated_attributes.extend(
-                ['required_majority', 'activation_delay', 'allow_adopt'])
         updated = update_attributes(
-            c.page_instance, self.form_result, updated_attributes)
+            c.page_instance, self.form_result,
+            ['editable_comments_default', 'editable_proposals_default',
+             'require_selection', 'display_category_pages',
+             'hide_global_categories', 'allow_index', 'hidden', 'frozen'])
 
-        if votedetail.is_enabled():
-            new_badges = self.form_result['votedetail_badges']
-            updated_vd = c.page_instance.votedetail_userbadges != new_badges
-            if updated_vd:
-                c.page_instance.votedetail_userbadges = new_badges
-            updated = updated or updated_vd
+        if h.has_permission('global.admin'):
+            auth_updated = update_attributes(c.page_instance, self.form_result,
+                                             ['css',
+                                              'thumbnailbadges_width',
+                                              'thumbnailbadges_height',
+                                              'is_authenticated'])
+            updated = updated or auth_updated
 
         return self._settings_result(updated, c.page_instance, 'advanced')
 
