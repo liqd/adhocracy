@@ -465,23 +465,10 @@ class InstanceController(BaseController):
     def _settings_overview_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'overview')
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.page_instance.locale})
 
-        c.default_group_options = []
-        c.default_group = (c.page_instance.default_group.code if
-                           c.page_instance.default_group else
-                           model.Group.INSTANCE_DEFAULT)
-
-        for groupname in model.Group.INSTANCE_GROUPS:
-            group = model.Group.by_code(groupname)
-            c.default_group_options.append(
-                {'value': group.code,
-                 'label': h.literal(_(group.group_name)),
-                 'selected': group.code == c.default_group})
+        c.current_logo = None
+        if tiles.instance.InstanceTile(c.page_instance).show_icon():
+            c.current_logo = h.instance.icon_url(c.page_instance, 48)
 
         return render("/instance/settings_overview.html")
 
@@ -528,11 +515,14 @@ class InstanceController(BaseController):
 
     def _settings_general_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.current_logo = None
-        if tiles.instance.InstanceTile(c.page_instance).show_icon():
-            c.current_logo = h.instance.icon_url(c.page_instance, 48)
-
         c.settings_menu = settings_menu(c.page_instance, 'general')
+
+        c.locales = []
+        for locale in i18n.LOCALES:
+            c.locales.append({'value': str(locale),
+                              'label': locale.display_name,
+                              'selected': locale == c.page_instance.locale})
+
         return render("/instance/settings_general.html")
 
     @RequireInstance
@@ -586,9 +576,28 @@ class InstanceController(BaseController):
 
         return self._settings_result(updated, c.page_instance, 'appearance')
 
+    def _settings_process_form(self, id):
+        c.page_instance = self._get_current_instance(id)
+        c.settings_menu = settings_menu(c.page_instance, 'process')
+
+        return render("/instance/settings_process.html")
+
     def _settings_members_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'members')
+
+        c.default_group_options = []
+        c.default_group = (c.page_instance.default_group.code if
+                           c.page_instance.default_group else
+                           model.Group.INSTANCE_DEFAULT)
+
+        for groupname in model.Group.INSTANCE_GROUPS:
+            group = model.Group.by_code(groupname)
+            c.default_group_options.append(
+                {'value': group.code,
+                 'label': h.literal(_(group.group_name)),
+                 'selected': group.code == c.default_group})
+
         return render("/instance/settings_members.html")
 
     @RequireInstance
@@ -639,29 +648,6 @@ class InstanceController(BaseController):
     def _settings_advanced_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'advanced')
-        c.delay_options = []
-        for delay in ((0, _("No delay")),
-                      (1, _("1 Day")),
-                      (2, _("2 Days")),
-                      (7, _("One Week")),
-                      (14, _("Two Weeks")),
-                      (28, _("Four Weeks"))):
-            c.delay_options.append(
-                {'value': delay[0],
-                 'label': h.literal(delay[1]),
-                 'selected': c.page_instance.activation_delay == delay[0]})
-        c.majority_options = []
-        for majority in ((0.5, _("A simple majority (&frac12; of vote)")),
-                         (0.66, _("A two-thirds majority"))):
-            c.majority_options.append(
-                {'value': majority[0],
-                 'label': h.literal(majority[1]),
-                 'selected': c.page_instance.required_majority == majority[0]})
-        if votedetail.is_enabled():
-            c.votedetail_all_userbadges = model.UserBadge.all(
-                instance=c.page_instance, include_global=True)
-        else:
-            c.votedetail_all_userbadges = None
 
         return render("/instance/settings_advanced.html")
 
