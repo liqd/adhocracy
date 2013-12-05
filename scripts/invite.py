@@ -68,14 +68,16 @@ def parse_args():
     return parser.parse_args()
 
 
-def invited_users(invited_badge, instance=None, joined=None):
+def invited_users(invited_badge, instance=None, joined=None, activated=None):
     """get all invited users
 
-    joined may be one of the following:
+    joined/activated may be one of the following:
 
-    -   True  - return only those users who have joined the instance
-    -   False - return only those users who have not joined the instance
-    -   None  - return all users
+    -   True  - return only those invited users who have joined the instance/
+                activated their accounts
+    -   False - return only those invited users who have not joined the
+                instance/activated their accounts
+    -   None  - return all invited users
     """
     if instance is None and joined is not None:
         raise Exception('instance must not be None if joined specified')
@@ -88,6 +90,8 @@ def invited_users(invited_badge, instance=None, joined=None):
     users = q.all()
     if joined is False:
         users = filter(lambda u: instance not in u.instances, users)
+    if activated is not None:
+        users = filter(lambda u: u.is_email_activated() == activated, users)
     return users
 
 
@@ -190,7 +194,7 @@ def main():
     elif args.action == u'reinvite':
         template = valid_template(args.template)
 
-        users = invited_users(invited_badge, instance, joined=False)
+        users = invited_users(invited_badge, activated=False)
         csv_data = [{
                     u'email': u.email,
                     u'user_name': u.user_name,
@@ -202,7 +206,7 @@ def main():
                           reinvite=True)
         print_invite_result(ret, reinvite=True)
     elif args.action == u'revoke':
-        users = invited_users(invited_badge, instance, joined=False)
+        users = invited_users(invited_badge, activated=False)
         if len(users) != 0:
             for user in users:
                 revoke(user)
