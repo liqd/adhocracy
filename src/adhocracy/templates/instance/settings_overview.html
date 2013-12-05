@@ -9,14 +9,19 @@
       enctype="multipart/form-data">
 
     ${components.flashmessages()}
-
     <h2>${c.settings_menu.current['label']}</h2>
-
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
+    ${forms.input(_("Name"), 'label', autofocus=True)}
+
+    <%forms:textarea label="${_('Description')}" name="description" value=""
+    help="${_('Describe what the goals of this instance are and who constitutes its community.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
+    ${components.formatting()}
+    </%forms:textarea>
+
     <fieldset class="logo">
-        <%forms:input label="${_('Logo')}" name="logo" autofocus="autofocus" type="file"
+        <%forms:input label="${_('Logo')}" name="logo" type="file"
                       help="${_('Select a logo file to appear in the header area of this Instance.')}">
         </%forms:input>
         %if c.current_logo:
@@ -27,20 +32,6 @@
         </div>
         %endif
     </fieldset>
-
-    <%forms:textarea label="${_('Extra CSS')}" name="css" value=""
-    help="${_('You can add css that will be used to style the instance.')}">
-    ${components.formatting()}
-    </%forms:textarea>
-
-    %if c.instance and c.instance.allow_thumbnailbadges:
-        ${forms.input(_("Thumbnail badges width"), 'thumbnailbadges_width')}
-        ${forms.input(_("Thumbnail badges height"), 'thumbnailbadges_height')}
-    %else:
-        <input type="hidden" name="thumbnailbadges_width" value="" />
-        <input type="hidden" name="thumbnailbadges_height" value="" />
-    %endif
-
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 

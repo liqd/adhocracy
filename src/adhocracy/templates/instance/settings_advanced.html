@@ -1,0 +1,46 @@
+<%inherit file="/instance/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
+
+
+<%block name="settings_content">
+<form name="create_instance" class="well" method="POST">
+
+    ${components.flashmessages()}
+    <h2>${c.settings_menu.current['label']}</h2>
+    <input type="hidden" name="_method" value="PUT" />
+    ${h.field_token()|n}
+
+    <fieldset>
+        ${forms.checkbox(_("Allow editing of comments by default"), 'editable_comments_default', autofocus=True)}
+        ${forms.checkbox(_("Allow editing of proposals by default"), 'editable_proposals_default')}
+        ${forms.checkbox(_("Require to propose a variant"), 'require_selection')}
+        ${forms.checkbox(_("Display category pages"), 'display_category_pages')}
+        ${forms.checkbox(_("Hide global categories"), 'hide_global_categories')}
+    </fieldset>
+    <fieldset>
+        ${forms.checkbox(_("Hide this instance"), 'hidden', help=_("Select whether this instance will be shown in public listings."))}
+        ${forms.checkbox(_("Freeze this instance"), 'frozen')}
+    </fieldset>
+
+    %if h.has_permission('global.admin'):
+    <%forms:textarea label="${_('Extra CSS')}" name="css" value=""
+    help="${_('You can add css that will be used to style the instance.')}">
+    ${components.formatting()}
+    </%forms:textarea>
+
+    %if c.instance and c.instance.allow_thumbnailbadges:
+        ${forms.input(_("Thumbnail badges width"), 'thumbnailbadges_width')}
+        ${forms.input(_("Thumbnail badges height"), 'thumbnailbadges_height')}
+    %else:
+        <input type="hidden" name="thumbnailbadges_width" value="" />
+        <input type="hidden" name="thumbnailbadges_height" value="" />
+    %endif
+    ${forms.checkbox(_("This instance is authenticated"), 'is_authenticated')}
+    %endif
+
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+
+</form>
+</%block>

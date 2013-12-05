@@ -12,11 +12,8 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate', autofocus=True)}
-    ${forms.checkbox(_("Enable norms"), 'use_norms')}
-    ${forms.checkbox(_("Enable milestones"), 'milestones')}
-
-    ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
+    ${forms.checkbox(_("Require email validation"), 'require_valid_email', help=_("Require instance members to validate their email address."), autofocus=True)}
+    ${forms.select(_("Default user group"), 'default_group', c.default_group_options)}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 

@@ -12,11 +12,10 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate', autofocus=True)}
-    ${forms.checkbox(_("Enable norms"), 'use_norms')}
-    ${forms.checkbox(_("Enable milestones"), 'milestones')}
-
-    ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
+    ${forms.checkbox(_("Allow users to propose norms"), 'allow_propose', autofocus=True)}
+    ${forms.checkbox(_("Allow users to change norms from within proposals"), 'allow_propose_changes')}
+    ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation')}
+    ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation')}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
