@@ -56,7 +56,7 @@ a.button_round {
 }
 
 /* follow button */
-a.follow_paper {
+.follow_paper {
     @include button-round;
 
     // icon
@@ -88,6 +88,10 @@ a.follow_paper {
         content: "×";
         background-color: $red;
         @include background-image(linear-gradient(170deg, lighten($red, 14%), $red));
+    }
+
+    #col3_content & {
+        margin: 1em 0;
     }
 }
 

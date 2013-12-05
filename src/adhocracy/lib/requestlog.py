@@ -50,7 +50,7 @@ class RequestLogger(object):
                 return None
             return res_bytes.decode('utf-8', 'replace')
 
-        full_ip = adhocracy.lib.util.get_client_ip(environ)
+        full_ip = adhocracy.lib.util.get_client_ip(environ, config=self.config)
         ip = self.anonymization_func(full_ip)
         url = (environ['PATH_INFO'].decode('utf-8', 'replace')
                + '?' + environ['QUERY_STRING'].decode('utf-8', 'replace'))

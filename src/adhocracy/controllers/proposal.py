@@ -200,6 +200,11 @@ class ProposalController(BaseController):
         if c.amendment:
             c.page = get_entity_or_abort(model.Page, page)
 
+        if c.amendment and not c.page.allow_selection:
+            return ret_abort(
+                _("Page %s does not allow selections") % c.page.title,
+                code=400, format=format)
+
         if ('cancel_url' in request.params and
                 len(request.params['cancel_url']) >= 2 and
                 request.params['cancel_url'][0] == '/' and

@@ -55,7 +55,7 @@ class InstanceTile(BaseTile):
     def show_icon(self):
         show_fallback = asbool(
             config.get('adhocracy.show_instance_fallback_icons'))
-        return show_fallback or logo.exists(self.instance.key)
+        return show_fallback or logo.exists(self.instance)
 
 
 def row(instance):

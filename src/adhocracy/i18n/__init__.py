@@ -25,6 +25,9 @@ LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('pl', 'PL'),
            babel.Locale('ro', 'RO'),
            babel.Locale('ru', 'RU')]
+
+LOCALE_STRINGS = map(str, LOCALES)
+
 FALLBACK_TZ = 'Europe/Berlin'
 
 

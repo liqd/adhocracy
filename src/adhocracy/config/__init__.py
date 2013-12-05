@@ -8,6 +8,7 @@ from pylons.i18n import _
 
 DEFAULTS = {
     'adhocracy.allow_registration': True,
+    'adhocracy.behind_proxy': False,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
@@ -54,6 +55,7 @@ DEFAULTS = {
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.relative_urls': False,
     'adhocracy.require_email': True,
+    'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
     'adhocracy.show_abuse_button': True,
     'adhocracy.show_instance_overview_proposals_all': False,
@@ -64,6 +66,7 @@ DEFAULTS = {
     'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.static_agree_text': None,
     'adhocracy.store_notification_events': True,
+    'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.wording.intro_for_overview': False,

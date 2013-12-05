@@ -37,7 +37,7 @@ setup(
     ]]),
     install_requires=[
         "adhocracy-Pylons>=1.0.1",
-        "Babel>=0.9, <1.0",
+        "Babel>=0.9",
         "WebOb==1.2.3",
         "SQLAlchemy==0.7.10",
         "sqlalchemy-migrate>=0.6",

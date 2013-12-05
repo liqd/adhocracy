@@ -24,7 +24,9 @@ stylesheets = Group([style])
 
 
 def instance_stylesheet(key):
-    return Resource(stylesheets_library, str('adhocracy_%s.css' % key))
+    return Resource(stylesheets_library,
+                    str('adhocracy_%s.css' % key),
+                    minified=str('min/adhocracy_%s.css' % key))
 
 
 # --[ jquery.autocomplete ]-------------------------------------------------

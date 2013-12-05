@@ -4,11 +4,13 @@
     event_html = formatting.as_html(event)
     %>
     <li class="${event.event.code}">
-        <%doc>  FIXME: Reactivate when ready
-        %if avatars:
-        <img class="avatar" src="/images/example_user.jpg"/>
+        %if avatars and h.config.get_bool('adhocracy.use_avatars'):
+        %if event.user.is_deleted():
+        <img class="avatar" src="/img/icons/user.png"/>
+        %else:
+        <img class="avatar" src="${h.user.avatar_url(event.user, 32, x=32)}"/>
         %endif
-        </%doc>
+        %endif
         <div class="time">${h.datetime_tag(event.time)|n}</div>
         <div class="action">
             <a href="${h.entity_url(event.user)}">${event.user.name}</a>

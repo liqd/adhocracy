@@ -371,6 +371,9 @@ adhocracy.geo.fallback_bounds = 653034.6021803395, 5986272.559465266, 1674460.22
 # show tutorials
 adhocracy.show_tutorials = True
 
+# use avatars
+# adhocracy.use_avatars = True
+
 # hide instance list in main navigation
 adhocracy.hide_instance_list_in_navigation = False
 

@@ -86,7 +86,7 @@ class UniqueOtherEmail(formencode.FancyValidator):
 class ValidLocale(formencode.FancyValidator):
     def _to_python(self, value, state):
         from adhocracy import i18n
-        if value in i18n.LOCALES:
+        if value in i18n.LOCALE_STRINGS:
             return value
         else:
             raise formencode.Invalid(_('Invalid locale choice'), value, state)

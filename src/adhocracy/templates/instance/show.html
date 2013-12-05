@@ -70,6 +70,10 @@ ${c.events_pager.here()}
 </%block>
 
 <%block name="sidebar">
+%if h.has_permission("watch.instance"):
+${components.watch(c.instance)}
+%endif
+
 %for type in h.config.get_list('adhocracy.instance_overview_sidebar_contents'):
 <div class="sidebar_box">
     %if type == u'events':
