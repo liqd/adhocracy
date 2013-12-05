@@ -40,7 +40,7 @@ def parse_args():
     invite_parser.add_argument('template', help=u'text file with mail body')
     invite_parser.add_argument('-s', '--subject',
                                default=u"Welcome to Adhocracy!",
-                               help=u'text file with mail body')
+                               help=u'email subject')
     invite_parser.set_defaults(action=u'invite')
 
     reinvite_parser = subparsers.add_parser(
@@ -49,7 +49,7 @@ def parse_args():
     reinvite_parser.add_argument('template', help=u'text file with mail body')
     reinvite_parser.add_argument('-s', '--subject',
                                  default=u"Welcome to Adhocracy!",
-                                 help=u'text file with mail body')
+                                 help=u'email subject')
     reinvite_parser.set_defaults(action=u'reinvite')
 
     revoke_parser = subparsers.add_parser(
