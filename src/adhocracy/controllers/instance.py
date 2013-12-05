@@ -140,8 +140,6 @@ class InstanceContentsEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     editable_proposals_default = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
-    allow_thumbnailbadges = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
 
 
 class InstanceVotingEditForm(formencode.Schema):
@@ -611,7 +609,6 @@ class InstanceController(BaseController):
                 'allow_propose_changes': instance.allow_propose_changes,
                 'milestones': instance.milestones,
                 'use_norms': instance.use_norms,
-                'allow_thumbnailbadges': instance.allow_thumbnailbadges,
                 'require_selection': instance.require_selection,
                 'hide_global_categories': instance.hide_global_categories,
                 'editable_comments_default':
@@ -641,8 +638,7 @@ class InstanceController(BaseController):
              'use_norms', 'require_selection', 'allow_propose_changes',
              'hide_global_categories', 'editable_comments_default',
              'editable_proposals_default', 'show_norms_navigation',
-             'show_proposals_navigation', 'display_category_pages',
-             'allow_thumbnailbadges'])
+             'show_proposals_navigation', 'display_category_pages'])
         return self._settings_result(updated, c.page_instance, 'contents')
 
     def _settings_voting_form(self, id):
