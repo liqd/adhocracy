@@ -179,7 +179,10 @@ def main():
     args = parse_args()
     load_config(args.conf_file)
 
-    instance = valid_instance(args.instance)
+    if args.instance is None:
+        instance = None
+    else:
+        instance = valid_instance(args.instance)
     invited_badge = valid_userbadge(args.badge.decode('utf-8'), instance)
     creator = User.find(u'admin')
 
