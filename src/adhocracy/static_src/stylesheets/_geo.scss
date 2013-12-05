@@ -109,17 +109,9 @@
     height: 190px;
 }
 
-/* workaround: hiding elements via css as it's hard to
- * customize pager items */
-
-#newest-proposals-bottom-left li.content_box:nth-child(2n+2) {
-    background: none;
-    border-bottom: none;
-    border-top: none;
-}
-
 #newest-proposals-bottom-left li.content_box {
     padding: 0;
+    border-bottom: 1px solid $border;
 }
 
 #newest-proposals-bottom-left li.content_box h3 {
