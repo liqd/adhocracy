@@ -122,7 +122,7 @@
         %if c.instance is None:
         <h6>${_(u'Account created')}</h6>
         ${h.date_tag(c.page_user.create_time)|n}
-        %elif c.instance in c.page_user.instances:
+        %elif c.instance in c.page_user.get_instances(include_hidden=True):
         <h6>${_(u'Member in "%s" since') % c.instance.label}</h6>
         ${h.date_tag(c.page_user.instance_membership(c.instance).create_time)|n}
         %else:
