@@ -467,7 +467,7 @@ div.marker img {
 
 /* no dotted line for sidebar header on top of map (design demand) */
 #col3 .map_h3 {
-    border-bottom: none;
+    border-bottom: 0px;
 }
 
 /* override quirk in offenekommune_theme style_custom */
