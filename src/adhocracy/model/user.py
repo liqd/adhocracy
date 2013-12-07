@@ -157,11 +157,14 @@ class User(meta.Indexable):
 
     @property
     def instances(self):
+        return self.get_instances()
+
+    def get_instances(self, include_hidden=False):
         instances = []
         for membership in self.memberships:
             if (not membership.is_expired()) and \
                     (membership.instance is not None) and \
-                    not membership.instance.hidden:
+                    (include_hidden or not membership.instance.hidden):
                 instances.append(membership.instance)
         return list(set(instances))
 

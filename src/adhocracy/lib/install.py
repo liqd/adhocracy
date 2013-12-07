@@ -129,7 +129,7 @@ def setup_entities(config, initial_setup):
         u'tag.show': [anonymous],
         u'tag.view': [anonymous],
         u'user.edit': [default],
-        u'user.index_all': [anonymous],
+        u'user.index_all': [admins],
         u'user.manage': [admins],
         u'user.message': [advisor],
         u'user.show': [anonymous],
