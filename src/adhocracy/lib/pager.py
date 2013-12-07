@@ -917,8 +917,9 @@ class InstanceFacet(SolrFacet):
     def add_data_to_index(cls, user, index):
         if not isinstance(user, model.User):
             return
-        index[cls.solr_field] = [entity_to_solr_token(instance) for
-                                 instance in user.instances]
+        index[cls.solr_field] = [entity_to_solr_token(instance)
+                                 for instance
+                                 in user.get_instances(include_hidden=True)]
 
 
 class DelegateableBadgeCategoryFacet(SolrFacet):
