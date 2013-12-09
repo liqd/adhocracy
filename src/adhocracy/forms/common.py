@@ -544,17 +544,17 @@ class VariantName(formencode.FancyValidator):
         from adhocracy.lib.text import variant_normalize
         var = variant_normalize(value)
         if not var or len(var) < 2:
-            raise formencode.Invalid(_("No variant name is given."),
+            raise formencode.Invalid(_("No name is given."),
                                      value, state)
 
         if (var.lower() in FORBIDDEN_NAMES or not
                 VALIDVARIANT.match(var.lower())):
-            raise formencode.Invalid(_("Invalid variant name: %s") % value,
+            raise formencode.Invalid(_("Invalid name: %s") % value,
                                      value, state)
         try:
             int(var)
             raise formencode.Invalid(
-                _("Variant name cannot be purely numeric: %s") % value,
+                _("Name cannot be purely numeric: %s") % value,
                 value, state)
         except:
             return var
@@ -627,6 +627,16 @@ class UnusedProposalTitle(formencode.validators.FormValidator):
             raise formencode.Invalid(
                 msg, field_dict, state,
                 error_dict={'label': msg}
+            )
+
+        # every proposal title must be a valid variant name
+        try:
+            variant_name_validator = VariantName()
+            variant_name_validator._to_python(value, state)
+        except formencode.Invalid as e:
+            raise formencode.Invalid(
+                e.msg, field_dict, state,
+                error_dict={'label': e.msg}
             )
 
         try:
