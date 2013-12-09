@@ -772,13 +772,13 @@ class InstanceController(BaseController):
             self.form_result = UserImportForm().to_python(
                 request.params, state=get_user_import_state())
             require.instance.edit(c.page_instance)
-            user_import(self.form_result['users_csv'],
-                        self.form_result['email_subject'],
-                        self.form_result['email_template'],
-                        c.user,
-                        c.instance)
-            # FIXME: display user_import result
-            return(render("/instance/settings_members_import_success.html"))
+            data = user_import(self.form_result['users_csv'],
+                               self.form_result['email_subject'],
+                               self.form_result['email_template'],
+                               c.user,
+                               c.instance)
+            return render("/instance/settings_members_import_success.html",
+                          data, overlay=format == u'overlay')
         except formencode.Invalid as i:
             return self._settings_members_import_form(errors=i.unpack_errors())
 
