@@ -767,16 +767,20 @@ class InstanceController(BaseController):
               state=get_user_import_state())
     def settings_members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance,
-                                        'members_import')
-        require.instance.edit(c.page_instance)
-        user_import(self.form_result['users_csv'],
-                    self.form_result['email_subject'],
-                    self.form_result['email_template'],
-                    c.user,
-                    c.instance)
-        # FIXME: display user_import result
-        return(render("/instance/settings_members_import_success.html"))
+        c.settings_menu = settings_menu(c.page_instance, 'members_import')
+        try:
+            self.form_result = UserImportForm().to_python(
+                request.params, state=get_user_import_state())
+            require.instance.edit(c.page_instance)
+            user_import(self.form_result['users_csv'],
+                        self.form_result['email_subject'],
+                        self.form_result['email_template'],
+                        c.user,
+                        c.instance)
+            # FIXME: display user_import result
+            return(render("/instance/settings_members_import_success.html"))
+        except formencode.Invalid as i:
+            return self._settings_members_import_form(errors=i.unpack_errors())
 
 # --[ template ]------------------------------------------------------------
 
