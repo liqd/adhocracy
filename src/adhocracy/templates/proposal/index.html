@@ -43,8 +43,7 @@ ${h.proposal.breadcrumbs(None)|n}
         <label class="floating" for="proposals_q">${_(u"Find proposals")}</label>
         <input class="q"
                id="proposals_q" class="live_search" name="proposals_q"
-               type="text" value="${request.params.get('proposals_q', '')}"
-               autofocus="autofocus" />
+               type="text" value="${request.params.get('proposals_q', '')}" />
         <input type="submit" value="${_(u'Go')}"
                class="go" />
     </form>
