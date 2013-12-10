@@ -69,9 +69,6 @@ def settings_menu(instance, current):
         ('contents', (L_('Contents'),)),
         ('voting', (L_('Votings'),)),
         ('badges', (L_('Badges'),)),
-        ('members_import', (_('Members import'),
-                            (h.has_permission('global.admin') or
-                             can.instance.authenticated_edit(instance)))),
         ('presets', (L_('Process presets'),)),
     ]))
 
@@ -774,18 +771,16 @@ class InstanceController(BaseController):
         controller = self.badge_controller(c.page_instance)
         return controller.delete(badge_id)
 
-    def _settings_members_import_form(self, id):
+    def _members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance,
-                                        'members_import')
-        return render("/instance/settings_members_import.html")
+        return render("/instance/members_import.html")
 
     @RequireInstance
-    def settings_members_import(self, id):
+    def members_import(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
         return htmlfill.render(
-            self._settings_members_import_form(id),
+            self._members_import_form(id),
             defaults={
                 '_method': 'PUT',
                 '_tok': csrf.token_id()})
@@ -793,12 +788,11 @@ class InstanceController(BaseController):
     @RequireInstance
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=UserImportForm(),
-              form="_settings_members_import_form",
+              form="_members_import_form",
               post_only=True, auto_error_formatter=error_formatter,
               state=get_user_import_state())
-    def settings_members_import_save(self, id, format='html'):
+    def members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'members_import')
         try:
             self.form_result = UserImportForm().to_python(
                 request.params, state=get_user_import_state())
@@ -808,10 +802,10 @@ class InstanceController(BaseController):
                                self.form_result['email_template'],
                                c.user,
                                c.instance)
-            return render("/instance/settings_members_import_success.html",
+            return render("/instance/members_import_success.html",
                           data, overlay=format == u'overlay')
         except formencode.Invalid as i:
-            return self._settings_members_import_form(errors=i.unpack_errors())
+            return self._members_import_form(errors=i.unpack_errors())
 
 # --[ template ]------------------------------------------------------------
 

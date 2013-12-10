@@ -424,11 +424,11 @@ def make_map(config):
     map.connect('/instance/{id}/message/preview{.format}',
                 controller='massmessage', action='preview',
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/members_import{.format}',
-                controller='instance', action='settings_members_import',
+    map.connect('/instance/{id}/members_import{.format}',
+                controller='instance', action='members_import',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/members_import{.format}',
-                controller='instance', action='settings_members_import_save',
+    map.connect('/instance/{id}/members_import{.format}',
+                controller='instance', action='members_import_save',
                 conditions=dict(method=['PUT', 'POST']))
     map.connect('/instance/{id}/settings/presets{.format}',
                 controller='instance', action='settings_presets',
