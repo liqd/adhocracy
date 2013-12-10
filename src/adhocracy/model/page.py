@@ -198,13 +198,16 @@ class Page(Delegateable):
         return [c for c in self.children if isinstance(c, Page) and
                 c.function in self.LISTED and not c.is_deleted()]
 
-    @property
-    def root(self):
-        parent = self.parent
-        if parent is None:
+    def sectionpage_root(self):
+        """This returns the nearest ancestor sectionpage of this page.
+        If non exists this returns None"""
+        # I tried to avoid is_sectionpage() here as that is recursice itself
+        if self.sectionpage:
             return self
+        elif self.parent is not None:
+            return self.parent.sectionpage_root()
         else:
-            return parent.root
+            return None
 
     @property
     def has_variants(self):
