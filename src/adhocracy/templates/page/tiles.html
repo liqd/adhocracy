@@ -28,12 +28,15 @@
             <div class="clearfix"></div>
             <div class="meta noclear">
                 %if page.function == page.NORM:
-                    ${ungettext("%s proposal", "%s proposals", len(page.selections)) % len(page.selections)}
+                    <% selection_count = page.selection_count(recursive=page.sectionpage) %>
+                    ${ungettext("%s proposal", "%s proposals", selection_count) % selection_count}
                     ·
                 %endif
-                ${ungettext("%s comment", "%s comments", page.comment_count()) % page.comment_count()}
+                <% comment_count = page.comment_count(recursive=page.sectionpage) %>
+                ${ungettext("%s comment", "%s comments", comment_count) % comment_count}
                 ·
-                ${_("latest <b>%s</b>") % h.datetime_tag(page.find_latest_comment_time())|n}&nbsp;
+                <% latest_comment_time = page.find_latest_comment_time(recursive=page.sectionpage)%>
+                ${_("latest <b>%s</b>") % h.datetime_tag(latest_comment_time)|n}
             </div>
         </div>
 
