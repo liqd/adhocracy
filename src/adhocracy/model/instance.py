@@ -255,6 +255,31 @@ class Instance(meta.Indexable):
         meta.Session.flush()
         return instance
 
+    def options(self):
+        return {
+            u'allow_adopt': self.allow_adopt,
+            u'allow_delegate': self.allow_delegate,
+            u'allow_propose': self.allow_propose,
+            u'allow_propose_changes': self.allow_propose_changes,
+            u'allow_index': self.allow_index,
+            u'hidden': self.hidden,
+            u'frozen': self.frozen,
+            u'milestones': self.milestones,
+            u'use_norms': self.use_norms,
+            u'use_maps': self.use_maps,
+            u'require_selection': self.require_selection,
+            u'is_authenticated': self.is_authenticated,
+            u'hide_global_categories': self.hide_global_categories,
+            u'editable_comments_default': self.editable_comments_default,
+            u'editable_proposals_default': self.editable_proposals_default,
+            u'require_valid_email': self.require_valid_email,
+            u'allow_thumbnailbadges': self.allow_thumbnailbadges,
+            u'thumbnailbadges_height': self.thumbnailbadges_height,
+            u'thumbnailbadges_width': self.thumbnailbadges_width,
+            u'show_norms_navigation': self.show_norms_navigation,
+            u'show_proposals_navigation': self.show_proposals_navigation,
+        }
+
     def to_dict(self):
         from adhocracy.lib import helpers as h
         d = dict(id=self.id,
