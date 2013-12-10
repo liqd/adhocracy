@@ -1135,6 +1135,7 @@ var adhocracy = adhocracy || {};
             projection: "EPSG:900913",
             controls: []
         });
+        map.instance_options = p.instance_options;
 
 
         /* set map viewport restrictions which are respected in
