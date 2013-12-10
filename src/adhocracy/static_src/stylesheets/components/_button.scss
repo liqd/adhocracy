@@ -96,15 +96,6 @@ a.button_round {
 }
 .message_button {
     @include button-round;
-
-    // icon
-    &:before {
-        content: "✉";
-        font-size: 20px;
-        line-height: 1;
-        margin-right: 10px;
-        vertical-align: -0.1em;
-    }
 }
 
 /* delegate button */
