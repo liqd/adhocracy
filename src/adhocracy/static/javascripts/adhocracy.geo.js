@@ -1313,7 +1313,11 @@ var adhocracy = adhocracy || {};
         result = result + attributes.numProposals + ' ' + numProposalsLabel;
         result = result + "</div>";
         result = result + "</div>";
-        result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
+
+        var instance_options = adhocracy.geo.map.instance_option;
+        if (!instance_options || instance_options.allow_propose_changes) {
+            result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
+        }
         return result;
     };
 
