@@ -4,7 +4,7 @@ from pylons import tmpl_context as c
 from pylons.i18n import _
 
 from adhocracy import model
-from adhocracy.lib import event, helpers as h, tiles
+from adhocracy.lib import event, helpers as h
 from adhocracy.lib import pager
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
