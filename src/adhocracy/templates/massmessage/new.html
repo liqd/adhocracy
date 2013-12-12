@@ -9,7 +9,7 @@
   'service will receive this message per email.')}
 
   <form name="create_message" class="inplace" method="POST"
-        action="${c.preview_url}">
+        action="${h.base_url('/message/create')}">
       ${h.field_token()|n}
 
       <fieldset class="massmessage_filter">
@@ -38,41 +38,10 @@
       <fieldset>
         <legend>${_("Body")}</legend>
         <textarea name="body" required="required"></textarea>
-        <div>${_('Use {email}, {name}, {salutation} to address the user directly.')}</div>
-
-        %if lib.auth.authorization.has('global.admin'):
-          <label title="${_('Add a note about why the user got this message, and how to unsubscribe.') + u'\n' + _('Uncheck if user management is centralized.')}">
-          <input type="checkbox" name="include_footer" /> ${_('Include footer')}
-          </label>
-        %else:
-          ## Just for reference; this will be set to true anyways unless user gains
-          ## global.admin privileges in between rendering this form and submission
-          <input type="hidden" name="include_footer" checked="checked" />
-        %endif
-      </fieldset>
-
-      <fieldset>
-        <legend>${_('Sender identity')}</legend>
-        <div class="input_wrapper">
-          %for (key, value) in c.sender_options.iteritems():
-          <label>
-            <input type="radio" name="sender_email" value=${key} ${'checked="checked"' if value['checked'] else '' | n} ${'disabled="disabled"' if not value['enabled'] else '' | n} />${value['email']}
-            %if not value['enabled']:
-            <em>${value['reason']}</em>
-            %endif
-          </label>
-          %endfor
-        </div>
-
-        %if lib.auth.authorization.has('global.message'):
-          <label>
-            ${_('Customize sender name: ')} <input type="text" name="sender_name" />
-          </label>
-        %endif
       </fieldset>
 
       <div class="mainbar">
-          ${components.savebox(h.base_url("/"), save_text=_("Preview"))}
+        ${components.savebox(h.base_url("/"), save_text=_("Send"))}
       </div>
   </form>
 </%def>
