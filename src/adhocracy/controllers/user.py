@@ -44,7 +44,8 @@ from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_CONTRIBUTION
+from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_CONTRIBUTION,
+                                       S_MESSAGE)
 
 
 log = logging.getLogger(__name__)
@@ -846,6 +847,7 @@ class UserController(BaseController):
             u'contributions': u'contributions',
             u'votes': u'votes',
             u'delegations': u'delegations',
+            u'messages': u'messages',
         }[active_key]
         nav = [
             (u'all' == active_key, _(u'All Events'), h.base_url(
@@ -854,6 +856,8 @@ class UserController(BaseController):
                 u'/user/dashboard/contributions', instance=c.instance)),
             (u'votes' == active_key, _(u'Votes'), h.base_url(
                 u'/user/dashboard/votes', instance=c.instance)),
+            (u'messages' == active_key, _(u'Messages'), h.base_url(
+                u'/user/dashboard/messages', instance=c.instance)),
         ]
         if ((c.instance is None and any(i.allow_delegate for i in c.instances))
                 or (c.instance is not None and c.instance.allow_delegate)):
@@ -865,13 +869,8 @@ class UserController(BaseController):
 
     def _get_events(self, nr_events=None, event_filter=[]):
         """get events triggerd by this user"""
-        query = model.meta.Session.query(model.Event)
-        query = query.filter(model.Event.user == c.page_user)
-        if c.instance:
-            query = query.filter(model.Event.instance == c.instance)
-        else:
-            query = query.join(model.Instance) \
-                         .filter(not_(model.Instance.hidden))
+        query = model.Event.all_q(instance=c.instance, include_hidden=False) \
+                           .filter(model.Event.user == c.page_user)
         if event_filter:
             query = query.filter(model.Event.event.in_(event_filter))
         query = query.order_by(model.Event.time.desc())
@@ -993,6 +992,10 @@ class UserController(BaseController):
     def dashboard_delegations(self, format='html', current_nav=u'delegations'):
         return self.dashboard(format=format, current_nav=current_nav,
                               event_filter=S_DELEGATION)
+
+    def dashboard_messages(self, format='html', current_nav=u'messages'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_MESSAGE)
 
     def about(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
