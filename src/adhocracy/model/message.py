@@ -1,10 +1,11 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import Table, Column, ForeignKey
+from sqlalchemy import Table, Column, ForeignKey, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 
-from adhocracy.model import meta
+import meta
+import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
@@ -46,6 +47,32 @@ class Message(meta.Indexable):
         meta.Session.add(message)
         meta.Session.flush()
         return message
+
+    @classmethod
+    def all_q(cls, instance=None, include_deleted=False):
+        query = meta.Session.query(Message)
+        if instance is not None:
+            query = query.filter(Message.instance == instance)  # noqa
+        if not include_deleted:
+            query = query.filter(or_(Message.delete_time == None,  # noqa
+                                     Message.delete_time > datetime.utcnow()))
+        return query
+
+    @classmethod
+    def find(cls, id, instance_filter=True, include_deleted=False):
+        if instance_filter and ifilter.has_instance():
+            instance = ifilter.get_instance()
+        else:
+            instance = None
+        query = cls.all_q(instance=instance,
+                          include_deleted=include_deleted)
+        query = query.filter(Message.id == id)
+        return query.first()
+
+    @classmethod
+    def all(cls, instance=None, include_deleted=False):
+        return cls.all_q(instance=instance,
+                         include_deleted=include_deleted).all()
 
     @property
     def email_from(self):
