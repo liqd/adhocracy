@@ -49,10 +49,15 @@ def _send(message, force_resend=False):
 
             body = render_body(message.body, r.recipient, True)
 
+            if message.creator.is_email_activated():
+                reply_to = message.creator.email
+            else:
+                reply_to = None
+
             mail.to_user(r.recipient,
                          message.subject,
                          body,
                          headers={},
                          decorate_body=False,
-                         email_from=message.creator.email,
+                         reply_to=reply_to,
                          name_from=message.creator.name)
