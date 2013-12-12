@@ -38,3 +38,22 @@ def render_body(body, recipient, include_footer, is_preview=False):
                                      absolute=True),
         'include_footer': include_footer,
     })
+
+
+def _send(message, force_resend=False):
+    for r in message.recipients:
+        if (r.recipient.is_email_activated() and
+                r.recipient.email_messages):
+
+            from adhocracy.lib import mail
+
+            body = render_body(message.body, r.recipient,
+                               message.include_footer)
+
+            mail.to_user(r.recipient,
+                         message.subject,
+                         body,
+                         headers={},
+                         decorate_body=False,
+                         email_from=message.email_from,
+                         name_from=message.name_from)

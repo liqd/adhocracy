@@ -107,29 +107,8 @@ class MessageRecipient(object):
         self.recipient = recipient
 
     @classmethod
-    def create(cls, message, recipient, notify=False):
-        recipient = cls(message, recipient)
-        meta.Session.add(recipient)
+    def create(cls, message, recipient):
+        r = cls(message, recipient)
+        meta.Session.add(r)
         meta.Session.flush()
-        if notify:
-            recipient.notify()
-        return recipient
-
-    def notify(self, force_resend=False):
-
-        if (self.recipient.is_email_activated() and
-           self.recipient.email_messages):
-
-            from adhocracy.lib import mail
-            from adhocracy.lib.message import render_body
-
-            body = render_body(self.message.body, self.recipient,
-                               self.message.include_footer)
-
-            mail.to_user(self.recipient,
-                         self.message.subject,
-                         body,
-                         headers={},
-                         decorate_body=False,
-                         email_from=self.message.email_from,
-                         name_from=self.message.name_from)
+        return r
