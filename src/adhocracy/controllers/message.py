@@ -13,6 +13,7 @@ from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib.message import send as send_message
 
 log = logging.getLogger(__name__)
 
@@ -40,18 +41,11 @@ class MessageController(BaseController):
         except Invalid, i:
             return self.new(id, errors=i.unpack_errors())
 
-        c.body = self.form_result.get('body')
-        c.subject = self.form_result.get('subject')
-        message = render("/message/body.txt")
-        headers = {}
-        if c.user.is_email_activated():
-            headers['Reply-To'] = c.user.email
+        body = self.form_result.get('body')
+        subject = self.form_result.get('subject')
 
-        from adhocracy.lib.mail import to_user
-        label = h.site.name() if c.instance is None else c.instance.label
-        subject = _("[%s] Message from %s: %s") % (label,
-                                                   c.user.name, c.subject)
-        to_user(c.page_user, subject, message, headers=headers)
+        send_message(subject, body, c.user, [c.page_user], instance=c.instance,
+                     massmessage=False)
 
         h.flash(_("Your message has been sent. Thanks."), 'success')
         redirect(h.entity_url(c.page_user, instance=c.instance))
