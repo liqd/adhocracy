@@ -3,6 +3,7 @@ from pylons.i18n import _
 from adhocracy import config
 from adhocracy.lib.templating import render
 from adhocracy.model import meta
+from adhocracy.model import Message, MessageRecipient
 
 
 def email_subject(message, recipient, _format=None):
@@ -71,3 +72,18 @@ def _send(message, force_resend=False, massmessage=True,
             r.email_sent = True
 
     meta.Session.commit()
+
+
+def send(subject, body, creator, recipients, instance=None, massmessage=True,
+         email_subject_format=None, email_body_template=None):
+    message = Message.create(subject, body, creator, instance=instance)
+
+    for recipient in recipients:
+        MessageRecipient.create(message, recipient)
+
+    _send(message,
+          massmessage=massmessage,
+          email_subject_format=email_subject_format,
+          email_body_template=email_body_template)
+
+    return message
