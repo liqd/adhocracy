@@ -53,7 +53,8 @@ ${tiles.user.header(c.page_user)}
 
     <br />
 
-    ${forms.checkbox(_("News service"), 'email_messages', help=_(u"Receive occasional news from instance administrators"))}
+    ${forms.checkbox(_("Recieve messages via email"), 'email_messages',
+                     help=_(u"Receive messages from administrators and other users via email. (These messages are always available on your dashboard)"))}
 
     ${components.savebox(cancel_url=None)}
 
