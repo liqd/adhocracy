@@ -18,12 +18,11 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib import helpers as h
 from adhocracy.lib.message import render_body
+from adhocracy.lib.message import send as send_message
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, ret_abort, ret_success
 from adhocracy.model import Instance
 from adhocracy.model import Membership
-from adhocracy.model import Message
-from adhocracy.model import MessageRecipient
 from adhocracy.model import Permission
 from adhocracy.model import User
 from adhocracy.model import UserBadge
@@ -212,14 +211,10 @@ class MassmessageController(BaseController):
     @_get_options
     def create(self, subject, body, recipients, sender_email, sender_name,
                instance, include_footer):
-        message = Message.create(subject,
-                                 body,
-                                 c.user,
-                                 sender_email,
-                                 sender_name,
-                                 include_footer)
-
-        for count, user in enumerate(recipients, start=1):
-            MessageRecipient.create(message, user, notify=True)
-
-        return ret_success(message=_("Message sent to %d users.") % count)
+        send_message(subject, body, c.user, recipients,
+                     sender_email=sender_email,
+                     sender_name=sender_name,
+                     instance=instance,
+                     include_footer=include_footer)
+        return ret_success(
+            message=_("Message sent to %d users.") % len(recipients))
