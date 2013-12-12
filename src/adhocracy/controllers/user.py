@@ -44,7 +44,8 @@ from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_CONTRIBUTION
+from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_CONTRIBUTION,
+                                       S_MESSAGE)
 
 
 log = logging.getLogger(__name__)
@@ -846,6 +847,7 @@ class UserController(BaseController):
             u'contributions': u'contributions',
             u'votes': u'votes',
             u'delegations': u'delegations',
+            u'messages': u'messages',
         }[active_key]
         nav = [
             (u'all' == active_key, _(u'All Events'), h.base_url(
@@ -854,6 +856,8 @@ class UserController(BaseController):
                 u'/user/dashboard/contributions', instance=c.instance)),
             (u'votes' == active_key, _(u'Votes'), h.base_url(
                 u'/user/dashboard/votes', instance=c.instance)),
+            (u'messages' == active_key, _(u'Messages'), h.base_url(
+                u'/user/dashboard/messages', instance=c.instance)),
         ]
         if ((c.instance is None and any(i.allow_delegate for i in c.instances))
                 or (c.instance is not None and c.instance.allow_delegate)):
@@ -988,6 +992,10 @@ class UserController(BaseController):
     def dashboard_delegations(self, format='html', current_nav=u'delegations'):
         return self.dashboard(format=format, current_nav=current_nav,
                               event_filter=S_DELEGATION)
+
+    def dashboard_messages(self, format='html', current_nav=u'messages'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_MESSAGE)
 
     def about(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
