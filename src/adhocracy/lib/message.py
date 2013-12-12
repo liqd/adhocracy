@@ -58,23 +58,26 @@ def _send(message, force_resend=False, massmessage=True):
     meta.Session.add(notification)
 
     for r in message.recipients:
-        if (r.recipient.is_email_activated() and
-                r.recipient.email_messages):
+        if force_resend or not r.email_sent:
+            if (r.recipient.is_email_activated() and
+                    r.recipient.email_messages):
 
-            body = render_body(message.body, r.recipient,
-                               message.include_footer)
+                body = render_body(message.body, r.recipient,
+                                   message.include_footer)
 
-            mail.to_user(r.recipient,
-                         message.subject,
-                         body,
-                         headers={},
-                         decorate_body=False,
-                         email_from=message.email_from,
-                         name_from=message.name_from)
+                mail.to_user(r.recipient,
+                             message.subject,
+                             body,
+                             headers={},
+                             decorate_body=False,
+                             email_from=message.email_from,
+                             name_from=message.name_from)
 
-        # creator already got a notification
-        if r.recipient != message.creator:
-            notification = Notification(e, r.recipient,
-                                        type=event.N_MESSAGE_RECIEVE)
-            meta.Session.add(notification)
->>>>>>> 725ae23... emit message event and notifications
+            # creator already got a notification
+            if r.recipient != message.creator:
+                notification = Notification(e, r.recipient,
+                                            type=event.N_MESSAGE_RECIEVE)
+                meta.Session.add(notification)
+
+            r.email_sent = True
+>>>>>>> 3e1eb9b... enforce email_sent and force_resend
