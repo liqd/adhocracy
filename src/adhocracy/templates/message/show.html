@@ -1,0 +1,70 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Message %s") % c.message.subject}</%def>
+
+<%def name="breadcrumbs()">
+    ${_("Message %s") % c.message.subject}
+</%def>
+
+<%block name="sidebar">
+<div class="sidebar_block">
+    <div class="summary">
+        <h3 id="information">${_('Information')}</h3>
+
+        <h6>${_('Message sent')}</h6>
+        <%
+        created_msg = _("by %(creator)s on %(datetime)s") % {
+            'creator': h.user.link(c.message.creator),
+            'datetime': h.datetime_tag(c.message.create_time),
+        }
+        %>
+        <p>${created_msg|n}</p>
+
+        <%
+            recipients = c.message.recipients
+            recipient_count = len(recipients)
+        %>
+
+        %if recipient_count == 1:
+        <h6>${_(u'Recipient')}</h6>
+        <div>
+            ${h.user.link(recipients[0].recipient)|n}
+        </div>
+
+        %elif can.message.show_recipients(c.message):
+        <h6>${_(u'%d recipients') % recipient_count}</h6>
+        <div class="showmore">
+            <a class="showmore_morelink" href="#">${_(u'[show more]')}</a>
+            <div class="showmore_uncollapsed">
+                <ul class="nobullet">
+                    %for r in recipients:
+                    <li>${h.user.link(r.recipient)|n}</li>
+                    %endfor
+                </ul>
+                <a class="showmore_lesslink" href="#">${_(u'[show less]')}</a>
+            </div>
+        </div>
+
+        %elif any(r.recipient == c.user for r in recipients):
+        <h6>${_(u'Recipients')}</h6>
+        <div>
+            ${_(u'You and %d others') % (recipient_count - 1)}
+        </div>
+
+        %else:  ## should not occur
+        <h6>${_(u'Recipients')}</h6>
+        <div>
+            ${_(u'%d recipients') % (recipient_count - 1)}
+        </div>
+
+        %endif
+    </div>
+</div>
+</%block>
+
+<%block name="main_content">
+<article class="message">
+    <h1>${_(u'Message')}: ${c.message.subject}</h1>
+    ${h.render(c.message.body)|n}
+</article>
+</%block>
