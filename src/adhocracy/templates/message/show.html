@@ -1,0 +1,52 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Message %s") % c.message.subject}</%def>
+
+<%def name="breadcrumbs()">
+    ${_("Message %s") % c.message.subject}
+</%def>
+
+<%block name="sidebar">
+<div class="sidebar_block">
+    <div class="summary">
+        <h3 id="information">${_('Information')}</h3>
+
+        <h6>${_('Created')}</h6>
+        <%
+        created_msg = _("by %(creator)s on %(datetime)s") % {
+            'creator': h.user.link(c.message.creator),
+            'datetime': h.datetime_tag(c.message.create_time),
+        }
+        %>
+        <p>${created_msg|n}</p>
+
+        <%
+            recipients = c.message.recipients
+            recipient_str = _(u'%i Recipient') if len(recipients) == 1 else _(u'%i Recipients')
+        %>
+        <h6>${recipient_str % len(recipients)}</h6>
+        %if can.message.show_recipients(c.message):
+        <div class="showmore">
+            <a class="showmore_morelink" href="#">${_(u'[show more]')}</a>
+            <div class="showmore_uncollapsed">
+                <ul class="nobullet">
+                    %for r in recipients:
+                    <li>${h.user.link(r.recipient)|n}</li>
+                    %endfor
+                </ul>
+                <a class="showmore_lesslink" href="#">${_(u'[show less]')}</a>
+            </div>
+        </div>
+        %else:
+        <span class="info">${_('Undisclosed Recipients')}</span>
+        %endif
+    </div>
+</div>
+</%block>
+
+<%block name="main_content">
+<article class="message">
+    <h1>${c.message.subject}</h1>
+    ${c.message.body}
+</article>
+</%block>

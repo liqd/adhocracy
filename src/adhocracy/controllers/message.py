@@ -54,3 +54,8 @@ class MessageController(BaseController):
 
         h.flash(_("Your message has been sent. Thanks."), 'success')
         redirect(h.entity_url(c.page_user, instance=c.instance))
+
+    def show(self, id, format='html'):
+        c.message = get_entity_or_abort(model.Message, id)
+        require.message.show(c.message)
+        return render('/message/show.html', overlay=format == 'overlay')
