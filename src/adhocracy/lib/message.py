@@ -80,4 +80,5 @@ def _send(message, force_resend=False, massmessage=True):
                 meta.Session.add(notification)
 
             r.email_sent = True
->>>>>>> 3e1eb9b... enforce email_sent and force_resend
+
+    meta.Session.commit()
