@@ -1,6 +1,8 @@
 from pylons.i18n import _
 from pylons import config
 
+from adhocracy.model import meta
+
 
 def render_body(body, recipient, include_footer, is_preview=False):
     from adhocracy.lib import helpers as h
@@ -40,12 +42,24 @@ def render_body(body, recipient, include_footer, is_preview=False):
     })
 
 
-def _send(message, force_resend=False):
+def _send(message, force_resend=False, massmessage=True):
+    from adhocracy.model import Notification
+    from adhocracy.lib import mail, event
+
+    if massmessage:
+        event_type = event.T_MASSMESSAGE_SEND
+    else:
+        event_type = event.T_MESSAGE_SEND
+
+    e = event.emit(event_type, message.creator, instance=message.instance,
+                   message=message,
+                   sender=message.creator)
+    notification = Notification(e, message.creator)
+    meta.Session.add(notification)
+
     for r in message.recipients:
         if (r.recipient.is_email_activated() and
                 r.recipient.email_messages):
-
-            from adhocracy.lib import mail
 
             body = render_body(message.body, r.recipient,
                                message.include_footer)
@@ -57,3 +71,10 @@ def _send(message, force_resend=False):
                          decorate_body=False,
                          email_from=message.email_from,
                          name_from=message.name_from)
+
+        # creator already got a notification
+        if r.recipient != message.creator:
+            notification = Notification(e, r.recipient,
+                                        type=event.N_MESSAGE_RECIEVE)
+            meta.Session.add(notification)
+>>>>>>> 725ae23... emit message event and notifications

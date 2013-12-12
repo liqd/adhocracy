@@ -96,6 +96,8 @@ message_recipient_table = Table(
     Column('id', Integer, primary_key=True),
     Column('message_id', Integer, ForeignKey('message.id'), nullable=False),
     Column('recipient_id', Integer, ForeignKey('user.id'), nullable=False),
+
+    # recycled to mean 'sent' in any way, including notification
     Column('email_sent', Boolean, default=False),
 )
 
