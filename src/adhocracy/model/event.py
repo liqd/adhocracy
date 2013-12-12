@@ -99,6 +99,10 @@ class Event(object):
         if event_filter:
             query = query.filter(Event.event.in_(event_filter))
 
+        # message events should never be displayed in public
+        query = query.filter(Event.event != 't_message_send') \
+                     .filter(Event.event != 't_massmessage_send')  # noqa
+
         return query
 
     @classmethod
