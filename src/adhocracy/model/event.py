@@ -92,8 +92,9 @@ class Event(object):
         if instance is not None:
             query = query.filter(Event.instance == instance)  # noqa
         elif not include_hidden:
-            query = query.join(Instance) \
-                    .filter(Instance.hidden != True))  # noqa
+            # inner join+filter would remove the rows with instance=None here
+            query = query.outerjoin(Instance)  # noqa
+            query = query.except_(query.filter(Instance.hidden == True))  # noqa
 
         return query
 
