@@ -58,26 +58,29 @@ def _send(message, force_resend=False, massmessage=True):
     meta.Session.add(notification)
 
     for r in message.recipients:
-        if (r.recipient.is_email_activated() and
-                r.recipient.email_messages):
+        if force_resend or not r.email_sent:
+            if (r.recipient.is_email_activated() and
+                    r.recipient.email_messages):
 
-            body = render_body(message.body, r.recipient, True)
+                body = render_body(message.body, r.recipient, True)
 
-            if message.creator.is_email_activated():
-                reply_to = message.creator.email
-            else:
-                reply_to = None
+                if message.creator.is_email_activated():
+                    reply_to = message.creator.email
+                else:
+                    reply_to = None
 
-            mail.to_user(r.recipient,
-                         message.subject,
-                         body,
-                         headers={},
-                         decorate_body=False,
-                         reply_to=reply_to,
-                         name_from=message.creator.name)
+                mail.to_user(r.recipient,
+                             message.subject,
+                             body,
+                             headers={},
+                             decorate_body=False,
+                             reply_to=reply_to,
+                             name_from=message.creator.name)
 
-        # creator already got a notification
-        if r.recipient != message.creator:
-            notification = Notification(e, r.recipient,
-                                        type=event.N_MESSAGE_RECIEVE)
-            meta.Session.add(notification)
+            # creator already got a notification
+            if r.recipient != message.creator:
+                notification = Notification(e, r.recipient,
+                                            type=event.N_MESSAGE_RECIEVE)
+                meta.Session.add(notification)
+
+            r.email_sent = True
