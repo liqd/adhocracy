@@ -10,6 +10,7 @@ import json
 import instance_filter as ifilter
 import meta
 import refs
+from instance import Instance
 
 
 log = logging.getLogger(__name__)
@@ -85,38 +86,54 @@ class Event(object):
     event = property(_get_event)
 
     @classmethod
-    def find(cls, id, instance_filter=True, include_deleted=False):
+    def all_q(cls, instance=None, include_hidden=False):
+        query = meta.Session.query(Event)
+
+        if instance is not None:
+            query = query.filter(Event.instance == instance)  # noqa
+        elif not include_hidden:
+            query = query.join(Instance) \
+                    .filter(Instance.hidden != True))  # noqa
+
+        return query
+
+    @classmethod
+    def find(cls, id, instance_filter=True, include_deleted=False,
+             include_hidden=True):
         try:
-            q = meta.Session.query(Event)
+            if instance_filter and ifilter.has_instance():
+                instance = ifilter.get_instance()
+            else:
+                instance = None
+            q = cls.all_q(instance=instance, include_hidden=include_hidden)
             q = q.filter(Event.id == id)
-            if ifilter.has_instance() and instance_filter:
-                q = q.filter(Event.instance_id == ifilter.get_instance().id)
             return q.one()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))
             return None
 
     @classmethod
-    def find_by_topics(cls, topics, limit=None):
+    def find_by_topics(cls, topics, limit=None, include_hidden=True):
         from delegateable import Delegateable
         topics = map(lambda d: d.id, topics)
-        q = meta.Session.query(Event)
+        if ifilter.has_instance():
+            instance = ifilter.get_instance()
+        else:
+            instance = None
+        q = cls.all_q(instance=instance, include_hidden=include_hidden)
         q = q.join(Event.topics)
         q = q.filter(Delegateable.id.in_(topics))
         q = q.order_by(Event.time.desc())
-        if ifilter.has_instance():
-            q = q.filter(Event.instance_id == ifilter.get_instance().id)
-        if limit is not None:
-            q = q.limit(limit)
         return q.all()
 
     @classmethod
-    def find_by_topic(cls, topic, limit=None):
-        return Event.find_by_topics([topic], limit=limit)
+    def find_by_topic(cls, topic, limit=None, include_hidden=True):
+        return Event.find_by_topics([topic], limit=limit,
+                                    include_hidden=include_hidden)
 
     @classmethod
-    def find_by_instance(cls, instance, limit=50):
-        q = meta.Session.query(Event)
+    def find_by_instance(cls, instance, limit=50, include_hidden=True):
+        q = cls.all_q(instance=instance, include_hidden=include_hidden)
         q = q.filter(Event.instance == instance)
         q = q.order_by(Event.time.desc())
         q = q.limit(limit)
