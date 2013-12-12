@@ -1,48 +1,32 @@
 from pylons.i18n import _
-from pylons import config
 
+from adhocracy import config
+from adhocracy.lib.templating import render
 from adhocracy.model import meta
 
 
-def render_body(body, recipient, include_footer, is_preview=False):
-    from adhocracy.lib import helpers as h
-    from adhocracy.lib.templating import render
-    from adhocracy.lib.auth.welcome import welcome_url
-
-    if recipient.gender == 'f':
-        salutation = _('Dear Ms.')
-    elif recipient.gender == 'm':
-        salutation = _('Dear Mr.')
-    else:
-        salutation = _('Dear')
-
-    if is_preview:
-        welcome_url = welcome_url(recipient,
-                                  (u'X' * len(recipient.welcome_code)
-                                   if recipient.welcome_code
-                                   else u'NO_WELCOME_CODE_SET'))
-    else:
-        welcome_url = welcome_url(recipient, recipient.welcome_code)
-
-    rendered_body = body.format(**{
-        'uid': u'%d' % recipient.id,
-        'name': recipient.name,
-        'email': recipient.email,
-        'welcome_url': welcome_url,
-        'salutation': salutation,
-    })
-
-    return render("/massmessage/body.txt", {
-        'body': rendered_body,
-        'page_url': config.get('adhocracy.domain').strip(),
-        'settings_url': h.entity_url(recipient,
-                                     member='settings/notifications',
-                                     absolute=True),
-        'include_footer': include_footer,
+def email_subject(message, recipient, _format=None):
+    if _format is None:
+        _format = _(u"[{site_name}] Message from {sender_name}: {subject}")
+    return _format.format(**{
+        'subject': message.subject,
+        'sender_name': message.creator.name,
+        'site_name': config.get('adhocracy.site.name'),
     })
 
 
-def _send(message, force_resend=False, massmessage=True):
+def email_body(message, recipient, template=None, massmessage=True):
+    if template is None:
+        template = "/message/body.txt"
+    return render(template, data={
+        'message': message,
+        'recipient': recipient,
+        'massmessage': massmessage,
+    })
+
+
+def _send(message, force_resend=False, massmessage=True,
+          email_subject_format=None, email_body_template=None):
     from adhocracy.model import Notification
     from adhocracy.lib import mail, event
 
@@ -62,16 +46,17 @@ def _send(message, force_resend=False, massmessage=True):
             if (r.recipient.is_email_activated() and
                     r.recipient.email_messages):
 
-                body = render_body(message.body, r.recipient, True)
-
                 if message.creator.is_email_activated():
                     reply_to = message.creator.email
                 else:
                     reply_to = None
 
                 mail.to_user(r.recipient,
-                             message.subject,
-                             body,
+                             email_subject(message, r.recipient,
+                                           email_subject_format),
+                             email_body(message, r.recipient,
+                                        email_body_template,
+                                        massmessage=massmessage),
                              headers={},
                              decorate_body=False,
                              reply_to=reply_to,
