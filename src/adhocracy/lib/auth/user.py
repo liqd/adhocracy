@@ -45,8 +45,6 @@ def message(check, u):
     check.readonly()
     check.perm('user.message')
     check.other('user_is_self', u == c.user)
-    check.other('user_without_email', u.email is None)
-    check.other('email_not_activated', not u.is_email_activated())
     if c.instance is not None:
         check.other('no_member_in_instance', not u.is_member(c.instance))
 
