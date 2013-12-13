@@ -167,7 +167,7 @@
     if isinstance(entity, model.User):
         permission = can.user.message(entity)
     else:
-        permission = can.message.create(c.instance)
+        permission = can.instance.message(c.instance)
 
     href = h.entity_url(entity, member='message/new')
     %>

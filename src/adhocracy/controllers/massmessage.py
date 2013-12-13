@@ -158,7 +158,7 @@ class MassmessageController(BaseController):
             c.preview_url = h.base_url('/message/preview')
         else:
             c.page_instance = InstanceController._get_current_instance(id)
-            require.message.create(c.page_instance)
+            require.instance.message(c.page_instance)
             template = '/instance/message.html'
             c.preview_url = h.base_url(
                 '/instance/%s/message/preview' % id)
