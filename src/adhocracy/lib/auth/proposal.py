@@ -83,3 +83,11 @@ def adopt(check, p):
     show(check, p)
     poll.create(check)
     check.other('proposal_cannot_adopt', not p.can_adopt())
+
+
+def message(check, p):
+    check.readonly()
+
+    if has('global.message'):
+        return
+    check.perm('proposal.message')
