@@ -157,8 +157,8 @@
     <%
     if isinstance(entity, model.Instance):  # not yet implemented
         text = _("Message to Members")
-    elif isinstance(entity, model.Proposal):  # not yet implemented
-        text = _("Message to Supporters")
+    elif isinstance(entity, model.Proposal):
+        text = _("Message")
     elif isinstance(entity, model.User):
         text = _("Message")
     else:
@@ -166,6 +166,8 @@
 
     if isinstance(entity, model.User):
         permission = can.user.message(entity)
+    elif isinstance(entity, model.Proposal):
+        permission = can.proposal.message(entity)
     else:
         permission = can.instance.message(c.instance)
 
