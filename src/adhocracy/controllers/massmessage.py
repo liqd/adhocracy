@@ -23,6 +23,7 @@ from adhocracy.lib.message import send as send_message
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, ret_abort, ret_success
 from adhocracy.lib.util import get_entity_or_abort
+from adhocracy.lib import democracy
 from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Permission
@@ -248,7 +249,13 @@ class MassmessageController(BaseController):
         c.proposal = get_entity_or_abort(Proposal, proposal_id)
         require.proposal.message(c.proposal)
 
-        recipients = []
+        recipients = set()
+        if self.form_result.get(u'supporters'):
+            recipients.update(democracy.supporters(c.proposal.rate_poll))
+        if self.form_result.get(u'opponents'):
+            recipients.update(democracy.opponents(c.proposal.rate_poll))
+        if self.form_result.get(u'creators'):
+            recipients.update(c.proposal.get_creators())
 
         send_message(self.form_result.get('subject'),
                      self.form_result.get('body'),
