@@ -56,6 +56,9 @@ class MassmessageProposalForm(MassmessageBaseForm):
                                        if_missing=False)
     opponents = validators.StringBool(not_empty=False, if_empty=False,
                                       if_missing=False)
+    chained_validators = [
+        forms.ProposalMessageNoRecipientGroup(),
+    ]
 
 
 def _get_options(func):
