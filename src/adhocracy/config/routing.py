@@ -167,6 +167,13 @@ def make_map(config):
                 controller='selection',
                 action='details')
 
+    map.connect('/proposal/{proposal_id}/message/new{.format}',
+                controller='massmessage',
+                action='new_proposal', conditions=dict(method=['GET']))
+    map.connect('/proposal/{proposal_id}/message{.format}',
+                controller='massmessage',
+                action='create_proposal', conditions=dict(method=['POST']))
+
     map.resource('implementation', 'implementation', controller='selection',
                  member={'ask_delete': 'GET'},
                  collection={'include': 'GET',

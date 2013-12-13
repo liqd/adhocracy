@@ -5,6 +5,7 @@ from pylons import config
 from pylons import request
 from pylons import tmpl_context as c
 from pylons.decorators import validate
+from pylons.controllers.util import redirect
 from pylons.i18n import _
 from paste.deploy.converters import asbool
 
@@ -21,25 +22,39 @@ from adhocracy.lib.message import render_body
 from adhocracy.lib.message import send as send_message
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, ret_abort, ret_success
+from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.model import Instance
 from adhocracy.model import Membership
 from adhocracy.model import Permission
 from adhocracy.model import User
 from adhocracy.model import UserBadge
 from adhocracy.model import UserBadges
+from adhocracy.model import Proposal
 
 log = logging.getLogger(__name__)
 
 
-class MassmessageForm(formencode.Schema):
+class MassmessageBaseForm(formencode.Schema):
     allow_extra_fields = True
     subject = validators.String(max=140, not_empty=True)
     body = validators.String(min=2, not_empty=True)
+
+
+class MassmessageForm(MassmessageBaseForm):
     filter_instances = forms.MessageableInstances(not_empty=True)
     filter_badges = forms.ValidUserBadges()
     sender_email = validators.String(not_empty=True)
     sender_name = validators.String(not_empty=False, if_missing=None)
     include_footer = formencode.validators.StringBoolean(if_missing=False)
+
+
+class MassmessageProposalForm(MassmessageBaseForm):
+    creators = validators.StringBool(not_empty=False, if_empty=False,
+                                     if_missing=False)
+    supporters = validators.StringBool(not_empty=False, if_empty=False,
+                                       if_missing=False)
+    opponents = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
 
 
 def _get_options(func):
@@ -218,3 +233,27 @@ class MassmessageController(BaseController):
                      include_footer=include_footer)
         return ret_success(
             message=_("Message sent to %d users.") % len(recipients))
+
+    def new_proposal(self, proposal_id, errors={}, format=u'html'):
+        c.proposal = get_entity_or_abort(Proposal, proposal_id)
+        require.proposal.message(c.proposal)
+        defaults = dict(request.params)
+        return htmlfill.render(render('/massmessage/new_proposal.html',
+                                      overlay=format == u'overlay'),
+                               defaults=defaults, errors=errors,
+                               force_defaults=False)
+
+    @validate(schema=MassmessageProposalForm(), form='new_proposal')
+    def create_proposal(self, proposal_id):
+        c.proposal = get_entity_or_abort(Proposal, proposal_id)
+        require.proposal.message(c.proposal)
+
+        recipients = []
+
+        send_message(self.form_result.get('subject'),
+                     self.form_result.get('body'),
+                     c.user,
+                     recipients,
+                     instance=c.instance)
+        h.flash(_("Message sent to %d users.") % len(recipients), 'success')
+        redirect(h.entity_url(c.proposal))
