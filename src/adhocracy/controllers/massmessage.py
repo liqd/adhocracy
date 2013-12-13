@@ -96,13 +96,10 @@ class MassmessageController(BaseController):
         if id is None:
             require.perm('global.message')
             template = '/massmessage/new.html'
-            c.preview_url = h.base_url('/message/preview')
         else:
             c.page_instance = InstanceController._get_current_instance(id)
             require.message.create(c.page_instance)
             template = '/instance/message.html'
-            c.preview_url = h.base_url(
-                '/instance/%s/message/preview' % id)
 
         defaults = dict(request.params)
 

@@ -21,19 +21,6 @@
         border-left: 1px solid $border;
     }
 }
-.massmessage_preview {
-    dt {
-        float: left;
-        min-width: 5em;
-    }
-    dl, dt, dd {margin: 0;}
-}
-.message_preview_body {
-    background: $bg2;
-    white-space: pre-wrap;
-    margin: 0.5em 0;
-    padding: 0.5em;
-}
 
 .importexport_settings {
     margin-left: 2.3em;
