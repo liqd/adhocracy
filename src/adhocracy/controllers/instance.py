@@ -821,6 +821,30 @@ class InstanceController(BaseController):
         updated = update_attributes(c.page_instance, self.form_result, [])
         return self._settings_result(updated, c.page_instance, 'sname')
 
+    def _presets_update(self, instance, form_result):
+        active_settings = set()
+        all_settings = set()
+        for key, settings in PRESETS.iteritems():
+            if form_result.get(key):
+                active_settings.update(settings)
+            all_settings.update(settings)
+
+        updated = False
+        for setting in active_settings:
+            if not getattr(instance, setting):
+                setattr(instance, setting, True)
+                updated = True
+        for setting in all_settings.difference(active_settings):
+            if getattr(instance, setting):
+                setattr(instance, setting, False)
+                updated = True
+
+        if updated:
+            model.meta.Session.add(instance)
+            model.meta.Session.commit()
+
+        return updated
+
     @RequireInstance
     def style(self, id):
         c.page_instance = self._get_current_instance(id)
