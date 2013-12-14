@@ -70,7 +70,8 @@ def settings_menu(instance, current):
         ('badges', (L_('Badges'),)),
         ('members_import', (_('Members import'),
                             (h.has_permission('global.admin') or
-                             can.instance.authenticated_edit(instance))))
+                             can.instance.authenticated_edit(instance)))),
+        ('presets', (L_('Process presets'),)),
     ]))
 
 
@@ -853,6 +854,31 @@ class InstanceController(BaseController):
             model.meta.Session.commit()
 
         return updated
+
+    def settings_presets_form(self, id):
+        c.page_instance = self._get_current_instance(id)
+        c.settings_menu = settings_menu(c.page_instance, 'presets')
+        return render("/instance/settings_presets.html")
+
+    @RequireInstance
+    def settings_presets(self, id):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        return htmlfill.render(
+            self.settings_presets_form(id),
+            defaults={'_tok': csrf.token_id()})
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    @validate(schema=InstancePresetsForm(),
+              form="settings_presets_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_presets_update(self, id, format='html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+
+        updated = self._presets_update(c.page_instance, self.form_result)
+        return self._settings_result(updated, c.page_instance, 'presets')
 
     def presets_form(self, id):
         c.page_instance = self._get_current_instance(id)

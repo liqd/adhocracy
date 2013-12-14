@@ -10,11 +10,11 @@
 
 
 <%def name="presets_form(first_time=False)">
-<form name="presets" class="inplace" method="POST" action="${h.entity_url(c.page_instance, member=u'presets')}">
+<form name="presets" class="inplace" method="POST" action="${h.entity_url(c.page_instance, member=u'presets' if first_time else u'settings/presets')}">
     ${h.field_token()|n}
 
-    %if first_time:
-    <input type="hidden" name="first_time" value="true" />
+    %if not first_time:
+    <h2>${_(u"Process presets")}</h2>
     %endif
 
     %if first_time:
