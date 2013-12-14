@@ -34,6 +34,27 @@ from adhocracy.lib.util import get_entity_or_abort
 log = logging.getLogger(__name__)
 
 
+PRESETS = {
+    'agenda_setting': set((
+        'allow_delegate',
+        'show_proposals_navigation',
+    )),
+    'consultation': set((
+        'use_norms',
+        'show_norms_navigation',
+    )),
+    # Only settings which are part of at least one preset will be changed.
+    # Add settings to this pseudo-preset to disable it on every reset
+    'always_off': set((
+        'milestones',
+        'hide_global_categories',
+        'allow_propose',
+        'allow_propose_changes',
+        'require_selection',
+    )),
+}
+
+
 def settings_url(instance, path):
     full_path = 'settings/%s' % path
     return h.instance.url(instance, member=full_path)
