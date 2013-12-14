@@ -168,6 +168,18 @@ class InstanceSnameEditForm(formencode.Schema):
     pass
 
 
+class InstancePresetsForm(formencode.Schema):
+    allow_extra_fields = True
+    agenda_setting = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
+    consultation = validators.StringBool(not_empty=False, if_empty=False,
+                                         if_missing=False)
+    chained_validators = [
+        forms.common.NotAllFalse(['agenda_setting', 'consultation'],
+                                 _(u"Please select at least one preset")),
+    ]
+
+
 # --[ Controller ]----------------------------------------------------------
 
 class InstanceController(BaseController):
@@ -844,6 +856,31 @@ class InstanceController(BaseController):
             model.meta.Session.commit()
 
         return updated
+
+    def presets_form(self, id):
+        c.page_instance = self._get_current_instance(id)
+        return render("/instance/presets.html"),
+
+    @RequireInstance
+    def presets(self, id, format=u'html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        return formencode.htmlfill.render(
+            self.presets_form(id),
+            defaults={'_tok': csrf.token_id()})
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    @validate(schema=InstancePresetsForm(), form="presets_form")
+    def presets_update(self, id, format=u'html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+
+        self._presets_update(c.page_instance, self.form_result)
+
+        return ret_success(entity=c.page_instance, format=format,
+                           message=_("%(instance)s has been configured") % {
+                               'instance': c.page_instance.label})
 
     @RequireInstance
     def style(self, id):

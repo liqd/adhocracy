@@ -870,3 +870,19 @@ class OptionalAttributes(formencode.validators.FormValidator):
                                      error_dict=error_dict)
 
         return field_dict
+
+
+class NotAllFalse(formencode.validators.FormValidator):
+
+    def __init__(self, keys, msg, *args, **kwargs):
+        super(NotAllFalse, self).__init__(*args, **kwargs)
+        self.keys = keys
+        self.msg = msg
+
+    def validate_python(self, field_dict, state):
+
+        if all(not field_dict.get(key, False) for key in self.keys):
+            raise formencode.Invalid(
+                self.msg, field_dict, state,
+                error_dict={self.keys[0]: self.msg}
+            )
