@@ -230,10 +230,7 @@ class InstanceController(BaseController):
             locale=c.locale)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)
-        return ret_success(
-            message=_('Instance created successfully. You can now configure it'
-                      ' as you like.'), category='success',
-            entity=instance, member='settings', format=None)
+        return redirect(h.entity_url(instance, member='presets'))
 
     #@RequireInstance
     def show(self, id, format='html'):
@@ -878,9 +875,10 @@ class InstanceController(BaseController):
 
         self._presets_update(c.page_instance, self.form_result)
 
-        return ret_success(entity=c.page_instance, format=format,
-                           message=_("%(instance)s has been configured") % {
-                               'instance': c.page_instance.label})
+        return ret_success(
+            message=_('Instance created successfully. You can now configure'
+                      ' it as you like.'),
+            category='success', entity=c.page_instance)
 
     @RequireInstance
     def style(self, id):
