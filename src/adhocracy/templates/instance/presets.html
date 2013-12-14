@@ -22,7 +22,7 @@
     ${forms.checkbox(_(u'Consultation'), u'consultation', help=(u"Post texts (so called \"norms\") discuss them online. Users can write comments and propose changes."))}
 
     <div class="submit">
-        ${components.savebox(h.entity_url(c.page_instance))}
+        <input type="submit" value="${_('Configure')}" />
     </div>
 </form>
 </%block>
