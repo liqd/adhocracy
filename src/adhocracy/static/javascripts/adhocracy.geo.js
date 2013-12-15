@@ -1314,7 +1314,7 @@ var adhocracy = adhocracy || {};
         result = result + "</div>";
         result = result + "</div>";
 
-        var instance_options = adhocracy.geo.map.instance_option;
+        var instance_options = adhocracy.geo.map.instance_options;
         if (!instance_options || instance_options.allow_propose_changes) {
             result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
         }
