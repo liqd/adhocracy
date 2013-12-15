@@ -1135,6 +1135,7 @@ var adhocracy = adhocracy || {};
             projection: "EPSG:900913",
             controls: []
         });
+        map.instance_options = p.instance_options;
 
 
         /* set map viewport restrictions which are respected in
@@ -1312,7 +1313,11 @@ var adhocracy = adhocracy || {};
         result = result + attributes.numProposals + ' ' + numProposalsLabel;
         result = result + "</div>";
         result = result + "</div>";
-        result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
+
+        var instance_options = adhocracy.geo.map.instance_options;
+        if (!instance_options || instance_options.allow_propose_changes) {
+            result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
+        }
         return result;
     };
 

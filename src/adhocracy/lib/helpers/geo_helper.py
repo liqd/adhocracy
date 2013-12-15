@@ -42,8 +42,11 @@ def map_config(**kwargs):
         restrictedBounds = config.get_list('adhocracy.geo.restricted_bounds',
                                            cast=float)
 
+    instance_options = None if c.instance is None else c.instance.options()
+
     return to_json(
         restrictedBounds=restrictedBounds,
         fallbackBounds=fallbackBounds,
         imageLayers=imageLayers,
+        instance_options=instance_options,
         **kwargs)
