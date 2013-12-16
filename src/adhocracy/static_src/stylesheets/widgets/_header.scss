@@ -1,11 +1,9 @@
 #header .page_wrapper {
     position: relative;
     padding: 0 23px;
-    height: 90px;
     overflow: visible; /*allow long popup menu */
 }
 body.logged_in #header .page_wrapper {
-    height: 40px;
 }
 #logo {
     height: 70px;
@@ -45,14 +43,12 @@ body.logged_in #logo {
 #nav {
     clear: none;
     text-align: right;
-    height: 67px;
     padding-top: 23px;
     font-weight: bold;
     font-size: 15px;
     color: #fff;
 
     body.logged_in & {
-        height: 36px;
         padding-top: 4px;
         font-weight: normal;
 
