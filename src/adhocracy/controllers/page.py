@@ -160,7 +160,7 @@ class PageController(BaseController):
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
             if c.title is None:
-                c.title = u"%s %i" % (c.parent.title, len(c.parent.children))
+                c.title = u"%s %i" % (c.parent.head.title, len(c.parent.children))
 
         html = None
         if proposal_id is not None:
