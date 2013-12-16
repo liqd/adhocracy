@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+import re
 
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
@@ -275,7 +276,18 @@ class Page(Delegateable):
     def title(self):
         if not self.head or not self.head.title:
             return _("(Untitled)")
-        return self.head.title
+        title = self.head.title
+        if self.is_sectionpage():
+            # section titles are "root_title( index)*"
+            # this transforms that title into a more human-friendly one
+            root = self.sectionpage_root()
+            if root != self and \
+                    re.match('^%s( \d+)+$' % root.title, title) is not None:
+                section_no = title[len(root.title) + 1:].split(u' ')
+                section_no = [unicode(int(i, 10) + 1) for i in section_no]
+                section_no = u'.'.join(section_no)
+                return _(u"%s (section %s)") % (root.title, section_no)
+        return title
 
     @property
     def full_title(self):
