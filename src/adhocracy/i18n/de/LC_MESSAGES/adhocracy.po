@@ -1,6 +1,7 @@
 # Translations template for adhocracy.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
+# 
 # Translators:
 # alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
 # alexobi <alex-obi@hotmail.de>, 2013
@@ -22,14 +23,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-21 19:08+0100\n"
-"PO-Revision-Date: 2013-11-21 19:03+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2013-12-16 14:32+0100\n"
+"PO-Revision-Date: 2013-12-16 13:38+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -180,6 +181,9 @@ msgid ""
 "perform any changes to the instance, but all content is available to be "
 "read."
 msgstr "Diese Gruppe wird nicht aktiv genutzt und ist archiviert. Es ist nicht möglich, Änderungen an dieser Gruppe zu machen. Alle Inhalte können aber weiterhin angesehen werden."
+
+msgid "The image is not avaliable in that size"
+msgstr "Das Bild ist nicht in dieser Größe verfügbar"
 
 msgid "The logo has been deleted."
 msgstr "Das Logo wurde entfernt."
@@ -548,6 +552,9 @@ msgstr "Weiblich"
 msgid "Male"
 msgstr "Männlich"
 
+msgid "The avatar has been deleted."
+msgstr "Das Profilbild wurde gelöscht."
+
 msgid "No optional attributes defined."
 msgstr "Keine optionalen Attribute definiert."
 
@@ -857,16 +864,16 @@ msgstr "Die Seite '%s' existiert nicht"
 msgid "Invalid page function: %s"
 msgstr "Ungültige Seitenfunktion: %s"
 
-msgid "No variant name is given."
-msgstr "Die Version wurde nicht benannt."
+msgid "No name is given."
+msgstr "Es wurde kein Name angegeben."
 
 #, python-format
-msgid "Invalid variant name: %s"
-msgstr "Ungültiger Name der Version: %s"
+msgid "Invalid name: %s"
+msgstr "Ungültiger Name: %s"
 
 #, python-format
-msgid "Variant name cannot be purely numeric: %s"
-msgstr "Name der Version kann keine Zahl sein: %s"
+msgid "Name cannot be purely numeric: %s"
+msgstr "Der Name darf nicht nur aus Ziffern bestehen: %s"
 
 msgid "An entry with this title already exists"
 msgstr "Ein Eintrag mit dieser Kennung existiert bereits."
@@ -877,6 +884,10 @@ msgstr "Kein Seitenname wurde angegeben."
 #, python-format
 msgid "Invalid page name: %s"
 msgstr "Ungültiger Seitenname: %s"
+
+#, python-format
+msgid "Variant name cannot be purely numeric: %s"
+msgstr "Name der Version kann keine Zahl sein: %s"
 
 #, python-format
 msgid "Invalid entry name: %s"
@@ -2065,14 +2076,14 @@ msgstr "Seiteneinstellungen"
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
 
+msgid "Users CSV"
+msgstr "Benutzer CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, E-mail und Badges (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
-
-msgid "Users CSV"
-msgstr "Benutzer CSV"
 
 msgid "Email Subject"
 msgstr "E-Mail-Betreff"
@@ -2158,11 +2169,14 @@ msgstr "'#a4a4a4' liken"
 msgid "Preview:"
 msgstr "Vorschau:"
 
-msgid "Delete current thumbnail image"
-msgstr "Lösche aktuelles Miniaturbild"
+msgid "Thumbnail"
+msgstr "Miniaturbild"
 
 msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr "Miniaturbild hochladen. Dieses wird verwendet anstatt Farbe um Badges darzustellen."
+
+msgid "Delete current thumbnail image"
+msgstr "Lösche aktuelles Miniaturbild"
 
 msgid "Check to hide badge in user interface"
 msgstr "Auswählen, um Badge im User Interface zu verstecken"
@@ -2657,11 +2671,11 @@ msgstr "Verwalten: %s"
 msgid "Manage"
 msgstr "Verwalten"
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Wählen Sie ein Logo für diese Gruppe."
-
 msgid "Logo"
 msgstr "Logo"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Wählen Sie ein Logo für diese Gruppe."
 
 msgid "Current logo"
 msgstr "Aktuelles Logo"
@@ -2887,6 +2901,9 @@ msgstr "Signatur einfügen"
 msgid "Sender identity"
 msgstr "Versender Identität"
 
+msgid "Customize sender name: "
+msgstr "Absender Namen anpassen:"
+
 msgid "Mass Message Preview"
 msgstr "Benachrichtigung versenden: Vorschau"
 
@@ -2951,7 +2968,7 @@ msgid "Date of the milestone"
 msgstr "Datum des Termins"
 
 msgid "Please use the DD.MM.YYYY format."
-msgstr "Bitte nutzen Sie folgendes Datumsformat: DD.MM.YYYY"
+msgstr "Bitte nutzen Sie folgendes Datumsformat: TT.MM.JJJJ"
 
 msgid "Show all proposals"
 msgstr "Zeige alle Vorschläge"
@@ -3190,6 +3207,9 @@ msgstr "Aus"
 
 msgid "Propose New Amendment"
 msgstr "Neue Änderung vorschlagen"
+
+msgid "New Proposal"
+msgstr "Neuer Vorschlag"
 
 msgid "Information about the norm"
 msgstr "Informationen über den Beschluss"
@@ -4129,6 +4149,20 @@ msgstr "Anrede"
 
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
+
+msgid "Avatar"
+msgstr "Profilbild"
+
+msgid ""
+"Select a profile picture. The image should be square. If it is not it may be"
+" scaled accordingly."
+msgstr "Wählen Sie ein Profilbild. Das Bild sollte quadratisch sein. Andernfalls wird es entsprechend verzerrt."
+
+msgid "Current avatar"
+msgstr "Aktuelles Profilbild"
+
+msgid "Delete current avatar"
+msgstr "Aktuelles Profilbild löschen"
 
 msgid "Short biography"
 msgstr "Kurzbiographie"
