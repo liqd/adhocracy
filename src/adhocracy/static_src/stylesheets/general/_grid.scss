@@ -217,14 +217,16 @@ q:before, q:after {
 
     /* Layout Alignment | Layout-Ausrichtung */
     .page_wrapper {
-        margin: 0 auto;
-    }
+        /* absolute positioning should be relative to this */
+        position: relative;
 
-    /* Layout Properties | Layout-Eigenschaften */
-    .page_wrapper {
+        margin: 0 auto;
         width: 1004px;
         background: transparent;
+        padding: 0 24px;
+        @include box-sizing(border-box);
     }
+
     #header {
         position:relative;
         padding: 0;
@@ -255,7 +257,7 @@ q:before, q:after {
         margin: 0 0 0 665px;
     }
     #sidebar {
-        margin: 0 23px 0 31px;
+        margin: 0 0 0 31px;
     }
 
     #settings #col1 {
