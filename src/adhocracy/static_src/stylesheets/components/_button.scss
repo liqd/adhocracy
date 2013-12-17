@@ -90,7 +90,7 @@ a.button_round {
         @include background-image(linear-gradient(170deg, lighten($red, 14%), $red));
     }
 
-    #col3_content & {
+    #col3 & {
         margin: 1em 0;
     }
 }

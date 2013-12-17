@@ -189,7 +189,7 @@ q:before, q:after {
     }
 
     /* Preparation for absolute positioning within content columns */
-    #col3_content {
+    #sidebar {
         position: relative;
     }
 
@@ -274,7 +274,7 @@ q:before, q:after {
         width: auto;
         margin: 0 0 0 665px;
     }
-    #col3_content {
+    #sidebar {
         margin: 0 23px 0 31px;
     }
 
@@ -286,11 +286,11 @@ q:before, q:after {
         width: auto;
         margin: 0 800px 0 0;
     }
-    #settings #col3_content {
+    #settings #sidebar {
         margin: 0 15px 0 23px;
     }
 
-    #settings #col3_content {
+    #settings #sidebar {
         margin: 0;
         .well {
             width: 164px;
