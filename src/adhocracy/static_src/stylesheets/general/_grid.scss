@@ -167,20 +167,6 @@ q:before, q:after {
 }
 
 @media screen, projection {
-    /**
-    * @section base layout | Basis Layout
-    * @see     http://www.yaml.de/en/documentation/css-components/base-stylesheet.html
-    *
-    * |-------------------------------|
-    * | #header                       |
-    * |-------------------------------|
-    * | #col1   | #col3     | #col2   |
-    * | 200 px  | flexible  | 200px   |
-    * |-------------------------------|
-    * | #footer                       |
-    * |-------------------------------|
-    */
-
     #header {
         position: relative;
     }
@@ -206,17 +192,13 @@ q:before, q:after {
         float: left;
         width: 200px;
     }
-    #col2 {
-        float: right;
-        width:200px;
-    }
     #col3 {
         width: auto;
         margin:0 200px;
     }
 
     /* Preparation for absolute positioning within content columns */
-    #col1_content, #col2_content, #col3_content {
+    #col1_content, #col3_content {
         position: relative;
     }
 
@@ -326,9 +308,6 @@ q:before, q:after {
         float: left;
         width: 665px;
     }
-    #col2 {
-        display:none;
-    }
     #col3 {
         width: auto;
         margin: 0 0 0 665px;
@@ -343,9 +322,6 @@ q:before, q:after {
     #settings #col1 {
         float: right;
         width: 800px;
-    }
-    #settings #col2 {
-        display:none;
     }
     #settings #col3 {
         width: auto;
