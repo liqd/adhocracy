@@ -94,29 +94,9 @@ q:before, q:after {
 * @see     http://yaml.de/en/documentation/basics/general.html
 */
 
-/* clearfix method for clearing floats */
-.clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    font-size: 0;
-    height: 0;
-    visibility: hidden;
-}
-
-/* essential for Safari browser !! */
-.clearfix {
-    display: block;
-}
-
 /* alternative solution to contain floats */
 .floatbox {
     overflow: hidden;
-}
-
-/* IE-Clearing:Only used in Internet Explorer, switched on in iehacks.css */
-#ie_clearing {
-    display: none;
 }
 
 .page_wrapper {
@@ -184,7 +164,7 @@ q:before, q:after {
     }
 
     /* Backup for correct positioning */
-    #header, #nav, #main, #footer {
+    #header, #nav, #main, #footer, #subheader, #welcome-message {
         clear: both;
     }
 
