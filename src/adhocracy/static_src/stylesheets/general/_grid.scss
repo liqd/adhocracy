@@ -188,15 +188,6 @@ q:before, q:after {
         clear: both;
     }
 
-    #col1 {
-        float: left;
-        width: 200px;
-    }
-    #col3 {
-        width: auto;
-        margin:0 200px;
-    }
-
     /* Preparation for absolute positioning within content columns */
     #col1_content, #col3_content {
         position: relative;
@@ -213,44 +204,15 @@ q:before, q:after {
         overflow: hidden;
     }
 
-    /* alternative class for optional support of old Mozilla/Netscape browers */
-    .subcolumns_oldgecko {
-        width: 100%;
-        float: left;
-    }
+    .c33l, .c60l { float: left; }
+    .c33r, .c40r { float: right; margin-left: -5px; }
 
-    .c20l, .c25l, .c33l, .c40l, .c38l, .c50l, .c60l, .c62l, .c66l, .c75l, .c80l { float: left; }
-    .c20r, .c25r, .c33r, .c40r, .c38r, .c50r, .c60r, .c66r, .c62r, .c75r, .c80r { float: right; margin-left: -5px; }
-
-    .c20l, .c20r { width: 20%; }
-    .c40l, .c40r { width: 40%; }
-    .c60l, .c60r { width: 60%; }
-    .c80l, .c80r { width: 80%; }
-    .c25l, .c25r { width: 25%; }
+    .c40r { width: 40%; }
+    .c60l { width: 60%; }
     .c33l, .c33r { width: 33.333%; }
-    .c50l, .c50r { width: 50%; }
-    .c66l, .c66r { width: 66.666%; }
-    .c75l, .c75r { width: 75%; }
-    .c38l, .c38r { width: 38.2%; }
-    .c62l, .c62r { width: 61.8%; }
 
-    .subc  { padding: 0 0.5em; }
     .subcl { padding: 0 1em 0 0; }
     .subcr { padding: 0 0 0 1em; }
-
-    .equalize, .equalize .subcolumns {
-        overflow: visible;
-        display: table;
-        table-layout: fixed;
-    }
-
-    .equalize > div {
-        display: table-cell;
-        float: none;
-        margin: 0;
-        overflow: hidden;
-        vertical-align: top;
-    }
 
     /**
     * Forcing vertical scrollbars in IE8, Firefox, Webkit & Opera
