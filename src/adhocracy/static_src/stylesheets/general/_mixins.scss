@@ -24,6 +24,7 @@
     text-align: center;
     cursor: pointer;
     white-space: nowrap;
+    text-overflow: ellipsis;
     vertical-align: middle;
     border: none;
     &:hover, &:focus {
