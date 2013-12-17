@@ -18,16 +18,14 @@ ${components.flashmessages()}
                   <%block name="main_content" />
               </div>
 
-              <aside>
-                  <div id="col3">
-                      <%block name="col3_content">
-                      <div id="col3_content">
-                          <%block name="sidebar" />
-                      </div>
-                      </%block>
-                      <!-- IE Column Clearing -->
-                      <div id="ie_clearing"> &#160; </div>
+              <aside id="col3">
+                  <%block name="col3_content">
+                  <div id="col3_content">
+                      <%block name="sidebar" />
                   </div>
+                  </%block>
+                  <!-- IE Column Clearing -->
+                  <div id="ie_clearing"> &#160; </div>
               </aside>
               </%block>
           </div>
