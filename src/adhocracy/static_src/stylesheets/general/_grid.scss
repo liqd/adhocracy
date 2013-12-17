@@ -326,7 +326,7 @@ q:before, q:after {
     }
 
     /* Hide unneeded container of the screenlayout in print layout */
-    #topnav, #nav, #search {
+    #topnav, #nav, #searchbox, #feedback, #tutorial-banner {
         display: none;
     }
 
