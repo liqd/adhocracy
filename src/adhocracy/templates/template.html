@@ -7,26 +7,21 @@ ${components.flashmessages()}
     <!--#main triggers diazo theming, do not remove-->
 
 <%block name="main">
-          <div class="page_wrapper">
-              <!-- begin: page content -->
-              <%block name="content_wrapper">
-              <div class="full_teaser">
-                  <%block name="admin_controls" />
-                  <%block name="headline" />
-              </div>
-              <div id="col1">
-                  <%block name="main_content" />
-              </div>
+    <div class="full_teaser">
+        <%block name="admin_controls" />
+        <%block name="headline" />
+    </div>
+    <div id="col1">
+        <%block name="main_content" />
+    </div>
 
-              <aside id="col3">
-                  <%block name="col3">
-                  <div id="sidebar">
-                      <%block name="sidebar" />
-                  </div>
-                  </%block>
-                  <!-- IE Column Clearing -->
-                  <div id="ie_clearing"> &#160; </div>
-              </aside>
-              </%block>
-          </div>
+    <aside id="col3">
+        <%block name="col3">
+        <div id="sidebar">
+            <%block name="sidebar" />
+        </div>
+        </%block>
+        <!-- IE Column Clearing -->
+        <div id="ie_clearing"> &#160; </div>
+    </aside>
 </%block>
