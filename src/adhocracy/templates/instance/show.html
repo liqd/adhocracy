@@ -10,7 +10,9 @@
 
 <%block name="main_content">
 
-${c.tile.description|n}
+<div class="instance_description">
+    ${c.tile.description|n}
+</div>
 
 %for type in h.config.get_list('adhocracy.instance_overview_contents'):
 <hr />
