@@ -153,6 +153,31 @@
 </%def>
 
 
+<%def name="message_button(entity)">
+    <%
+    if isinstance(entity, model.Instance):  # not yet implemented
+        text = _("Message to Members")
+    elif isinstance(entity, model.Proposal):  # not yet implemented
+        text = _("Message to Supporters")
+    elif isinstance(entity, model.User):
+        text = _("Message")
+    else:
+        log.error('Unknown entity for message button: %s' % entity)
+
+    if isinstance(entity, model.User):
+        permission = can.user.message(entity)
+    else:
+        permission = can.message.create(c.instance)
+
+    href = h.entity_url(entity, member='message/new')
+    %>
+
+    %if permission:
+    <a class="message_button" href="${href}">${text}</a>
+    %endif
+</%def>
+
+
 <%def name="vertical_tabs(items, css_class, current_variant=None)">
 <nav>
     <div id="sidebar_nav" class="${css_class}"><div>
