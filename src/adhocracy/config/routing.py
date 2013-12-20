@@ -415,13 +415,13 @@ def make_map(config):
     map.connect('/instance/{id}/settings/badges/delete/{badge_id}{.format}',
                 controller='instance', action="settings_badges_delete",
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/massmessage{.format}',
+    map.connect('/instance/{id}/message/new{.format}',
                 controller='massmessage', action='new',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/massmessage{.format}',
+    map.connect('/instance/{id}/message{.format}',
                 controller='massmessage', action='create',
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/massmessage/preview{.format}',
+    map.connect('/instance/{id}/message/preview{.format}',
                 controller='massmessage', action='preview',
                 conditions=dict(method=['POST']))
     map.connect('/instance/{id}/settings/members_import{.format}',

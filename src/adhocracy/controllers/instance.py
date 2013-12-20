@@ -47,8 +47,6 @@ def settings_menu(instance, current):
         ('contents', (L_('Contents'),)),
         ('voting', (L_('Votings'),)),
         ('badges', (L_('Badges'),)),
-        ('massmessage', (L_('Mass message service'),
-                         can.message.create(instance))),
         ('members_import', (_('Members import'),
                             (h.has_permission('global.admin') or
                              can.instance.authenticated_edit(instance))))

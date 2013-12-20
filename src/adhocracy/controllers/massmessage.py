@@ -156,11 +156,9 @@ class MassmessageController(BaseController):
         else:
             c.page_instance = InstanceController._get_current_instance(id)
             require.message.create(c.page_instance)
-            c.settings_menu = settings_menu(
-                c.page_instance, 'massmessage')
-            template = '/instance/settings_massmessage.html'
+            template = '/instance/message.html'
             c.preview_url = h.base_url(
-                '/instance/%s/settings/massmessage/preview' % id)
+                '/instance/%s/message/preview' % id)
 
         defaults = dict(request.params)
         defaults.setdefault('include_footer', 'on')
