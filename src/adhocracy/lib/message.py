@@ -91,7 +91,7 @@ def _send(message, force_resend=False, massmessage=True,
             # creator already got a notification
             if r.recipient != message.creator:
                 notification = Notification(e, r.recipient,
-                                            type=event.N_MESSAGE_RECIEVE)
+                                            type=event.N_MESSAGE_RECEIVE)
                 meta.Session.add(notification)
 
             r.email_sent = True

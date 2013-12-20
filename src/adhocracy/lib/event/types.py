@@ -345,8 +345,8 @@ N_COMMENT_EDIT = NotificationType(
         h.entity_url(e.comment, absolute=absolute)),
     text=lambda e: e.rev.text if e.rev else None)
 
-N_MESSAGE_RECIEVE = NotificationType(
-    u"n_message_recieve", pri=3,
+N_MESSAGE_RECEIVE = NotificationType(
+    u"n_message_receive", pri=3,
     subject=lambda: _(u"Message from %(sender)s: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)))
@@ -418,7 +418,7 @@ S_BADGE = [
 S_MESSAGE = [
     't_message_send',
     't_massmessage_send',
-    'n_message_recieve',
+    'n_message_receive',
 ]
 
 S_CONTRIBUTION = S_PROPOSAL + S_AMENDMENT + S_COMMENT + S_PAGE
