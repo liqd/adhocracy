@@ -102,6 +102,7 @@
 </%block>
 
 <%block name="sidebar">
+    ${components.message_button(c.page_user)}
     %if c.user and c.page_user != c.user:
         ${components.watch(c.page_user, show_skip=False)}
     %endif
@@ -194,13 +195,6 @@
         <div>${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}</div>
         %else:
         <span>${_(u'None')}</span>
-        %endif
-
-        %if c.instance and can.user.message(c.page_user):
-        <h6>${_('Contact')}</h6>
-        <div>
-          <a href="${h.entity_url(c.page_user, instance=c.instance, member='message/new')}">${_(u'Send message')}</a>
-        </div>
         %endif
 
         <%doc>
