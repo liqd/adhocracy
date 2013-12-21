@@ -69,7 +69,7 @@ section.subpage {
                         content: "";
                         position: absolute;
                         top: ($height - $arrow-length)/2;
-                        left: -$arrow-length;
+                        left: -$arrow-length * 0.9;  // avoid seperation due to rounding errors
                         display: block;
                         height: 0;
                         width: 0;
