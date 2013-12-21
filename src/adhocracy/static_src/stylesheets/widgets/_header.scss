@@ -5,12 +5,19 @@ body.logged_in #header .page_wrapper {
     overflow: hidden;
     display: inline-block;
     float: left;
+
+    img {
+        height: 4.7em
+    }
 }
 body.logged_in #logo {
     height: 2.7em;
 
     h1 {
         text-indent: -900em;
+    }
+    img {
+        height: 2.7em
     }
 }
 
