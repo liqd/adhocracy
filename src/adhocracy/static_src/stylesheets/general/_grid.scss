@@ -262,20 +262,18 @@ q:before, q:after {
 
     #settings #col1 {
         float: right;
-        width: 80%;
+        // if this fails it falls back to the default 67%
+        width: calc(100% - 13em);
     }
     #settings #col3 {
-        width: 20%;
-        margin: 0 80% 0 0;
-    }
-    #settings #sidebar {
-        margin: 0 15px 0 23px;
+        width: 12em;
+        margin-left: 0;
     }
 
     #settings #sidebar {
         margin: 0;
         .well {
-            width: 164px;
+            width: 12em;
         }
         .affix {
             top: 20px;
