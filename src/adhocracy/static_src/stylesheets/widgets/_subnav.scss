@@ -7,7 +7,7 @@
     margin: 0;
     float: left;
     li {
-        line-height: 36px;
+        line-height: 2.4;
 
         a {
             @include button($button-color);

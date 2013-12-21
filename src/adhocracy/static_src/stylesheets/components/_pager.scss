@@ -51,8 +51,8 @@
     .prev_page a, .next_page a, .prev_page span, .next_page span, a, > span {
         display: inline-block;
         padding: 0 8px;
-        line-height: 27px;
         min-width: 11px;
+        line-height: 2;
         text-align: center;
         background: $bg1;
         margin: 0 2px;

@@ -22,7 +22,7 @@
 #feedback_button {
     @include button($register-color);
     font-size: 12px;
-    line-height: 28px;
+    line-height: 2.5;
 
     position: absolute;
     left: 28px; // height

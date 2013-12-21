@@ -48,7 +48,7 @@ legend {
   padding: 0;
   margin-bottom: 20px;
   font-size: 21px;
-  line-height: 40px;
+  line-height: 2;
   color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
@@ -64,7 +64,7 @@ select,
 textarea {
   font-size: 14px;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 1.4;
 }
 input,
 button,
@@ -98,7 +98,7 @@ input[type="color"],
   padding: 4px 6px;
   margin-bottom: 10px;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 1.4;
   color: #555555;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -192,7 +192,7 @@ input[type="file"] {
   *margin-top: 4px;
   /* For IE7, add top margin to align select with labels */
 
-  line-height: 30px;
+  line-height: 2;
 }
 select {
   width: 220px;
@@ -645,7 +645,7 @@ select:focus:invalid:focus {
   padding: 4px 5px;
   font-size: 14px;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 1.4;
   text-align: center;
   text-shadow: 0 1px 0 #ffffff;
   background-color: #eeeeee;

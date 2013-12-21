@@ -113,7 +113,7 @@ body.logged_in #logo {
     li {
         padding: 4px 2px 2px;
         font-size: 14px;
-        line-height: 25px;
+        line-height: 1.7;
         display: block;
 
         border-bottom: 1px solid darken($header-color2, 10%);
@@ -154,6 +154,6 @@ a.show_me {
     #user_menu & {
         background-position: right -348px;
         padding: 0 23px 0 18px !important;
-        line-height: 1.5em;
+        line-height: 1.5;
     }
 }
