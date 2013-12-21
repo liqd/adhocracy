@@ -64,6 +64,11 @@ body.logged_in #logo {
         }
     }
 
+    .hlist > ul {
+        display: block;
+        margin: 0;
+    }
+
     .hlist > ul > li {
         height: 3.5em;
         padding-top: 1em;
