@@ -123,8 +123,6 @@ form .error {
 
 #searchform #s,
 .list_form input.q {
-    height: 24px;
-    font-size: 13px;
     width: 17em;
     padding: 0 0.3em;
     vertical-align: top;
@@ -137,11 +135,20 @@ form .error {
 #searchform #searchsubmit,
 .list_form input.go {
     @include button($button-color);
-    line-height: 24px;
     margin-left: -0.4em;
     min-width: 0;
     font-weight: normal;
     text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+#searchform #s,
+#searchform #searchsubmit,
+.list_form input.q,
+.list_form input.go {
+    line-height: 1.4;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
 }
 
 form#user_welcome {
