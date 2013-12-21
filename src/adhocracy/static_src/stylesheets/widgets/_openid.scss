@@ -21,7 +21,7 @@
 .openid_large_btn {
     width: 100px;
     height: 60px;
-    border: 1px solid #DDD;
+    border: 1px solid $border;
     margin: 3px;
     float: left;
     cursor: pointer;
@@ -31,7 +31,7 @@
     width: 24px;
     height: 24px;
 
-    border: 1px solid #DDD;
+    border: 1px solid $border;
     margin: 3px;
     float: left;
     cursor: pointer;
