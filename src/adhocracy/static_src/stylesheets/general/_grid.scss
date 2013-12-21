@@ -149,7 +149,7 @@ q:before, q:after {
 /* skiplinks:technical setup */
 #skiplinks {
     position: absolute;
-    top: 0px;
+    top: 0;
     left: -32768px;
     z-index: 1000;
     width: 100%;
@@ -255,7 +255,7 @@ q:before, q:after {
     #topnav { text-align: right; color: #fff; background: transparent; }
     #main { margin: 10px 0 60px; }
     #footer {
-        padding: 0px;
+        padding: 0;
         background-color: $bg1;
         @include background-image(linear-gradient(top, $bg1, $bg2));
     }

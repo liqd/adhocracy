@@ -23,7 +23,7 @@ body.logged_in #logo {
 /* top navigation */
 #header #topnav {
     right: 30px;
-    top: 0px;
+    top: 0;
 }
 #topnav {
     font-size: 11px;
@@ -111,11 +111,11 @@ body.logged_in #logo {
     display: none;
     position: absolute;
     background-color: $header-color2;
-    margin: 0px;
     min-width: 200px;
+    margin: 0;
     text-align: left;
     padding: 20px;
-    right: 0px;
+    right: 0;
     z-index: 100;
     font-size: 14px;
 
