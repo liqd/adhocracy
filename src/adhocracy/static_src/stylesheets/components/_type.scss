@@ -10,14 +10,14 @@ h1, h2, h3, h4, h5, h6, legend {
     font-family: 'ColaborateRegular', Arial, sans-serif;
     line-height: 1.2;
     text-transform: none;
-    margin: 10px 0;
+    margin: 0.8em 0;
     text-rendering: optimizelegibility; // Fix the character spacing for headings
 }
-h1 { font-size: 34px; margin: 27px 0; font-weight: normal; }
-h2 { font-size: 30px; margin-bottom: 10px; font-weight: normal; }
-h3 { font-size: 25px; margin-bottom: 10px; font-weight: normal; }
-h4, legend { font-size: 20px; margin-bottom: 10px; font-weight: normal; }
-h5 { font-size: 16px; margin-bottom: 5px; font-weight: normal; }
+h1 { font-size: 34px; margin: 0.8em 0; font-weight: normal; }
+h2 { font-size: 30px; margin-bottom: 0.3em; font-weight: normal; }
+h3 { font-size: 25px; margin-bottom: 0.4em; font-weight: normal; }
+h4, legend { font-size: 20px; margin-bottom: 0.5em; font-weight: normal; }
+h5 { font-size: 16px; margin-bottom: 0.3em; font-weight: normal; }
 h6 { font-size: 14px; font-weight: normal; color: $fg1; }
 
 // increase spacing between blocks
@@ -32,7 +32,7 @@ blockquote,
 .comment .body {
     h1, h2, h3, h4, h5, h6 {
         font-size: 1em;
-        margin: 10px 0;
+        margin: 0.8em 0;
     }
     h1 {
         font-size: 1.2em;
@@ -46,7 +46,7 @@ blockquote,
 .proposal .body {
     h1, h2, h3, h4, h5, h6 {
         font-size: 1em;
-        margin: 10px 0;
+        margin: 0.8em 0;
     }
     h1 {
         font-size: 1.4em;
@@ -61,7 +61,7 @@ blockquote,
 section.subpage {
     h1, h2, h3, h4, h5, h6 {
         font-size: 1.2em;
-        margin: 10px 0;
+        margin: 0.8em 0;
     }
     h1 {
         font-size: 1.8em;
@@ -72,7 +72,7 @@ section.subpage {
 }
 
 p {
-    margin-bottom: 20px;
+    margin-bottom: 1.5em;
     word-wrap: break-word;
 
     &:last-child {
@@ -81,7 +81,7 @@ p {
 }
 
 ul, ol, dl {
-    margin: 0 0 20px 20px;
+    margin: 0 0 1.5em 1.5em;
 }
 li {
     line-height: 1.5;
@@ -96,7 +96,7 @@ hr {
 
 /* table */
 table {
-    margin-bottom: 20px;
+    margin-bottom: 1.5em;
 
     td, th {
         text-align: left;
@@ -119,8 +119,8 @@ table {
             padding: initial;
 
             &.line_number {
-                width: 20px;
-                padding-right: 10px;
+                width: 1.5em;
+                padding-right: 0.8em;
                 text-align: right;
                 color: $fg1;
                 line-height: 1.5em;
@@ -142,7 +142,7 @@ a {
     }
 
     &.icon_link {
-        height: 18px;
+        height: 1.4em;
         line-height: 1.4;
         background-repeat: no-repeat;
     }
@@ -208,7 +208,7 @@ figcaption {
 h1, h2, h3, h4, h5, h6 {
     .utility {
         display: inline-block;
-        margin-left: 10px;
+        margin-left: 0.8em;
         margin-bottom: 0;
     }
 }

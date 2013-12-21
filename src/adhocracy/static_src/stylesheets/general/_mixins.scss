@@ -35,9 +35,9 @@
 @mixin button($color) {
     @include button-base;
     line-height: 2.5;
-    min-width: 82px;
+    min-width: 6em;
     font-weight: bold;
-    padding: 0 15px;
+    padding: 0 1em;
 
     color: #fff;
     @include button-background($color);
@@ -47,8 +47,8 @@
     font-size: 11px;
     line-height: 1.3;
     @include button-base;
-    @include border-radius(7px);
-    padding: 0 10px;
+    @include border-radius(0.65em);
+    padding: 0 1em;
 
     background-color: lighten($color1, 14%);
     @include background-image(linear-gradient(top, lighten($color1, 23%), lighten($color1, 14%)));
@@ -73,9 +73,9 @@
 @mixin button-round {
     @include button-base;
     font-size: 14px;
-    @include border-radius(13px);
-    padding: 0 20px;
     line-height: 1.7;
+    @include border-radius(0.85em);
+    padding: 0 0.85em;
     font-weight: bold;
     border: 1px solid $border;
 

@@ -24,11 +24,11 @@ a.icon_link {
 /* images - make wordpress styles work */
 .alignleft {
     float: left;
-    margin-right: 14px;
+    margin-right: 1.1em;
 }
 .alignright {
     float: right;
-    margin-left: 14px;
+    margin-left: 1.1em;
 }
 .aligncenter {
     display: block;
@@ -38,8 +38,8 @@ a.icon_link {
 .wp-caption-text,
 .wp-caption-dd {
     font-size: 9px;
-    padding: 0 4px 5px;
     line-height: 2;
+    padding: 0 0.3em 0.4em;
     text-align: left;
 }
 
@@ -67,7 +67,7 @@ a.icon_link {
 
 .over { font-size: 11px; color: darkred; }
 
-section { margin-bottom: 40px; }
+section { margin-bottom: 3em; }
 
 .full_teaser h1 {
     margin-left: 0;
@@ -80,7 +80,7 @@ Added during template integration
 
 .inline_input_wrapper {
     float: left;
-    margin: 10px 0;
+    margin: 0.8em 0;
 }
 
 .input_wrapper .right {
@@ -89,10 +89,10 @@ Added during template integration
 
 /* Stats on the front page */
 #stats {
-    font-size: 20px;
+    font-size: 1.5em;
     text-align: center;
     border-top: 1px dotted $border;
-    padding-top: 14px;
+    padding-top: 1.1em;
 }
 
 .sp-replacer {
@@ -100,7 +100,7 @@ Added during template integration
 }
 
 #add_tags {
-    padding-bottom: 10px;
+    padding-bottom: 0.8em;
 }
 
 /* Fixes for js.socialshareprivace */

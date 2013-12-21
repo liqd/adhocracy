@@ -1,13 +1,14 @@
 body.logged_in #header .page_wrapper {
 }
 #logo {
-    height: 70px;
+    height: 4.7em;
     overflow: hidden;
     display: inline-block;
     float: left;
 }
 body.logged_in #logo {
-    height: 40px;
+    height: 2.7em;
+
     h1 {
         text-indent: -900em;
     }
@@ -15,7 +16,7 @@ body.logged_in #logo {
 
 /* top navigation */
 #header #topnav {
-    right: 30px;
+    right: 2em;
     top: 0;
 }
 #topnav {
@@ -31,34 +32,34 @@ body.logged_in #logo {
     }
 }
 .language_switch {
-    padding: 0 10px;
+    padding: 0 0.7em;
 }
 
 /* navigation */
 #nav {
     clear: none;
     text-align: right;
-    padding-top: 23px;
+    padding-top: 1.5em;
     font-weight: bold;
     font-size: 15px;
     color: #fff;
 
     body.logged_in & {
-        padding-top: 4px;
+        padding-top: 0.2em;
         font-weight: normal;
 
         .hlist > ul > li {
-            height: 32px;
-            padding-top: 4px;
+            height: 2em;
+            padding-top: 0.2em;
             > a {
-                height: 32px;
+                height: 2em;
             }
         }
     }
 
     .hlist > ul > li {
-        height: 52px;
-        padding-top: 15px;
+        height: 3.5em;
+        padding-top: 1em;
         margin: 0 0 0 1px;
         position: relative;
 
@@ -69,8 +70,8 @@ body.logged_in #logo {
         }
 
         > a {
-            padding: 0 13px 0 10px;
-            height: 52px;
+            padding: 0 0.9em 0 0.7em;
+            height: 3.5;
         }
 
         &.current {
@@ -102,17 +103,17 @@ body.logged_in #logo {
     display: none;
     position: absolute;
     background-color: $header-color2;
-    min-width: 200px;
     margin: 0;
+    min-width: 13em;
     text-align: left;
-    padding: 20px;
+    padding: 1.3em;
     right: 0;
     z-index: 100;
     font-size: 14px;
 
     li {
-        padding: 4px 2px 2px;
         font-size: 14px;
+        padding: 0.2em 0.1em 0.1em;
         line-height: 1.7;
         display: block;
 
@@ -121,7 +122,7 @@ body.logged_in #logo {
 
         &:first-child {
             border-top: none;
-            padding-top: 2px;
+            padding-top: 0.1em;
         }
         &:last-child {
             border-bottom: none;
@@ -140,20 +141,20 @@ body.logged_in #logo {
 
     ul.children {
         position: initial;
-        padding: 0 0 0 20px;
+        padding: 0 0 0 1.3em;
     }
 }
 
 a.show_me {
     background-position: right -350px;
-    padding-right: 23px;
+    padding-right: 1.5em;
 
     #topnav & {
         background-position: right -352px;
     }
     #user_menu & {
         background-position: right -348px;
-        padding: 0 23px 0 18px !important;
+        padding: 0 1.5em 0 1.2em !important;
         line-height: 1.5;
     }
 }
