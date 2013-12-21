@@ -250,11 +250,11 @@ q:before, q:after {
 
     #col1 {
         float: left;
-        width: 665px;
+        width: 67%;
     }
     #col3 {
-        width: auto;
-        margin: 0 0 0 665px;
+        width: 33%;
+        margin: 0 0 0 67%;
     }
     #sidebar {
         margin: 0 0 0 31px;
@@ -262,11 +262,11 @@ q:before, q:after {
 
     #settings #col1 {
         float: right;
-        width: 800px;
+        width: 80%;
     }
     #settings #col3 {
-        width: auto;
-        margin: 0 800px 0 0;
+        width: 20%;
+        margin: 0 80% 0 0;
     }
     #settings #sidebar {
         margin: 0 15px 0 23px;
