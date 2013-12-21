@@ -26,7 +26,7 @@ a, span {
     &.more_link {
         @include morelink();
         text-transform: uppercase;
-        font-size: 0.8em;
+        font-size: $smaller;
     }
 }
 

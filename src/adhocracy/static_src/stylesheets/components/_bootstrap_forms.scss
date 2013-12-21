@@ -47,14 +47,14 @@ legend {
   width: 100%;
   padding: 0;
   margin-bottom: 20px;
-  font-size: 21px;
+  font-size: 160%;
   line-height: 2;
   color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
 }
 legend small {
-  font-size: 15px;
+  font-size: $large;
   color: #999999;
 }
 label,
@@ -62,7 +62,7 @@ input,
 button,
 select,
 textarea {
-  font-size: 14px;
+  font-size: $large;
   font-weight: normal;
   line-height: 1.4;
 }
@@ -97,7 +97,7 @@ input[type="color"],
   height: 1.4em;
   padding: 4px 6px;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: $large;
   line-height: 1.4;
   color: #555555;
   @include border-radius(0.3em);
@@ -610,7 +610,7 @@ select:focus:invalid:focus {
 .input-prepend .dropdown-menu,
 .input-append .popover,
 .input-prepend .popover {
-  font-size: 14px;
+  font-size: $large;
 }
 .input-append input,
 .input-prepend input,
@@ -641,7 +641,7 @@ select:focus:invalid:focus {
   height: 20px;
   min-width: 16px;
   padding: 4px 5px;
-  font-size: 14px;
+  font-size: $large;
   font-weight: normal;
   line-height: 1.4;
   text-align: center;

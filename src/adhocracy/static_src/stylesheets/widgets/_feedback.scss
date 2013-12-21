@@ -21,7 +21,7 @@
 
 #feedback_button {
     @include button($register-color);
-    font-size: 12px;
+    font-size: $small;
     line-height: 2.5;
 
     position: absolute;

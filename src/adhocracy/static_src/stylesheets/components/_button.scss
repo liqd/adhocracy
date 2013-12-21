@@ -30,7 +30,7 @@ a.button {
 
 .submit input, .submit button, button[type="submit"] {
     @include button($primary-color);
-    font-size: 13px;
+    font-size: $medium;
     margin-right: 0.7em;
 
     // these are replaced elements and therefore

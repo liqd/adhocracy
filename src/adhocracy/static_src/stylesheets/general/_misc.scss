@@ -37,14 +37,14 @@ a.icon_link {
 }
 .wp-caption-text,
 .wp-caption-dd {
-    font-size: 9px;
+    font-size: $x-small;
     line-height: 2;
     padding: 0 0.3em 0.4em;
     text-align: left;
 }
 
 .register {
-    font-size:13px;
+    font-size: $medium;
     line-height: 2;
 
     a.link_more_info,
@@ -63,9 +63,9 @@ a.icon_link {
     display: inline-block;
 }
 
-.countdown { font-size: 11px; }
+.countdown { font-size: $smaller; }
 
-.over { font-size: 11px; color: darkred; }
+.over { font-size: $smaller; color: darkred; }
 
 section { margin-bottom: 3em; }
 

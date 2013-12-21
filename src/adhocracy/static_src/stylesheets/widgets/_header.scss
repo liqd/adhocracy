@@ -20,7 +20,7 @@ body.logged_in #logo {
     top: 0;
 }
 #topnav {
-    font-size: 11px;
+    font-size: $small;
     color: #969ba2;
 
     a {
@@ -38,10 +38,10 @@ body.logged_in #logo {
 /* navigation */
 #nav {
     clear: none;
+    font-size: $large;
     text-align: right;
     padding-top: 1.5em;
     font-weight: bold;
-    font-size: 15px;
     color: #fff;
 
     body.logged_in & {
@@ -102,6 +102,7 @@ body.logged_in #logo {
 #nav ul.children {
     display: none;
     position: absolute;
+    font-size: $large;
     background-color: $header-color2;
     margin: 0;
     min-width: 13em;
@@ -109,11 +110,10 @@ body.logged_in #logo {
     padding: 1.3em;
     right: 0;
     z-index: 100;
-    font-size: 14px;
 
     li {
-        font-size: 14px;
         padding: 0.2em 0.1em 0.1em;
+        font-size: $large;
         line-height: 1.7;
         display: block;
 

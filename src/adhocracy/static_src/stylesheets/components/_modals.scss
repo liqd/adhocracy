@@ -122,6 +122,7 @@ html.overlay {
     font-style: normal;
     overflow: hidden;
 
+    font-size: $large;
     color: #fff;
     position: absolute;
     top: -1em;
@@ -149,7 +150,6 @@ html.overlay {
         position: absolute;
         top: 0;
         text-indent: 0;
-        font-size: 17px;
         width: 2em;
         line-height: 2;
         text-align: center;
