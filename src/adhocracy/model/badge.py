@@ -151,6 +151,17 @@ class Badge(object):
         return q.first()
 
     @classmethod
+    def find_by_instance(cls, title_or_id, instance=None):
+        q = meta.Session.query(cls)
+        try:
+            q = q.filter(cls.id == int(title_or_id))
+        except ValueError:
+            q = q.filter(cls.title.like(title_or_id))
+        if instance is not None:
+            q = q.filter(cls.instance_id == instance.id)
+        return q.first()
+
+    @classmethod
     def findall_by_ids(cls, ids):
         if len(ids) == 0:
             return []

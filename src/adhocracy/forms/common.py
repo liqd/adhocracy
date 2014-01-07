@@ -664,7 +664,11 @@ EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
 
 class UsersCSV(formencode.FancyValidator):
 
-    def to_python(self, value, state):
+    def to_python(self, value, state=None):
+        if state is None:
+            global_admin = False
+        else:
+            global_admin = getattr(state, u'global_admin', False)
         fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL, USER_BADGES]
         errors = []
         items = []
@@ -675,8 +679,8 @@ class UsersCSV(formencode.FancyValidator):
         reader = UnicodeDictReader(StringIO(value), fieldnames=fieldnames)
         try:
             for item in reader:
-                error_list, cleaned_item = self._check_item(item,
-                                                            reader.line_num)
+                error_list, cleaned_item = self._check_item(
+                    item, reader.line_num, global_admin=global_admin)
                 if error_list:
                     errors.append((reader.line_num, error_list))
                 if not errors:
@@ -720,7 +724,7 @@ class UsersCSV(formencode.FancyValidator):
                         ', '.join(lines),
                         msg_template % value))
 
-    def _check_item(self, item, line):
+    def _check_item(self, item, line, global_admin=False):
         error_list = []
         user_name = item.get(USER_NAME, '').strip()
         email = item.get(EMAIL, '')
@@ -730,7 +734,7 @@ class UsersCSV(formencode.FancyValidator):
         validated = {}
         USERBADGE_VALIDATOR = ValidUserBadgeNames(
             not_empty=False, if_empty=[],
-            instance_filter=(not has('global.admin')))
+            instance_filter=(not global_admin))
         for (validator, value) in ((USERNAME_VALIDATOR, user_name),
                                    (EMAIL_VALIDATOR, email),
                                    (USERBADGE_VALIDATOR, badges),

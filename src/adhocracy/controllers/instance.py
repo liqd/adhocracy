@@ -13,7 +13,7 @@ from pylons.i18n import lazy_ugettext as L_
 
 from adhocracy import config
 from adhocracy import forms, i18n, model
-from adhocracy.controllers.admin import AdminController, UserImportForm
+from adhocracy.controllers.admin import UserImportForm
 from adhocracy.controllers.badge import BadgeController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib import event, helpers as h, logo, pager, sorting, tiles
@@ -28,6 +28,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_png,
                                       ret_abort, ret_success, render_def)
+from adhocracy.lib.user_import import user_import, get_user_import_state
 from adhocracy.lib.util import get_entity_or_abort
 
 
@@ -762,14 +763,24 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     @validate(schema=UserImportForm(),
               form="_settings_members_import_form",
-              post_only=True, auto_error_formatter=error_formatter)
+              post_only=True, auto_error_formatter=error_formatter,
+              state=get_user_import_state())
     def settings_members_import_save(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance,
-                                        'members_import')
-        require.instance.edit(c.page_instance)
-        AdminController()._create_users(self.form_result)
-        return(render("/instance/settings_members_import_success.html"))
+        c.settings_menu = settings_menu(c.page_instance, 'members_import')
+        try:
+            self.form_result = UserImportForm().to_python(
+                request.params, state=get_user_import_state())
+            require.instance.edit(c.page_instance)
+            data = user_import(self.form_result['users_csv'],
+                               self.form_result['email_subject'],
+                               self.form_result['email_template'],
+                               c.user,
+                               c.instance)
+            return render("/instance/settings_members_import_success.html",
+                          data, overlay=format == u'overlay')
+        except formencode.Invalid as i:
+            return self._settings_members_import_form(errors=i.unpack_errors())
 
 # --[ template ]------------------------------------------------------------
 
