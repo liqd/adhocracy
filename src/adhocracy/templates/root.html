@@ -128,25 +128,21 @@
     </div>
     %endif
   <!-- begin: header -->
-  <header>
-    <div id="header">
-      <div class="page_margins">
-        <div class="page_wrapper">
-          <!-- begin: top navi -->
-          <div id="topnav">
-            <!-- start: skip link navigation -->
-            <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
-            <a class="skip" title="skip link" href="#main">Skip to the content</a><span class="hideme">.</span>
-            <!-- end: skip link navigation -->
-            %if h.config.get('adhocracy.twitter.profile_url'):
-            <a href="${h.config.get('adhocracy.twitter.profile_url')}" class="icon_link follow">Follow us!</a>
-            %endif
-          </div>
-
-          <%include file="logo.html" />
-          ${navigation.global_nav(c.active_global_nav)}
-        </div>
+  <header id="header">
+    <div class="page_wrapper">
+      <!-- begin: top navi -->
+      <div id="topnav">
+        <!-- start: skip link navigation -->
+        <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
+        <a class="skip" title="skip link" href="#main">Skip to the content</a><span class="hideme">.</span>
+        <!-- end: skip link navigation -->
+        %if h.config.get('adhocracy.twitter.profile_url'):
+        <a href="${h.config.get('adhocracy.twitter.profile_url')}" class="icon_link follow">Follow us!</a>
+        %endif
       </div>
+
+      <%include file="logo.html" />
+      ${navigation.global_nav(c.active_global_nav)}
     </div>
   </header>
 
@@ -154,7 +150,6 @@
   %if not h.config.get_bool(u'adhocracy.readonly') and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.require_valid_email and c.user and not c.user.is_email_activated()) or (h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
   <%doc>add an attention getter on instances</%doc>
     <div id="flash_message">
-      <div class="page_margins">
           <div class="page_wrapper">
               <div class="message">
                   %if c.user is None:
@@ -213,7 +208,6 @@
                   %endif
               </div>
           </div>
-      </div>
   </div>
   %endif
   </%block>
@@ -224,7 +218,6 @@
 
   <%block name="welcome">
   <div id="welcome_message">
-    <div class="page_margins">
       <div class="page_wrapper">
           <%block name="flashmessages"></%block>
           <%block name="infoboxes"></%block>
@@ -256,13 +249,13 @@
           </div>
           %endif
       </div>
-    </div>
   </div>
 
   </%block>
   <div id="main" class="default_content">
-  <%block name="main">
-  </%block>
+    <div class="page_wrapper">
+      <%block name="main" />
+    </div>
   </div>
 
   <!-- Fixme: Here to render error pages -->

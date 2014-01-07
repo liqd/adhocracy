@@ -4,40 +4,31 @@
 
 <%def name="breadcrumbs()">
 </%def>
-<%block name="flashmessages">
 
+<%block name="flashmessages">
 </%block>
-<%block name="content_wrapper">
+
+<%block name="main">
 <div id="settings">
     <div id="col1">
-        <div id="col1_content" class="clearfix">
-         <%block name="settings_content">
-         <span style="float:right"></span>
-         <h2>${c.page_instance.label}</h2>
-         <div class="clearfix">
-             blub
-         </div>
-         </%block>
-        </div>
+        <%block name="settings_content">
+        <h2>${c.page_instance.label}</h2>
+        </%block>
     </div>
 
-    <aside>
-        <div id="col3">
-            <div id="col3_content">
-                <div class="well" data-spy="affix" data-offset-top="170">
-                <%block name="settings_menu">
-                <ul class="nav nav-list">
-                    %for item in c.settings_menu.values():
-                    <li class="${item['class']}">
-                        <a href="${item['url']}">${item['label']}</a>
-                    </li>
-                    %endfor
-                </ul>
-                </%block>
-                </div>
+    <aside id="col3">
+        <div id="sidebar">
+            <div class="well" data-spy="affix" data-offset-top="170">
+            <%block name="settings_menu">
+            <ul class="nav nav-list">
+                %for item in c.settings_menu.values():
+                <li class="${item['class']}">
+                    <a href="${item['url']}">${item['label']}</a>
+                </li>
+                %endfor
+            </ul>
+            </%block>
             </div>
-            <!-- IE Column Clearing -->
-            <div id="ie_clearing"> &#160; </div>
         </div>
     </aside>
 </div>

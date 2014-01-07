@@ -1,5 +1,7 @@
 #subheader {
-    background: url('/images/tabs_bg_large.png') no-repeat bottom center;
+    background-color: $bg1;
+    @include background-image(linear-gradient(to bottom, white, $bg2));
+    @include box-shadow(0 -1em 0.5em -1em rgba(0,0,0,0.1) inset);
     display: block;
     overflow: hidden;
     padding-top: 27px;
@@ -10,12 +12,10 @@
 #logo_row {
     position: relative;
     width: 100%;
-    height: 35px;
 }
 
 #organisation_logo {
     overflow: hidden;
-    padding-left: 23px;
     float: left;
 
     img {
@@ -38,9 +38,9 @@
 #instance_settings {
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 0;
 }
 
-#subheader.logo #organisation_logo {
-    height: 35px;
+#nav_row {
+    clear: both;
 }
