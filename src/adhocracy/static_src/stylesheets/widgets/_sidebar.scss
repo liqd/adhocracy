@@ -47,3 +47,8 @@
     list-style-type: none;
     margin-left: 0;
 }
+
+#settings #col3 .well a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
