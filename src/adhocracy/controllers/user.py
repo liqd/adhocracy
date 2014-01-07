@@ -870,6 +870,8 @@ class UserController(BaseController):
         else:
             c.local_badges = []
         c.global_badges = filter(lambda b: b.instance is None, badges)
+        c.visible_badges = filter(lambda b: b.visible,
+                                  c.global_badges + c.local_badges)
 
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
