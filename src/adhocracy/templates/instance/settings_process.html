@@ -12,10 +12,15 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose', autofocus=True)}
+    <h3>${_('Agenda Setting')}</h3>
+
+    ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation', autofocus=True)}
+
+    <h3>${_('Consultation')}</h3>
+
+    ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose')}
     ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes')}
     ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation')}
-    ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation')}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
