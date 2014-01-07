@@ -66,7 +66,7 @@ def avatar_url(user, y, x=None):
         size = "%s" % y
     else:
         size = "%sx%s" % (x, y)
-    filename = u"%s_%s.png" % (user.name, size)
+    filename = u"%s_%s.png" % (user.user_name, size)
     (path, mtime) = logo.path_and_mtime(user)
     return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})
 
