@@ -1,0 +1,60 @@
+.tile-table {
+    margin: 1.5em 0;
+}
+
+// responsive: multi-column
+.tile-table {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin: 1.5em 0;
+
+    .tile-row {
+        display: table-row;
+
+        .tile {
+            display: table-cell;
+            padding-bottom: 2.5em + 4em;
+            position: relative;
+
+            padding-right: 2em;
+            &:last-child {
+                padding-right: 0;
+            }
+
+            .tile-button:last-child {
+                position: absolute;
+                left: 0;
+                bottom: 4em;
+            }
+        }
+    }
+}
+
+// responsive: single column, not yet active
+.tile-table-smallscreen {
+    .tile {
+        display: block;
+        margin: 4em 0;
+    }
+}
+
+// reset link inheritance
+a.tile {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: pointer;
+
+    &:hover {
+        color: inherit;
+        text-decoration: inherit;
+    }
+}
+
+.tile-image {
+    background-position: 50% 0;
+    display: block;
+    width: 100%;
+    height: 100px;
+    border-bottom: 2px solid $primary-color;
+}
