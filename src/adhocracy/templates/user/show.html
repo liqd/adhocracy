@@ -174,9 +174,9 @@
             </div>
             %endif
         </h6>
-        %if c.global_badges + c.local_badges:
+        %if c.visible_badges:
         <ul class="nobullet">
-            %for badge in c.global_badges + c.local_badges:
+            %for badge in c.visible_badges:
             <li>${badge_tiles.badge(badge)}</li>
             %endfor
         </ul>
