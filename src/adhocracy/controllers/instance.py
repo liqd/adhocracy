@@ -902,8 +902,8 @@ class InstanceController(BaseController):
         self._presets_update(c.page_instance, self.form_result)
 
         return ret_success(
-            message=_('Instance created successfully. You can now configure'
-                      ' it as you like.'),
+            message=_(u'Instance created successfully. You can now configure '
+                      u'it in greater detail if you wish.'),
             category='success', entity=c.page_instance, member='settings')
 
     @RequireInstance
