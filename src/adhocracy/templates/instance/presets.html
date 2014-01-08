@@ -24,7 +24,7 @@
     %endif
 
     ${forms.checkbox(_(u'Agenda Setting'), u'agenda_setting', help=_(u"Users can create proposals and dicuss them."), autofocus=True)}
-    ${forms.checkbox(_(u'Consultation'), u'consultation', help=_(u"Post texts (so called \"norms\") discuss them online. Users can write comments and propose changes."))}
+    ${forms.checkbox(_(u'Consultation'), u'consultation', help=_(u"Post texts (so called \"norms\") and discuss them online. Users can write comments and propose changes."))}
 
     <div class="submit">
         <input type="submit" value="${_('Configure') if first_time else _('Reset')}" />
