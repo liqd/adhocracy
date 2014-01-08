@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"PO-Revision-Date: 2014-01-08 18:47+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -142,14 +142,11 @@ msgstr "Voti"
 msgid "Badges"
 msgstr "Badges"
 
-msgid "Mass message service"
-msgstr "Servizio di messaggistica"
+msgid "Process presets"
+msgstr ""
 
-msgid "Members import"
-msgstr "Importa membri"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Gruppo creato con successo. Ora puoi configurarlo a seconda delle tue necessità."
+msgid "Please select at least one preset"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Le delegazioni sono attive"
@@ -198,6 +195,11 @@ msgstr "Una maggioranza semplice (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Una maggioranza dei due terzi"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1602,6 +1604,10 @@ msgstr "»⏎ »⏎ Dettagli: %(url)s"
 msgid "(Untitled)"
 msgstr "(Senza titolo)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Versione originale"
 
@@ -1656,6 +1662,15 @@ msgstr "Disabilita le email di notifica."
 
 msgid "Receive email notifications if changes occur."
 msgstr "Ricevi email di notifica se avvengono modifiche."
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
+msgstr ""
 
 msgid "Send us your feedback"
 msgstr "Inviaci un Feedback"
@@ -2629,6 +2644,13 @@ msgstr "I gruppi rappresentano delle piccole democrazie che gestiscono la propri
 msgid "new instance"
 msgstr "Nuovo gruppo"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Amministra: %s"
+
+msgid "Manage"
+msgstr "Amministra"
+
 msgid "New Instance"
 msgstr "Nuovo gruppo"
 
@@ -2651,12 +2673,28 @@ msgstr "Descrivi quali sono gli obiettivi di questo gruppo e chi fa parte di que
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Markdown e HTML sono consentiti qui.)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Amministra: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Amministra"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Reimposta"
 
 msgid "Logo"
 msgstr "Logo"
@@ -4040,9 +4078,6 @@ msgstr "Digita il tuo indirizzo e-mail per reimpostare la tua password."
 msgid "E-Mail:"
 msgstr "E-mail:"
 
-msgid "Reset"
-msgstr "Reimposta"
-
 msgid "Confirmation pending"
 msgstr "In attesa di conferma"
 
@@ -4192,6 +4227,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr "%s non ha ancora completato il campo \"Breve biografia\""
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr "Profilo creato"
 
@@ -4223,12 +4261,6 @@ msgstr "Membri nelle seguenti istanze"
 
 msgid "Member in other instances"
 msgstr "Membro in altre istanze"
-
-msgid "Contact"
-msgstr "Contatto"
-
-msgid "Send message"
-msgstr "Invia messaggio"
 
 #, python-format
 msgid "joined %s"

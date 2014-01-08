@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -17,14 +17,14 @@
 # rosangela <rosangelabochicchio@gmail.com>, 2013
 # cs <schroeder_carsten@gmx.de>, 2013
 # sicco <sicco@ddo.nl>, 2012
-# tobib <tobias.bengfort@liqd.de>, 2013
+# tobib <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:38+0000\n"
+"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"PO-Revision-Date: 2014-01-08 18:59+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -155,14 +155,11 @@ msgstr "Abstimmungen"
 msgid "Badges"
 msgstr "Badges"
 
-msgid "Mass message service"
-msgstr "Benachrichtigungsdienst"
+msgid "Process presets"
+msgstr "Prozess Voreinstellungen"
 
-msgid "Members import"
-msgstr "Mitglieder importieren"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
+msgid "Please select at least one preset"
+msgstr " Bitte wählen Sie mindestens einen Prozess"
 
 msgid "Delegations are enabled."
 msgstr "Delegationen sind aktiv."
@@ -211,6 +208,11 @@ msgstr "Einfache Mehrheit (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Eine Zweidrittelmehrheit"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr "Gruppe erfolgreich angelegt. Sie können diese, falls gewünscht, noch genauer konfigurieren."
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1615,6 +1617,10 @@ msgstr "\r\n\r\nMehr Informationen: %(url)s"
 msgid "(Untitled)"
 msgstr "(Unbenannt)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr "%s (Abschnitt %s)"
+
 msgid "Status Quo"
 msgstr "Originalversion"
 
@@ -1669,6 +1675,15 @@ msgstr "Keine Email-Benachrichtigungen mehr erhalten."
 
 msgid "Receive email notifications if changes occur."
 msgstr "Bei Änderungen per Email benachrichtigen."
+
+msgid "Message to Members"
+msgstr "Mitteilung an Mitglieder"
+
+msgid "Message to Supporters"
+msgstr "Mitteilung an Unterstützer*innen"
+
+msgid "Message"
+msgstr "Mitteilung"
 
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
@@ -2642,6 +2657,13 @@ msgstr "Übersichtsliste über alle registrierten Gruppen. Treten Sie einer Grup
 msgid "new instance"
 msgstr "Neue Gruppe"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Verwalten: %s"
+
+msgid "Manage"
+msgstr "Verwalten"
+
 msgid "New Instance"
 msgstr "Neue Gruppe"
 
@@ -2664,12 +2686,28 @@ msgstr "Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind."
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Markdown und HTML sind hier erlaubt.)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Verwalten: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr "Bitte wählen Sie einen oder mehrere dieser voreingestellten Prozesse für die erstmalige Konfiguration Ihrer Gruppe. Falls benötigt können die einzelnen Optionen später genau angepasst werden."
 
-msgid "Manage"
-msgstr "Verwalten"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr "Sie können einen oder mehrere dieser voreingestellten Prozesse auswählen um die Einstellung ihrer Gruppe zurückzustellen. Bitte beachten Sie, dass jegliche individuellen Anpassungen dabei verloren gehen."
+
+msgid "Agenda Setting"
+msgstr "Agenda Setting"
+
+msgid "Consultation"
+msgstr "Konsulation"
+
+msgid "Configure"
+msgstr "Einstellen"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
 
 msgid "Logo"
 msgstr "Logo"
@@ -4053,9 +4091,6 @@ msgstr "Geben Sie bitte Ihre Mailadresse an, um Ihr Passwort wiederherzustellen.
 msgid "E-Mail:"
 msgstr "E-Mail:"
 
-msgid "Reset"
-msgstr "Zurücksetzen"
-
 msgid "Confirmation pending"
 msgstr "Bestätigung steht aus"
 
@@ -4205,6 +4240,9 @@ msgstr "Kurzbiographie erstellen"
 msgid "%s does not yet have a bio."
 msgstr "%s hat noch keine Kurzbiographie angegeben."
 
+msgid "Upload avatar"
+msgstr "Profilbild hochladen"
+
 msgid "Account created"
 msgstr "Konto erstellt"
 
@@ -4236,12 +4274,6 @@ msgstr "Mitglied in folgenden Gruppen"
 
 msgid "Member in other instances"
 msgstr "Mitglied in anderen Gruppen"
-
-msgid "Contact"
-msgstr "Kontakt"
-
-msgid "Send message"
-msgstr "Nachricht senden"
 
 #, python-format
 msgid "joined %s"

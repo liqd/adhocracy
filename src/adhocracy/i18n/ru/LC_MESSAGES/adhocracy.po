@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"PO-Revision-Date: 2014-01-08 18:47+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -145,14 +145,11 @@ msgstr "Голосования"
 msgid "Badges"
 msgstr "Ярлыки"
 
-msgid "Mass message service"
+msgid "Process presets"
 msgstr ""
 
-msgid "Members import"
-msgstr "Импорт участников"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Вы создали новую организацию. Вы можете настроить её на своё усмотрение."
+msgid "Please select at least one preset"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr ""
@@ -201,6 +198,11 @@ msgstr "Простое большинство (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Две трети большинства"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1605,6 +1607,10 @@ msgstr "⏎ \n⏎ \nБольше информации: %(url)s"
 msgid "(Untitled)"
 msgstr "(Без названия)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Статус-кво"
 
@@ -1658,6 +1664,15 @@ msgid "Disable email notifications."
 msgstr ""
 
 msgid "Receive email notifications if changes occur."
+msgstr ""
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Send us your feedback"
@@ -2632,6 +2647,13 @@ msgstr "Организации это малые демократии самоу
 msgid "new instance"
 msgstr "новая организация"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Управлять: %s"
+
+msgid "Manage"
+msgstr "Управлять"
+
 msgid "New Instance"
 msgstr "Новая организация"
 
@@ -2654,12 +2676,28 @@ msgstr "Опишите цели этой организации и кто ее �
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Разрешена как вики-маркировка, так и HTML)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Управлять: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Управлять"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Cброс"
 
 msgid "Logo"
 msgstr "Лого"
@@ -4046,9 +4084,6 @@ msgstr "Для получения подступа Вы должны будет�
 msgid "E-Mail:"
 msgstr "Адрес электронной почты:"
 
-msgid "Reset"
-msgstr "Cброс"
-
 msgid "Confirmation pending"
 msgstr "В ожидании подтверждения"
 
@@ -4198,6 +4233,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr "%s пока не опубликовал свою биографию"
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr ""
 
@@ -4228,12 +4266,6 @@ msgid "Member in the following instances"
 msgstr ""
 
 msgid "Member in other instances"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
-msgid "Send message"
 msgstr ""
 
 #, python-format

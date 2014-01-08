@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"PO-Revision-Date: 2014-01-08 18:47+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -143,14 +143,11 @@ msgstr "Stemmen"
 msgid "Badges"
 msgstr "Badges"
 
-msgid "Mass message service"
-msgstr "Massa bericht dienst"
+msgid "Process presets"
+msgstr ""
 
-msgid "Members import"
-msgstr "Gebruikers importeren"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Het aanmaken van de groep is gelukt. U kunt de configuratie nu naar wens aanpassen."
+msgid "Please select at least one preset"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Het geven van volmachten is ingeschakeld."
@@ -171,7 +168,7 @@ msgid ""
 msgstr "Deze groep is niet gearchiveerd en niet actief te gebruiken. Het is niet mogelijk om veranderingen te maken aan deze groep, maar alle inhoud kan nog steeds gelezen worden."
 
 msgid "The image is not avaliable in that size"
-msgstr ""
+msgstr "De afbeelding is niet beschikbaar in die grootte."
 
 msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
@@ -199,6 +196,11 @@ msgstr "Een meerderheid (&frac12; van de stemmen)"
 
 msgid "A two-thirds majority"
 msgstr "Een twee derde meerderheid"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -541,7 +543,7 @@ msgid "Male"
 msgstr "Man"
 
 msgid "The avatar has been deleted."
-msgstr ""
+msgstr "De avatar is verwijderd."
 
 msgid "No optional attributes defined."
 msgstr "Geen optionele attributen gedefinieerd."
@@ -853,15 +855,15 @@ msgid "Invalid page function: %s"
 msgstr "Ongeldige pagina-functie: %s"
 
 msgid "No name is given."
-msgstr ""
+msgstr "Er is geen naam opgegeven."
 
 #, python-format
 msgid "Invalid name: %s"
-msgstr ""
+msgstr "Ongeldige naam: %s"
 
 #, python-format
 msgid "Name cannot be purely numeric: %s"
-msgstr ""
+msgstr "Naam kan niet enkel uit cijfers bestaan: %s"
 
 msgid "An entry with this title already exists"
 msgstr "Deze titel wordt al gebruikt."
@@ -1603,6 +1605,10 @@ msgstr " \n\nMeer informatie: %(url)s"
 msgid "(Untitled)"
 msgstr "(Naamloos)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Status Quo"
 
@@ -1657,6 +1663,15 @@ msgstr "Schakel e-mailnotificaties uit."
 
 msgid "Receive email notifications if changes occur."
 msgstr "Ontvang e-mailnotificaties als er wijzigingen optreden."
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
+msgstr ""
 
 msgid "Send us your feedback"
 msgstr "Stuur ons feedback"
@@ -2158,7 +2173,7 @@ msgid "Preview:"
 msgstr "Voorbeeld:"
 
 msgid "Thumbnail"
-msgstr ""
+msgstr "Thumbnail"
 
 msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr "Upload thumbnail pictogram. Dit wordt in plaats van een kleur gebruikt om de badge te tonen"
@@ -2630,6 +2645,13 @@ msgstr "Overzicht van alle groepen. Wordt lid van een groep om actief deel te ne
 msgid "new instance"
 msgstr "nieuwe groep"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Beheren: %s"
+
+msgid "Manage"
+msgstr "Beheren"
+
 msgid "New Instance"
 msgstr "Nieuwe Groep"
 
@@ -2652,12 +2674,28 @@ msgstr "Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn."
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Zowel Markdown als HTML zijn hier toegestaan)."
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Beheren: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Beheren"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Opnieuw Instellen"
 
 msgid "Logo"
 msgstr "Logo"
@@ -2890,7 +2928,7 @@ msgid "Sender identity"
 msgstr "Afzender identiteit"
 
 msgid "Customize sender name: "
-msgstr ""
+msgstr "Pas naam van de zender aan:"
 
 msgid "Mass Message Preview"
 msgstr "Massa Bericht Voorbeeld"
@@ -3197,7 +3235,7 @@ msgid "Propose New Amendment"
 msgstr "Nieuw Amendement Voorstellen"
 
 msgid "New Proposal"
-msgstr ""
+msgstr "Nieuw Voorstel"
 
 msgid "Information about the norm"
 msgstr "Informatie over het reglement"
@@ -4041,9 +4079,6 @@ msgstr "Om uw inlog terug te krijgen moet u uw e-mailadres invoeren."
 msgid "E-Mail:"
 msgstr "E-mail:"
 
-msgid "Reset"
-msgstr "Opnieuw Instellen"
-
 msgid "Confirmation pending"
 msgstr "In afwachting van de bevestiging"
 
@@ -4139,18 +4174,18 @@ msgid "Select your prefered gender"
 msgstr "Selecteer uw gewenste geslacht"
 
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
+msgstr "Selecteer een vierkante profielafbeelding. Als deze niet vierkant is dan kan de afbeelding vervormen."
 
 msgid "Current avatar"
-msgstr ""
+msgstr "Huidige avatar"
 
 msgid "Delete current avatar"
-msgstr ""
+msgstr "Verwijder huidige avatar"
 
 msgid "Short biography"
 msgstr "Korte biografie"
@@ -4193,6 +4228,9 @@ msgstr "Schrijf een bio"
 msgid "%s does not yet have a bio."
 msgstr "%s heeft geen biografie"
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr "Account aangemaakt"
 
@@ -4224,12 +4262,6 @@ msgstr "Deelnemer in de volgende groepen"
 
 msgid "Member in other instances"
 msgstr "Deelnemer in andere groepen"
-
-msgid "Contact"
-msgstr "Contact"
-
-msgid "Send message"
-msgstr "Verstuur bericht"
 
 #, python-format
 msgid "joined %s"

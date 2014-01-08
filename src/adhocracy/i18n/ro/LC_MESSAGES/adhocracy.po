@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"PO-Revision-Date: 2014-01-08 18:47+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -143,14 +143,11 @@ msgstr "Votare"
 msgid "Badges"
 msgstr "Title"
 
-msgid "Mass message service"
-msgstr "Trimitere mesaje in masa"
+msgid "Process presets"
+msgstr ""
 
-msgid "Members import"
-msgstr "Import membrii"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Comunitatea a fost creata. Acum poti face setarile comunitatii."
+msgid "Please select at least one preset"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegarile sunt permise."
@@ -199,6 +196,11 @@ msgstr "Majoritate simpla (&frac12 din voturi)"
 
 msgid "A two-thirds majority"
 msgstr "Majoritate de doua-treimi"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1603,6 +1605,10 @@ msgstr "⏎ ⏎ Mai multe informatii: %(url)s"
 msgid "(Untitled)"
 msgstr "(Fara titlu)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Situatia curenta"
 
@@ -1656,6 +1662,15 @@ msgid "Disable email notifications."
 msgstr ""
 
 msgid "Receive email notifications if changes occur."
+msgstr ""
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Send us your feedback"
@@ -2630,6 +2645,13 @@ msgstr "Comunitatile sunt mici democratii aflate sub controlul membrilor lor."
 msgid "new instance"
 msgstr "comunitate noua"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Gestioneaza: %s"
+
+msgid "Manage"
+msgstr "Gestioneaza"
+
 msgid "New Instance"
 msgstr "Comunitate noua"
 
@@ -2652,12 +2674,28 @@ msgstr "Descrie scopul comunitatii si cine sunt membrii ei"
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(sunt permise texte tip HTML)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Gestioneaza: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Gestioneaza"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Reseteaza parola"
 
 msgid "Logo"
 msgstr "Logo"
@@ -4044,9 +4082,6 @@ msgstr "Pentru ati retrimite datele de conectare, trebuie sa introduci adresa de
 msgid "E-Mail:"
 msgstr "E-Mail:"
 
-msgid "Reset"
-msgstr "Reseteaza parola"
-
 msgid "Confirmation pending"
 msgstr "Confirmarea este in asteptare"
 
@@ -4196,6 +4231,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr "%s nu are inca o biografie."
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr ""
 
@@ -4226,12 +4264,6 @@ msgid "Member in the following instances"
 msgstr ""
 
 msgid "Member in other instances"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
-msgid "Send message"
 msgstr ""
 
 #, python-format

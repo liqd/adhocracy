@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"PO-Revision-Date: 2014-01-08 18:47+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -140,13 +140,10 @@ msgstr "Głosowania"
 msgid "Badges"
 msgstr "Etykiety"
 
-msgid "Mass message service"
+msgid "Process presets"
 msgstr ""
 
-msgid "Members import"
-msgstr "Import członków"
-
-msgid "Instance created successfully. You can now configure it as you like."
+msgid "Please select at least one preset"
 msgstr ""
 
 msgid "Delegations are enabled."
@@ -196,6 +193,11 @@ msgstr "Zwykła większość (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Większość 2/3"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1600,6 +1602,10 @@ msgstr " Więcej informacji: %(url)s"
 msgid "(Untitled)"
 msgstr "(bez nazwy)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Wersja pierwotna"
 
@@ -1653,6 +1659,15 @@ msgid "Disable email notifications."
 msgstr ""
 
 msgid "Receive email notifications if changes occur."
+msgstr ""
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Send us your feedback"
@@ -2627,6 +2642,13 @@ msgstr "Poniżej znajduje się lista wszystkich utworzonych grup. Dołącz do je
 msgid "new instance"
 msgstr "Nowa grupa"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Zarządzaj: %s"
+
+msgid "Manage"
+msgstr "Zarządzaj"
+
 msgid "New Instance"
 msgstr "Nowa grupa"
 
@@ -2649,12 +2671,28 @@ msgstr "Opisz, jakie są cele grupy i kto wchodzi w jej skład."
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Dopuszczalne jest używanie znaczników Markdown i HTML.)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Zarządzaj: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Zarządzaj"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Zresetuj"
 
 msgid "Logo"
 msgstr "Logo"
@@ -4041,9 +4079,6 @@ msgstr "W celu odzyskania hasła, podaj adres e-mail."
 msgid "E-Mail:"
 msgstr "E-mail:"
 
-msgid "Reset"
-msgstr "Zresetuj"
-
 msgid "Confirmation pending"
 msgstr "Oczekuje na potwierdzenie"
 
@@ -4193,6 +4228,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr "%s nie ma jeszcze biografii."
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr ""
 
@@ -4223,12 +4261,6 @@ msgid "Member in the following instances"
 msgstr ""
 
 msgid "Member in other instances"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
-msgid "Send message"
 msgstr ""
 
 #, python-format
