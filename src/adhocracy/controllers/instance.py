@@ -882,7 +882,7 @@ class InstanceController(BaseController):
 
     def presets_form(self, id):
         c.page_instance = self._get_current_instance(id)
-        return render("/instance/presets.html"),
+        return render("/instance/presets.html")
 
     @RequireInstance
     def presets(self, id, format=u'html'):
