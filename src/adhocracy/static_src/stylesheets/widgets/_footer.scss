@@ -1,17 +1,15 @@
 #footer .page_wrapper {
     padding: 3em 1.8em;
     background: url('/images/shadow_footer.jpg') no-repeat top center;
-    display: table;
-    table-layout: fixed;
-
-    // the clearfix here conflicts with `display: table` (additional column)
-    // so we disable it instead
-    &:after {
-        display: none;
-    }
 }
 
-#footer .page_wrapper > div {
+#footer .footer_line {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+#footer .footer_line > div {
     /* we use `display: table` to give all blocks (and
      * therefore lines) same height */
     display: table-cell;
