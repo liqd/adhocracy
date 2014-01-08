@@ -135,20 +135,21 @@ form .error {
 #searchform #searchsubmit,
 .list_form input.go {
     @include button($button-color);
-    margin-left: -0.4em;
+    margin-left: -0.5em;
     min-width: 0;
     font-weight: normal;
     text-transform: uppercase;
-    border: 1px solid transparent;
 }
 
 #searchform #s,
 #searchform #searchsubmit,
 .list_form input.q,
 .list_form input.go {
-    line-height: 1.4;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
+    line-height: 1;  // firefox will ignore this
+    height: 1.8em;
+    @include box-sizing(border-box);
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
 }
 
 form#user_welcome {
