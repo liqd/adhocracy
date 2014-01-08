@@ -904,7 +904,7 @@ class InstanceController(BaseController):
         return ret_success(
             message=_('Instance created successfully. You can now configure'
                       ' it as you like.'),
-            category='success', entity=c.page_instance)
+            category='success', entity=c.page_instance, member='settings')
 
     @RequireInstance
     def style(self, id):
