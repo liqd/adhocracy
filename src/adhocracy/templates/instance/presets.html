@@ -1,0 +1,43 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
+<%def name="title()">${_("Process presets")}</%def>
+
+
+<%def name="breadcrumbs()">
+    ${h.site.name()} &raquo; ${_("Process presets")}
+</%def>
+
+
+<%def name="presets_form(first_time=False)">
+<form name="presets" class="inplace" method="POST" action="${h.entity_url(c.page_instance, member=u'presets' if first_time else u'settings/presets')}">
+    ${h.field_token()|n}
+
+    %if not first_time:
+    <h2>${_(u"Process presets")}</h2>
+    %endif
+
+    %if first_time:
+    <p>${_(u"Please select one or more of these presets for the initial configuration of your instance. If needed, you can fine-tune the individual settings later on.")}</p>
+    %else:
+    <p>${_(u"You can select one or more of these presets to reset your instance configuration. Note that any manual configuration will be lost.")}</p>
+    %endif
+
+    ${forms.checkbox(_(u'Agenda Setting'), u'agenda_setting', help=(u"Users can create proposals and dicuss them."), autofocus=True)}
+    ${forms.checkbox(_(u'Consultation'), u'consultation', help=(u"Post texts (so called \"norms\") discuss them online. Users can write comments and propose changes."))}
+
+    <div class="submit">
+        <input type="submit" value="${_('Configure') if first_time else _('Reset')}" />
+    </div>
+</form>
+</%def>
+
+
+<%block name="headline">
+    <h3>${_("Process presets")}</h3>
+</%block>
+
+
+<%block name="main_content">
+${presets_form(first_time=True)}
+</%block>

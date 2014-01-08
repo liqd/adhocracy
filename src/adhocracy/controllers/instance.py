@@ -35,6 +35,27 @@ from adhocracy.lib.util import get_entity_or_abort
 log = logging.getLogger(__name__)
 
 
+PRESETS = {
+    'agenda_setting': set((
+        'allow_delegate',
+        'show_proposals_navigation',
+    )),
+    'consultation': set((
+        'use_norms',
+        'show_norms_navigation',
+    )),
+    # Only settings which are part of at least one preset will be changed.
+    # Add settings to this pseudo-preset to disable it on every reset
+    'always_off': set((
+        'milestones',
+        'hide_global_categories',
+        'allow_propose',
+        'allow_propose_changes',
+        'require_selection',
+    )),
+}
+
+
 def settings_url(instance, path):
     full_path = 'settings/%s' % path
     return h.instance.url(instance, member=full_path)
@@ -50,7 +71,8 @@ def settings_menu(instance, current):
         ('badges', (L_('Badges'),)),
         ('members_import', (_('Members import'),
                             (h.has_permission('global.admin') or
-                             can.instance.authenticated_edit(instance))))
+                             can.instance.authenticated_edit(instance)))),
+        ('presets', (L_('Process presets'),)),
     ]))
 
 
@@ -148,6 +170,18 @@ class InstanceSnameEditForm(formencode.Schema):
     pass
 
 
+class InstancePresetsForm(formencode.Schema):
+    allow_extra_fields = True
+    agenda_setting = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
+    consultation = validators.StringBool(not_empty=False, if_empty=False,
+                                         if_missing=False)
+    chained_validators = [
+        forms.common.NotAllFalse(['agenda_setting', 'consultation'],
+                                 _(u"Please select at least one preset")),
+    ]
+
+
 # --[ Controller ]----------------------------------------------------------
 
 class InstanceController(BaseController):
@@ -198,10 +232,7 @@ class InstanceController(BaseController):
             locale=c.locale)
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)
-        return ret_success(
-            message=_('Instance created successfully. You can now configure it'
-                      ' as you like.'), category='success',
-            entity=instance, member='settings', format=None)
+        return redirect(h.entity_url(instance, member='presets'))
 
     #@RequireInstance
     def show(self, id, format='html'):
@@ -810,6 +841,81 @@ class InstanceController(BaseController):
 
         updated = update_attributes(c.page_instance, self.form_result, [])
         return self._settings_result(updated, c.page_instance, 'sname')
+
+    def _presets_update(self, instance, form_result):
+        active_settings = set()
+        all_settings = set()
+        for key, settings in PRESETS.iteritems():
+            if form_result.get(key):
+                active_settings.update(settings)
+            all_settings.update(settings)
+
+        updated = False
+        for setting in active_settings:
+            if not getattr(instance, setting):
+                setattr(instance, setting, True)
+                updated = True
+        for setting in all_settings.difference(active_settings):
+            if getattr(instance, setting):
+                setattr(instance, setting, False)
+                updated = True
+
+        if updated:
+            model.meta.Session.add(instance)
+            model.meta.Session.commit()
+
+        return updated
+
+    def settings_presets_form(self, id):
+        c.page_instance = self._get_current_instance(id)
+        c.settings_menu = settings_menu(c.page_instance, 'presets')
+        return render("/instance/settings_presets.html")
+
+    @RequireInstance
+    def settings_presets(self, id):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        return htmlfill.render(
+            self.settings_presets_form(id),
+            defaults={'_tok': csrf.token_id()})
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    @validate(schema=InstancePresetsForm(),
+              form="settings_presets_form",
+              post_only=True, auto_error_formatter=error_formatter)
+    def settings_presets_update(self, id, format='html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+
+        updated = self._presets_update(c.page_instance, self.form_result)
+        return self._settings_result(updated, c.page_instance, 'presets')
+
+    def presets_form(self, id):
+        c.page_instance = self._get_current_instance(id)
+        return render("/instance/presets.html")
+
+    @RequireInstance
+    def presets(self, id, format=u'html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+        return formencode.htmlfill.render(
+            self.presets_form(id),
+            defaults={'_tok': csrf.token_id()})
+
+    @RequireInstance
+    @csrf.RequireInternalRequest(methods=['POST'])
+    @validate(schema=InstancePresetsForm(), form="presets_form")
+    def presets_update(self, id, format=u'html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.edit(c.page_instance)
+
+        self._presets_update(c.page_instance, self.form_result)
+
+        return ret_success(
+            message=_(u'Instance created successfully. You can now configure '
+                      u'it in greater detail if you wish.'),
+            category='success', entity=c.page_instance, member='settings')
 
     @RequireInstance
     def style(self, id):

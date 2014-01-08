@@ -430,6 +430,18 @@ def make_map(config):
     map.connect('/instance/{id}/settings/members_import{.format}',
                 controller='instance', action='settings_members_import_save',
                 conditions=dict(method=['PUT', 'POST']))
+    map.connect('/instance/{id}/settings/presets{.format}',
+                controller='instance', action='settings_presets',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/presets{.format}',
+                controller='instance', action='settings_presets_update',
+                conditions=dict(method=['PUT', 'POST']))
+    map.connect('/instance/{id}/presets{.format}',
+                controller='instance', action='presets',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/presets{.format}',
+                controller='instance', action='presets_update',
+                conditions=dict(method=['POST']))
 
     map.resource('instance', 'instance', member={'join': 'GET',
                                                  'leave': 'POST',
