@@ -21,7 +21,7 @@
 
 #feedback_button {
     @include button($register-color);
-    font-size: $small;
+    font-size: 12px;  // px value needed to calculate height
     line-height: 2.5;
 
     position: absolute;
