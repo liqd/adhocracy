@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 034e7fb\n"
+"Project-Id-Version: adhocracy a13897c\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 19:47+0100\n"
+"POT-Creation-Date: 2014-01-08 20:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2591,7 +2591,13 @@ msgstr ""
 msgid "Agenda Setting"
 msgstr ""
 
+msgid "Users can create proposals and dicuss them."
+msgstr ""
+
 msgid "Consultation"
+msgstr ""
+
+msgid "Post texts (so called \"norms\") and discuss them online. Users can write comments and propose changes."
 msgstr ""
 
 msgid "Configure"

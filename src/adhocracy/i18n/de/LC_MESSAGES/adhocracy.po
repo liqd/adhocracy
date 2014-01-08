@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 19:47+0100\n"
-"PO-Revision-Date: 2014-01-08 18:59+0000\n"
+"POT-Creation-Date: 2014-01-08 20:09+0100\n"
+"PO-Revision-Date: 2014-01-08 19:10+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2700,8 +2700,16 @@ msgstr "Sie können einen oder mehrere dieser voreingestellten Prozesse auswähl
 msgid "Agenda Setting"
 msgstr "Agenda Setting"
 
+msgid "Users can create proposals and dicuss them."
+msgstr "Nutzer*innen können Vorschläge erstellen und diskutieren."
+
 msgid "Consultation"
 msgstr "Konsulation"
+
+msgid ""
+"Post texts (so called \"norms\") and discuss them online. Users can write "
+"comments and propose changes."
+msgstr "Erstellen Sie Texte (sogenannte \"Beschlüsse\") und diskutieren Sie diese online. Nutzer*innen können Kommentare schreiben und Änderungen vorschlagen."
 
 msgid "Configure"
 msgstr "Einstellen"
