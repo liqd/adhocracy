@@ -139,6 +139,7 @@ class InstanceAdvancedEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     hide_global_categories = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    votedetail_badges = forms.ValidUserBadges()
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
     # currently no ui
@@ -646,6 +647,12 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'advanced')
 
+        if votedetail.is_enabled():
+            c.votedetail_all_userbadges = model.UserBadge.all(
+                instance=c.page_instance, include_global=True)
+        else:
+            c.votedetail_all_userbadges = None
+
         return render("/instance/settings_advanced.html")
 
     @RequireInstance
@@ -670,6 +677,9 @@ class InstanceController(BaseController):
             c.page_instance.thumbnailbadges_height,
             'is_authenticated': c.page_instance.is_authenticated,
             '_tok': csrf.token_id()}
+        if votedetail.is_enabled():
+            defaults['votedetail_badges'] = [
+                b.id for b in c.page_instance.votedetail_userbadges]
         return htmlfill.render(
             self._settings_advanced_form(id),
             defaults=defaults)
@@ -697,6 +707,13 @@ class InstanceController(BaseController):
                                               'thumbnailbadges_height',
                                               'is_authenticated'])
             updated = updated or auth_updated
+
+        if votedetail.is_enabled():
+            new_badges = self.form_result['votedetail_badges']
+            updated_vd = c.page_instance.votedetail_userbadges != new_badges
+            if updated_vd:
+                c.page_instance.votedetail_userbadges = new_badges
+            updated = updated or updated_vd
 
         return self._settings_result(updated, c.page_instance, 'advanced')
 

@@ -24,6 +24,16 @@
         ${forms.checkbox(_("Freeze this instance"), 'frozen')}
     </fieldset>
 
+    %if c.votedetail_all_userbadges is not None:
+    <h4>${_('Break down Voting Result by Badge')}</h4>
+
+    <p>${_('Display how the users with the selected badges feel about the issue.')}</p>
+
+    <div>
+    ${tiles.badge.badge_selector(c.votedetail_all_userbadges, 'votedetail_badges')}
+    </div>
+    %endif
+
     %if h.has_permission('global.admin'):
     <%forms:textarea label="${_('Extra CSS')}" name="css" value=""
     help="${_('You can add css that will be used to style the instance.')}">
