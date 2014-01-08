@@ -69,8 +69,9 @@ def write_release_version(version):
     f.write("%s\n" % version)
     f.close()
 
+
 def test():
-    return "D";
+    return "D"
 
 
 def get_git_version():
