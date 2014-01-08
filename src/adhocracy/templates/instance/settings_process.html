@@ -18,9 +18,12 @@
 
     <h3>${_('Consultation')}</h3>
 
-    ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose')}
-    ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes')}
-    ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation')}
+    ${forms.checkbox(_("Enable norms"), 'use_norms')}
+    <div style="padding-left: 2em">
+        ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose')}
+        ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes')}
+        ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation')}
+    </div>
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 

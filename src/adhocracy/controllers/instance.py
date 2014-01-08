@@ -100,8 +100,6 @@ class InstanceGeneralEditForm(formencode.Schema):
     allow_extra_fields = True
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
-    use_norms = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
     milestones = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     locale = forms.ValidLocale()
@@ -116,6 +114,8 @@ class InstanceProcessEditForm(formencode.Schema):
     show_norms_navigation = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     show_proposals_navigation = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    use_norms = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
 
 
@@ -541,7 +541,6 @@ class InstanceController(BaseController):
                 '_method': 'PUT',
                 'allow_delegate': c.page_instance.allow_delegate,
                 'milestones': c.page_instance.milestones,
-                'use_norms': c.page_instance.use_norms,
                 'locale': c.page_instance.locale,
                 '_tok': csrf.token_id()})
 
@@ -555,7 +554,7 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
 
         updated = update_attributes(c.page_instance, self.form_result,
-                                    ['allow_delegate', 'use_norms',
+                                    ['allow_delegate',
                                      'locale', 'milestones'])
 
         return self._settings_result(updated, c.page_instance, 'general')
@@ -579,6 +578,7 @@ class InstanceController(BaseController):
                 'show_norms_navigation': c.page_instance.show_norms_navigation,
                 'show_proposals_navigation':
                 c.page_instance.show_proposals_navigation,
+                'use_norms': c.page_instance.use_norms,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -592,7 +592,7 @@ class InstanceController(BaseController):
 
         updated = update_attributes(
             c.page_instance, self.form_result,
-            ['allow_propose', 'allow_propose_changes',
+            ['allow_propose', 'allow_propose_changes', 'use_norms',
              'show_norms_navigation', 'show_proposals_navigation'])
 
         return self._settings_result(updated, c.page_instance, 'process')

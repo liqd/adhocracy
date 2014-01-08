@@ -13,7 +13,6 @@
     ${h.field_token()|n}
 
     ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate', autofocus=True)}
-    ${forms.checkbox(_("Enable norms"), 'use_norms')}
     ${forms.checkbox(_("Enable milestones"), 'milestones')}
 
     ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
