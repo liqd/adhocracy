@@ -687,7 +687,8 @@ class InstanceController(BaseController):
             c.page_instance, self.form_result,
             ['editable_comments_default', 'editable_proposals_default',
              'require_selection', 'display_category_pages',
-             'hide_global_categories', 'allow_index', 'hidden', 'frozen'])
+             'hide_global_categories', 'hidden', 'frozen'])
+        # currently no ui for allow_index
 
         if h.has_permission('global.admin'):
             auth_updated = update_attributes(c.page_instance, self.form_result,
