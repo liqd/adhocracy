@@ -15,7 +15,7 @@
 form {
     background-color: $bg1;
     @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
-    padding: 30px;
+    padding: 2em;
     overflow: hidden;  // clearfix
 }
 
@@ -24,7 +24,7 @@ form.list_filter {
 }
 
 form.list_filter label {
-    font-size: 16px;
+    font-size: $large;
 }
 
 form .savebox {
@@ -40,24 +40,24 @@ form div.prototype {
 
 
 form p.info {
-    margin-bottom: 10px;
+    margin-bottom: 0.8em;
     color: $fg1;
 }
 
 .input_wrapper {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 0.8em;
     clear: both;
 
     &.submit {
-        font-size: 11px;
-        line-height: 24px;
+        font-size: $small;
+        line-height: 2.2;
     }
 }
 
 textarea {
     width: 100%;
-    min-height: 128px;
+    min-height: 10em;
 }
 
 input[type=checkbox], input[type=radio] {
@@ -67,13 +67,13 @@ input[type=checkbox], input[type=radio] {
 
 .checkbox_inline label {
     display: block;
-    padding-left: 15px;
-    text-indent: -15px;
+    padding-left: 1em;
+    text-indent: -1em;
 }
 
 .checkbox_inline input {
-    width: 15px;
-    height: 15px;
+    width: 1em;
+    height: 1em;
     padding: 0;
     margin:0;
     position: relative;
@@ -92,7 +92,7 @@ form .error {
 #searchbox,
 .list_filter {
     overflow: hidden;
-    padding-top: 19px;
+    padding-top: 1.2em;
 }
 #searchbox {
     float: right;
@@ -102,11 +102,11 @@ form .error {
 }
 
 #subheader.logo #searchbox {
-    padding-top: 29px;
+    padding-top: 2em;
 }
 
 .list_filter {
-    padding: 5px 0 16px 20px;
+    padding: 0.4em 0 1.2em 1.5em;
 }
 
 #searchform,
@@ -123,25 +123,32 @@ form .error {
 
 #searchform #s,
 .list_form input.q {
-    width: 225px;
-    padding: 0px 4px;
-    height: 24px;
-    font-size: 13px;
+    width: 17em;
+    padding: 0 0.3em;
     vertical-align: top;
 }
 
 .list_form input.q {
-    width: 350px;
+    width: 25em;
 }
 
 #searchform #searchsubmit,
 .list_form input.go {
     @include button($button-color);
-    line-height: 24px;
-    margin-left: -5px;
+    margin-left: -0.4em;
     min-width: 0;
     font-weight: normal;
     text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+#searchform #s,
+#searchform #searchsubmit,
+.list_form input.q,
+.list_form input.go {
+    line-height: 1.4;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
 }
 
 form#user_welcome {
@@ -150,9 +157,9 @@ form#user_welcome {
 
     > label {
         margin: 0;
-        padding: 5px 0;
+        padding: 0.4em 0;
         text-align: center;
-        font-size: 22px;
+        font-size: $x-large;
         line-height: normal;
 
         > * {
@@ -163,15 +170,15 @@ form#user_welcome {
         }
         > span {
             display: inline-block;
-            padding-top: 3px;
+            padding-top: 0.2em;
         }
         > input[type="password"] {
-            padding: 2px 5px;
+            padding: 0.1em 0.4em;
             margin: 0;
             width: 5em;
         }
         > input[type="submit"] {
-            padding: 2px 5px;
+            padding: 0.1em 0.4em;
         }
     }
 }
@@ -180,14 +187,14 @@ form#user_welcome {
 .login_form input[type="email"],
 .login_form input[type="password"] {
     display: block;
-    width: 206px;
+    width: 16em;
 }
 .login_form input[type="password"] {
     margin-bottom: 0;
 }
 
 form.password-reset input[type="submit"] {
-  padding: 5px 10px;
+  padding: 0.4em 0.8em;
 }
 
 form.inline-form {
@@ -201,14 +208,14 @@ form.inline-form {
   display: inline;
 }
 .login_form.login-alternate label {
-  margin-left: 20px;
-  margin-top: 10px;
+  margin-left: 1.5em;
+  margin-top: 0.8em;
 }
 .login_form.login-alternate label>span {
   vertical-align: text-top;
 }
 .login_form.login-alternate input[type="password"] {
-  display: block; margin-bottom: 10px; margin-left: 40px;
+  display: block; margin-bottom: 0.8em; margin-left: 3em;
 }
 
 #tags_form form {

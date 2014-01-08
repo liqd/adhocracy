@@ -2,7 +2,7 @@
     background: $flash;
 
     .message, .confirm, .error {
-        padding: 20px 0;
+        padding: 1.5em 0;
         display: block;
         overflow: hidden;
 
@@ -20,15 +20,15 @@
     .attention-frozen {
         text-align: center;
         font-size: 140%;
-        padding: 5px 0;
+        padding: 0.4em 0;
     }
 }
 
 .info_box, .alert {
     position: relative;
-    padding: 20px;
-    margin: 20px 0;
-    @include border-radius(10px);
+    padding: 1.5em;
+    margin: 1.5em 0;
+    @include border-radius(0.8em);
     border: 1px solid $border;
     background: $flash;
     font-style: italic;
@@ -59,14 +59,14 @@ div.overlay {
     z-index: 10000;
 
     /* may be overwritten by javascript */
-    width: 500px;
+    width: 40em;
 
     /* styling */
-    padding: 20px;
-    @include border-radius(10px);
+    padding: 1.5em;
+    @include border-radius(0.8em);
     border: 1px solid $border;
     background-color: #fff;
-    @include box-shadow(0 0 10px 5px $fg1);
+    @include box-shadow(0 0 0.8em 0.4em $fg1);
 
     .contentWrap, iframe {
         width: 100%;
@@ -122,17 +122,18 @@ html.overlay {
     font-style: normal;
     overflow: hidden;
 
+    font-size: $large;
     color: #fff;
     position: absolute;
-    top: -19px;
-    right: -19px;
-    width: 33px;
-    height: 33px;
+    top: -1em;
+    right: -1em;
+    width: 2em;
+    height: 2em;
     display: block;
     z-index: 1;
     @include border-radius(50%);
     border: 2px solid #fff;
-    @include box-shadow(#aaa 0 0 4px 1px);
+    @include box-shadow(#aaa 0 0 0.3em 0.1em);
     cursor: pointer;
     opacity: 1.0;
 
@@ -149,9 +150,8 @@ html.overlay {
         position: absolute;
         top: 0;
         text-indent: 0;
-        width: 33px;
-        line-height: 33px;
-        font-size: 17px;
+        width: 2em;
+        line-height: 2;
         text-align: center;
         content: "×";
     }

@@ -3,7 +3,7 @@
     margin: 0; // there should be no spacing between this list and a preceeding filter_box
 
     h3 {
-        font-size: 16px;
+        font-size: 120%;
     }
     .tile.text.history h3 {
         color: $black;
@@ -27,7 +27,7 @@
 
     .logo {
         float: left;
-        margin: 0 10px 10px 0;
+        margin: 0 0.8em 0.8em 0;
 
         + div {
             overflow: hidden;
@@ -66,7 +66,7 @@
 }
 
 #col3 ul.content_list.events_pager {
-    font-size: 0.85em;
+    font-size: $smaller;
     color: $fg1;
 }
 #col1 ul.content_list.events_pager {
@@ -79,7 +79,7 @@
         padding-right: 2em;
 
         > .time, > .action {
-            font-size: 0.9em;
+            font-size: $smaller;
         }
         > .action {
             margin-bottom: 0.5em;

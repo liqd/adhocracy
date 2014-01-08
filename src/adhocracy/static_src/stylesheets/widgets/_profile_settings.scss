@@ -4,9 +4,10 @@
 }
 
 .password-reset-link {
+    // FIXME: this should be replaced by `float: right` or similar
     display: inline-block;
-    width: 206px;
-    padding-left: 12px;
+    width: 16em;
+    padding-left: 1em;
     text-align: right;
     padding-right: 0;
 }

@@ -1,13 +1,13 @@
 #subnav {
     clear: none;
     font-weight: bold;
-    font-size: 15px;
+    font-size: $large;
     color: #fff;
-    padding-top: 19px;
     margin: 0;
+    padding-top: 1.5em;
     float: left;
     li {
-        line-height: 36px;
+        line-height: 2.4;
 
         a {
             @include button($button-color);
@@ -27,5 +27,5 @@
 }
 
 #subheader.logo #subnav {
-    padding-top: 29px;
+    padding-top: 2em;
 }
