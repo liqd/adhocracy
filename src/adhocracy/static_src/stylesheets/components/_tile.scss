@@ -1,31 +1,28 @@
-.tile-table {
-    margin: 1.5em 0;
-}
-
 // responsive: multi-column
 .tile-table {
     display: table;
     table-layout: fixed;
     width: 100%;
-    margin: 1.5em 0;
+
+    border-collapse: separate;
+    border-spacing: 2em 4em;
+
+    // this is not nice but I could not find another to have same-width tiles
+    width: calc(100% + 4em);
+    margin-left: -2em;
 
     .tile-row {
         display: table-row;
 
         .tile {
             display: table-cell;
-            padding-bottom: 2.5em + 4em;
+            padding-bottom: 2.5em;
             position: relative;
-
-            padding-right: 2em;
-            &:last-child {
-                padding-right: 0;
-            }
 
             .tile-button:last-child {
                 position: absolute;
                 left: 0;
-                bottom: 4em;
+                bottom: 0;
             }
         }
     }
@@ -33,6 +30,8 @@
 
 // responsive: single column, not yet active
 .tile-table-smallscreen {
+    margin: 1.5em 0;
+
     .tile {
         display: block;
         margin: 4em 0;
