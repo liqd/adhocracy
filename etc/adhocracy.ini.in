@@ -432,6 +432,9 @@ adhocracy.static_index_path = index
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
 
+[alembic]
+script_location = src/adhocracy/alembic
+sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 # Logging configuration
 [loggers]

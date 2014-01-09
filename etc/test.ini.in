@@ -67,3 +67,29 @@ adhocracy.login_type = openid,username+password,email+password,shibboleth
 adhocracy.shibboleth.userbadge_mapping =
     editor attribute_equals shib-user-role editor 
     staff attribute_equals shib-user-role staff
+
+[alembic]
+script_location = src/adhocracy/alembic
+sqlalchemy.url = sqlite:///${parts.buildout.directory}/var/testdata/test.db
+
+[loggers]
+keys = root
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
