@@ -1,19 +1,64 @@
-from pylons import request
-from pylons.controllers.util import redirect
+from pylons import request, tmpl_context as c
+from pylons.decorators import validate
+from pylons.controllers.util import redirect, abort
 from pylons.i18n import _
 
 from adhocracy.lib.base import BaseController
-from adhocracy.lib.templating import ret_abort, render_png
-from adhocracy.lib import helpers as h, logo
+from adhocracy.lib.templating import render, ret_abort, render_png
+from adhocracy.lib import helpers as h, logo, pager
 from adhocracy.lib.instance import RequireInstance
+from adhocracy.lib.auth import require
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy import model
+
+from proposal import ProposalFilterForm
 
 
 class CategoryController(BaseController):
     def __init__(self):
         super(CategoryController, self).__init__()
         c.active_subheader_nav = 'category'
+
+    @RequireInstance
+    @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
+    def show(self, id):
+        if not c.instance.display_category_pages:
+            abort(404)
+        require.proposal.index()
+        query = self.form_result.get('proposals_q')
+
+        category = get_entity_or_abort(model.CategoryBadge, id)
+
+        pages = model.Page.all_q(instance=c.instance,
+                                 functions=model.Page.LISTED) \
+            .join(model.DelegateableBadges) \
+            .filter(model.DelegateableBadges.badge_id == category.id) \
+            .all()
+        pages = filter(lambda p: p.parent is None, pages)
+
+        proposals_pager = pager.solr_proposal_pager(
+            c.instance,
+            {'text': query},
+            extra_filter={'facet.delegateable.badgecategory': category.id})
+
+        data = {
+            'category': category,
+            'pages': pages,
+            'proposals_pager': proposals_pager,
+        }
+        return render('/category/show.html', data,
+                      overlay=format == u'overlay')
+
+    @RequireInstance
+    def index(self):
+        if not c.instance.display_category_pages:
+            abort(404)
+        data = {
+            'categories': model.CategoryBadge.all(instance=c.instance,
+                                                  visible_only=True),
+        }
+        return render('/category/index.html', data,
+                      overlay=format == u'overlay')
 
     @RequireInstance
     def image(self, id, y, x=None):

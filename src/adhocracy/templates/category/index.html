@@ -1,0 +1,49 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_(u"Categories")}</%def>
+
+<%def name="breadcrumbs()">
+${h.proposal.breadcrumbs(None)|n}
+</%def>
+
+
+<%block name="headline">
+
+<h2>${_(u"Categories")}</h2>
+
+<hr />
+
+<div class="tile-table">
+    <% counter = 0 %>
+
+    %for category in c.categories:
+
+    %if counter % 3 == 0:
+    <div class="tile-row">
+    %endif
+
+        <a class="tile" href="${h.base_url(member='category/%s' % category.title)|n}">
+            <span class="tile-image" style="background-image: url(${h.category.image_url(category, 256)})"></span>
+            <h3>${category.title}</h3>
+            <p>${category.description}</p>
+            <span class="button tile-button highlight">${_('watch and discuss')}</span>
+        </a>
+
+    <% counter += 1 %>
+    %if counter % 3 == 0:
+    </div>
+    %endif
+
+    %endfor
+
+    %if counter % 3 != 0:
+
+    %for i in range(counter, 3):
+        <span class="tile"></span>
+    %endfor
+
+    </div>
+    %endif
+</div>
+
+</%block>
