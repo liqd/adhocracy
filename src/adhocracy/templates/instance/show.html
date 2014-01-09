@@ -17,7 +17,7 @@
 %for type in h.config.get_list('adhocracy.instance_overview_contents'):
 <hr />
 
-%if type == u'proposals':
+%if type == u'proposals' and c.page_instance.show_proposals_navigation:
 <div id="new_proposals_table" class="table">
     %if not h.config.get_bool('adhocracy.show_instance_overview_proposals_all'):
     <h3 class="section">${_("Newest Proposals")}</h3>
