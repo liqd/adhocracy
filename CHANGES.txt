@@ -6,16 +6,15 @@ adhocracy Changelog
 
 - added user import script
 
-- We redesigned the instance settings. Most notably it is now
-  possible to select presets on instance creation.
+- We redesigned the instance settings. The most notable change is the added
+  possibility to select presets on instance creation.
 
-  The user import and massmessage services have been moved
-  and can now be found on the members index and instance overview,
-  respectively.
+  The user import and massmessage services have been moved.  They can be found
+  on the members index and instance overview, respectively.
 
 - it is now possible to follow instances
 
-- all milestones now must have a date milestones
+- all milestones now must have a date
 
 - added installation option to freeze the complete installation
 
@@ -26,10 +25,10 @@ adhocracy Changelog
 
 - added replay notification script
 
-- We completely redesigned the user profile and dashboard. User now can upload
-  an avatar.
+- We completely redesigned the user profile and dashboard. User can upload
+  an avatar now.
 
-- email are no wrapped
+- email are now wrapped
 
 - added travis configuration
 
@@ -38,13 +37,13 @@ adhocracy Changelog
   the welcome email.
 
 - Added an installation option to redirect to an instance instead of showing
-  the frnt page. This is useful for single-instance installations.
+  the front page. This is useful for single-instance installations.
 
 - new comment design
 
-- Subnorms can now be desiplayed as sections. This way you can have a large
-  document consisting of multiple sections where each of these sections
-  can be discussed separately.
+- Subnorms can now be displayed as sections. This way you can add a large
+  document consisting of multiple sections and have each of these sections
+  discussed separately.
 
 - It is now possible to show all open proposals in the proposal list of future
   milestones. For milestones in the past, this doesn't have any effect.
@@ -60,7 +59,7 @@ adhocracy Changelog
 
 - it is now possible to freeze single proposals
 
-- overlays now have their own urls so you can link to them
+- overlays have their own urls now, so you can link to them
 
 - setup.sh now has Fedora support
 
