@@ -11,24 +11,24 @@ adhocracy Changelog
 - Update python from 2.7.4 to 2.7.5. Please rebuild python:
 
     * cd python
-    * bin/buildout 
+    * bin/buildout
 
   [joka]
 
-- Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with: 
+- Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with:
     "bin/buildout -n".
-  If you have versions conflicts with distribute delete the old one: 
+  If you have versions conflicts with distribute delete the old one:
     "rm -r eggs/distribute..".
   [joka]
 
-- The default way to isolate your python environment is to compile 
-  python and PIL now instead of using virtualenv. 
-  
+- The default way to isolate your python environment is to compile
+  python and PIL now instead of using virtualenv.
+
   Upgrade manual installation:
   ----------------------------
 
   Checkout python buildout
-  
+
   * git submodule init
   * git submodule update
 
@@ -36,7 +36,7 @@ adhocracy Changelog
 
   * cd python
   * python boostrap.py && bin/buildout
-  
+
   Reinstall Adhocracy:
 
   * cd ../
@@ -63,16 +63,16 @@ adhocracy Changelog
   Configuration changes:
 
   * dropped: adhocracy.amqp.* settings are not required anymore.
-  * new: adhocracy.redis.host: An IP address redis can bind to 
+  * new: adhocracy.redis.host: An IP address redis can bind to
     (not a hostname!)
   * new: adhocracy.redis.port: The port redis will open
   * new: adhocracy.redis.queue: The queue name
 
-- Added facet search to the instance listing. The listing is based on solr now, 
+- Added facet search to the instance listing. The listing is based on solr now,
   please reindex. [joka]
 
-- Instances can have badges now. To create instance badges use the 
-  site-administration -> badges form. To assign badges use the 
+- Instances can have badges now. To create instance badges use the
+  site-administration -> badges form. To assign badges use the
   instance listing. [joka]]
 
 - New config option "adhocracy.registration.email.blacklist" that
@@ -85,24 +85,24 @@ adhocracy Changelog
   the sort options for the instance listing configurable. This
   possible values are: OLDEST, NEWEST, ACTIVITY and ALPHA. [csenger]
 
-- Permission change: When we test the 'norm.create' permission 
+- Permission change: When we test the 'norm.create' permission
   (permission to create Norms/Topics/Themen we do no longer
   restrict it to users who also have 'instance.admin'. The main
   permission we check now is 'page.create'.
 
-  Please check the permission 'page.create' in your permission 
+  Please check the permission 'page.create' in your permission
   settings (<base_url>/admin -> Permissions). [csenger]
-- Give the users the option to permanently activate the twitter, 
-  facebook or google+ buttons. Save the setting in a wildcard 
+- Give the users the option to permanently activate the twitter,
+  facebook or google+ buttons. Save the setting in a wildcard
   subdomain cookie so it is valid across all instances.
 
   This requires a updated js.socialshareprivacy to work with
   our auth cookie. [csenger]
-- Add the possibility to overwrite templates in <adhocracy.site>/templates 
+- Add the possibility to overwrite templates in <adhocracy.site>/templates
   directory (like it's possible for static resources and static pages already.
   New templates there need a server restart to be picked up.
   [csenger]
-- Deliver (almost) all resources with fanstatic. [csenger] 
+- Deliver (almost) all resources with fanstatic. [csenger]
 - Delgateables can have category badgets. [joka]
 - Instances can have badgets, they are only valid inside that instance. [joka]
 - Added option to set the smtp port. [joka]
@@ -116,10 +116,10 @@ adhocracy Changelog
 - Proposals can have badgets #263. [joka]
 
 
-1.2a3 
+1.2a3
 -----
 
-1.2a2 
+1.2a2
 ------
 
 1.2a1
@@ -134,7 +134,7 @@ adhocracy Changelog
 - Join "Goal" and "Implementation" pages on proposals.
 - Migrate from whoosh to solr.
 - Allow single-instance mode of operation.
-- Allow per-instance deactivation of norms. 
+- Allow per-instance deactivation of norms.
 - Remove wiki from system.
 - Change from cron-initiated regular background processing.
   to continuous background queue polling process.
