@@ -8,7 +8,8 @@ import logging
 
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy import Boolean, Integer, DateTime, String, Unicode, LargeBinary
+from sqlalchemy import (Boolean, Integer, DateTime, String, Unicode,
+                        LargeBinary, UnicodeText)
 
 from adhocracy.model import meta, instance_filter as ifilter
 
@@ -36,6 +37,7 @@ badge_table = Table(
            nullable=False),
     Column('parent_id', Integer, ForeignKey('badge.id', ondelete="CASCADE"),
            nullable=True),
+    Column('long_description', UnicodeText, default=u'', nullable=True),
     # attributes for UserBadges
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
@@ -381,9 +383,11 @@ class CategoryBadge(DelegateableBadge):
 
     @classmethod
     def create(cls, title, color, visible, description, impact=0,
-               instance=None, parent=None, select_child_description=u'', ):
+               instance=None, parent=None, select_child_description=u'',
+               long_description=u''):
         badge = cls(title, color, visible, description, impact, instance)
         badge.parent = parent
+        badge.long_description = long_description
         badge.select_child_description = select_child_description
         meta.Session.add(badge)
         meta.Session.flush()

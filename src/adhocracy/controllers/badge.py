@@ -50,6 +50,7 @@ class BadgeForm(formencode.Schema):
 class CategoryBadgeForm(BadgeForm):
     select_child_description = validators.String(max=255)
     parent = ValidCategoryBadge(not_empty=False)
+    long_description = validators.String(max=20000)
     chained_validators = [
         # make sure parent has same instance as we
         ValidParentCategory()
@@ -266,11 +267,14 @@ class BadgeController(BaseController):
             self._get_common_fields(self.form_result)
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
+        long_description = self.form_result.get("long_description")
+        parent = self.form_result.get("parent")
         parent = self.form_result.get("parent")
         if parent and parent.id == id:
             parent = None
         CategoryBadge.create(title, color, visible, description, impact,
                              instance, parent=parent,
+                             long_description=long_description,
                              select_child_description=child_descr)
         # commit cause redirect() raises an exception
         meta.Session.commit()
@@ -352,6 +356,7 @@ class BadgeController(BaseController):
         defaults = dict(
             title=badge.title,
             description=badge.description,
+            long_description=badge.long_description,
             color=badge.color,
             visible=badge.visible,
             display_group=badge.display_group,
@@ -487,6 +492,7 @@ class BadgeController(BaseController):
                 update_entity(delegateable, UPDATE)
         badge.instance = instance
         badge.select_child_description = child_descr
+        badge.long_description = long_description
         badge.parent = parent
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
