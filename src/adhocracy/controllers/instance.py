@@ -49,6 +49,7 @@ PRESETS = {
     'always_off': set((
         'milestones',
         'hide_global_categories',
+        'display_category_pages',
         'allow_propose',
         'allow_propose_changes',
         'require_selection',
@@ -124,6 +125,8 @@ class InstanceContentsEditForm(formencode.Schema):
     show_norms_navigation = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     show_proposals_navigation = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    display_category_pages = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     require_selection = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
@@ -618,6 +621,8 @@ class InstanceController(BaseController):
                 'show_norms_navigation': instance.show_norms_navigation,
                 'show_proposals_navigation':
                 instance.show_proposals_navigation,
+                'display_category_pages':
+                c.page_instance.display_category_pages,
                 'frozen': instance.frozen,
                 '_tok': csrf.token_id()})
 
@@ -636,7 +641,8 @@ class InstanceController(BaseController):
              'use_norms', 'require_selection', 'allow_propose_changes',
              'hide_global_categories', 'editable_comments_default',
              'editable_proposals_default', 'show_norms_navigation',
-             'show_proposals_navigation', 'allow_thumbnailbadges'])
+             'show_proposals_navigation', 'display_category_pages',
+             'allow_thumbnailbadges'])
         return self._settings_result(updated, c.page_instance, 'contents')
 
     def _settings_voting_form(self, id):
