@@ -50,16 +50,30 @@ ${self.form()}
             adhocracy.helpers.initializeBadgeColorPicker('#color', '#badge_form_visible', '#badge_form_title', '${h.site.domain()}.colors.badge')})
     </script>
 
-    %if c.badge_type == 'thumbnail':
+    %if c.badge_type == 'thumbnail' or (c.badge_type == 'category' and c.instance.display_category_pages):
     <fieldset class="logo">
-        <%forms:input label="${_('Thumbnail')}" name="thumbnail" type="file"
-                      help="${_('Upload thumbnail icon. This is used instead of color to show the badge')}">
+        <%
+            if c.badge_type == 'thumbnail':
+                label = _('Thumbnail')
+                name = 'thumbail'
+                help = _('Upload thumbnail icon. This is used instead of color to show the badge')
+                delete_name = 'delete_thumbnail'
+                delete_value = _('Delete current thumbnail image')
+            elif c.badge_type == 'category':
+                label = _('Image')
+                name = 'image'
+                help = _('Upload category image')
+                delete_name = 'delete_image'
+                delete_value = _('Delete current category image')
+        %>
+        <%forms:input label="${label}" name="${name}" type="file"
+                      help="${help}">
         </%forms:input>
-        %if c.badge_thumbnail:
+        %if c.logo:
         <div class="current">
-            ${h.literal(c.badge_thumbnail)}
+            ${h.literal(c.logo)}
             <br />
-            <input type="submit" name="delete_thumbnail" value="${_('Delete current thumbnail image')}" />
+            <input type="submit" name="${delete_name}" value="${delete_value}" />
         </div>
         %endif
     </fieldset>
