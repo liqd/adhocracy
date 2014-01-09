@@ -1,6 +1,74 @@
 adhocracy Changelog
 ===================
 
+2.0
+---
+
+- added user import script
+
+- We redesigned the instance settings. Most notably it is now
+  possible to select presets on instance creation.
+
+  The user import and massmessage services have been moved
+  and can now be found on the members index and instance overview,
+  respectively.
+
+- it is now possible to follow instances
+
+- all milestones now must have a date milestones
+
+- added installation option to freeze the complete installation
+
+- It is possible to select wether other users can edit a proposal.
+  We added an instance option to set the default value of that option.
+
+- slight a11y improvements
+
+- added replay notification script
+
+- We completely redesigned the user profile and dashboard. User now can upload
+  an avatar.
+
+- email are no wrapped
+
+- added travis configuration
+
+- It is now possible to assign user badges in user import.
+  It is also possible to define additional variables which can be used in
+  the welcome email.
+
+- Added an installation option to redirect to an instance instead of showing
+  the frnt page. This is useful for single-instance installations.
+
+- new comment design
+
+- Subnorms can now be desiplayed as sections. This way you can have a large
+  document consisting of multiple sections where each of these sections
+  can be discussed separately.
+
+- It is now possible to show all open proposals in the proposal list of future
+  milestones. For milestones in the past, this doesn't have any effect.
+
+  This will be used in the following scenario:
+
+  - There's regular (offline) board meetings. These are entered as milestones.
+    During a meeting, the board shall work on as many of the highest rated,
+    non-frozen proposals as time permits.
+  - All covered proposals will be assigned to the respective milestone, marked
+    as frozen and badged as "implemented" (or whatever).
+  - All not covered proposals will be covered in successive meetings.
+
+- it is now possible to freeze single proposals
+
+- overlays now have their own urls so you can link to them
+
+- setup.sh now has Fedora support
+
+- Refactor all CSS and some of the templates to make development and
+  theming easier. We also switched to SCSS.
+
+- many bugfixes
+
 1.2beta2dev
 -----------
 
