@@ -24,7 +24,6 @@ from adhocracy.model import DelegateableBadge
 from adhocracy.model import InstanceBadge
 from adhocracy.model import ThumbnailBadge
 from adhocracy.model import UserBadge
-from adhocracy.model import UPDATE
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
