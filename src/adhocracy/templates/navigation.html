@@ -216,6 +216,12 @@
              condition=c.instance.use_norms and c.instance.show_norms_navigation,
              id_='subnav-norms')}
 
+  ${nav_link(href=h.base_url('/category'),
+             text=_("Categories"),
+             li_class=_class('category'),
+             condition=c.instance.display_category_pages,
+             id_='subnav-category')}
+
   ${nav_link(href=h.base_url('/user'),
              text=_("Members"),
              li_class=_class('members'),

@@ -11,6 +11,10 @@ from adhocracy import model
 
 
 class CategoryController(BaseController):
+    def __init__(self):
+        super(CategoryController, self).__init__()
+        c.active_subheader_nav = 'category'
+
     @RequireInstance
     def image(self, id, y, x=None):
         if not c.instance.display_category_pages:
