@@ -53,12 +53,10 @@ class CategoryController(BaseController):
     def index(self):
         if not c.instance.display_category_pages:
             abort(404)
-        data = {
-            'categories': model.CategoryBadge.all(instance=c.instance,
-                                                  visible_only=True),
-        }
-        return render('/category/index.html', data,
-                      overlay=format == u'overlay')
+        c.categories = model.CategoryBadge.all(instance=c.instance,
+                                               visible_only=True)
+        c.categories = filter(lambda c: len(c.children) == 0, c.categories)
+        return render('/category/index.html', overlay=format == u'overlay')
 
     @RequireInstance
     def image(self, id, y, x=None):
