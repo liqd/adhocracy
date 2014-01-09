@@ -42,6 +42,7 @@ from adhocracy.lib.helpers import recaptcha_helper as recaptcha
 from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
 from adhocracy.lib.helpers import treatment_helper as treatment
+from adhocracy.lib.helpers import category_helper as category
 
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)

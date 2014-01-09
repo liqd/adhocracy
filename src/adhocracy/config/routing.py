@@ -336,6 +336,13 @@ def make_map(config):
                 controller='badge', action="delete",
                 conditions=dict(method=['POST']))
 
+    # category image
+    map.connect('/category/{id}_{x}x{y}.png', controller='category',
+                action='image')
+    map.connect('/category/{id}_{y}.png', controller='category',
+                action='image')
+
+
     # not using REST since tags may contain dots, thus failing format
     # detection.
     map.connect('/tag', controller='tag', action='index',
