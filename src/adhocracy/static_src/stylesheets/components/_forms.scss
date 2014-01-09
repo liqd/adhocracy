@@ -121,19 +121,20 @@ form .error {
     display: inline;
 }
 
-#searchform #s,
-.list_form input.q {
-    width: 17em;
+input[type="text"].search_text {
     padding: 0 0.3em;
     vertical-align: top;
 }
 
-.list_form input.q {
+#searchform input[type="text"].search_text {
+    width: 17em;
+}
+
+.list_form input[type="text"].search_text {
     width: 25em;
 }
 
-#searchform #searchsubmit,
-.list_form input.go {
+.search_button {
     @include button($button-color);
     margin-left: -0.5em;
     min-width: 0;
@@ -141,10 +142,8 @@ form .error {
     text-transform: uppercase;
 }
 
-#searchform #s,
-#searchform #searchsubmit,
-.list_form input.q,
-.list_form input.go {
+input[type="text"].search_text,
+.search_button {
     line-height: 1;  // firefox will ignore this
     height: 1.8em;
     @include box-sizing(border-box);
