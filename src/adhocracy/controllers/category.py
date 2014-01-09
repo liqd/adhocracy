@@ -35,6 +35,9 @@ class CategoryController(BaseController):
             .filter(model.DelegateableBadges.badge_id == category.id) \
             .all()
         pages = filter(lambda p: p.parent is None, pages)
+        pages_pager = pager.pages(pages,
+                                  enable_pages=False,
+                                  enable_sorts=False)
 
         proposals_pager = pager.solr_proposal_pager(
             c.instance,
@@ -43,7 +46,7 @@ class CategoryController(BaseController):
 
         data = {
             'category': category,
-            'pages': pages,
+            'pages_pager': pages_pager,
             'proposals_pager': proposals_pager,
         }
         return render('/category/show.html', data,

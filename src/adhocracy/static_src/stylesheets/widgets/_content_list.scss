@@ -65,6 +65,19 @@
     }
 }
 
+#col3 ul.content_list.pages_pager {
+    h3 {
+        font-size: $large;
+        border: none;
+    }
+    .meta {
+        display: none;
+    }
+    .content_box {
+        padding: 0.5em 0;
+    }
+}
+
 #col3 ul.content_list.events_pager {
     font-size: $smaller;
     color: $fg1;

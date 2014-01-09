@@ -65,17 +65,7 @@ ${c.proposals_pager.render_pager()}
 <div class="sidebar_block">
     <h3>${_("Norms in this Category")}</h3>
 
-    %if c.pages:
-    <ul class="content_list">
-        %for page in c.pages:
-        <li>
-            <a href="${h.entity_url(page)}">${page.title}</a>
-        </li>
-        %endfor
-    </ul>
-    %else:
-    ${_('None')}
-    %endif
+    ${c.pages_pager.render_pager()}
 </div>
 %endif
 </%block>
