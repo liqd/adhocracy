@@ -172,7 +172,7 @@ class Badge(object):
         return q.all()
 
     @classmethod
-    def all_q(cls, instance=MARKER):
+    def all_q(cls, instance=MARKER, visible_only=False):
         '''
         A preconfigured query for all Badges ordered by title.
         If *instance* is not given all badges are given.
@@ -182,10 +182,12 @@ class Badge(object):
         q = meta.Session.query(cls)
         if instance is not MARKER:
             q = q.filter(cls.instance == instance)
+        if visible_only:
+            q = q.filter(Badge.visible == True)
         return q
 
     @classmethod
-    def all(cls, instance=None, include_global=False):
+    def all(cls, instance=None, include_global=False, visible_only=False):
         """
         Return all badges, orderd by title.
         Without instance it only returns badges not bound to an instance.
@@ -193,7 +195,7 @@ class Badge(object):
         With instance and include_global it returns both badges bound to that
         instance and badges not bound to an instance.
         """
-        q = cls.all_q(instance=instance)
+        q = cls.all_q(instance=instance, visible_only=visible_only)
         if include_global and instance is not None:
             q = q.union(cls.all_q(instance=None))
         return q.order_by(cls.title).all()
