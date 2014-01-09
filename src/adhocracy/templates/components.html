@@ -351,10 +351,16 @@ ${caller.body()}
     </div>
 </%def>
 
-<%def name="category_select(id, toplevel_question, categories)">
+<%def name="category_select(id, toplevel_question, categories, selected=None)">
     <% h.need.select_hierarchy %>
     <fieldset>
       <legend>${_('Proposal Category')}</legend>
+      %if selected:
+      <% (cat_id, key) = selected %>
+      <select disabled="disabled">
+        <option value="${cat_id}">${key}</option>
+      </select>
+      %else:
       %if toplevel_question is not None:
       <div class="select_header">${toplevel_question}</div>
       %endif
@@ -366,10 +372,11 @@ ${caller.body()}
           %endfor
         </select>
       </div>
+      <script type="text/javascript">
+        $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
+      </script>
+      %endif
     </fieldset>
-    <script type="text/javascript">
-      $('#${id}').selectHierarchy({placeholder: '${_("Others")}'});
-    </script>
 </%def>
 
 <%def name="proposal_sort_order(name, sorting_orders, include_empty=True, default=None)">
