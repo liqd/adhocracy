@@ -34,7 +34,7 @@ ${tiles.user.header(c.page_user)}
         <div class="current">
             <img src="${c.current_avatar}" alt="${_('Current avatar')}" />
             <br />
-            <input name="delete_avatar" type="submit" value="${_('Delete current avatar')}" />
+            <input name="delete_avatar" type="button" value="${_('Delete current avatar')}" class="fake_submit"/>
         </div>
         %endif
     </fieldset>
