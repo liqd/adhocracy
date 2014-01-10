@@ -36,7 +36,7 @@ class NewForm(EditForm):
 class StaticController(BaseController):
 
     @guard_perms
-    def index(self):
+    def index(self, format=u'html'):
         data = {
             'static_pages': get_backend().all()
         }
@@ -55,7 +55,7 @@ class StaticController(BaseController):
 
     @guard_perms
     @csrf.RequireInternalRequest(methods=['POST'])
-    def make_new(self):
+    def make_new(self, format=u'html'):
         try:
             form_result = NewForm().to_python(request.params)
         except Invalid as i:
@@ -96,7 +96,7 @@ class StaticController(BaseController):
 
     @guard_perms
     @csrf.RequireInternalRequest(methods=['POST'])
-    def update(self, key, lang):
+    def update(self, key, lang, format=u'html'):
         backend = get_backend()
         sp = backend.get(key, lang)
         if not sp:
@@ -114,7 +114,7 @@ class StaticController(BaseController):
         return redirect(helpers.base_url('/static'))
 
     @guard.perm('static.show')
-    def serve(self, key, format='html'):
+    def serve(self, key, format=u'html'):
         page = get_static_page(key)
         if page is None:
             return abort(404, _('The requested page was not found'))

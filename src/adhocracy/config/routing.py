@@ -480,19 +480,22 @@ def make_map(config):
     map.connect('/admin/treatment/{key}/assigned',
                 controller='treatment', action='assigned')
 
+    # TODO - fix these actions: index, make_new, edit, update;
+    #        choose different URLs for edit, update
     map.connect('/static{.format}', controller='static', action='index',
                 conditions=dict(method=['GET', 'HEAD']))
     map.connect('/static{.format}', controller='static', action='make_new',
                 conditions=dict(method=['POST']))
     map.connect('/static/new{.format}', controller='static', action='new')
+    map.connect('/static/{key}{.format}', controller='static',
+                action='serve')
     map.connect('/static/{key}_{lang}',
                 controller='static', action='edit',
                 conditions=dict(method=['GET', 'HEAD']))
     map.connect('/static/{key}_{lang}{.format}',
                 controller='static', action='update',
                 conditions=dict(method=['POST']))
-    map.connect('/static/{key}{.format}', controller='static',
-                action='serve')
+
     map.connect('/outgoing_link/{url_enc}', controller='redirect',
                 action='outgoing_link',
                 conditions=dict(method=['GET', 'HEAD']))
