@@ -1,4 +1,4 @@
-a.button {
+.button {
     @include button($button-color);
 
     &.highlight {
