@@ -12,7 +12,7 @@ from sqlalchemy import Table, Column, func, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import eagerload_all
 
-from adhocracy.model import meta
+from adhocracy.model import meta, login
 from adhocracy.model import instance_filter as ifilter
 from adhocracy.model.core import JSONEncodedDict
 from adhocracy.model.core import MutationDict
@@ -236,6 +236,9 @@ class User(meta.Indexable):
         :return: Whether the password is valid.
         :rtype: bool
         """
+     #   user_log = login.Login.create(datetime.utcnow(),
+     #                                     123, u'einUser', u'yes')
+        0
         if self.password is None:
             return False
         if isinstance(password, unicode):

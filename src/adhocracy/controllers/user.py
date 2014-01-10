@@ -19,6 +19,8 @@ from webob.exc import HTTPFound
 
 from repoze.who.api import get_api
 
+from datetime import datetime
+
 from adhocracy import config
 from adhocracy import forms, model
 from adhocracy import i18n
@@ -45,10 +47,9 @@ from adhocracy.lib.templating import render, render_json, ret_abort, render_png
 from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
-
 from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_PROPOSAL,
                                        S_COMMENT, S_PAGE, S_CONTRIBUTION)
-
+import adhocracy.lib.util
 
 log = logging.getLogger(__name__)
 
@@ -1059,7 +1060,6 @@ class UserController(BaseController):
         else:
             login_configuration = h.allowed_login_types()
             error_message = _("Invalid login")
-
             if 'username+password' in login_configuration:
                 if 'email+password' in login_configuration:
                     error_message = _("Invalid email / user name or password")
@@ -1068,7 +1068,6 @@ class UserController(BaseController):
             else:
                 if 'email+password' in login_configuration:
                     error_message = _("Invalid email or password")
-
             return self._render_loginform(errors={"login": error_message})
 
     def logout(self):
