@@ -12,9 +12,13 @@ class RESTAPI(object):
     session = requests.Session()
 
     def __init__(self):
-        self.api_token = config.get('adhocracy_service.rest_api_token', '')
-        self.api_address = config.get('adhocracy_service.rest_api_address', '')
-        self.headers = {"X-API-Token": self.api_token}
+        self.staticpages_api_token = config.get(
+            'adhocracy_service.staticpages.rest_api_token',
+            config.get('adhocracy_service.rest_api_token', ''))
+        self.staticpages_api_address = config.get(
+            'adhocracy_service.staticpages.rest_api_address',
+            config.get('adhocracy_service.rest_api_address', ''))
+        self.staticpages_headers = {"X-API-Token": self.staticpages_api_token}
 
     def staticpages_get(self, base=None, languages=None):
         if languages is None:
@@ -26,11 +30,11 @@ class RESTAPI(object):
             params['base'] = base
         request = requests.Request("GET",
                                    url='%s%s' % (
-                                       self.api_address,
+                                       self.staticpages_api_address,
                                        "staticpages",
                                    ),
                                    params=params,
-                                   headers=self.headers)
+                                   headers=self.staticpages_headers)
 
         return self.session.send(request.prepare())
 
@@ -39,13 +43,13 @@ class RESTAPI(object):
             languages = i18n.all_languages(include_preferences=True)
         request = requests.Request("GET",
                                    url='%s%s' % (
-                                       self.api_address,
+                                       self.staticpages_api_address,
                                        'staticpages/single',
                                    ),
                                    params={
                                        'path': path,
                                        'lang': languages,
                                    },
-                                   headers=self.headers)
+                                   headers=self.staticpages_headers)
 
         return self.session.send(request.prepare())
