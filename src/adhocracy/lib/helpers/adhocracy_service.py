@@ -30,18 +30,25 @@ class RESTAPI(object):
             'adhocracy_service.staticpages.verify_ssl',
             config.get_bool('adhocracy_service.verify_ssl', True))
         self.staticpages_headers = {"X-API-Token": self.staticpages_api_token}
-        self.api_token = config.get('adhocracy_service.rest_api_token', '')
-        self.api_address = config.get('adhocracy_service.rest_api_address', '')
-        self.headers = {"X-API-Token": self.api_token}
-        self.images_get = requests.Request("GET",
-                                           url=self.api_address + "images",
-                                           headers=self.headers)
-        self.images_post = requests.Request("POST",
-                                            url=self.api_address + "images",
-                                            headers=self.headers)
-        self.images_delete = requests.Request("DELETE",
-                                              url=self.api_address + "images",
-                                              headers=self.headers)
+        self.mediacenter_api_token = config.get(
+            'adhocracy_service.mediacenter.rest_api_token',
+            config.get('adhocracy_service.rest_api_token', ''))
+        self.mediacenter_api_address = config.get(
+            'adhocracy_service.mediacenter.rest_api_address',
+            config.get('adhocracy_service.rest_api_address', ''))
+        self.mediacenter_headers = {"X-API-Token": self.mediacenter_api_token}
+        self.images_get = requests.Request(
+            "GET",
+            url=self.mediacenter_api_address + "images",
+            headers=self.mediacenter_headers)
+        self.images_post = requests.Request(
+            "POST",
+            url=self.mediacenter_api_address + "images",
+            headers=self.mediacenter_headers)
+        self.images_delete = requests.Request(
+            "DELETE",
+            url=self.mediacenter_api_address + "images",
+            headers=self.mediacenter_headers)
 
     def staticpages_get(self, base=None, languages=None):
         if languages is None:
