@@ -39,7 +39,7 @@ setup(
         "adhocracy-Pylons>=1.0.1",
         "Babel>=0.9",
         "WebOb>=1.2.3",
-        "SQLAlchemy==0.7.10",
+        "SQLAlchemy>=0.9.1",
         "alembic",
         "FormEncode>=1.2.5",
         "repoze.who>=2.0",
