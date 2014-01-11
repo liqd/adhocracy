@@ -45,9 +45,8 @@
 
 
 <%def name="row_text(url, link_text, text)">
-    <blockquote class="preview">
-        <% short = h.text.truncate_html(text, 30, u'&hellip;') %>
-        ${short|n}
+    <% short = h.text.truncate_html(text, 30, u'&hellip;') %>
+    <blockquote class="preview">${short|n}
         <a href="${url}" class="more_link">${link_text}</a>
     </blockquote>
 </%def>

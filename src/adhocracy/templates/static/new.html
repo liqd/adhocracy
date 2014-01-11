@@ -7,7 +7,7 @@
 
 <h1>${_('New static page')}</h1>
 
-<form action="${h.base_url('/static/')}" method="POST">
+<form action="${h.base_url('/static')}" method="POST">
 	${h.field_token()|n}
 
 	<label>${_('Key:')} <input type="text" autofocus="autofocus" name="key" /></label>
@@ -26,6 +26,6 @@
 	<input type="submit" value="${_('Add static page')}" />
 </form>
 
-<a href="${h.base_url('/static/', instance=None)}">${_('Back to the list')}</a>
+<a href="${h.base_url('/static', instance=None)}">${_('Back to the list')}</a>
 
 </%block>

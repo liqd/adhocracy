@@ -544,17 +544,17 @@ class VariantName(formencode.FancyValidator):
         from adhocracy.lib.text import variant_normalize
         var = variant_normalize(value)
         if not var or len(var) < 2:
-            raise formencode.Invalid(_("No variant name is given."),
+            raise formencode.Invalid(_("No name is given."),
                                      value, state)
 
         if (var.lower() in FORBIDDEN_NAMES or not
                 VALIDVARIANT.match(var.lower())):
-            raise formencode.Invalid(_("Invalid variant name: %s") % value,
+            raise formencode.Invalid(_("Invalid name: %s") % value,
                                      value, state)
         try:
             int(var)
             raise formencode.Invalid(
-                _("Variant name cannot be purely numeric: %s") % value,
+                _("Name cannot be purely numeric: %s") % value,
                 value, state)
         except:
             return var
@@ -629,6 +629,16 @@ class UnusedProposalTitle(formencode.validators.FormValidator):
                 error_dict={'label': msg}
             )
 
+        # every proposal title must be a valid variant name
+        try:
+            variant_name_validator = VariantName()
+            variant_name_validator._to_python(value, state)
+        except formencode.Invalid as e:
+            raise formencode.Invalid(
+                e.msg, field_dict, state,
+                error_dict={'label': e.msg}
+            )
+
         try:
             int(value)
             msg = _("Entry name cannot be purely numeric: %s") % value
@@ -654,7 +664,11 @@ EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(not_empty=True),
 
 class UsersCSV(formencode.FancyValidator):
 
-    def to_python(self, value, state):
+    def to_python(self, value, state=None):
+        if state is None:
+            global_admin = False
+        else:
+            global_admin = getattr(state, u'global_admin', False)
         fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL, USER_BADGES]
         errors = []
         items = []
@@ -665,8 +679,8 @@ class UsersCSV(formencode.FancyValidator):
         reader = UnicodeDictReader(StringIO(value), fieldnames=fieldnames)
         try:
             for item in reader:
-                error_list, cleaned_item = self._check_item(item,
-                                                            reader.line_num)
+                error_list, cleaned_item = self._check_item(
+                    item, reader.line_num, global_admin=global_admin)
                 if error_list:
                     errors.append((reader.line_num, error_list))
                 if not errors:
@@ -710,7 +724,7 @@ class UsersCSV(formencode.FancyValidator):
                         ', '.join(lines),
                         msg_template % value))
 
-    def _check_item(self, item, line):
+    def _check_item(self, item, line, global_admin=False):
         error_list = []
         user_name = item.get(USER_NAME, '').strip()
         email = item.get(EMAIL, '')
@@ -720,7 +734,7 @@ class UsersCSV(formencode.FancyValidator):
         validated = {}
         USERBADGE_VALIDATOR = ValidUserBadgeNames(
             not_empty=False, if_empty=[],
-            instance_filter=(not has('global.admin')))
+            instance_filter=(not global_admin))
         for (validator, value) in ((USERNAME_VALIDATOR, user_name),
                                    (EMAIL_VALIDATOR, email),
                                    (USERBADGE_VALIDATOR, badges),

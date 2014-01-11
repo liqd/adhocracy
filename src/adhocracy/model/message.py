@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-from pylons import config
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 

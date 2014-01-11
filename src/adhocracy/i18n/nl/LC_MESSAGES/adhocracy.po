@@ -1,6 +1,7 @@
 # Translations template for adhocracy.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
+# 
 # Translators:
 # Mieke Van Heesewijk <>, 2012
 # sicco <sicco@ddo.nl>, 2013
@@ -10,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-21 19:08+0100\n"
-"PO-Revision-Date: 2013-11-21 18:09+0000\n"
+"POT-Creation-Date: 2013-12-16 14:32+0100\n"
+"PO-Revision-Date: 2013-12-16 13:33+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -168,6 +169,9 @@ msgid ""
 "perform any changes to the instance, but all content is available to be "
 "read."
 msgstr "Deze groep is niet gearchiveerd en niet actief te gebruiken. Het is niet mogelijk om veranderingen te maken aan deze groep, maar alle inhoud kan nog steeds gelezen worden."
+
+msgid "The image is not avaliable in that size"
+msgstr ""
 
 msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
@@ -536,6 +540,9 @@ msgstr "Vrouw"
 msgid "Male"
 msgstr "Man"
 
+msgid "The avatar has been deleted."
+msgstr ""
+
 msgid "No optional attributes defined."
 msgstr "Geen optionele attributen gedefinieerd."
 
@@ -845,16 +852,16 @@ msgstr "De pagina '%s' bestaat niet"
 msgid "Invalid page function: %s"
 msgstr "Ongeldige pagina-functie: %s"
 
-msgid "No variant name is given."
-msgstr "Geen variant naam gegeven."
+msgid "No name is given."
+msgstr ""
 
 #, python-format
-msgid "Invalid variant name: %s"
-msgstr "Ongeldige variant naam: %s"
+msgid "Invalid name: %s"
+msgstr ""
 
 #, python-format
-msgid "Variant name cannot be purely numeric: %s"
-msgstr "Variant naam mag niet enkel cijfers zijn: %s"
+msgid "Name cannot be purely numeric: %s"
+msgstr ""
 
 msgid "An entry with this title already exists"
 msgstr "Deze titel wordt al gebruikt."
@@ -865,6 +872,10 @@ msgstr "Er is geen pagina naam gegeven."
 #, python-format
 msgid "Invalid page name: %s"
 msgstr "Ongeldige pagina naam: %s"
+
+#, python-format
+msgid "Variant name cannot be purely numeric: %s"
+msgstr "Variant naam mag niet enkel cijfers zijn: %s"
 
 #, python-format
 msgid "Invalid entry name: %s"
@@ -1803,7 +1814,7 @@ msgstr "Wij kunnen de 'overlay' niet tonen. Kijk <a href=\"%s\">hier</a> om te z
 msgid ""
 "This installation of adhocracy has been frozen. You can look at all content "
 "but editing is disabled."
-msgstr ""
+msgstr "Deze installatie van adhocracy is bevroren. U kunt alle inhoud bekijken maar het bewerken ervan is uitgeschakeld."
 
 msgid "Welcome back!"
 msgstr "Welkom terug!"
@@ -2053,14 +2064,14 @@ msgstr "Site administratie"
 msgid "Admin: Import Users"
 msgstr "Admin: Importeer Gebruikers"
 
+msgid "Users CSV"
+msgstr "Gebruikers CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de volgende vier kolommen: gebruikersnaam, weergavenaam, e-mail en badges (badges zijn optioneel, gescheiden door komma's en met aanhalingstekens rondom de lijst)"
-
-msgid "Users CSV"
-msgstr "Gebruikers CSV"
 
 msgid "Email Subject"
 msgstr "E-mail Onderwerp"
@@ -2146,11 +2157,14 @@ msgstr "Zoals '#a4a4a4'"
 msgid "Preview:"
 msgstr "Voorbeeld:"
 
-msgid "Delete current thumbnail image"
-msgstr "Verwijder huidige thumbnail afbeelding"
+msgid "Thumbnail"
+msgstr ""
 
 msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr "Upload thumbnail pictogram. Dit wordt in plaats van een kleur gebruikt om de badge te tonen"
+
+msgid "Delete current thumbnail image"
+msgstr "Verwijder huidige thumbnail afbeelding"
 
 msgid "Check to hide badge in user interface"
 msgstr "Verberg badge in gebruikersinterface"
@@ -2645,11 +2659,11 @@ msgstr "Beheren: %s"
 msgid "Manage"
 msgstr "Beheren"
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Selecteer een logo bestand dat bovenaan de groepspagina's zal worden weergegeven."
-
 msgid "Logo"
 msgstr "Logo"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Selecteer een logo bestand dat bovenaan de groepspagina's zal worden weergegeven."
 
 msgid "Current logo"
 msgstr "Huidig logo"
@@ -2874,6 +2888,9 @@ msgstr "Gebruik footer"
 
 msgid "Sender identity"
 msgstr "Afzender identiteit"
+
+msgid "Customize sender name: "
+msgstr ""
 
 msgid "Mass Message Preview"
 msgstr "Massa Bericht Voorbeeld"
@@ -3178,6 +3195,9 @@ msgstr "Uit"
 
 msgid "Propose New Amendment"
 msgstr "Nieuw Amendement Voorstellen"
+
+msgid "New Proposal"
+msgstr ""
 
 msgid "Information about the norm"
 msgstr "Informatie over het reglement"
@@ -4117,6 +4137,20 @@ msgstr "Begroeting"
 
 msgid "Select your prefered gender"
 msgstr "Selecteer uw gewenste geslacht"
+
+msgid "Avatar"
+msgstr ""
+
+msgid ""
+"Select a profile picture. The image should be square. If it is not it may be"
+" scaled accordingly."
+msgstr ""
+
+msgid "Current avatar"
+msgstr ""
+
+msgid "Delete current avatar"
+msgstr ""
 
 msgid "Short biography"
 msgstr "Korte biografie"

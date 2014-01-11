@@ -183,7 +183,7 @@ class Delegateable(meta.Indexable):
                                  Comment.delete_time > datetime.utcnow()))
         return query
 
-    def comment_count(self, reply_filter=False):
+    def comment_count(self, reply_filter=False, recursive=False):
         '''
         Return the number of comments on the delegateable.
 
@@ -193,6 +193,9 @@ class Delegateable(meta.Indexable):
             comments are counted. If an *int* or an
             :class:`adhocracy.model.comment.Comment` is given, only replies
             this comment are counted.
+
+        *recursive* (default: `False`)
+            Also count comments to children and sum up
         '''
         from comment import Comment
         query = self._comment_count_query()
@@ -203,7 +206,27 @@ class Delegateable(meta.Indexable):
                 reply_filter = reply_filter.id
             assert isinstance(reply_filter, int)
             query.filter(Comment.reply_id == reply_filter)
-        return query.count()
+        count = query.count()
+
+        if recursive:
+            counts = [c.comment_count(reply_filter=reply_filter,
+                                      recursive=True)
+                      for c in self.children]
+            counts.append(count)
+            return sum(counts)
+        else:
+            return count
+
+    def selection_count(self, recursive=False):
+        count = len(self.selections)
+
+        if recursive:
+            counts = [c.selection_count(recursive=True)
+                      for c in self.children]
+            counts.append(count)
+            return sum(counts)
+        else:
+            return count
 
     def current_delegations(self):
         return filter(lambda d: not d.is_revoked(), self.delegations)

@@ -102,6 +102,7 @@
 </%block>
 
 <%block name="sidebar">
+    ${components.message_button(c.page_user)}
     %if c.user and c.page_user != c.user:
         ${components.watch(c.page_user, show_skip=False)}
     %endif
@@ -110,7 +111,7 @@
     <div id="avatar" class="sidebar_box">
         <img src="${h.user.avatar_url(c.page_user, 256)}" alt="${c.page_user.name}" />
         %if c.show_upload_avatar:
-        <div><a class="button_round" href="${h.entity_url(c.user, member=u'settings')}">Upload avatar</a></div>
+        <div><a class="button_round" href="${h.entity_url(c.user, member=u'settings')}">${_(u'Upload avatar')}</a></div>
         %endif
     </div>
     %endif
@@ -173,9 +174,9 @@
             </div>
             %endif
         </h6>
-        %if c.global_badges + c.local_badges:
+        %if c.visible_badges:
         <ul class="nobullet">
-            %for badge in c.global_badges + c.local_badges:
+            %for badge in c.visible_badges:
             <li>${badge_tiles.badge(badge)}</li>
             %endfor
         </ul>
@@ -194,13 +195,6 @@
         <div>${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}</div>
         %else:
         <span>${_(u'None')}</span>
-        %endif
-
-        %if c.instance and can.user.message(c.page_user):
-        <h6>${_('Contact')}</h6>
-        <div>
-          <a href="${h.entity_url(c.page_user, instance=c.instance, member='message/new')}">${_(u'Send message')}</a>
-        </div>
         %endif
 
         <%doc>

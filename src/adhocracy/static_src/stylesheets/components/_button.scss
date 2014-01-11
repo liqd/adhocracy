@@ -94,6 +94,9 @@ a.button_round {
         margin: 1em 0;
     }
 }
+.message_button {
+    @include button-round;
+}
 
 /* delegate button */
 a.button.delegate {

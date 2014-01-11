@@ -27,7 +27,8 @@ def url(comment, member=None, format=None, comment_page=False,
                                                   **kwargs),
                         u'overlay_type': u'#overlay-url',
                     }
-                    return page.url(comment.topic.root, query=query)
+                    return page.url(comment.topic.sectionpage_root(),
+                                    query=query)
                 else:
                     return page.url(comment.topic, member=u'comments',
                                     **kwargs),

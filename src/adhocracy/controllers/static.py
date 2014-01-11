@@ -75,7 +75,7 @@ class StaticController(BaseController):
                        form_result.get('title'),
                        form_result.get('body'))
         helpers.flash(_('Page updated'), 'notice')
-        return redirect(helpers.base_url('/static/'))
+        return redirect(helpers.base_url('/static'))
 
     @guard_perms
     def edit(self, key, lang, errors=None, format=u'html'):
@@ -111,7 +111,7 @@ class StaticController(BaseController):
         sp.body = form_result.get('body')
         sp.commit()
         helpers.flash(_('Page updated'), 'notice')
-        return redirect(helpers.base_url('/static/'))
+        return redirect(helpers.base_url('/static'))
 
     @guard.perm('static.show')
     def serve(self, key, format='html'):

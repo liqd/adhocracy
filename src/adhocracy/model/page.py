@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+import re
 
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
@@ -201,13 +202,16 @@ class Page(Delegateable):
         return [c for c in self.children if isinstance(c, Page) and
                 c.function in self.LISTED and not c.is_deleted()]
 
-    @property
-    def root(self):
-        parent = self.parent
-        if parent is None:
+    def sectionpage_root(self):
+        """This returns the nearest ancestor sectionpage of this page.
+        If non exists this returns None"""
+        # I tried to avoid is_sectionpage() here as that is recursice itself
+        if self.sectionpage:
             return self
+        elif self.parent is not None:
+            return self.parent.sectionpage_root()
         else:
-            return parent.root
+            return None
 
     @property
     def has_variants(self):
@@ -275,7 +279,18 @@ class Page(Delegateable):
     def title(self):
         if not self.head or not self.head.title:
             return _("(Untitled)")
-        return self.head.title
+        title = self.head.title
+        if self.is_sectionpage():
+            # section titles are "root_title( index)*"
+            # this transforms that title into a more human-friendly one
+            root = self.sectionpage_root()
+            if root != self and \
+                    re.match('^%s( \d+)+$' % root.title, title) is not None:
+                section_no = title[len(root.title) + 1:].split(u' ')
+                section_no = [unicode(int(i, 10) + 1) for i in section_no]
+                section_no = u'.'.join(section_no)
+                return _(u"%s (section %s)") % (root.title, section_no)
+        return title
 
     @property
     def full_title(self):

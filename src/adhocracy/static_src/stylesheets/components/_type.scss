@@ -41,6 +41,7 @@ blockquote,
         font-size: 1.1em;
     }
 }
+.instance_description,
 .paper_text,
 .proposal .body {
     h1, h2, h3, h4, h5, h6 {
@@ -208,6 +209,6 @@ h1, h2, h3, h4, h5, h6 {
     .utility {
         display: inline-block;
         margin-left: 10px;
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 }

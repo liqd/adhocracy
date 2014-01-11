@@ -1,6 +1,7 @@
 # Translations template for adhocracy.
 # Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
+# 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012
 # zacks <mirceazachia@yahoo.com>, 2012
@@ -10,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-21 19:08+0100\n"
-"PO-Revision-Date: 2013-11-21 18:09+0000\n"
+"POT-Creation-Date: 2013-12-16 14:32+0100\n"
+"PO-Revision-Date: 2013-12-16 13:33+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
@@ -167,6 +168,9 @@ msgid ""
 "This instance is not active for use and is archived. It isn't possible to "
 "perform any changes to the instance, but all content is available to be "
 "read."
+msgstr ""
+
+msgid "The image is not avaliable in that size"
 msgstr ""
 
 msgid "The logo has been deleted."
@@ -536,6 +540,9 @@ msgstr "Feminin"
 msgid "Male"
 msgstr "Masculin"
 
+msgid "The avatar has been deleted."
+msgstr ""
+
 msgid "No optional attributes defined."
 msgstr ""
 
@@ -845,16 +852,16 @@ msgstr "Nu exista nici o pagina '%s' "
 msgid "Invalid page function: %s"
 msgstr "Pagina inexistenta: %s"
 
-msgid "No variant name is given."
-msgstr "Nu ai introdus numele variantei."
+msgid "No name is given."
+msgstr ""
 
 #, python-format
-msgid "Invalid variant name: %s"
-msgstr "Varianta %s are un nume nepermis"
+msgid "Invalid name: %s"
+msgstr ""
 
 #, python-format
-msgid "Variant name cannot be purely numeric: %s"
-msgstr "Numele variantei nu poate fi doar numeric: %s"
+msgid "Name cannot be purely numeric: %s"
+msgstr ""
 
 msgid "An entry with this title already exists"
 msgstr "O inregistrare cu acelasi titlu exista deja"
@@ -865,6 +872,10 @@ msgstr "Nu a fost introdus nici un nume pentru pagina."
 #, python-format
 msgid "Invalid page name: %s"
 msgstr "Nume de pagina '%s'  inexistent"
+
+#, python-format
+msgid "Variant name cannot be purely numeric: %s"
+msgstr "Numele variantei nu poate fi doar numeric: %s"
 
 #, python-format
 msgid "Invalid entry name: %s"
@@ -2053,14 +2064,14 @@ msgstr "Administrare site"
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
 
+msgid "Users CSV"
+msgstr "Lista utilizatori CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
-
-msgid "Users CSV"
-msgstr "Lista utilizatori CSV"
 
 msgid "Email Subject"
 msgstr "Subiect Email"
@@ -2146,10 +2157,13 @@ msgstr "Ex. '#a4a4a4'"
 msgid "Preview:"
 msgstr "Previzualizare:"
 
-msgid "Delete current thumbnail image"
+msgid "Thumbnail"
 msgstr ""
 
 msgid "Upload thumbnail icon. This is used instead of color to show the badge"
+msgstr ""
+
+msgid "Delete current thumbnail image"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2645,11 +2659,11 @@ msgstr "Gestioneaza: %s"
 msgid "Manage"
 msgstr "Gestioneaza"
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Selecteaza o imagine care sa apara in descrierea Comunitatii."
-
 msgid "Logo"
 msgstr "Logo"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Selecteaza o imagine care sa apara in descrierea Comunitatii."
 
 msgid "Current logo"
 msgstr "Logo curent"
@@ -2875,6 +2889,9 @@ msgid "Include footer"
 msgstr ""
 
 msgid "Sender identity"
+msgstr ""
+
+msgid "Customize sender name: "
 msgstr ""
 
 msgid "Mass Message Preview"
@@ -3179,6 +3196,9 @@ msgid "Off"
 msgstr "Nu"
 
 msgid "Propose New Amendment"
+msgstr ""
+
+msgid "New Proposal"
 msgstr ""
 
 msgid "Information about the norm"
@@ -4119,6 +4139,20 @@ msgid "Salutation"
 msgstr ""
 
 msgid "Select your prefered gender"
+msgstr ""
+
+msgid "Avatar"
+msgstr ""
+
+msgid ""
+"Select a profile picture. The image should be square. If it is not it may be"
+" scaled accordingly."
+msgstr ""
+
+msgid "Current avatar"
+msgstr ""
+
+msgid "Delete current avatar"
 msgstr ""
 
 msgid "Short biography"

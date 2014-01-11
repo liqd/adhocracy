@@ -1,4 +1,4 @@
-<%inherit file="/instance/settings.html" />
+<%inherit file="/template.html" />
 <%namespace name="message_new" file="/massmessage/new.html"/>
 <%namespace name="components" file="/components.html"/>
 
@@ -6,7 +6,7 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
 </%def>
 
-<%block name="settings_content">
+<%block name="main_content">
 ${components.flashmessages()}
 ${message_new.massmessage_form()}
 </%block>
