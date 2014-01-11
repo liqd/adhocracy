@@ -126,7 +126,7 @@
         %endif
 
         %if c.categories:
-        ${components.category_select('category_select', c.toplevel_question, c.categories)}
+        ${components.category_select('category_select', c.toplevel_question, c.categories, c.selected_category)}
         %endif
 
         <fieldset>

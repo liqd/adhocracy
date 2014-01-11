@@ -1579,8 +1579,9 @@ def solr_instance_pager(include_hidden=False):
     return pager
 
 
-def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None):
-    extra_filter = {'instance': instance.key}
+def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
+                        extra_filter={}):
+    extra_filter.update({'instance': instance.key})
     sorts = copy.deepcopy(PROPOSAL_SORTS)
     if default_sorting is None:
         default_sorting = get_def_proposal_sort_order()

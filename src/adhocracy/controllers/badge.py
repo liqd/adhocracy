@@ -1,3 +1,5 @@
+import logging
+
 from cgi import FieldStorage
 import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
@@ -24,7 +26,7 @@ from adhocracy.model import DelegateableBadge
 from adhocracy.model import InstanceBadge
 from adhocracy.model import ThumbnailBadge
 from adhocracy.model import UserBadge
-from adhocracy.lib import helpers as h
+from adhocracy.lib import helpers as h, logo
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import guard
@@ -33,6 +35,9 @@ from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.pager import PROPOSAL_SORTS
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import render
+
+
+log = logging.getLogger(__name__)
 
 
 class BadgeForm(formencode.Schema):
@@ -50,6 +55,7 @@ class BadgeForm(formencode.Schema):
 class CategoryBadgeForm(BadgeForm):
     select_child_description = validators.String(max=255)
     parent = ValidCategoryBadge(not_empty=False)
+    long_description = validators.String(max=20000)
     chained_validators = [
         # make sure parent has same instance as we
         ValidParentCategory()
@@ -262,16 +268,33 @@ class BadgeController(BaseController):
             self.form_result = CategoryBadgeForm().to_python(request.params)
         except Invalid as i:
             return self.add('category', i.unpack_errors())
+
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
+        long_description = self.form_result.get("long_description")
+        parent = self.form_result.get("parent")
         parent = self.form_result.get("parent")
         if parent and parent.id == id:
             parent = None
-        CategoryBadge.create(title, color, visible, description, impact,
-                             instance, parent=parent,
-                             select_child_description=child_descr)
+        badge = CategoryBadge.create(title, color, visible, description,
+                                     impact, instance, parent=parent,
+                                     long_description=long_description,
+                                     select_child_description=child_descr)
+
+        try:
+            # fixme: show image errors in the form
+            if ('image' in request.POST and
+                    hasattr(request.POST.get('image'), 'file') and
+                    request.POST.get('image').file):
+                logo.store(badge, request.POST.get('image').file)
+        except Exception, e:
+            meta.Session.rollback()
+            h.flash(unicode(e), 'error')
+            log.debug(e)
+            return self.add('category')
+
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
@@ -336,15 +359,15 @@ class BadgeController(BaseController):
         badge = self._get_badge_or_redirect(id)
         data = {
             'badge_type': self._get_badge_type(badge),
-            'badge_thumbnail': (
-                h.badge_helper.generate_thumbnail_tag(badge)
-                if getattr(badge, "thumbnail", None)
-                else None
-            ),
             'form_type': 'update',
             'return_url': self.base_url,
             'sorting_orders': PROPOSAL_SORTS,
         }
+        if getattr(badge, "thumbnail", None):
+            data['logo'] = h.badge_helper.generate_thumbnail_tag(badge)
+        elif self._get_badge_type(badge) == 'category' and logo.exists(badge):
+            data['logo'] = '<img src="%s" />' % h.category.image_url(badge, 48)
+
         self._set_parent_categories(exclude=badge)
 
         # Plug in current values
@@ -352,6 +375,7 @@ class BadgeController(BaseController):
         defaults = dict(
             title=badge.title,
             description=badge.description,
+            long_description=badge.long_description,
             color=badge.color,
             visible=badge.visible,
             display_group=badge.display_group,
@@ -469,10 +493,30 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
+
+        # delete the logo if the button was pressed and exit
+        if 'delete_image' in self.form_result:
+            updated = logo.delete(badge)
+            h.flash(_(u'The image has been deleted.'), 'success')
+            redirect(self.base_url)
+
+        try:
+            # fixme: show image errors in the form
+            if ('image' in request.POST and
+                    hasattr(request.POST.get('image'), 'file') and
+                    request.POST.get('image').file):
+                logo.store(badge, request.POST.get('image').file)
+        except Exception, e:
+            meta.Session.rollback()
+            h.flash(unicode(e), 'error')
+            log.debug(e)
+            return self.edit('category')
+
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
+        long_description = self.form_result.get("long_description", u'')
         #TODO global badges must have only global badges children, joka
         parent = self.form_result.get("parent")
         if parent and parent.id == id:
@@ -487,6 +531,7 @@ class BadgeController(BaseController):
                 update_entity(delegateable, UPDATE)
         badge.instance = instance
         badge.select_child_description = child_descr
+        badge.long_description = long_description
         badge.parent = parent
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
