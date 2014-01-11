@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Mieke Van Heesewijk <>, 2012
-# sicco <sicco@ddo.nl>, 2013
+# sicco <sicco@ddo.nl>, 2013-2014
 # sicco <sicco@ddo.nl>, 2012
 # The_Vole <the.vole.anonymous@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 20:09+0100\n"
-"PO-Revision-Date: 2014-01-08 19:09+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-01-11 12:36+0100\n"
+"PO-Revision-Date: 2014-01-08 23:47+0000\n"
+"Last-Translator: sicco <sicco@ddo.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,10 +144,10 @@ msgid "Badges"
 msgstr "Badges"
 
 msgid "Process presets"
-msgstr ""
+msgstr "Verwerk presets"
 
 msgid "Please select at least one preset"
-msgstr ""
+msgstr "Selecteer ten minste een preset"
 
 msgid "Delegations are enabled."
 msgstr "Het geven van volmachten is ingeschakeld."
@@ -200,7 +200,7 @@ msgstr "Een twee derde meerderheid"
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
 " you wish."
-msgstr ""
+msgstr "Groep is aangemaakt. Als u dat wilt kunt u het nu in meer detail configureren."
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1607,7 +1607,7 @@ msgstr "(Naamloos)"
 
 #, python-format
 msgid "%s (section %s)"
-msgstr ""
+msgstr "%s (sectie %s)"
 
 msgid "Status Quo"
 msgstr "Status Quo"
@@ -1665,13 +1665,13 @@ msgid "Receive email notifications if changes occur."
 msgstr "Ontvang e-mailnotificaties als er wijzigingen optreden."
 
 msgid "Message to Members"
-msgstr ""
+msgstr "Bericht aan Deelnemers"
 
 msgid "Message to Supporters"
-msgstr ""
+msgstr "Bericht aan Aanhangers"
 
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 msgid "Send us your feedback"
 msgstr "Stuur ons feedback"
@@ -2678,29 +2678,29 @@ msgid ""
 "Please select one or more of these presets for the initial configuration of "
 "your instance. If needed, you can fine-tune the individual settings later "
 "on."
-msgstr ""
+msgstr "Selecteer ten minste een preset voor de initiële configuratie van uw groep. Zo nodig kunt u de instellingen later aanpassen."
 
 msgid ""
 "You can select one or more of these presets to reset your instance "
 "configuration. Note that any manual configuration will be lost."
-msgstr ""
+msgstr "U kunt een of meer presets selecteren om de configuratie van uw groep te resetten. Merk op dat alle handmatige configuratie verloren gaat."
 
 msgid "Agenda Setting"
-msgstr ""
+msgstr "Agenda Instelling"
 
 msgid "Users can create proposals and dicuss them."
-msgstr ""
+msgstr "Gebruikers kunnen voorstellen maken en daarover discussieren."
 
 msgid "Consultation"
-msgstr ""
+msgstr "Consultatie"
 
 msgid ""
 "Post texts (so called \"norms\") and discuss them online. Users can write "
 "comments and propose changes."
-msgstr ""
+msgstr "Plaats teksten (zogenoemde \"reglementen\") en bespreek ze online. Gebruikers kunnen reageren en veranderingen voorstellen."
 
 msgid "Configure"
-msgstr ""
+msgstr "Configureren"
 
 msgid "Reset"
 msgstr "Opnieuw Instellen"
@@ -4237,7 +4237,7 @@ msgid "%s does not yet have a bio."
 msgstr "%s heeft geen biografie"
 
 msgid "Upload avatar"
-msgstr ""
+msgstr "Upload avatar"
 
 msgid "Account created"
 msgstr "Account aangemaakt"

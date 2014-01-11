@@ -5,15 +5,15 @@
 # Translators:
 # Skl8em <ben@skl8em.com>, 2010
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009
-# Debetancourt <idebetancourt@googlemail.com>, 2013
+# Debetancourt <idebetancourt@googlemail.com>, 2013-2014
 # Viola <post@violalebro.de>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 20:09+0100\n"
-"PO-Revision-Date: 2014-01-08 19:09+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-01-11 12:36+0100\n"
+"PO-Revision-Date: 2014-01-09 15:26+0000\n"
+"Last-Translator: Debetancourt <idebetancourt@googlemail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +44,7 @@ msgstr "adhésion automatique fixe - membres %s ajoutés"
 msgid ""
 "Requested generation of welcome codes, but welcome "
 "functionality(adhocracy.enable_welcome) is not enabled."
-msgstr ""
+msgstr "demande de génération des welcome codes reçue, mais la fonction (adhocracy.enable_welcome) n'est pas activée. "
 
 msgid "In all instances"
 msgstr "Dans tous les groupes"
@@ -144,10 +144,10 @@ msgid "Badges"
 msgstr "Badges"
 
 msgid "Process presets"
-msgstr ""
+msgstr "Préréglages du processus "
 
 msgid "Please select at least one preset"
-msgstr ""
+msgstr "Vous êtes priés de sélectionner au moins un préréglage "
 
 msgid "Delegations are enabled."
 msgstr "les délégations sont actives."
@@ -168,7 +168,7 @@ msgid ""
 msgstr "Cette instance n'est pas active pour toute utilisation et est archivée. Le contenu de cette instance est lisible, mais il est impossible d'opérer des changements au sein de cette instance. "
 
 msgid "The image is not avaliable in that size"
-msgstr ""
+msgstr "L'image n'est pas disponible dans cette taille "
 
 msgid "The logo has been deleted."
 msgstr "Ce logo a été supprimé."
@@ -200,7 +200,7 @@ msgstr "Majorité des deux tiers"
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
 " you wish."
-msgstr ""
+msgstr "Instance créée avec succès. Vous pouvez maintenant la configurer en détail si vous le souhaitez. "
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -235,7 +235,7 @@ msgid "Not permitted in system settings"
 msgstr "Ceci n'est pas permis dans paramètres système. "
 
 msgid "adhocracy.registration_support_email not set"
-msgstr ""
+msgstr "adhocracy.registration_support_email pas configuré. "
 
 #, python-format
 msgid "Could not render message: %s"
@@ -484,17 +484,17 @@ msgid "Tag \"%s\" has been removed from %s \"%s\"."
 msgstr "Le Tag \"%s\" a été supprimé de  %s \"%s\". "
 
 msgid "Treatment has been created."
-msgstr ""
+msgstr "Le traitement a été effectué. "
 
 #, python-format
 msgid "Could not find the entity '%s'"
 msgstr "Ne peut pas trouver l'entité: %s"
 
 msgid "All users have been assigned to their respective treatment badges."
-msgstr ""
+msgstr "Les treatment badges ont été respectivement attribué à tous les utilisateurs. "
 
 msgid "All users are already assigned to their respective treatment badges."
-msgstr ""
+msgstr "Les treatment badges respectifs ont déjà été attribués à tous les utilisateurs. "
 
 msgid ""
 "You have been logged out while authenticating at twitter. Please try again."
@@ -543,7 +543,7 @@ msgid "Male"
 msgstr "Masculin"
 
 msgid "The avatar has been deleted."
-msgstr ""
+msgstr "L'avatar a été supprimé. "
 
 msgid "No optional attributes defined."
 msgstr "aucun attribut facultatif défini. "
@@ -603,13 +603,13 @@ msgid "The activation link has been re-sent to your email address."
 msgstr "Un code d'activation a été envoyé a votre adresse mail."
 
 msgid "About me"
-msgstr ""
+msgstr "À propos de moi "
 
 msgid "Newest events"
-msgstr ""
+msgstr "Activités récentes "
 
 msgid "Contributions"
-msgstr ""
+msgstr "Contributions "
 
 msgid "Votes"
 msgstr "Votes"
@@ -792,14 +792,14 @@ msgid "No badges selected"
 msgstr "Aucune étiquette sélectionnée"
 
 msgid "Duplicates in input set of user badge IDs"
-msgstr ""
+msgstr "Doublons lors de l'entrée des ID badges d'utilisateurs. "
 
 #, python-format
 msgid "Could not find badges %s"
 msgstr "Ne parvient pas à trouver les étiquettes %s"
 
 msgid "Duplicates in input set of user badge labels"
-msgstr ""
+msgstr "Doublons lors de l'entrée des étiquettes de badges d'utilisateurs "
 
 #, python-format
 msgid "Cannot use global category %s in this instance"
@@ -855,15 +855,15 @@ msgid "Invalid page function: %s"
 msgstr "Fonction de page invalide: %s"
 
 msgid "No name is given."
-msgstr ""
+msgstr "Nom manquant."
 
 #, python-format
 msgid "Invalid name: %s"
-msgstr ""
+msgstr "Nom saisi non valide : %s"
 
 #, python-format
 msgid "Name cannot be purely numeric: %s"
-msgstr ""
+msgstr "Le nom saisi ne peut être purement numérique : %s"
 
 msgid "An entry with this title already exists"
 msgstr "Une instance avec cette clef existe déjà "
@@ -1024,7 +1024,7 @@ msgid "Dear Mr."
 msgstr "Monsieur"
 
 msgid "Dear"
-msgstr ""
+msgstr "Cher "
 
 msgid "Oldest"
 msgstr "Plus ancienne"
@@ -1062,12 +1062,12 @@ msgstr "trier par le nombre de votes obtenus pour cette proposition"
 msgid ""
 "First sort by proposals with important badges, then by the difference "
 "between number of votes for and against and also prefer newer proposals"
-msgstr ""
+msgstr "D'abord trier les propositions par les propositions avec des badges importants, ensuite par la différence du nombre de vote pour et contre et enfin privilégier les propositions récentes. "
 
 msgid ""
 "Prefer proposals where the gap between votes for and against is close, also "
 "proposals with more absolut votes are rated slightly higher"
-msgstr ""
+msgstr "Privilégier les propositions où la différence entre les votes pour et contre est moindre, ainsi que les propositions avec plus de votes absolus ont un classement légèrement supérieur "
 
 msgid "Sort by the characters of the proposal title"
 msgstr "Trier par les caractères du titre de la proposition"
@@ -1160,7 +1160,7 @@ msgid "Newest Proposals"
 msgstr "Dernières Propositions"
 
 msgid "Support by"
-msgstr ""
+msgstr "Soutien de"
 
 msgid "The changes were saved."
 msgstr "Les changements ont été sauvegardés. "
@@ -1189,7 +1189,7 @@ msgid "is against"
 msgstr "est contre"
 
 msgid "is"
-msgstr ""
+msgstr "est "
 
 msgid "for"
 msgstr "pour"
@@ -1308,7 +1308,7 @@ msgstr "proposition étiquetée :  %(proposal)s"
 
 #, python-format
 msgid "badged %(proposal)s"
-msgstr ""
+msgstr "badge attribué à %(proposal)s"
 
 #, python-format
 msgid "Poll cancelled: %(proposal)s"
@@ -1336,27 +1336,27 @@ msgstr "a effacé %(proposal)s"
 
 #, python-format
 msgid "New amendment to %(page)s: %(proposal)s"
-msgstr ""
+msgstr "Nouvelle modification pour %(page)s: %(proposal)s"
 
 #, python-format
 msgid "created amendment %(proposal)s to %(page)s"
-msgstr ""
+msgstr "proposition de modification effectuée %(proposal)s pour  %(page)s"
 
 #, python-format
 msgid "Edit amendment to %(page)s: %(proposal)s"
-msgstr ""
+msgstr "Éditer la modification pour %(page)s: %(proposal)s"
 
 #, python-format
 msgid "edited amendment %(proposal)s to %(page)s"
-msgstr ""
+msgstr "modification %(proposal)s éditée pour %(page)s"
 
 #, python-format
 msgid "Deleted amendment to %(page)s: %(proposal)s"
-msgstr ""
+msgstr "modification supprimée pour %(page)s: %(proposal)s"
 
 #, python-format
 msgid "deleted amendment %(proposal)s to %(page)s"
-msgstr ""
+msgstr "modification %(proposal)s supprimée de %(page)s"
 
 #, python-format
 msgid "New page: %(page)s"
@@ -1607,7 +1607,7 @@ msgstr "(Sans titre)"
 
 #, python-format
 msgid "%s (section %s)"
-msgstr ""
+msgstr "%s (paragraphe %s)"
 
 msgid "Status Quo"
 msgstr "Statu Quo"
@@ -1665,13 +1665,13 @@ msgid "Receive email notifications if changes occur."
 msgstr "recevoir une notification par mail en cas de changement"
 
 msgid "Message to Members"
-msgstr ""
+msgstr "Message aux membres "
 
 msgid "Message to Supporters"
-msgstr ""
+msgstr "Message aux membres soutenant cette proposition "
 
 msgid "Message"
-msgstr ""
+msgstr "Message "
 
 msgid "Send us your feedback"
 msgstr "Faites-nous parvenir vos réactions "
@@ -1686,7 +1686,7 @@ msgid "Description"
 msgstr "Description"
 
 msgid "Please enter your feedback in here and help us to improve our website"
-msgstr ""
+msgstr "Écrivez vos commentaires et suggestions ici et aidez-nous à améliorer notre site web "
 
 msgid "Submit"
 msgstr "soumettre"
@@ -1707,7 +1707,7 @@ msgid "Others"
 msgstr "Autres"
 
 msgid "Default proposal sort order"
-msgstr ""
+msgstr "ordre de classement des propositions par défaut"
 
 msgid "code of conduct"
 msgstr "Code de conduite"
@@ -1824,12 +1824,12 @@ msgstr "Adhocracy fonctionne mieux avec Javascript activé. "
 msgid ""
 "We could not display an overlay. See <a href=\"%s\">here</a> what it would "
 "have displayed."
-msgstr ""
+msgstr "Nous ne pouvions pas afficher la superposition. Voir <a href=\"%s\"> ici </a>  ce qui aurait été affiché. "
 
 msgid ""
 "This installation of adhocracy has been frozen. You can look at all content "
 "but editing is disabled."
-msgstr ""
+msgstr "Cette installation d'adhocracy a été gelée. Vous pouvez regarder tout le contenu mais la fonction d'édition du contenu est désactivée."
 
 msgid "Welcome back!"
 msgstr "Bienvenue !"
@@ -1915,14 +1915,14 @@ msgstr "Désactiver tous les tutoriels"
 msgid ""
 "A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
 " %(against)s nays"
-msgstr ""
+msgstr "Un total de <a href=\"%(url)s\">%(votes)s votes, dont %(for)s pour et %(against)s contre "
 
 #, python-format
 msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
-msgstr ""
+msgstr "Un total de  %(votes)s votes, dont %(for)s pour et %(against)s  contre "
 
 msgid "Votes by User Group"
-msgstr ""
+msgstr "Votes par groupes d'utilisateurs"
 
 msgid "Shortlink"
 msgstr "Shortlink"
@@ -1964,13 +1964,13 @@ msgid "Include comments"
 msgstr "Insérer les commentaires"
 
 msgid "Include proposal creator badges"
-msgstr ""
+msgstr "Insérer des badges pour l'auteur d'une proposition "
 
 msgid "Include ratings"
 msgstr "inclure des classements. "
 
 msgid "Export request log"
-msgstr ""
+msgstr "exporter requestlog "
 
 msgid "Export static pages"
 msgstr "Exporter les pages statiques. "
@@ -1979,19 +1979,19 @@ msgid "Export format:"
 msgstr "Exporter le format : "
 
 msgid "JSON"
-msgstr ""
+msgstr "JSON"
 
 msgid "JSON file"
-msgstr ""
+msgstr "JSON file "
 
 msgid "JSON file, compressed with gzip"
-msgstr ""
+msgstr "JSON file, compressé avec gzip"
 
 msgid "Tar file, compressed with bz2"
-msgstr ""
+msgstr "Tar file, compressé avec bz2"
 
 msgid "Zip file"
-msgstr ""
+msgstr "Zip file "
 
 msgid "Export Now"
 msgstr "Exporter maintenant"
@@ -2062,7 +2062,7 @@ msgid "Update Search Index"
 msgstr "Mettre à jour l'index de recherche"
 
 msgid "Fix autojoin"
-msgstr ""
+msgstr "Fix autojoin "
 
 msgid "Static Pages"
 msgstr "Pages statiques"
@@ -2071,7 +2071,7 @@ msgid "Send an email to users"
 msgstr "Envoyer un email aux utilisateurs"
 
 msgid "Assign treatment badges"
-msgstr ""
+msgstr "Attribuer des treatment badges"
 
 msgid "Site administration"
 msgstr "Administration du site"
@@ -2086,7 +2086,7 @@ msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
-msgstr ""
+msgstr "Coller le contenu d'un CSV file, e.g. exporté d'Excel, avec les 4 colonnes nom d'utilisateur, nom d'affichage, email et badges (les badges sont facultatifs et doivent être mis entre guillemets et séparés par des virgules) "
 
 msgid "Email Subject"
 msgstr "Sujet du message"
@@ -2173,7 +2173,7 @@ msgid "Preview:"
 msgstr "Aperçu :"
 
 msgid "Thumbnail"
-msgstr ""
+msgstr "Vignette "
 
 msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr "Télécharger une icône pour la vignette miniature. Ceci est utilisé à la place de couleurs pour indiquer les étiquettes. "
@@ -2225,7 +2225,7 @@ msgid ""
 msgstr "Décrire afin de sélectionner les sous-badges de ce badge principal (inapproprié, si ce badge n'a pas de sous-badges) "
 
 msgid "Impact"
-msgstr ""
+msgstr "impact"
 
 msgid "Save Badge"
 msgstr "Sauver badge"
@@ -2678,29 +2678,29 @@ msgid ""
 "Please select one or more of these presets for the initial configuration of "
 "your instance. If needed, you can fine-tune the individual settings later "
 "on."
-msgstr ""
+msgstr "Vous êtes priés de sélectionner un ou plusieurs de ces préréglages pour la configuration initiale de votre instance. Si besoin est, vous pouvez finaliser vos paramètres individuels plus tard. "
 
 msgid ""
 "You can select one or more of these presets to reset your instance "
 "configuration. Note that any manual configuration will be lost."
-msgstr ""
+msgstr "Vous pouvez sélectionner un ou plusieurs de ces préréglages pour reconfigurer votre instance. Remarquez que toute configuration manuelle sera perdue. "
 
 msgid "Agenda Setting"
-msgstr ""
+msgstr "Agenda Setting "
 
 msgid "Users can create proposals and dicuss them."
-msgstr ""
+msgstr "Les utilisateurs peuvent élaborer des propositions et les discuter. "
 
 msgid "Consultation"
-msgstr ""
+msgstr "Consultation "
 
 msgid ""
 "Post texts (so called \"norms\") and discuss them online. Users can write "
 "comments and propose changes."
-msgstr ""
+msgstr "Poster des textes (\"Thèmes\") et discuter les en ligne. Les utilisateurs peuvent écrire des commentaires et proposer des modifications. "
 
 msgid "Configure"
-msgstr ""
+msgstr "Configurer "
 
 msgid "Reset"
 msgstr "Réinitialiser"
@@ -2724,10 +2724,10 @@ msgid "You can add css that will be used to style the instance."
 msgstr "Vous pouvez aussi ajouter css en stylisant le groupe."
 
 msgid "Thumbnail badges width"
-msgstr ""
+msgstr "Largeur des vignettes"
 
 msgid "Thumbnail badges height"
-msgstr ""
+msgstr "Hauteur des badges miniatures"
 
 msgid "Use Norms"
 msgstr "Utiliser des thèmes"
@@ -2742,10 +2742,10 @@ msgid "Require to propose a variant"
 msgstr "Il est nécessaire que vous proposiez une variante"
 
 msgid "Show norms navigation item"
-msgstr ""
+msgstr "Afficher l'élément de navigation \"thème\" "
 
 msgid "Show proposals navigation item"
-msgstr ""
+msgstr "Afficher l'élément de navigation \"propositions\" "
 
 msgid "Use milestones"
 msgstr "Utiliser des dates"
@@ -2811,7 +2811,7 @@ msgid "Enable vote delegation"
 msgstr "Permettre le délégation des votes"
 
 msgid "Break down Voting Result by Badge"
-msgstr ""
+msgstr "Afficher les résultats de votes par badge"
 
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Afficher les réactions des utilisateurs portant cette étiquette à propos de cette problématique. "
@@ -2936,7 +2936,7 @@ msgid "Sender identity"
 msgstr "identité de l'expéditeur"
 
 msgid "Customize sender name: "
-msgstr ""
+msgstr "Personnaliser le nom de l'expéditeur: "
 
 msgid "Mass Message Preview"
 msgstr "aperçu de l'envoi de message en masse. "
@@ -3068,7 +3068,7 @@ msgid "See more"
 msgstr "Voir plus"
 
 msgid "with an abstention on"
-msgstr ""
+msgstr "s'abstient"
 
 #, python-format
 msgid "On %s, %s wrote:"
@@ -3243,7 +3243,7 @@ msgid "Propose New Amendment"
 msgstr "Proposer une nouvelle modification "
 
 msgid "New Proposal"
-msgstr ""
+msgstr "Nouvelle proposition "
 
 msgid "Information about the norm"
 msgstr "Information concernant le thème"
@@ -3879,20 +3879,20 @@ msgid "Compare"
 msgstr "Comparer"
 
 msgid "Treatments"
-msgstr ""
+msgstr "Treatments"
 
 #, python-format
 msgid "User assignments of %(treatment_key)s"
-msgstr ""
+msgstr "Affectation d'utilisateur de %(treatment_key)s"
 
 msgid "back to treatments"
-msgstr ""
+msgstr "retour au treatments"
 
 msgid "Treatment"
-msgstr ""
+msgstr "Treatment"
 
 msgid "Source Badges"
-msgstr ""
+msgstr "Badge source"
 
 msgid "Assign users"
 msgstr "désigner les utilisateurs"
@@ -3901,19 +3901,19 @@ msgid "See assigned users"
 msgstr "voir les utilisateurs désignés"
 
 msgid "Create a new treatment"
-msgstr ""
+msgstr "créer un nouveau traitement "
 
 msgid "Name:"
 msgstr "Nom : "
 
 msgid "Select users to treat by their badges:"
-msgstr ""
+msgstr "sélectionner les utilisateurs à traiter par leurs badges: "
 
 msgid "Number of variants:"
 msgstr "Nombre de versions : "
 
 msgid "Create treatment"
-msgstr ""
+msgstr "créer un traitement "
 
 msgid "All Members on this Adhocracy Server"
 msgstr "Tous les membres sur ce serveur d'Adhocracy"
@@ -4102,10 +4102,10 @@ msgid "Advanced settings"
 msgstr "paramètres avancés"
 
 msgid "Pager size"
-msgstr ""
+msgstr "Taille de la liste. "
 
 msgid "Default number of entries in listing pages"
-msgstr ""
+msgstr "Nombre d'entrées par défaut dans les listes. "
 
 msgid "Disable help messages"
 msgstr "désactiver les messages d'aide"
@@ -4159,7 +4159,7 @@ msgid "Receive occasional news from instance administrators"
 msgstr "recevoir les nouvelles occasionnelles des instances des administrateurs"
 
 msgid "Optional attributes"
-msgstr ""
+msgstr "Attributs facultatifs "
 
 msgid ""
 "The following attributes are only used for statistical evaluation. Your "
@@ -4182,18 +4182,18 @@ msgid "Select your prefered gender"
 msgstr "sélectionner votre genre favori. "
 
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar "
 
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
+msgstr "Sélectionner la photo du profil. L'image doit être carrée. Si tel n'est pas le cas, il se peut que les dimensions seront modifiées. "
 
 msgid "Current avatar"
-msgstr ""
+msgstr "Avatar actuel "
 
 msgid "Delete current avatar"
-msgstr ""
+msgstr "Supprimer l'avatar actuel "
 
 msgid "Short biography"
 msgstr "Brève biographie"
@@ -4237,7 +4237,7 @@ msgid "%s does not yet have a bio."
 msgstr "%s n'a pas encore une biographie."
 
 msgid "Upload avatar"
-msgstr ""
+msgstr "Télécharger l'avatar "
 
 msgid "Account created"
 msgstr "compte créé"
@@ -4280,7 +4280,7 @@ msgid "signed up %s"
 msgstr "inscrit depuis le %s"
 
 msgid "Generate welcome link"
-msgstr ""
+msgstr "générer le welcome link. "
 
 #, python-format
 msgid "Watchlist: %s"
