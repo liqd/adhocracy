@@ -22,7 +22,7 @@ ${h.proposal.breadcrumbs(None)|n}
     <div class="tile-row">
     %endif
 
-        <a class="tile" href="${h.base_url(member='category/%s' % category.title)|n}">
+        <a class="tile" href="${h.base_url(member='category/%s' % category.id)|n}">
             <span class="tile-image" style="background-image: url(${h.category.image_url(category, 256)})"></span>
             <h3>${category.title}</h3>
             <p>${category.description}</p>
