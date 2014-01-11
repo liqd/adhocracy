@@ -796,7 +796,8 @@ class UserController(BaseController):
             (u'votes' == active_key, _(u'Votes'), h.entity_url(
                 c.page_user, member='latest_votes')),
         ]
-        if c.instance is None or c.instance.allow_delegate:
+        if ((c.instance is None and any(i.allow_delegate for i in c.instances))
+                or (c.instance is not None and c.instance.allow_delegate)):
             nav.append((u'delegations' == active_key,
                        _(u'Delegations'),
                        h.entity_url(c.page_user,
@@ -819,7 +820,8 @@ class UserController(BaseController):
             (u'votes' == active_key, _(u'Votes'), h.base_url(
                 u'/user/dashboard/votes', instance=c.instance)),
         ]
-        if c.instance is None or c.instance.allow_delegate:
+        if ((c.instance is None and any(i.allow_delegate for i in c.instances))
+                or (c.instance is not None and c.instance.allow_delegate)):
             nav.append((u'delegations' == active_key,
                        _(u'Delegations'),
                        h.base_url(u'/user/dashboard/delegations',
@@ -879,6 +881,7 @@ class UserController(BaseController):
     def show(self, id, format=None, current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        c.instances = c.page_user.real_instances(exclude_current=False)
 
         if current_nav is None:
             redirect(h.entity_url(c.page_user, member=u'about', format=format))
@@ -921,6 +924,7 @@ class UserController(BaseController):
         require.user.show_dashboard(c.user)
 
         c.page_user = c.user
+        c.instances = c.page_user.real_instances(exclude_current=False)
 
         notifications = self._get_notifications(100, event_filter)
         c.events = [n.event for n in notifications]
