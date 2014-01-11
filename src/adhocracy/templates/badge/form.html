@@ -29,9 +29,13 @@ ${self.form()}
     <textarea name="description" id="description"
               style="width:90%; height: 9em"></textarea>
 
-    %if c.badge_type == 'category' and c.instance.display_category_pages:
+    %if c.badge_type == 'category':
+    %if c.instance.display_category_pages:
     <label for="long_description">${_("Long badge description")}</label>
     <textarea name="long_description" style="width:90%; height: 13em"></textarea>
+    %else:
+    <input type="hidden" name="long_description" />
+    %endif
     %endif
 
     <label for="color"
