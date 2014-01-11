@@ -1,5 +1,6 @@
 from adhocracy.lib import logo
 
+
 def image_url(category, y, x=None):
     from adhocracy.lib.helpers import base_url
     if x is None:

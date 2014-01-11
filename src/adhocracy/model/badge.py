@@ -183,7 +183,7 @@ class Badge(object):
         if instance is not MARKER:
             q = q.filter(cls.instance == instance)
         if visible_only:
-            q = q.filter(Badge.visible == True)
+            q = q.filter(Badge.visible == True)  # noqa
         return q
 
     @classmethod
