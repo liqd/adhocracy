@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 12:36+0100\n"
-"PO-Revision-Date: 2014-01-08 23:47+0000\n"
-"Last-Translator: sicco <sicco@ddo.nl>\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,8 +60,15 @@ msgstr "We kunnen de badge met %s ID niet vinden"
 msgid "Badge changed successfully"
 msgstr "De badge is veranderd"
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
 msgstr "Badge verwijderd"
+
+#, python-format
+msgid "No image for category '%s'."
+msgstr ""
 
 msgid "oldest"
 msgstr "oudste"
@@ -2163,6 +2170,9 @@ msgstr "Badge titel"
 msgid "Badge description"
 msgstr "Badge beschrijving"
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "De kleur die gebruikt wordt om de badge te tonen"
 
@@ -2180,6 +2190,15 @@ msgstr "Upload thumbnail pictogram. Dit wordt in plaats van een kleur gebruikt o
 
 msgid "Delete current thumbnail image"
 msgstr "Verwijder huidige thumbnail afbeelding"
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
+msgstr ""
 
 msgid "Check to hide badge in user interface"
 msgstr "Verberg badge in gebruikersinterface"
@@ -2280,6 +2299,36 @@ msgstr "Voorstel Thumbnail Badges"
 
 msgid "Instance Badges"
 msgstr "Groepsbadge"
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "bewerk"
+
+msgid "Introduce a new idea to debate."
+msgstr "Introduceer een nieuw idee om over te debatteren."
+
+msgid "Create new proposal"
+msgstr "Maak nieuw voorstel"
+
+msgid "Join instance to create a new proposal."
+msgstr "Word lid van deze groep om een voorstel in te dienen."
+
+msgid "Login to create a new proposal."
+msgstr "Log in om een nieuwe voorstel te maken"
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Bevestig uw e-mailadres om een nieuw voorstel aan te maken."
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "Reactie"
@@ -2383,9 +2432,6 @@ msgstr "is tegen"
 
 msgid "(deleted)"
 msgstr "(verwijderd)"
-
-msgid "edit"
-msgstr "bewerk"
 
 msgid "This comment has been deleted."
 msgstr "Deze reactie is verwijderd."
@@ -2747,6 +2793,9 @@ msgstr "Toon reglementennavigatie"
 msgid "Show proposals navigation item"
 msgstr "Toon voorstel navigatie item"
 
+msgid "Display category pages"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
 
@@ -2819,20 +2868,8 @@ msgstr "Toon wat gebruikers met de geselecteerde badge van dit onderwerp vinden.
 msgid "Home"
 msgstr "Home"
 
-msgid "Introduce a new idea to debate."
-msgstr "Introduceer een nieuw idee om over te debatteren."
-
 msgid "new proposal"
 msgstr "nieuw voorstel"
-
-msgid "Join instance to create a new proposal."
-msgstr "Word lid van deze groep om een voorstel in te dienen."
-
-msgid "Login to create a new proposal."
-msgstr "Log in om een nieuwe voorstel te maken"
-
-msgid "Validate email in order to create a new proposal."
-msgstr "Bevestig uw e-mailadres om een nieuw voorstel aan te maken."
 
 msgid "show a list of proposals"
 msgstr "toon een lijst van voorstellen zien"
@@ -3042,9 +3079,6 @@ msgstr "(onbekend)"
 
 msgid "Associated Proposals"
 msgstr "Gerelateerde Voorstellen"
-
-msgid "Create new proposal"
-msgstr "Maak nieuw voorstel"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Er zijn geen voorstellen verbonden aan deze mijlpaal"

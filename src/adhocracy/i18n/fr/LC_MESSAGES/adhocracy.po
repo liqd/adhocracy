@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 12:36+0100\n"
-"PO-Revision-Date: 2014-01-09 15:26+0000\n"
-"Last-Translator: Debetancourt <idebetancourt@googlemail.com>\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,8 +60,15 @@ msgstr "Nous ne pouvons pas trouver le badge avec les id %s"
 msgid "Badge changed successfully"
 msgstr "Changement du badge réussi"
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
 msgstr "étiquette supprimée avec succès. "
+
+#, python-format
+msgid "No image for category '%s'."
+msgstr ""
 
 msgid "oldest"
 msgstr "ancien"
@@ -2163,6 +2170,9 @@ msgstr "Badge titre"
 msgid "Badge description"
 msgstr "Description du Badge"
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "Le couleur utilisé à montrer le badge"
 
@@ -2180,6 +2190,15 @@ msgstr "Télécharger une icône pour la vignette miniature. Ceci est utilisé �
 
 msgid "Delete current thumbnail image"
 msgstr "Supprimer l'image de la vignette miniature actuelle. "
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
+msgstr ""
 
 msgid "Check to hide badge in user interface"
 msgstr "Vérifier de masquer le badge dans l'interface utilisateur"
@@ -2280,6 +2299,36 @@ msgstr "Vignette miniature pour les propositions. "
 
 msgid "Instance Badges"
 msgstr "Étiquettes pour les instances. "
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "editer"
+
+msgid "Introduce a new idea to debate."
+msgstr "Introduire une nouvelle idée a débattre."
+
+msgid "Create new proposal"
+msgstr "Créer une nouvelle proposition"
+
+msgid "Join instance to create a new proposal."
+msgstr "Joindre le groupe pour créer une nouvelle proposition."
+
+msgid "Login to create a new proposal."
+msgstr "Login pour créer une nouvelle proposition."
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Validez l'adresse mail afin de faire une nouvelle proposition. "
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "commentaire"
@@ -2383,9 +2432,6 @@ msgstr "est contre"
 
 msgid "(deleted)"
 msgstr "(effacé)"
-
-msgid "edit"
-msgstr "editer"
 
 msgid "This comment has been deleted."
 msgstr "Ce commentaire a été effacé."
@@ -2747,6 +2793,9 @@ msgstr "Afficher l'élément de navigation \"thème\" "
 msgid "Show proposals navigation item"
 msgstr "Afficher l'élément de navigation \"propositions\" "
 
+msgid "Display category pages"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Utiliser des dates"
 
@@ -2819,20 +2868,8 @@ msgstr "Afficher les réactions des utilisateurs portant cette étiquette à pro
 msgid "Home"
 msgstr "Acceuil"
 
-msgid "Introduce a new idea to debate."
-msgstr "Introduire une nouvelle idée a débattre."
-
 msgid "new proposal"
 msgstr "nouvelle proposition"
-
-msgid "Join instance to create a new proposal."
-msgstr "Joindre le groupe pour créer une nouvelle proposition."
-
-msgid "Login to create a new proposal."
-msgstr "Login pour créer une nouvelle proposition."
-
-msgid "Validate email in order to create a new proposal."
-msgstr "Validez l'adresse mail afin de faire une nouvelle proposition. "
 
 msgid "show a list of proposals"
 msgstr "montrer une liste des propositions"
@@ -3042,9 +3079,6 @@ msgstr "(inconnu)"
 
 msgid "Associated Proposals"
 msgstr "Propositions associées"
-
-msgid "Create new proposal"
-msgstr "Créer une nouvelle proposition"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Aucune proposition n'est liée à cette date"

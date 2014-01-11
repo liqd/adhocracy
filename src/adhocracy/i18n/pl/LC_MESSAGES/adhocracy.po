@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 20:09+0100\n"
-"PO-Revision-Date: 2014-01-08 19:09+0000\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,14 @@ msgstr "Etykieta o numerze %s nie została odnaleziona."
 msgid "Badge changed successfully"
 msgstr "Zmieniono etykietę"
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
+msgstr ""
+
+#, python-format
+msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -2160,6 +2167,9 @@ msgstr "Nazwa etykiety"
 msgid "Badge description"
 msgstr "Opis etykiety"
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "Kolor użyty do wyświetlania etykiety"
 
@@ -2176,6 +2186,15 @@ msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2277,6 +2296,36 @@ msgstr ""
 
 msgid "Instance Badges"
 msgstr "Etykiety grupy"
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "edytuj"
+
+msgid "Introduce a new idea to debate."
+msgstr "Przedstaw nowy pomysł do debaty."
+
+msgid "Create new proposal"
+msgstr "Stwórz nową propozycję"
+
+msgid "Join instance to create a new proposal."
+msgstr "Dołącz do grupy, by stworzyć nową propozycję."
+
+msgid "Login to create a new proposal."
+msgstr "Zaloguj się, by stworzyć nową propozycję."
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "Komentarz"
@@ -2380,9 +2429,6 @@ msgstr "jest przeciw"
 
 msgid "(deleted)"
 msgstr "(usunięto)"
-
-msgid "edit"
-msgstr "edytuj"
 
 msgid "This comment has been deleted."
 msgstr "Ten komentarz został usunięty."
@@ -2744,6 +2790,9 @@ msgstr ""
 msgid "Show proposals navigation item"
 msgstr ""
 
+msgid "Display category pages"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Użyj terminów"
 
@@ -2816,20 +2865,8 @@ msgstr ""
 msgid "Home"
 msgstr "Strona grupy"
 
-msgid "Introduce a new idea to debate."
-msgstr "Przedstaw nowy pomysł do debaty."
-
 msgid "new proposal"
 msgstr "Nowa propozycja"
-
-msgid "Join instance to create a new proposal."
-msgstr "Dołącz do grupy, by stworzyć nową propozycję."
-
-msgid "Login to create a new proposal."
-msgstr "Zaloguj się, by stworzyć nową propozycję."
-
-msgid "Validate email in order to create a new proposal."
-msgstr ""
 
 msgid "show a list of proposals"
 msgstr "Pokaż listę propozycji"
@@ -3041,9 +3078,6 @@ msgstr "(nieznane)"
 
 msgid "Associated Proposals"
 msgstr "Powiązane propozycje"
-
-msgid "Create new proposal"
-msgstr "Stwórz nową propozycję"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Z terminem tym nie są powiązane żadne propozycje"

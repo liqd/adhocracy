@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 20:09+0100\n"
-"PO-Revision-Date: 2014-01-08 19:09+0000\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,14 @@ msgstr "Titlul cu id-ul %s nu a fost gasit"
 msgid "Badge changed successfully"
 msgstr "Titlul a fost modificat"
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
+msgstr ""
+
+#, python-format
+msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -2163,6 +2170,9 @@ msgstr "Titlu"
 msgid "Badge description"
 msgstr "Descriere titlu"
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "Culoarea este folosita pentru titlu"
 
@@ -2179,6 +2189,15 @@ msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2280,6 +2299,36 @@ msgstr ""
 
 msgid "Instance Badges"
 msgstr "Titlurile Comunitatii"
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "modifica"
+
+msgid "Introduce a new idea to debate."
+msgstr "Introdu o idee noua in dezbatere."
+
+msgid "Create new proposal"
+msgstr "Creeaza o propunere noua"
+
+msgid "Join instance to create a new proposal."
+msgstr "Alatura-te comunitatii pentru a creea o noua propunere."
+
+msgid "Login to create a new proposal."
+msgstr "Logheaza-te pentru a creea o noua propunere."
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Valideaza adresa de email pentru a putea crea o propunere."
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "Comentariu"
@@ -2383,9 +2432,6 @@ msgstr "este contra"
 
 msgid "(deleted)"
 msgstr "(sters)"
-
-msgid "edit"
-msgstr "modifica"
 
 msgid "This comment has been deleted."
 msgstr "Acest comentariu a fost sters."
@@ -2747,6 +2793,9 @@ msgstr ""
 msgid "Show proposals navigation item"
 msgstr ""
 
+msgid "Display category pages"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Permite date limita"
 
@@ -2819,20 +2868,8 @@ msgstr ""
 msgid "Home"
 msgstr "Acasa"
 
-msgid "Introduce a new idea to debate."
-msgstr "Introdu o idee noua in dezbatere."
-
 msgid "new proposal"
 msgstr "propunere noua"
-
-msgid "Join instance to create a new proposal."
-msgstr "Alatura-te comunitatii pentru a creea o noua propunere."
-
-msgid "Login to create a new proposal."
-msgstr "Logheaza-te pentru a creea o noua propunere."
-
-msgid "Validate email in order to create a new proposal."
-msgstr "Valideaza adresa de email pentru a putea crea o propunere."
 
 msgid "show a list of proposals"
 msgstr "afiseaza lista de propuneri"
@@ -3044,9 +3081,6 @@ msgstr "(necunoscut)"
 
 msgid "Associated Proposals"
 msgstr "Propuneri asociate"
-
-msgid "Create new proposal"
-msgstr "Creeaza o propunere noua"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Nu exista propuneri asociate la aceasta data limita"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-08 20:09+0100\n"
-"PO-Revision-Date: 2014-01-08 19:09+0000\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,14 @@ msgstr "Мы не можем найти ярлык с номером %s"
 msgid "Badge changed successfully"
 msgstr "Ярлык изменён успешно"
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
+msgstr ""
+
+#, python-format
+msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -2165,6 +2172,9 @@ msgstr "Название ярлыка"
 msgid "Badge description"
 msgstr "Описание ярлыка. "
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "Цвет, который используется, чтобы показывать ярлык. "
 
@@ -2181,6 +2191,15 @@ msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2282,6 +2301,36 @@ msgstr ""
 
 msgid "Instance Badges"
 msgstr "Ярлыки организации"
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "редактировать"
+
+msgid "Introduce a new idea to debate."
+msgstr "Предложить к обсуждению новую идею."
+
+msgid "Create new proposal"
+msgstr "Создать новое предложение"
+
+msgid "Join instance to create a new proposal."
+msgstr "вступить в организацию, чтобы создать новое предложение"
+
+msgid "Login to create a new proposal."
+msgstr "Войти, чтобы создать новое предложение"
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "Коментарий"
@@ -2385,9 +2434,6 @@ msgstr "Против"
 
 msgid "(deleted)"
 msgstr "(удалено)"
-
-msgid "edit"
-msgstr "редактировать"
 
 msgid "This comment has been deleted."
 msgstr "Этот коментарий удален."
@@ -2749,6 +2795,9 @@ msgstr ""
 msgid "Show proposals navigation item"
 msgstr ""
 
+msgid "Display category pages"
+msgstr ""
+
 msgid "Use milestones"
 msgstr "Использовать сроки"
 
@@ -2821,20 +2870,8 @@ msgstr ""
 msgid "Home"
 msgstr "На главную"
 
-msgid "Introduce a new idea to debate."
-msgstr "Предложить к обсуждению новую идею."
-
 msgid "new proposal"
 msgstr "новое предложение"
-
-msgid "Join instance to create a new proposal."
-msgstr "вступить в организацию, чтобы создать новое предложение"
-
-msgid "Login to create a new proposal."
-msgstr "Войти, чтобы создать новое предложение"
-
-msgid "Validate email in order to create a new proposal."
-msgstr ""
 
 msgid "show a list of proposals"
 msgstr "Показать список предложений"
@@ -3046,9 +3083,6 @@ msgstr "(неизвестно)"
 
 msgid "Associated Proposals"
 msgstr "Ассоциированные предложения"
-
-msgid "Create new proposal"
-msgstr "Создать новое предложение"
 
 msgid "No proposals are connected to this milestone"
 msgstr "По указателю нет подключённых предложений"
