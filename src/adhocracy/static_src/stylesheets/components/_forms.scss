@@ -110,11 +110,16 @@ form .error {
 }
 
 #searchform,
-.list_form {
-    float: right;
+.list_form,
+#category_search {
     padding: 0;
     background: none;
     margin-bottom: 0;
+}
+
+#searchform,
+.list_form {
+    float: right;
 }
 
 .list_form label {
