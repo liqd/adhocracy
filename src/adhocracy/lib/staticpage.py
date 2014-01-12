@@ -18,12 +18,16 @@ log = logging.getLogger(__name__)
 
 class StaticPageBase(object):
 
-    def __init__(self, key, lang, body, title, private=False, css_classes=[]):
+    def __init__(self, key, lang, body, title, private=False,
+                 nav=u'', description=u'', column_right=u'', css_classes=[]):
         self.key = key
         self.lang = lang
         self.title = title
         self.body = body
         self.private = private
+        self.nav = nav
+        self.description = description
+        self.column_right = column_right
         self.css_classes = css_classes
 
     @staticmethod
@@ -106,9 +110,17 @@ class KottiStaticPage(StaticPageBase):
         page = result.json()
         if page is None or 'errors' in page:
             return None
-        return KottiStaticPage(key, page['lang'], page['body'], page['title'],
-                               page.get('private', False))
-
+        data = {'lang': u'',
+                'title': u'',
+                'description': u'',
+                'body': u'',
+                'column_right': u'',
+                'nav': u'',
+                'css_classes': [],
+                'private': False,
+                }
+        data.update(page)
+        return KottiStaticPage(key, **data)
 
 _BACKENDS = {
     'filesystem': FileStaticPage,
