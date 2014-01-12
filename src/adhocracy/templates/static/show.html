@@ -9,13 +9,30 @@
 </%def>
 
 <%block name="main_content">
-<div id="static_content">
+
+%if c.static.nav:
+    <nav id="static_nav">${h.literal(c.static.nav)}</nav>
+%endif
+
+<div id="static_content" class="${" ".join(c.static.css_classes)}">
 %if h.staticpage.can_edit():
 	<a class="button staticpage_edit" href="${h.entity_url(c.static)}">${_('Edit this page')}</a>
 %endif
 <h1 class="page_title">${c.static.title}</h1>
+%if c.static.description:
+<p class="page_description">
+    ${c.static.description}
+</p>
+%endif
 <div class="doc mainbar">
     ${c.body_html|n}
 </div>
 </div>
+
+%if c.static.column_right:
+<aside id="static_sidebar">
+    ${h.literal(c.static.column_right)}
+<aside>
+%endif
+
 </%block>
