@@ -47,6 +47,12 @@ a.tile {
     &:hover {
         color: inherit;
         text-decoration: inherit;
+        .tile-button:last-child {
+            @include button-background($primary-color);
+        }
+    }
+    .tile-button:last-child {
+        @include button-background($button-color);
     }
 }
 
