@@ -21,7 +21,7 @@
 
             .tile-button:last-child {
                 position: absolute;
-                left: 0;
+                // left: 0;  // buggy in firefox
                 bottom: 0;
             }
         }
