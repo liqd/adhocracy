@@ -357,6 +357,7 @@ ${caller.body()}
       <legend>${_('Proposal Category')}</legend>
       %if selected:
       <% (cat_id, key) = selected %>
+      <input type="hidden" name="category" value="${cat_id}">
       <select disabled="disabled">
         <option value="${cat_id}">${key}</option>
       </select>
