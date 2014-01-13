@@ -4,35 +4,49 @@
     ${c.static.title}
 </%def>
 
+
 <%def name="breadcrumbs()">
     ${h.staticpage.breadcrumbs(c.static)|n}
 </%def>
 
-<%block name="main_content">
 
-%if c.static.nav:
-    <nav id="static_nav">${h.literal(c.static.nav)}</nav>
-%endif
+<%block name="main">
+<div class="static_wrapper ${" ".join(c.static.css_classes)}">
+    <div class="full_teaser">
+        %if c.static.nav:
+        <nav id="static_nav">${h.literal(c.static.nav)}</nav>
+        %endif
 
-<div id="static_content" class="${" ".join(c.static.css_classes)}">
-%if h.staticpage.can_edit():
-    <a class="button staticpage_edit" href="${h.entity_url(c.static)}_${c.static.lang}">${_('Edit this page')}</a>
-%endif
-<h1 class="page_title">${c.static.title}</h1>
-%if c.static.description:
-<p class="page_description">
-    ${c.static.description}
-</p>
-%endif
-<div class="doc mainbar">
-    ${c.body_html|n}
+        <%block name="admin_controls">
+        %if h.staticpage.can_edit():
+        <a class="button staticpage_edit" href="${h.entity_url(c.static)}_${c.static.lang}">${_('Edit this page')}</a>
+        %endif
+        </%block>
+        <%block name="headline" />
+    </div>
+
+    <div id="col1">
+        <%block name="main_content">
+        <h2 class="page_title">${c.static.title}</h2>
+
+        %if c.static.description:
+        <p class="page_description">${c.static.description}</p>
+        %endif
+
+        <div class="doc mainbar">
+            ${c.body_html|n}
+        </div>
+        </%block>
+    </div>
+
+    <aside id="col3">
+        <%block name="col3">
+        <div id="sidebar">
+            %if c.static.column_right:
+            ${h.literal(c.static.column_right)}
+            %endif
+        </div>
+        </%block>
+    </aside>
 </div>
-</div>
-
-%if c.static.column_right:
-<aside id="static_sidebar">
-    ${h.literal(c.static.column_right)}
-<aside>
-%endif
-
 </%block>
