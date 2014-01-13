@@ -50,6 +50,29 @@
 
 <%block name="main_content">
 ${c.proposals_pager.render_pager()}
+
+<% auth = check.proposal.create() %>
+<div class="list_button" id="new-proposal">
+    %if auth:
+    <a class="button add ttip"
+       title="${_('Introduce a new idea to debate.')}"
+       href="${h.base_url('/proposal/new', query_params={'category': c.category.id})}">${_(u"new proposal")}</a>
+    %elif auth.propose_join():
+    <a class="button add ttip"
+       title="${_('Join instance to create a new proposal.')}"
+       href="${h.base_url('/proposal/new', query_params={'category': c.category.id})}"
+       rel="#overlay-join-button">${_(u"new proposal")}</a>
+    %elif auth.propose_login():
+    <a class="button add ttip"
+       title="${_('Login to create a new proposal.')}"
+       href="${h.base_url('/proposal/new', query_params={'category': c.category.id})}"
+       rel="#overlay-login-button">${_(u"new proposal")}</a>
+    %elif auth.propose_validate_email():
+    <a class="button add ttip"
+       title="${_('Validate email in order to create a new proposal.')}"
+       rel="#overlay-validate-button">${_(u"new proposal")}</a>
+    %endif
+</div>
 </%block>
 
 <%block name="sidebar">
