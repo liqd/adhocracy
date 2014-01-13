@@ -128,23 +128,21 @@
     </div>
     %endif
   <!-- begin: header -->
-  <header>
-    <div id="header">
-        <div class="page_wrapper">
-          <!-- begin: top navi -->
-          <div id="topnav">
-            <!-- start: skip link navigation -->
-            <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
-            <a class="skip" title="skip link" href="#main">Skip to the content</a><span class="hideme">.</span>
-            <!-- end: skip link navigation -->
-            %if h.config.get('adhocracy.twitter.profile_url'):
-            <a href="${h.config.get('adhocracy.twitter.profile_url')}" class="icon_link follow">Follow us!</a>
-            %endif
-          </div>
+  <header id="header">
+    <div class="page_wrapper">
+      <!-- begin: top navi -->
+      <div id="topnav">
+        <!-- start: skip link navigation -->
+        <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
+        <a class="skip" title="skip link" href="#main">Skip to the content</a><span class="hideme">.</span>
+        <!-- end: skip link navigation -->
+        %if h.config.get('adhocracy.twitter.profile_url'):
+        <a href="${h.config.get('adhocracy.twitter.profile_url')}" class="icon_link follow">Follow us!</a>
+        %endif
+      </div>
 
-          <%include file="logo.html" />
-          ${navigation.global_nav(c.active_global_nav)}
-        </div>
+      <%include file="logo.html" />
+      ${navigation.global_nav(c.active_global_nav)}
     </div>
   </header>
 
@@ -255,8 +253,9 @@
 
   </%block>
   <div id="main" class="default_content">
-  <%block name="main">
-  </%block>
+    <div id="main_page_wrapper" class="page_wrapper">
+      <%block name="main" />
+    </div>
   </div>
 
   <!-- Fixme: Here to render error pages -->

@@ -2,7 +2,7 @@
     background: $flash;
 
     .message, .confirm, .error {
-        padding: 20px 23px;
+        padding: 20px 0;
         display: block;
         overflow: hidden;
 
@@ -42,11 +42,6 @@
 .alert-warning,
 .alert-error {
     background: hsl(hue($red), saturation($flash), lightness($flash));
-}
-
-#welcome_message .info_box, .alert {
-    margin-left: 23px;
-    margin-right: 23px;
 }
 
 // overlay
@@ -103,12 +98,13 @@ html.overlay {
         min-width: 665px;
         .page_wrapper {
             width: auto;
+            padding: 0;
+        }
+        #col1 {
+            width: 100%;
         }
         #col3 {
             display: none;
-        }
-        .full_teaser, #col1_content {
-            padding: 0;
         }
     }
 }

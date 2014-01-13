@@ -1,17 +1,22 @@
 #footer .page_wrapper {
     padding: 40px 23px;
     background: url('/images/shadow_footer.jpg') no-repeat top center;
-}
-#second_footer_line {
     display: table;
+    table-layout: fixed;
+
+    // the clearfix here conflicts with `display: table` (additional column)
+    // so we disable it instead
+    &:after {
+        display: none;
+    }
 }
 
-.footer_content {
+#footer .page_wrapper > div {
     /* we use `display: table` to give all blocks (and
      * therefore lines) same height */
     display: table-cell;
     float: none;
-    padding: 0;
+    padding: 1em;
     margin-bottom: 0;
     background: none;
 
@@ -41,10 +46,6 @@
     }
 }
 
-.footer_box {
-    padding: 0 5px;
-}
-
-#footer, .footer_content h3, .footer_content a {
+#footer, #footer h3, #footer a {
     color: $fg1;
 }

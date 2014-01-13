@@ -1492,6 +1492,7 @@ var adhocracy = adhocracy || {};
         if (p.largeMap) {
             var top = $('#header').outerHeight() + $('#subheader').outerHeight() + $('#flash_message').outerHeight();
             $('#fullscreen_map').css('position', 'absolute').css('top', top + 'px').css('bottom', 0).css('width', '100%');
+            $('#main_page_wrapper').removeClass('page_wrapper');
             $('#hide_list_icon').show();
             $('#hide_list_icon').click(function () {
                 $('#hide_list_icon').hide();
@@ -1615,7 +1616,7 @@ var adhocracy = adhocracy || {};
         enlargeMap = function (event) {
             var top = $('#header').outerHeight();
             $('body').css('overflow', 'hidden');
-            $('#page_margins').removeClass('page_margins');
+            $('#main_page_wrapper').removeClass('page_wrapper');
             $('#content-top').removeClass('size_normal');
             $('#map_wrapper').removeClass('map_size_normal').addClass('map_size_full').css('top', top + 'px');
             adhocracy.geo.addResizeMapButton(map, true);
@@ -1630,7 +1631,7 @@ var adhocracy = adhocracy || {};
 
         shrinkMap = function (event) {
             $('body').css('overflow', 'auto');
-            $('#page_margins').addClass('page_margins');
+            $('#main_page_wrapper').addClass('page_wrapper');
             $('#content-top').addClass('size_normal');
             $('#map_wrapper').removeClass('map_size_full').addClass('map_size_normal').css('top', 'auto');
             adhocracy.geo.addResizeMapButton(map, false);

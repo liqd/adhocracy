@@ -49,8 +49,9 @@
 #content-startpage {
     background-color: #f5f4f0;
     float: left;
-    width: 258px;
-    height: 400px;
+    width: 31%;
+    @include box-sizing(border-box);
+    height: 400px + 2*20px;
     padding: 20px 25px;
 }
 
@@ -85,10 +86,10 @@
 
 #map_wrapper.map_size_normal {
     position: relative;
-    margin-left: 20px;
     height: 440px;
-    width: 640px;
-    float: left;
+    width: 67%;
+    @include box-sizing(border-box);
+    float: right;
 }
 
 #map_wrapper.map_size_full {
@@ -99,15 +100,17 @@
 }
 
 #content-bottom {
+    display: table;
+    table-layout: fixed;
     padding: 20px 0;
-    width: 100%;
+    width: calc(100% + 3em);
+    border-collapse: separate;
+    border-spacing: 1.5em 0;
+    margin-left: -1.5em;
 }
 
 #content-bottom-left, #newest-proposals-bottom-left {
-    float: left;
-    padding: 15px 20px;
-    width: 268px;
-    height: 190px;
+    display: table-cell;
 }
 
 #newest-proposals-bottom-left li.content_box {
@@ -138,23 +141,19 @@
 }
 
 #content-bottom-center {
+    display: table-cell;
     background-color: #f5f4f0;
-    float: left;
     padding: 15px 20px;
     margin: 0 20px;
-    width: 268px;
-    height: 190px;
 }
 
 #content-bottom-right {
+    display: table-cell;
     background-color: #f5f4f0;
     padding: 15px 20px;
-    width: 268px;
-    height: 190px;
-    float: left;
 }
 
-.ui-autocomplete-loading { 
+.ui-autocomplete-loading {
     background:url('/images/ui-anim_basic_16x16.gif') no-repeat 130px center;
 }
 

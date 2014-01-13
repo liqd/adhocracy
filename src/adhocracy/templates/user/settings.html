@@ -8,32 +8,25 @@
 <%block name="flashmessages">
 </%block>
 
-<%block name="content_wrapper">
+<%block name="main">
 <div id="settings">
     <div id="col1">
-        <div id="col1_content" class="clearfix">
-         <%block name="settings_content">
-         </%block>
-        </div>
+        <%block name="settings_content" />
     </div>
 
-    <aside>
-        <div id="col3">
-            <div id="col3_content" class="clearfix">
-                <div class="well">
-                <%block name="settings_menu">
-                <ul class="nav nav-list">
-                    %for item in c.settings_menu.values():
-                    <li class="${item['class']}">
-                        <a href="${item['url']}">${item['label']}</a>
-                    </li>
-                    %endfor
-                </ul>
-                </%block>
-                </div>
+    <aside id="col3">
+        <div id="sidebar">
+            <div class="well">
+            <%block name="settings_menu">
+            <ul class="nav nav-list">
+                %for item in c.settings_menu.values():
+                <li class="${item['class']}">
+                    <a href="${item['url']}">${item['label']}</a>
+                </li>
+                %endfor
+            </ul>
+            </%block>
             </div>
-            <!-- IE Column Clearing -->
-            <div id="ie_clearing"> &#160; </div>
         </div>
     </aside>
 </div>
