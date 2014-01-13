@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,14 @@ msgstr "Мы не можем найти ярлык с номером %s"
 msgid "Badge changed successfully"
 msgstr "Ярлык изменён успешно"
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
+msgstr ""
+
+#, python-format
+msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -145,14 +152,11 @@ msgstr "Голосования"
 msgid "Badges"
 msgstr "Ярлыки"
 
-msgid "Mass message service"
+msgid "Process presets"
 msgstr ""
 
-msgid "Members import"
-msgstr "Импорт участников"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Вы создали новую организацию. Вы можете настроить её на своё усмотрение."
+msgid "Please select at least one preset"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr ""
@@ -201,6 +205,11 @@ msgstr "Простое большинство (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Две трети большинства"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1605,6 +1614,10 @@ msgstr "⏎ \n⏎ \nБольше информации: %(url)s"
 msgid "(Untitled)"
 msgstr "(Без названия)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Статус-кво"
 
@@ -1658,6 +1671,15 @@ msgid "Disable email notifications."
 msgstr ""
 
 msgid "Receive email notifications if changes occur."
+msgstr ""
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Send us your feedback"
@@ -2150,6 +2172,9 @@ msgstr "Название ярлыка"
 msgid "Badge description"
 msgstr "Описание ярлыка. "
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "Цвет, который используется, чтобы показывать ярлык. "
 
@@ -2166,6 +2191,15 @@ msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2267,6 +2301,36 @@ msgstr ""
 
 msgid "Instance Badges"
 msgstr "Ярлыки организации"
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "редактировать"
+
+msgid "Introduce a new idea to debate."
+msgstr "Предложить к обсуждению новую идею."
+
+msgid "Create new proposal"
+msgstr "Создать новое предложение"
+
+msgid "Join instance to create a new proposal."
+msgstr "вступить в организацию, чтобы создать новое предложение"
+
+msgid "Login to create a new proposal."
+msgstr "Войти, чтобы создать новое предложение"
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "Коментарий"
@@ -2370,9 +2434,6 @@ msgstr "Против"
 
 msgid "(deleted)"
 msgstr "(удалено)"
-
-msgid "edit"
-msgstr "редактировать"
 
 msgid "This comment has been deleted."
 msgstr "Этот коментарий удален."
@@ -2632,6 +2693,13 @@ msgstr "Организации это малые демократии самоу
 msgid "new instance"
 msgstr "новая организация"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Управлять: %s"
+
+msgid "Manage"
+msgstr "Управлять"
+
 msgid "New Instance"
 msgstr "Новая организация"
 
@@ -2654,12 +2722,36 @@ msgstr "Опишите цели этой организации и кто ее �
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Разрешена как вики-маркировка, так и HTML)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Управлять: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Управлять"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Users can create proposals and dicuss them."
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid ""
+"Post texts (so called \"norms\") and discuss them online. Users can write "
+"comments and propose changes."
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Cброс"
 
 msgid "Logo"
 msgstr "Лого"
@@ -2701,6 +2793,9 @@ msgid "Show norms navigation item"
 msgstr ""
 
 msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Display category pages"
 msgstr ""
 
 msgid "Use milestones"
@@ -2775,20 +2870,8 @@ msgstr ""
 msgid "Home"
 msgstr "На главную"
 
-msgid "Introduce a new idea to debate."
-msgstr "Предложить к обсуждению новую идею."
-
 msgid "new proposal"
 msgstr "новое предложение"
-
-msgid "Join instance to create a new proposal."
-msgstr "вступить в организацию, чтобы создать новое предложение"
-
-msgid "Login to create a new proposal."
-msgstr "Войти, чтобы создать новое предложение"
-
-msgid "Validate email in order to create a new proposal."
-msgstr ""
 
 msgid "show a list of proposals"
 msgstr "Показать список предложений"
@@ -3000,9 +3083,6 @@ msgstr "(неизвестно)"
 
 msgid "Associated Proposals"
 msgstr "Ассоциированные предложения"
-
-msgid "Create new proposal"
-msgstr "Создать новое предложение"
 
 msgid "No proposals are connected to this milestone"
 msgstr "По указателю нет подключённых предложений"
@@ -4046,9 +4126,6 @@ msgstr "Для получения подступа Вы должны будет�
 msgid "E-Mail:"
 msgstr "Адрес электронной почты:"
 
-msgid "Reset"
-msgstr "Cброс"
-
 msgid "Confirmation pending"
 msgstr "В ожидании подтверждения"
 
@@ -4198,6 +4275,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr "%s пока не опубликовал свою биографию"
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr ""
 
@@ -4228,12 +4308,6 @@ msgid "Member in the following instances"
 msgstr ""
 
 msgid "Member in other instances"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
-msgid "Send message"
 msgstr ""
 
 #, python-format

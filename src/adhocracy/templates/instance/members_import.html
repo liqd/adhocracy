@@ -1,5 +1,5 @@
-<%inherit file="/instance/settings.html" />
-<%namespace name="import_success" file="/admin/userimport_success.html"/>
+<%inherit file="/template.html" />
+<%namespace name="import_form" file="/admin/userimport_form.html"/>
 <%namespace name="components" file="/components.html"/>
 <%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
 
@@ -7,6 +7,6 @@
     ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
 </%def>
 
-<%block name="settings_content">
-${import_success.success()}
+<%block name="main_content">
+${import_form.form(h.base_url('/user'))}
 </%block>

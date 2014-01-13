@@ -47,7 +47,7 @@ def main():
         instance_ids = [instance.id for instance in instances]
         query = query.filter(User.memberships.any(
             and_(Membership.instance_id.in_(instance_ids),
-                 or_(Membership.expire_time == None,
+                 or_(Membership.expire_time == None,  # noqa
                      Membership.expire_time > datetime.utcnow()))))
 
     for user in query:

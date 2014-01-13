@@ -5,7 +5,7 @@
     }
     th.group {
         vertical-align: bottom;
-        padding-bottom: 15px;
+        padding-bottom: 1.2em;
         p {
             @include rotate(-75deg);
         }
@@ -36,5 +36,5 @@
 }
 
 .importexport_settings {
-    margin-left: 30px;
+    margin-left: 2.3em;
 }

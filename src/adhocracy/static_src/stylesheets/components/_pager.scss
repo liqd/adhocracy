@@ -1,6 +1,6 @@
 .pager_wrapper {
     .floatbox {
-        padding: 5px 10px;
+        padding: 0.4em 0.8em;
         background-color: $bg1;
         @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     }
@@ -25,7 +25,7 @@
     float: right;
     text-align: right;
     color: $fg1;
-    margin: 0 0 15px 0;
+    margin: 0 0 1.2em 0;
 
     a.selected {
         color: $fg1;
@@ -35,29 +35,29 @@
     }
     .filter & {
         width: 50%;
-        margin: 15px 0 0 0;
+        margin: 1.2em 0 0 0;
     }
 }
 
 .pager {
     clear: both;
     text-align: right;
-    margin: 0 0 15px 0;
-    padding-top: 10px;
+    margin: 0 0 1.2em 0;
+    padding-top: 0.8em;
 
     .prev_page, .next_page {
         display: inline;
     }
     .prev_page a, .next_page a, .prev_page span, .next_page span, a, > span {
         display: inline-block;
-        padding: 0 8px;
-        line-height: 27px;
-        min-width: 11px;
+        padding: 0 0.6em;
+        line-height: 2;
+        min-width: 2em - 2*0.6em;
         text-align: center;
         background: $bg1;
-        margin: 0 2px;
+        margin: 0.2em;
         color: $fg1;
-        @include border-radius(15px);
+        @include border-radius(1em);
         border: 1px solid $border;
     }
     a:hover, a:focus {

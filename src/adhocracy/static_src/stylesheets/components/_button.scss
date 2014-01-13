@@ -1,4 +1,4 @@
-a.button {
+.button {
     @include button($button-color);
 
     &.highlight {
@@ -7,37 +7,37 @@ a.button {
     .register & {
         @include button-background($register-color);
         color: #fff;
-        line-height: 27px;
+        line-height: 2;
         float: left;
-        margin-right: 15px;
-        padding-right: 30px;
-        min-width: 140px;
+        margin-right: 1em;
+        padding-right: 2em;
+        min-width: 10em;
         position: relative;
 
         &:after {
             background: url('/images/sprite.png') no-repeat 0 -13*50px;
             content: "";
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 1.5em;
+            height: 1.5em;
             display: inline-block;
-            right: 10px;
+            right: 0.75em;
             top: 50%;
-            margin-top: -10px;
+            margin-top: -0.75em;
         }
     }
 }
 
 .submit input, .submit button, button[type="submit"] {
     @include button($primary-color);
-    font-size: 13px;
+    font-size: $medium;
     margin-right: 0.7em;
 
     // these are replaced elements and therefore
     // `line-height` does not apply in some browsers
     line-height: 1;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 a.button_small {
@@ -62,7 +62,7 @@ a.button_round {
     // icon
     &:before {
         content: "✚";
-        margin-right: 10px;
+        margin-right: 0.5em;
         color: #fff;
         background-color: $button-color;
         @include background-image(linear-gradient(170deg, lighten($button-color, 14%), $button-color));
@@ -70,9 +70,9 @@ a.button_round {
         // circle
         display: inline-block;
         text-align: center;
-        height: 16px;
-        width: 16px;
-        line-height: 16px;
+        height: 1em;
+        width: 1em;
+        line-height: 1;
         @include border-radius(50%);
     }
     &:hover:before, &:focus:before {
@@ -114,23 +114,23 @@ a.button.delegate {
         display: inline-block;
         width: 0;
         height: 0;
-        border-top: 4px solid;
-        border-right: 4px solid transparent;
-        border-left: 4px solid transparent;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
         content: "";
         vertical-align: middle;
         margin-left: 0.2em;
     }
     &.less:after {
         border-top: 0;
-        border-bottom: 4px solid;
+        border-bottom: 0.3em solid;
     }
 }
 
 .loading:after {
-    width: 16px;
-    height: 16px;
-    line-height: 16px;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.2em;
     content: ".";
     text-indent: 100%;
     display: inline-block;

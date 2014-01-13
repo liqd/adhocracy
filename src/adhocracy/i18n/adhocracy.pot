@@ -1,14 +1,14 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 6c6c381\n"
+"Project-Id-Version: adhocracy 31ba522\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,14 @@ msgstr ""
 msgid "Badge changed successfully"
 msgstr ""
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
+msgstr ""
+
+#, python-format
+msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -132,13 +139,10 @@ msgstr ""
 msgid "Badges"
 msgstr ""
 
-msgid "Mass message service"
+msgid "Process presets"
 msgstr ""
 
-msgid "Members import"
-msgstr ""
-
-msgid "Instance created successfully. You can now configure it as you like."
+msgid "Please select at least one preset"
 msgstr ""
 
 msgid "Delegations are enabled."
@@ -184,6 +188,9 @@ msgid "A simple majority (&frac12; of vote)"
 msgstr ""
 
 msgid "A two-thirds majority"
+msgstr ""
+
+msgid "Instance created successfully. You can now configure it in greater detail if you wish."
 msgstr ""
 
 #, python-format
@@ -1553,6 +1560,10 @@ msgstr ""
 msgid "(Untitled)"
 msgstr ""
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr ""
 
@@ -1606,6 +1617,15 @@ msgid "Disable email notifications."
 msgstr ""
 
 msgid "Receive email notifications if changes occur."
+msgstr ""
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Send us your feedback"
@@ -2130,6 +2150,9 @@ msgstr ""
 msgid "Badge description"
 msgstr ""
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr ""
 
@@ -2146,6 +2169,15 @@ msgid "Upload thumbnail icon. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2242,6 +2274,36 @@ msgid "Proposal Thumbnail Badges"
 msgstr ""
 
 msgid "Instance Badges"
+msgstr ""
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Introduce a new idea to debate."
+msgstr ""
+
+msgid "Create new proposal"
+msgstr ""
+
+msgid "Join instance to create a new proposal."
+msgstr ""
+
+msgid "Login to create a new proposal."
+msgstr ""
+
+msgid "Validate email in order to create a new proposal."
+msgstr ""
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
@@ -2345,9 +2407,6 @@ msgid "is con"
 msgstr ""
 
 msgid "(deleted)"
-msgstr ""
-
-msgid "edit"
 msgstr ""
 
 msgid "This comment has been deleted."
@@ -2601,6 +2660,13 @@ msgstr ""
 msgid "new instance"
 msgstr ""
 
+#, python-format
+msgid "Manage: %s"
+msgstr ""
+
+msgid "Manage"
+msgstr ""
+
 msgid "New Instance"
 msgstr ""
 
@@ -2619,11 +2685,28 @@ msgstr ""
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr ""
 
-#, python-format
-msgid "Manage: %s"
+msgid "Please select one or more of these presets for the initial configuration of your instance. If needed, you can fine-tune the individual settings later on."
 msgstr ""
 
-msgid "Manage"
+msgid "You can select one or more of these presets to reset your instance configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Users can create proposals and dicuss them."
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Post texts (so called \"norms\") and discuss them online. Users can write comments and propose changes."
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
 msgstr ""
 
 msgid "Logo"
@@ -2669,6 +2752,9 @@ msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Use Maps"
+msgstr ""
+
+msgid "Display category pages"
 msgstr ""
 
 msgid "Use milestones"
@@ -2740,19 +2826,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-msgid "Introduce a new idea to debate."
-msgstr ""
-
 msgid "new proposal"
-msgstr ""
-
-msgid "Join instance to create a new proposal."
-msgstr ""
-
-msgid "Login to create a new proposal."
-msgstr ""
-
-msgid "Validate email in order to create a new proposal."
 msgstr ""
 
 msgid "show a list of proposals"
@@ -2956,9 +3030,6 @@ msgid "(unknown)"
 msgstr ""
 
 msgid "Associated Proposals"
-msgstr ""
-
-msgid "Create new proposal"
 msgstr ""
 
 msgid "No proposals are connected to this milestone"
@@ -3996,9 +4067,6 @@ msgstr ""
 msgid "E-Mail:"
 msgstr ""
 
-msgid "Reset"
-msgstr ""
-
 msgid "Confirmation pending"
 msgstr ""
 
@@ -4138,6 +4206,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr ""
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr ""
 
@@ -4168,12 +4239,6 @@ msgid "Member in the following instances"
 msgstr ""
 
 msgid "Member in other instances"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
-msgid "Send message"
 msgstr ""
 
 #, python-format

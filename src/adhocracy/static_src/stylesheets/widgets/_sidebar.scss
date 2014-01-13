@@ -33,7 +33,7 @@
 }
 
 #col3 h3 {
-    font-size: 25px;
+    font-size: 190%;
     border-bottom: 1px dotted $border;
     margin: 0.3em 0;
     padding-bottom: 0.1em;
@@ -46,4 +46,9 @@
 #col3 .summary ol {
     list-style-type: none;
     margin-left: 0;
+}
+
+#settings #col3 .well a {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

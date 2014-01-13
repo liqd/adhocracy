@@ -8,7 +8,7 @@ do not exist yet.
 import os
 import sys
 from argparse import ArgumentParser
-sys.path.insert(0,  os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 # /end boilerplate code
 
 from paste.deploy import appconfig

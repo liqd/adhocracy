@@ -356,6 +356,17 @@ def make_map(config):
                 controller='badge', action="delete",
                 conditions=dict(method=['POST']))
 
+    # category image
+    map.connect('/category/{id}_{x}x{y}.png', controller='category',
+                action='image')
+    map.connect('/category/{id}_{y}.png', controller='category',
+                action='image')
+
+    map.connect('/category{.format}', controller='category', action='index',
+                conditions=dict(method=['GET']))
+    map.connect('/category/{id}{.format}', controller='category',
+                action='show', conditions=dict(method=['GET']))
+
     # not using REST since tags may contain dots, thus failing format
     # detection.
     map.connect('/tag', controller='tag', action='index',
@@ -457,12 +468,24 @@ def make_map(config):
     map.connect('/instance/{id}/message/preview{.format}',
                 controller='massmessage', action='preview',
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/members_import{.format}',
-                controller='instance', action='settings_members_import',
+    map.connect('/instance/{id}/members_import{.format}',
+                controller='instance', action='members_import',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/members_import{.format}',
-                controller='instance', action='settings_members_import_save',
+    map.connect('/instance/{id}/members_import{.format}',
+                controller='instance', action='members_import_save',
                 conditions=dict(method=['PUT', 'POST']))
+    map.connect('/instance/{id}/settings/presets{.format}',
+                controller='instance', action='settings_presets',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/presets{.format}',
+                controller='instance', action='settings_presets_update',
+                conditions=dict(method=['PUT', 'POST']))
+    map.connect('/instance/{id}/presets{.format}',
+                controller='instance', action='presets',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/presets{.format}',
+                controller='instance', action='presets_update',
+                conditions=dict(method=['POST']))
 
     map.resource('instance', 'instance', member={'join': 'GET',
                                                  'leave': 'POST',

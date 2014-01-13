@@ -1148,4 +1148,9 @@ $(document).ready(function () {
     if (typeof overlay_path !== 'undefined') {
         adhocracy.overlay.trigger(overlay_path, overlay_type);
     }
+
+    $('input.fake_submit').click(function() {
+        this.type = 'submit';
+        this.click();
+    });
 });

@@ -21,13 +21,13 @@ ${components.head(self.title)}
         <div id="hide_list_icon"></div>
         <div class="list_filter" id="proposals-search">
             <form class="list_form" action="?" method="GET" autocomplete="off">
-                <label class="floating" for="proposals_q">${_("Find proposals")}</label>
-                <input class="q" 
+                <label class="floating" for="proposals_q"></label>
+                <input class="search_text q" placeholder="${_('Find proposals')}"
                        id="proposals_q" class="live_search" name="proposals_q" 
                        type="text" value="${request.params.get('proposals_q', '')}" 
                        tabindex="1" />
                 <input type="submit" value="${_('Go')}" 
-                       class="go" />
+                       class="search_button go" />
             </form>
         </div>
         <div id="proposals_table" class="table">

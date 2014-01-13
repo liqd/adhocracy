@@ -217,6 +217,11 @@ class ProposalController(BaseController):
 
         self._set_categories()
 
+        if 'category' in request.params:
+            badge = model.CategoryBadge.find(request.params['category'])
+            if badge is not None:
+                c.selected_category = (badge.id, badge.title)
+
         def append_page(pid, text=None):
             page = model.Page.find(pid)
             if (page

@@ -47,14 +47,14 @@ legend {
   width: 100%;
   padding: 0;
   margin-bottom: 20px;
-  font-size: 21px;
-  line-height: 40px;
+  font-size: 160%;
+  line-height: 2;
   color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
 }
 legend small {
-  font-size: 15px;
+  font-size: $large;
   color: #999999;
 }
 label,
@@ -62,9 +62,9 @@ input,
 button,
 select,
 textarea {
-  font-size: 14px;
+  font-size: $large;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 1.4;
 }
 input,
 button,
@@ -94,15 +94,13 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 20px;
+  height: 1.4em;
   padding: 4px 6px;
   margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: $large;
+  line-height: 1.4;
   color: #555555;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  @include border-radius(0.3em);
   vertical-align: middle;
 }
 input,
@@ -186,13 +184,13 @@ input[type="checkbox"] {
 }
 select,
 input[type="file"] {
-  height: 30px;
+  height: 2em;
   /* In IE7, the height of the select element cannot be changed by height, only font-size */
 
   *margin-top: 4px;
   /* For IE7, add top margin to align select with labels */
 
-  line-height: 30px;
+  line-height: 2;
 }
 select {
   width: 220px;
@@ -612,7 +610,7 @@ select:focus:invalid:focus {
 .input-prepend .dropdown-menu,
 .input-append .popover,
 .input-prepend .popover {
-  font-size: 14px;
+  font-size: $large;
 }
 .input-append input,
 .input-prepend input,
@@ -643,9 +641,9 @@ select:focus:invalid:focus {
   height: 20px;
   min-width: 16px;
   padding: 4px 5px;
-  font-size: 14px;
+  font-size: $large;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 1.4;
   text-align: center;
   text-shadow: 0 1px 0 #ffffff;
   background-color: #eeeeee;

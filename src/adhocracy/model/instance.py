@@ -49,6 +49,7 @@ instance_table = Table(
     Column('require_selection', Boolean, nullable=True, default=False),
     Column('is_authenticated', Boolean, nullable=True, default=False),
     Column('hide_global_categories', Boolean, nullable=True, default=False),
+    Column('display_category_pages', Boolean, nullable=True, default=False),
     Column('editable_comments_default', Boolean, nullable=True, default=True),
     Column('editable_proposals_default', Boolean, nullable=True, default=True),
     Column('require_valid_email', Boolean, nullable=True, default=True),

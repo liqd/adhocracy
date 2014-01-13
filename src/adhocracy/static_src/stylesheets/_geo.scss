@@ -184,7 +184,7 @@
     position: absolute;
     z-index: 750;
     width: 217px;
-    max-height: 392px; 
+    max-height: 392px;
     top: 8px;
     right: 24px;
     background-color:  #ffffff;
@@ -192,19 +192,12 @@
     padding: 16px 16px 20px 16px;
 }
 
-#overview_search_field {
-    width: 154px;
-    height: 24px;
-    padding: 0;
-    margin-bottom: 0;
-    margin-right: -4px;
+#instance_search #searchform {
+    float: left;
 }
 
-#overview_search_button {
-    width: 60px;
-    height: 26px;
-    padding: 0px;
-    /*margin-left: -5px;*/
+#searchform #overview_search_field {
+    width: 154px;
 }
 
 #search_result_content {

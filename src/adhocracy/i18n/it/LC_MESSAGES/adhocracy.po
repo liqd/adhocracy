@@ -1,5 +1,5 @@
 # Translations template for adhocracy.
-# Copyright (C) 2013 ORGANIZATION
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:33+0000\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -59,8 +59,15 @@ msgstr "Impossibile trovare il badge con l'id %s"
 msgid "Badge changed successfully"
 msgstr "Il badge è stato modificato con successo."
 
+msgid "The image has been deleted."
+msgstr ""
+
 msgid "Badge deleted successfully"
 msgstr "Badge rimosso con successo"
+
+#, python-format
+msgid "No image for category '%s'."
+msgstr ""
 
 msgid "oldest"
 msgstr "meno recenti"
@@ -142,14 +149,11 @@ msgstr "Voti"
 msgid "Badges"
 msgstr "Badges"
 
-msgid "Mass message service"
-msgstr "Servizio di messaggistica"
+msgid "Process presets"
+msgstr ""
 
-msgid "Members import"
-msgstr "Importa membri"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Gruppo creato con successo. Ora puoi configurarlo a seconda delle tue necessità."
+msgid "Please select at least one preset"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Le delegazioni sono attive"
@@ -198,6 +202,11 @@ msgstr "Una maggioranza semplice (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Una maggioranza dei due terzi"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr ""
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1602,6 +1611,10 @@ msgstr "»⏎ »⏎ Dettagli: %(url)s"
 msgid "(Untitled)"
 msgstr "(Senza titolo)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr ""
+
 msgid "Status Quo"
 msgstr "Versione originale"
 
@@ -1656,6 +1669,15 @@ msgstr "Disabilita le email di notifica."
 
 msgid "Receive email notifications if changes occur."
 msgstr "Ricevi email di notifica se avvengono modifiche."
+
+msgid "Message to Members"
+msgstr ""
+
+msgid "Message to Supporters"
+msgstr ""
+
+msgid "Message"
+msgstr ""
 
 msgid "Send us your feedback"
 msgstr "Inviaci un Feedback"
@@ -2147,6 +2169,9 @@ msgstr "Titolo del Badge"
 msgid "Badge description"
 msgstr "Descrizione del Badge"
 
+msgid "Long badge description"
+msgstr ""
+
 msgid "The color that is used to show the badge"
 msgstr "Il colore che viene utilizzato per il Badge"
 
@@ -2164,6 +2189,15 @@ msgstr "Carica l'anteprima. Questa verrá usata al posto della funzione \"colore
 
 msgid "Delete current thumbnail image"
 msgstr "Elimina anteprima di immagine attuale"
+
+msgid "Image"
+msgstr ""
+
+msgid "Upload category image"
+msgstr ""
+
+msgid "Delete current category image"
+msgstr ""
 
 msgid "Check to hide badge in user interface"
 msgstr "Controlla per nascondere il badge nell'interfaccia utente"
@@ -2264,6 +2298,36 @@ msgstr "Badge di miniatura per la proposta"
 
 msgid "Instance Badges"
 msgstr "Badge del gruppo"
+
+msgid "View and discuss"
+msgstr ""
+
+msgid "edit"
+msgstr "modifica"
+
+msgid "Introduce a new idea to debate."
+msgstr "Introduci una nuova idea per iniziare un dibattito. "
+
+msgid "Create new proposal"
+msgstr "Suggerisci una nuova proposta"
+
+msgid "Join instance to create a new proposal."
+msgstr "Iscriviti al gruppo per creare una nuova proposta."
+
+msgid "Login to create a new proposal."
+msgstr "Accedi per creare una nuova proposta"
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Verifica il tuo indirizzo email per poter creare una nuova proposta."
+
+msgid "Search proposals"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Norms in this Category"
+msgstr ""
 
 msgid "Comment"
 msgstr "Commento"
@@ -2367,9 +2431,6 @@ msgstr "è contro"
 
 msgid "(deleted)"
 msgstr "(eliminato)"
-
-msgid "edit"
-msgstr "modifica"
 
 msgid "This comment has been deleted."
 msgstr "Il commento è stato eliminato."
@@ -2629,6 +2690,13 @@ msgstr "I gruppi rappresentano delle piccole democrazie che gestiscono la propri
 msgid "new instance"
 msgstr "Nuovo gruppo"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Amministra: %s"
+
+msgid "Manage"
+msgstr "Amministra"
+
 msgid "New Instance"
 msgstr "Nuovo gruppo"
 
@@ -2651,12 +2719,36 @@ msgstr "Descrivi quali sono gli obiettivi di questo gruppo e chi fa parte di que
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Markdown e HTML sono consentiti qui.)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Amministra: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr ""
 
-msgid "Manage"
-msgstr "Amministra"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr ""
+
+msgid "Agenda Setting"
+msgstr ""
+
+msgid "Users can create proposals and dicuss them."
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid ""
+"Post texts (so called \"norms\") and discuss them online. Users can write "
+"comments and propose changes."
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Reset"
+msgstr "Reimposta"
 
 msgid "Logo"
 msgstr "Logo"
@@ -2699,6 +2791,9 @@ msgstr "Mostra l'elemento di navigazione \"delibere\""
 
 msgid "Show proposals navigation item"
 msgstr "Mostra l'elemento di navigazione \"proposte\""
+
+msgid "Display category pages"
+msgstr ""
 
 msgid "Use milestones"
 msgstr "Utilizza eventi"
@@ -2772,20 +2867,8 @@ msgstr "Visualizza l'opinione degli utenti che sono in possesso dei badges presc
 msgid "Home"
 msgstr "Home"
 
-msgid "Introduce a new idea to debate."
-msgstr "Introduci una nuova idea per iniziare un dibattito. "
-
 msgid "new proposal"
 msgstr "nuova proposta"
-
-msgid "Join instance to create a new proposal."
-msgstr "Iscriviti al gruppo per creare una nuova proposta."
-
-msgid "Login to create a new proposal."
-msgstr "Accedi per creare una nuova proposta"
-
-msgid "Validate email in order to create a new proposal."
-msgstr "Verifica il tuo indirizzo email per poter creare una nuova proposta."
 
 msgid "show a list of proposals"
 msgstr "mostra una lista di proposte"
@@ -2995,9 +3078,6 @@ msgstr "(sconosciuto)"
 
 msgid "Associated Proposals"
 msgstr "Proposte associate"
-
-msgid "Create new proposal"
-msgstr "Suggerisci una nuova proposta"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Non esiste nessuna proposta associata a questo evento."
@@ -4040,9 +4120,6 @@ msgstr "Digita il tuo indirizzo e-mail per reimpostare la tua password."
 msgid "E-Mail:"
 msgstr "E-mail:"
 
-msgid "Reset"
-msgstr "Reimposta"
-
 msgid "Confirmation pending"
 msgstr "In attesa di conferma"
 
@@ -4192,6 +4269,9 @@ msgstr ""
 msgid "%s does not yet have a bio."
 msgstr "%s non ha ancora completato il campo \"Breve biografia\""
 
+msgid "Upload avatar"
+msgstr ""
+
 msgid "Account created"
 msgstr "Profilo creato"
 
@@ -4223,12 +4303,6 @@ msgstr "Membri nelle seguenti istanze"
 
 msgid "Member in other instances"
 msgstr "Membro in altre istanze"
-
-msgid "Contact"
-msgstr "Contatto"
-
-msgid "Send message"
-msgstr "Invia messaggio"
 
 #, python-format
 msgid "joined %s"

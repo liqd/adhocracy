@@ -15,9 +15,9 @@
 </div>
 
 %for type in h.config.get_list('adhocracy.instance_overview_contents'):
-<hr />
 
-%if type == u'proposals':
+%if type == u'proposals' and c.page_instance.show_proposals_navigation:
+<hr />
 <div id="new_proposals_table" class="table">
     %if not h.config.get_bool('adhocracy.show_instance_overview_proposals_all'):
     <h3 class="section">${_("Newest Proposals")}</h3>
@@ -55,6 +55,7 @@
 %endif
 
 %if type == u'milestones' and c.page_instance.milestones:
+<hr />
 %if h.config.get_int('adhocracy.number_instance_overview_milestones') == 1:
 <h3 class="section">${_("Next milestone")}</h3>
 %else:
@@ -64,6 +65,7 @@ ${c.next_milestones_pager.here()}
 %endif
 
 %if type == u'events':
+<hr />
 <h3>${_('Newest Events')}</h3>
 ${c.events_pager.here()}
 %endif

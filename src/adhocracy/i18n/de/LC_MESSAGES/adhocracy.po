@@ -1,5 +1,5 @@
-# German translations for adhocracy.
-# Copyright (C) 2012 ORGANIZATION
+# Translations template for adhocracy.
+# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
@@ -17,14 +17,14 @@
 # rosangela <rosangelabochicchio@gmail.com>, 2013
 # cs <schroeder_carsten@gmx.de>, 2013
 # sicco <sicco@ddo.nl>, 2012
-# tobib <tobias.bengfort@liqd.de>, 2013
+# tobib <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-16 14:32+0100\n"
-"PO-Revision-Date: 2013-12-16 13:38+0000\n"
+"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"PO-Revision-Date: 2014-01-11 21:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -76,8 +76,15 @@ msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
 msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
 
+msgid "The image has been deleted."
+msgstr "Das Bild wurde gelöscht."
+
 msgid "Badge deleted successfully"
 msgstr "Badge erfolgreich gelöscht"
+
+#, python-format
+msgid "No image for category '%s'."
+msgstr "Kein Bild für Kategorie '%s'."
 
 msgid "oldest"
 msgstr "älteste"
@@ -159,14 +166,11 @@ msgstr "Abstimmungen"
 msgid "Badges"
 msgstr "Badges"
 
-msgid "Mass message service"
-msgstr "Benachrichtigungsdienst"
+msgid "Process presets"
+msgstr "Prozess Voreinstellungen"
 
-msgid "Members import"
-msgstr "Mitglieder importieren"
-
-msgid "Instance created successfully. You can now configure it as you like."
-msgstr "Gruppe erfolgreich angelegt. Sie können diese nun nach Ihrem Bedarf konfigurieren."
+msgid "Please select at least one preset"
+msgstr " Bitte wählen Sie mindestens einen Prozess"
 
 msgid "Delegations are enabled."
 msgstr "Delegationen sind aktiv."
@@ -215,6 +219,11 @@ msgstr "Einfache Mehrheit (&frac12; of vote)"
 
 msgid "A two-thirds majority"
 msgstr "Eine Zweidrittelmehrheit"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr "Gruppe erfolgreich angelegt. Sie können diese, falls gewünscht, noch genauer konfigurieren."
 
 #, python-format
 msgid "The instance %s has been deleted."
@@ -1655,6 +1664,10 @@ msgstr "\r\n\r\nMehr Informationen: %(url)s"
 msgid "(Untitled)"
 msgstr "(Unbenannt)"
 
+#, python-format
+msgid "%s (section %s)"
+msgstr "%s (Abschnitt %s)"
+
 msgid "Status Quo"
 msgstr "Originalversion"
 
@@ -1709,6 +1722,15 @@ msgstr "Keine Email-Benachrichtigungen mehr erhalten."
 
 msgid "Receive email notifications if changes occur."
 msgstr "Bei Änderungen per Email benachrichtigen."
+
+msgid "Message to Members"
+msgstr "Mitteilung an Mitglieder"
+
+msgid "Message to Supporters"
+msgstr "Mitteilung an Unterstützer*innen"
+
+msgid "Message"
+msgstr "Mitteilung"
 
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
@@ -2241,6 +2263,9 @@ msgstr "Titel des Badges"
 msgid "Badge description"
 msgstr "Beschreibung des Badges"
 
+msgid "Long badge description"
+msgstr "Ausführliche Badge-Beschreibung"
+
 msgid "The color that is used to show the badge"
 msgstr "Die Farbe, die für den Badge benutzt wird"
 
@@ -2258,6 +2283,15 @@ msgstr "Miniaturbild hochladen. Dieses wird verwendet anstatt Farbe um Badges da
 
 msgid "Delete current thumbnail image"
 msgstr "Lösche aktuelles Miniaturbild"
+
+msgid "Image"
+msgstr "Bild"
+
+msgid "Upload category image"
+msgstr "Bild für die Kategorie hochladen"
+
+msgid "Delete current category image"
+msgstr "Aktuelles Bild der Kategorie löschen"
 
 msgid "Check to hide badge in user interface"
 msgstr "Auswählen, um Badge im User Interface zu verstecken"
@@ -2358,6 +2392,36 @@ msgstr "Miniaturbild-Badges dieses Vorschlags"
 
 msgid "Instance Badges"
 msgstr "Gruppen-Badge"
+
+msgid "View and discuss"
+msgstr "Ansehen und diskutieren"
+
+msgid "edit"
+msgstr "bearbeiten"
+
+msgid "Introduce a new idea to debate."
+msgstr "Schlagen Sie eine neue Idee vor."
+
+msgid "Create new proposal"
+msgstr "Neuen Vorschlag anlegen"
+
+msgid "Join instance to create a new proposal."
+msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
+
+msgid "Login to create a new proposal."
+msgstr "Anmelden, um einen neuen Vorschlag anzulegen."
+
+msgid "Validate email in order to create a new proposal."
+msgstr "Verifizieren Sie Ihre Email-Adresse, um einen neuen Vorschlag anzulegen."
+
+msgid "Search proposals"
+msgstr "Vorschläge suchen"
+
+msgid "Find"
+msgstr "Finden"
+
+msgid "Norms in this Category"
+msgstr "Beschlüsse in dieser Kategorie"
 
 msgid "Comment"
 msgstr "Kommentar"
@@ -2461,9 +2525,6 @@ msgstr "ist dagegen"
 
 msgid "(deleted)"
 msgstr "(gelöscht)"
-
-msgid "edit"
-msgstr "bearbeiten"
 
 msgid "This comment has been deleted."
 msgstr "Dieser Kommentar wurde gelöscht."
@@ -2745,6 +2806,13 @@ msgstr ""
 msgid "new instance"
 msgstr "Neue Gruppe"
 
+#, python-format
+msgid "Manage: %s"
+msgstr "Verwalten: %s"
+
+msgid "Manage"
+msgstr "Verwalten"
+
 msgid "New Instance"
 msgstr "Neue Gruppe"
 
@@ -2770,12 +2838,36 @@ msgstr "Beschreiben Sie die Ziele dieser Gruppe und wer ihre Mitglieder sind."
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Markdown und HTML sind hier erlaubt.)"
 
-#, python-format
-msgid "Manage: %s"
-msgstr "Verwalten: %s"
+msgid ""
+"Please select one or more of these presets for the initial configuration of "
+"your instance. If needed, you can fine-tune the individual settings later "
+"on."
+msgstr "Bitte wählen Sie einen oder mehrere dieser voreingestellten Prozesse für die erstmalige Konfiguration Ihrer Gruppe. Falls benötigt können die einzelnen Optionen später genau angepasst werden."
 
-msgid "Manage"
-msgstr "Verwalten"
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr "Sie können einen oder mehrere dieser voreingestellten Prozesse auswählen um die Einstellung ihrer Gruppe zurückzustellen. Bitte beachten Sie, dass jegliche individuellen Anpassungen dabei verloren gehen."
+
+msgid "Agenda Setting"
+msgstr "Agenda Setting"
+
+msgid "Users can create proposals and dicuss them."
+msgstr "Nutzer*innen können Vorschläge erstellen und diskutieren."
+
+msgid "Consultation"
+msgstr "Konsulation"
+
+msgid ""
+"Post texts (so called \"norms\") and discuss them online. Users can write "
+"comments and propose changes."
+msgstr "Erstellen Sie Texte (sogenannte \"Beschlüsse\") und diskutieren Sie diese online. Nutzer*innen können Kommentare schreiben und Änderungen vorschlagen."
+
+msgid "Configure"
+msgstr "Einstellen"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
 
 msgid "Logo"
 msgstr "Logo"
@@ -2818,6 +2910,9 @@ msgstr "Zeige \"Beschluss\"-Reiter"
 
 msgid "Show proposals navigation item"
 msgstr "Zeige \"Vorschlag\"-Reiter"
+
+msgid "Display category pages"
+msgstr "Kategorienseiten anzeigen"
 
 msgid "Use milestones"
 msgstr "Termine verwenden"
@@ -2894,20 +2989,8 @@ msgstr "Die Meinung der Benutzer zu diesem Thema anzeigen, welche die ausgewähl
 msgid "Home"
 msgstr "Gruppe"
 
-msgid "Introduce a new idea to debate."
-msgstr "Schlagen Sie eine neue Idee vor."
-
 msgid "new proposal"
 msgstr "Neuer Vorschlag"
-
-msgid "Join instance to create a new proposal."
-msgstr "Gruppe beitreten, um einen neuen Vorschlag anzulegen."
-
-msgid "Login to create a new proposal."
-msgstr "Anmelden, um einen neuen Vorschlag anzulegen."
-
-msgid "Validate email in order to create a new proposal."
-msgstr "Verifizieren Sie Ihre Email-Adresse, um einen neuen Vorschlag anzulegen."
 
 msgid "show a list of proposals"
 msgstr "Eine Liste mit Vorschlägen anzeigen"
@@ -3136,9 +3219,6 @@ msgstr "(unbekannt)"
 
 msgid "Associated Proposals"
 msgstr "Verknüpfte Vorschläge"
-
-msgid "Create new proposal"
-msgstr "Neuen Vorschlag anlegen"
 
 msgid "No proposals are connected to this milestone"
 msgstr "Mit diesem Termin sind keine Vorschläge verknüpft"
@@ -4259,9 +4339,6 @@ msgstr "Geben Sie bitte Ihre Mailadresse an, um Ihr Passwort wiederherzustellen.
 msgid "E-Mail:"
 msgstr "E-Mail:"
 
-msgid "Reset"
-msgstr "Zurücksetzen"
-
 msgid "Confirmation pending"
 msgstr "Bestätigung steht aus"
 
@@ -4413,6 +4490,9 @@ msgstr "Kurzbiographie erstellen"
 msgid "%s does not yet have a bio."
 msgstr "%s hat noch keine Kurzbiographie angegeben."
 
+msgid "Upload avatar"
+msgstr "Profilbild hochladen"
+
 msgid "Account created"
 msgstr "Konto erstellt"
 
@@ -4444,12 +4524,6 @@ msgstr "Mitglied in folgenden Gruppen"
 
 msgid "Member in other instances"
 msgstr "Mitglied in anderen Gruppen"
-
-msgid "Contact"
-msgstr "Kontakt"
-
-msgid "Send message"
-msgstr "Nachricht senden"
 
 #, python-format
 msgid "joined %s"

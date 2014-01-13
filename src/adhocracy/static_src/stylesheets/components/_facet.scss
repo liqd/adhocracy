@@ -2,10 +2,10 @@
     ul {
         list-style: none;
         margin-left: 0;
-        margin-bottom: 5px;
+        margin-bottom: 0.4em;
 
         ul {
-            margin-left: 18px;
+            margin-left: 1.5em;
             &.noindent {
                 margin-left: 0;
             }
@@ -53,8 +53,8 @@
     }
 
     input {
-        margin-top: 2px;
-        margin-right: 5px;
+        margin-top: 0.1em;
+        margin-right: 0.3em;
     }
 
     .facet_item_text {

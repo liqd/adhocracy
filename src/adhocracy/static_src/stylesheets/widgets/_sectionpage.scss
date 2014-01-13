@@ -54,8 +54,8 @@ section.subpage {
                 }
 
                 a {
-                    $height: 17px;
-                    $arrow-length: 8px;
+                    $height: 1.4em;
+                    $arrow-length: 0.7em;
 
                     background-color: $primary-color;
                     color: #fff;
@@ -63,13 +63,13 @@ section.subpage {
 
                     display: inline-block;
                     position: relative;
-                    line-height: $height;
+                    line-height: 1.4;
 
                     &:after {
                         content: "";
                         position: absolute;
                         top: ($height - $arrow-length)/2;
-                        left: -$arrow-length;
+                        left: -$arrow-length * 0.9;  // avoid seperation due to rounding errors
                         display: block;
                         height: 0;
                         width: 0;

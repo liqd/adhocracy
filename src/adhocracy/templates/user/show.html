@@ -11,8 +11,6 @@
 
 <%block name="main_content">
 
-    <% instances = c.page_user.real_instances(exclude_current=False) %>
-
     <div class="dashboard_header_row">
         <div class="dashboard_select_instance">
             ${_(u'Activity in')}
@@ -20,14 +18,14 @@
                 %if c.dashboard:
                 <option ${u' selected="selected"' if c.instance is None else u''|n}
                     data-url="${h.base_url(u'/user/dashboard', instance=None, member=c.member)}">${_(u'All instances')}</option>
-                %for i in instances:
+                %for i in c.instances:
                 <option ${u' selected="selected"' if c.instance is i else u''|n}
                     data-url="${h.base_url(u'/user/dashboard', instance=i, member=c.member)}">${i.label}</option>
                 %endfor
                 %else:
                 <option ${u' selected="selected"' if c.instance is None else u''|n}
                     data-url="${h.entity_url(c.page_user, instance=None, member=c.member)}">${_(u'All instances')}</option>
-                %for i in instances:
+                %for i in c.instances:
                 <option ${u' selected="selected"' if c.instance is i else u''|n}
                     data-url="${h.entity_url(c.page_user, instance=i, member=c.member)}">${i.label}</option>
                 %endfor

@@ -67,7 +67,7 @@ ul, ol, dl {
     margin: 0 0 1em 1em;  /* LTR */
 }
 li {
-    line-height: 1.5em;
+    line-height: 1.5;
     margin-left: 0.8em; /* LTR */
 }
 
@@ -159,8 +159,8 @@ q:before, q:after {
     /* Absolute positioning only within #header */
     #header #topnav {
         position: absolute;
-        top: 10px;
-        right: 10px; /* LTR */
+        top: 0.8em;
+        right: 0.8em; /* LTR */
     }
 
     /* Backup for correct positioning */
@@ -223,7 +223,7 @@ q:before, q:after {
         margin: 0 auto;
         width: 1004px;
         background: transparent;
-        padding: 0 24px;
+        padding: 0 1.8em;
         @include box-sizing(border-box);
     }
 
@@ -235,7 +235,7 @@ q:before, q:after {
         @include background-image(linear-gradient(to bottom, darken($header-color, 2%), lighten($header-color, 2%)));
     }
     #topnav { text-align: right; color: #fff; background: transparent; }
-    #main { margin: 10px 0 60px; }
+    #main { margin: 0.8em 0 4.5em; }
     #footer {
         padding: 0;
         background-color: $bg1;
@@ -257,7 +257,7 @@ q:before, q:after {
         margin: 0 0 0 67%;
     }
     #sidebar {
-        margin: 0 0 0 31px;
+        margin: 0 0 0 2.4em;
     }
 
     #settings #col1 {
@@ -276,13 +276,13 @@ q:before, q:after {
             width: 12em;
         }
         .affix {
-            top: 20px;
+            top: 1.5em;
         }
     }
 
-    .subcl { padding: 0 20px 0 0; }
-    .subc { padding: 0 10px; }
-    .subcr { padding: 0 0 0 20px; }
+    .subcl { padding: 0 1.5em 0 0; }
+    .subc { padding: 0 0.8em; }
+    .subcr { padding: 0 0 0 1.5em; }
 }
 
 @media print {
