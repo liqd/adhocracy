@@ -79,7 +79,7 @@ def bc_entity(user):
 def breadcrumbs(user, dashboard=False):
     from adhocracy.lib.helpers import base_url
     bc = _url.root()
-    bc += _url.link(_("Users"), u'/user')
+    bc += _url.link(_("Members"), u'/user')
     if user is not None:
         bc += bc_entity(user)
     if dashboard:
