@@ -19,7 +19,7 @@ def icon_url(instance, y, x=None):
     return _url.build(instance, 'instance', filename, query={'t': str(mtime)})
 
 
-def breadcrumbs(instance):
+def breadcrumbs(instance=None):
     bc = _url.root()
     return bc
 

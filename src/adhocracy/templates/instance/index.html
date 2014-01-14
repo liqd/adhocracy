@@ -3,7 +3,7 @@
 <%def name="title()">${_("Instances")}</%def>
 
 <%def name="breadcrumbs()">
-${h.site.name()} &raquo; ${_("Instances")}
+    ${h.instance.breadcrumbs()|n} ${h.url.link(_("Instances"), h.base_url('/instance'))|n}
 </%def>
 
 
