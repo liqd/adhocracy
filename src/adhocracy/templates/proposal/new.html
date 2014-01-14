@@ -4,7 +4,7 @@
 <%def name="title()">${_("New amendment") if c.amendment else _("New proposal")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.proposal.breadcrumbs(None)|n}
+    ${h.proposal.breadcrumbs(None)|n} &raquo; ${_("New")}
 </%def>
 
 <%block name="headline">
