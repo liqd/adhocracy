@@ -4,7 +4,7 @@
 <%def name="title()">${_("New comment") if h.comment.wording() else _("New argument")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.instance.breadcrumbs(c.instance)|n} &raquo; ${_("New comment") if h.comment.wording() else _("New argument")}
+    ${h.instance.breadcrumbs(c.instance)|n} ${_("New comment") if h.comment.wording() else _("New argument")}
 </%def>
 
 <%block name="headline">
