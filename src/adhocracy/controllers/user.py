@@ -60,11 +60,11 @@ def settings_menu(instance, current):
     show_optional = bool(config.get('adhocracy.user.optional_attributes'))
 
     return Menu.create(instance, current, OrderedDict([
-        ('personal', (L_(u'Personal'), True, 'settings')),
-        ('login', (L_(u'Login'), show_login)),
-        ('notifications', (L_('Notifications'),)),
-        ('advanced', (L_('Advanced'),)),
-        ('optional', (L_('Optional'), show_optional)),
+        ('personal', (_(u'Personal'), True, 'settings')),
+        ('login', (_(u'Login'), show_login)),
+        ('notifications', (_('Notifications'),)),
+        ('advanced', (_('Advanced'),)),
+        ('optional', (_('Optional'), show_optional)),
     ]))
 
 

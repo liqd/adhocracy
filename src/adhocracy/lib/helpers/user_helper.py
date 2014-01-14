@@ -84,6 +84,18 @@ def breadcrumbs(user):
     return bc
 
 
+def settings_breadcrumbs(user, member=None):
+    """member is a dict with the keys 'name' and 'label'."""
+    bc = breadcrumbs(user)
+    bc += _url.BREAD_SEP + _url.link(_("Settings"),
+                                     url(user, member="settings"))
+    if member is not None:
+        bc += _url.BREAD_SEP + _url.link(
+            member['label'],
+            url(user, member="settings/" + member['name']))
+    return bc
+
+
 def post_login_url(user):
     from adhocracy.lib.helpers import base_url
     url = config.get('adhocracy.post_login_url')
