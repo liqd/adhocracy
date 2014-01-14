@@ -73,14 +73,14 @@ def avatar_url(user, y, x=None):
 
 def breadcrumbs(user, dashboard=False):
     from adhocracy.lib.helpers import base_url
-    bc = _url.root()
-    bc += _url.link(_("Members"), base_url(u'/user'))
+    items = []
+    if c.instance is not None:
+        items.append(_url.link(_("Members"), base_url(u'/user')))
     if user is not None:
-        bc += _url.BREAD_SEP + _url.link(user.name, url(user))
+        items.append(_url.link(user.name, url(user)))
     if dashboard:
-        bc += _url.BREAD_SEP + _url.link(_('Dashboard'),
-                                         base_url('/user/dashboard'))
-    return bc
+        items.append(_url.link(_('Dashboard'), base_url('/user/dashboard')))
+    return _url.root() + _url.BREAD_SEP.join(items)
 
 
 def settings_breadcrumbs(user, member=None):
