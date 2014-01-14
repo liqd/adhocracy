@@ -71,17 +71,12 @@ def avatar_url(user, y, x=None):
     return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})
 
 
-@cache.memoize('user_bc')
-def bc_entity(user):
-    return _url.BREAD_SEP + _url.link(user.name, url(user))
-
-
 def breadcrumbs(user, dashboard=False):
     from adhocracy.lib.helpers import base_url
     bc = _url.root()
     bc += _url.link(_("Members"), u'/user')
     if user is not None:
-        bc += bc_entity(user)
+        bc += _url.BREAD_SEP + _url.link(user.name, url(user))
     if dashboard:
         bc += _url.BREAD_SEP + _url.link(_('Dashboard'),
                                          base_url('/user/dashboard'))
