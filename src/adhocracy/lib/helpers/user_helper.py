@@ -76,11 +76,15 @@ def bc_entity(user):
     return _url.BREAD_SEP + _url.link(user.name, url(user))
 
 
-def breadcrumbs(user):
+def breadcrumbs(user, dashboard=False):
+    from adhocracy.lib.helpers import base_url
     bc = _url.root()
     bc += _url.link(_("Users"), u'/user')
     if user is not None:
         bc += bc_entity(user)
+    if dashboard:
+        bc += _url.BREAD_SEP + _url.link(_('Dashboard'),
+                                         base_url('/user/dashboard'))
     return bc
 
 
