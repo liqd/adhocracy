@@ -1,3 +1,5 @@
+from pylons.i18n import _
+
 from adhocracy.lib import logo
 from adhocracy.lib.helpers import url as _url
 
@@ -19,4 +21,15 @@ def icon_url(instance, y, x=None):
 
 def breadcrumbs(instance):
     bc = _url.root()
+    return bc
+
+
+def settings_breadcrumbs(instance, member=None):
+    """member is a dict with the keys 'name' and 'label'."""
+    bc = breadcrumbs(instance)
+    bc += _url.link(_("Settings"), url(instance, member="settings"))
+    if member is not None:
+        bc += _url.BREAD_SEP + _url.link(
+            member['label'],
+            url(instance, member="settings/" + member['name']))
     return bc

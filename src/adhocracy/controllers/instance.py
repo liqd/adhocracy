@@ -65,12 +65,12 @@ def settings_url(instance, path):
 def settings_menu(instance, current):
 
     return Menu.create(instance, current, OrderedDict([
-        ('general', (L_(u'General'), True, 'settings')),
-        ('appearance', (L_('Appearance'),)),
-        ('contents', (L_('Contents'),)),
-        ('voting', (L_('Votings'),)),
-        ('badges', (L_('Badges'),)),
-        ('presets', (L_('Process presets'),)),
+        ('general', (_(u'General'), True, 'settings')),
+        ('appearance', (_('Appearance'),)),
+        ('contents', (_('Contents'),)),
+        ('voting', (_('Votings'),)),
+        ('badges', (_('Badges'),)),
+        ('presets', (_('Process presets'),)),
     ]))
 
 
