@@ -4,6 +4,11 @@
 
 <%def name="title()">${c.category.title}</%def>
 
+<%def name="breadcrumbs()">
+${h.category.breadcrumbs(c.category)|n}
+</%def>
+
+
 
 <%block name="headline">
 <h2>
