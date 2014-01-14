@@ -33,6 +33,7 @@ ${self.form()}
     %if c.instance.display_category_pages:
     <label for="long_description">${_("Long badge description")}</label>
     <textarea name="long_description" style="width:90%; height: 13em"></textarea>
+    ${components.formatting()}
     %else:
     <input type="hidden" name="long_description" />
     %endif
