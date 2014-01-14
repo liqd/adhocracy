@@ -62,7 +62,7 @@ a.button_round {
     // icon
     &:before {
         content: "✚";
-        margin-right: 0.5em;
+        margin-right: 0.4em;
         color: #fff;
         background-color: $button-color;
         @include background-image(linear-gradient(170deg, lighten($button-color, 14%), $button-color));
