@@ -7,6 +7,6 @@ def image_url(category, y, x=None):
         size = "%s" % y
     else:
         size = "%sx%s" % (x, y)
-    filename = u"%s_%s.png" % (category.title, size)
+    filename = u"%s_%s.png" % (category.id, size)
     (path, mtime) = logo.path_and_mtime(category)
     return base_url(u'/category/%s' % filename, query_params={'t': str(mtime)})
