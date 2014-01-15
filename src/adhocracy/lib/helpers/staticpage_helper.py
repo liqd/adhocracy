@@ -28,7 +28,7 @@ def get_body(key, default=''):
 
 
 def render_footer_column(instance, column):
-    if not config.get('adhocracy.customize_footer'):
+    if not config.get_bool('adhocracy.customize_footer'):
         return None
     path = u'footer_' + unicode(column)
     if instance and\
