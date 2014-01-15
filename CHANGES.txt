@@ -5,7 +5,8 @@ Adhocracy Changelog
 Kotti branch (unreleased)
 -------------------------
 
-- extended KottStaticPages backend with: nav, sidebar, description, css_classes [joka]
+- extended KottStaticPages backend with: nav, sidebar, description, css_classes, redirect_url
+  [joka]
 
 - added varnish reverse proxy [joka]
 
