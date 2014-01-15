@@ -37,6 +37,9 @@ class RESTAPI(object):
             'adhocracy_service.mediacenter.rest_api_address',
             config.get('adhocracy_service.rest_api_address', ''))
         self.mediacenter_headers = {"X-API-Token": self.mediacenter_api_token}
+        self.mediacenter_verify = config.get_bool(
+            'adhocracy_service.mediacenter.verify_ssl',
+            config.get_bool('adhocracy_service.verify_ssl', True))
         self.images_get = requests.Request(
             "GET",
             url=self.mediacenter_api_address + "images",
@@ -97,4 +100,5 @@ class RESTAPI(object):
                                        data=image_encoded,
                                        mimetype=mimetype,
                                        ))
-        return self.session.send(request.prepare())
+        return self.session.send(request.prepare(),
+                                 verify=self.mediacenter_verify)
