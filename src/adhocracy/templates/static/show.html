@@ -17,16 +17,12 @@
         <nav id="static_nav">${h.literal(c.static.nav)}</nav>
         %endif
 
-        <%block name="admin_controls">
         %if h.staticpage.can_edit():
         <a class="button staticpage_edit" href="${h.entity_url(c.static)}_${c.static.lang}">${_('Edit this page')}</a>
         %endif
-        </%block>
-        <%block name="headline" />
     </div>
 
     <div id="col1">
-        <%block name="main_content">
         <h2 class="page_title">${c.static.title}</h2>
 
         %if c.static.description:
@@ -36,17 +32,14 @@
         <div class="doc mainbar">
             ${c.body_html|n}
         </div>
-        </%block>
     </div>
 
     <aside id="col3">
-        <%block name="col3">
         <div id="sidebar">
             %if c.static.column_right:
             ${h.literal(c.static.column_right)}
             %endif
         </div>
-        </%block>
     </aside>
 </div>
 </%block>
