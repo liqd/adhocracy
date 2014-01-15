@@ -45,6 +45,8 @@ ${tiles.user.header(c.page_user)}
     ${components.formatting()}
     </%forms:textarea>
 
+    ${forms.checkbox(_("I am an organisation"), 'is_organization')}
+
     ${components.savebox(cancel_url=None)}
 
 </form>

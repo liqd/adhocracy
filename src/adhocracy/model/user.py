@@ -42,6 +42,7 @@ user_table = Table(
     Column('page_size', Integer, default=10, nullable=True),
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     Column('gender', Unicode(1), default=None),
+    Column('is_organization', Boolean, default=False),
     Column('email_messages', Boolean, default=True),
     Column('welcome_code', Unicode(255), nullable=True),
     Column('optional_attributes', MutationDict.as_mutable(JSONEncodedDict)),
