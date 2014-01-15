@@ -3,7 +3,7 @@ import json
 import requests
 import magic
 
-from pylons import config
+from adhocracy import config
 from adhocracy import i18n
 
 
