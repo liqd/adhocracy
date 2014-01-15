@@ -33,6 +33,12 @@ class RESTAPI(object):
         self.staticpages_api_address = config.get(
             'adhocracy_service.staticpages.rest_api_address',
             config.get('adhocracy_service.rest_api_address', ''))
+        self.staticpages_verify = config.get_bool(
+            'adhocracy_service.staticpages.verify_ssl',
+            config.get_bool('adhocracy_service.verify_ssl', True))
+        self.mediacenter_verify = config.get_bool(
+            'adhocracy_service.mediacenter.verify_ssl',
+            config.get_bool('adhocracy_service.verify_ssl', True))
         self.staticpages_headers = {"X-API-Token": self.staticpages_api_token}
         self.images_get = requests.Request(
             "GET",
@@ -62,8 +68,8 @@ class RESTAPI(object):
                                    ),
                                    params=params,
                                    headers=self.staticpages_headers)
-
-        return self.session.send(request.prepare())
+        return self.session.send(request.prepare(),
+                                 verify=self.staticpages_verify)
 
     def staticpage_get(self, path, languages=None):
         if languages is None:
@@ -79,7 +85,8 @@ class RESTAPI(object):
                                    },
                                    headers=self.staticpages_headers)
 
-        return self.session.send(request.prepare())
+        return self.session.send(request.prepare(),
+                                 verify=self.staticpages_verify)
 
     def add_image(self, filename, binarydata):
         """Post image data to the mediacenter
@@ -93,4 +100,5 @@ class RESTAPI(object):
                                        data=image_encoded,
                                        mimetype=mimetype,
                                        ))
-        return self.session.send(request.prepare())
+        return self.session.send(request.prepare(),
+                                 verify=self.mediacenter_verify)
