@@ -124,6 +124,8 @@ class StaticController(BaseController):
         if page is None:
             return abort(404, _('The requested page was not found'))
         c.body_css_classes += page.css_classes
+        if page.redirect_url != u'':
+            return redirect(page.redirect_url)
         data = {
             'static': page,
             'body_html': render_body(page.body),
