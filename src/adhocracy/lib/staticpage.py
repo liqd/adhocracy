@@ -20,7 +20,8 @@ log = logging.getLogger(__name__)
 class StaticPageBase(object):
 
     def __init__(self, key, lang, body, title, private=False,
-                 nav=u'', description=u'', column_right=u'', css_classes=[]):
+                 nav=u'', description=u'', column_right=u'', css_classes=[],
+                 redirect_url=u''):
         self.key = key
         self.lang = lang
         self.title = title
@@ -30,6 +31,7 @@ class StaticPageBase(object):
         self.description = description
         self.column_right = column_right
         self.css_classes = css_classes
+        self.redirect_url = redirect_url
 
     @staticmethod
     def get(key, lang):
@@ -119,6 +121,7 @@ class ExternalStaticPage(StaticPageBase):
                 'nav': u'',
                 'css_classes': [],
                 'private': False,
+                'redirect_url': u'',
                 }
         data.update(page)
         return ExternalStaticPage(key, **data)
