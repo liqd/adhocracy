@@ -39,3 +39,6 @@ def render_footer_column(instance, column):
         return None
     else:
         return page.body
+
+def breadcrumbs(staticpage):
+    return _url.root() + _url.link(staticpage.title, url(staticpage))
