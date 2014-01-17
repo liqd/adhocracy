@@ -2,7 +2,7 @@
 <%def name="title()">${_("Search") if not c.query else "'%s'" % c.query | n}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.instance.breadcrumbs(c.instance)|n} ${_("Search")}
+    ${h.instance.breadcrumbs(c.instance)|n} ${h.url.link(_("Search"), h.base_url('/search'))|n}
 </%def>
 
 <%block name="headline">

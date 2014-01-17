@@ -6,6 +6,7 @@ from pylons import config
 from pylons.i18n import _
 
 from adhocracy.lib import cache, logo
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.site_helper import CURRENT_INSTANCE
 from adhocracy.model import Instance
@@ -71,16 +72,29 @@ def avatar_url(user, y, x=None):
     return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})
 
 
-@cache.memoize('user_bc')
-def bc_entity(user):
-    return _url.BREAD_SEP + _url.link(user.name, url(user))
-
-
-def breadcrumbs(user):
-    bc = _url.root()
-    bc += _url.link(_("Users"), u'/user')
+def breadcrumbs(user, dashboard=False):
+    from adhocracy.lib.helpers import base_url
+    items = []
+    if c.instance is not None:
+        items.append(_url.link(_("Members"), base_url(u'/user')))
+    elif has('user.index_all'):
+        items.append(_url.link(_("Members"), base_url(u'/user/all')))
     if user is not None:
-        bc += bc_entity(user)
+        items.append(_url.link(user.name, url(user)))
+    if dashboard:
+        items.append(_url.link(_('Dashboard'), base_url('/user/dashboard')))
+    return _url.root() + _url.BREAD_SEP.join(items)
+
+
+def settings_breadcrumbs(user, member=None):
+    """member is a dict with the keys 'name' and 'label'."""
+    bc = breadcrumbs(user)
+    bc += _url.BREAD_SEP + _url.link(_("Settings"),
+                                     url(user, member="settings"))
+    if member is not None:
+        bc += _url.BREAD_SEP + _url.link(
+            member['label'],
+            url(user, member="settings/" + member['name']))
     return bc
 
 
