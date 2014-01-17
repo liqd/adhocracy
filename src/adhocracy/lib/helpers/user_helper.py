@@ -6,6 +6,7 @@ from pylons import config
 from pylons.i18n import _
 
 from adhocracy.lib import cache, logo
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.site_helper import CURRENT_INSTANCE
 from adhocracy.model import Instance
@@ -76,6 +77,8 @@ def breadcrumbs(user, dashboard=False):
     items = []
     if c.instance is not None:
         items.append(_url.link(_("Members"), base_url(u'/user')))
+    elif has('user.index_all'):
+        items.append(_url.link(_("Members"), base_url(u'/user/all')))
     if user is not None:
         items.append(_url.link(user.name, url(user)))
     if dashboard:
