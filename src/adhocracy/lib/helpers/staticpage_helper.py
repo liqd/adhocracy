@@ -7,7 +7,7 @@ from adhocracy.lib.helpers import url as _url
 
 @cache.memoize('staticpage_url')
 def url(staticpage, **kwargs):
-    pid = staticpage.key + '_' + staticpage.lang
+    pid = staticpage.key
     return _url.build(None, 'static', pid, **kwargs)
 
 
