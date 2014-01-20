@@ -377,29 +377,35 @@ def make_map(config):
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',
                 controller='instance', action='icon')
-    map.connect('/instance/{id}/settings{.format}',
+    map.connect('/instance/{id}/settings/overview{.format}',
+                controller='instance', action='settings_overview',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/overview{.format}',
+                controller='instance', action='settings_overview_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/general{.format}',
                 controller='instance', action='settings_general',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings{.format}',
+    map.connect('/instance/{id}/settings/general{.format}',
                 controller='instance', action='settings_general_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/appearance{.format}',
-                controller='instance', action='settings_appearance',
+    map.connect('/instance/{id}/settings/process{.format}',
+                controller='instance', action='settings_process',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/appearance{.format}',
-                controller='instance', action='settings_appearance_update',
+    map.connect('/instance/{id}/settings/process{.format}',
+                controller='instance', action='settings_process_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/contents{.format}',
-                controller='instance', action='settings_contents',
+    map.connect('/instance/{id}/settings/members{.format}',
+                controller='instance', action='settings_members',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/contents{.format}',
-                controller='instance', action='settings_contents_update',
+    map.connect('/instance/{id}/settings/members{.format}',
+                controller='instance', action='settings_members_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/voting{.format}',
-                controller='instance', action='settings_voting',
+    map.connect('/instance/{id}/settings/advanced{.format}',
+                controller='instance', action='settings_advanced',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/voting{.format}',
-                controller='instance', action='settings_voting_update',
+    map.connect('/instance/{id}/settings/advanced{.format}',
+                controller='instance', action='settings_advanced_update',
                 conditions=dict(method=['PUT']))
     map.connect('/instance/{id}/settings/badges{.format}',
                 controller='instance', action='settings_badges',

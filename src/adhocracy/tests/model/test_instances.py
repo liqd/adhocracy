@@ -28,7 +28,7 @@ class TestUserController(TestController):
                     'allow_delegate': True,
                     'allow_index': True,
                     'allow_propose': True,
-                    'allow_thumbnailbadges': False,
+                    'allow_thumbnailbadges': True,
                     'create_time': test_instance.create_time,
                     'creator': u'admin',
                     'default_group': u'voter',
