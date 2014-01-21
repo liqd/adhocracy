@@ -4,7 +4,7 @@
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 
-<%block name="headline">
+<%block name="main_content">
 <div class="morelink_header">
     <h2>
         ${c.page.title}
@@ -23,14 +23,7 @@
     %endif
 </div>
 <hr />
-</%block>
 
-
-<%block name="sidebar">
-</%block>
-
-
-<%block name="main_content">
 ${c.variant_details['text']|n}
 
 ${c.subpages_pager.here()|n}
