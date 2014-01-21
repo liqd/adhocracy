@@ -1103,8 +1103,13 @@ $(document).ready(function () {
         });
     });
 
-    $('a.expand_arrow').click(function () {
+    $('a.expand_arrow').click(function (e) {
         $(this).parent().toggleClass('expanded');
+
+        // To be keyboard accessible, the ``a`` element needs a href which is
+        // typically ``href="#"``. So we need to prevent the browser from going
+        // to the top of the page.
+        e.preventDefault();
     });
 
     $('.facet_check').click(function() {
