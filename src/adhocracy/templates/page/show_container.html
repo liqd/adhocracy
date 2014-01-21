@@ -1,0 +1,30 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
+
+<%block name="headline">
+<h2>
+    ${c.page.title}
+    <div class="utility">
+        %if can.page.edit(c.page):
+        <a href="${h.entity_url(c.page, member='edit')}">${_(u"Edit")}</a>
+        %endif
+        %if can.page.delete(c.page):
+        <a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a>
+        %endif
+    </div>
+</h2>
+</%block>
+
+
+<%block name="sidebar">
+</%block>
+
+
+<%block name="main_content">
+${c.variant_details['text']|n}
+
+${c.subpages_pager.here()|n}
+</%block>

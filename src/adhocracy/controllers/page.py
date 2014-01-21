@@ -661,7 +661,9 @@ class PageController(BaseController):
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
-        if not c.amendment and c.page.is_sectionpage():
+        if c.page.function == c.page.CONTAINER:
+            return render("/page/show_container.html")
+        elif not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
                           overlay=(format == 'overlay'))
         else:
