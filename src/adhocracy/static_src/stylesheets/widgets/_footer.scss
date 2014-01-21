@@ -27,6 +27,10 @@
     &:first-child {
         border-left: none;
     }
+}
+
+#footer {
+    color: $fg1;
 
     h3 {
         font-family: Arial, sans-serif;
@@ -42,8 +46,7 @@
     ul li ul {
         list-style-type: disc;
     }
-}
-
-#footer, #footer h3, #footer a {
-    color: $fg1;
+    h3,  a {
+        color: $fg1;
+    }
 }
