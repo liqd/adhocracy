@@ -50,6 +50,8 @@ class PageCreateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    container = validators.StringBool(not_empty=False, if_empty=False,
+                                           if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
@@ -203,6 +205,9 @@ class PageController(BaseController):
         variant = self.form_result.get("title")
         page = model.Page.create(
             c.instance, variant, _text, c.user,
+            function=(model.Page.CONTAINER
+                      if self.form_result.get("container")
+                      else model.Page.NORM),
             formatting=self.form_result.get("formatting"),
             sectionpage=self.form_result.get("sectionpage"),
             allow_comment=self.form_result.get("allow_comment"),
