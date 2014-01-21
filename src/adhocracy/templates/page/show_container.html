@@ -5,17 +5,24 @@
 
 
 <%block name="headline">
-<h2>
-    ${c.page.title}
-    <div class="utility">
-        %if can.page.edit(c.page):
-        <a href="${h.entity_url(c.page, member='edit')}">${_(u"Edit")}</a>
-        %endif
-        %if can.page.delete(c.page):
-        <a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a>
-        %endif
-    </div>
-</h2>
+<div class="morelink_header">
+    <h2>
+        ${c.page.title}
+        <div class="utility">
+            %if can.page.edit(c.page):
+            <a href="${h.entity_url(c.page, member='edit')}">${_(u"Edit")}</a>
+            %endif
+            %if can.page.delete(c.page):
+            <a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a>
+            %endif
+        </div>
+    </h2>
+    %if can.norm.create():
+        <a class="more_link"
+           href=${h.base_url('/page/new', query_params={'parent': c.page.id})}>${_("Create new norm")}</a>
+    %endif
+</div>
+<hr />
 </%block>
 
 
@@ -27,4 +34,11 @@
 ${c.variant_details['text']|n}
 
 ${c.subpages_pager.here()|n}
+
+<div class="list_button">
+%if can.norm.create():
+    <a class="button title admin ttip" title="${_('Create a new norm.')}"
+       href=${h.base_url('/page/new', query_params={'parent': c.page.id})}>${_("new norm")}</a>
+%endif
+</div>
 </%block>
