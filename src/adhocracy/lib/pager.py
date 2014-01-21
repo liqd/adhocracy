@@ -1596,16 +1596,22 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
                         badge), badge.title)()
                 for badge in instance.votedetail_userbadges]))
 
+    facets = [(DelegateableBadgeCategoryFacet, {}),
+              (DelegateableBadgeFacet, {}),
+              (DelegateableAddedByBadgeFacet, {}),
+              (DelegateableTags, {})]
+
+    if instance.allow_thumbnailbadges:
+        facets.insert(3, (DelegateableBadgeThumbnailFacet, {}))
+
+    if instance.milestones:
+        facets.insert(1, (DelegateableMilestoneFacet, {}))
+
     pager = SolrPager('proposals', tiles.proposal.row,
                       entity_type=model.Proposal,
                       sorts=sorts,
                       extra_filter=extra_filter,
-                      facets=[(DelegateableBadgeCategoryFacet, {}),
-                              (DelegateableMilestoneFacet, {}),
-                              (DelegateableBadgeFacet, {}),
-                              (DelegateableAddedByBadgeFacet, {}),
-                              (DelegateableBadgeThumbnailFacet, {}),
-                              (DelegateableTags, {})],
+                      facets=facets,
                       wildcard_queries=wildcard_queries)
     return pager
 
