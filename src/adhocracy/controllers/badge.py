@@ -3,6 +3,7 @@ import logging
 from cgi import FieldStorage
 import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
+from paste.deploy.converters import asbool
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
 from pylons.i18n import _
@@ -95,12 +96,15 @@ class BadgeController(BaseController):
         '''
         c.groups = [{'permission': 'global.admin',
                      'label': _('In all instances'),
-                     'show_label': True}]
+                     'show_label': (c.instance is not None and
+                                    h.has_permission('global.admin')),
+                     'global': True}]
         if c.instance:
             c.groups.append(
                 {'permission': 'instance.admin',
                  'label': _('In instance "%s"') % c.instance.label,
-                 'show_label': h.has_permission('global.admin')})
+                 'show_label': h.has_permission('global.admin'),
+                 'global': False})
         badges = {}
         if has('global.admin'):
             badges['global.admin'] = {
@@ -168,9 +172,16 @@ class BadgeController(BaseController):
         if badge_type is not None:
             data['badge_type'] = badge_type
 
+        if (c.instance is not None
+           and not asbool(request.GET.get('global', False))):
+            instance = c.instance.key
+        else:
+            instance = ''
+
         defaults = {'visible': True,
                     'select_child_description': '',
                     'impact': 0,
+                    'instance': instance,
                     }
         defaults.update(dict(request.params))
 
