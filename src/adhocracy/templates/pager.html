@@ -1,7 +1,7 @@
 
 <%def name="namedpager(pager)">
 <div class="pager_wrapper">
-    %if pager.enable_pages or pager.enable_sorts:
+    %if (pager.enable_pages and len(pager.items)) or hasattr(pager.sorts, 'render') or (len(pager.sorts.keys()) > 1 and pager.enable_sorts):
         <div class="floatbox">
             %if pager.enable_pages:
                 <span class="pager_items">
