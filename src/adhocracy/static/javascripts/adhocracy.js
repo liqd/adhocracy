@@ -1141,6 +1141,27 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    // disable/enable some options in new page form when (de)selecting container
+    (function () {
+        var container, container_function;
+        container = $('form[name="create_page"] input[name="container"]');
+        if (container.length !== 0) {
+            container_function = function() {
+                var el, name, names;
+                names = ['sectionpage', 'allow_comment', 'allow_selection', 'formatting'];
+                for (var i = 0; i < names.length; i++) {
+                    name = names[i];
+                    el = $(this.form).find('input[name="%s"]'.replace('%s', name));
+                    el.prop('disabled', $(this).prop('checked'));
+                }
+            }
+            container.click(container_function);
+
+            // also execute above code on page load
+            container_function.apply(container[0]);
+        }
+    })()
+
     var uri = new Uri(document.location.href),
         overlay_path = uri.getQueryParamValue('overlay_path'),
         overlay_type = uri.getQueryParamValue('overlay_type');
