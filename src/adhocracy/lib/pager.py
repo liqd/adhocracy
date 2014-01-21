@@ -1599,8 +1599,10 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
     facets = [(DelegateableBadgeCategoryFacet, {}),
               (DelegateableBadgeFacet, {}),
               (DelegateableAddedByBadgeFacet, {}),
-              (DelegateableBadgeThumbnailFacet, {}),
               (DelegateableTags, {})]
+
+    if instance.allow_thumbnailbadges:
+        facets.insert(3, (DelegateableBadgeThumbnailFacet, {}))
 
     if instance.milestones:
         facets.insert(1, (DelegateableMilestoneFacet, {}))
