@@ -516,7 +516,7 @@ class InstanceController(BaseController):
             model.meta.Session.rollback()
             h.flash(unicode(e), 'error')
             log.debug(e)
-            return self.settings_appearance(id)
+            return self.settings_overview(id)
 
         return self._settings_result(updated, c.page_instance, 'overview')
 
