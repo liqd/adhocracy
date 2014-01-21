@@ -208,7 +208,8 @@ class PageController(BaseController):
             function=(model.Page.CONTAINER
                       if self.form_result.get("container")
                       else model.Page.NORM),
-            formatting=self.form_result.get("formatting"),
+            formatting=(self.form_result.get("formatting")
+                        or self.form_result.get("container")),
             sectionpage=self.form_result.get("sectionpage"),
             allow_comment=self.form_result.get("allow_comment"),
             allow_selection=self.form_result.get("allow_selection"),
