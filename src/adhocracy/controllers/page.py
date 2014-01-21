@@ -662,6 +662,9 @@ class PageController(BaseController):
         c.tutorial = 'page_show'
 
         if c.page.function == c.page.CONTAINER:
+            c.subpages_pager = pager.NamedPager(
+                'subpages', c.page.subpages, tiles.page.row, sorts=sorts,
+                default_sort=sorting.delegateable_title)
             return render("/page/show_container.html")
         elif not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
