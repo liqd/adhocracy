@@ -262,6 +262,7 @@ class PageController(BaseController):
         c.always_show_original = request.params.get("always_show_original",
                                                     False)
         c.branch = branch
+        c.container = c.page.function == c.page.CONTAINER
 
         c.section = 'section_parent' in request.params
         if c.section:
