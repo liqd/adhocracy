@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"POT-Creation-Date: 2014-01-21 12:55+0100\n"
+"PO-Revision-Date: 2014-01-21 11:55+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -137,20 +137,23 @@ msgstr "Новости %s"
 msgid "News from %s"
 msgstr "Новости от %s"
 
-msgid "General"
-msgstr "Общее"
-
-msgid "Appearance"
+msgid "Overview"
 msgstr ""
 
-msgid "Contents"
-msgstr "Содержание"
+msgid "General settings"
+msgstr ""
 
-msgid "Votings"
-msgstr "Голосования"
+msgid "Process settings"
+msgstr ""
+
+msgid "Manage members"
+msgstr ""
 
 msgid "Badges"
 msgstr "Ярлыки"
+
+msgid "Advanced settings"
+msgstr ""
 
 msgid "Process presets"
 msgstr ""
@@ -181,30 +184,6 @@ msgstr ""
 
 msgid "The logo has been deleted."
 msgstr "Логотип удалён"
-
-msgid "No delay"
-msgstr "Нет задержки"
-
-msgid "1 Day"
-msgstr "1 День"
-
-msgid "2 Days"
-msgstr "2 Дня"
-
-msgid "One Week"
-msgstr "Одна неделя"
-
-msgid "Two Weeks"
-msgstr "Две недели"
-
-msgid "Four Weeks"
-msgstr "4 Недели"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Простое большинство (&frac12; of vote)"
-
-msgid "A two-thirds majority"
-msgstr "Две трети большинства"
 
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
@@ -992,6 +971,9 @@ msgstr "Недействительный запрос. Вернитесь наз
 msgid "The method you used is not implemented."
 msgstr "Примененный Вами метод не реализован. "
 
+msgid "Start"
+msgstr "Старт"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Сообщение о злоупотреблении: %s"
@@ -1518,11 +1500,14 @@ msgstr "Редактирование коментария: %(topic)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Предложение в данный момент находится в процессе голосования и не может быть изменено. "
 
+msgid "Settings"
+msgstr "Настройки"
+
 msgid "(Unknown)"
 msgstr "(неизвестно)"
 
-msgid "Documents"
-msgstr "Документы"
+msgid "Norms"
+msgstr "Нормативные документы"
 
 msgid "Proposals"
 msgstr "Предложения"
@@ -1540,8 +1525,11 @@ msgstr "удалить"
 msgid "%s (deleted user)"
 msgstr "%s (удаленный пользователь)"
 
-msgid "Users"
-msgstr "Пользователи"
+msgid "Members"
+msgstr "Участники"
+
+msgid "Dashboard"
+msgstr ""
 
 msgid "This action is only available in an instance context."
 msgstr "Эта акция возможна только в контексте инстанции."
@@ -1746,9 +1734,6 @@ msgstr "<b>%s</b> комент. "
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> голоса"
 
-msgid "Start"
-msgstr "Старт"
-
 msgid "Instances"
 msgstr "Организации"
 
@@ -1760,9 +1745,6 @@ msgstr "об этой странице"
 
 msgid "Help"
 msgstr "Помощь"
-
-msgid "Dashboard"
-msgstr ""
 
 msgid "Edit Profile"
 msgstr "Редактировать профиль"
@@ -1776,9 +1758,6 @@ msgstr "Администрация Сайта"
 msgid "Logout"
 msgstr "Выйти"
 
-msgid "Settings"
-msgstr "Настройки"
-
 msgid "Search"
 msgstr "Поиск"
 
@@ -1788,15 +1767,6 @@ msgstr "Поиск в  &ldquo;%s&rdquo;&hellip;"
 
 msgid "Intro"
 msgstr ""
-
-msgid "Overview"
-msgstr ""
-
-msgid "Norms"
-msgstr "Нормативные документы"
-
-msgid "Members"
-msgstr "Участники"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2064,6 +2034,9 @@ msgstr "ОСТОРОЖНО: Здесь Вы можете исключить са
 msgid "Permissions"
 msgstr "Права"
 
+msgid "Users"
+msgstr "Пользователи"
+
 msgid "Import Users"
 msgstr "Импортировать список пользователей"
 
@@ -2322,6 +2295,9 @@ msgstr "Войти, чтобы создать новое предложение"
 
 msgid "Validate email in order to create a new proposal."
 msgstr ""
+
+msgid "new proposal"
+msgstr "новое предложение"
 
 msgid "Search proposals"
 msgstr ""
@@ -2753,17 +2729,35 @@ msgstr ""
 msgid "Reset"
 msgstr "Cброс"
 
-msgid "Logo"
-msgstr "Лого"
+msgid "Allow editing of comments by default"
+msgstr ""
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Выберите файл для логотипа, котороый появится в верху страницы организации. "
+msgid "Allow editing of proposals by default"
+msgstr ""
 
-msgid "Current logo"
-msgstr "Действующий логотип"
+msgid "Require to propose a variant"
+msgstr "Требовать предложения варианта."
 
-msgid "Delete current logo"
-msgstr "Удалить действующий логотип"
+msgid "Display category pages"
+msgstr ""
+
+msgid "Hide global categories"
+msgstr "Спрятать глобальные категории"
+
+msgid "Hide this instance"
+msgstr "Скрыть эту организацию"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Выберите, будет ли эта организация показана в общественных списках. "
+
+msgid "Freeze this instance"
+msgstr "Заморозить эту организацию"
+
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
 
 msgid "Extra CSS"
 msgstr "Дополнительные CSS"
@@ -2777,47 +2771,14 @@ msgstr ""
 msgid "Thumbnail badges height"
 msgstr ""
 
-msgid "Use Norms"
-msgstr "Использовать документы"
-
-msgid "Allow users to propose norms"
-msgstr "Разрешить пользователям предлагать документы"
-
-msgid "Allow users to change norms from within proposals"
+msgid "Authenticate this instance"
 msgstr ""
 
-msgid "Require to propose a variant"
-msgstr "Требовать предложения варианта."
-
-msgid "Show norms navigation item"
+msgid "Enable delegated voting"
 msgstr ""
 
-msgid "Show proposals navigation item"
+msgid "Enable milestones"
 msgstr ""
-
-msgid "Display category pages"
-msgstr ""
-
-msgid "Use milestones"
-msgstr "Использовать сроки"
-
-msgid "Use thumbnail badges"
-msgstr ""
-
-msgid "Hide global categories"
-msgstr "Спрятать глобальные категории"
-
-msgid "Allow editing of comments by default"
-msgstr ""
-
-msgid "Allow editing of proposals by default"
-msgstr ""
-
-msgid "Freeze this instance"
-msgstr "Заморозить эту организацию"
-
-msgid "Name"
-msgstr "Имя"
 
 msgid "Language"
 msgstr "Язык"
@@ -2826,52 +2787,50 @@ msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "Языковые настройки могут быть переписаны в личных настройках. "
 
-msgid "Default group"
-msgstr "Основная группа"
-
-msgid "Hide this instance"
-msgstr "Скрыть эту организацию"
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Выберите, будет ли эта организация показана в общественных списках. "
-
 msgid "Require email validation"
 msgstr ""
 
 msgid "Require instance members to validate their email address."
 msgstr ""
 
-msgid "This instance is authenticated"
+msgid "Default group for new members"
 msgstr ""
 
-msgid "Enable (final) adoption voting"
-msgstr "Активировать (финальные) голосования по принятию решений"
-
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "До активации определенное большинство должно непрерывно поддерживаться определенное время. "
-
-msgid "Majority"
-msgstr "Большинство"
-
-msgid "Delay"
-msgstr "Задержка"
-
-msgid "Enable vote delegation"
-msgstr "Активировать делегирование голосов"
-
-msgid "Break down Voting Result by Badge"
+msgid "Name of the instance"
 msgstr ""
 
-msgid "Display how the users with the selected badges feel about the issue."
+msgid "Description of the instance"
+msgstr ""
+
+msgid "Logo"
+msgstr "Лого"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Выберите файл для логотипа, котороый появится в верху страницы организации. "
+
+msgid "Current logo"
+msgstr "Действующий логотип"
+
+msgid "Delete current logo"
+msgstr "Удалить действующий логотип"
+
+msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Enable norms"
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Show norms navigation item"
 msgstr ""
 
 msgid "Home"
 msgstr "На главную"
-
-msgid "new proposal"
-msgstr "новое предложение"
 
 msgid "show a list of proposals"
 msgstr "Показать список предложений"
@@ -2897,6 +2856,9 @@ msgstr "Создано "
 #, python-format
 msgid "by %s on %s"
 msgstr "С %s до %s"
+
+msgid "Votings"
+msgstr "Голосования"
 
 msgid "By the numbers"
 msgstr "По порядку"
@@ -4135,9 +4097,6 @@ msgid ""
 msgstr "Вы получили письмо, содержащее ссылку. Пожалуйста откройте ссылку чтобы поменять пароль. "
 
 msgid "User settings"
-msgstr ""
-
-msgid "Advanced settings"
 msgstr ""
 
 msgid "Pager size"

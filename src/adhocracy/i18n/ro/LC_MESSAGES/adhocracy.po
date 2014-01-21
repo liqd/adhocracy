@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"POT-Creation-Date: 2014-01-21 12:55+0100\n"
+"PO-Revision-Date: 2014-01-21 11:55+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -135,20 +135,23 @@ msgstr "%s Stiri"
 msgid "News from %s"
 msgstr "Stiri de la %s"
 
-msgid "General"
-msgstr "General"
+msgid "Overview"
+msgstr ""
 
-msgid "Appearance"
-msgstr "Aspect"
+msgid "General settings"
+msgstr ""
 
-msgid "Contents"
-msgstr "Continut"
+msgid "Process settings"
+msgstr ""
 
-msgid "Votings"
-msgstr "Votare"
+msgid "Manage members"
+msgstr ""
 
 msgid "Badges"
 msgstr "Title"
+
+msgid "Advanced settings"
+msgstr ""
 
 msgid "Process presets"
 msgstr ""
@@ -179,30 +182,6 @@ msgstr ""
 
 msgid "The logo has been deleted."
 msgstr "Logo-ul a fost sters."
-
-msgid "No delay"
-msgstr "Fara intarziere"
-
-msgid "1 Day"
-msgstr "1 Zi"
-
-msgid "2 Days"
-msgstr "2 Zile"
-
-msgid "One Week"
-msgstr "O Saptamana"
-
-msgid "Two Weeks"
-msgstr "Doua Saptamani"
-
-msgid "Four Weeks"
-msgstr "Patru Saptamani"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Majoritate simpla (&frac12 din voturi)"
-
-msgid "A two-thirds majority"
-msgstr "Majoritate de doua-treimi"
 
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
@@ -990,6 +969,9 @@ msgstr "Cerere invalida. Te rugam sa te intorci si sa incerci din nou."
 msgid "The method you used is not implemented."
 msgstr "Metoda folosita nu este implementata."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Raportare abuz: %s"
@@ -1516,10 +1498,13 @@ msgstr "Schimba Comentariu: %(topic)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Propunerea este in votare in acest moment si nu poate fi modificata."
 
+msgid "Settings"
+msgstr "Setari"
+
 msgid "(Unknown)"
 msgstr "(Necunoscut)"
 
-msgid "Documents"
+msgid "Norms"
 msgstr "Documente"
 
 msgid "Proposals"
@@ -1538,8 +1523,11 @@ msgstr "sterge"
 msgid "%s (deleted user)"
 msgstr "%s (utilizator sters)"
 
-msgid "Users"
-msgstr "Utilizatori"
+msgid "Members"
+msgstr "Membri"
+
+msgid "Dashboard"
+msgstr "Prima pagina"
 
 msgid "This action is only available in an instance context."
 msgstr "Actiunea este disponibila doar in cadrul unei comunitati."
@@ -1744,9 +1732,6 @@ msgstr "<b>%s</b> comentarii"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> voturi"
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Comunitati"
 
@@ -1758,9 +1743,6 @@ msgstr "Despre"
 
 msgid "Help"
 msgstr "Ajutor"
-
-msgid "Dashboard"
-msgstr "Prima pagina"
 
 msgid "Edit Profile"
 msgstr "Editeaza profil"
@@ -1774,9 +1756,6 @@ msgstr "Administreaza site"
 msgid "Logout"
 msgstr "Iesire"
 
-msgid "Settings"
-msgstr "Setari"
-
 msgid "Search"
 msgstr "Cauta"
 
@@ -1786,15 +1765,6 @@ msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
 
 msgid "Intro"
 msgstr ""
-
-msgid "Overview"
-msgstr ""
-
-msgid "Norms"
-msgstr "Documente"
-
-msgid "Members"
-msgstr "Membri"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2062,6 +2032,9 @@ msgstr "Atentie: Este posibilitatea sa te scoti singur din Adhocracy. Modifica c
 msgid "Permissions"
 msgstr "Permisiuni"
 
+msgid "Users"
+msgstr "Utilizatori"
+
 msgid "Import Users"
 msgstr "Importa Utilizatori"
 
@@ -2320,6 +2293,9 @@ msgstr "Logheaza-te pentru a creea o noua propunere."
 
 msgid "Validate email in order to create a new proposal."
 msgstr "Valideaza adresa de email pentru a putea crea o propunere."
+
+msgid "new proposal"
+msgstr "propunere noua"
 
 msgid "Search proposals"
 msgstr ""
@@ -2751,17 +2727,35 @@ msgstr ""
 msgid "Reset"
 msgstr "Reseteaza parola"
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Allow editing of comments by default"
+msgstr "Permite editarea comentariilor "
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Selecteaza o imagine care sa apara in descrierea Comunitatii."
+msgid "Allow editing of proposals by default"
+msgstr ""
 
-msgid "Current logo"
-msgstr "Logo curent"
+msgid "Require to propose a variant"
+msgstr "Cere sa fie propusa o varianta"
 
-msgid "Delete current logo"
-msgstr "Sterge logo-ul curent"
+msgid "Display category pages"
+msgstr ""
+
+msgid "Hide global categories"
+msgstr "Ascunde categoriile globale"
+
+msgid "Hide this instance"
+msgstr "Ascunde comunitatea"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Selecteaza daca Comunitatea va fi afisata pe pagina principala."
+
+msgid "Freeze this instance"
+msgstr "Suspenda comunitatea"
+
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
 
 msgid "Extra CSS"
 msgstr "Still CSS aditional"
@@ -2775,47 +2769,14 @@ msgstr ""
 msgid "Thumbnail badges height"
 msgstr ""
 
-msgid "Use Norms"
-msgstr "Utilizeaza documente"
-
-msgid "Allow users to propose norms"
-msgstr "Permite utilizatorilor sa propuna documente"
-
-msgid "Allow users to change norms from within proposals"
+msgid "Authenticate this instance"
 msgstr ""
 
-msgid "Require to propose a variant"
-msgstr "Cere sa fie propusa o varianta"
-
-msgid "Show norms navigation item"
+msgid "Enable delegated voting"
 msgstr ""
 
-msgid "Show proposals navigation item"
+msgid "Enable milestones"
 msgstr ""
-
-msgid "Display category pages"
-msgstr ""
-
-msgid "Use milestones"
-msgstr "Permite date limita"
-
-msgid "Use thumbnail badges"
-msgstr ""
-
-msgid "Hide global categories"
-msgstr "Ascunde categoriile globale"
-
-msgid "Allow editing of comments by default"
-msgstr "Permite editarea comentariilor "
-
-msgid "Allow editing of proposals by default"
-msgstr ""
-
-msgid "Freeze this instance"
-msgstr "Suspenda comunitatea"
-
-msgid "Name"
-msgstr "Nume"
 
 msgid "Language"
 msgstr "Limba"
@@ -2824,52 +2785,50 @@ msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "Setarea de limba va fi modificata de setarea de limba a utilizatorului."
 
-msgid "Default group"
-msgstr "Grup standard"
-
-msgid "Hide this instance"
-msgstr "Ascunde comunitatea"
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Selecteaza daca Comunitatea va fi afisata pe pagina principala."
-
 msgid "Require email validation"
 msgstr "Cere validarea adresei de email."
 
 msgid "Require instance members to validate their email address."
 msgstr "Cere membrilor comunitatii validarea adreselor de email."
 
-msgid "This instance is authenticated"
-msgstr "Comunitatea este autentificata"
-
-msgid "Enable (final) adoption voting"
-msgstr "Permite vot (final) pentru adoptare"
-
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "Pentru a deveni activa, majoritatea ceruta trebuie sa fie mentinuta in intervalul de timp mentionat."
-
-msgid "Majority"
-msgstr "Majoritate"
-
-msgid "Delay"
-msgstr "Amanare"
-
-msgid "Enable vote delegation"
-msgstr "Permite votul prin delegare"
-
-msgid "Break down Voting Result by Badge"
+msgid "Default group for new members"
 msgstr ""
 
-msgid "Display how the users with the selected badges feel about the issue."
+msgid "Name of the instance"
+msgstr ""
+
+msgid "Description of the instance"
+msgstr ""
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Selecteaza o imagine care sa apara in descrierea Comunitatii."
+
+msgid "Current logo"
+msgstr "Logo curent"
+
+msgid "Delete current logo"
+msgstr "Sterge logo-ul curent"
+
+msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Enable norms"
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Show norms navigation item"
 msgstr ""
 
 msgid "Home"
 msgstr "Acasa"
-
-msgid "new proposal"
-msgstr "propunere noua"
 
 msgid "show a list of proposals"
 msgstr "afiseaza lista de propuneri"
@@ -2895,6 +2854,9 @@ msgstr "Creat"
 #, python-format
 msgid "by %s on %s"
 msgstr "de %s pe %s"
+
+msgid "Votings"
+msgstr "Votare"
 
 msgid "By the numbers"
 msgstr "Statistici comunitate"
@@ -4133,9 +4095,6 @@ msgid ""
 msgstr "Ai primit un email cu un link. Apasa-l pentru a reseta parola."
 
 msgid "User settings"
-msgstr ""
-
-msgid "Advanced settings"
 msgstr ""
 
 msgid "Pager size"

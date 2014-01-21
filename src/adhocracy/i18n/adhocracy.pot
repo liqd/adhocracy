@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 31ba522\n"
+"Project-Id-Version: adhocracy 187bd4f\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
+"POT-Creation-Date: 2014-01-21 12:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,19 +124,22 @@ msgstr ""
 msgid "News from %s"
 msgstr ""
 
-msgid "General"
+msgid "Overview"
 msgstr ""
 
-msgid "Appearance"
+msgid "General settings"
 msgstr ""
 
-msgid "Contents"
+msgid "Process settings"
 msgstr ""
 
-msgid "Votings"
+msgid "Manage members"
 msgstr ""
 
 msgid "Badges"
+msgstr ""
+
+msgid "Advanced settings"
 msgstr ""
 
 msgid "Process presets"
@@ -164,30 +167,6 @@ msgid "The image is not avaliable in that size"
 msgstr ""
 
 msgid "The logo has been deleted."
-msgstr ""
-
-msgid "No delay"
-msgstr ""
-
-msgid "1 Day"
-msgstr ""
-
-msgid "2 Days"
-msgstr ""
-
-msgid "One Week"
-msgstr ""
-
-msgid "Two Weeks"
-msgstr ""
-
-msgid "Four Weeks"
-msgstr ""
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr ""
-
-msgid "A two-thirds majority"
 msgstr ""
 
 msgid "Instance created successfully. You can now configure it in greater detail if you wish."
@@ -945,6 +924,9 @@ msgstr ""
 msgid "The method you used is not implemented."
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr ""
@@ -1464,10 +1446,13 @@ msgstr ""
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr ""
 
+msgid "Settings"
+msgstr ""
+
 msgid "(Unknown)"
 msgstr ""
 
-msgid "Documents"
+msgid "Norms"
 msgstr ""
 
 msgid "Proposals"
@@ -1486,7 +1471,10 @@ msgstr ""
 msgid "%s (deleted user)"
 msgstr ""
 
-msgid "Users"
+msgid "Members"
+msgstr ""
+
+msgid "Dashboard"
 msgstr ""
 
 msgid "This action is only available in an instance context."
@@ -1692,9 +1680,6 @@ msgstr ""
 msgid "<b>%s</b> votes"
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
@@ -1705,9 +1690,6 @@ msgid "About"
 msgstr ""
 
 msgid "Help"
-msgstr ""
-
-msgid "Dashboard"
 msgstr ""
 
 msgid "Edit Profile"
@@ -1722,9 +1704,6 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-msgid "Settings"
-msgstr ""
-
 msgid "Search"
 msgstr ""
 
@@ -1733,15 +1712,6 @@ msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr ""
 
 msgid "Intro"
-msgstr ""
-
-msgid "Overview"
-msgstr ""
-
-msgid "Norms"
-msgstr ""
-
-msgid "Members"
 msgstr ""
 
 #, python-format
@@ -1999,6 +1969,9 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
+msgid "Users"
+msgstr ""
+
 msgid "Import Users"
 msgstr ""
 
@@ -2244,6 +2217,9 @@ msgid "Login to create a new proposal."
 msgstr ""
 
 msgid "Validate email in order to create a new proposal."
+msgstr ""
+
+msgid "new proposal"
 msgstr ""
 
 msgid "Search proposals"
@@ -2652,16 +2628,34 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-msgid "Logo"
+msgid "Allow editing of comments by default"
 msgstr ""
 
-msgid "Select a logo file to appear in the header area of this Instance."
+msgid "Allow editing of proposals by default"
 msgstr ""
 
-msgid "Current logo"
+msgid "Require to propose a variant"
 msgstr ""
 
-msgid "Delete current logo"
+msgid "Display category pages"
+msgstr ""
+
+msgid "Hide global categories"
+msgstr ""
+
+msgid "Hide this instance"
+msgstr ""
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr ""
+
+msgid "Freeze this instance"
+msgstr ""
+
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
 msgstr ""
 
 msgid "Extra CSS"
@@ -2676,46 +2670,13 @@ msgstr ""
 msgid "Thumbnail badges height"
 msgstr ""
 
-msgid "Use Norms"
+msgid "Authenticate this instance"
 msgstr ""
 
-msgid "Allow users to propose norms"
+msgid "Enable delegated voting"
 msgstr ""
 
-msgid "Allow users to change norms from within proposals"
-msgstr ""
-
-msgid "Require to propose a variant"
-msgstr ""
-
-msgid "Show norms navigation item"
-msgstr ""
-
-msgid "Show proposals navigation item"
-msgstr ""
-
-msgid "Display category pages"
-msgstr ""
-
-msgid "Use milestones"
-msgstr ""
-
-msgid "Use thumbnail badges"
-msgstr ""
-
-msgid "Hide global categories"
-msgstr ""
-
-msgid "Allow editing of comments by default"
-msgstr ""
-
-msgid "Allow editing of proposals by default"
-msgstr ""
-
-msgid "Freeze this instance"
-msgstr ""
-
-msgid "Name"
+msgid "Enable milestones"
 msgstr ""
 
 msgid "Language"
@@ -2724,49 +2685,49 @@ msgstr ""
 msgid "The language setting will be overridden by the user's personal setting."
 msgstr ""
 
-msgid "Default group"
-msgstr ""
-
-msgid "Hide this instance"
-msgstr ""
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr ""
-
 msgid "Require email validation"
 msgstr ""
 
 msgid "Require instance members to validate their email address."
 msgstr ""
 
-msgid "This instance is authenticated"
+msgid "Default group for new members"
 msgstr ""
 
-msgid "Enable (final) adoption voting"
+msgid "Name of the instance"
 msgstr ""
 
-msgid "Before activating, the defined majority must be continuously held by the proposal for the specified interval."
+msgid "Description of the instance"
 msgstr ""
 
-msgid "Majority"
+msgid "Logo"
 msgstr ""
 
-msgid "Delay"
+msgid "Select a logo file to appear in the header area of this Instance."
 msgstr ""
 
-msgid "Enable vote delegation"
+msgid "Current logo"
 msgstr ""
 
-msgid "Break down Voting Result by Badge"
+msgid "Delete current logo"
 msgstr ""
 
-msgid "Display how the users with the selected badges feel about the issue."
+msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Enable norms"
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Show norms navigation item"
 msgstr ""
 
 msgid "Home"
-msgstr ""
-
-msgid "new proposal"
 msgstr ""
 
 msgid "show a list of proposals"
@@ -2792,6 +2753,9 @@ msgstr ""
 
 #, python-format
 msgid "by %s on %s"
+msgstr ""
+
+msgid "Votings"
 msgstr ""
 
 msgid "By the numbers"
@@ -3973,9 +3937,6 @@ msgid "You have recieved an email containing a link. Please open that link in or
 msgstr ""
 
 msgid "User settings"
-msgstr ""
-
-msgid "Advanced settings"
 msgstr ""
 
 msgid "Pager size"
