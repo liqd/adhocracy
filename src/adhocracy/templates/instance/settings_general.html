@@ -18,6 +18,7 @@
     ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+    ${c.category_badge_tables}
 
 </form>
 </%block>
