@@ -23,7 +23,7 @@ ${h.category.breadcrumbs(None)|n}
     %endif
 
         <a class="tile" href="${h.base_url(member='category/%s' % category.id)|n}">
-            <span class="tile-image" style="background-image: url(${h.category.image_url(category, 256)})"></span>
+            <img class="tile-image" src="${h.category.image_url(category, 128, 256)}" alt="" />
             <h3>${category.title}</h3>
             <p>${category.description}</p>
             <span class="button tile-button highlight">${_('View and discuss')}</span>
