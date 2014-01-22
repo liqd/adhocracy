@@ -127,7 +127,7 @@ def load(entity, size, fallback=INSTANCE):
     return (logo_path, mtime, image_data)
 
 
-@memoize('instance_image', 3600)
+@memoize('instance_image', 3600 * 24)
 def _load_with_mtime(logo_path, mtime, size):
     """
     Function to load the logo with sane caching.  The *mtime*
