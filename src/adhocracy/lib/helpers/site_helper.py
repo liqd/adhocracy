@@ -1,6 +1,7 @@
 import urllib
 
 from pylons import config, app_globals as g
+from pylons import request
 from pylons.i18n import _
 from paste.deploy.converters import asbool
 from adhocracy.model import instance_filter as ifilter
@@ -98,6 +99,10 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
         result += query_string
 
     return result
+
+
+def current_url():
+    return base_url(request.path)
 
 
 def shortlink_url(delegateable):
