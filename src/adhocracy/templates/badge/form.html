@@ -30,7 +30,7 @@ ${self.form()}
               style="width:90%; height: 9em"></textarea>
 
     %if c.badge_type == 'category':
-    %if c.instance.display_category_pages:
+    %if c.instance is not None and c.instance.display_category_pages:
     <label for="long_description">${_("Long badge description")}</label>
     <textarea name="long_description" style="width:90%; height: 13em"></textarea>
     ${components.formatting()}
@@ -55,7 +55,7 @@ ${self.form()}
             adhocracy.helpers.initializeBadgeColorPicker('#color', '#badge_form_visible', '#badge_form_title', '${h.site.domain()}.colors.badge')})
     </script>
 
-    %if c.badge_type == 'thumbnail' or (c.badge_type == 'category' and c.instance.display_category_pages):
+    %if c.badge_type == 'thumbnail' or (c.badge_type == 'category' and c.instance is not None and c.instance.display_category_pages):
     <fieldset class="logo">
         <%
             if c.badge_type == 'thumbnail':

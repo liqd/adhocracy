@@ -65,7 +65,8 @@ class CategoryController(BaseController):
     def image(self, id, y, x=None):
         if not c.instance.display_category_pages:
             abort(404)
-        category = get_entity_or_abort(model.CategoryBadge, id)
+        category = get_entity_or_abort(model.CategoryBadge, id,
+                                       instance_filter=False)
         if not logo.exists(category):
             return ret_abort(
                 _(u"No image for category '%s'.") % category.title, code=404)
