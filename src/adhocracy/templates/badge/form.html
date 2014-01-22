@@ -15,7 +15,7 @@ ${self.form()}
 
 <%def name="form()">
   <% h.need.spectrum %>
-  <form name="update_badge" class="inplace" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+  <form name="update_badge" action="${h.site.current_url()}" class="inplace" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
 
     ${components.flashmessages()}
 

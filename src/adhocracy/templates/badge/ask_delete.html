@@ -11,7 +11,7 @@
 
 ${components.flashmessages()}
 
-<form name="ask_delete" class="inplace" method="POST">
+<form name="ask_delete" action="${h.site.current_url()}" class="inplace" method="POST">
 
     <h3>Delete ${_(c.badge.get_badge_type())} "${c.badge.title}"</h3>
     ${h.field_token()|n}
