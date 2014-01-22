@@ -482,6 +482,7 @@ class SolrFacet(SolrIndexer):
     template = '/pager.html'
     template_def = 'facet'
     _response = None
+    badge_type = None
 
     def __init__(self, param_prefix, request, **kwargs):
         # Translate the title and the description. We need to do that
@@ -798,6 +799,7 @@ class UserBadgeFacet(SolrFacet):
     entity_type = model.Badge
     title = u'Badge'
     show_current_empty = False
+    badge_type = 'user'
 
     @staticmethod
     def get_solr_field(instance):
@@ -829,6 +831,7 @@ class InstanceBadgeFacet(SolrFacet):
     title = lazy_ugettext(u'Badge')
     solr_field = 'facet.instance.badges'
     show_current_empty = False
+    badge_type = 'instance'
 
     @classmethod
     def add_data_to_index(cls, instance, index):
@@ -929,6 +932,7 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
+    badge_type = 'category'
     exclusive = True
 
     @property
@@ -953,6 +957,7 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
     solr_field = 'facet.delegateable.badgethumbnail'
     show_current_empty = False
     exclusive = True
+    badge_type = 'thumbnail'
 
     def get_thumbnail(self, entity):
         return generate_thumbnail_tag(entity, 16, 16)
@@ -973,6 +978,7 @@ class DelegateableBadgeFacet(SolrFacet):
     title = lazy_ugettext(u'Badges')
     solr_field = 'facet.delegateable.badge'
     show_current_empty = False
+    badge_type = 'delegateable'
 
     @classmethod
     def add_data_to_index(cls, entity, data):
@@ -989,6 +995,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
     title = lazy_ugettext(u'Created by')
     solr_field = 'facet.delegateable.added.by.badge'
     show_current_empty = False
+    badge_type = 'user'
 
     @classmethod
     def add_data_to_index(cls, entity, data):

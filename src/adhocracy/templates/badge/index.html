@@ -9,18 +9,18 @@ ${h.badge.breadcrumbs(None)|n}
 
 
 <%def name="edit_button(base_url, badge_id)">
-<a href="${base_url}/edit/${badge_id}">${_('Edit')}</a>
+<a href="${base_url}/edit/${badge_id}" target="_self">${_('Edit')}</a>
 </%def>
 
 
 <%def name="delete_button(base_url, badge_id)">
-<a href="${base_url}/delete/${badge_id}">${_('Delete')}</a>
+<a href="${base_url}/delete/${badge_id}" target="_self">${_('Delete')}</a>
 </%def>
 
 
 <%def name="new_button(base_url, type_, is_global)">
 <a class="button_small plus"
-    href="${'%s/%s/add?global=%s' % (base_url, type_, str(is_global))}">${_("New")}</a>
+    href="${'%s/%s/add?global=%s' % (base_url, type_, str(is_global))}" target="_self">${_("New")}</a>
 </%def>
 
 

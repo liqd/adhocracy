@@ -107,6 +107,12 @@
        href="${facet.unselect_all_link()|n}"
        rel="nofollow">(${_("reset")})</a>
     %endif
+
+    %if facet.badge_type is not None and can.instance.any_admin():
+    <a class="button_small edit"
+        href="${h.base_url('/badge/%s' % facet.badge_type)}"
+        rel="#overlay-form">${_(u"Edit")}</a>
+    %endif
 </h4>
 %if facet.description:
 <p>${facet.description}</p>
