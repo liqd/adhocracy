@@ -144,19 +144,41 @@ def _load_with_mtime(logo_path, mtime, size):
          A tuple with the size like (x_size, y_size) where
          both are int values. x_size may be None in which case
          the image will be scaled down to y_size preserving
-         the aspect ratio.
+         the aspect ratio. If x_size is not None the image may get
+         cropped.
 
     Returns:
          A string containing the resized image data.
     """
     if size not in ALLOWED_SIZES:
         raise NoSuchSizeError()
-    x, y = size
+    w, h = size
     logo_image = Image.open(logo_path)
-    if x is None:
-        orig_x, orig_y = logo_image.size
-        x = int(y * (float(orig_x) / float(orig_y)))
-    logo_image.thumbnail((x, y), Image.ANTIALIAS)
+    orig_w, orig_h = logo_image.size
+
+    if w is None:
+        # aspect ratio stays the same
+        w = h * orig_w / orig_h
+        logo_image.thumbnail((w, h), Image.ANTIALIAS)
+    else:
+        # The image is resized to be at least the requested size while
+        # preserving the aspect ratio. Then it is cropped to the requested
+        # size.
+        if w * orig_h > h * orig_w:
+            old_h = h * orig_w / w
+            x0 = 0
+            x1 = orig_w
+            y0 = (orig_h - old_h) / 2
+            y1 = y0 + old_h
+        else:
+            old_w = w * orig_h / h
+            x0 = (orig_w - old_w) / 2
+            x1 = x0 + old_w
+            y0 = 0
+            y1 = orig_h
+        logo_image = logo_image.transform((w, h), Image.EXTENT,
+                                          (x0, y0, x1, y1), Image.BICUBIC)
+
     sio = StringIO.StringIO()
     logo_image.save(sio, 'PNG')
     return sio.getvalue()
