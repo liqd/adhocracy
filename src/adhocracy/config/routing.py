@@ -320,6 +320,8 @@ def make_map(config):
 
     map.connect('/badge{.format}', controller='badge', action='index',
                 conditions=dict(method=['GET']))
+    map.connect('/badge/{badge_type}{.format}', controller='badge',
+                action='index_type', conditions=dict(method=['GET']))
     map.connect('/badge/{badge_type}/add{.format}', controller='badge',
                 action='add', conditions=dict(method=['GET']))
     map.connect('/badge/{badge_type}/add{.format}', controller='badge',

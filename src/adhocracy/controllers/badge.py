@@ -131,6 +131,11 @@ class BadgeController(BaseController):
                                             'delegateable', 'instance'])
         return render('/badge/index_all.html', overlay=format == u'overlay')
 
+    @guard.perm('badge.index')
+    def index_type(self, badge_type, format='html'):
+        data = self._get_badge_data(badge_type)
+        return render(self.index_template, data, overlay=format == u'overlay')
+
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
                 'error')
