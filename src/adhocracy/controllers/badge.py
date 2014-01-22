@@ -195,7 +195,7 @@ class BadgeController(BaseController):
 
     def _dispatch(self, action, badge_type, id=None):
         '''
-        dispatch to a suiteable "create" or "edit" action
+        dispatch to a suitable "create" or "edit" action
 
         Methods are named <action>_<badge_type>_badge().
         '''
