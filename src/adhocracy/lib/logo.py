@@ -103,7 +103,7 @@ def path_and_mtime(entity, fallback=INSTANCE):
     return logo_path, mtime
 
 
-def load(entity, size, fallback=INSTANCE):
+def load(entity, size, fallback=None):
     '''
     Load an entity logo or the fallback logo in a
     certain size.
@@ -122,6 +122,8 @@ def load(entity, size, fallback=INSTANCE):
          mtime is the mtime of the image file, and image_data
          is a string containing the image data.
     '''
+    if fallback is None:
+        fallback = INSTANCE
     logo_path, mtime = path_and_mtime(entity, fallback)
     image_data = _load_with_mtime(logo_path, mtime, size)
     return (logo_path, mtime, image_data)
