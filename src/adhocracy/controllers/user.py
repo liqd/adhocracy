@@ -370,7 +370,7 @@ class UserController(BaseController):
         ]
 
         if logo.exists(c.page_user):
-            c.current_avatar = h.user.avatar_url(c.page_user, 64)
+            c.current_avatar = h.logo_url(c.page_user, 64)
 
         return render("/user/settings_personal.html",
                       overlay=format == u'overlay')
@@ -1009,7 +1009,7 @@ class UserController(BaseController):
         request_mtime = int(request.params.get('t', 0))
         if request_mtime > mtime:
             # This will set the appropriate mtime
-            redirect(h.user.avatar_url(user, y, x=x))
+            redirect(h.logo_url(user, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
     def login(self):

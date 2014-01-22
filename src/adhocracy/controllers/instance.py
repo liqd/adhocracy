@@ -460,7 +460,7 @@ class InstanceController(BaseController):
             abort(404, _(u"The image is not avaliable in that size"))
         request_mtime = int(request.params.get('t', 0))
         if request_mtime != mtime:
-            redirect(h.instance.icon_url(instance, y, x=x))
+            redirect(h.logo_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
     def _settings_overview_form(self, id):
@@ -469,7 +469,7 @@ class InstanceController(BaseController):
 
         c.current_logo = None
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
-            c.current_logo = h.instance.icon_url(c.page_instance, 48)
+            c.current_logo = h.logo_url(c.page_instance, 48)
 
         return render("/instance/settings_overview.html")
 

@@ -75,5 +75,5 @@ class CategoryController(BaseController):
         request_mtime = int(request.params.get('t', 0))
         if request_mtime > mtime:
             # This will set the appropriate mtime
-            redirect(h.category.image_url(category, y, x=x))
+            redirect(h.logo_url(category, y, x=x))
         return render_png(io, mtime, cache_forever=True)

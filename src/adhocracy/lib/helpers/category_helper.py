@@ -5,12 +5,9 @@ from adhocracy.lib import logo
 from adhocracy.lib.helpers import url as _url
 
 
-def image_url(category, y, x=None):
+def logo_url(category, y, x=None):
     from adhocracy.lib.helpers import base_url
-    if x is None:
-        size = "%s" % y
-    else:
-        size = "%sx%s" % (x, y)
+    size = "%s" % y if x is None else "%sx%s" % (x, y)
     filename = u"%s_%s.png" % (category.id, size)
     (path, mtime) = logo.path_and_mtime(category)
     return base_url(u'/category/%s' % filename, query_params={'t': str(mtime)})

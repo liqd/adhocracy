@@ -9,11 +9,8 @@ def url(instance, member=None, format=None, **kwargs):
                       member=member, format=format, **kwargs)
 
 
-def icon_url(instance, y, x=None):
-    if x is None:
-        size = "%s" % y
-    else:
-        size = "%sx%s" % (x, y)
+def logo_url(instance, y, x=None):
+    size = "%s" % y if x is None else "%sx%s" % (x, y)
     filename = "%s_%s.png" % (instance.key, size)
     (path, mtime) = logo.path_and_mtime(instance)
     return _url.build(instance, 'instance', filename, query={'t': str(mtime)})

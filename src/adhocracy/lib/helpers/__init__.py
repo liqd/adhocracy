@@ -240,6 +240,16 @@ def entity_url(entity, **kwargs):
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 
+def logo_url(entity, y, x=None, **kwargs):
+    if isinstance(entity, model.User):
+        return user.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.Instance):
+        return instance.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.CategoryBadge):
+        return category.logo_url(entity, y, x=x, **kwargs)
+    raise ValueError("No logo URL maker for: %s" % repr(entity))
+
+
 def json_dumps(data, encoding='utf-8'):
     return json.dumps(data, default=_json_entity,
                       encoding=encoding, indent=4)
