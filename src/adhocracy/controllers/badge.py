@@ -163,7 +163,7 @@ class BadgeController(BaseController):
                 key=lambda x: x[1])
 
     @guard.instance.any_admin()
-    def add(self, badge_type=None, errors=None, format=u''):
+    def add(self, badge_type=None, errors=None, format=u'html'):
         data = {
             'form_type': 'add',
             'groups': Group.all_instance(),
@@ -194,7 +194,7 @@ class BadgeController(BaseController):
                                errors=errors,
                                force_defaults=False)
 
-    def _dispatch(self, action, badge_type, id=None):
+    def _dispatch(self, action, badge_type, id=None, format=u'html'):
         '''
         dispatch to a suitable "create" or "edit" action
 
@@ -216,18 +216,18 @@ class BadgeController(BaseController):
                 'Method not found for action "%s", badge_type: %s' %
                 (action, badge_type))
         if id is not None:
-            return method(id)
+            return method(id, format=format)
         else:
-            return method()
+            return method(format=format)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create(self, badge_type):
-        return self._dispatch('create', badge_type)
+    def create(self, badge_type, format=u'html'):
+        return self._dispatch('create', badge_type, format=format)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_instance_badge(self):
+    def create_instance_badge(self, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -242,7 +242,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_user_badge(self):
+    def create_user_badge(self, format=u'html'):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -260,7 +260,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_delegateable_badge(self):
+    def create_delegateable_badge(self, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -275,7 +275,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_category_badge(self):
+    def create_category_badge(self, format=u'html'):
         try:
             self.form_result = CategoryBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -313,7 +313,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_thumbnail_badge(self):
+    def create_thumbnail_badge(self, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -423,14 +423,14 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update(self, id):
+    def update(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
         c.badge_type = self._get_badge_type(badge)
-        return self._dispatch('update', c.badge_type, id=id)
+        return self._dispatch('update', c.badge_type, id=id, format=format)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_user_badge(self, id):
+    def update_user_badge(self, id, format=u'html'):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -462,7 +462,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_delegateable_badge(self, id):
+    def update_delegateable_badge(self, id, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -486,7 +486,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_instance_badge(self, id):
+    def update_instance_badge(self, id, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -510,7 +510,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_category_badge(self, id):
+    def update_category_badge(self, id, format=u'html'):
         try:
             params = request.params.copy()
             params['id'] = id
@@ -564,7 +564,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_thumbnail_badge(self, id):
+    def update_thumbnail_badge(self, id, format=u'html'):
         try:
             self.form_result = ThumbnailBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -606,7 +606,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def delete(self, id):
+    def delete(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
         for badge_instance in badge.badges():
             meta.Session.delete(badge_instance)
