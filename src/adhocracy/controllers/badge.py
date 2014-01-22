@@ -5,6 +5,7 @@ import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
 from paste.deploy.converters import asbool
 from pylons import request, tmpl_context as c
+from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 
@@ -39,6 +40,15 @@ from adhocracy.lib.templating import render
 
 
 log = logging.getLogger(__name__)
+
+
+BADGE_TYPE_MAPPING = {
+    'user': UserBadge,
+    'delegateable': DelegateableBadge,
+    'category': CategoryBadge,
+    'instance': InstanceBadge,
+    'thumbnail': ThumbnailBadge,
+}
 
 
 class BadgeForm(formencode.Schema):
@@ -90,38 +100,6 @@ class BadgeController(BaseController):
     index_template = "/badge/index.html"
     base_url_ = None
 
-    def _available_badges(self):
-        '''
-        Return the badges that are editable by a user.
-        '''
-        c.groups = [{'permission': 'global.admin',
-                     'label': _('In all instances'),
-                     'show_label': (c.instance is not None and
-                                    h.has_permission('global.admin')),
-                     'global': True}]
-        if c.instance:
-            c.groups.append(
-                {'permission': 'instance.admin',
-                 'label': _('In instance "%s"') % c.instance.label,
-                 'show_label': h.has_permission('global.admin'),
-                 'global': False})
-        badges = {}
-        if has('global.admin'):
-            badges['global.admin'] = {
-                'instance': InstanceBadge.all(instance=None),
-                'user': UserBadge.all(instance=None),
-                'delegateable': DelegateableBadge.all(instance=None),
-                'category': CategoryBadge.all(instance=None),
-                'thumbnail': ThumbnailBadge.all(instance=None)}
-        if has('instance.admin') and c.instance is not None:
-            badges['instance.admin'] = {
-                'instance': InstanceBadge.all(instance=c.instance),
-                'user': UserBadge.all(instance=c.instance),
-                'delegateable': DelegateableBadge.all(instance=c.instance),
-                'category': CategoryBadge.all(instance=c.instance),
-                'thumbnail': ThumbnailBadge.all(instance=c.instance)}
-        return badges
-
     @property
     def base_url(self):
         if self.base_url_ is None:
@@ -129,11 +107,29 @@ class BadgeController(BaseController):
                                              path='/badge')
         return self.base_url_
 
+    def _get_badge_data(self, badge_type):
+        cls = self._get_badge_class(badge_type)
+        if cls is None:
+            abort(404, _(u"No such badge type"))
+
+        return {
+            'badge_type': badge_type,
+            'badge_header': self._get_badge_header(badge_type),
+            'badge_base_url': self.base_url,
+            'global_badges': (cls.all(instance=None)
+                              if has('global.admin')
+                              else None),
+            'instance_badges': (cls.all(instance=c.instance)
+                                if c.instance is not None
+                                else None),
+        }
+
     @guard.perm('badge.index')
     def index(self, format='html'):
-        c.badges = self._available_badges()
-        c.badge_base_url = self.base_url
-        return render(self.index_template, overlay=format == u'overlay')
+        c.badge_tables = dict((type_, self._get_badge_data(type_))
+                              for type_ in ['user', 'category', 'thumbnail',
+                                            'delegateable', 'instance'])
+        return render('/badge/index_all.html', overlay=format == u'overlay')
 
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
@@ -351,6 +347,19 @@ class BadgeController(BaseController):
 
     def _get_badge_type(self, badge):
         return badge.polymorphic_identity
+
+    def _get_badge_class(self, badge_type):
+        return BADGE_TYPE_MAPPING.get(badge_type)
+
+    def _get_badge_header(self, badge_type):
+        BADGE_HEADERS = {
+            'user': _(u'User Badges'),
+            'delegateable': _(u'Proposal Badges'),
+            'category': _(u'Proposal Category Badges'),
+            'instance': _(u'Instance Badges'),
+            'thumbnail': _(u'Proposal Thumbnail Badges'),
+        }
+        return BADGE_HEADERS.get(badge_type)
 
     def _get_badge_or_redirect(self, id):
         '''
