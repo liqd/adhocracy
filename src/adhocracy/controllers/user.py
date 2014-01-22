@@ -13,7 +13,6 @@ from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from pylons.i18n import lazy_ugettext as L_
 
 from webob.exc import HTTPFound
 
@@ -46,8 +45,7 @@ from adhocracy.lib.templating import ret_success
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_PROPOSAL,
-                                       S_COMMENT, S_PAGE, S_CONTRIBUTION)
+from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_CONTRIBUTION
 
 
 log = logging.getLogger(__name__)
