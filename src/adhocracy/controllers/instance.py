@@ -573,7 +573,6 @@ class InstanceController(BaseController):
     @RequireInstance
     def settings_process(self, id):
         c.page_instance = self._get_current_instance(id)
-        c.active_subheader_nav = 'settings'
         require.instance.edit(c.page_instance)
         thumb_badge_data = self.badge_controller(c.page_instance, 'process')\
             ._get_badge_data('thumbnail')
