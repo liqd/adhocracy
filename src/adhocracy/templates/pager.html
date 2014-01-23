@@ -84,7 +84,7 @@
 </%def>
 
 <%def name="facets(pager, cls=None)">
-%if (True in [facet.available() for facet in pager.facets]):
+%if any(facet.available() for facet in pager.facets):
 <div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
 
