@@ -138,10 +138,11 @@ class PageController(BaseController):
         c.tutorial_intro = _('tutorial_norms_overview_tab')
         c.tutorial = 'page_index'
 
-        if format == 'overlay':
-            return render("/page/index.html", overlay=True)
+        if c.instance.page_index_as_tiles:
+            return render("/page/index_tiles.html",
+                          overlay=format == u'overlay')
         else:
-            return render("/page/index.html")
+            return render("/page/index.html", overlay=format == u'overlay')
 
     @RequireInstance
     @guard.page.create()
