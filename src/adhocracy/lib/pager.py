@@ -610,7 +610,9 @@ class SolrFacet(SolrIndexer):
 
         return sorted(items, key=sort_key_getter)
 
-    def available(self):
+    def available(self, show_badge_admin_buttons=False):
+        if show_badge_admin_buttons and self.badge_type is not None:
+            return True
         if self.exclusive:
             return (len(self.sorted_facet_counts) > 0
                     and self.sorted_facet_counts[0][1] > 0)

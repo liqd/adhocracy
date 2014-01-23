@@ -84,12 +84,13 @@
 </%def>
 
 <%def name="facets(pager, cls=None)">
-%if any(facet.available() for facet in pager.facets):
+<% is_admin = can.instance.any_admin() %>
+%if any(facet.available(is_admin) for facet in pager.facets):
 <div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
 
   %for facet in pager.facets:
-    %if facet.available():
+    %if facet.available(is_admin):
     <div class="facet facet-${facet.name}">
         ${facet.render()}
     </div>
@@ -123,6 +124,9 @@ ${facet_items(facet.current_items)}
 
 <%def name="facet_items(items, indent=True)">
 <ul${'' if indent else ' class="noindent"' | n}>
+    %if not items:
+    ${_(u'None')}
+    %endif
     %for item in items:
     <li class="facet-item-level-${item['level']}${' expanded' if item['open'] else ''}">
         %if item['visible']:
