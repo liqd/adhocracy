@@ -45,7 +45,9 @@ ${tiles.user.header(c.page_user)}
     ${components.formatting()}
     </%forms:textarea>
 
+    %if h.config.get_bool('adhocracy.allow_organization'):
     ${forms.checkbox(_("I am an organisation"), 'is_organization')}
+    %endif
 
     ${components.savebox(cancel_url=None)}
 

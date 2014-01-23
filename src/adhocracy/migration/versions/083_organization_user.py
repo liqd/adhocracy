@@ -9,11 +9,11 @@ def upgrade(migrate_engine):
 
     user_table = Table('user', metadata, autoload=True)
 
-    is_organization = Column('is_organization',
-                             Boolean,
-                             nullable=True,
-                             default=False)
-    is_organization.create(user_table)
+    _is_organization = Column('is_organization',
+                              Boolean,
+                              nullable=True,
+                              default=False)
+    _is_organization.create(user_table)
 
 
 def downgrade(migrate_engine):
