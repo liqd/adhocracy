@@ -138,6 +138,8 @@ class InstanceAdvancedEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     hide_global_categories = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    page_index_as_tiles = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     votedetail_badges = forms.ValidUserBadges()
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
@@ -687,6 +689,7 @@ class InstanceController(BaseController):
             c.page_instance.editable_proposals_default,
             'require_selection': c.page_instance.require_selection,
             'hide_global_categories': c.page_instance.hide_global_categories,
+            'page_index_as_tiles': c.page_instance.page_index_as_tiles,
             'hidden': c.page_instance.hidden,
             'frozen': c.page_instance.frozen,
             'css': c.page_instance.css,
@@ -716,7 +719,7 @@ class InstanceController(BaseController):
             c.page_instance, self.form_result,
             ['editable_comments_default', 'editable_proposals_default',
              'require_selection', 'hide_global_categories', 'hidden',
-             'frozen'])
+             'frozen', 'page_index_as_tiles'])
         # currently no ui for allow_index
 
         if h.has_permission('global.admin'):
