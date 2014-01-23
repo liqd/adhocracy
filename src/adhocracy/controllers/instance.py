@@ -68,7 +68,6 @@ def settings_menu(instance, current):
         ('general', (_('General settings'),)),
         ('process', (_('Process settings'),)),
         ('members', (_('Manage members'),)),
-        ('badges', (_('Badges'),)),
         ('advanced', (_('Advanced settings'),)),
         ('presets', (_('Process presets'),)),
     ]))
@@ -536,6 +535,11 @@ class InstanceController(BaseController):
     def settings_general(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+        cat_badge_data = self.badge_controller(c.page_instance, 'general')\
+            ._get_badge_data('category')
+        c.category_badge_tables = render_def('/badge/index.html',
+                                             'render_context_tables',
+                                             cat_badge_data)
         return htmlfill.render(
             self._settings_general_form(id),
             defaults={
@@ -570,6 +574,16 @@ class InstanceController(BaseController):
     def settings_process(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+        thumb_badge_data = self.badge_controller(c.page_instance, 'process')\
+            ._get_badge_data('thumbnail')
+        c.thumbnail_badge_tables = render_def('/badge/index.html',
+                                              'render_context_tables',
+                                              thumb_badge_data)
+        deleg_badge_data = self.badge_controller(c.page_instance, 'process')\
+            ._get_badge_data('delegateable')
+        c.delegateable_badge_tables = render_def('/badge/index.html',
+                                                 'render_context_tables',
+                                                 deleg_badge_data)
         return htmlfill.render(
             self._settings_process_form(id),
             defaults={
@@ -619,6 +633,12 @@ class InstanceController(BaseController):
     @RequireInstance
     def settings_members(self, id):
         c.page_instance = self._get_current_instance(id)
+        badge_data = self.badge_controller(c.page_instance, 'members')\
+            ._get_badge_data('user')
+        c.user_badge_tables = render_def('/badge/index.html',
+                                         'render_context_tables',
+                                         badge_data)
+
         require.instance.edit(c.page_instance)
         return htmlfill.render(
             self._settings_members_form(id),
@@ -717,65 +737,57 @@ class InstanceController(BaseController):
 
         return self._settings_result(updated, c.page_instance, 'advanced')
 
-    def badge_controller(self, instance):
+    def badge_controller(self, instance, settings_part):
         '''
         ugly hack to dispatch to the badge controller.
         '''
         controller = BadgeController()
         controller.index_template = 'instance/settings_badges.html'
         controller.form_template = 'instance/settings_badges_form.html'
-        controller.base_url_ = settings_url(instance, 'badges')
+        controller.base_url_ = settings_url(instance, settings_part)
         controller._py_object = self._py_object
         controller.start_response = self.start_response
         return controller
 
     @RequireInstance
-    def settings_badges(self, id):
+    def settings_badges_add(self, id, part, badge_type, format='html'):
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.index()
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.add(badge_type=badge_type, format=format)
 
     @RequireInstance
-    def settings_badges_add(self, id, badge_type):
+    def settings_badges_create(self, id, part, badge_type, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.add(badge_type=badge_type)
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.create(badge_type=badge_type, format=format)
 
     @RequireInstance
-    def settings_badges_create(self, id, badge_type):
+    def settings_badges_edit(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.create(badge_type=badge_type)
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.edit(badge_id, format=format)
 
     @RequireInstance
-    def settings_badges_edit(self, id, badge_id):
+    def settings_badges_update(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.edit(badge_id)
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.update(badge_id, format=format)
 
     @RequireInstance
-    def settings_badges_update(self, id, badge_id):
+    def settings_badges_ask_delete(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.update(badge_id)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.ask_delete(badge_id, format=format)
 
     @RequireInstance
-    def settings_badges_ask_delete(self, id, badge_id):
+    def settings_badges_delete(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        controller = self.badge_controller(c.page_instance)
-        return controller.ask_delete(badge_id)
-
-    @RequireInstance
-    def settings_badges_delete(self, id, badge_id):
-        c.page_instance = self._get_current_instance(id)
-        controller = self.badge_controller(c.page_instance)
-        return controller.delete(badge_id)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.delete(badge_id, format=format)
 
     def _members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)

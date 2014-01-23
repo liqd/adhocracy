@@ -45,6 +45,11 @@ def render(template_name, data=_legacy, overlay=False):
     return render_mako(template_name, data, overlay=overlay)
 
 
+def set_template_context(data):
+    for k, v in data.items():
+        setattr(pylons.tmpl_context, k, v)
+
+
 def render_mako(template_name, data, extra_vars=None, cache_key=None,
                 cache_type=None, cache_expire=None, overlay=False):
     """
@@ -61,8 +66,7 @@ def render_mako(template_name, data, extra_vars=None, cache_key=None,
     if overlay:
         extra_vars['root_template'] = '/overlay.html'
 
-    for k, v in data.items():
-        setattr(pylons.tmpl_context, k, v)
+    set_template_context(data)
 
     page = pylons.templating.render_mako(template_name, extra_vars=extra_vars,
                                          cache_key=cache_key,
@@ -71,13 +75,20 @@ def render_mako(template_name, data, extra_vars=None, cache_key=None,
     return page
 
 
-def render_def(template_name, def_name, extra_vars=None, cache_key=None,
-               cache_type=None, cache_expire=None, **kwargs):
+def render_def(template_name, def_name, data=_legacy, extra_vars=None,
+               cache_key=None, cache_type=None, cache_expire=None, **kwargs):
     """
     Signature matches that of pylons actual render_mako_def.
     """
     # log.debug(u'Call to deprecated (Mako-specific) method render_def - call '
     #           u'render(template_name, data, only_fragment=True) instead')
+
+    if data is _legacy:
+        # log.debug(u'Legacy call to render_def() - missing data')
+        data = {}
+
+    set_template_context(data)
+
     if not extra_vars:
         extra_vars = {}
 

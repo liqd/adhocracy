@@ -16,6 +16,7 @@
     ${forms.select(_("Default group for new members"), 'default_group', c.default_group_options)}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+    ${c.user_badge_tables}
 
 </form>
 </%block>

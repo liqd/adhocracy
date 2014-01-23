@@ -8,47 +8,67 @@ ${h.badge.breadcrumbs(None)|n}
 </%def>
 
 
-<%def name="edit_button(badge_id)">
-<a href="${c.badge_base_url}/edit/${badge_id}">${_('Edit')}</a>
+<%def name="edit_button(base_url, badge_id)">
+<a href="${base_url}/edit/${badge_id}" target="_self">${_('Edit')}</a>
 </%def>
 
 
-<%def name="delete_button(badge_id)">
-<a href="${c.badge_base_url}/delete/${badge_id}">${_('Delete')}</a>
+<%def name="delete_button(base_url, badge_id)">
+<a href="${base_url}/delete/${badge_id}" target="_self">${_('Delete')}</a>
 </%def>
 
 
-<%def name="render_tables(badges, title, type_, groups, table_def)">
-<h2>${title}
-  %if not c.instance or not h.has_permission('global.admin'):
-  <a class="button_small plus"
-      href="${c.badge_base_url}/${type_}/add${'?global=true' if h.has_permission('global.admin') else ''}">${_("New")}</a>
+<%def name="new_button(base_url, type_, is_global)">
+<a class="button_small plus"
+    href="${'%s/%s/add?global=%s' % (base_url, type_, str(is_global))}" target="_self">${_("New")}</a>
+</%def>
+
+
+<%def name="render_table(badges, base_url, type_, show_header, is_global)">
+%if badges is not None:
+<%
+table_def = {
+    'user': user_badges_table,
+    'delegateable': delegateable_badges_table,
+    'category': category_badges_table,
+    'thumbnail': thumbnail_badges_table,
+    'instance': instance_badges_table,
+    }.get(type_)
+%>
+%if show_header:
+<h4>${_(u'In all instances') if is_global else _(u'In instance "%s"') % c.instance.label}${new_button(c.badge_base_url, type_, is_global)}</h4>
+%endif
+%if badges:
+${table_def(base_url, badges)}
+%else:
+<p>${_("No badges added yet.")}</p>
+%endif
+%endif
+</%def>
+
+
+<%def name="render_context_tables()">
+${render_tables(c.global_badges, c.instance_badges, c.badge_base_url, c.badge_header, c.badge_type)}
+</%def>
+
+
+<%def name="render_tables(global_badges, instance_badges, base_url, title, type_)">
+<% single_table = global_badges is None or instance_badges is None %>
+<h3>${title}
+  %if single_table:
+  %if global_badges is not None:
+  ${new_button(base_url, type_, True)}
+  %elif instance_badges is not None:
+  ${new_button(base_url, type_, False)}
   %endif
-</h2>
-%for group in groups:
-    <%
-    permission = group['permission']
-    label = group['label']
-    group_exists = permission in badges
-    badge_items = badges.get(permission, {}).get(type_, None)
-    %>
-    %if h.has_permission(permission) and group_exists:
-        %if group['show_label']:
-        <h4>${group['label']}
-        <a class="button_small plus"
-            href="${c.badge_base_url}/${type_}/add${'?global=true' if group['global'] else ''}">${_("New")}</a></h4>
-        %endif
-    %if badge_items:
-    ${table_def(badge_items)}
-    %else:
-    <p>${_("No badges added yet.")}</p>
-    %endif
-    %endif
-%endfor
+  %endif
+</h3>
+${render_table(global_badges, base_url, type_, not single_table, True)}
+${render_table(instance_badges, base_url, type_, not single_table, False)}
 </%def>
 
 
-<%def name="user_badges_table(badge_items)">
+<%def name="user_badges_table(base_url, badge_items)">
 <table>
     <thead>
         <th>${_("Title")}</th>
@@ -65,15 +85,15 @@ ${h.badge.breadcrumbs(None)|n}
         <td>${tiles.badge(badge)}</td>
         <td>${badge.group and badge.group.group_name or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
-        <td>${edit_button(badge.id)}
-            ${delete_button(badge.id)}</td>
+        <td>${edit_button(base_url, badge.id)}
+            ${delete_button(base_url, badge.id)}</td>
     </tr>
     %endfor
 </table>
 </%def>
 
 
-<%def name="delegateable_badges_table(badge_items)">
+<%def name="delegateable_badges_table(base_url, badge_items)">
 <table>
     <thead>
         <th>${_("Title")}</th>
@@ -88,15 +108,15 @@ ${h.badge.breadcrumbs(None)|n}
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
-        <td>${edit_button(badge.id)}
-            ${delete_button(badge.id)}</td>
+        <td>${edit_button(base_url, badge.id)}
+            ${delete_button(base_url, badge.id)}</td>
     </tr>
     %endfor
 </table>
 </%def>
 
 
-<%def name="instance_badges_table(badge_items)">
+<%def name="instance_badges_table(base_url, badge_items)">
 <table>
     <thead>
         <th>${_("Title")}</th>
@@ -109,15 +129,15 @@ ${h.badge.breadcrumbs(None)|n}
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${tiles.badge(badge)}</td>
-        <td>${edit_button(badge.id)}
-            ${delete_button(badge.id)}</td>
+        <td>${edit_button(base_url, badge.id)}
+            ${delete_button(base_url, badge.id)}</td>
     </tr>
     %endfor
 </table>
 </%def>
 
 
-<%def name="category_badges_table(badge_items)">
+<%def name="category_badges_table(base_url, badge_items)">
 <table>
     <thead>
         <th>${_("Title")}</th>
@@ -134,15 +154,15 @@ ${h.badge.breadcrumbs(None)|n}
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
         <td>${badge.parent.title if badge.parent else ""}</td>
-        <td>${edit_button(badge.id)}
-            ${delete_button(badge.id)}</td>
+        <td>${edit_button(base_url, badge.id)}
+            ${delete_button(base_url, badge.id)}</td>
     </tr>
     %endfor
 </table>
 </%def>
 
 
-<%def name="thumbnail_badges_table(badge_items)">
+<%def name="thumbnail_badges_table(base_url, badge_items)">
 <table>
     <thead>
         <th>${_("Title")}</th>
@@ -157,8 +177,8 @@ ${h.badge.breadcrumbs(None)|n}
         <td>${(badge.description[:20] + u'...' if len(badge.description) > 20 else badge.description) if badge.description else u''}</td>
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
-        <td>${edit_button(badge.id)}
-            ${delete_button(badge.id)}</td>
+        <td>${edit_button(base_url, badge.id)}
+            ${delete_button(base_url, badge.id)}</td>
     </tr>
     %endfor
 </table>
@@ -167,24 +187,5 @@ ${h.badge.breadcrumbs(None)|n}
 
 <%block name="main_content">
 ${components.flashmessages()}
-
-${self.badges_listing()}
+${render_context_tables()}
 </%block>
-
-
-<%def name="badges_listing()">
-
-${render_tables(c.badges, _("User Badges"), 'user', c.groups, user_badges_table)}
-
-${render_tables(c.badges, _("Proposal Badges"), 'delegateable', c.groups, delegateable_badges_table)}
-
-${render_tables(c.badges, _("Proposal Category Badges"), 'category', c.groups, category_badges_table)}
-
-%if c.instance and c.instance.allow_thumbnailbadges:
-${render_tables(c.badges, _("Proposal Thumbnail Badges"), 'thumbnail', c.groups, thumbnail_badges_table)}
-%endif
-
-%if can.badge.manage_global():
-${render_tables(c.badges, _("Instance Badges"), 'instance', c.groups, instance_badges_table)}
-%endif
-</%def>

@@ -314,7 +314,7 @@ class CommentController(BaseController):
                              ret_url=ret_url,
                              )
         return render_def('/comment/tiles.html', 'create_form',
-                          template_args)
+                          extra_vars=template_args)
 
     def reply_form(self, id):
         parent = get_entity_or_abort(model.Comment, int(id))

@@ -320,6 +320,8 @@ def make_map(config):
 
     map.connect('/badge{.format}', controller='badge', action='index',
                 conditions=dict(method=['GET']))
+    map.connect('/badge/{badge_type}{.format}', controller='badge',
+                action='index_type', conditions=dict(method=['GET']))
     map.connect('/badge/{badge_type}/add{.format}', controller='badge',
                 action='add', conditions=dict(method=['GET']))
     map.connect('/badge/{badge_type}/add{.format}', controller='badge',
@@ -407,29 +409,23 @@ def make_map(config):
     map.connect('/instance/{id}/settings/advanced{.format}',
                 controller='instance', action='settings_advanced_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/badges{.format}',
-                controller='instance', action='settings_badges',
-                conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges{.format}',
-                controller='instance', action='settings_badges_update',
-                conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/badges/{badge_type}/add{.format}',
+    map.connect('/instance/{id}/settings/{part}/{badge_type}/add{.format}',
                 controller='instance',
                 action='settings_badges_add', conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges/{badge_type}/add{.format}',
+    map.connect('/instance/{id}/settings/{part}/{badge_type}/add{.format}',
                 controller='instance',
                 action='settings_badges_create',
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/badges/edit/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/edit/{badge_id}{.format}',
                 controller='instance',
                 action="settings_badges_edit", conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges/edit/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/edit/{badge_id}{.format}',
                 controller='instance', action="settings_badges_update",
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/badges/delete/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/delete/{badge_id}{.format}',
                 controller='instance', action="settings_badges_ask_delete",
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges/delete/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/delete/{badge_id}{.format}',
                 controller='instance', action="settings_badges_delete",
                 conditions=dict(method=['POST']))
     map.connect('/instance/{id}/message/new{.format}',
