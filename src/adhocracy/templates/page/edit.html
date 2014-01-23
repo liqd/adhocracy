@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 
 <%def name="title()">${_("Variant: %s") % c.text.title}</%def>
 
@@ -7,7 +8,7 @@
 
 
 <%block name="main_content">
-<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page, in_context=False)}">
+<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page, in_context=False)}" enctype="multipart/form-data">
 
     <h2>${_(u"Edit section") if c.section else _(u"Norm: %s") % c.page.title}</h2>
     ${h.field_token()|n}
@@ -84,6 +85,21 @@
             </label>
         </div>
     </fieldset>
+
+    %if c.instance.page_index_as_tiles:
+    <fieldset class="logo">
+        <%forms:input label="Logo" name="logo" type="file"
+                      help="${_('Upload a logo for this page')}">
+        </%forms:input>
+        %if c.logo:
+        <div class="current">
+            ${h.literal(c.logo)}
+            <br />
+            <input type="submit" name="delete_logo" value="${_('Delete current logo')}" />
+        </div>
+        %endif
+    </fieldset>
+    %endif
 
     %if not c.section:
     <fieldset>

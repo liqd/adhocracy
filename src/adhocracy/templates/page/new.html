@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 <%def name="title()">${_("New page")}</%def>
 
 <%def name="breadcrumbs()">
@@ -12,7 +13,7 @@
 
 
 <%block name="main_content">
-<form name="create_page" class="inplace" method="POST" action="${h.base_url('/page')}">
+<form name="create_page" class="inplace" method="POST" action="${h.base_url('/page')}" enctype="multipart/form-data">
     ${h.field_token()|n}
     %if c.proposal:
     <input type="hidden" value="${c.proposal}" name="proposal" />
@@ -90,6 +91,14 @@
                 </label>
             </div>
         </fieldset>
+
+        %if c.instance.page_index_as_tiles:
+        <fieldset class="logo">
+            <%forms:input label="Logo" name="logo" type="file"
+                          help="${_('Upload a logo for this page')}">
+            </%forms:input>
+        </fieldset>
+        %endif
 
         %if c.section:
         <input type="hidden" name="tags" value="" />
