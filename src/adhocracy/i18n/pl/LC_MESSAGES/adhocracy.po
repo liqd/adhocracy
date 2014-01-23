@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-21 12:55+0100\n"
-"PO-Revision-Date: 2014-01-21 11:55+0000\n"
+"POT-Creation-Date: 2014-01-23 18:08+0100\n"
+"PO-Revision-Date: 2014-01-23 17:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -43,16 +43,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr ""
 
-msgid "In all instances"
-msgstr "We wszystkich grupach"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "W grupie %s"
+msgid "No such badge type"
+msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr "Etykieta o numerze %s nie została odnaleziona."
+
+msgid "User Badges"
+msgstr "Etykiety użytkownika"
+
+msgid "Proposal Badges"
+msgstr "Etykiety propozycji"
+
+msgid "Proposal Category Badges"
+msgstr "Etykiety kategorii propozycji"
+
+msgid "Instance Badges"
+msgstr "Etykiety grupy"
+
+msgid "Proposal Thumbnail Badges"
+msgstr ""
 
 msgid "Badge changed successfully"
 msgstr "Zmieniono etykietę"
@@ -143,9 +154,6 @@ msgstr ""
 
 msgid "Manage members"
 msgstr ""
-
-msgid "Badges"
-msgstr "Etykiety"
 
 msgid "Advanced settings"
 msgstr ""
@@ -1100,6 +1108,9 @@ msgstr "Kategorie"
 msgid "Thumbnails"
 msgstr ""
 
+msgid "Badges"
+msgstr "Etykiety"
+
 msgid "Created by"
 msgstr "Utworzone przez"
 
@@ -1785,6 +1796,12 @@ msgstr "Filtruj listę"
 msgid "reset"
 msgstr ""
 
+msgid "Edit"
+msgstr "Edytuj"
+
+msgid "None"
+msgstr ""
+
 msgid "Sort:"
 msgstr "Sortuj:"
 
@@ -2219,17 +2236,21 @@ msgstr ""
 msgid "Save Badge"
 msgstr "Zapisz etykietę"
 
-msgid "Edit"
-msgstr "Edytuj"
-
 msgid "Delete"
 msgstr "Usuń"
 
+msgid "New"
+msgstr "Nowe"
+
+msgid "In all instances"
+msgstr "We wszystkich grupach"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "W grupie %s"
+
 msgid "No badges added yet."
 msgstr "Do tej pory nie dodano żadnych etykiet."
-
-msgid "Color"
-msgstr "Kolor"
 
 msgid "Preview"
 msgstr "Podgląd"
@@ -2252,23 +2273,8 @@ msgstr "nie"
 msgid "Parent"
 msgstr ""
 
-msgid "User Badges"
-msgstr "Etykiety użytkownika"
-
-msgid "New"
-msgstr "Nowe"
-
-msgid "Proposal Badges"
-msgstr "Etykiety propozycji"
-
-msgid "Proposal Category Badges"
-msgstr "Etykiety kategorii propozycji"
-
-msgid "Proposal Thumbnail Badges"
+msgid "Global badges"
 msgstr ""
-
-msgid "Instance Badges"
-msgstr "Etykiety grupy"
 
 msgid "View and discuss"
 msgstr ""
@@ -2694,9 +2700,9 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Dopuszczalne jest używanie znaczników Markdown i HTML.)"
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
 msgstr ""
 
 msgid ""
@@ -2704,18 +2710,22 @@ msgid ""
 "configuration. Note that any manual configuration will be lost."
 msgstr ""
 
-msgid "Agenda Setting"
-msgstr ""
-
-msgid "Users can create proposals and dicuss them."
-msgstr ""
-
-msgid "Consultation"
+msgid "Collecting ideas"
 msgstr ""
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr ""
+
+msgid "Collaboratively drafting texts"
+msgstr ""
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
 msgstr ""
 
 msgid "Configure"
@@ -2809,7 +2819,13 @@ msgstr "Bieżące logo"
 msgid "Delete current logo"
 msgstr "Usuń bieżące logo"
 
+msgid "Agenda Setting"
+msgstr ""
+
 msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Consultation"
 msgstr ""
 
 msgid "Enable norms"
@@ -3929,9 +3945,6 @@ msgstr "Zmień etykiety %s"
 msgid "Badges for %s"
 msgstr "Etykiety dla %s"
 
-msgid "Global badges"
-msgstr ""
-
 msgid "Example:"
 msgstr "Przykład:"
 
@@ -4244,9 +4257,6 @@ msgid "Not a member in \"%s\""
 msgstr ""
 
 msgid "User groups"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "change group"

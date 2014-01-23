@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 187bd4f\n"
+"Project-Id-Version: adhocracy 12ef403\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-21 12:55+0100\n"
+"POT-Creation-Date: 2014-01-23 18:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,15 +39,26 @@ msgstr ""
 msgid "Requested generation of welcome codes, but welcome functionality(adhocracy.enable_welcome) is not enabled."
 msgstr ""
 
-msgid "In all instances"
-msgstr ""
-
-#, python-format
-msgid "In instance \"%s\""
+msgid "No such badge type"
 msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
+msgstr ""
+
+msgid "User Badges"
+msgstr ""
+
+msgid "Proposal Badges"
+msgstr ""
+
+msgid "Proposal Category Badges"
+msgstr ""
+
+msgid "Instance Badges"
+msgstr ""
+
+msgid "Proposal Thumbnail Badges"
 msgstr ""
 
 msgid "Badge changed successfully"
@@ -134,9 +145,6 @@ msgid "Process settings"
 msgstr ""
 
 msgid "Manage members"
-msgstr ""
-
-msgid "Badges"
 msgstr ""
 
 msgid "Advanced settings"
@@ -1052,6 +1060,9 @@ msgstr ""
 msgid "Thumbnails"
 msgstr ""
 
+msgid "Badges"
+msgstr ""
+
 msgid "Created by"
 msgstr ""
 
@@ -1736,6 +1747,12 @@ msgstr ""
 msgid "reset"
 msgstr ""
 
+msgid "Edit"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
 msgid "Sort:"
 msgstr ""
 
@@ -2147,16 +2164,20 @@ msgstr ""
 msgid "Save Badge"
 msgstr ""
 
-msgid "Edit"
-msgstr ""
-
 msgid "Delete"
 msgstr ""
 
-msgid "No badges added yet."
+msgid "New"
 msgstr ""
 
-msgid "Color"
+msgid "In all instances"
+msgstr ""
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr ""
+
+msgid "No badges added yet."
 msgstr ""
 
 msgid "Preview"
@@ -2180,22 +2201,7 @@ msgstr ""
 msgid "Parent"
 msgstr ""
 
-msgid "User Badges"
-msgstr ""
-
-msgid "New"
-msgstr ""
-
-msgid "Proposal Badges"
-msgstr ""
-
-msgid "Proposal Category Badges"
-msgstr ""
-
-msgid "Proposal Thumbnail Badges"
-msgstr ""
-
-msgid "Instance Badges"
+msgid "Global badges"
 msgstr ""
 
 msgid "View and discuss"
@@ -2604,22 +2610,22 @@ msgstr ""
 msgid "(Both Markdown and HTML are allowed here.)"
 msgstr ""
 
-msgid "Please select one or more of these presets for the initial configuration of your instance. If needed, you can fine-tune the individual settings later on."
+msgid "Please select one or more of the following presets for the preliminary configuration of your instance. If necessary you can adapt individual options later."
 msgstr ""
 
 msgid "You can select one or more of these presets to reset your instance configuration. Note that any manual configuration will be lost."
 msgstr ""
 
-msgid "Agenda Setting"
+msgid "Collecting ideas"
 msgstr ""
 
-msgid "Users can create proposals and dicuss them."
+msgid "The participants can make proposals and discuss these. This option enables everything from an open dialogue to formulating and organizing concrete ideas and goals."
 msgstr ""
 
-msgid "Consultation"
+msgid "Collaboratively drafting texts"
 msgstr ""
 
-msgid "Post texts (so called \"norms\") and discuss them online. Users can write comments and propose changes."
+msgid " Whether you want to draft statutes, strategic papers or a manifesto – with this option the participants will have the chance to discuss, and collaboratively work on the texts you introduce to the platform."
 msgstr ""
 
 msgid "Configure"
@@ -2712,7 +2718,13 @@ msgstr ""
 msgid "Delete current logo"
 msgstr ""
 
+msgid "Agenda Setting"
+msgstr ""
+
 msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Consultation"
 msgstr ""
 
 msgid "Enable norms"
@@ -3787,9 +3799,6 @@ msgstr ""
 msgid "Badges for %s"
 msgstr ""
 
-msgid "Global badges"
-msgstr ""
-
 msgid "Example:"
 msgstr ""
 
@@ -4081,9 +4090,6 @@ msgid "Not a member in \"%s\""
 msgstr ""
 
 msgid "User groups"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "change group"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-21 12:55+0100\n"
-"PO-Revision-Date: 2014-01-21 11:55+0000\n"
+"POT-Creation-Date: 2014-01-23 18:08+0100\n"
+"PO-Revision-Date: 2014-01-23 17:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -48,16 +48,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr ""
 
-msgid "In all instances"
-msgstr "Во все инстанции"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "В организации \"%s\""
+msgid "No such badge type"
+msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr "Мы не можем найти ярлык с номером %s"
+
+msgid "User Badges"
+msgstr "Ярлыки пользователя."
+
+msgid "Proposal Badges"
+msgstr "Ярлыки предложений"
+
+msgid "Proposal Category Badges"
+msgstr "ярлык категории предложения"
+
+msgid "Instance Badges"
+msgstr "Ярлыки организации"
+
+msgid "Proposal Thumbnail Badges"
+msgstr ""
 
 msgid "Badge changed successfully"
 msgstr "Ярлык изменён успешно"
@@ -148,9 +159,6 @@ msgstr ""
 
 msgid "Manage members"
 msgstr ""
-
-msgid "Badges"
-msgstr "Ярлыки"
 
 msgid "Advanced settings"
 msgstr ""
@@ -1105,6 +1113,9 @@ msgstr "Категории"
 msgid "Thumbnails"
 msgstr ""
 
+msgid "Badges"
+msgstr "Ярлыки"
+
 msgid "Created by"
 msgstr "создано"
 
@@ -1790,6 +1801,12 @@ msgstr "Список фильтров"
 msgid "reset"
 msgstr ""
 
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "None"
+msgstr ""
+
 msgid "Sort:"
 msgstr "Сортировка:"
 
@@ -2224,17 +2241,21 @@ msgstr ""
 msgid "Save Badge"
 msgstr "Сохранить ярлык"
 
-msgid "Edit"
-msgstr "Редактировать"
-
 msgid "Delete"
 msgstr "Удалить"
 
+msgid "New"
+msgstr "Новое"
+
+msgid "In all instances"
+msgstr "Во все инстанции"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "В организации \"%s\""
+
 msgid "No badges added yet."
 msgstr "Ярлыки пока не добавлены. "
-
-msgid "Color"
-msgstr "Цвет"
 
 msgid "Preview"
 msgstr "Просмотр"
@@ -2257,23 +2278,8 @@ msgstr "нет"
 msgid "Parent"
 msgstr ""
 
-msgid "User Badges"
-msgstr "Ярлыки пользователя."
-
-msgid "New"
-msgstr "Новое"
-
-msgid "Proposal Badges"
-msgstr "Ярлыки предложений"
-
-msgid "Proposal Category Badges"
-msgstr "ярлык категории предложения"
-
-msgid "Proposal Thumbnail Badges"
+msgid "Global badges"
 msgstr ""
-
-msgid "Instance Badges"
-msgstr "Ярлыки организации"
 
 msgid "View and discuss"
 msgstr ""
@@ -2699,9 +2705,9 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Разрешена как вики-маркировка, так и HTML)"
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
 msgstr ""
 
 msgid ""
@@ -2709,18 +2715,22 @@ msgid ""
 "configuration. Note that any manual configuration will be lost."
 msgstr ""
 
-msgid "Agenda Setting"
-msgstr ""
-
-msgid "Users can create proposals and dicuss them."
-msgstr ""
-
-msgid "Consultation"
+msgid "Collecting ideas"
 msgstr ""
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr ""
+
+msgid "Collaboratively drafting texts"
+msgstr ""
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
 msgstr ""
 
 msgid "Configure"
@@ -2814,7 +2824,13 @@ msgstr "Действующий логотип"
 msgid "Delete current logo"
 msgstr "Удалить действующий логотип"
 
+msgid "Agenda Setting"
+msgstr ""
+
 msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Consultation"
 msgstr ""
 
 msgid "Enable norms"
@@ -3934,9 +3950,6 @@ msgstr "Редактировать ярлыки для %s"
 msgid "Badges for %s"
 msgstr "Ярлыки для %s"
 
-msgid "Global badges"
-msgstr ""
-
 msgid "Example:"
 msgstr "Пример:"
 
@@ -4249,9 +4262,6 @@ msgid "Not a member in \"%s\""
 msgstr ""
 
 msgid "User groups"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "change group"

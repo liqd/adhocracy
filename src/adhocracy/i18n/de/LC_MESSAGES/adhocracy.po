@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-21 12:55+0100\n"
-"PO-Revision-Date: 2014-01-21 12:00+0000\n"
+"POT-Creation-Date: 2014-01-23 18:08+0100\n"
+"PO-Revision-Date: 2014-01-23 17:13+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -59,16 +59,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr "Generierung von Willkommens Codes angefordert, aber die Willkommens-Funktionalität (adhocracy.enable_welcome) ist nicht aktiv."
 
-msgid "In all instances"
-msgstr "In allen Gruppen"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "In Gruppe „%s“"
+msgid "No such badge type"
+msgstr "Dieser Badge-Typ ist nicht bekannt"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
+
+msgid "User Badges"
+msgstr "Benutzerbadges"
+
+msgid "Proposal Badges"
+msgstr "Badges für Vorschläge"
+
+msgid "Proposal Category Badges"
+msgstr "Badges für Vorschlagskategorien"
+
+msgid "Instance Badges"
+msgstr "Gruppen-Badges"
+
+msgid "Proposal Thumbnail Badges"
+msgstr "Miniaturbild-Badges dieses Vorschlags"
 
 msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
@@ -159,9 +170,6 @@ msgstr "Prozesseinstellungen"
 
 msgid "Manage members"
 msgstr "Nutzer*innen verwalten"
-
-msgid "Badges"
-msgstr "Badges"
 
 msgid "Advanced settings"
 msgstr "Erweiterte Einstellungen"
@@ -1116,6 +1124,9 @@ msgstr "Kategorien"
 msgid "Thumbnails"
 msgstr "Miniaturbilder"
 
+msgid "Badges"
+msgstr "Badges"
+
 msgid "Created by"
 msgstr "Erstellt von"
 
@@ -1801,6 +1812,12 @@ msgstr "Liste filtern"
 msgid "reset"
 msgstr "zurücksetzen"
 
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "None"
+msgstr "Keine"
+
 msgid "Sort:"
 msgstr "Sortieren:"
 
@@ -2235,17 +2252,21 @@ msgstr "Einfluss"
 msgid "Save Badge"
 msgstr "Badge speichern"
 
-msgid "Edit"
-msgstr "Bearbeiten"
-
 msgid "Delete"
 msgstr "Löschen"
 
+msgid "New"
+msgstr "Neu"
+
+msgid "In all instances"
+msgstr "In allen Gruppen"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "In Gruppe „%s“"
+
 msgid "No badges added yet."
 msgstr "Bisher wurden keine Badges hinzugefügt."
-
-msgid "Color"
-msgstr "Farbe"
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -2268,23 +2289,8 @@ msgstr "Nein"
 msgid "Parent"
 msgstr "Eltern"
 
-msgid "User Badges"
-msgstr "Benutzerbadge"
-
-msgid "New"
-msgstr "Neu"
-
-msgid "Proposal Badges"
-msgstr "Badges für Vorschläge"
-
-msgid "Proposal Category Badges"
-msgstr "Badge für Kategorien von Vorschlägen"
-
-msgid "Proposal Thumbnail Badges"
-msgstr "Miniaturbild-Badges dieses Vorschlags"
-
-msgid "Instance Badges"
-msgstr "Gruppen-Badge"
+msgid "Global badges"
+msgstr "Globale Badges"
 
 msgid "View and discuss"
 msgstr "Ansehen und diskutieren"
@@ -2710,29 +2716,33 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Markdown und HTML sind hier erlaubt.)"
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
-msgstr "Bitte wählen Sie einen oder mehrere dieser voreingestellten Prozesse für die erstmalige Konfiguration Ihrer Gruppe. Falls benötigt können die einzelnen Optionen später genau angepasst werden."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
+msgstr "Bitte wählen Sie einen oder mehrere dieser voreingestellten Prozesse für die erstmalige und vorläufige Konfiguration Ihrer Gruppe. Falls benötigt, können die einzelnen Optionen später genau angepasst werden."
 
 msgid ""
 "You can select one or more of these presets to reset your instance "
 "configuration. Note that any manual configuration will be lost."
 msgstr "Sie können einen oder mehrere dieser voreingestellten Prozesse auswählen um die Einstellung ihrer Gruppe zurückzustellen. Bitte beachten Sie, dass jegliche individuellen Anpassungen dabei verloren gehen."
 
-msgid "Agenda Setting"
-msgstr "Agenda Setting"
-
-msgid "Users can create proposals and dicuss them."
-msgstr "Nutzer*innen können Vorschläge erstellen und diskutieren."
-
-msgid "Consultation"
-msgstr "Konsulation"
+msgid "Collecting ideas"
+msgstr "Ideen sammeln"
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
-msgstr "Erstellen Sie Texte (sogenannte \"Beschlüsse\") und diskutieren Sie diese online. Nutzer*innen können Kommentare schreiben und Änderungen vorschlagen."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr "Die Teilnehmer*innen können Vorschläge erstellen, diskutieren und so beispielsweise vom offenen Dialogverfahren bis zur offenen Ideensammlung ihre gemeinsamen Absichten formulieren und organisieren."
+
+msgid "Collaboratively drafting texts"
+msgstr "Texte gemeinsam bearbeiten"
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
+msgstr "Ob Satzung, Strategiepapier oder Jahresprogramm: Die Teilnehmer*innen können vorhandene Text diskutieren und gemeinsam weiterentwickeln."
 
 msgid "Configure"
 msgstr "Einstellen"
@@ -2825,8 +2835,14 @@ msgstr "Aktuelles Logo"
 msgid "Delete current logo"
 msgstr "Lösche aktuelles Logo"
 
+msgid "Agenda Setting"
+msgstr "Agenda Setting"
+
 msgid "Show proposals navigation item"
 msgstr "Zeige \"Vorschlag\"-Reiter"
+
+msgid "Consultation"
+msgstr "Konsulation"
 
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"
@@ -3942,9 +3958,6 @@ msgstr "Badges von %s bearbeiten"
 msgid "Badges for %s"
 msgstr "Badges für %s"
 
-msgid "Global badges"
-msgstr "Globale Badges"
-
 msgid "Example:"
 msgstr "Beispiel:"
 
@@ -4258,9 +4271,6 @@ msgstr "Kein Mitglied in \"%s\""
 
 msgid "User groups"
 msgstr "Nutzergruppen"
-
-msgid "None"
-msgstr "Keine"
 
 msgid "change group"
 msgstr "Gruppe ändern"

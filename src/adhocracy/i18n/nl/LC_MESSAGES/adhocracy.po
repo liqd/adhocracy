@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-21 12:55+0100\n"
-"PO-Revision-Date: 2014-01-21 11:55+0000\n"
+"POT-Creation-Date: 2014-01-23 18:08+0100\n"
+"PO-Revision-Date: 2014-01-23 17:09+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -46,16 +46,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr "Generatie van welkom codes is aangevraagd, maar welkom functionality(adhocracy.enable_welcome) is niet ingeschakeld."
 
-msgid "In all instances"
-msgstr "In alle groepen"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "in groep \"%s\""
+msgid "No such badge type"
+msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr "We kunnen de badge met %s ID niet vinden"
+
+msgid "User Badges"
+msgstr "Gebruikers badges"
+
+msgid "Proposal Badges"
+msgstr "Voorstel Badges"
+
+msgid "Proposal Category Badges"
+msgstr "Voorstel Categorie Badges"
+
+msgid "Instance Badges"
+msgstr "Groepsbadge"
+
+msgid "Proposal Thumbnail Badges"
+msgstr "Voorstel Thumbnail Badges"
 
 msgid "Badge changed successfully"
 msgstr "De badge is veranderd"
@@ -139,16 +150,13 @@ msgid "Overview"
 msgstr "Overzicht"
 
 msgid "General settings"
-msgstr ""
+msgstr "Algemene instellingen"
 
 msgid "Process settings"
-msgstr ""
+msgstr "Verwerk instellingen"
 
 msgid "Manage members"
-msgstr ""
-
-msgid "Badges"
-msgstr "Badges"
+msgstr "Beheer deelnemers"
 
 msgid "Advanced settings"
 msgstr "Geavanceerde instellingen"
@@ -1103,6 +1111,9 @@ msgstr "Categorieën"
 msgid "Thumbnails"
 msgstr "Thumbnails"
 
+msgid "Badges"
+msgstr "Badges"
+
 msgid "Created by"
 msgstr "Aangemaakt door"
 
@@ -1788,6 +1799,12 @@ msgstr "Filter lijst"
 msgid "reset"
 msgstr "reset"
 
+msgid "Edit"
+msgstr "Bewerk"
+
+msgid "None"
+msgstr "Geen"
+
 msgid "Sort:"
 msgstr "Sorteer:"
 
@@ -2222,17 +2239,21 @@ msgstr "Impact"
 msgid "Save Badge"
 msgstr "Sla Badge op"
 
-msgid "Edit"
-msgstr "Bewerk"
-
 msgid "Delete"
 msgstr "Verwijder"
 
+msgid "New"
+msgstr "Nieuw"
+
+msgid "In all instances"
+msgstr "In alle groepen"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "in groep \"%s\""
+
 msgid "No badges added yet."
 msgstr "Nog geen badges toegevoegd."
-
-msgid "Color"
-msgstr "Kleur"
 
 msgid "Preview"
 msgstr "Voorbeeld"
@@ -2255,23 +2276,8 @@ msgstr "nee"
 msgid "Parent"
 msgstr "Parent"
 
-msgid "User Badges"
-msgstr "Gebruikers badges"
-
-msgid "New"
-msgstr "Nieuw"
-
-msgid "Proposal Badges"
-msgstr "Voorstel Badges"
-
-msgid "Proposal Category Badges"
-msgstr "Voorstel Categorie Badges"
-
-msgid "Proposal Thumbnail Badges"
-msgstr "Voorstel Thumbnail Badges"
-
-msgid "Instance Badges"
-msgstr "Groepsbadge"
+msgid "Global badges"
+msgstr "Globale badges"
 
 msgid "View and discuss"
 msgstr "Bekijk en discussieer"
@@ -2697,29 +2703,33 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Zowel Markdown als HTML zijn hier toegestaan)."
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
-msgstr "Selecteer ten minste een preset voor de initiële configuratie van uw groep. Zo nodig kunt u de instellingen later aanpassen."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
+msgstr ""
 
 msgid ""
 "You can select one or more of these presets to reset your instance "
 "configuration. Note that any manual configuration will be lost."
 msgstr "U kunt een of meer presets selecteren om de configuratie van uw groep te resetten. Merk op dat alle handmatige configuratie verloren gaat."
 
-msgid "Agenda Setting"
-msgstr "Agenda Instelling"
-
-msgid "Users can create proposals and dicuss them."
-msgstr "Gebruikers kunnen voorstellen maken en daarover discussieren."
-
-msgid "Consultation"
-msgstr "Consultatie"
+msgid "Collecting ideas"
+msgstr ""
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
-msgstr "Plaats teksten (zogenoemde \"reglementen\") en bespreek ze online. Gebruikers kunnen reageren en veranderingen voorstellen."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr ""
+
+msgid "Collaboratively drafting texts"
+msgstr ""
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
+msgstr ""
 
 msgid "Configure"
 msgstr "Configureren"
@@ -2770,13 +2780,13 @@ msgid "Thumbnail badges height"
 msgstr "Thumbnail badges hoogte"
 
 msgid "Authenticate this instance"
-msgstr ""
+msgstr "Authenticeer deze groep"
 
 msgid "Enable delegated voting"
-msgstr ""
+msgstr "Gedelegeerd stemmen inschakelen"
 
 msgid "Enable milestones"
-msgstr ""
+msgstr "Mijlpalen inschakelen"
 
 msgid "Language"
 msgstr "Taal"
@@ -2792,13 +2802,13 @@ msgid "Require instance members to validate their email address."
 msgstr "Vereis groepsleden om hun e-mailadressen te bevestigen."
 
 msgid "Default group for new members"
-msgstr ""
+msgstr "Standaardgroep voor nieuwe deelnemers"
 
 msgid "Name of the instance"
-msgstr ""
+msgstr "Naam van de groep"
 
 msgid "Description of the instance"
-msgstr ""
+msgstr "Beschrijving van de groep"
 
 msgid "Logo"
 msgstr "Logo"
@@ -2812,17 +2822,23 @@ msgstr "Huidig logo"
 msgid "Delete current logo"
 msgstr "Verwijder huidig logo"
 
+msgid "Agenda Setting"
+msgstr "Agenda Instelling"
+
 msgid "Show proposals navigation item"
 msgstr "Toon voorstel navigatie item"
 
+msgid "Consultation"
+msgstr "Consultatie"
+
 msgid "Enable norms"
-msgstr ""
+msgstr "Reglementen inschakelen"
 
 msgid "Allow members to propose norms"
-msgstr ""
+msgstr "Sta deelnemers toe om reglementen voor te stellen"
 
 msgid "Allow members to change norms from within proposals"
-msgstr ""
+msgstr "Sta deelnemers toe om reglementen te veranderen vanuit voorstellen"
 
 msgid "Show norms navigation item"
 msgstr "Toon reglementennavigatie"
@@ -3929,9 +3945,6 @@ msgstr "Bewerk Badges voor %s"
 msgid "Badges for %s"
 msgstr "Badges voor %s"
 
-msgid "Global badges"
-msgstr "Globale badges"
-
 msgid "Example:"
 msgstr "Voorbeeld:"
 
@@ -4245,9 +4258,6 @@ msgstr "Geen deelnemer in \"%s\""
 
 msgid "User groups"
 msgstr "Gebruikersgroepen"
-
-msgid "None"
-msgstr "Geen"
 
 msgid "change group"
 msgstr "verander groep"
