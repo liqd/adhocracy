@@ -19,7 +19,8 @@ from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import (render, render_json, ret_abort,
+                                      render_logo)
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
                                      page_titles_compare)
 from adhocracy.lib.text.render import render_line_based, render as render_text
@@ -803,3 +804,8 @@ class PageController(BaseController):
                    page.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author",
                    libtext.meta_escape(text.user.name, markdown=False))
+
+    @RequireInstance
+    def logo(self, id, y, x=None):
+        page = get_entity_or_abort(model.Page, id)
+        return render_logo(page, y, x=x)

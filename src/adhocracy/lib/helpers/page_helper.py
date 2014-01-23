@@ -4,7 +4,7 @@ import urllib
 from pylons.i18n import _
 
 from adhocracy import model
-from adhocracy.lib import cache
+from adhocracy.lib import cache, logo
 from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import url as _url
 
@@ -22,6 +22,14 @@ def link(page, variant=model.Text.HEAD, link=True):
         buf = (u"<a class='page_link exists' href='%s'>%s</a>" %
                (text.url(text_), buf))
     return buf
+
+
+def logo_url(page, y, x=None):
+    from adhocracy.lib.helpers import base_url
+    size = "%s" % y if x is None else "%sx%s" % (x, y)
+    filename = u"%s_%s.png" % (page.id, size)
+    (path, mtime) = logo.path_and_mtime(page)
+    return base_url(u'/page/%s' % filename, query_params={'t': str(mtime)})
 
 
 @cache.memoize('page_url')
