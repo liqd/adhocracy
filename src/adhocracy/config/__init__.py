@@ -18,6 +18,7 @@ DEFAULTS = {
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,
     'adhocracy.force_randomized_user_names': False,
+    'adhocracy.hide_empty_categories_in_facet_list': False,
 
     # Final adoption voting has been disabled from the UI during the
     # Adhocracy redesign originally done for enquetebeteiligung.de.

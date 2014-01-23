@@ -8,13 +8,13 @@ import time
 import urllib
 
 from formencode import validators
-from paste.deploy.converters import asbool
 from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
-from pylons import config, request, tmpl_context as c, url
+from pylons import request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from pylons.controllers.util import abort
 from webob.multidict import MultiDict
 
+from adhocracy import config
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib import votedetail
@@ -933,8 +933,8 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
 
     @property
     def show_current_empty(self):
-        return not asbool(config.get(
-            'adhocracy.hide_empty_categories_in_facet_list', 'false'))
+        return not config.get_bool(
+            'adhocracy.hide_empty_categories_in_facet_list')
 
     @classmethod
     def add_data_to_index(cls, entity, data):
