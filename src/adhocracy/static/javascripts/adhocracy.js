@@ -1064,7 +1064,7 @@ $(document).ready(function () {
     $('body').delegate('a.do_vote', 'click', function (event) {
         event.preventDefault();
         var self = $(this),
-            target = self.closest('.vote_wrapper'),
+            target = self.closest('.vote'),
             splitted,
             widget_url;
         splitted = self.attr('href').split('?');
@@ -1072,7 +1072,7 @@ $(document).ready(function () {
         $.ajax({
             url: widget_url,
             success: function (data) {
-                target.replaceWith(data);
+                target.replaceWith($(data).find('.vote'));
                 adhocracy.overlay.bindOverlays(target);
             }
         });
