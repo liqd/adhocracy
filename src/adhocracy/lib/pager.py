@@ -1551,7 +1551,6 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
 
 def solr_instance_pager(include_hidden=False):
     # override default sort
-    # TODO: is paging working? [joka]
     custom_default = config.get('adhocracy.listings.instance.sorting')
     sorts = {"ALPHA": ALPHA,
              "ACTIVITY": ACTIVITY,
