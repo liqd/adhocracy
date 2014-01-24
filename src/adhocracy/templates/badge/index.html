@@ -63,6 +63,9 @@ ${render_tables(c.global_badges, c.instance_badges, c.badge_base_url, c.badge_he
   %endif
   %endif
 </h3>
+%if type_ == 'category':
+<p>${_("Add new categories to allow your users to categorize their proposals according to a topic.")}</p>
+%endif
 ${render_table(global_badges, base_url, type_, not single_table, True)}
 ${render_table(instance_badges, base_url, type_, not single_table, False)}
 </%def>
