@@ -68,7 +68,7 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     data_enc = b64encode(imagefile.getvalue())
     del imagefile
 
-    return (img_template % (mimetype, data_enc, str(size[0]), str(size[1]), 
+    return (img_template % (mimetype, data_enc, str(size[0]), str(size[1]),
                             badge.title))
 
 
