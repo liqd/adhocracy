@@ -1,4 +1,5 @@
 import requests
+from collections import OrderedDict
 
 from adhocracy import config
 from adhocracy import i18n
@@ -29,9 +30,9 @@ class RESTAPI(object):
     def staticpages_get(self, base=None, languages=None):
         if languages is None:
             languages = i18n.all_languages(include_preferences=True)
-        params = {
+        params = OrderedDict({
             'lang': languages
-        }
+        })
         if base is not None:
             params['base'] = base
         request = requests.Request("GET",
@@ -52,10 +53,10 @@ class RESTAPI(object):
                                        self.staticpages_api_address,
                                        'staticpages/single',
                                    ),
-                                   params={
+                                   params=OrderedDict({
                                        'path': path,
                                        'lang': languages,
-                                   },
+                                   }),
                                    headers=self.staticpages_headers)
 
         return self.session.send(request.prepare(),
