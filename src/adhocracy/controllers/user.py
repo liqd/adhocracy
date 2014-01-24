@@ -88,6 +88,8 @@ class UserSettingsPersonalForm(formencode.Schema):
     locale = forms.ValidLocale()
     display_name = validators.String(not_empty=False)
     bio = validators.String(max=1000, min=0, not_empty=False)
+    _is_organization = validators.StringBool(not_empty=False, if_empty=False,
+                                             if_missing=False)
 
 
 class UserSettingsLoginForm(formencode.Schema):
@@ -385,6 +387,7 @@ class UserController(BaseController):
                 'locale': c.page_user.locale,
                 'bio': c.page_user.bio,
                 'gender': c.page_user.gender,
+                '_is_organization': c.page_user._is_organization,
                 '_tok': token_id()})
 
     @validate(schema=UserSettingsPersonalForm(),
@@ -395,7 +398,8 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         updated = update_attributes(c.page_user, self.form_result,
-                                    ['display_name', 'locale', 'bio'])
+                                    ['display_name', 'locale', 'bio',
+                                     '_is_organization'])
 
         # delete the logo if the button was pressed and exit
         if 'delete_avatar' in self.form_result:
@@ -785,8 +789,9 @@ class UserController(BaseController):
             u'delegations': u'latest_delegations',
         }[active_key]
         nav = [
-            (u'about' == active_key, _(u'About me'), h.entity_url(
-                c.page_user, member='about')),
+            (u'about' == active_key, _(u'About us')
+                if c.page_user.is_organization else _(u'About me'),
+                h.entity_url(c.page_user, member='about')),
             (u'activity' == active_key, _(u'Newest events'), h.entity_url(
                 c.page_user, member='latest_events')),
             (u'contributions' == active_key, _(u'Contributions'), h.entity_url(
