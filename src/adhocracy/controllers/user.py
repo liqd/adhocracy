@@ -90,8 +90,8 @@ class UserSettingsPersonalForm(formencode.Schema):
     locale = forms.ValidLocale()
     display_name = validators.String(not_empty=False)
     bio = validators.String(max=1000, min=0, not_empty=False)
-    is_organization = validators.StringBool(not_empty=False, if_empty=False,
-                                            if_missing=False)
+    _is_organization = validators.StringBool(not_empty=False, if_empty=False,
+                                             if_missing=False)
 
 
 class UserSettingsLoginForm(formencode.Schema):
@@ -389,7 +389,7 @@ class UserController(BaseController):
                 'locale': c.page_user.locale,
                 'bio': c.page_user.bio,
                 'gender': c.page_user.gender,
-                'is_organization': c.page_user.is_organization,
+                '_is_organization': c.page_user._is_organization,
                 '_tok': token_id()})
 
     @validate(schema=UserSettingsPersonalForm(),
@@ -401,7 +401,7 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         updated = update_attributes(c.page_user, self.form_result,
                                     ['display_name', 'locale', 'bio',
-                                     'is_organization'])
+                                     '_is_organization'])
 
         # delete the logo if the button was pressed and exit
         if 'delete_avatar' in self.form_result:
