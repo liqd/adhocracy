@@ -18,7 +18,8 @@ def make_key(iden, args, kwargs):
     sig = iden[:200]\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.width"))\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.height"))\
-        + cache.util.make_tag(instance_w + instance_h)\
+        + cache.util.make_tag(instance_w)\
+        + cache.util.make_tag(instance_h)\
         + cache.util.make_tag(args) \
         + cache.util.make_tag(kwargs)
     return sha1(sig).hexdigest()
