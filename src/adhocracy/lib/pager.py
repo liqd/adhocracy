@@ -955,7 +955,7 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
 
     name = 'delegateablebadgethumbnail'
     entity_type = model.Badge
-    title = lazy_ugettext(u'Thumbnails')
+    title = lazy_ugettext(u'Status')
     solr_field = 'facet.delegateable.badgethumbnail'
     show_current_empty = False
     exclusive = True

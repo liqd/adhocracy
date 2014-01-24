@@ -59,9 +59,9 @@ ${self.form()}
     <fieldset class="logo">
         <%
             if c.badge_type == 'thumbnail':
-                label = _('Thumbnail')
+                label = _('Image')
                 name = 'thumbnail'
-                help = _('Upload thumbnail icon. This is used instead of color to show the badge')
+                help = _('Upload image. This is used instead of color to show the badge')
                 delete_name = 'delete_thumbnail'
                 delete_value = _('Delete current thumbnail image')
             elif c.badge_type == 'category':

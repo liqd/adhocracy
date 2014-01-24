@@ -429,7 +429,7 @@ class ThumbnailBadge(DelegateableBadge):
     polymorphic_identity = 'thumbnail'
 
     def get_badge_type(self):
-        return _(u'Thumbnail badge')
+        return _(u'Status badge')
 
     @classmethod
     def create(cls, title, color, visible, description, thumbnail=None,

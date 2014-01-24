@@ -360,9 +360,9 @@ class BadgeController(BaseController):
         BADGE_HEADERS = {
             'user': _(u'User Badges'),
             'delegateable': _(u'Proposal Badges'),
-            'category': _(u'Proposal Category Badges'),
+            'category': _(u'Categories'),
             'instance': _(u'Instance Badges'),
-            'thumbnail': _(u'Proposal Thumbnail Badges'),
+            'thumbnail': _(u'Status Badges'),
         }
         return BADGE_HEADERS.get(badge_type)
 
