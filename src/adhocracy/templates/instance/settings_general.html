@@ -16,6 +16,7 @@
 
     ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate')}
     ${forms.checkbox(_("Enable milestones"), 'milestones', help=_("Milestones link the online discussions with offline events through a calendar function."))}
+    ${forms.checkbox(_("Display category pages"), 'display_category_pages')}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
     ${c.category_badge_tables}
