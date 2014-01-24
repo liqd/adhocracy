@@ -379,6 +379,9 @@ def make_map(config):
                 controller='instance', action='icon')
     map.connect('/instance/{id}_{y}.png',
                 controller='instance', action='icon')
+    map.connect('/instance/{id}/settings{.format}',
+                controller='instance', action='settings_legacy',
+                conditions=dict(method=['GET']))
     map.connect('/instance/{id}/settings/overview{.format}',
                 controller='instance', action='settings_overview',
                 conditions=dict(method=['GET']))

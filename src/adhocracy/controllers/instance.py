@@ -462,6 +462,12 @@ class InstanceController(BaseController):
             redirect(h.instance.icon_url(instance, y, x=x))
         return render_png(io, mtime, cache_forever=True)
 
+    @RequireInstance
+    def settings_legacy(self, id, format=u'html'):
+        instance = self._get_current_instance(id)
+        require.instance.edit(instance)
+        redirect(h.entity_url(instance, member='settings/overview'), code=301)
+
     def _settings_overview_form(self, id):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'overview')
