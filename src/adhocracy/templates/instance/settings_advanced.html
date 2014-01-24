@@ -21,7 +21,7 @@
     </fieldset>
     <fieldset>
         ${forms.checkbox(_("Hide this instance"), 'hidden', help=_("Select whether this instance will be shown in public listings."))}
-        ${forms.checkbox(_("Freeze this instance"), 'frozen')}
+        ${forms.checkbox(_("Freeze this instance"), 'frozen', help=_("This will prevent members from making any more contributions to the existing discussion."))}
     </fieldset>
 
     %if c.votedetail_all_userbadges is not None:

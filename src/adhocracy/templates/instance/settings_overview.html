@@ -13,16 +13,16 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    ${forms.input(_("Name of the instance"), 'label', autofocus=True)}
+    ${forms.input(_("Name of the instance"), 'label', help=_("Give your instance a name."), autofocus=True)}
 
     <%forms:textarea label="${_('Description of the instance')}" name="description" value=""
-    help="${_('Describe what the goals of this instance are and who constitutes its community.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
+    help="${_('This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them.')} ${_('(Both Markdown and HTML are allowed here.)') if h.text.getconf_allow_user_html(true) else ''}">
     ${components.formatting()}
     </%forms:textarea>
 
     <fieldset class="logo">
         <%forms:input label="${_('Logo')}" name="logo" type="file"
-                      help="${_('Select a logo file to appear in the header area of this Instance.')}">
+                      help="${_('Select the logo you would like to have as header of your group.')}">
         </%forms:input>
         %if c.current_logo:
         <div class="current">

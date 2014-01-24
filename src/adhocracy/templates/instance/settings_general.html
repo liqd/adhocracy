@@ -13,7 +13,7 @@
     ${h.field_token()|n}
 
     ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate', autofocus=True)}
-    ${forms.checkbox(_("Enable milestones"), 'milestones')}
+    ${forms.checkbox(_("Enable milestones"), 'milestones', help=_("Milestones link the online discussions with offline events through a calendar function."))}
 
     ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
 
