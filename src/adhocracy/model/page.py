@@ -108,8 +108,11 @@ class Page(Delegateable):
         return q
 
     @classmethod
-    def all(cls, **kwargs):
-        return cls.all_q(**kwargs).all()
+    def all(cls, include_sectionpages=True, **kwargs):
+        pages = cls.all_q(**kwargs).all()
+        if not include_sectionpages:
+            pages = filter(lambda p: not p.is_sectionpage(), pages)
+        return pages
 
     @classmethod
     def unusedTitle(cls, title, instance_filter=True, functions=None,
