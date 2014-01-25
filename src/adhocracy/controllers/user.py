@@ -40,8 +40,8 @@ from adhocracy.lib.settings import Menu
 from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
-from adhocracy.lib.templating import render, render_json, ret_abort, render_png
-from adhocracy.lib.templating import ret_success
+from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
@@ -372,7 +372,7 @@ class UserController(BaseController):
         ]
 
         if logo.exists(c.page_user):
-            c.current_avatar = h.user.avatar_url(c.page_user, 64)
+            c.current_avatar = h.logo_url(c.page_user, 64)
 
         return render("/user/settings_personal.html",
                       overlay=format == u'overlay')
@@ -1005,17 +1005,7 @@ class UserController(BaseController):
     @guard.perm('user.view')
     def avatar(self, id, y=24, x=None):
         user = get_entity_or_abort(model.User, id, instance_filter=False)
-        (x, y) = logo.validate_xy(x, y)
-        try:
-            (path, mtime, io) = logo.load(user, size=(x, y),
-                                          fallback=logo.USER)
-        except logo.NoSuchSizeError:
-            abort(404, _(u"The image is not avaliable in that size"))
-        request_mtime = int(request.params.get('t', 0))
-        if request_mtime > mtime:
-            # This will set the appropriate mtime
-            redirect(h.user.avatar_url(user, y, x=x))
-        return render_png(io, mtime, cache_forever=True)
+        return render_logo(user, y, x=x, fallback=logo.USER)
 
     def login(self):
         c.active_global_nav = "login"

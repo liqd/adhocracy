@@ -181,7 +181,7 @@
    url = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
-           logo = h.instance.icon_url(c.instance, 48)
+           logo = h.logo_url(c.instance, 48)
            url = h.entity_url(c.instance)
 
    def _class(identifier):

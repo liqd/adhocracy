@@ -61,12 +61,9 @@ def url(user, instance=CURRENT_INSTANCE, **kwargs):
     return _url.build(instance, 'user', user.user_name, **kwargs)
 
 
-def avatar_url(user, y, x=None):
+def logo_url(user, y, x=None):
     from adhocracy.lib.helpers import base_url
-    if x is None:
-        size = "%s" % y
-    else:
-        size = "%sx%s" % (x, y)
+    size = "%s" % y if x is None else "%sx%s" % (x, y)
     filename = u"%s_%s.png" % (user.user_name, size)
     (path, mtime) = logo.path_and_mtime(user)
     return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})

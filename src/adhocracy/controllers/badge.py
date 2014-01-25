@@ -391,7 +391,7 @@ class BadgeController(BaseController):
         if getattr(badge, "thumbnail", None):
             data['logo'] = h.badge_helper.generate_thumbnail_tag(badge)
         elif self._get_badge_type(badge) == 'category' and logo.exists(badge):
-            data['logo'] = '<img src="%s" />' % h.category.image_url(badge, 48)
+            data['logo'] = '<img src="%s" />' % h.logo_url(badge, 48)
 
         self._set_parent_categories(exclude=badge)
 

@@ -25,7 +25,7 @@ from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
-from adhocracy.lib.templating import (render, render_json, render_png,
+from adhocracy.lib.templating import (render, render_json, render_logo,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.user_import import user_import, get_user_import_state
 from adhocracy.lib.util import get_entity_or_abort
@@ -452,15 +452,7 @@ class InstanceController(BaseController):
     def icon(self, id, y=24, x=None):
         instance = get_entity_or_abort(model.Instance, id,
                                        instance_filter=False)
-        (x, y) = logo.validate_xy(x, y, y_default=24)
-        try:
-            (path, mtime, io) = logo.load(instance, size=(x, y))
-        except logo.NoSuchSizeError:
-            abort(404, _(u"The image is not avaliable in that size"))
-        request_mtime = int(request.params.get('t', 0))
-        if request_mtime != mtime:
-            redirect(h.instance.icon_url(instance, y, x=x))
-        return render_png(io, mtime, cache_forever=True)
+        return render_logo(instance, y, x=x, fallback=logo.INSTANCE)
 
     @RequireInstance
     def settings_legacy(self, id, format=u'html'):
@@ -474,7 +466,7 @@ class InstanceController(BaseController):
 
         c.current_logo = None
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
-            c.current_logo = h.instance.icon_url(c.page_instance, 48)
+            c.current_logo = h.logo_url(c.page_instance, 48)
 
         return render("/instance/settings_overview.html")
 

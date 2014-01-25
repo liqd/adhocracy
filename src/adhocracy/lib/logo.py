@@ -17,6 +17,7 @@ log = logging.getLogger(__name__)
 """This provides a simple api for adding logos to entities."""
 
 
+FALLBACK = ['static', 'images', 'fallback.png']
 INSTANCE = ['static', 'img', 'icons', 'site_64.png']
 USER = ['static', 'img', 'icons', 'user.png']
 
@@ -79,7 +80,7 @@ def exists(entity):
     return os.path.exists(entity_path)
 
 
-def path_and_mtime(entity, fallback=INSTANCE):
+def path_and_mtime(entity, fallback=None):
     """
     Return a tuple with the path to the entity's logo and
     the mtime (converted to an int).
@@ -93,6 +94,8 @@ def path_and_mtime(entity, fallback=INSTANCE):
     Returns:
        a (path (`str`), mtime (`int`)) tuple.
     """
+    if fallback is None:
+        fallback = FALLBACK
     key = _entity_key(entity)
     logo_path = _logo_path(key)
     if not os.path.exists(logo_path):
@@ -103,7 +106,7 @@ def path_and_mtime(entity, fallback=INSTANCE):
     return logo_path, mtime
 
 
-def load(entity, size, fallback=INSTANCE):
+def load(entity, size, fallback=None):
     '''
     Load an entity logo or the fallback logo in a
     certain size.
@@ -127,7 +130,7 @@ def load(entity, size, fallback=INSTANCE):
     return (logo_path, mtime, image_data)
 
 
-@memoize('instance_image', 3600)
+@memoize('instance_image', 3600 * 24)
 def _load_with_mtime(logo_path, mtime, size):
     """
     Function to load the logo with sane caching.  The *mtime*

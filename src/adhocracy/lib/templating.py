@@ -2,18 +2,20 @@ import rfc822
 import hashlib
 import logging
 
-from pylons import response
+from pylons import request, response
 import pylons.templating
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
+from pylons.i18n import _
 
 from adhocracy import model
-from adhocracy.lib.helpers import json_dumps
+from adhocracy.lib.helpers import json_dumps, logo_url
 
 import tiles
 import text
 import auth
 import sorting
+import logo
 
 log = logging.getLogger(__name__)
 
@@ -164,3 +166,18 @@ def render_png(io, mtime, content_type="image/png", cache_forever=False):
     response.content_length = len(io)
     response.pragma = None
     return io
+
+
+def render_logo(entity, y, x=None, fallback=None):
+    (x, y) = logo.validate_xy(x, y)
+    try:
+        (path, mtime, io) = logo.load(entity, size=(x, y),
+                                      fallback=fallback)
+    except logo.NoSuchSizeError:
+        abort(404, _(u"The image is not avaliable in that size"))
+
+    # always add ?t=... to URI for browser cache
+    request_mtime = int(request.params.get('t', 0))
+    if request_mtime != mtime:
+        redirect(logo_url(entity, y, x=x))
+    return render_png(io, mtime, cache_forever=True)
