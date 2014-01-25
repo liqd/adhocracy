@@ -453,7 +453,7 @@ class InstanceController(BaseController):
     def icon(self, id, y=24, x=None):
         instance = get_entity_or_abort(model.Instance, id,
                                        instance_filter=False)
-        return render_logo(instance, y, x=x, fallback=logo.Instance)
+        return render_logo(instance, y, x=x, fallback=logo.INSTANCE)
 
     def _settings_overview_form(self, id):
         c.page_instance = self._get_current_instance(id)
