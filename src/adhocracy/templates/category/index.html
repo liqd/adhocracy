@@ -9,7 +9,13 @@ ${h.category.breadcrumbs(None)|n}
 
 <%block name="headline">
 
-<h2>${_(u"Categories")}</h2>
+<h2>${_(u"Categories")}
+%if can.instance.any_admin():
+<a class="button_small edit"
+    href="${h.base_url('/badge/category')}"
+    rel="#overlay-form">${_(u"Edit")}</a>
+%endif
+</h2>
 
 <hr />
 
