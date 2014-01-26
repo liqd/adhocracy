@@ -362,7 +362,7 @@ class UserController(BaseController):
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
+                              'label': locale.language_name,
                               'selected': locale == c.user.locale})
 
         c.salutations = [
