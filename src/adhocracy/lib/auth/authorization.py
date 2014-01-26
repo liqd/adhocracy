@@ -148,7 +148,8 @@ class AuthCheck(object):
                 self.other_refusals.add(u'readonly')
 
     def valid_email(self):
-        if (c.instance is not None
+        if (not config.get_bool('adhocracy.disable_email_validation')
+                and c.instance is not None
                 and config.get_bool('adhocracy.require_email')
                 and c.user is not None
                 and c.instance.require_valid_email
