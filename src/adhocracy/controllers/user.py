@@ -433,11 +433,6 @@ class UserController(BaseController):
     def _settings_login_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'login')
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.user.locale})
 
         return render("/user/settings_login.html",
                       overlay=format == u'overlay')
@@ -472,12 +467,6 @@ class UserController(BaseController):
     def _settings_notifications_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'notifications')
-
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.user.locale})
 
         return render("/user/settings_notifications.html",
                       overlay=format == u'overlay')
