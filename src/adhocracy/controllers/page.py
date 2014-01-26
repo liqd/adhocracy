@@ -457,8 +457,8 @@ class PageController(BaseController):
 
         # Replace items coming from diff_details for the UI
         messages = (('text', _('<i>(No text)</i>')),
-                    ('title', _('<i>(No title))</i>')),
-                    ('text_diff', _('<i>(No differences))</i>')),
+                    ('title', _('<i>(No title)</i>')),
+                    ('text_diff', _('<i>(No differences)</i>')),
                     ('title_diff', _('<i>(No differences)</i>')))
         for (key, message) in messages:
             if details[key].strip() == '':

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 964db31\n"
+"Project-Id-Version: adhocracy e33e3ed\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-26 13:53+0100\n"
+"POT-Creation-Date: 2014-01-26 15:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -306,10 +306,7 @@ msgstr ""
 msgid "<i>(No text)</i>"
 msgstr ""
 
-msgid "<i>(No title))</i>"
-msgstr ""
-
-msgid "<i>(No differences))</i>"
+msgid "<i>(No title)</i>"
 msgstr ""
 
 msgid "<i>(No differences)</i>"
