@@ -43,7 +43,6 @@ DEFAULTS = {
     'adhocracy.instance_stylesheets': [],
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
-    'adhocracy.disable_email_validation': False,
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
