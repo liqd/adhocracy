@@ -120,7 +120,7 @@ class AdminController(BaseController):
     @guard.perm("global.admin")
     def permissions(self):
         if request.method == "POST":
-            groups = model.Group.all()
+            groups = model.Group.all(ordered=True)
             for permission in model.Permission.all():
                 for group in groups:
                     t = request.params.get("%s-%s" % (

@@ -38,8 +38,15 @@ class Group(object):
         self.description = description
 
     @classmethod
-    def all(cls):
-        return meta.Session.query(Group).all()
+    def all_q(cls):
+        return meta.Session.query(Group)
+
+    @classmethod
+    def all(cls, ordered=False):
+        q = cls.all_q()
+        if ordered:
+            q = q.order_by(Group.id)
+        return q.all()
 
     @classmethod
     def all_instance(cls):
