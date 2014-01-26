@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-23 18:08+0100\n"
-"PO-Revision-Date: 2014-01-23 17:09+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-01-26 13:53+0100\n"
+"PO-Revision-Date: 2014-01-26 12:54+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,14 +59,14 @@ msgstr "Utiliser Badges"
 msgid "Proposal Badges"
 msgstr "Badges de Proposition"
 
-msgid "Proposal Category Badges"
-msgstr "Badges des catégories de propositions"
+msgid "Categories"
+msgstr "Catégories"
 
 msgid "Instance Badges"
 msgstr "Étiquettes pour les instances. "
 
-msgid "Proposal Thumbnail Badges"
-msgstr "Vignette miniature pour les propositions. "
+msgid "Status Badges"
+msgstr ""
 
 msgid "Badge changed successfully"
 msgstr "Changement du badge réussi"
@@ -76,10 +76,6 @@ msgstr "Cette image a été supprimée "
 
 msgid "Badge deleted successfully"
 msgstr "étiquette supprimée avec succès. "
-
-#, python-format
-msgid "No image for category '%s'."
-msgstr "Aucune image pour la catégorie '%s'."
 
 msgid "oldest"
 msgstr "ancien"
@@ -184,9 +180,6 @@ msgid ""
 "perform any changes to the instance, but all content is available to be "
 "read."
 msgstr "Cette instance n'est pas active pour toute utilisation et est archivée. Le contenu de cette instance est lisible, mais il est impossible d'opérer des changements au sein de cette instance. "
-
-msgid "The image is not avaliable in that size"
-msgstr "L'image n'est pas disponible dans cette taille "
 
 msgid "The logo has been deleted."
 msgstr "Ce logo a été supprimé."
@@ -596,6 +589,9 @@ msgstr "Votre adresse mail a été confirmée."
 msgid "The activation link has been re-sent to your email address."
 msgstr "Un code d'activation a été envoyé à votre adresse mail."
 
+msgid "About us"
+msgstr ""
+
 msgid "About me"
 msgstr "À propos de moi "
 
@@ -977,9 +973,6 @@ msgstr "Requête invalide. Veuillez recommencer."
 msgid "The method you used is not implemented."
 msgstr "La méthode utilisée n'est pas appliquée."
 
-msgid "Start"
-msgstr "Accueil"
-
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Signaler une violation: %s"
@@ -1105,11 +1098,8 @@ msgstr "ouvert"
 msgid "Instance"
 msgstr "Instance"
 
-msgid "Categories"
-msgstr "Catégories"
-
-msgid "Thumbnails"
-msgstr "Vignettes miniatures"
+msgid "Status"
+msgstr ""
 
 msgid "Badges"
 msgstr "Badges"
@@ -1167,6 +1157,9 @@ msgstr "Les changements ont été sauvegardés. "
 
 msgid "No update required."
 msgstr "Une actualisation n'est pas nécessaire."
+
+msgid "The image is not avaliable in that size"
+msgstr "L'image n'est pas disponible dans cette taille "
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Nous somme désolés, il semble que vous n'ayez pas les droits requis pour continuer."
@@ -1598,8 +1591,8 @@ msgstr "Étiquette pour propositions"
 msgid "Category"
 msgstr "Catégorie"
 
-msgid "Thumbnail badge"
-msgstr "vignette miniature"
+msgid "Status badge"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -1742,6 +1735,9 @@ msgstr "<b>%s</b> commentaires"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
+
+msgid "Start"
+msgstr "Accueil"
 
 msgid "Instances"
 msgstr "Groupes"
@@ -2076,14 +2072,14 @@ msgstr "Administration du site"
 msgid "Admin: Import Users"
 msgstr "Admin: Importer des utilisateurs"
 
-msgid "Users CSV"
-msgstr "CSV des utilisateurs"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Coller le contenu d'un CSV file, e.g. exporté d'Excel, avec les 4 colonnes nom d'utilisateur, nom d'affichage, email et badges (les badges sont facultatifs et doivent être mis entre guillemets et séparés par des virgules) "
+
+msgid "Users CSV"
+msgstr "CSV des utilisateurs"
 
 msgid "Email Subject"
 msgstr "Sujet du message"
@@ -2172,17 +2168,14 @@ msgstr "Comme '#a4a4a4'"
 msgid "Preview:"
 msgstr "Aperçu :"
 
-msgid "Thumbnail"
-msgstr "Vignette "
+msgid "Image"
+msgstr "image"
 
-msgid "Upload thumbnail icon. This is used instead of color to show the badge"
-msgstr "Télécharger une icône pour la vignette miniature. Ceci est utilisé à la place de couleurs pour indiquer les étiquettes. "
+msgid "Upload image. This is used instead of color to show the badge"
+msgstr ""
 
 msgid "Delete current thumbnail image"
 msgstr "Supprimer l'image de la vignette miniature actuelle. "
-
-msgid "Image"
-msgstr "image"
 
 msgid "Upload category image"
 msgstr "Télécharger l'image pour cette catégorie "
@@ -2254,6 +2247,11 @@ msgstr "Dans le groupe \"%s\""
 
 msgid "No badges added yet."
 msgstr "Aucun badge ajouté en ce moment."
+
+msgid ""
+"Add new categories to allow your users to categorize their proposals "
+"according to a topic."
+msgstr ""
 
 msgid "Preview"
 msgstr "Avant-première"
@@ -2761,23 +2759,28 @@ msgstr "Décidez si le groupe devrait être montré dans les listes publiés."
 msgid "Freeze this instance"
 msgstr "Planter ce groupe"
 
+msgid ""
+"This will prevent members from making any more contributions to the existing"
+" discussion."
+msgstr ""
+
 msgid "Break down Voting Result by Badge"
 msgstr "Afficher les résultats de votes par badge"
 
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Afficher les réactions des utilisateurs portant cette étiquette à propos de cette problématique. "
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "Vous pouvez aussi ajouter css en stylisant le groupe."
 
-msgid "Thumbnail badges width"
-msgstr "Largeur des vignettes"
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
-msgid "Thumbnail badges height"
-msgstr "Hauteur des badges miniatures"
+msgid "Status badge image width"
+msgstr ""
+
+msgid "Status badge image height"
+msgstr ""
 
 msgid "Authenticate this instance"
 msgstr ""
@@ -2786,6 +2789,11 @@ msgid "Enable delegated voting"
 msgstr ""
 
 msgid "Enable milestones"
+msgstr ""
+
+msgid ""
+"Milestones link the online discussions with offline events through a "
+"calendar function."
 msgstr ""
 
 msgid "Language"
@@ -2807,14 +2815,23 @@ msgstr ""
 msgid "Name of the instance"
 msgstr ""
 
+msgid "Give your instance a name."
+msgstr ""
+
+msgid ""
+"This is what appears on the overview-page of your instance. Describe the "
+"participation process you have in mind. Clearly state the goals of this "
+"group and how its members can participate in reaching them."
+msgstr ""
+
 msgid "Description of the instance"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
 msgstr ""
 
 msgid "Logo"
 msgstr "Logo"
-
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Choisissez un dossier de logo qui doit apparaître dans l'en-tête de ce groupe."
 
 msgid "Current logo"
 msgstr "Logo actuel"
@@ -2822,16 +2839,18 @@ msgstr "Logo actuel"
 msgid "Delete current logo"
 msgstr "Supprimer logo actuel"
 
-msgid "Agenda Setting"
-msgstr "Agenda Setting "
-
 msgid "Show proposals navigation item"
 msgstr "Afficher l'élément de navigation \"propositions\" "
 
-msgid "Consultation"
-msgstr "Consultation "
+msgid "Show proposals as an extra tab"
+msgstr ""
 
 msgid "Enable norms"
+msgstr ""
+
+msgid ""
+"Unlike proposals, norms are documents that you introduce to be discussed on "
+"the platform."
 msgstr ""
 
 msgid "Allow members to propose norms"
@@ -2842,6 +2861,9 @@ msgstr ""
 
 msgid "Show norms navigation item"
 msgstr "Afficher l'élément de navigation \"thème\" "
+
+msgid "Show norms as an extra tab"
+msgstr ""
 
 msgid "Home"
 msgstr "Acceuil"
@@ -3442,17 +3464,14 @@ msgstr "Vous êtes en train de demander le vote. Sauf l'anulation du vote, vous 
 msgid "Are you sure you want to delete this proposal?"
 msgstr "àtes vous sur d'éffacer cette proposition?"
 
-msgid "badge"
-msgstr "badge"
+msgid "Status Badge"
+msgstr ""
 
-msgid "thumbnail badge"
-msgstr "vignette miniature"
+msgid "No Status Badge"
+msgstr ""
 
-msgid "No Thumbnail Badge"
-msgstr "pas de vignettes miniatures"
-
-msgid "No Thumbnail Badges"
-msgstr "Pas de vignette miniature"
+msgid "No Status Badges"
+msgstr ""
 
 #, python-format
 msgid "Delegations: %s"
@@ -4187,13 +4206,13 @@ msgstr "salutation"
 msgid "Select your prefered gender"
 msgstr "sélectionner votre genre favori. "
 
-msgid "Avatar"
-msgstr "Avatar "
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Sélectionner la photo du profil. L'image doit être carrée. Si tel n'est pas le cas, il se peut que les dimensions seront modifiées. "
+
+msgid "Avatar"
+msgstr "Avatar "
 
 msgid "Current avatar"
 msgstr "Avatar actuel "
@@ -4201,13 +4220,16 @@ msgstr "Avatar actuel "
 msgid "Delete current avatar"
 msgstr "Supprimer l'avatar actuel "
 
-msgid "Short biography"
-msgstr "Brève biographie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "L'avantage d'une biographie est de vous faire connaître et de recevoir par ce biais éventuellement des délégations. "
+
+msgid "Short biography"
+msgstr "Brève biographie"
+
+msgid "I am an organisation"
+msgstr ""
 
 msgid "Activity in"
 msgstr "Activité dans "
