@@ -88,10 +88,9 @@ var adhocracy = adhocracy || {};
             // ajax submit takes a while. Show some feedback
             form.find('*[type="submit"]').addClass('loading');
 
-            $.ajax({
+            var settings = {
                 type: form.attr('method'),
                 url: form.attr('action'),
-                data: form.serialize(),
                 success: function(data) {
                     // read the returned html document
                     data = $(data);
@@ -102,7 +101,27 @@ var adhocracy = adhocracy || {};
                         form.html(data.find(selector).html());
                     }
                 },
-            });
+            };
+
+            /* FormData is only compatible with IE 10+, so we use it only
+             * where needed
+             *
+             * Still, this means that file uploads with this will not work in
+             * older IEs.
+             */
+            if (form.attr('enctype') === 'multipart/form-data') {
+                $.extend(settings, {
+                    data: new FormData(e.target),
+                    contentType: false,
+                    processData: false,
+                });
+            } else {
+                $.extend(settings, {
+                    data: form.serialize(),
+                });
+            }
+
+            $.ajax(settings);
         });
     };
 
