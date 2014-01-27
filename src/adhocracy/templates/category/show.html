@@ -15,7 +15,7 @@ ${h.category.breadcrumbs(c.category)|n}
     ${c.category.title}
     <div class="utility">
         %if can.badge.edit_instance():
-        <a href="${h.entity_url(c.instance, member='settings/badges/edit/%i' % c.category.id)}">${_("edit")}</a>
+        <a href="${h.base_url('/badge/edit/%i' % c.category.id)}">${_("edit")}</a>
         %endif
     </div>
 </h2>
