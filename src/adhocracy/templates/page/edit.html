@@ -1,7 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 
-<%def name="title()">${_("Variant: %s") % c.text.title}</%def>
+<%def name="title()">${_("Variant: %s") % c.text.title|n}</%def>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 

@@ -2,7 +2,7 @@
 <%namespace name="tiles_html" file="/milestone/tiles.html"/>
 <%namespace name="components" file="/components.html"/>
 <%namespace name="forms" file="/forms.html"/>
-<%def name="title()">${_("Edit %s") % c.milestone.title}</%def>
+<%def name="title()">${_("Edit %s") % c.milestone.title|n}</%def>
 
 <%def name="breadcrumbs()">
     ${h.milestone.breadcrumbs(c.milestone)|n} &raquo; ${_("Edit")}
