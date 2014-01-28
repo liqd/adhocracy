@@ -21,7 +21,7 @@
     ${forms.checkbox(_("Enable norms"), 'use_norms', help=_("Unlike proposals, norms are documents that you introduce to be discussed on the platform."))}
     <div style="padding-left: 2em">
         ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose')}
-        ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes')}
+        ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes', help=_("Members will be able to propose changes of the norms you introduce."))}
         ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation', help=_("Show norms as an extra tab"))}
     </div>
 
