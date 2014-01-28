@@ -13,7 +13,7 @@ def url(staticpage, **kwargs):
 
 def get_lang_info(lang):
     locale = babel.core.Locale(lang)
-    return {'id': lang, 'name': locale.display_name}
+    return {'id': lang, 'name': locale.language_name}
 
 
 def can_edit():

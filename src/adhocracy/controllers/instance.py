@@ -524,7 +524,7 @@ class InstanceController(BaseController):
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
+                              'label': locale.language_name,
                               'selected': locale == c.page_instance.locale})
 
         return render("/instance/settings_general.html")
