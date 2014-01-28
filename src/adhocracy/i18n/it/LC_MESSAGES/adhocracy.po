@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"POT-Creation-Date: 2014-01-21 12:55+0100\n"
+"PO-Revision-Date: 2014-01-21 11:55+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -134,20 +134,23 @@ msgstr "%s Novità"
 msgid "News from %s"
 msgstr "Novità da %s"
 
-msgid "General"
-msgstr "Generale"
+msgid "Overview"
+msgstr "Anteprima"
 
-msgid "Appearance"
-msgstr "Aspetto"
+msgid "General settings"
+msgstr ""
 
-msgid "Contents"
-msgstr "Contenuti"
+msgid "Process settings"
+msgstr ""
 
-msgid "Votings"
-msgstr "Voti"
+msgid "Manage members"
+msgstr ""
 
 msgid "Badges"
 msgstr "Badges"
+
+msgid "Advanced settings"
+msgstr "Impostazioni avanzate"
 
 msgid "Process presets"
 msgstr ""
@@ -178,30 +181,6 @@ msgstr ""
 
 msgid "The logo has been deleted."
 msgstr "Il logo è stato eliminato."
-
-msgid "No delay"
-msgstr "Nessun ritardo"
-
-msgid "1 Day"
-msgstr "1 giorno"
-
-msgid "2 Days"
-msgstr "2 giorni"
-
-msgid "One Week"
-msgstr "Una settimana"
-
-msgid "Two Weeks"
-msgstr "Due settimane"
-
-msgid "Four Weeks"
-msgstr "Quattro settimane"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Una maggioranza semplice (&frac12; of vote)"
-
-msgid "A two-thirds majority"
-msgstr "Una maggioranza dei due terzi"
 
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
@@ -989,6 +968,9 @@ msgstr "Richiesta non valida. Ti preghiamo di tornare indietro e di riprovare."
 msgid "The method you used is not implemented."
 msgstr "Il metodo utilizzato non è implementato."
 
+msgid "Start"
+msgstr "Home"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Report di abuso: %s"
@@ -1515,11 +1497,14 @@ msgstr "Modica del commento: %(topic)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Questa proposta sta per essere votata e non può essere modificata."
 
+msgid "Settings"
+msgstr "Impostazioni"
+
 msgid "(Unknown)"
 msgstr "(Sconosciuto)"
 
-msgid "Documents"
-msgstr "Documenti"
+msgid "Norms"
+msgstr "Delibere"
 
 msgid "Proposals"
 msgstr "proposte"
@@ -1537,8 +1522,11 @@ msgstr "elimina"
 msgid "%s (deleted user)"
 msgstr "%s (utente eliminato)"
 
-msgid "Users"
-msgstr "Utenti"
+msgid "Members"
+msgstr "Membri"
+
+msgid "Dashboard"
+msgstr "Dashboard"
 
 msgid "This action is only available in an instance context."
 msgstr "Quest'azione è disponibile solo all'interno del gruppo."
@@ -1743,9 +1731,6 @@ msgstr "<b>%s</b> commenti"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> voti"
 
-msgid "Start"
-msgstr "Home"
-
 msgid "Instances"
 msgstr "Gruppi"
 
@@ -1757,9 +1742,6 @@ msgstr "Informazioni "
 
 msgid "Help"
 msgstr "Aiuto"
-
-msgid "Dashboard"
-msgstr "Dashboard"
 
 msgid "Edit Profile"
 msgstr "Modifica profilo"
@@ -1773,9 +1755,6 @@ msgstr "Amministra il sito"
 msgid "Logout"
 msgstr "Disconnetti"
 
-msgid "Settings"
-msgstr "Impostazioni"
-
 msgid "Search"
 msgstr "Cerca"
 
@@ -1785,15 +1764,6 @@ msgstr "Cerca in &ldquo;%s&rdquo;&hellip;"
 
 msgid "Intro"
 msgstr "Introduzione"
-
-msgid "Overview"
-msgstr "Anteprima"
-
-msgid "Norms"
-msgstr "Delibere"
-
-msgid "Members"
-msgstr "Membri"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2061,6 +2031,9 @@ msgstr "ATTENZIONE: Questa azione ti escluderà dalla tua adhocracy. \nGestiscil
 msgid "Permissions"
 msgstr "Permessi"
 
+msgid "Users"
+msgstr "Utenti"
+
 msgid "Import Users"
 msgstr "Importa utenti"
 
@@ -2319,6 +2292,9 @@ msgstr "Accedi per creare una nuova proposta"
 
 msgid "Validate email in order to create a new proposal."
 msgstr "Verifica il tuo indirizzo email per poter creare una nuova proposta."
+
+msgid "new proposal"
+msgstr "nuova proposta"
 
 msgid "Search proposals"
 msgstr ""
@@ -2750,17 +2726,35 @@ msgstr ""
 msgid "Reset"
 msgstr "Reimposta"
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Allow editing of comments by default"
+msgstr "Consenti la modifica dei commenti per impostazione predefinita"
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Scegli un logo che apparirà nell'area intestazione di questo gruppo."
+msgid "Allow editing of proposals by default"
+msgstr "Consenti la modifica delle proposte per impostazione predefinita"
 
-msgid "Current logo"
-msgstr "Logo attuale"
+msgid "Require to propose a variant"
+msgstr "È necessario proporre una delibera"
 
-msgid "Delete current logo"
-msgstr "Elimina logo attuale"
+msgid "Display category pages"
+msgstr ""
+
+msgid "Hide global categories"
+msgstr "Nascondi categorie globali"
+
+msgid "Hide this instance"
+msgstr "Nascondi questo gruppo"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Scegli se rendere il gruppo visibile agli altri."
+
+msgid "Freeze this instance"
+msgstr "Blocca questo gruppo"
+
+msgid "Break down Voting Result by Badge"
+msgstr "Frazionare il risultato della votazione in base al Badge"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "Visualizza l'opinione degli utenti che sono in possesso dei badges prescelti riguardo alla tematica."
 
 msgid "Extra CSS"
 msgstr "Extra CSS"
@@ -2774,47 +2768,14 @@ msgstr "Larghezza dell'anteprima dei badges"
 msgid "Thumbnail badges height"
 msgstr "Altezza dell'anteprima dei badges"
 
-msgid "Use Norms"
-msgstr "Utilizza delibere"
-
-msgid "Allow users to propose norms"
-msgstr "Permetti agli altri utenti di inserire altre delibere"
-
-msgid "Allow users to change norms from within proposals"
-msgstr "Permetti agli utenti di modificare le delibere partendo dalle modifiche alle proposte"
-
-msgid "Require to propose a variant"
-msgstr "È necessario proporre una delibera"
-
-msgid "Show norms navigation item"
-msgstr "Mostra l'elemento di navigazione \"delibere\""
-
-msgid "Show proposals navigation item"
-msgstr "Mostra l'elemento di navigazione \"proposte\""
-
-msgid "Display category pages"
+msgid "Authenticate this instance"
 msgstr ""
 
-msgid "Use milestones"
-msgstr "Utilizza eventi"
+msgid "Enable delegated voting"
+msgstr ""
 
-msgid "Use thumbnail badges"
-msgstr "Utilizza anteprima dei badges"
-
-msgid "Hide global categories"
-msgstr "Nascondi categorie globali"
-
-msgid "Allow editing of comments by default"
-msgstr "Consenti la modifica dei commenti per impostazione predefinita"
-
-msgid "Allow editing of proposals by default"
-msgstr "Consenti la modifica delle proposte per impostazione predefinita"
-
-msgid "Freeze this instance"
-msgstr "Blocca questo gruppo"
-
-msgid "Name"
-msgstr "Nome"
+msgid "Enable milestones"
+msgstr ""
 
 msgid "Language"
 msgstr "Lingua"
@@ -2823,52 +2784,50 @@ msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "Le impostazioni di lingua verranno rimosse dalle impostazioni personali dell'utente."
 
-msgid "Default group"
-msgstr "Gruppo predefinito"
-
-msgid "Hide this instance"
-msgstr "Nascondi questo gruppo"
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Scegli se rendere il gruppo visibile agli altri."
-
 msgid "Require email validation"
 msgstr "È necessaria una convalida dell'indirizzo email"
 
 msgid "Require instance members to validate their email address."
 msgstr "È necessaria la verifica degli indirizzi email dei membri del gruppo."
 
-msgid "This instance is authenticated"
-msgstr "Il gruppo è \"autenticato\""
+msgid "Default group for new members"
+msgstr ""
 
-msgid "Enable (final) adoption voting"
-msgstr "Attiva l'adozione (finale) di voto"
+msgid "Name of the instance"
+msgstr ""
 
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "Prima che la proposta possa essere attivata, essa deve raggiungere una determinata maggioranza in un determinato lasso di tempo."
+msgid "Description of the instance"
+msgstr ""
 
-msgid "Majority"
-msgstr "Maggioranza"
+msgid "Logo"
+msgstr "Logo"
 
-msgid "Delay"
-msgstr "Ritardo"
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Scegli un logo che apparirà nell'area intestazione di questo gruppo."
 
-msgid "Enable vote delegation"
-msgstr "Attiva la delegazione di voto"
+msgid "Current logo"
+msgstr "Logo attuale"
 
-msgid "Break down Voting Result by Badge"
-msgstr "Frazionare il risultato della votazione in base al Badge"
+msgid "Delete current logo"
+msgstr "Elimina logo attuale"
 
-msgid "Display how the users with the selected badges feel about the issue."
-msgstr "Visualizza l'opinione degli utenti che sono in possesso dei badges prescelti riguardo alla tematica."
+msgid "Show proposals navigation item"
+msgstr "Mostra l'elemento di navigazione \"proposte\""
+
+msgid "Enable norms"
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Show norms navigation item"
+msgstr "Mostra l'elemento di navigazione \"delibere\""
 
 msgid "Home"
 msgstr "Home"
-
-msgid "new proposal"
-msgstr "nuova proposta"
 
 msgid "show a list of proposals"
 msgstr "mostra una lista di proposte"
@@ -2894,6 +2853,9 @@ msgstr "Creato"
 #, python-format
 msgid "by %s on %s"
 msgstr "da %s a %s"
+
+msgid "Votings"
+msgstr "Voti"
 
 msgid "By the numbers"
 msgstr "in base al numero di"
@@ -4130,9 +4092,6 @@ msgstr "Hai ricevuto una email che contiene un link. Apri il link seguente per r
 
 msgid "User settings"
 msgstr "Impostazioni utente"
-
-msgid "Advanced settings"
-msgstr "Impostazioni avanzate"
 
 msgid "Pager size"
 msgstr "Grandezza dell'impaginatura"

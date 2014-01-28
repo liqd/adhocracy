@@ -4,8 +4,10 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 
 from pylons import config
+from pylons.i18n import _
 
 from adhocracy.lib import cache
+from adhocracy.lib.helpers import url as _url
 
 
 def make_key(iden, args, kwargs):
@@ -86,3 +88,10 @@ def get_parent_badges(badge):
         yield parent
         for p in get_parent_badges(parent):
             yield p
+
+
+def breadcrumbs(badge=None):
+    from adhocracy.lib.helpers import base_url
+    items = []
+    items.append(_url.link(_("Badges"), base_url(u'/badge')))
+    return _url.root() + _url.BREAD_SEP.join(items)

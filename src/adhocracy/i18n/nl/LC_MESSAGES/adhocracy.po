@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"POT-Creation-Date: 2014-01-21 12:55+0100\n"
+"PO-Revision-Date: 2014-01-21 11:55+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -61,14 +61,14 @@ msgid "Badge changed successfully"
 msgstr "De badge is veranderd"
 
 msgid "The image has been deleted."
-msgstr ""
+msgstr "De afbeelding is verwijderd."
 
 msgid "Badge deleted successfully"
 msgstr "Badge verwijderd"
 
 #, python-format
 msgid "No image for category '%s'."
-msgstr ""
+msgstr "Geen afbeelding voor categorie '%s'."
 
 msgid "oldest"
 msgstr "oudste"
@@ -135,20 +135,23 @@ msgstr "%s Nieuws"
 msgid "News from %s"
 msgstr "Nieuws van %s"
 
-msgid "General"
-msgstr "Algemeen"
+msgid "Overview"
+msgstr "Overzicht"
 
-msgid "Appearance"
-msgstr "Weergave"
+msgid "General settings"
+msgstr ""
 
-msgid "Contents"
-msgstr "Inhoud"
+msgid "Process settings"
+msgstr ""
 
-msgid "Votings"
-msgstr "Stemmen"
+msgid "Manage members"
+msgstr ""
 
 msgid "Badges"
 msgstr "Badges"
+
+msgid "Advanced settings"
+msgstr "Geavanceerde instellingen"
 
 msgid "Process presets"
 msgstr "Verwerk presets"
@@ -179,30 +182,6 @@ msgstr "De afbeelding is niet beschikbaar in die grootte."
 
 msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
-
-msgid "No delay"
-msgstr "Direct"
-
-msgid "1 Day"
-msgstr "1 Dag"
-
-msgid "2 Days"
-msgstr "2 Dagen"
-
-msgid "One Week"
-msgstr "1 Week"
-
-msgid "Two Weeks"
-msgstr "2 Weken"
-
-msgid "Four Weeks"
-msgstr "4 Weken"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Een meerderheid (&frac12; van de stemmen)"
-
-msgid "A two-thirds majority"
-msgstr "Een twee derde meerderheid"
 
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
@@ -990,6 +969,9 @@ msgstr "Ongeldig verzoek. Ga terug en probeer het opnieuw."
 msgid "The method you used is not implemented."
 msgstr "De methode die u heeft gebruikt, is niet geïmplementeerd."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Melding van misbruik: %s"
@@ -1516,11 +1498,14 @@ msgstr "Reactie Bewerken: %(topic)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aangepast."
 
+msgid "Settings"
+msgstr "Instellingen"
+
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
-msgid "Documents"
-msgstr "Documenten"
+msgid "Norms"
+msgstr "Reglementen"
 
 msgid "Proposals"
 msgstr "Voorstellen"
@@ -1538,8 +1523,11 @@ msgstr "verwijder"
 msgid "%s (deleted user)"
 msgstr "%s (verwijderde gebruiker)"
 
-msgid "Users"
-msgstr "Gebruikers"
+msgid "Members"
+msgstr "Leden"
+
+msgid "Dashboard"
+msgstr "Dashboard"
 
 msgid "This action is only available in an instance context."
 msgstr "Deze actie is enkel beschikbaar in de context van een groep."
@@ -1744,9 +1732,6 @@ msgstr "<b>%s</b> reacties"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> stemmen"
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Groepen"
 
@@ -1758,9 +1743,6 @@ msgstr "Over"
 
 msgid "Help"
 msgstr "Hulp"
-
-msgid "Dashboard"
-msgstr "Dashboard"
 
 msgid "Edit Profile"
 msgstr "Bewerk Profiel"
@@ -1774,9 +1756,6 @@ msgstr "Beheer Site"
 msgid "Logout"
 msgstr "Log uit"
 
-msgid "Settings"
-msgstr "Instellingen"
-
 msgid "Search"
 msgstr "Zoeken"
 
@@ -1786,15 +1765,6 @@ msgstr "Zoek in &ldquo;%s&rdquo;&hellip;"
 
 msgid "Intro"
 msgstr "Intro"
-
-msgid "Overview"
-msgstr "Overzicht"
-
-msgid "Norms"
-msgstr "Reglementen"
-
-msgid "Members"
-msgstr "Leden"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2062,6 +2032,9 @@ msgstr "WAARSCHUWING: Hiermee kunt u zich uit Adhocracy buitensluiten. Ga hier v
 msgid "Permissions"
 msgstr "Rechten"
 
+msgid "Users"
+msgstr "Gebruikers"
+
 msgid "Import Users"
 msgstr "Importeer Gebruikers"
 
@@ -2171,7 +2144,7 @@ msgid "Badge description"
 msgstr "Badge beschrijving"
 
 msgid "Long badge description"
-msgstr ""
+msgstr "Uitgebreide badge beschrijving"
 
 msgid "The color that is used to show the badge"
 msgstr "De kleur die gebruikt wordt om de badge te tonen"
@@ -2192,13 +2165,13 @@ msgid "Delete current thumbnail image"
 msgstr "Verwijder huidige thumbnail afbeelding"
 
 msgid "Image"
-msgstr ""
+msgstr "Afbeelding"
 
 msgid "Upload category image"
-msgstr ""
+msgstr "Upload categorie afbeelding"
 
 msgid "Delete current category image"
-msgstr ""
+msgstr "Verwijder huidige categorie afbeelding"
 
 msgid "Check to hide badge in user interface"
 msgstr "Verberg badge in gebruikersinterface"
@@ -2301,7 +2274,7 @@ msgid "Instance Badges"
 msgstr "Groepsbadge"
 
 msgid "View and discuss"
-msgstr ""
+msgstr "Bekijk en discussieer"
 
 msgid "edit"
 msgstr "bewerk"
@@ -2321,14 +2294,17 @@ msgstr "Log in om een nieuwe voorstel te maken"
 msgid "Validate email in order to create a new proposal."
 msgstr "Bevestig uw e-mailadres om een nieuw voorstel aan te maken."
 
+msgid "new proposal"
+msgstr "nieuw voorstel"
+
 msgid "Search proposals"
-msgstr ""
+msgstr "Zoek voorstellen"
 
 msgid "Find"
-msgstr ""
+msgstr "Vind"
 
 msgid "Norms in this Category"
-msgstr ""
+msgstr "Reglementen in deze Categorie"
 
 msgid "Comment"
 msgstr "Reactie"
@@ -2751,17 +2727,35 @@ msgstr "Configureren"
 msgid "Reset"
 msgstr "Opnieuw Instellen"
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Allow editing of comments by default"
+msgstr "Sta het aanpassen van reacties standaard toe"
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Selecteer een logo bestand dat bovenaan de groepspagina's zal worden weergegeven."
+msgid "Allow editing of proposals by default"
+msgstr "Sta bewerking van voorstellen standaard toe"
 
-msgid "Current logo"
-msgstr "Huidig logo"
+msgid "Require to propose a variant"
+msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbrengen"
 
-msgid "Delete current logo"
-msgstr "Verwijder huidig logo"
+msgid "Display category pages"
+msgstr "Toon categorie pagina's"
+
+msgid "Hide global categories"
+msgstr "Verberg algemene categorieën"
+
+msgid "Hide this instance"
+msgstr "Verberg deze groep"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Kies of"
+
+msgid "Freeze this instance"
+msgstr "Bevries deze groep"
+
+msgid "Break down Voting Result by Badge"
+msgstr "Toon het Stem Resultaat per badge"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "Toon wat gebruikers met de geselecteerde badge van dit onderwerp vinden."
 
 msgid "Extra CSS"
 msgstr "Extra CSS"
@@ -2775,47 +2769,14 @@ msgstr "Thumbnail badges breedte"
 msgid "Thumbnail badges height"
 msgstr "Thumbnail badges hoogte"
 
-msgid "Use Norms"
-msgstr "Gebruik Reglementen"
-
-msgid "Allow users to propose norms"
-msgstr "Sta gebruikers toe om nieuwe reglementen te maken"
-
-msgid "Allow users to change norms from within proposals"
-msgstr "Sta gebruikers toe om reglementen te veranderen vanuit voorstellen"
-
-msgid "Require to propose a variant"
-msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbrengen"
-
-msgid "Show norms navigation item"
-msgstr "Toon reglementennavigatie"
-
-msgid "Show proposals navigation item"
-msgstr "Toon voorstel navigatie item"
-
-msgid "Display category pages"
+msgid "Authenticate this instance"
 msgstr ""
 
-msgid "Use milestones"
-msgstr "Gebruik mijlpalen"
+msgid "Enable delegated voting"
+msgstr ""
 
-msgid "Use thumbnail badges"
-msgstr "Gebruik thumbnail badges"
-
-msgid "Hide global categories"
-msgstr "Verberg algemene categorieën"
-
-msgid "Allow editing of comments by default"
-msgstr "Sta het aanpassen van reacties standaard toe"
-
-msgid "Allow editing of proposals by default"
-msgstr "Sta bewerking van voorstellen standaard toe"
-
-msgid "Freeze this instance"
-msgstr "Bevries deze groep"
-
-msgid "Name"
-msgstr "Naam"
+msgid "Enable milestones"
+msgstr ""
 
 msgid "Language"
 msgstr "Taal"
@@ -2824,52 +2785,50 @@ msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "The taalinstelling wordt overschreven door de persoonlijke instellingen van de gebruiker."
 
-msgid "Default group"
-msgstr "Standaard groep"
-
-msgid "Hide this instance"
-msgstr "Verberg deze groep"
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Kies of"
-
 msgid "Require email validation"
 msgstr "Vereis e-mailadres bevestiging"
 
 msgid "Require instance members to validate their email address."
 msgstr "Vereis groepsleden om hun e-mailadressen te bevestigen."
 
-msgid "This instance is authenticated"
-msgstr "Deze groep is geverifieerd"
+msgid "Default group for new members"
+msgstr ""
 
-msgid "Enable (final) adoption voting"
-msgstr "Schakel stemmingen voor (definitieve) goedkeuring in"
+msgid "Name of the instance"
+msgstr ""
 
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "Om een voorstel aan te nemen, dient de gedefinieerde meerderheid voor het voorstel behaald te zijn na de hieronder te definiëren tijdspanne."
+msgid "Description of the instance"
+msgstr ""
 
-msgid "Majority"
-msgstr "Meerderheid"
+msgid "Logo"
+msgstr "Logo"
 
-msgid "Delay"
-msgstr "Periode dat een meerderheid behouden moet worden voor aanname"
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Selecteer een logo bestand dat bovenaan de groepspagina's zal worden weergegeven."
 
-msgid "Enable vote delegation"
-msgstr "Schakel het geven van volmachten van stemmen in"
+msgid "Current logo"
+msgstr "Huidig logo"
 
-msgid "Break down Voting Result by Badge"
-msgstr "Toon het Stem Resultaat per badge"
+msgid "Delete current logo"
+msgstr "Verwijder huidig logo"
 
-msgid "Display how the users with the selected badges feel about the issue."
-msgstr "Toon wat gebruikers met de geselecteerde badge van dit onderwerp vinden."
+msgid "Show proposals navigation item"
+msgstr "Toon voorstel navigatie item"
+
+msgid "Enable norms"
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Show norms navigation item"
+msgstr "Toon reglementennavigatie"
 
 msgid "Home"
 msgstr "Home"
-
-msgid "new proposal"
-msgstr "nieuw voorstel"
 
 msgid "show a list of proposals"
 msgstr "toon een lijst van voorstellen zien"
@@ -2895,6 +2854,9 @@ msgstr "Aangemaakt"
 #, python-format
 msgid "by %s on %s"
 msgstr "door %s op %s"
+
+msgid "Votings"
+msgstr "Stemmen"
 
 msgid "By the numbers"
 msgstr "Cijfers"
@@ -4131,9 +4093,6 @@ msgstr "U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoor
 
 msgid "User settings"
 msgstr "Gebruikersinstellingen"
-
-msgid "Advanced settings"
-msgstr "Geavanceerde instellingen"
 
 msgid "Pager size"
 msgstr "Pagina grootte"

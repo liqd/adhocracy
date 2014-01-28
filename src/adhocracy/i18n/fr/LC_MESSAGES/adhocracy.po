@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:05+0000\n"
+"POT-Creation-Date: 2014-01-21 12:55+0100\n"
+"PO-Revision-Date: 2014-01-21 11:55+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -61,20 +61,20 @@ msgid "Badge changed successfully"
 msgstr "Changement du badge réussi"
 
 msgid "The image has been deleted."
-msgstr ""
+msgstr "Cette image a été supprimée "
 
 msgid "Badge deleted successfully"
 msgstr "étiquette supprimée avec succès. "
 
 #, python-format
 msgid "No image for category '%s'."
-msgstr ""
+msgstr "Aucune image pour la catégorie '%s'."
 
 msgid "oldest"
 msgstr "ancien"
 
 msgid "newest"
-msgstr "nouveau"
+msgstr "récent"
 
 #, python-format
 msgid "Topic %s does not allow comments"
@@ -82,7 +82,7 @@ msgstr "Les commentaires ne sont pas autorisés pour le thème %s"
 
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Thème commentaire n'a pas variant %s"
+msgstr "commenter le sujet n'a pas variant %s"
 
 msgid "The comment has been deleted."
 msgstr "Ce commentaire a été supprimé."
@@ -118,7 +118,7 @@ msgid "Cannot access delegation %(id)s"
 msgstr "Ne peut pas accéder aux délégations %(id)s"
 
 msgid "The delegation is now revoked."
-msgstr "La délégations a été révoqué."
+msgstr "La délégation a été révoquée."
 
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr "Le système est actuellement hors service pour des raisons de maintenance. Réessayez plus tard!"
@@ -135,20 +135,23 @@ msgstr "nouvelles %s"
 msgid "News from %s"
 msgstr "Nouvelles de %s"
 
-msgid "General"
-msgstr "Général"
+msgid "Overview"
+msgstr "Aperçu"
 
-msgid "Appearance"
-msgstr "Apparence"
+msgid "General settings"
+msgstr ""
 
-msgid "Contents"
-msgstr "Contenu"
+msgid "Process settings"
+msgstr ""
 
-msgid "Votings"
-msgstr "Votes"
+msgid "Manage members"
+msgstr ""
 
 msgid "Badges"
 msgstr "Badges"
+
+msgid "Advanced settings"
+msgstr "paramètres avancés"
 
 msgid "Process presets"
 msgstr "Préréglages du processus "
@@ -180,30 +183,6 @@ msgstr "L'image n'est pas disponible dans cette taille "
 msgid "The logo has been deleted."
 msgstr "Ce logo a été supprimé."
 
-msgid "No delay"
-msgstr "Aucun délai"
-
-msgid "1 Day"
-msgstr "1 jour"
-
-msgid "2 Days"
-msgstr "2 jours"
-
-msgid "One Week"
-msgstr "Une semaine"
-
-msgid "Two Weeks"
-msgstr "Deux semaines"
-
-msgid "Four Weeks"
-msgstr "Quatre semaines"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Majorité absolue (&frac12; of vote)"
-
-msgid "A two-thirds majority"
-msgstr "Majorité des deux tiers"
-
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
 " you wish."
@@ -211,7 +190,7 @@ msgstr "Instance créée avec succès. Vous pouvez maintenant la configurer en d
 
 #, python-format
 msgid "The instance %s has been deleted."
-msgstr "L'instance %s a été effacée."
+msgstr "L'instance %s a été supprimée."
 
 #, python-format
 msgid "Welcome to %(instance)s"
@@ -230,7 +209,7 @@ msgid "You've left %(instance)s."
 msgstr "Vous avez quitté l' %(instance)s"
 
 msgid "You cannot manipulate one instance from within another instance."
-msgstr "Vous ne pouvez pas manipuler une instance depuis une autre."
+msgstr "Vous ne pouvez pas manipuler une instance depuis une autre instance."
 
 msgid "Sorry, but you're not allowed to set these message options"
 msgstr "Désolé, vous n'êtes pas autorisé à définir ces options de message. "
@@ -333,10 +312,10 @@ msgid "tutorial_norms_overview_tab"
 msgstr "Vue d'ensemble des thèmes du groupe. Cette liste vous ne montre pas seulement des thèmes qui sont créés par le groupe, mais aussi le nombre des propositions et des commentaires qui font partie du thème."
 
 msgid "No proposal has been specified"
-msgstr "La proposition %s a été effacée."
+msgstr "La proposition %s a été supprimée."
 
 msgid "You cannot create a new norm"
-msgstr "Crée un nouveau document."
+msgstr "Vous ne pouvez pas créer de nouveau thème "
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -344,7 +323,7 @@ msgstr "La motion %s existe déjà , ..."
 
 msgid ""
 "You're trying to update to a text which is not part of this pages history"
-msgstr "Vous essayez de revenir a une révisions qui ne fait pas partie de cet historique du commentaire"
+msgstr "Vous essayez mettre à jour un texte qui ne fait pas partie de cet historique de la page."
 
 msgid "<i>(No text)</i>"
 msgstr "<i>(No text)</i>"
@@ -390,14 +369,14 @@ msgid "Page %s does not allow comments"
 msgstr "La page  %s n'autorise pas de commentaires. "
 
 msgid "Cannot compare identical text revisions."
-msgstr "La comparaisons de version identique du même texte n'est pas possible."
+msgstr "La comparaison de versions identiques du même texte n'est pas possible."
 
 msgid "Cannot compare versions of different texts."
 msgstr "La comparaison de version de deux textes différents n'est pas possible."
 
 #, python-format
 msgid "The variant %s has been deleted."
-msgstr "L'instance %s a été effacé."
+msgstr "L'instance %s a été supprimée."
 
 msgid "Cannot delete, if there's only one version"
 msgstr "Suppression impossible, si une seule version existe. "
@@ -407,7 +386,7 @@ msgstr "La version sélectionnée n'a pas été supprimée. "
 
 #, python-format
 msgid "The page %s has been deleted."
-msgstr "La page %s a été effacé."
+msgstr "La page %s a été supprimée."
 
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
@@ -429,14 +408,14 @@ msgid "tutorial_proposal_overview_tab"
 msgstr "Vue d'ensemble des toutes les propositions. Ici, vous pouvez non seulement créer des nouvelles propositions...\t"
 
 msgid "Please select norm and propose a change to it."
-msgstr "Choisissez le thème et proposez une change, s'il vous plaît."
+msgstr "Vous êtes priés de choisir le thème et de proposer une modification. "
 
 msgid "tutorial_proposal_show_tab"
 msgstr "Sur la page des détails, vous pouvez non seulement trouver des informations importantes, mais aussi des nombreuses possibilités de participer."
 
 #, python-format
 msgid "Proposal: %s"
-msgstr "Propositions: %s"
+msgstr "Proposition: %s"
 
 #, python-format
 msgid "Activity on the %s proposal"
@@ -444,7 +423,7 @@ msgstr "Activité dans la proposition %s"
 
 #, python-format
 msgid "The proposal %s has been deleted."
-msgstr "La proposition %s a été effacé."
+msgstr "La proposition %s a été supprimée."
 
 #, python-format
 msgid "Proposal: %(proposal)s"
@@ -484,7 +463,7 @@ msgid "Cannot find static page to edit"
 msgstr "Ne parvient pas à trouver la page statique à éditer. "
 
 msgid "The requested page was not found"
-msgstr "La page demandé n'as pas été trouvée. "
+msgstr "La page demandée n'as pas été trouvée. "
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
@@ -514,7 +493,7 @@ msgid ""
 msgstr "Vous suivez maintenant %s sur twitter pour que nous puissions vous envoyer des notifications sous forme de message direct."
 
 msgid "You have no twitter association."
-msgstr "Vous n'êtes relier a aucun compte twitter."
+msgstr "Vous n'êtes relié à aucun compte twitter."
 
 msgid "Personal"
 msgstr "Personnel"
@@ -559,7 +538,7 @@ msgid "Password has been set. Have fun!"
 msgstr "le mot de passe a été configuré. Amusez-vous!"
 
 msgid "There is no user registered with that email address."
-msgstr "Aucun utilisateur enregistré avec cette adresse mail."
+msgstr "Aucun utilisateur inscrit avec cette adresse mail."
 
 msgid ""
 "you have requested that your password be reset. In order to confirm the "
@@ -575,19 +554,19 @@ msgid "Your user name to login is: %s"
 msgstr "Le nom d'utilisateur à connecter: %s"
 
 msgid "Reset your password"
-msgstr "Réinitialisé votre mot de passe"
+msgstr "Réinitialisez votre mot de passe"
 
 msgid "your password has been reset. It is now:"
 msgstr "votre mot de passe à  été réinitialisé. Il est maintenant:"
 
 msgid "Please login and change the password in your user settings."
-msgstr "Veuillez vous identifier et changer votre mot de passe dans vos préférence d'utilisateur."
+msgstr "Veuillez vous identifier et changer votre mot de passe dans vos préférences d'utilisateur."
 
 msgid "Your new password"
 msgstr "Votre nouveau mot de passe"
 
 msgid "Success. You have been sent an email with your new password."
-msgstr "Succès! Vous allez recevoir un mail avec votre nouveau mot de passe."
+msgstr "Opération effectuée avec succès ! Vous allez recevoir un mail avec votre nouveau mot de passe."
 
 msgid ""
 "The reset code is invalid. Please repeat the password recovery procedure."
@@ -604,10 +583,10 @@ msgid "Welcome to %s"
 msgstr "Bienvenue à %s"
 
 msgid "Your email has been confirmed."
-msgstr "Votre adresse mail est confirmé."
+msgstr "Votre adresse mail a été confirmée."
 
 msgid "The activation link has been re-sent to your email address."
-msgstr "Un code d'activation a été envoyé a votre adresse mail."
+msgstr "Un code d'activation a été envoyé à votre adresse mail."
 
 msgid "About me"
 msgstr "À propos de moi "
@@ -678,7 +657,7 @@ msgid "The account has been re-activated."
 msgstr "Le compte a été réactivé."
 
 msgid "The account has been deleted."
-msgstr "Le compte a été annullé."
+msgstr "Le compte a été supprimé."
 
 msgid "Invalid badge choice."
 msgstr "Choix d'étiquette non valide. "
@@ -719,11 +698,11 @@ msgid "The user can now log in via %s"
 msgstr "L'utilisateur peut s'enregistre via %s"
 
 msgid "A watchlist entry for this entity already exists."
-msgstr "Une subscription pour cette entité existe déjà ."
+msgstr "Une souscription pour cette entité existe déjà ."
 
 #, python-format
 msgid "You're not authorized to delete %s's watchlist entries."
-msgstr "Vous n'êtes pas autorisé a effacé les subscritpions de %s."
+msgstr "Vous n'êtes pas autorisé à supprimer les souscriptions de %s."
 
 msgid "No username is given"
 msgstr "Nom d'utilisateur manquant"
@@ -738,7 +717,7 @@ msgid "That username already exists"
 msgstr "Ce nom d'utilisateur existe déjà"
 
 msgid "That email is already registered"
-msgstr "Ce mail est déjà enregistré"
+msgstr "Cette adresse mail est déjà utilisée"
 
 msgid "That email is already used by another account"
 msgstr "Cette adresse mail est déjà utilisée par un autre compte. "
@@ -779,7 +758,7 @@ msgstr "Une proposition avec l'ID  '%s' n'existe pas"
 
 #, python-format
 msgid "No group with ID '%s' exists"
-msgstr "Il n'existe pas de group avec l'ID '%s'"
+msgstr "Il n'existe pas de groupe avec l'ID '%s'"
 
 #, python-format
 msgid "Group '%s' is no instance group"
@@ -959,7 +938,7 @@ msgid "Administrator"
 msgstr "Administrateur"
 
 msgid "Default"
-msgstr "Defaut"
+msgstr "Défaut"
 
 msgid "Advisor"
 msgstr "Conseillé"
@@ -971,13 +950,13 @@ msgid "Polling"
 msgstr "Sondage"
 
 msgid "Adopted"
-msgstr "Adoptés"
+msgstr "Adopté"
 
 msgid ""
 "A liquid democracy platform for making decisions in distributed, open groups"
 " by cooperatively creating proposals and voting on them to establish their "
 "support."
-msgstr "Une plateforme de démocracie liquide pour faire des décisions dans des groupes ouvert et distribué en créant des propositions de manière collaborative puis pour les votés pour établir leur soutient."
+msgstr "Une plateforme de démocratie liquide, permettant à des groupes ouverts et distribués de prendre des décisions, en créant des propositions de manière collaborative et en procédant au vote de ces dernières afin de les soutenir.  "
 
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
@@ -988,7 +967,10 @@ msgid "Invalid request. Please go back and try again."
 msgstr "Requête invalide. Veuillez recommencer."
 
 msgid "The method you used is not implemented."
-msgstr "La méthode utilisée n'est pas implémenté."
+msgstr "La méthode utilisée n'est pas appliquée."
+
+msgid "Start"
+msgstr "Accueil"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1019,7 +1001,7 @@ msgstr "%s <%s>"
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
-msgstr "Mail de confirmation d'adresse. Pour confirmer, veuillez ouvrir le lien ci-dessous:"
+msgstr "Mail de confirmation. Pour confirmer votre adresse mail, veuillez ouvrir le lien ci-dessous:"
 
 msgid "Confirm your email address"
 msgstr "Confirmer votre adresse mail."
@@ -1176,11 +1158,11 @@ msgid "No update required."
 msgstr "Une actualisation n'est pas nécessaire."
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
-msgstr "Nous somme désolé, il semble que vous n'ayez pas les droits requis pour continuer."
+msgstr "Nous somme désolés, il semble que vous n'ayez pas les droits requis pour continuer."
 
 msgid ""
 "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "Nous sommes désolé, il semble que nous ayons faite un erreur (Alerte CSRF). Veuillez réessayer."
+msgstr "Nous sommes désolés, il semble que nous ayons commis une erreur (Alerte CSRF). Veuillez réessayer."
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1213,7 +1195,7 @@ msgid "argument on %s"
 msgstr "argument sur %s"
 
 msgid "(Undefined)"
-msgstr "(non définit)"
+msgstr "(non défini)"
 
 #, python-format
 msgid "New user: %(user)s"
@@ -1224,7 +1206,7 @@ msgstr "s'est inscrit"
 
 #, python-format
 msgid "%(user)s: profile updated"
-msgstr "%(user)s: a mis son profil à  jours"
+msgstr "%(user)s: a mis son profil à  jour."
 
 msgid "edited their profile"
 msgstr "a édité son profil"
@@ -1243,7 +1225,7 @@ msgstr "Nouvelle instance: %(instance)s"
 
 #, python-format
 msgid "founded the %(instance)s instance"
-msgstr "était créé l'instance %(instance)s"
+msgstr "a créé l'instance %(instance)s"
 
 #, python-format
 msgid "%(instance)s: instance was updated"
@@ -1255,11 +1237,11 @@ msgstr " a mis l'adhocracy %(instance)s à  jour"
 
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
-msgstr "A effacé l'instance: %(instance)s"
+msgstr "A supprimé l'instance: %(instance)s"
 
 #, python-format
 msgid "deleted the %(instance)s instance"
-msgstr "a effacé l'adhocracy %(instance)s"
+msgstr "a supprimé l'instance %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s joined"
@@ -1279,7 +1261,7 @@ msgstr "a quitté %(instance)s"
 
 #, python-format
 msgid "%(instance)s: %(user)s was forced to leave"
-msgstr "%(instance)s: %(user)s a été expulsé"
+msgstr "%(instance)s: %(user)s a été contraint de quitter l'instance."
 
 #, python-format
 msgid "was forced to leave %(instance)s by %(admin)s"
@@ -1303,7 +1285,7 @@ msgstr "a proposé %(proposal)s"
 
 #, python-format
 msgid "Edit proposal: %(proposal)s"
-msgstr "àditer la proposition: %(proposal)s"
+msgstr "éditer la proposition: %(proposal)s"
 
 #, python-format
 msgid "edited %(proposal)s"
@@ -1335,11 +1317,11 @@ msgstr "appelle au vote de %(proposal)s"
 
 #, python-format
 msgid "Deleted proposal: %(proposal)s"
-msgstr "A effacé la proposition: %(proposal)s"
+msgstr "A supprimé la proposition: %(proposal)s"
 
 #, python-format
 msgid "deleted %(proposal)s"
-msgstr "a effacé %(proposal)s"
+msgstr "a supprimé %(proposal)s"
 
 #, python-format
 msgid "New amendment to %(page)s: %(proposal)s"
@@ -1371,11 +1353,11 @@ msgstr "Nouvelle page: %(page)s"
 
 #, python-format
 msgid "created %(page)s"
-msgstr "était créé %(page)s"
+msgstr " %(page)s créée"
 
 #, python-format
 msgid "Edit page: %(page)s"
-msgstr "Page édité: %(page)s"
+msgstr "Page éditée: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
@@ -1383,7 +1365,7 @@ msgstr "a édité %(page)s"
 
 #, python-format
 msgid "Deleted page: %(page)s"
-msgstr "A effacé la page %(page)s"
+msgstr "A supprimé la page %(page)s"
 
 #, python-format
 msgid "deleted %(page)s"
@@ -1423,7 +1405,7 @@ msgstr "argument édité à propos de %(topic)s"
 
 #, python-format
 msgid "Deleted comment: in %(topic)s"
-msgstr "A effacé un commentaire: dans %(topic)s"
+msgstr "A supprimé un commentaire: dans %(topic)s"
 
 #, python-format
 msgid "Deleted argument: in %(topic)s"
@@ -1439,7 +1421,7 @@ msgstr "argument supprimé de %(topic)s"
 
 #, python-format
 msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
-msgstr "Nouvelle délégation: %(user)s a délégué %(scope)s a %(agent)s"
+msgstr "Nouvelle délégation: %(user)s a délégué %(scope)s à %(agent)s"
 
 #, python-format
 msgid "delegated voting on %(scope)s to %(agent)s"
@@ -1516,11 +1498,14 @@ msgstr "changement du commentaire: %(topic)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Cette proposition est en court de vote et ne peut être modifié."
 
+msgid "Settings"
+msgstr "Paramètres"
+
 msgid "(Unknown)"
 msgstr "(inconnu)"
 
-msgid "Documents"
-msgstr "Documents"
+msgid "Norms"
+msgstr "voir les règles"
 
 msgid "Proposals"
 msgstr "Propositions"
@@ -1538,8 +1523,11 @@ msgstr "effacer"
 msgid "%s (deleted user)"
 msgstr "%s (deleted user)"
 
-msgid "Users"
-msgstr "Utilisateurs"
+msgid "Members"
+msgstr "Membres"
+
+msgid "Dashboard"
+msgstr "Dashboard"
 
 msgid "This action is only available in an instance context."
 msgstr "Cette action est seulement possible a l'interieur d'une instance."
@@ -1744,9 +1732,6 @@ msgstr "<b>%s</b> commentaires"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
 
-msgid "Start"
-msgstr "Accueil"
-
 msgid "Instances"
 msgstr "Groupes"
 
@@ -1758,9 +1743,6 @@ msgstr "En savoir"
 
 msgid "Help"
 msgstr "Aide"
-
-msgid "Dashboard"
-msgstr "Dashboard"
 
 msgid "Edit Profile"
 msgstr "Editer le profil"
@@ -1774,9 +1756,6 @@ msgstr "Administrez le site"
 msgid "Logout"
 msgstr "Déconnexion"
 
-msgid "Settings"
-msgstr "Paramètres"
-
 msgid "Search"
 msgstr "recherche"
 
@@ -1786,15 +1765,6 @@ msgstr "Cherchez dans &ldquo;%s&rdquo;&hellip;"
 
 msgid "Intro"
 msgstr "Intro"
-
-msgid "Overview"
-msgstr "Aperçu"
-
-msgid "Norms"
-msgstr "voir les règles"
-
-msgid "Members"
-msgstr "Membres"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2062,6 +2032,9 @@ msgstr "ATTENTION: Cette action permets d'enfermer vous-même de votre adhocracy
 msgid "Permissions"
 msgstr "Permissions"
 
+msgid "Users"
+msgstr "Utilisateurs"
+
 msgid "Import Users"
 msgstr "Importer des utilisateurs"
 
@@ -2171,7 +2144,7 @@ msgid "Badge description"
 msgstr "Description du Badge"
 
 msgid "Long badge description"
-msgstr ""
+msgstr "Description détaillée du badge"
 
 msgid "The color that is used to show the badge"
 msgstr "Le couleur utilisé à montrer le badge"
@@ -2192,13 +2165,13 @@ msgid "Delete current thumbnail image"
 msgstr "Supprimer l'image de la vignette miniature actuelle. "
 
 msgid "Image"
-msgstr ""
+msgstr "image"
 
 msgid "Upload category image"
-msgstr ""
+msgstr "Télécharger l'image pour cette catégorie "
 
 msgid "Delete current category image"
-msgstr ""
+msgstr "supprimer l'image actuelle pour cette catégorie"
 
 msgid "Check to hide badge in user interface"
 msgstr "Vérifier de masquer le badge dans l'interface utilisateur"
@@ -2301,7 +2274,7 @@ msgid "Instance Badges"
 msgstr "Étiquettes pour les instances. "
 
 msgid "View and discuss"
-msgstr ""
+msgstr "voir et discuter "
 
 msgid "edit"
 msgstr "editer"
@@ -2321,14 +2294,17 @@ msgstr "Login pour créer une nouvelle proposition."
 msgid "Validate email in order to create a new proposal."
 msgstr "Validez l'adresse mail afin de faire une nouvelle proposition. "
 
+msgid "new proposal"
+msgstr "nouvelle proposition"
+
 msgid "Search proposals"
-msgstr ""
+msgstr "chercher les propositions "
 
 msgid "Find"
-msgstr ""
+msgstr "trouver "
 
 msgid "Norms in this Category"
-msgstr ""
+msgstr "Normes dans cette catégorie "
 
 msgid "Comment"
 msgstr "commentaire"
@@ -2751,17 +2727,35 @@ msgstr "Configurer "
 msgid "Reset"
 msgstr "Réinitialiser"
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Allow editing of comments by default"
+msgstr "permettre l'édition des commentaires par défaut. "
 
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Choisissez un dossier de logo qui doit apparaître dans l'en-tête de ce groupe."
+msgid "Allow editing of proposals by default"
+msgstr "Permettre la modification de propositions par défaut "
 
-msgid "Current logo"
-msgstr "Logo actuel"
+msgid "Require to propose a variant"
+msgstr "Il est nécessaire que vous proposiez une variante"
 
-msgid "Delete current logo"
-msgstr "Supprimer logo actuel"
+msgid "Display category pages"
+msgstr "afficher l'onglet \"catégories\""
+
+msgid "Hide global categories"
+msgstr "masquer les catégories globales"
+
+msgid "Hide this instance"
+msgstr "Cacher ce groupe"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Décidez si le groupe devrait être montré dans les listes publiés."
+
+msgid "Freeze this instance"
+msgstr "Planter ce groupe"
+
+msgid "Break down Voting Result by Badge"
+msgstr "Afficher les résultats de votes par badge"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "Afficher les réactions des utilisateurs portant cette étiquette à propos de cette problématique. "
 
 msgid "Extra CSS"
 msgstr "Extra CSS"
@@ -2775,47 +2769,14 @@ msgstr "Largeur des vignettes"
 msgid "Thumbnail badges height"
 msgstr "Hauteur des badges miniatures"
 
-msgid "Use Norms"
-msgstr "Utiliser des thèmes"
-
-msgid "Allow users to propose norms"
-msgstr "Permettre aux utilisateurs à proposer des thèmes"
-
-msgid "Allow users to change norms from within proposals"
-msgstr "Autoriser les utilisateurs à changer les thèmes à partir des propositions. "
-
-msgid "Require to propose a variant"
-msgstr "Il est nécessaire que vous proposiez une variante"
-
-msgid "Show norms navigation item"
-msgstr "Afficher l'élément de navigation \"thème\" "
-
-msgid "Show proposals navigation item"
-msgstr "Afficher l'élément de navigation \"propositions\" "
-
-msgid "Display category pages"
+msgid "Authenticate this instance"
 msgstr ""
 
-msgid "Use milestones"
-msgstr "Utiliser des dates"
+msgid "Enable delegated voting"
+msgstr ""
 
-msgid "Use thumbnail badges"
-msgstr "utiliser les vignettes miniatures. "
-
-msgid "Hide global categories"
-msgstr "masquer les catégories globales"
-
-msgid "Allow editing of comments by default"
-msgstr "permettre l'édition des commentaires par défaut. "
-
-msgid "Allow editing of proposals by default"
-msgstr "Permettre la modification de propositions par défaut "
-
-msgid "Freeze this instance"
-msgstr "Planter ce groupe"
-
-msgid "Name"
-msgstr "Nom"
+msgid "Enable milestones"
+msgstr ""
 
 msgid "Language"
 msgstr "Langue"
@@ -2824,52 +2785,50 @@ msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "La sélection des langues sera substituée par la sélection de l'utilisateur."
 
-msgid "Default group"
-msgstr "Groupe défaut"
-
-msgid "Hide this instance"
-msgstr "Cacher ce groupe"
-
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Décidez si le groupe devrait être montré dans les listes publiés."
-
 msgid "Require email validation"
 msgstr "Une validation de l'adresse mail est requise. "
 
 msgid "Require instance members to validate their email address."
 msgstr "Les membres de l'instance sont priés de valider leur adresse mail. "
 
-msgid "This instance is authenticated"
-msgstr "Ce groupe est vérifié"
+msgid "Default group for new members"
+msgstr ""
 
-msgid "Enable (final) adoption voting"
-msgstr "adopter le vote final"
+msgid "Name of the instance"
+msgstr ""
 
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "Avant l'activation, la majorité definie doit être gardée par la proposition durant l'intervalle specifié."
+msgid "Description of the instance"
+msgstr ""
 
-msgid "Majority"
-msgstr "Majorité"
+msgid "Logo"
+msgstr "Logo"
 
-msgid "Delay"
-msgstr "Délai"
+msgid "Select a logo file to appear in the header area of this Instance."
+msgstr "Choisissez un dossier de logo qui doit apparaître dans l'en-tête de ce groupe."
 
-msgid "Enable vote delegation"
-msgstr "Permettre le délégation des votes"
+msgid "Current logo"
+msgstr "Logo actuel"
 
-msgid "Break down Voting Result by Badge"
-msgstr "Afficher les résultats de votes par badge"
+msgid "Delete current logo"
+msgstr "Supprimer logo actuel"
 
-msgid "Display how the users with the selected badges feel about the issue."
-msgstr "Afficher les réactions des utilisateurs portant cette étiquette à propos de cette problématique. "
+msgid "Show proposals navigation item"
+msgstr "Afficher l'élément de navigation \"propositions\" "
+
+msgid "Enable norms"
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Show norms navigation item"
+msgstr "Afficher l'élément de navigation \"thème\" "
 
 msgid "Home"
 msgstr "Acceuil"
-
-msgid "new proposal"
-msgstr "nouvelle proposition"
 
 msgid "show a list of proposals"
 msgstr "montrer une liste des propositions"
@@ -2895,6 +2854,9 @@ msgstr "Etait créé"
 #, python-format
 msgid "by %s on %s"
 msgstr "par %s dans %s"
+
+msgid "Votings"
+msgstr "Votes"
 
 msgid "By the numbers"
 msgstr "par les nombres"
@@ -4131,9 +4093,6 @@ msgstr "Vous avez reçu un e-mail. Veuillez ouvrir le lien de ce mail pour réin
 
 msgid "User settings"
 msgstr "Paramètres d'utilisateurs"
-
-msgid "Advanced settings"
-msgstr "paramètres avancés"
 
 msgid "Pager size"
 msgstr "Taille de la liste. "

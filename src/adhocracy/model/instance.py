@@ -53,7 +53,8 @@ instance_table = Table(
     Column('editable_comments_default', Boolean, nullable=True, default=True),
     Column('editable_proposals_default', Boolean, nullable=True, default=True),
     Column('require_valid_email', Boolean, nullable=True, default=True),
-    Column('allow_thumbnailbadges', Boolean, default=False),
+    # allow_thumbnailbadges is deprecated and should always be True
+    Column('allow_thumbnailbadges', Boolean, default=True),
     Column('thumbnailbadges_height', Integer, nullable=True),
     Column('thumbnailbadges_width', Integer, nullable=True),
     Column('show_norms_navigation', Boolean, nullable=True, default=True),

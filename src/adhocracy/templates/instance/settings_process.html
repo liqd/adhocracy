@@ -1,0 +1,32 @@
+<%inherit file="/instance/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
+
+
+<%block name="settings_content">
+<form name="create_instance" class="well" method="POST">
+
+    ${components.flashmessages()}
+    <h2>${c.settings_menu.current['label']}</h2>
+    <input type="hidden" name="_method" value="PUT" />
+    ${h.field_token()|n}
+
+    <h3>${_('Agenda Setting')}</h3>
+
+    ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation', autofocus=True)}
+    ${forms.checkbox(_("Use Maps"), 'use_maps')}
+
+    <h3>${_('Consultation')}</h3>
+
+    ${forms.checkbox(_("Enable norms"), 'use_norms')}
+    <div style="padding-left: 2em">
+        ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose')}
+        ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes')}
+        ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation')}
+    </div>
+
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+
+</form>
+</%block>

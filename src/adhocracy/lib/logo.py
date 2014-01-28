@@ -121,7 +121,6 @@ def load(entity, size, fallback=INSTANCE):
          mtime is the mtime of the image file, and image_data
          is a string containing the image data.
     '''
-    key = _entity_key(entity)
     logo_path, mtime = path_and_mtime(entity, fallback)
     image_data = _load_with_mtime(logo_path, mtime, size)
     return (logo_path, mtime, image_data)

@@ -7,7 +7,7 @@ from adhocracy.lib.helpers import url as _url
 
 @cache.memoize('staticpage_url')
 def url(staticpage, **kwargs):
-    pid = staticpage.key + '_' + staticpage.lang
+    pid = staticpage.key
     return _url.build(None, 'static', pid, **kwargs)
 
 
@@ -28,7 +28,7 @@ def get_body(key, default=''):
 
 
 def render_footer_column(instance, column):
-    if not config.get('adhocracy.customize_footer'):
+    if not config.get_bool('adhocracy.customize_footer'):
         return None
     path = u'footer_' + unicode(column)
     if instance and\
@@ -39,3 +39,7 @@ def render_footer_column(instance, column):
         return None
     else:
         return page.body
+
+
+def breadcrumbs(staticpage):
+    return _url.root() + _url.link(staticpage.title, url(staticpage))

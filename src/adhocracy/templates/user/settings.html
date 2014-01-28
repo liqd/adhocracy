@@ -3,10 +3,13 @@
 <%def name="title()">${_("User settings")}</%def>
 
 <%def name="breadcrumbs()">
+    ${h.user.settings_breadcrumbs(c.page_user, c.settings_menu.current)|n}
 </%def>
+
 
 <%block name="flashmessages">
 </%block>
+
 
 <%block name="main">
 <div id="settings">

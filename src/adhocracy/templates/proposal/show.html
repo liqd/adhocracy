@@ -273,6 +273,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
           %endif
         </p>
 
+        %if c.proposal.instance.milestones:
         <h6>${_('Milestones')}</h6>
         <% milestone = c.proposal.milestone %>
         <p>
@@ -288,6 +289,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
             ${_("This proposal is not related to a milestone")}
             %endif
         </p>
+        %endif
 
         <h6>${_('Created')}</h6>
         ## FIXME: ensure caching of history count (make it a tile?)

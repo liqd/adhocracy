@@ -5,6 +5,11 @@
 <%def name="title()">${_(u"Dashboard") if c.dashboard else c.page_user.name}</%def>
 
 
+<%block name="breadcrumbs">
+    ${h.user.breadcrumbs(c.page_user, dashboard=c.dashboard)|n}
+</%block>
+
+
 <%block name="headline">
 </%block>
 

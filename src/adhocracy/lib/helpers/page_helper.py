@@ -65,7 +65,7 @@ def entity_bc(page):
 
 def breadcrumbs(page):
     bc = _url.root()
-    bc += _url.link(_("Documents"), u'/page')
+    bc += _url.link(_("Norms"), u'/page')
     if page is not None:
         bc += entity_bc(page)
     return bc
