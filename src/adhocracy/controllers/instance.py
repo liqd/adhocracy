@@ -101,6 +101,8 @@ class InstanceGeneralEditForm(formencode.Schema):
                                            if_missing=False)
     milestones = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    display_category_pages = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     locale = forms.ValidLocale()
 
 
@@ -133,8 +135,6 @@ class InstanceAdvancedEditForm(formencode.Schema):
     editable_proposals_default = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     require_selection = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    display_category_pages = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     hide_global_categories = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
@@ -544,6 +544,8 @@ class InstanceController(BaseController):
                 '_method': 'PUT',
                 'allow_delegate': c.page_instance.allow_delegate,
                 'milestones': c.page_instance.milestones,
+                'display_category_pages':
+                c.page_instance.display_category_pages,
                 'locale': c.page_instance.locale,
                 '_tok': csrf.token_id()})
 
@@ -557,8 +559,8 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
 
         updated = update_attributes(c.page_instance, self.form_result,
-                                    ['allow_delegate',
-                                     'locale', 'milestones'])
+                                    ['allow_delegate', 'locale', 'milestones',
+                                     'display_category_pages'])
 
         return self._settings_result(updated, c.page_instance, 'general')
 
@@ -684,7 +686,6 @@ class InstanceController(BaseController):
             'editable_proposals_default':
             c.page_instance.editable_proposals_default,
             'require_selection': c.page_instance.require_selection,
-            'display_category_pages': c.page_instance.display_category_pages,
             'hide_global_categories': c.page_instance.hide_global_categories,
             'hidden': c.page_instance.hidden,
             'frozen': c.page_instance.frozen,
@@ -714,8 +715,8 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['editable_comments_default', 'editable_proposals_default',
-             'require_selection', 'display_category_pages',
-             'hide_global_categories', 'hidden', 'frozen'])
+             'require_selection', 'hide_global_categories', 'hidden',
+             'frozen'])
         # currently no ui for allow_index
 
         if h.has_permission('global.admin'):

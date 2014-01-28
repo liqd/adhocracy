@@ -12,10 +12,11 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate', autofocus=True)}
-    ${forms.checkbox(_("Enable milestones"), 'milestones', help=_("Milestones link the online discussions with offline events through a calendar function."))}
+    ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."), autofocus=True)}
 
-    ${forms.select(_("Language"), 'locale', c.locales, help=_("The language setting will be overridden by the user's personal setting."))}
+    ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate')}
+    ${forms.checkbox(_("Enable milestones"), 'milestones', help=_("Milestones link the online discussions with offline events through a calendar function."))}
+    ${forms.checkbox(_("Display category pages"), 'display_category_pages')}
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
     ${c.category_badge_tables}
