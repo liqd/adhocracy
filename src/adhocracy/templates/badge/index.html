@@ -63,8 +63,14 @@ ${render_tables(c.global_badges, c.instance_badges, c.badge_base_url, c.badge_he
   %endif
   %endif
 </h3>
-%if type_ == 'category':
+%if type_ == 'user':
+<p>${_("User badges allow you to organize your members according to certain groups.")}</p>
+%elif type_ == 'delegateable':
+<p>${_("Proposal badges may be used to link different attributes to a proposal (e.g. official, first phase, etc.).")}</p>
+%elif type_ == 'category':
 <p>${_("Add new categories to allow your users to categorize their proposals according to a topic.")}</p>
+%elif type_ == 'thumbnail':
+<p>${_("Status badges may be used to indicate different statuses of proposals in your participation process (e.g. accepted, rejected, in discussion, etc.) with an image.")}</p>
 %endif
 ${render_table(global_badges, base_url, type_, not single_table, True)}
 ${render_table(instance_badges, base_url, type_, not single_table, False)}
