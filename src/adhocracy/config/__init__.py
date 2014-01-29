@@ -8,6 +8,7 @@ from pylons.i18n import _
 
 DEFAULTS = {
     'adhocracy.allow_registration': True,
+    'adhocracy.allow_organization': False,
     'adhocracy.behind_proxy': False,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
@@ -21,6 +22,7 @@ DEFAULTS = {
     'adhocracy.geo.image_layers': [],
     'adhocracy.geo.instance_overwrites': False,
     'adhocracy.geo.use_instancebadge_colors': True,
+    'adhocracy.hide_empty_categories_in_facet_list': False,
 
     # Final adoption voting has been disabled from the UI during the
     # Adhocracy redesign originally done for enquetebeteiligung.de.

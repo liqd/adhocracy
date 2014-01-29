@@ -89,10 +89,6 @@ a.button_round {
         background-color: $red;
         @include background-image(linear-gradient(170deg, lighten($red, 14%), $red));
     }
-
-    #col3 & {
-        margin: 1em 0;
-    }
 }
 .message_button {
     @include button-round;

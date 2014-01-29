@@ -29,7 +29,7 @@ from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
-from adhocracy.lib.templating import (render, render_json, render_png,
+from adhocracy.lib.templating import (render, render_json, render_logo,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.templating import set_json_response
@@ -75,7 +75,6 @@ def settings_menu(instance, current):
         ('general', (_('General settings'),)),
         ('process', (_('Process settings'),)),
         ('members', (_('Manage members'),)),
-        ('badges', (_('Badges'),)),
         ('advanced', (_('Advanced settings'),)),
         ('presets', (_('Process presets'),)),
     ]))
@@ -108,6 +107,8 @@ class InstanceGeneralEditForm(formencode.Schema):
     allow_delegate = validators.StringBool(not_empty=False, if_empty=False,
                                            if_missing=False)
     milestones = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
+    display_category_pages = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     locale = forms.ValidLocale()
 
@@ -143,8 +144,6 @@ class InstanceAdvancedEditForm(formencode.Schema):
     editable_proposals_default = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     require_selection = validators.StringBool(
-        not_empty=False, if_empty=False, if_missing=False)
-    display_category_pages = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     hide_global_categories = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
@@ -462,15 +461,13 @@ class InstanceController(BaseController):
     def icon(self, id, y=24, x=None):
         instance = get_entity_or_abort(model.Instance, id,
                                        instance_filter=False)
-        (x, y) = logo.validate_xy(x, y, y_default=24)
-        try:
-            (path, mtime, io) = logo.load(instance, size=(x, y))
-        except logo.NoSuchSizeError:
-            abort(404, _(u"The image is not avaliable in that size"))
-        request_mtime = int(request.params.get('t', 0))
-        if request_mtime != mtime:
-            redirect(h.instance.icon_url(instance, y, x=x))
-        return render_png(io, mtime, cache_forever=True)
+        return render_logo(instance, y, x=x, fallback=logo.INSTANCE)
+
+    @RequireInstance
+    def settings_legacy(self, id, format=u'html'):
+        instance = self._get_current_instance(id)
+        require.instance.edit(instance)
+        redirect(h.entity_url(instance, member='settings/overview'), code=301)
 
     def _settings_overview_form(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -478,7 +475,7 @@ class InstanceController(BaseController):
 
         c.current_logo = None
         if tiles.instance.InstanceTile(c.page_instance).show_icon():
-            c.current_logo = h.instance.icon_url(c.page_instance, 48)
+            c.current_logo = h.logo_url(c.page_instance, 48)
 
         return render("/instance/settings_overview.html")
 
@@ -536,7 +533,7 @@ class InstanceController(BaseController):
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
+                              'label': locale.language_name,
                               'selected': locale == c.page_instance.locale})
 
         return render("/instance/settings_general.html")
@@ -545,12 +542,19 @@ class InstanceController(BaseController):
     def settings_general(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+        cat_badge_data = self.badge_controller(c.page_instance, 'general')\
+            ._get_badge_data('category')
+        c.category_badge_tables = render_def('/badge/index.html',
+                                             'render_context_tables',
+                                             cat_badge_data)
         return htmlfill.render(
             self._settings_general_form(id),
             defaults={
                 '_method': 'PUT',
                 'allow_delegate': c.page_instance.allow_delegate,
                 'milestones': c.page_instance.milestones,
+                'display_category_pages':
+                c.page_instance.display_category_pages,
                 'locale': c.page_instance.locale,
                 '_tok': csrf.token_id()})
 
@@ -564,8 +568,8 @@ class InstanceController(BaseController):
         require.instance.edit(c.page_instance)
 
         updated = update_attributes(c.page_instance, self.form_result,
-                                    ['allow_delegate',
-                                     'locale', 'milestones'])
+                                    ['allow_delegate', 'locale', 'milestones',
+                                     'display_category_pages'])
 
         return self._settings_result(updated, c.page_instance, 'general')
 
@@ -579,6 +583,16 @@ class InstanceController(BaseController):
     def settings_process(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+        thumb_badge_data = self.badge_controller(c.page_instance, 'process')\
+            ._get_badge_data('thumbnail')
+        c.thumbnail_badge_tables = render_def('/badge/index.html',
+                                              'render_context_tables',
+                                              thumb_badge_data)
+        deleg_badge_data = self.badge_controller(c.page_instance, 'process')\
+            ._get_badge_data('delegateable')
+        c.delegateable_badge_tables = render_def('/badge/index.html',
+                                                 'render_context_tables',
+                                                 deleg_badge_data)
         return htmlfill.render(
             self._settings_process_form(id),
             defaults={
@@ -629,6 +643,12 @@ class InstanceController(BaseController):
     @RequireInstance
     def settings_members(self, id):
         c.page_instance = self._get_current_instance(id)
+        badge_data = self.badge_controller(c.page_instance, 'members')\
+            ._get_badge_data('user')
+        c.user_badge_tables = render_def('/badge/index.html',
+                                         'render_context_tables',
+                                         badge_data)
+
         require.instance.edit(c.page_instance)
         return htmlfill.render(
             self._settings_members_form(id),
@@ -676,7 +696,6 @@ class InstanceController(BaseController):
             'editable_proposals_default':
             c.page_instance.editable_proposals_default,
             'require_selection': c.page_instance.require_selection,
-            'display_category_pages': c.page_instance.display_category_pages,
             'hide_global_categories': c.page_instance.hide_global_categories,
             'hidden': c.page_instance.hidden,
             'frozen': c.page_instance.frozen,
@@ -706,8 +725,8 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['editable_comments_default', 'editable_proposals_default',
-             'require_selection', 'display_category_pages',
-             'hide_global_categories', 'hidden', 'frozen'])
+             'require_selection', 'hide_global_categories', 'hidden',
+             'frozen'])
         # currently no ui for allow_index
 
         if h.has_permission('global.admin'):
@@ -727,65 +746,57 @@ class InstanceController(BaseController):
 
         return self._settings_result(updated, c.page_instance, 'advanced')
 
-    def badge_controller(self, instance):
+    def badge_controller(self, instance, settings_part):
         '''
         ugly hack to dispatch to the badge controller.
         '''
         controller = BadgeController()
         controller.index_template = 'instance/settings_badges.html'
         controller.form_template = 'instance/settings_badges_form.html'
-        controller.base_url_ = settings_url(instance, 'badges')
+        controller.base_url_ = settings_url(instance, settings_part)
         controller._py_object = self._py_object
         controller.start_response = self.start_response
         return controller
 
     @RequireInstance
-    def settings_badges(self, id):
+    def settings_badges_add(self, id, part, badge_type, format='html'):
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.index()
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.add(badge_type=badge_type, format=format)
 
     @RequireInstance
-    def settings_badges_add(self, id, badge_type):
+    def settings_badges_create(self, id, part, badge_type, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.add(badge_type=badge_type)
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.create(badge_type=badge_type, format=format)
 
     @RequireInstance
-    def settings_badges_create(self, id, badge_type):
+    def settings_badges_edit(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.create(badge_type=badge_type)
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.edit(badge_id, format=format)
 
     @RequireInstance
-    def settings_badges_edit(self, id, badge_id):
+    def settings_badges_update(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.edit(badge_id)
+        c.settings_menu = settings_menu(c.page_instance, part)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.update(badge_id, format=format)
 
     @RequireInstance
-    def settings_badges_update(self, id, badge_id):
+    def settings_badges_ask_delete(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        c.settings_menu = settings_menu(c.page_instance, 'badges')
-        controller = self.badge_controller(c.page_instance)
-        return controller.update(badge_id)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.ask_delete(badge_id, format=format)
 
     @RequireInstance
-    def settings_badges_ask_delete(self, id, badge_id):
+    def settings_badges_delete(self, id, part, badge_id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        controller = self.badge_controller(c.page_instance)
-        return controller.ask_delete(badge_id)
-
-    @RequireInstance
-    def settings_badges_delete(self, id, badge_id):
-        c.page_instance = self._get_current_instance(id)
-        controller = self.badge_controller(c.page_instance)
-        return controller.delete(badge_id)
+        controller = self.badge_controller(c.page_instance, part)
+        return controller.delete(badge_id, format=format)
 
     def _members_import_form(self, id):
         c.page_instance = self._get_current_instance(id)
@@ -925,7 +936,8 @@ class InstanceController(BaseController):
         return ret_success(
             message=_(u'Instance created successfully. You can now configure '
                       u'it in greater detail if you wish.'),
-            category='success', entity=c.page_instance, member='settings')
+            category='success', entity=c.page_instance,
+            member='settings/overview')
 
     @RequireInstance
     def style(self, id):

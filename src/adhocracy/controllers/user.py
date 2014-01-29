@@ -13,7 +13,6 @@ from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from pylons.i18n import lazy_ugettext as L_
 
 from webob.exc import HTTPFound
 
@@ -41,13 +40,12 @@ from adhocracy.lib.settings import Menu
 from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
-from adhocracy.lib.templating import render, render_json, ret_abort, render_png
-from adhocracy.lib.templating import ret_success
+from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_PROPOSAL,
-                                       S_COMMENT, S_PAGE, S_CONTRIBUTION)
+from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_CONTRIBUTION
 
 
 log = logging.getLogger(__name__)
@@ -90,6 +88,8 @@ class UserSettingsPersonalForm(formencode.Schema):
     locale = forms.ValidLocale()
     display_name = validators.String(not_empty=False)
     bio = validators.String(max=1000, min=0, not_empty=False)
+    _is_organization = validators.StringBool(not_empty=False, if_empty=False,
+                                             if_missing=False)
 
 
 class UserSettingsLoginForm(formencode.Schema):
@@ -362,7 +362,7 @@ class UserController(BaseController):
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
+                              'label': locale.language_name,
                               'selected': locale == c.user.locale})
 
         c.salutations = [
@@ -372,7 +372,7 @@ class UserController(BaseController):
         ]
 
         if logo.exists(c.page_user):
-            c.current_avatar = h.user.avatar_url(c.page_user, 64)
+            c.current_avatar = h.logo_url(c.page_user, 64)
 
         return render("/user/settings_personal.html",
                       overlay=format == u'overlay')
@@ -387,6 +387,7 @@ class UserController(BaseController):
                 'locale': c.page_user.locale,
                 'bio': c.page_user.bio,
                 'gender': c.page_user.gender,
+                '_is_organization': c.page_user._is_organization,
                 '_tok': token_id()})
 
     @validate(schema=UserSettingsPersonalForm(),
@@ -397,7 +398,8 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         updated = update_attributes(c.page_user, self.form_result,
-                                    ['display_name', 'locale', 'bio'])
+                                    ['display_name', 'locale', 'bio',
+                                     '_is_organization'])
 
         # delete the logo if the button was pressed and exit
         if 'delete_avatar' in self.form_result:
@@ -431,11 +433,6 @@ class UserController(BaseController):
     def _settings_login_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'login')
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.user.locale})
 
         return render("/user/settings_login.html",
                       overlay=format == u'overlay')
@@ -470,12 +467,6 @@ class UserController(BaseController):
     def _settings_notifications_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'notifications')
-
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.user.locale})
 
         return render("/user/settings_notifications.html",
                       overlay=format == u'overlay')
@@ -787,8 +778,9 @@ class UserController(BaseController):
             u'delegations': u'latest_delegations',
         }[active_key]
         nav = [
-            (u'about' == active_key, _(u'About me'), h.entity_url(
-                c.page_user, member='about')),
+            (u'about' == active_key, _(u'About us')
+                if c.page_user.is_organization else _(u'About me'),
+                h.entity_url(c.page_user, member='about')),
             (u'activity' == active_key, _(u'Newest events'), h.entity_url(
                 c.page_user, member='latest_events')),
             (u'contributions' == active_key, _(u'Contributions'), h.entity_url(
@@ -1002,17 +994,7 @@ class UserController(BaseController):
     @guard.perm('user.view')
     def avatar(self, id, y=24, x=None):
         user = get_entity_or_abort(model.User, id, instance_filter=False)
-        (x, y) = logo.validate_xy(x, y)
-        try:
-            (path, mtime, io) = logo.load(user, size=(x, y),
-                                          fallback=logo.USER)
-        except logo.NoSuchSizeError:
-            abort(404, _(u"The image is not avaliable in that size"))
-        request_mtime = int(request.params.get('t', 0))
-        if request_mtime > mtime:
-            # This will set the appropriate mtime
-            redirect(h.user.avatar_url(user, y, x=x))
-        return render_png(io, mtime, cache_forever=True)
+        return render_logo(user, y, x=x, fallback=logo.USER)
 
     def login(self):
         c.active_global_nav = "login"

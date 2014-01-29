@@ -326,3 +326,7 @@ class Instance(meta.Indexable):
     @property
     def title(self):
         return self.label
+
+    def requires_valid_email(self):
+        return (config.get_bool('adhocracy.require_email')
+                and self.require_valid_email)

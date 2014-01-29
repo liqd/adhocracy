@@ -37,10 +37,13 @@ class StaticController(BaseController):
 
     @guard_perms
     def index(self):
-        data = {
-            'static_pages': get_backend().all()
-        }
-        return render('/static/index.html', data)
+        try:
+            data = {
+                'static_pages': get_backend().all()
+            }
+            return render('/static/index.html', data)
+        except NotImplementedError:
+            abort(404)
 
     @guard_perms
     def new(self, errors=None, format=u'html'):

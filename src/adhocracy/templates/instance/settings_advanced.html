@@ -15,13 +15,12 @@
     <fieldset>
         ${forms.checkbox(_("Allow editing of comments by default"), 'editable_comments_default', autofocus=True)}
         ${forms.checkbox(_("Allow editing of proposals by default"), 'editable_proposals_default')}
-        ${forms.checkbox(_("Require to propose a variant"), 'require_selection')}
-        ${forms.checkbox(_("Display category pages"), 'display_category_pages')}
-        ${forms.checkbox(_("Hide global categories"), 'hide_global_categories')}
+        ${forms.checkbox(_("Require to propose a variant"), 'require_selection', help=_("If norms are activated, this option will ensure that users change at least one norm with each proposal."))}
+        ${forms.checkbox(_("Hide global categories"), 'hide_global_categories', help=_("Members of your instance only see the catagories you created."))}
     </fieldset>
     <fieldset>
         ${forms.checkbox(_("Hide this instance"), 'hidden', help=_("Select whether this instance will be shown in public listings."))}
-        ${forms.checkbox(_("Freeze this instance"), 'frozen')}
+        ${forms.checkbox(_("Freeze this instance"), 'frozen', help=_("This will prevent members from making any more changes or contributions to the existing discussion."))}
     </fieldset>
 
     %if c.votedetail_all_userbadges is not None:
@@ -41,13 +40,13 @@
     </%forms:textarea>
 
     %if c.instance and c.instance.allow_thumbnailbadges:
-        ${forms.input(_("Thumbnail badges width"), 'thumbnailbadges_width')}
-        ${forms.input(_("Thumbnail badges height"), 'thumbnailbadges_height')}
+        ${forms.input(_("Status badge image width"), 'thumbnailbadges_width')}
+        ${forms.input(_("Status badge image height"), 'thumbnailbadges_height')}
     %else:
         <input type="hidden" name="thumbnailbadges_width" value="" />
         <input type="hidden" name="thumbnailbadges_height" value="" />
     %endif
-    ${forms.checkbox(_("Authenticate this instance"), 'is_authenticated')}
+    ${forms.checkbox(_("Authenticate this instance"), 'is_authenticated', help=_("Activates additional feature, e.g. massinvite und massmessage"))}
     %endif
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}

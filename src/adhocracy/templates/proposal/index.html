@@ -41,8 +41,7 @@ ${h.proposal.breadcrumbs(None)|n}
 
 <div class="list_filter" id="proposals-search">
     <form class="list_form" action="?" method="GET" autocomplete="off">
-        <label class="floating" for="proposals_q">${_(u"Find proposals")}</label>
-        <input class="search_text"
+        <input class="search_text" placeholder="${_(u"Find proposals")}"
                id="proposals_q" class="live_search" name="proposals_q"
                type="text" value="${request.params.get('proposals_q', '')}" />
         <input type="submit" value="${_(u'Go')}"

@@ -18,7 +18,8 @@ def make_key(iden, args, kwargs):
     sig = iden[:200]\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.width"))\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.height"))\
-        + cache.util.make_tag(instance_w + instance_h)\
+        + cache.util.make_tag(instance_w)\
+        + cache.util.make_tag(instance_h)\
         + cache.util.make_tag(args) \
         + cache.util.make_tag(kwargs)
     return sha1(sig).hexdigest()
@@ -34,7 +35,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
 
     size = (width and height) and (width, height)\
         or get_default_thumbnailsize(badge)
-    img_template = """<img src="data:%s;base64,%s" width="%s" height="%s" />"""
+    img_template = ('<img src="data:%s;base64,%s" width="%s" height="%s"'
+                    'alt="%s"/>')
     imagefile = BytesIO(badge.thumbnail)
     mimetype = "image/png"
     try:
@@ -67,7 +69,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     data_enc = b64encode(imagefile.getvalue())
     del imagefile
 
-    return (img_template % (mimetype, data_enc, str(size[0]), str(size[1])))
+    return (img_template % (mimetype, data_enc, str(size[0]), str(size[1]),
+                            badge.title))
 
 
 def get_default_thumbnailsize(badge):

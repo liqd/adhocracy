@@ -12,21 +12,23 @@
     <input type="hidden" name="_method" value="PUT" />
     ${h.field_token()|n}
 
-    <h3>${_('Agenda Setting')}</h3>
+    <h3>${_('Collecting ideas')}</h3>
 
-    ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation', autofocus=True)}
+    ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation', help=_("Show proposals as an extra tab"), autofocus=True)}
     ${forms.checkbox(_("Use Maps"), 'use_maps')}
 
-    <h3>${_('Consultation')}</h3>
+    <h3>${_('Collaboratively drafting texts')}</h3>
 
-    ${forms.checkbox(_("Enable norms"), 'use_norms')}
+    ${forms.checkbox(_("Enable norms"), 'use_norms', help=_("Unlike proposals, norms are documents that you introduce to be discussed on the platform."))}
     <div style="padding-left: 2em">
         ${forms.checkbox(_("Allow members to propose norms"), 'allow_propose')}
-        ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes')}
-        ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation')}
+        ${forms.checkbox(_("Allow members to change norms from within proposals"), 'allow_propose_changes', help=_("Members will be able to propose changes of the norms you introduce."))}
+        ${forms.checkbox(_("Show norms navigation item"), 'show_norms_navigation', help=_("Show norms as an extra tab"))}
     </div>
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+    ${c.delegateable_badge_tables}
+    ${c.thumbnail_badge_tables}
 
 </form>
 </%block>

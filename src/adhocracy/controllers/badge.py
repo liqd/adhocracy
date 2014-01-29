@@ -3,7 +3,9 @@ import logging
 from cgi import FieldStorage
 import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
+from paste.deploy.converters import asbool
 from pylons import request, tmpl_context as c
+from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 
@@ -38,6 +40,15 @@ from adhocracy.lib.templating import render
 
 
 log = logging.getLogger(__name__)
+
+
+BADGE_TYPE_MAPPING = {
+    'user': UserBadge,
+    'delegateable': DelegateableBadge,
+    'category': CategoryBadge,
+    'instance': InstanceBadge,
+    'thumbnail': ThumbnailBadge,
+}
 
 
 class BadgeForm(formencode.Schema):
@@ -89,35 +100,6 @@ class BadgeController(BaseController):
     index_template = "/badge/index.html"
     base_url_ = None
 
-    def _available_badges(self):
-        '''
-        Return the badges that are editable by a user.
-        '''
-        c.groups = [{'permission': 'global.admin',
-                     'label': _('In all instances'),
-                     'show_label': True}]
-        if c.instance:
-            c.groups.append(
-                {'permission': 'instance.admin',
-                 'label': _('In instance "%s"') % c.instance.label,
-                 'show_label': h.has_permission('global.admin')})
-        badges = {}
-        if has('global.admin'):
-            badges['global.admin'] = {
-                'instance': InstanceBadge.all(instance=None),
-                'user': UserBadge.all(instance=None),
-                'delegateable': DelegateableBadge.all(instance=None),
-                'category': CategoryBadge.all(instance=None),
-                'thumbnail': ThumbnailBadge.all(instance=None)}
-        if has('instance.admin') and c.instance is not None:
-            badges['instance.admin'] = {
-                'instance': InstanceBadge.all(instance=c.instance),
-                'user': UserBadge.all(instance=c.instance),
-                'delegateable': DelegateableBadge.all(instance=c.instance),
-                'category': CategoryBadge.all(instance=c.instance),
-                'thumbnail': ThumbnailBadge.all(instance=c.instance)}
-        return badges
-
     @property
     def base_url(self):
         if self.base_url_ is None:
@@ -125,11 +107,34 @@ class BadgeController(BaseController):
                                              path='/badge')
         return self.base_url_
 
+    def _get_badge_data(self, badge_type):
+        cls = self._get_badge_class(badge_type)
+        if cls is None:
+            abort(404, _(u"No such badge type"))
+
+        return {
+            'badge_type': badge_type,
+            'badge_header': self._get_badge_header(badge_type),
+            'badge_base_url': self.base_url,
+            'global_badges': (cls.all(instance=None)
+                              if has('global.admin')
+                              else None),
+            'instance_badges': (cls.all(instance=c.instance)
+                                if c.instance is not None
+                                else None),
+        }
+
     @guard.perm('badge.index')
     def index(self, format='html'):
-        c.badges = self._available_badges()
-        c.badge_base_url = self.base_url
-        return render(self.index_template, overlay=format == u'overlay')
+        c.badge_tables = dict((type_, self._get_badge_data(type_))
+                              for type_ in ['user', 'category', 'thumbnail',
+                                            'delegateable', 'instance'])
+        return render('/badge/index_all.html', overlay=format == u'overlay')
+
+    @guard.perm('badge.index')
+    def index_type(self, badge_type, format='html'):
+        data = self._get_badge_data(badge_type)
+        return render(self.index_template, data, overlay=format == u'overlay')
 
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
@@ -158,7 +163,7 @@ class BadgeController(BaseController):
                 key=lambda x: x[1])
 
     @guard.instance.any_admin()
-    def add(self, badge_type=None, errors=None, format=u''):
+    def add(self, badge_type=None, errors=None, format=u'html'):
         data = {
             'form_type': 'add',
             'groups': Group.all_instance(),
@@ -168,9 +173,16 @@ class BadgeController(BaseController):
         if badge_type is not None:
             data['badge_type'] = badge_type
 
+        if (c.instance is not None
+           and not asbool(request.GET.get('global', False))):
+            instance = c.instance.key
+        else:
+            instance = ''
+
         defaults = {'visible': True,
                     'select_child_description': '',
                     'impact': 0,
+                    'instance': instance,
                     }
         defaults.update(dict(request.params))
 
@@ -182,9 +194,9 @@ class BadgeController(BaseController):
                                errors=errors,
                                force_defaults=False)
 
-    def _dispatch(self, action, badge_type, id=None):
+    def _dispatch(self, action, badge_type, id=None, format=u'html'):
         '''
-        dispatch to a suiteable "create" or "edit" action
+        dispatch to a suitable "create" or "edit" action
 
         Methods are named <action>_<badge_type>_badge().
         '''
@@ -204,18 +216,18 @@ class BadgeController(BaseController):
                 'Method not found for action "%s", badge_type: %s' %
                 (action, badge_type))
         if id is not None:
-            return method(id)
+            return method(id, format=format)
         else:
-            return method()
+            return method(format=format)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create(self, badge_type):
-        return self._dispatch('create', badge_type)
+    def create(self, badge_type, format=u'html'):
+        return self._dispatch('create', badge_type, format=format)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_instance_badge(self):
+    def create_instance_badge(self, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -230,7 +242,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_user_badge(self):
+    def create_user_badge(self, format=u'html'):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -248,7 +260,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_delegateable_badge(self):
+    def create_delegateable_badge(self, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -263,7 +275,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_category_badge(self):
+    def create_category_badge(self, format=u'html'):
         try:
             self.form_result = CategoryBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -301,7 +313,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def create_thumbnail_badge(self):
+    def create_thumbnail_badge(self, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -341,6 +353,19 @@ class BadgeController(BaseController):
     def _get_badge_type(self, badge):
         return badge.polymorphic_identity
 
+    def _get_badge_class(self, badge_type):
+        return BADGE_TYPE_MAPPING.get(badge_type)
+
+    def _get_badge_header(self, badge_type):
+        BADGE_HEADERS = {
+            'user': _(u'User Badges'),
+            'delegateable': _(u'Proposal Badges'),
+            'category': _(u'Categories'),
+            'instance': _(u'Instance Badges'),
+            'thumbnail': _(u'Status Badges'),
+        }
+        return BADGE_HEADERS.get(badge_type)
+
     def _get_badge_or_redirect(self, id):
         '''
         Get a badge. Redirect if it does not exist. Redirect if
@@ -366,7 +391,7 @@ class BadgeController(BaseController):
         if getattr(badge, "thumbnail", None):
             data['logo'] = h.badge_helper.generate_thumbnail_tag(badge)
         elif self._get_badge_type(badge) == 'category' and logo.exists(badge):
-            data['logo'] = '<img src="%s" />' % h.category.image_url(badge, 48)
+            data['logo'] = '<img src="%s" />' % h.logo_url(badge, 48)
 
         self._set_parent_categories(exclude=badge)
 
@@ -398,14 +423,14 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update(self, id):
+    def update(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
         c.badge_type = self._get_badge_type(badge)
-        return self._dispatch('update', c.badge_type, id=id)
+        return self._dispatch('update', c.badge_type, id=id, format=format)
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_user_badge(self, id):
+    def update_user_badge(self, id, format=u'html'):
         try:
             self.form_result = UserBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -437,7 +462,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_delegateable_badge(self, id):
+    def update_delegateable_badge(self, id, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -461,7 +486,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_instance_badge(self, id):
+    def update_instance_badge(self, id, format=u'html'):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
@@ -485,7 +510,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_category_badge(self, id):
+    def update_category_badge(self, id, format=u'html'):
         try:
             params = request.params.copy()
             params['id'] = id
@@ -539,7 +564,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def update_thumbnail_badge(self, id):
+    def update_thumbnail_badge(self, id, format=u'html'):
         try:
             self.form_result = ThumbnailBadgeForm().to_python(request.params)
         except Invalid as i:
@@ -581,7 +606,7 @@ class BadgeController(BaseController):
 
     @guard.instance.any_admin()
     @RequireInternalRequest()
-    def delete(self, id):
+    def delete(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
         for badge_instance in badge.badges():
             meta.Session.delete(badge_instance)

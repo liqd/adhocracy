@@ -1,7 +1,7 @@
 
 <%def name="namedpager(pager)">
 <div class="pager_wrapper">
-    %if pager.enable_pages or pager.enable_sorts:
+    %if (pager.enable_pages and len(pager.items)) or hasattr(pager.sorts, 'render') or (len(pager.sorts.keys()) > 1 and pager.enable_sorts):
         <div class="floatbox">
             %if pager.enable_pages:
                 <span class="pager_items">
@@ -84,12 +84,13 @@
 </%def>
 
 <%def name="facets(pager, cls=None)">
-%if (True in [facet.available() for facet in pager.facets]):
+<% is_admin = can.instance.any_admin() %>
+%if any(facet.available(is_admin) for facet in pager.facets):
 <div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
 
   %for facet in pager.facets:
-    %if facet.available():
+    %if facet.available(is_admin):
     <div class="facet facet-${facet.name}">
         ${facet.render()}
     </div>
@@ -107,18 +108,25 @@
        href="${facet.unselect_all_link()|n}"
        rel="nofollow">(${_("reset")})</a>
     %endif
+
+    %if facet.badge_type is not None and can.instance.any_admin():
+    <a class="button_small edit"
+        href="${h.base_url('/badge/%s' % facet.badge_type)}"
+        rel="#overlay-form">${_(u"Edit")}</a>
+    %endif
 </h4>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
 
 ${facet_items(facet.current_items)}
-
-<br />
 </%def>
 
 <%def name="facet_items(items, indent=True)">
 <ul${'' if indent else ' class="noindent"' | n}>
+    %if not items:
+    ${_(u'None')}
+    %endif
     %for item in items:
     <li class="facet-item-level-${item['level']}${' expanded' if item['open'] else ''}">
         %if item['visible']:
@@ -152,7 +160,7 @@ ${facet_items(facet.current_items)}
         ${h.literal(item['thumbnail'])}
 
         %if item["children"]:
-        <a class="expand_arrow"></a>
+        <a class="expand_arrow" href="#"></a>
         ${facet_items(item["children"], indent=not item['hide_checkbox'])}
         %endif
         %endif

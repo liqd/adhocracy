@@ -2,13 +2,15 @@
 .tile-table {
     display: table;
     table-layout: fixed;
-    width: 100%;
 
     border-collapse: separate;
     border-spacing: 2em 4em;
 
     // this is not nice but I could not find another to have same-width tiles
-    width: calc(100% + 4em);
+    // IE9 will ignore the width if calc(...) is used. So only the prefixed versions here.
+    width: 100%;
+    width: -webkit-calc(100% + 4em);
+    width: -moz-calc(100% + 4em);
     margin-left: -2em;
 
     .tile-row {
@@ -37,6 +39,10 @@ a.tile {
     text-decoration: inherit;
     cursor: pointer;
 
+    h3 {
+        font-size: 150%;
+    }
+
     &:hover {
         color: inherit;
         text-decoration: inherit;
@@ -50,9 +56,6 @@ a.tile {
 }
 
 .tile-image {
-    background-position: 50% 0;
-    display: block;
     width: 100%;
-    height: 100px;
     border-bottom: 2px solid $primary-color;
 }

@@ -18,13 +18,13 @@
     %endif
 
     %if first_time:
-    <p>${_(u"Please select one or more of these presets for the initial configuration of your instance. If needed, you can fine-tune the individual settings later on.")}</p>
+    <p>${_(u"Please select one or more of the following presets for the preliminary configuration of your instance. If necessary you can adapt individual options later.")}</p>
     %else:
     <p>${_(u"You can select one or more of these presets to reset your instance configuration. Note that any manual configuration will be lost.")}</p>
     %endif
 
-    ${forms.checkbox(_(u'Agenda Setting'), u'agenda_setting', help=_(u"Users can create proposals and dicuss them."), autofocus=True)}
-    ${forms.checkbox(_(u'Consultation'), u'consultation', help=_(u"Post texts (so called \"norms\") and discuss them online. Users can write comments and propose changes."))}
+    ${forms.checkbox(_(u'Collecting ideas'), u'agenda_setting', help=_(u"The participants can make proposals and discuss these. This option enables everything from an open dialogue to formulating and organizing concrete ideas and goals."), autofocus=True)}
+    ${forms.checkbox(_(u'Collaboratively drafting texts'), u'consultation', help=_(u" Whether you want to draft statutes, strategic papers or a manifesto – with this option the participants will have the chance to discuss, and collaboratively work on the texts you introduce to the platform."))}
 
     <div class="submit">
         <input type="submit" value="${_('Configure') if first_time else _('Reset')}" />

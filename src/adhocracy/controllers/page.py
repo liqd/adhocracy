@@ -168,7 +168,8 @@ class PageController(BaseController):
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
             if c.title is None:
-                c.title = u"%s %i" % (c.parent.head.title, len(c.parent.children))
+                c.title = u"%s %i" % (c.parent.head.title,
+                                      len(c.parent.children))
 
         html = None
         if proposal_id is not None:
@@ -464,8 +465,8 @@ class PageController(BaseController):
 
         # Replace items coming from diff_details for the UI
         messages = (('text', _('<i>(No text)</i>')),
-                    ('title', _('<i>(No title))</i>')),
-                    ('text_diff', _('<i>(No differences))</i>')),
+                    ('title', _('<i>(No title)</i>')),
+                    ('text_diff', _('<i>(No differences)</i>')),
                     ('title_diff', _('<i>(No differences)</i>')))
         for (key, message) in messages:
             if details[key].strip() == '':

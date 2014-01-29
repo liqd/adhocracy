@@ -2,19 +2,21 @@ import rfc822
 import hashlib
 import logging
 
-from pylons import response
+import geojson
+from pylons import request, response
 import pylons.templating
 from pylons.controllers.util import etag_cache
 from pylons.controllers.util import abort, redirect
-import geojson
+from pylons.i18n import _
 
 from adhocracy import model
-from adhocracy.lib.helpers import json_dumps
+from adhocracy.lib.helpers import json_dumps, logo_url
 
 import tiles
 import text
 import auth
 import sorting
+import logo
 
 log = logging.getLogger(__name__)
 
@@ -46,6 +48,11 @@ def render(template_name, data=_legacy, overlay=False):
     return render_mako(template_name, data, overlay=overlay)
 
 
+def set_template_context(data):
+    for k, v in data.items():
+        setattr(pylons.tmpl_context, k, v)
+
+
 def render_mako(template_name, data, extra_vars=None, cache_key=None,
                 cache_type=None, cache_expire=None, overlay=False):
     """
@@ -62,8 +69,7 @@ def render_mako(template_name, data, extra_vars=None, cache_key=None,
     if overlay:
         extra_vars['root_template'] = '/overlay.html'
 
-    for k, v in data.items():
-        setattr(pylons.tmpl_context, k, v)
+    set_template_context(data)
 
     page = pylons.templating.render_mako(template_name, extra_vars=extra_vars,
                                          cache_key=cache_key,
@@ -72,13 +78,20 @@ def render_mako(template_name, data, extra_vars=None, cache_key=None,
     return page
 
 
-def render_def(template_name, def_name, extra_vars=None, cache_key=None,
-               cache_type=None, cache_expire=None, **kwargs):
+def render_def(template_name, def_name, data=_legacy, extra_vars=None,
+               cache_key=None, cache_type=None, cache_expire=None, **kwargs):
     """
     Signature matches that of pylons actual render_mako_def.
     """
     # log.debug(u'Call to deprecated (Mako-specific) method render_def - call '
     #           u'render(template_name, data, only_fragment=True) instead')
+
+    if data is _legacy:
+        # log.debug(u'Legacy call to render_def() - missing data')
+        data = {}
+
+    set_template_context(data)
+
     if not extra_vars:
         extra_vars = {}
 
@@ -165,3 +178,18 @@ def render_png(io, mtime, content_type="image/png", cache_forever=False):
     response.content_length = len(io)
     response.pragma = None
     return io
+
+
+def render_logo(entity, y, x=None, fallback=None):
+    (x, y) = logo.validate_xy(x, y)
+    try:
+        (path, mtime, io) = logo.load(entity, size=(x, y),
+                                      fallback=fallback)
+    except logo.NoSuchSizeError:
+        abort(404, _(u"The image is not avaliable in that size"))
+
+    # always add ?t=... to URI for browser cache
+    request_mtime = int(request.params.get('t', 0))
+    if request_mtime != mtime:
+        redirect(logo_url(entity, y, x=x))
+    return render_png(io, mtime, cache_forever=True)

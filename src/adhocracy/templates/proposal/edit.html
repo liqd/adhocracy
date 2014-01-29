@@ -45,7 +45,7 @@
         %if not h.config.get_bool('adhocracy.proposal.split_badge_edit'):
         %if can.proposal.edit_badges(c.proposal) and not c.proposal.is_amendment:
         <fieldset>
-            <legend>${_("badge")}</legend>
+            <legend>${_("Badges")}</legend>
 
             %if c.badges:
             <ul class="nobullet">
@@ -68,7 +68,7 @@
         </fieldset>
 
         <fieldset>
-            <legend>${_(u"thumbnail badge")}</legend>
+            <legend>${_(u"Status Badge")}</legend>
 
             %if c.thumbnailbadges:
             <ul class="nobullet">
@@ -79,7 +79,7 @@
                                checked="checked"
                                %endif
                                name="thumbnailbadge" />
-                        ${_(u'No Thumbnail Badge')}
+                        ${_(u'No Status Badge')}
                     </label>
                 </li>
                 %for badge in c.thumbnailbadges:
@@ -96,7 +96,7 @@
                 %endfor
             </ul>
             %else:
-            <p>${_(u"No Thumbnail Badges")}</p>
+            <p>${_(u"No Status Badges")}</p>
             %endif
         </fieldset>
         %endif

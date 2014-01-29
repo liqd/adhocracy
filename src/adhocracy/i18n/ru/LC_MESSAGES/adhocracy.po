@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-21 12:55+0100\n"
-"PO-Revision-Date: 2014-01-21 11:55+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-01-26 13:53+0100\n"
+"PO-Revision-Date: 2014-01-26 12:54+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,16 +48,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr ""
 
-msgid "In all instances"
-msgstr "Во все инстанции"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "В организации \"%s\""
+msgid "No such badge type"
+msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr "Мы не можем найти ярлык с номером %s"
+
+msgid "User Badges"
+msgstr "Ярлыки пользователя."
+
+msgid "Proposal Badges"
+msgstr "Ярлыки предложений"
+
+msgid "Categories"
+msgstr "Категории"
+
+msgid "Instance Badges"
+msgstr "Ярлыки организации"
+
+msgid "Status Badges"
+msgstr ""
 
 msgid "Badge changed successfully"
 msgstr "Ярлык изменён успешно"
@@ -66,10 +77,6 @@ msgid "The image has been deleted."
 msgstr ""
 
 msgid "Badge deleted successfully"
-msgstr ""
-
-#, python-format
-msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -149,9 +156,6 @@ msgstr ""
 msgid "Manage members"
 msgstr ""
 
-msgid "Badges"
-msgstr "Ярлыки"
-
 msgid "Advanced settings"
 msgstr ""
 
@@ -177,9 +181,6 @@ msgid ""
 "This instance is not active for use and is archived. It isn't possible to "
 "perform any changes to the instance, but all content is available to be "
 "read."
-msgstr ""
-
-msgid "The image is not avaliable in that size"
 msgstr ""
 
 msgid "The logo has been deleted."
@@ -590,6 +591,9 @@ msgstr "Ваш емаил был подтвержден"
 msgid "The activation link has been re-sent to your email address."
 msgstr "Ссылка активации послана на Вашу электронную почту. "
 
+msgid "About us"
+msgstr ""
+
 msgid "About me"
 msgstr ""
 
@@ -971,9 +975,6 @@ msgstr "Недействительный запрос. Вернитесь наз
 msgid "The method you used is not implemented."
 msgstr "Примененный Вами метод не реализован. "
 
-msgid "Start"
-msgstr "Старт"
-
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Сообщение о злоупотреблении: %s"
@@ -1099,11 +1100,11 @@ msgstr ""
 msgid "Instance"
 msgstr "Организация"
 
-msgid "Categories"
-msgstr "Категории"
-
-msgid "Thumbnails"
+msgid "Status"
 msgstr ""
+
+msgid "Badges"
+msgstr "Ярлыки"
 
 msgid "Created by"
 msgstr "создано"
@@ -1157,6 +1158,9 @@ msgid "The changes were saved."
 msgstr ""
 
 msgid "No update required."
+msgstr ""
+
+msgid "The image is not avaliable in that size"
 msgstr ""
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
@@ -1589,7 +1593,7 @@ msgstr ""
 msgid "Category"
 msgstr "Категория"
 
-msgid "Thumbnail badge"
+msgid "Status badge"
 msgstr ""
 
 #, python-format
@@ -1734,6 +1738,9 @@ msgstr "<b>%s</b> комент. "
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> голоса"
 
+msgid "Start"
+msgstr "Старт"
+
 msgid "Instances"
 msgstr "Организации"
 
@@ -1788,6 +1795,12 @@ msgid "Filter list"
 msgstr "Список фильтров"
 
 msgid "reset"
+msgstr ""
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "None"
 msgstr ""
 
 msgid "Sort:"
@@ -2061,14 +2074,14 @@ msgstr "Администрирование сайта"
 msgid "Admin: Import Users"
 msgstr "Администратор: ипмортировать список пользователей"
 
-msgid "Users CSV"
-msgstr "Пользователи CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
+
+msgid "Users CSV"
+msgstr "Пользователи CSV"
 
 msgid "Email Subject"
 msgstr "Тема письма"
@@ -2157,16 +2170,13 @@ msgstr "по типу '#a4a4a4'"
 msgid "Preview:"
 msgstr "Предпросмотр:"
 
-msgid "Thumbnail"
+msgid "Image"
 msgstr ""
 
-msgid "Upload thumbnail icon. This is used instead of color to show the badge"
+msgid "Upload image. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
-msgstr ""
-
-msgid "Image"
 msgstr ""
 
 msgid "Upload category image"
@@ -2224,17 +2234,26 @@ msgstr ""
 msgid "Save Badge"
 msgstr "Сохранить ярлык"
 
-msgid "Edit"
-msgstr "Редактировать"
-
 msgid "Delete"
 msgstr "Удалить"
+
+msgid "New"
+msgstr "Новое"
+
+msgid "In all instances"
+msgstr "Во все инстанции"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "В организации \"%s\""
 
 msgid "No badges added yet."
 msgstr "Ярлыки пока не добавлены. "
 
-msgid "Color"
-msgstr "Цвет"
+msgid ""
+"Add new categories to allow your users to categorize their proposals "
+"according to a topic."
+msgstr ""
 
 msgid "Preview"
 msgstr "Просмотр"
@@ -2257,23 +2276,8 @@ msgstr "нет"
 msgid "Parent"
 msgstr ""
 
-msgid "User Badges"
-msgstr "Ярлыки пользователя."
-
-msgid "New"
-msgstr "Новое"
-
-msgid "Proposal Badges"
-msgstr "Ярлыки предложений"
-
-msgid "Proposal Category Badges"
-msgstr "ярлык категории предложения"
-
-msgid "Proposal Thumbnail Badges"
+msgid "Global badges"
 msgstr ""
-
-msgid "Instance Badges"
-msgstr "Ярлыки организации"
 
 msgid "View and discuss"
 msgstr ""
@@ -2699,9 +2703,9 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Разрешена как вики-маркировка, так и HTML)"
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
 msgstr ""
 
 msgid ""
@@ -2709,18 +2713,22 @@ msgid ""
 "configuration. Note that any manual configuration will be lost."
 msgstr ""
 
-msgid "Agenda Setting"
-msgstr ""
-
-msgid "Users can create proposals and dicuss them."
-msgstr ""
-
-msgid "Consultation"
+msgid "Collecting ideas"
 msgstr ""
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr ""
+
+msgid "Collaboratively drafting texts"
+msgstr ""
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
 msgstr ""
 
 msgid "Configure"
@@ -2753,22 +2761,27 @@ msgstr "Выберите, будет ли эта организация пока
 msgid "Freeze this instance"
 msgstr "Заморозить эту организацию"
 
+msgid ""
+"This will prevent members from making any more contributions to the existing"
+" discussion."
+msgstr ""
+
 msgid "Break down Voting Result by Badge"
 msgstr ""
 
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr ""
 
-msgid "Extra CSS"
-msgstr "Дополнительные CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr ""
 
-msgid "Thumbnail badges width"
+msgid "Extra CSS"
+msgstr "Дополнительные CSS"
+
+msgid "Status badge image width"
 msgstr ""
 
-msgid "Thumbnail badges height"
+msgid "Status badge image height"
 msgstr ""
 
 msgid "Authenticate this instance"
@@ -2778,6 +2791,11 @@ msgid "Enable delegated voting"
 msgstr ""
 
 msgid "Enable milestones"
+msgstr ""
+
+msgid ""
+"Milestones link the online discussions with offline events through a "
+"calendar function."
 msgstr ""
 
 msgid "Language"
@@ -2799,14 +2817,23 @@ msgstr ""
 msgid "Name of the instance"
 msgstr ""
 
+msgid "Give your instance a name."
+msgstr ""
+
+msgid ""
+"This is what appears on the overview-page of your instance. Describe the "
+"participation process you have in mind. Clearly state the goals of this "
+"group and how its members can participate in reaching them."
+msgstr ""
+
 msgid "Description of the instance"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
 msgstr ""
 
 msgid "Logo"
 msgstr "Лого"
-
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Выберите файл для логотипа, котороый появится в верху страницы организации. "
 
 msgid "Current logo"
 msgstr "Действующий логотип"
@@ -2817,7 +2844,15 @@ msgstr "Удалить действующий логотип"
 msgid "Show proposals navigation item"
 msgstr ""
 
+msgid "Show proposals as an extra tab"
+msgstr ""
+
 msgid "Enable norms"
+msgstr ""
+
+msgid ""
+"Unlike proposals, norms are documents that you introduce to be discussed on "
+"the platform."
 msgstr ""
 
 msgid "Allow members to propose norms"
@@ -2827,6 +2862,9 @@ msgid "Allow members to change norms from within proposals"
 msgstr ""
 
 msgid "Show norms navigation item"
+msgstr ""
+
+msgid "Show norms as an extra tab"
 msgstr ""
 
 msgid "Home"
@@ -3431,16 +3469,13 @@ msgstr "Вы начинаете процесс голосования. Посл�
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Вы уверены, что желаете удалить это предложение?"
 
-msgid "badge"
-msgstr "ярлык"
-
-msgid "thumbnail badge"
+msgid "Status Badge"
 msgstr ""
 
-msgid "No Thumbnail Badge"
+msgid "No Status Badge"
 msgstr ""
 
-msgid "No Thumbnail Badges"
+msgid "No Status Badges"
 msgstr ""
 
 #, python-format
@@ -3934,9 +3969,6 @@ msgstr "Редактировать ярлыки для %s"
 msgid "Badges for %s"
 msgstr "Ярлыки для %s"
 
-msgid "Global badges"
-msgstr ""
-
 msgid "Example:"
 msgstr "Пример:"
 
@@ -4179,12 +4211,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4193,13 +4225,16 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Краткая биография"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
+
+msgid "Short biography"
+msgstr "Краткая биография"
+
+msgid "I am an organisation"
+msgstr ""
 
 msgid "Activity in"
 msgstr ""
@@ -4249,9 +4284,6 @@ msgid "Not a member in \"%s\""
 msgstr ""
 
 msgid "User groups"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "change group"

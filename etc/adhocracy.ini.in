@@ -427,6 +427,9 @@ adhocracy.static_index_path = index
 # Set display name in register dialog (default: false)
 # adhocracy.set_display_name_on_register = true
 
+# Allow organization accounts
+# adhocracy.allow_organization = True
+
 # Automatically set new permissions their default value. This should be
 # set to false in restrictive environments.
 # adhocracy.autoassign_permissions = true
