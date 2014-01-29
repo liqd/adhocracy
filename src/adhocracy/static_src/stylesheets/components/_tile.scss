@@ -37,6 +37,10 @@ a.tile {
     text-decoration: inherit;
     cursor: pointer;
 
+    h3 {
+        font-size: 150%;
+    }
+
     &:hover {
         color: inherit;
         text-decoration: inherit;
