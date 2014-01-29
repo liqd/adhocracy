@@ -25,14 +25,15 @@ ${self.form()}
     <input name="title" id="badge_form_title" class="" style="width:20em"
            value="" autofocus />
 
-    <label for="description" class="">${_("Category description") if c.badge_type == 'category' else _("Badge description")}</label>
-    <textarea name="description" id="description"
-              style="width:90%; height: 9em"></textarea>
+    <%forms:textarea label="${_('Category description') if c.badge_type == 'category' else _('Badge description')}"
+                     name="description" rows="8" value="">
+    </%forms:textarea>
 
     %if c.badge_type == 'category':
     %if c.instance is not None and c.instance.display_category_pages:
-    <label for="long_description">${_("Long category description")}</label>
-    <textarea name="long_description" style="width:90%; height: 13em"></textarea>
+    <%forms:textarea label="${_('Long category description')}" name="long_description" rows="10" value=""
+                     help="${_('Here you can add a more detailed description of your category with markdown.')}">
+    </%forms:textarea>
     ${components.formatting()}
     %else:
     <input type="hidden" name="long_description" />
