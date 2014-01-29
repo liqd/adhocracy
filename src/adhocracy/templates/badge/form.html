@@ -57,6 +57,9 @@ ${self.form()}
 
     %if c.badge_type == 'thumbnail' or (c.badge_type == 'category' and c.instance is not None and c.instance.display_category_pages):
     <fieldset class="logo">
+        <div class="alert error only-no-formdata">
+            ${_('Image upload does not work in your browser. Please update.')}
+        </div>
         <%
             if c.badge_type == 'thumbnail':
                 label = _('Image')

@@ -247,3 +247,10 @@ fieldset.logo {
         text-align: center;
     }
 }
+
+.only-no-formdata {
+    display: none;
+}
+.overlay.no-formdata .only-no-formdata {
+    display: block;
+}

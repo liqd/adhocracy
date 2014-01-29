@@ -1169,4 +1169,11 @@ $(document).ready(function () {
         this.type = 'submit';
         this.click();
     });
+
+    // check if FormData is available and add class to html element
+    if ("FormData" in window) {
+        $('.only-no-formdata').remove();
+    } else {
+        $('html').addClass('no-formdata');
+    }
 });
