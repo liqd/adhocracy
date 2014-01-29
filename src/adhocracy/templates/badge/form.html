@@ -21,17 +21,17 @@ ${self.form()}
 
     ${h.field_token()|n}
 
-    <label for="badge_form_title" class="">${_("Badge title")}</label>
+    <label for="badge_form_title" class="">${_("Category title") if c.badge_type == 'category' else _("Badge title")}</label>
     <input name="title" id="badge_form_title" class="" style="width:20em"
            value="" autofocus />
 
-    <label for="description" class="">${_("Badge description")}</label>
+    <label for="description" class="">${_("Category description") if c.badge_type == 'category' else _("Badge description")}</label>
     <textarea name="description" id="description"
               style="width:90%; height: 9em"></textarea>
 
     %if c.badge_type == 'category':
     %if c.instance is not None and c.instance.display_category_pages:
-    <label for="long_description">${_("Long badge description")}</label>
+    <label for="long_description">${_("Long category description")}</label>
     <textarea name="long_description" style="width:90%; height: 13em"></textarea>
     ${components.formatting()}
     %else:
@@ -40,7 +40,7 @@ ${self.form()}
     %endif
 
     <label for="color"
-           class="">${_("The color that is used to show the badge")}</label>
+           class="">${_(_("The color that us used to show the category") if c.badge_type == 'category' else "The color that is used to show the badge")}</label>
     <input name="color" style="width: 8em" id="color" class=""
            value=""/>
     <span class="hint only-no-js">${_("Like '#a4a4a4'")}</span>
@@ -85,7 +85,7 @@ ${self.form()}
     %endif
 
     <input type="checkbox" name="visible" id="badge_form_visible" />
-    <label for="badge_form_visible" style="display: inline;" title="${_('Check to hide badge in user interface')}">${_("visible")}</label>
+    <label for="badge_form_visible" style="display: inline;" title="${_("Check to hide category in user interface") if c.badge_type == 'category' else _('Check to hide badge in user interface')}">${_("visible")}</label>
 
     %if c.badge_type == 'user':
     <label for="group" class="">
@@ -125,9 +125,9 @@ ${self.form()}
     %endif
 
     %if c.badge_type == 'category':
-    <label for="parent" class="">${_("Parent Badge")}</label>
+    <label for="parent" class="">${_("Parent Category")}</label>
     <select name="parent">
-        <option value="">${_('No Parent Badge')}</option>
+        <option value="">${_('No Parent Category')}</option>
         %if h.has_permission('global.admin'):
         <optgroup label="${_('Global categories')}">
         %for (id, title) in c.global_category_parents:
@@ -146,7 +146,7 @@ ${self.form()}
         %endif
     </select>
 
-    <label for="select_child_description" class="">${_("Description to select children of this badge (irrelevant if this badge doesn't have any children)")}</label>
+    <label for="select_child_description" class="">${_("Description to select children of this category (irrelevant if this category doesn't have any children)")}</label>
     <input name="select_child_description" id="badge_select_child_description" class="" style="width:20em"
            value="" />
     %endif
@@ -165,7 +165,7 @@ ${self.form()}
     %endif
 
     <div class="mainbar">
-      ${components.savebox(c.return_url, _('Save Badge'))}
+      ${components.savebox(c.return_url, _('Save'))}
     </div>
   </form>
 
