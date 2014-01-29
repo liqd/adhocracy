@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy e33e3ed\n"
+"Project-Id-Version: adhocracy 98dd32d\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-26 15:57+0100\n"
+"POT-Creation-Date: 2014-01-29 13:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -925,6 +925,9 @@ msgstr ""
 msgid "The method you used is not implemented."
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr ""
@@ -1681,9 +1684,6 @@ msgstr ""
 msgid "<b>%s</b> votes"
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
@@ -2006,10 +2006,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
+msgid "Users CSV"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
 msgid "Email Subject"
@@ -2170,7 +2170,16 @@ msgstr ""
 msgid "No badges added yet."
 msgstr ""
 
+msgid "User badges allow you to organize your members according to certain groups."
+msgstr ""
+
+msgid "Proposal badges may be used to link different attributes to a proposal (e.g. official, first phase, etc.)."
+msgstr ""
+
 msgid "Add new categories to allow your users to categorize their proposals according to a topic."
+msgstr ""
+
+msgid "Status badges may be used to indicate different statuses of proposals in your participation process (e.g. accepted, rejected, in discussion, etc.) with an image."
 msgstr ""
 
 msgid "Preview"
@@ -2636,10 +2645,13 @@ msgstr ""
 msgid "Require to propose a variant"
 msgstr ""
 
-msgid "Display category pages"
+msgid "If norms are activated, this option will ensure that users change at least one norm with each proposal."
 msgstr ""
 
 msgid "Hide global categories"
+msgstr ""
+
+msgid "Members of your instance only see the catagories you created."
 msgstr ""
 
 msgid "Hide this instance"
@@ -2651,7 +2663,7 @@ msgstr ""
 msgid "Freeze this instance"
 msgstr ""
 
-msgid "This will prevent members from making any more contributions to the existing discussion."
+msgid "This will prevent members from making any more changes or contributions to the existing discussion."
 msgstr ""
 
 msgid "Break down Voting Result by Badge"
@@ -2660,10 +2672,10 @@ msgstr ""
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
 msgid "Status badge image width"
@@ -2675,6 +2687,15 @@ msgstr ""
 msgid "Authenticate this instance"
 msgstr ""
 
+msgid "Activates additional feature, e.g. massinvite und massmessage"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "The language setting will be overridden by the user's personal setting."
+msgstr ""
+
 msgid "Enable delegated voting"
 msgstr ""
 
@@ -2684,10 +2705,7 @@ msgstr ""
 msgid "Milestones link the online discussions with offline events through a calendar function."
 msgstr ""
 
-msgid "Language"
-msgstr ""
-
-msgid "The language setting will be overridden by the user's personal setting."
+msgid "Display category pages"
 msgstr ""
 
 msgid "Require email validation"
@@ -2699,22 +2717,25 @@ msgstr ""
 msgid "Default group for new members"
 msgstr ""
 
+msgid "This will initially decide whether new members can actively participate in or simply read the discussions on your instance. You can change user groups of individual members later."
+msgstr ""
+
 msgid "Name of the instance"
 msgstr ""
 
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
-msgstr ""
-
 msgid "Description of the instance"
 msgstr ""
 
-msgid "Select the logo you would like to have as header of your group."
+msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
 msgstr ""
 
 msgid "Logo"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
 msgstr ""
 
 msgid "Current logo"
@@ -2739,6 +2760,9 @@ msgid "Allow members to propose norms"
 msgstr ""
 
 msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Members will be able to propose changes of the norms you introduce."
 msgstr ""
 
 msgid "Show norms navigation item"
@@ -4031,10 +4055,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
+msgid "Avatar"
 msgstr ""
 
-msgid "Avatar"
+msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
 msgstr ""
 
 msgid "Current avatar"
@@ -4043,10 +4067,10 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
 msgid "I am an organisation"
