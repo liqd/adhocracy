@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 98dd32d\n"
+"Project-Id-Version: adhocracy 73a7bb2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-29 13:43+0100\n"
+"POT-Creation-Date: 2014-01-29 15:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2076,13 +2076,25 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+msgid "Category title"
+msgstr ""
+
 msgid "Badge title"
+msgstr ""
+
+msgid "Category description"
 msgstr ""
 
 msgid "Badge description"
 msgstr ""
 
-msgid "Long badge description"
+msgid "Long category description"
+msgstr ""
+
+msgid "Here you can add a more detailed description of your category with markdown."
+msgstr ""
+
+msgid "The color that is used to show the category"
 msgstr ""
 
 msgid "The color that is used to show the badge"
@@ -2109,6 +2121,9 @@ msgstr ""
 msgid "Delete current category image"
 msgstr ""
 
+msgid "Check to hide category in user interface"
+msgstr ""
+
 msgid "Check to hide badge in user interface"
 msgstr ""
 
@@ -2133,10 +2148,10 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-msgid "Parent Badge"
+msgid "Parent Category"
 msgstr ""
 
-msgid "No Parent Badge"
+msgid "No Parent Category"
 msgstr ""
 
 msgid "Global categories"
@@ -2145,13 +2160,10 @@ msgstr ""
 msgid "Local instance categories"
 msgstr ""
 
-msgid "Description to select children of this badge (irrelevant if this badge doesn't have any children)"
+msgid "Description to select children of this category (irrelevant if this category doesn't have any children)"
 msgstr ""
 
 msgid "Impact"
-msgstr ""
-
-msgid "Save Badge"
 msgstr ""
 
 msgid "Delete"
