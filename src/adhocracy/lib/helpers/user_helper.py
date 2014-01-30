@@ -65,7 +65,7 @@ def logo_url(user, y, x=None):
     from adhocracy.lib.helpers import base_url
     size = "%s" % y if x is None else "%sx%s" % (x, y)
     filename = u"%s_%s.png" % (user.user_name, size)
-    (path, mtime) = logo.path_and_mtime(user)
+    (path, mtime) = logo.path_and_mtime(user, fallback=logo.USER)
     return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})
 
 
