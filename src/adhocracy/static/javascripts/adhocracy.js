@@ -230,6 +230,14 @@ var adhocracy = adhocracy || {};
                 html.addClass('overlay-small');
             }
 
+            /* close on escape */
+            // http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery
+            iframe.contents().keyup(function(e) {
+                if (e.keyCode === 27) {
+                    overlay.close();
+                }
+            });
+
             resize(300);
             autoResize('fast', 200);
 
