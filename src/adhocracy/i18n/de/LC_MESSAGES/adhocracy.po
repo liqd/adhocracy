@@ -17,6 +17,7 @@
 # rosangela <rosangelabochicchio@gmail.com>, 2013
 # Rouven.B <rouven.brues@liqd.de>, 2014
 # cs <schroeder_carsten@gmx.de>, 2013
+# veryrandomname <seriousemailadress@googlemail.com>, 2014
 # sicco <sicco@ddo.nl>, 2012
 # tobib <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-26 13:53+0100\n"
-"PO-Revision-Date: 2014-01-26 12:54+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-01-29 15:23+0100\n"
+"PO-Revision-Date: 2014-01-31 11:11+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +65,7 @@ msgstr "Dieser Badge-Typ ist nicht bekannt"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
+msgstr "The Badge (ID %s) could not be found."
 
 msgid "User Badges"
 msgstr "Benutzerbadges"
@@ -79,7 +80,7 @@ msgid "Instance Badges"
 msgstr "Gruppen-Badges"
 
 msgid "Status Badges"
-msgstr ""
+msgstr "Status Badges"
 
 msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
@@ -342,11 +343,8 @@ msgstr "Sie Versuchen eine Version wiederherzustellen, die nicht Teil dieser Sei
 msgid "<i>(No text)</i>"
 msgstr "<i>(Kein text)</i>"
 
-msgid "<i>(No title))</i>"
-msgstr "<i>(Kein Titel))</i>"
-
-msgid "<i>(No differences))</i>"
-msgstr "<i>(Keine Unterschiede))</i>"
+msgid "<i>(No title)</i>"
+msgstr "<i>(Ohne Titel)</i>"
 
 msgid "<i>(No differences)</i>"
 msgstr "<i>(Keine Unterschiede)</i>"
@@ -386,7 +384,7 @@ msgid "Cannot compare identical text revisions."
 msgstr "Identische Texte können nicht verglichen werden. "
 
 msgid "Cannot compare versions of different texts."
-msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden. "
+msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden."
 
 #, python-format
 msgid "The variant %s has been deleted."
@@ -603,7 +601,7 @@ msgid "The activation link has been re-sent to your email address."
 msgstr "Der Aktivierungs-Link wurde an Ihre E-Mail-Adresse geschickt."
 
 msgid "About us"
-msgstr ""
+msgstr "Über uns"
 
 msgid "About me"
 msgstr "Über mich"
@@ -986,6 +984,9 @@ msgstr "Ungültige Anfrage. Bitte gehen Sie zurück und versuchen es erneut."
 msgid "The method you used is not implemented."
 msgstr "Was Sie versuchten ist nicht implementiert."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Missbrauch-Report: %s"
@@ -1112,7 +1113,7 @@ msgid "Instance"
 msgstr "Instanz"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Badges"
 msgstr "Badges"
@@ -1605,7 +1606,7 @@ msgid "Category"
 msgstr "Kategorie"
 
 msgid "Status badge"
-msgstr ""
+msgstr "Status Badge"
 
 #, python-format
 msgid ""
@@ -1748,9 +1749,6 @@ msgstr "<b>%s</b> Kommentare"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> Stimmen"
-
-msgid "Start"
-msgstr "Start"
 
 msgid "Instances"
 msgstr "Gruppen"
@@ -2085,14 +2083,14 @@ msgstr "Seiteneinstellungen"
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
 
+msgid "Users CSV"
+msgstr "Benutzer CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, E-mail und Badges (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
-
-msgid "Users CSV"
-msgstr "Benutzer CSV"
 
 msgid "Email Subject"
 msgstr "E-Mail-Betreff"
@@ -2163,17 +2161,30 @@ msgstr "Bist du sicher, dass du dieses Badge löschen willst?"
 msgid "Confirm"
 msgstr "Bestätigen"
 
+msgid "Category title"
+msgstr "Titel der Kategorie"
+
 msgid "Badge title"
 msgstr "Titel des Badges"
+
+msgid "Category description"
+msgstr "Beschreibung der Kategorie"
 
 msgid "Badge description"
 msgstr "Beschreibung des Badges"
 
-msgid "Long badge description"
-msgstr "Ausführliche Badge-Beschreibung"
+msgid "Long category description"
+msgstr "Ausfürhliche Beschreibung der Kategorie"
+
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
+msgstr "Hier können Sie eine detaillierte Beschreibung der Kategorie mit markdown Formatierung vornehmen."
+
+msgid "The color that is used to show the category"
+msgstr "Die Farbe dieser Kategorie."
 
 msgid "The color that is used to show the badge"
-msgstr "Die Farbe, die für den Badge benutzt wird"
+msgstr "Die Farbe dieser Badge."
 
 msgid "Like '#a4a4a4'"
 msgstr "'#a4a4a4' liken"
@@ -2185,7 +2196,7 @@ msgid "Image"
 msgstr "Bild"
 
 msgid "Upload image. This is used instead of color to show the badge"
-msgstr ""
+msgstr "Laden Sie ein Bild hoch. Dies wird zum Miniatur Bild der Badge und ersetzt die farbige Kennzeichnung."
 
 msgid "Delete current thumbnail image"
 msgstr "Lösche aktuelles Miniaturbild"
@@ -2195,6 +2206,9 @@ msgstr "Bild für die Kategorie hochladen"
 
 msgid "Delete current category image"
 msgstr "Aktuelles Bild der Kategorie löschen"
+
+msgid "Check to hide category in user interface"
+msgstr "Hier klicken, um die Kategorie vor Teilnehmer*innen zu verbergen."
 
 msgid "Check to hide badge in user interface"
 msgstr "Auswählen, um Badge im User Interface zu verstecken"
@@ -2222,11 +2236,11 @@ msgstr "Zeige dieses Badge an, anstatt der normalen Gruppe des Nutzers."
 msgid "Global"
 msgstr "Global"
 
-msgid "Parent Badge"
-msgstr "Eltern Badge"
+msgid "Parent Category"
+msgstr "Elternkategorie"
 
-msgid "No Parent Badge"
-msgstr "Keine Eltern Badge"
+msgid "No Parent Category"
+msgstr "Keine Elternkategorie"
 
 msgid "Global categories"
 msgstr "Globale Kategorien"
@@ -2235,15 +2249,12 @@ msgid "Local instance categories"
 msgstr "Lokale Gruppenkategorien"
 
 msgid ""
-"Description to select children of this badge (irrelevant if this badge "
-"doesn't have any children)"
-msgstr "Angabe um die Kinder dieser Badge auszuwählen (irrelevant falls diese Badge keine Kinder hat)"
+"Description to select children of this category (irrelevant if this category"
+" doesn't have any children)"
+msgstr "Angabe um die Kinder dieser Kategorie auszuwählen (irrelevant falls diese Kategorie keine Kinder hat)"
 
 msgid "Impact"
 msgstr "Einfluss"
-
-msgid "Save Badge"
-msgstr "Badge speichern"
 
 msgid "Delete"
 msgstr "Löschen"
@@ -2262,9 +2273,24 @@ msgid "No badges added yet."
 msgstr "Bisher wurden keine Badges hinzugefügt."
 
 msgid ""
+"User badges allow you to organize your members according to certain groups."
+msgstr "Mitglieder Badges ermöglichen es Mitglieder zu gruppieren."
+
+msgid ""
+"Proposal badges may be used to link different attributes to a proposal (e.g."
+" official, first phase, etc.)."
+msgstr "Durch diese Badges können Vorschlägen bestimmte Eigenschaften zugeordnet werden (z.B. offiziell, erste Phase)."
+
+msgid ""
 "Add new categories to allow your users to categorize their proposals "
 "according to a topic."
-msgstr ""
+msgstr "Fügen Sie eine neue Kategorie hinzu, um den Nutzern die Möglichkeit zu geben ihre Vorschläge bestimmten Themen zuzuordnen."
+
+msgid ""
+"Status badges may be used to indicate different statuses of proposals in "
+"your participation process (e.g. accepted, rejected, in discussion, etc.) "
+"with an image."
+msgstr "Mit Hilfe von Status Badges kann mit einem Bild beispielsweise der Stand verschiedener Vorschläge im Beteiligungsprozess angegeben werden (z.B. akzeptiert, abgelehnt, wird diskutiert, etc.)."
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -2740,7 +2766,7 @@ msgid ""
 " Whether you want to draft statutes, strategic papers or a manifesto – with "
 "this option the participants will have the chance to discuss, and "
 "collaboratively work on the texts you introduce to the platform."
-msgstr "Ob Satzung, Strategiepapier oder Jahresprogramm: Die Teilnehmer*innen können vorhandene Text diskutieren und gemeinsam weiterentwickeln."
+msgstr "Ob Satzung, Strategiepapier oder Jahresprogramm: Die Teilnehmer*innen können vorhandene Texte diskutieren und gemeinsam weiterentwickeln."
 
 msgid "Configure"
 msgstr "Einstellen"
@@ -2757,11 +2783,16 @@ msgstr "Erlaube Bearbeiten von Vorschlägen standardmäßig"
 msgid "Require to propose a variant"
 msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbringen"
 
-msgid "Display category pages"
-msgstr "Kategorienseiten anzeigen"
+msgid ""
+"If norms are activated, this option will ensure that users change at least "
+"one norm with each proposal."
+msgstr "Wenn Beschlüsse verwendet werden, stellt diese Option sicher, dass Nutzer*innen mindestens eine Änderung des Beschlusses vorschlagen müssen."
 
 msgid "Hide global categories"
 msgstr "Verstecke globale Kategorien"
+
+msgid "Members of your instance only see the catagories you created."
+msgstr "Die Mitglieder dieser Instanz sehen nur die Kategorien, die Sie erstellt haben."
 
 msgid "Hide this instance"
 msgstr "Diese Gruppe verbergen"
@@ -2773,9 +2804,9 @@ msgid "Freeze this instance"
 msgstr "Die Arbeit in dieser Gruppe einfrieren"
 
 msgid ""
-"This will prevent members from making any more contributions to the existing"
-" discussion."
-msgstr ""
+"This will prevent members from making any more changes or contributions to "
+"the existing discussion."
+msgstr "Dies verhindert das weiter verändern und kommentieren der bestehenden Vorschläge und Beschlüsse."
 
 msgid "Break down Voting Result by Badge"
 msgstr "Abstimmungsresultat nach Badge aufteilen"
@@ -2783,20 +2814,30 @@ msgstr "Abstimmungsresultat nach Badge aufteilen"
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Die Meinung der Benutzer zu diesem Thema anzeigen, welche die ausgewählten Badges besitzen."
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
 
+msgid "You can add css that will be used to style the instance."
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
+
 msgid "Status badge image width"
-msgstr ""
+msgstr "Verändern Sie die Breite des Status-Badge Bildes."
 
 msgid "Status badge image height"
-msgstr ""
+msgstr "Verändern Sie die Höhe des Status-Badge Bildes."
 
 msgid "Authenticate this instance"
 msgstr "Diese Gruppe authentifizieren"
+
+msgid "Activates additional feature, e.g. massinvite und massmessage"
+msgstr "Dies aktiviert weitere Optionen, wie z.B. Gruppen-Einladungen und -Nachrichten."
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid ""
+"The language setting will be overridden by the user's personal setting."
+msgstr "Die Spracheinstellungen des jeweiligen Benutzers heben diese allgemeinen Spracheinstellungen auf."
 
 msgid "Enable delegated voting"
 msgstr "Delegationen aktivieren"
@@ -2807,14 +2848,10 @@ msgstr "Termine aktivieren"
 msgid ""
 "Milestones link the online discussions with offline events through a "
 "calendar function."
-msgstr ""
+msgstr "Mit der Termin Funktion können die online Diskussionen mit offline Events durch einen Kalender verbunden werden."
 
-msgid "Language"
-msgstr "Sprache"
-
-msgid ""
-"The language setting will be overridden by the user's personal setting."
-msgstr "Die Spracheinstellungen des jeweiligen Benutzers heben diese allgemeinen Spracheinstellungen auf."
+msgid "Display category pages"
+msgstr "Kategorienseiten anzeigen"
 
 msgid "Require email validation"
 msgstr "Setze Email-Verifikation voraus"
@@ -2825,26 +2862,32 @@ msgstr "Setze Verifikation der Email-Adressen der Gruppenmitglieder voraus."
 msgid "Default group for new members"
 msgstr "Voreingestellte Nutzerrolle für neue Mitglieder"
 
+msgid ""
+"This will initially decide whether new members can actively participate in "
+"or simply read the discussions on your instance. You can change user groups "
+"of individual members later."
+msgstr "Die zugewiesene Benutzergruppe entscheidet vorläufig über die Art wie sich neu registrierte Teilnehmer*innen beteiligen können. Sie können beispielsweise vorgeben, dass neu registrierte Teilnehmer*innen vorerst Diskussionsbeiträge nur lesen aber nicht verändern dürfen. Die Benutzergruppe kann jederzeit verändert werden."
+
 msgid "Name of the instance"
 msgstr "Name der Gruppe"
 
 msgid "Give your instance a name."
-msgstr ""
+msgstr "Geben Sie der Instanz einen Namen."
+
+msgid "Description of the instance"
+msgstr "Beschreibung der Gruppe"
 
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
-msgstr ""
-
-msgid "Description of the instance"
-msgstr "Beschreibung der Gruppe"
-
-msgid "Select the logo you would like to have as header of your group."
-msgstr ""
+msgstr "Geben Sie hier den Text ein, der auf der Übersichtsseite Ihrer Instanz angezeigt werden soll. Beschreiben Sie den Beteiligungsprozess, den Sie sich vorgestellt haben, durch Angabe konkreter Ziele der Beteigligung und wie die Mitglieder diese durch ihre mitarbeit erreichen können."
 
 msgid "Logo"
 msgstr "Logo"
+
+msgid "Select the logo you would like to have as header of your group."
+msgstr "Wählen Sie ein Logo für Ihre Instanz."
 
 msgid "Current logo"
 msgstr "Aktuelles Logo"
@@ -2856,7 +2899,7 @@ msgid "Show proposals navigation item"
 msgstr "Zeige \"Vorschlag\"-Reiter"
 
 msgid "Show proposals as an extra tab"
-msgstr ""
+msgstr "Zeige \"Vorschlag\"-Reiter"
 
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"
@@ -2864,19 +2907,22 @@ msgstr "Beschlüsse aktivieren"
 msgid ""
 "Unlike proposals, norms are documents that you introduce to be discussed on "
 "the platform."
-msgstr ""
+msgstr "Im Gegensatz zu Vorschlägen, sind Beschlüsse von Ihnen zur Diskussion eingereichte Dokumente."
 
 msgid "Allow members to propose norms"
 msgstr "Mitgliedern erlauben, Beschlüsse vorzuschlagen"
 
 msgid "Allow members to change norms from within proposals"
-msgstr "Mitgliedern erlauben, Beschlüsse aus Verschlägen heraus zu verändern"
+msgstr "Mitgliedern erlauben, Beschlüsse aus Vorschlägen heraus zu verändern"
+
+msgid "Members will be able to propose changes of the norms you introduce."
+msgstr "Mitglieder können Änderungsvorschläge zu den von Ihnen zur Diskussion freigegebenen Beschlüssen machen."
 
 msgid "Show norms navigation item"
 msgstr "Zeige \"Beschluss\"-Reiter"
 
 msgid "Show norms as an extra tab"
-msgstr ""
+msgstr "Zeige \"Beschluss\"-Reiter"
 
 msgid "Home"
 msgstr "Gruppe"
@@ -3109,7 +3155,7 @@ msgid "tutorial_milestone_details_description"
 msgstr "Und Informationen über das Ziel bzw. den Zweck des Termins einsehen – ob es sich z.B. um ein Treffen einer Arbeitsgruppe, oder um eine Abstimmung handelt."
 
 msgid "tutorial_milestone_details_listing"
-msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für den Termin relevant sind.“"
+msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für den Termin relevant sind."
 
 msgid "See more"
 msgstr "Mehr erfahren"
@@ -3275,7 +3321,7 @@ msgid "Tag and classify"
 msgstr "Tags und Eigenschaften"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss  eingeordnet."
+msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss eingeordnet."
 
 msgid "Highlight Changes"
 msgstr "Änderungen hervorheben"
@@ -3478,13 +3524,13 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
 msgid "Status Badge"
-msgstr ""
+msgstr "Status Badge"
 
 msgid "No Status Badge"
-msgstr ""
+msgstr "Keine Status Badge"
 
 msgid "No Status Badges"
-msgstr ""
+msgstr "Keine Status Badges"
 
 #, python-format
 msgid "Delegations: %s"
@@ -3903,7 +3949,7 @@ msgstr "Diese Version hat keinen Text."
 msgid ""
 "This norm has not yet been decided and is thus no official position of this "
 "group."
-msgstr "Ihre Gruppe hat zu diesem Beschluss noch keine Regelung getroffen. "
+msgstr "Ihre Gruppe hat zu diesem Beschluss noch keine Regelung getroffen."
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
@@ -4219,13 +4265,13 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
+msgid "Avatar"
+msgstr "Profilbild"
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Wählen Sie ein Profilbild. Das Bild sollte quadratisch sein. Andernfalls wird es entsprechend verzerrt."
-
-msgid "Avatar"
-msgstr "Profilbild"
 
 msgid "Current avatar"
 msgstr "Aktuelles Profilbild"
@@ -4233,16 +4279,16 @@ msgstr "Aktuelles Profilbild"
 msgid "Delete current avatar"
 msgstr "Aktuelles Profilbild löschen"
 
+msgid "Short biography"
+msgstr "Kurzbiographie"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
 
-msgid "Short biography"
-msgstr "Kurzbiographie"
-
 msgid "I am an organisation"
-msgstr ""
+msgstr "Ich vertrete eine Organisation"
 
 msgid "Activity in"
 msgstr "Aktivität in"
