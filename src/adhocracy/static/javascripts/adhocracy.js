@@ -160,6 +160,10 @@ var adhocracy = adhocracy || {};
         overlay.width(500);
         overlay.height(150);
 
+        overlay.close = function() {
+            this.find('.close').click();
+        };
+
         var iframe = $('<iframe scrolling="no" frameborder="0"/>');
         wrap.empty().append(iframe);
         iframe.attr('src', url);
@@ -239,7 +243,7 @@ var adhocracy = adhocracy || {};
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
                     e.preventDefault();
-                    overlay.find('.close').click();
+                    overlay.close();
                 });
                 adhocracy.ajax_submit($('form', iframe.contents()), function() {
                     // reload parent url without overlay params
