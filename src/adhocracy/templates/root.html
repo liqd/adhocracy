@@ -213,7 +213,14 @@
   </%block>
 
   %if c.instance:
-  ${navigation.subheader_instance_navigation(c.active_subheader_nav)}
+  <div id="subheader">
+    <div class="page_wrapper">
+      <h2>${h.instance.area_title(c.active_subheader_nav)}</h2>
+      <div class="breadcrumbs">
+        ${self.breadcrumbs()|}
+      </div>
+    </div>
+  </div>
   %endif
 
   <%block name="welcome">
