@@ -457,6 +457,21 @@ class ProposalController(BaseController):
             return render("/proposal/show.html")
 
     @RequireInstance
+    def comments(self, id, format="html"):
+        c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.show(c.proposal)
+        c.page = c.proposal.description
+
+        if format == u'overlay':
+            c.ret_url = c.ret_url = h.entity_url(c.proposal,
+                                                 member='comments',
+                                                 in_overlay=False,
+                                                 format='overlay')
+            return render("/page/comments.html", overlay=True)
+        else:
+            return render("/page/comments.html")
+
+    @RequireInstance
     def history(self, id, format="html"):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.show(c.proposal)

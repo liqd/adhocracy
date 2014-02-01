@@ -155,10 +155,9 @@ def make_map(config):
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST',
-                                                 'tag': 'POST',
-                                                 'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
+                                                 'comments': 'GET',
                                                  'history': 'GET'},
                  collection={'filter': 'GET'})
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
