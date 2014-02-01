@@ -64,8 +64,9 @@ def entity_bc(page):
 
 
 def breadcrumbs(page):
+    from adhocracy.lib.helpers import base_url
     bc = _url.root()
-    bc += _url.link(_("Norms"), u'/page')
+    bc += _url.link(_("Norms"), base_url(u'/page'))
     if page is not None:
         bc += entity_bc(page)
     return bc
