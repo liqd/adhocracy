@@ -276,7 +276,7 @@ def instances(instances):
                       size=20)  # FIXME: hardcoded for enquetebeteiligung
 
 
-def proposals(proposals, default_sort=None, **kwargs):
+def proposals(proposals, default_sort=None, inline=False, **kwargs):
     if default_sort is None:
         def_sort_id = get_def_proposal_sort_order()
         if def_sort_id is not None:
@@ -290,7 +290,13 @@ def proposals(proposals, default_sort=None, **kwargs):
              _("Mixed"): sorting.proposal_mixed,
              _("Controversy"): sorting.proposal_controversy,
              _("Alphabetically"): sorting.delegateable_label}
-    return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
+
+    if inline:
+        row = tiles.proposal.row_inline
+    else:
+        row = tiles.proposal.row
+
+    return NamedPager('proposals', proposals, row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
 
@@ -1588,7 +1594,7 @@ def solr_instance_pager(include_hidden=False):
 
 
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
-                        extra_filter={}):
+                        inline=False, extra_filter={}):
     extra_filter.update({'instance': instance.key})
     sorts = copy.deepcopy(PROPOSAL_SORTS)
     if default_sorting is None:
@@ -1615,7 +1621,12 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
     if instance.milestones:
         facets.insert(1, (DelegateableMilestoneFacet, {}))
 
-    pager = SolrPager('proposals', tiles.proposal.row,
+    if inline:
+        row = tiles.proposal.row_inline
+    else:
+        row = tiles.proposal.row
+
+    pager = SolrPager('proposals', row,
                       entity_type=model.Proposal,
                       sorts=sorts,
                       extra_filter=extra_filter,
