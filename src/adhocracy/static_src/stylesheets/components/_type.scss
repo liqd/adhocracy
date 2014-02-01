@@ -29,6 +29,7 @@ h2:not(:first-of-type) {
 /* don't allow headings in user generated content to be as big
  * as our own */
 blockquote,
+.text,
 .comment .body {
     h1, h2, h3, h4, h5, h6 {
         font-size: 100%;
