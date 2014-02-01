@@ -56,39 +56,41 @@
         ${tiles.poll.booth(proposal.adopt_poll)}
     %endif
 
-    <h3>${_("Information")}</h3>
-    <div>
-        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n}
-        %if h.config.get_bool('adhocracy.show_abuse_button'):
-        · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+    <div class="sidebar_box">
+        <h3>${_("Information")}</h3>
+        <div>
+            ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n}
+            %if h.config.get_bool('adhocracy.show_abuse_button'):
+            · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+            %endif
+        </div>
+
+        %if proposal.milestone and c.instance.milestones:
+        <div class="infobox">
+            ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
+        </div>
         %endif
-    </div>
 
-    %if proposal.milestone and c.instance.milestones:
-    <div class="infobox">
-        ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
-    </div>
-    %endif
-
-    %if proposal.description.head.wiki:
-    <div class="infobox">
-        ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
-    </div>
-    %endif
-
-    <ul>
-        <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
-        <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
-        %if c.instance.allow_delegate:
-        <li><a title="${_('Who is receiving delegations?')}"
-               href="${h.entity_url(proposal, member='delegations')}"
-               class="delegations ttip">${_("Delegations")}
-                ##(${len(proposal.current_delegations())})</a>
-        </li>
+        %if proposal.description.head.wiki:
+        <div class="infobox">
+            ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
+        </div>
         %endif
-    </ul>
 
-    ${tiles.tag.sidebar(proposal)}
+        <ul>
+            <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
+            <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
+            %if c.instance.allow_delegate:
+            <li><a title="${_('Who is receiving delegations?')}"
+                   href="${h.entity_url(proposal, member='delegations')}"
+                   class="delegations ttip">${_("Delegations")}
+                    ##(${len(proposal.current_delegations())})</a>
+            </li>
+            %endif
+        </ul>
+
+        ${tiles.tag.sidebar(proposal)}
+    </div>
     ${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 

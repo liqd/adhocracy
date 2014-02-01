@@ -148,10 +148,8 @@ def make_map(config):
     #map.connect('/proposal/{id}/badges', controller='proposal',
                 #action='update_badges', conditions=dict(method=['POST']))
 
-    map.resource('proposal', 'proposal', member={'votes': 'GET',
-                                                 'delegations': 'GET',
+    map.resource('proposal', 'proposal', member={'delegations': 'GET',
                                                  'activity': 'GET',
-                                                 'alternatives': 'GET',
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST',
