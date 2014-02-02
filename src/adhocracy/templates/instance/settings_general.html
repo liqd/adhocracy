@@ -21,5 +21,9 @@
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
     ${c.category_badge_tables}
 
+    %if can.instance.delete(c.page_instance):
+    <a class="button" href="${h.entity_url(c.page_instance, member='ask_delete')}">${_("Delete this group")}</a>
+    %endif
+
 </form>
 </%block>
