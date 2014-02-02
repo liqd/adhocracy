@@ -100,3 +100,28 @@ class TestBadgeHelper(TestController):
         result = [b.title for b in get_parent_badges(badge121)]
         shouldbe = ['testbadge12', u'testbadge0']
         self.assertEqual(result, shouldbe)
+
+
+class TestSiteHelper(TestController):
+    def _make_content(self):
+        """Returns instance and user"""
+
+        from adhocracy import model
+
+        instance = model.Instance.find(u'test')
+        user = model.User.create(u'user', u'user@mail.com')
+
+        return instance, user
+
+    def test_is_local_url(self):
+        from adhocracy.lib import helpers as h
+
+        instance, user = self._make_content()
+
+        self.assert_(h.site.is_local_url(h.entity_url(user)))
+        self.assert_(h.site.is_local_url(h.entity_url(instance)))
+        self.assert_(h.site.is_local_url('/i/test'))
+        self.assert_(h.site.is_local_url('relative_path'))
+        self.assert_(not h.site.is_local_url('http://evil.com'))
+        self.assert_(not h.site.is_local_url(''))
+        self.assert_(not h.site.is_local_url(None))
