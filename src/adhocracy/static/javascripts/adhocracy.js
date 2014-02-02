@@ -88,10 +88,9 @@ var adhocracy = adhocracy || {};
             // ajax submit takes a while. Show some feedback
             form.find('*[type="submit"]').addClass('loading');
 
-            $.ajax({
+            var settings = {
                 type: form.attr('method'),
                 url: form.attr('action'),
-                data: form.serialize(),
                 success: function(data) {
                     // read the returned html document
                     data = $(data);
@@ -102,7 +101,27 @@ var adhocracy = adhocracy || {};
                         form.html(data.find(selector).html());
                     }
                 },
-            });
+            };
+
+            /* FormData is only compatible with IE 10+, so we use it only
+             * if possible.
+             *
+             * Still, this means that file uploads with this will not work in
+             * older IEs.
+             */
+            if ('FormData' in window) {
+                $.extend(settings, {
+                    data: new FormData(e.target),
+                    contentType: false,
+                    processData: false,
+                });
+            } else {
+                $.extend(settings, {
+                    data: form.serialize(),
+                });
+            }
+
+            $.ajax(settings);
         });
     };
 
@@ -1133,4 +1152,11 @@ $(document).ready(function () {
         this.type = 'submit';
         this.click();
     });
+
+    // check if FormData is available and add class to html element
+    if ("FormData" in window) {
+        $('.only-no-formdata').remove();
+    } else {
+        $('html').addClass('no-formdata');
+    }
 });
