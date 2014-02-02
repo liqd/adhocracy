@@ -168,9 +168,9 @@ var adhocracy = adhocracy || {};
 
         // grab wrapper element inside content
         var self = this,
-            wrap = overlay.find(".contentWrap"),
             trigger = self.getTrigger(),
-            overlay = self.getOverlay();
+            overlay = self.getOverlay(),
+            wrap = overlay.find(".contentWrap");
 
         var url = new Uri(trigger.attr("href"));
         url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
