@@ -37,7 +37,7 @@
     delegate_url = url if can.delegation.create(c.proposal) else None
 %>
 
-%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
+%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll is not None:
 ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
 %endif
 
