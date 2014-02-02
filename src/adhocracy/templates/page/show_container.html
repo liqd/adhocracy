@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="index_tiles" file="/page/index_tiles.html"/>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
@@ -26,7 +27,11 @@
 
 ${c.variant_details['text']|n}
 
+%if c.instance.page_index_as_tiles:
+${index_tiles.as_tiles(c.subpages_pager._items, columns=2)}
+%else:
 ${c.subpages_pager.here()|n}
+%endif
 
 <div class="list_button">
 %if can.norm.create():
