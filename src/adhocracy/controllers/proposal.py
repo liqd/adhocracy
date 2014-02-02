@@ -166,10 +166,7 @@ class ProposalController(BaseController):
                 _("Page %s does not allow selections") % c.page.title,
                 code=400, format=format)
 
-        if ('cancel_url' in request.params and
-                len(request.params['cancel_url']) >= 2 and
-                request.params['cancel_url'][0] == '/' and
-                request.params['cancel_url'][1] != '/'):
+        if h.site.is_local_url(request.params.get(u'cancel_url', u'')):
             c.cancel_url = request.params['cancel_url']
         elif amendment:
             c.cancel_url = h.entity_url(c.page, member='amendment')

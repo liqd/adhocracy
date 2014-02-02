@@ -273,10 +273,7 @@ class PageController(BaseController):
         if branch and c.text is None:
             c.text = c.page.head.text
 
-        if ('ret_url' in request.params and
-                len(request.params['ret_url']) >= 2 and
-                request.params['ret_url'][0] == '/' and
-                request.params['ret_url'][1] != '/'):
+        if h.site.is_local_url(request.params.get(u'ret_url', u'')):
             c.ret_url = request.params['ret_url']
         elif c.section:
             c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)

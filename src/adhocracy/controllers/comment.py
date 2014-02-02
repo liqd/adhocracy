@@ -17,7 +17,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import (render, render_def, render_json,
                                       ret_abort, ret_success)
-from adhocracy.lib.util import get_entity_or_abort, validate_ret_url
+from adhocracy.lib.util import get_entity_or_abort
 
 log = logging.getLogger(__name__)
 
@@ -149,7 +149,7 @@ class CommentController(BaseController):
         require.comment.edit(c.comment)
         extra_vars = {'comment': c.comment}
         ret_url = request.params.get(u'ret_url', u'')
-        if validate_ret_url(ret_url):
+        if h.site.is_local_url(ret_url):
             extra_vars[u'ret_url'] = ret_url
             c.ret_url = ret_url
         if format == 'ajax':
