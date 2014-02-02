@@ -155,6 +155,8 @@ def make_map(config):
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST',
+                                                 'tag': 'POST',
+                                                 'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
                                                  'comments': 'GET',
