@@ -114,6 +114,8 @@ def shortlink_url(delegateable):
 def is_local_url(url):
     """check if the url points to this installation of adhocracy to
     avoid fishing attacks and similar.
+
+    see also adhocracy.helpers.is_local_url in adhocracy.js
     """
 
     if url is None or url == u'':

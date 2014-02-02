@@ -328,9 +328,8 @@ var adhocracy = adhocracy || {};
     }
 
     adhocracy.overlay.trigger = function (path, type) {
-        // minimal validation. not sure if this is enough
-        if (path[0] !== '/' || path[1] === '/') {
-            throw "Overlay path must be an absolute path.";
+        if (!adhocracy.helpers.is_local_url(path)) {
+            throw "Overlay path must be a local URL.";
         }
 
         var target = '#overlay-default';
@@ -627,6 +626,37 @@ var adhocracy = adhocracy || {};
         el.attr('class', 'alert alert-' + category);
         el.text(message);
         container.append(el);
+    };
+
+    adhocracy.helpers.is_local_url = function(url) {
+        // this function aims to replicate the python function by the same name
+        // in lib.helpers.site_helpers .
+        //
+        // However we do not know if relative URLs are activated.
+
+        if (url === '') {
+            return false;
+        }
+
+        var domain = window.location.host;
+        // we might be in a subdomain
+        if (domain.split('.').length > 2) {
+            domain = domain.match(/^[^.]*\.(.*)$/)[1];
+        }
+
+        var u = new Uri(url);
+        var netloc = u.host();
+        if (u.port()) {
+            netloc += ':' + u.port();
+        }
+
+        if (netloc === '' || netloc === domain) {
+            return true;
+        } else if (netloc.match(domain + '$')) {
+            return (netloc.split('.').length - domain.split('.').length < 2);
+        } else {
+            return false;
+        }
     };
 }());
 
