@@ -293,9 +293,9 @@ class UserController(BaseController):
         if authenticated:
             session['logged_in'] = True
             session.save()
-            came_from = request.params.get('came_from')
-            if came_from:
-                location = urllib.unquote_plus(came_from)
+            ret_url = request.params.get('ret_url')
+            if ret_url:
+                location = urllib.unquote_plus(ret_url)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -761,7 +761,7 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
-        path = request.params.get('came_from', None)
+        path = request.params.get('ret_url', None)
         ret_success(
             message=_("The activation link has been re-sent to your email "
                       "address."), category='success',
@@ -910,7 +910,7 @@ class UserController(BaseController):
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
             redirect(h.base_url('/login', query_params={
-                u'came_from': request.url,
+                u'ret_url': request.url,
             }))
 
         require.user.show_dashboard(c.user)
@@ -999,9 +999,9 @@ class UserController(BaseController):
     def login(self):
         c.active_global_nav = "login"
         if c.user:
-            came_from = request.params.get('came_from', None)
-            if came_from is not None:
-                redirect(urllib.unquote_plus(came_from))
+            ret_url = request.params.get('ret_url', None)
+            if ret_url is not None:
+                redirect(urllib.unquote_plus(ret_url))
             else:
                 redirect(h.user.post_login_url(c.user))
         else:
@@ -1034,9 +1034,9 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            came_from = request.params.get('came_from', None)
-            if came_from is not None:
-                redirect(urllib.unquote_plus(came_from))
+            ret_url = request.params.get('ret_url', None)
+            if ret_url is not None:
+                redirect(urllib.unquote_plus(ret_url))
             else:
                 # redirect to the dashboard inside the instance exceptionally
                 # to be able to link to proposals and norms in the welcome
@@ -1420,7 +1420,7 @@ class UserController(BaseController):
     def welcome(self, id, token):
         # Intercepted by WelcomeRepozeWho, only errors go in here
         if c.user:
-            return redirect(request.params.get('came_from', '/'))
+            return redirect(request.params.get('ret_url', '/'))
 
         h.flash(_('You already have a password - use that to log in.'),
                 'error')

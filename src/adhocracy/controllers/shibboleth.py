@@ -49,11 +49,11 @@ class ShibbolethController(BaseController):
         if not 'shibboleth' in allowed_login_types():
             ret_abort(_("Shibboleth authentication not enabled"), code=403)
 
-        came_from = request.GET.get('came_from', '/')
+        ret_url = request.GET.get('ret_url', '/')
 
-        came_from_qs = urlencode({'came_from': came_from})
+        ret_url_qs = urlencode({'ret_url': ret_url})
         shib_qs = urlencode(
-            {'target': '/shibboleth/post_auth?%s' % came_from_qs})
+            {'target': '/shibboleth/post_auth?%s' % ret_url_qs})
 
         redirect('/Shibboleth.sso/Login?%s' % shib_qs)
 
@@ -104,8 +104,8 @@ class ShibbolethController(BaseController):
         login_user(user, request, response)
         session['login_type'] = 'shibboleth'
 
-        came_from = request.GET.get('came_from', target)
-        qs = urlencode({'return': came_from})
+        ret_url = request.GET.get('ret_url', target)
+        qs = urlencode({'return': ret_url})
 
         return redirect('/Shibboleth.sso/Logout?%s' % qs)
 

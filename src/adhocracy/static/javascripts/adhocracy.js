@@ -285,20 +285,20 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.overlay.rebindCameFrom = function () {
-        var came_from = this.getTrigger().attr('href');
-        if (came_from === undefined) {
-            came_from = window.location.pathname;
+    adhocracy.overlay.rebindRetURL = function () {
+        var ret_url = this.getTrigger().attr('href');
+        if (ret_url === undefined) {
+            ret_url = window.location.pathname;
         }
-        var patch_camefrom = function (i, val) {
+        var patch_returl = function (i, val) {
             if (val === undefined) {
                 return undefined;
             }
-            return new Uri(val).replaceQueryParam('came_from', came_from).toString();
+            return new Uri(val).replaceQueryParam('ret_url', ret_url).toString();
         };
-        this.getOverlay().find('.patch_camefrom').attr({
-            'action': patch_camefrom,
-            'href': patch_camefrom
+        this.getOverlay().find('.patch_returl').attr({
+            'action': patch_returl,
+            'href': patch_returl
         });
     };
 
@@ -410,7 +410,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-login',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
 
@@ -420,7 +420,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-join',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
 
@@ -430,7 +430,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-validate',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
         } else {

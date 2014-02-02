@@ -74,13 +74,13 @@ form is displayed:
     >>> set_no_redirect(browser)
 
 FIXME: check whether ANY_URL should be encoded
-    >>> browser.open(REQUEST_AUTH_URL + '?came_from=' + ANY_URL)
+    >>> browser.open(REQUEST_AUTH_URL + '?ret_url=' + ANY_URL)
     >>> browser.headers['status']
     '302 Found'
     >>> browser.headers['location']
-    'http://test.lan/Shibboleth.sso/Login?target=%2Fshibboleth%2Fpost_auth%3Fcame_from%3Dhttp%253A%252F%252Ftest.lan%252Finstance'
+    'http://test.lan/Shibboleth.sso/Login?target=%2Fshibboleth%2Fpost_auth%3Fret_url%3Dhttp%253A%252F%252Ftest.lan%252Finstance'
 
-    >>> browser.open(POST_AUTH_URL + '?came_from=' + ANY_URL)
+    >>> browser.open(POST_AUTH_URL + '?ret_url=' + ANY_URL)
 
     >>> form = browser.getForm(name='complete_registration')
     >>> username = form.getControl(name='username')
@@ -142,7 +142,7 @@ Hugo has lost his `editor` status. Make sure the model is updated.
     >>> browser2 = make_browser()
     >>> set_no_redirect(browser2)
     >>> add_headers(browser2, new_hugo_headers)
-    >>> browser2.open(POST_AUTH_URL + '?came_from=' + ANY_URL)
+    >>> browser2.open(POST_AUTH_URL + '?ret_url=' + ANY_URL)
     >>> browser2.open(ANY_URL)
     >>> is_logged_in(browser2)
     True
