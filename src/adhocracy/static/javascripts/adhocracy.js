@@ -148,9 +148,10 @@ var adhocracy = adhocracy || {};
          */
 
         // grab wrapper element inside content
-        var overlay = this.getOverlay(),
+        var self = this,
             wrap = overlay.find(".contentWrap"),
-            trigger = this.getTrigger();
+            trigger = self.getTrigger(),
+            overlay = self.getOverlay();
 
         var url = new Uri(trigger.attr("href"));
         url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
@@ -159,10 +160,6 @@ var adhocracy = adhocracy || {};
         // set initial size
         overlay.width(500);
         overlay.height(150);
-
-        overlay.close = function() {
-            this.find('.close').click();
-        };
 
         var iframe = $('<iframe scrolling="no" frameborder="0"/>');
         wrap.empty().append(iframe);
@@ -234,7 +231,7 @@ var adhocracy = adhocracy || {};
             // http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery
             iframe.contents().keyup(function(e) {
                 if (e.keyCode === 27) {
-                    overlay.close();
+                    self.close();
                 }
             });
 
@@ -251,7 +248,7 @@ var adhocracy = adhocracy || {};
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
                     e.preventDefault();
-                    overlay.close();
+                    self.close();
                 });
                 adhocracy.ajax_submit($('form', iframe.contents()), function() {
                     // reload parent url without overlay params
