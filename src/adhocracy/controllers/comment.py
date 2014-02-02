@@ -136,8 +136,8 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance,
                    topics=[topic], comment=comment, topic=topic,
                    rev=comment.latest)
-        if len(request.params.get('ret_url', '')):
-            redirect(request.params.get('ret_url') + "#c" + str(comment.id))
+        if c.ret_url is not None:
+            redirect(c.ret_url + "#c" + str(comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
         else:
@@ -148,10 +148,8 @@ class CommentController(BaseController):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
         extra_vars = {'comment': c.comment}
-        ret_url = request.params.get(u'ret_url', u'')
-        if h.site.is_local_url(ret_url):
-            extra_vars[u'ret_url'] = ret_url
-            c.ret_url = ret_url
+        if c.ret_url is not None:
+            extra_vars[u'ret_url'] = c.ret_url
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
                               extra_vars=extra_vars)
@@ -182,8 +180,8 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance,
                    topics=[c.comment.topic], comment=c.comment,
                    topic=c.comment.topic, rev=rev)
-        if len(request.params.get('ret_url', '')):
-            redirect(request.params.get('ret_url') + "#c" + str(c.comment.id))
+        if c.ret_url is not None:
+            redirect(c.ret_url + "#c" + str(c.comment.id))
         if format != 'html':
             return ret_success(entity=c.comment, format=format)
         else:
@@ -321,5 +319,5 @@ class CommentController(BaseController):
         require.comment.reply(parent)
         topic = parent.topic
         variant = getattr(topic, 'variant', None)
-        ret_url = request.params['ret_url']
+        ret_url = c.ret_url
         return self._render_ajax_create_form(parent, topic, variant, ret_url)

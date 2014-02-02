@@ -43,6 +43,9 @@ class BaseController(WSGIController):
         c.debug = config.get_bool('debug')
         i18n.handle_request()
 
+        if h.site.is_local_url(request.params.get(u'ret_url', u'')):
+            c.ret_url = request.params.get(u'ret_url', u'')
+
         monitor_page_time_interval = config.get_int(
             'adhocracy.monitor_page_time_interval', -1)
         c.page_stats_url = h.base_url('/stats/on_page')

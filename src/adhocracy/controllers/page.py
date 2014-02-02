@@ -213,8 +213,8 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
-        if 'ret_url' in request.params:
-            ret_url = request.params.get('ret_url')
+        if c.ret_url is not None:
+            ret_url = c.ret_url
         elif proposal is not None and can.selection.create(proposal):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
@@ -273,8 +273,8 @@ class PageController(BaseController):
         if branch and c.text is None:
             c.text = c.page.head.text
 
-        if h.site.is_local_url(request.params.get(u'ret_url', u'')):
-            c.ret_url = request.params['ret_url']
+        if c.ret_url is not None:
+            c.ret_url = c.ret_url
         elif c.section:
             c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
         else:
@@ -369,8 +369,8 @@ class PageController(BaseController):
             watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        if 'ret_url' in request.params:
-            redirect(request.params.get('ret_url'))
+        if c.ret_url is not None:
+            redirect(c.ret_url)
         else:
             redirect(h.entity_url(text))
 
@@ -768,7 +768,7 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title,
                 'success')
-        redirect(request.params.get('ret_url'))
+        redirect(c.ret_url)
 
     def _get_page_and_text(self, id, variant, text):
         page = get_entity_or_abort(model.Page, id)
