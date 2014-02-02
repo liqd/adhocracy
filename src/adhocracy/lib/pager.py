@@ -276,7 +276,7 @@ def instances(instances):
                       size=20)  # FIXME: hardcoded for enquetebeteiligung
 
 
-def proposals(proposals, default_sort=None, inline=False, **kwargs):
+def proposals(proposals, default_sort=None, **kwargs):
     if default_sort is None:
         def_sort_id = get_def_proposal_sort_order()
         if def_sort_id is not None:
@@ -291,7 +291,7 @@ def proposals(proposals, default_sort=None, inline=False, **kwargs):
              _("Controversy"): sorting.proposal_controversy,
              _("Alphabetically"): sorting.delegateable_label}
 
-    if inline:
+    if config.get_bool(u'adhocracy.proposal_pager_inline'):
         row = tiles.proposal.row_inline
     else:
         row = tiles.proposal.row
@@ -1594,7 +1594,7 @@ def solr_instance_pager(include_hidden=False):
 
 
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
-                        inline=False, extra_filter={}):
+                        extra_filter={}):
     extra_filter.update({'instance': instance.key})
     sorts = copy.deepcopy(PROPOSAL_SORTS)
     if default_sorting is None:
@@ -1621,7 +1621,7 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
     if instance.milestones:
         facets.insert(1, (DelegateableMilestoneFacet, {}))
 
-    if inline:
+    if config.get_bool(u'adhocracy.proposal_pager_inline'):
         row = tiles.proposal.row_inline
     else:
         row = tiles.proposal.row
