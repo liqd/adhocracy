@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-29 15:23+0100\n"
-"PO-Revision-Date: 2014-01-31 13:34+0000\n"
-"Last-Translator: sicco <sicco@ddo.nl>\n"
+"POT-Creation-Date: 2014-02-03 17:45+0100\n"
+"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -317,6 +317,10 @@ msgstr "Er is geen voorstel gespecificeerd"
 
 msgid "You cannot create a new norm"
 msgstr "U kunt geen nieuw reglement creëren"
+
+#, python-format
+msgid "errors while uploading image: %s"
+msgstr ""
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -969,9 +973,6 @@ msgstr "Ongeldig verzoek. Ga terug en probeer het opnieuw."
 
 msgid "The method you used is not implemented."
 msgstr "De methode die u heeft gebruikt, is niet geïmplementeerd."
-
-msgid "Start"
-msgstr "Start"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1736,6 +1737,9 @@ msgstr "<b>%s</b> reacties"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> stemmen"
 
+msgid "Start"
+msgstr "Start"
+
 msgid "Instances"
 msgstr "Groepen"
 
@@ -2069,14 +2073,14 @@ msgstr "Site administratie"
 msgid "Admin: Import Users"
 msgstr "Admin: Importeer Gebruikers"
 
-msgid "Users CSV"
-msgstr "Gebruikers CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de volgende vier kolommen: gebruikersnaam, weergavenaam, e-mail en badges (badges zijn optioneel, gescheiden door komma's en met aanhalingstekens rondom de lijst)"
+
+msgid "Users CSV"
+msgstr "Gebruikers CSV"
 
 msgid "Email Subject"
 msgstr "E-mail Onderwerp"
@@ -2159,12 +2163,12 @@ msgstr "Categorie beschrijving"
 msgid "Badge description"
 msgstr "Badge beschrijving"
 
-msgid "Long category description"
-msgstr "Lange categorie beschrijving"
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Hier kunt u een meer gedetailleerde beschrijving van uw categorie toevoegen met markdown."
+
+msgid "Long category description"
+msgstr "Lange categorie beschrijving"
 
 msgid "The color that is used to show the category"
 msgstr "De kleur die gebruikt wordt om de categorie te tonen"
@@ -2177,6 +2181,9 @@ msgstr "Zoals '#a4a4a4'"
 
 msgid "Preview:"
 msgstr "Voorbeeld:"
+
+msgid "Image upload does not work in your browser. Please update."
+msgstr ""
 
 msgid "Image"
 msgstr "Afbeelding"
@@ -2780,6 +2787,9 @@ msgstr "Verberg algemene categorieën"
 msgid "Members of your instance only see the catagories you created."
 msgstr "Deelnemers van uw groep zien enkel de categorieen die u heeft aangemaakt."
 
+msgid "Display page index as tiles"
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Verberg deze groep"
 
@@ -2800,11 +2810,11 @@ msgstr "Toon het Stem Resultaat per badge"
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Toon wat gebruikers met de geselecteerde badge van dit onderwerp vinden."
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "U kunt CSS toevoegen om de opmaak van deze groep aan te passen."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Status badge image width"
 msgstr "Status badge afbeeldingbreedte"
@@ -2839,6 +2849,9 @@ msgstr "Mijlpalen verbinden de online discussies met offline gebeurtenissen via 
 msgid "Display category pages"
 msgstr "Toon categorie pagina's"
 
+msgid "Delete this instance"
+msgstr ""
+
 msgid "Require email validation"
 msgstr "Vereis e-mailadres bevestiging"
 
@@ -2860,20 +2873,20 @@ msgstr "Naam van de groep"
 msgid "Give your instance a name."
 msgstr "Geef uw groep een naam."
 
-msgid "Description of the instance"
-msgstr "Beschrijving van de groep"
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Dit verschijnt er op de overzichtspagina van uw groep. Beschrijf het participatieproces dat u in gedachten heeft. Vermeld duidelijk het doel van deze groep en hoe de deelnemers kunnen helpen om dit te bereiken."
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr "Beschrijving van de groep"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Selecteer het logo dat u wilt gebruiken als header van uw groep."
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Huidig logo"
@@ -3257,6 +3270,11 @@ msgstr "Amendementen Toestaan"
 msgid "Use markdown formatting."
 msgstr "Gebruik markdown opmaak."
 
+msgid ""
+"Upload a logo for this page. Please note that the logo will only be "
+"displayed in the pages index."
+msgstr ""
+
 msgid "Parent page:"
 msgstr "Bovenliggende pagina:"
 
@@ -3302,6 +3320,12 @@ msgstr "Sectie inhoud"
 
 msgid "Norm content"
 msgstr "Reglement inhoud"
+
+msgid "Use as a container for other norms"
+msgstr ""
+
+msgid "Upload a logo for this page"
+msgstr ""
 
 msgid "Tag and classify"
 msgstr "Tags en Eigenschappen"
@@ -3496,6 +3520,9 @@ msgid ""
 "Vote results are updated with a short delay. After casting your vote, expect"
 " a short delay before the tally updates."
 msgstr "Stemresultaten worden met een korte vertraging bijgewerkt. Nadat u heeft gestemd kan het even duren voordat de teller is bijgewerkt."
+
+msgid "This is a record of all recent actions concerning this proposal."
+msgstr ""
 
 msgid "Call a poll"
 msgstr "Roep op tot een stemming"
@@ -3713,6 +3740,15 @@ msgstr "%s%% goedkeuring"
 #, python-format
 msgid "%s:%s votes"
 msgstr "%s:%s stemmen"
+
+msgid "hide"
+msgstr ""
+
+msgid "show"
+msgstr ""
+
+msgid "Join the discussion"
+msgstr ""
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -4251,13 +4287,13 @@ msgstr "Begroeting"
 msgid "Select your prefered gender"
 msgstr "Selecteer uw gewenste geslacht"
 
-msgid "Avatar"
-msgstr "Avatar"
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Selecteer een vierkante profielafbeelding. Als deze niet vierkant is dan kan de afbeelding vervormen."
+
+msgid "Avatar"
+msgstr "Avatar"
 
 msgid "Current avatar"
 msgstr "Huidige avatar"
@@ -4265,13 +4301,13 @@ msgstr "Huidige avatar"
 msgid "Delete current avatar"
 msgstr "Verwijder huidige avatar"
 
-msgid "Short biography"
-msgstr "Korte biografie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Door middel van een biografie kunnen anderen wat over u te weten komen en misschien krijgt u er wel een aantal machtigingen door."
+
+msgid "Short biography"
+msgstr "Korte biografie"
 
 msgid "I am an organisation"
 msgstr "Ik ben een organisatie"

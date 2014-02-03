@@ -6,12 +6,13 @@
 # alexobi <alex-obi@hotmail.de>, 2013
 # xanderbattaglia <xanderbattaglia@gmail.com>, 2013
 # rosangela <rosangelabochicchio@gmail.com>, 2013
+# Rouven.B <rouven.brues@liqd.de>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-26 13:53+0100\n"
-"PO-Revision-Date: 2014-01-26 12:54+0000\n"
+"POT-Creation-Date: 2014-02-03 17:45+0100\n"
+"PO-Revision-Date: 2014-02-03 16:46+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -318,6 +319,10 @@ msgid "You cannot create a new norm"
 msgstr "You cannot create a new norm"
 
 #, python-format
+msgid "errors while uploading image: %s"
+msgstr ""
+
+#, python-format
 msgid "Variant %s is already present, cannot branch."
 msgstr "Variant %s is already present, cannot branch."
 
@@ -328,11 +333,8 @@ msgstr "You're trying to update to a text which is not part of this pages histor
 msgid "<i>(No text)</i>"
 msgstr "<i>(No text)</i>"
 
-msgid "<i>(No title))</i>"
-msgstr "<i>(No title))</i>"
-
-msgid "<i>(No differences))</i>"
-msgstr "<i>(No differences))</i>"
+msgid "<i>(No title)</i>"
+msgstr ""
 
 msgid "<i>(No differences)</i>"
 msgstr "<i>(No differences)</i>"
@@ -2149,23 +2151,39 @@ msgstr ""
 msgid "Confirm"
 msgstr "Confirm"
 
+msgid "Category title"
+msgstr ""
+
 msgid "Badge title"
 msgstr "Badge title"
+
+msgid "Category description"
+msgstr ""
 
 msgid "Badge description"
 msgstr "Badge description"
 
-msgid "Long badge description"
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
+msgstr "Here you can add a more detailed description of your category with markdown. You can add pictures and links."
+
+msgid "Long category description"
+msgstr ""
+
+msgid "The color that is used to show the category"
 msgstr ""
 
 msgid "The color that is used to show the badge"
-msgstr "The color that is used to show the badge"
+msgstr ""
 
 msgid "Like '#a4a4a4'"
 msgstr "Like '#a4a4a4'"
 
 msgid "Preview:"
 msgstr "Preview:"
+
+msgid "Image upload does not work in your browser. Please update."
+msgstr ""
 
 msgid "Image"
 msgstr ""
@@ -2180,6 +2198,9 @@ msgid "Upload category image"
 msgstr ""
 
 msgid "Delete current category image"
+msgstr ""
+
+msgid "Check to hide category in user interface"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2208,11 +2229,11 @@ msgstr "Display this badge instead of the normal user group."
 msgid "Global"
 msgstr "Global"
 
-msgid "Parent Badge"
-msgstr "Parent Badge"
+msgid "Parent Category"
+msgstr ""
 
-msgid "No Parent Badge"
-msgstr "No Parent Badge"
+msgid "No Parent Category"
+msgstr ""
 
 msgid "Global categories"
 msgstr "Global categories"
@@ -2221,15 +2242,12 @@ msgid "Local instance categories"
 msgstr "Local instance categories"
 
 msgid ""
-"Description to select children of this badge (irrelevant if this badge "
-"doesn't have any children)"
-msgstr "Description to select children of this badge (irrelevant if this badge doesn't have any children)"
+"Description to select children of this category (irrelevant if this category"
+" doesn't have any children)"
+msgstr ""
 
 msgid "Impact"
 msgstr ""
-
-msgid "Save Badge"
-msgstr "Save badge"
 
 msgid "Delete"
 msgstr "Delete"
@@ -2248,8 +2266,23 @@ msgid "No badges added yet."
 msgstr "No badges added yet."
 
 msgid ""
+"User badges allow you to organize your members according to certain groups."
+msgstr ""
+
+msgid ""
+"Proposal badges may be used to link different attributes to a proposal (e.g."
+" official, first phase, etc.)."
+msgstr ""
+
+msgid ""
 "Add new categories to allow your users to categorize their proposals "
 "according to a topic."
+msgstr ""
+
+msgid ""
+"Status badges may be used to indicate different statuses of proposals in "
+"your participation process (e.g. accepted, rejected, in discussion, etc.) "
+"with an image."
 msgstr ""
 
 msgid "Preview"
@@ -2743,11 +2776,19 @@ msgstr ""
 msgid "Require to propose a variant"
 msgstr "Require to propose a variant"
 
-msgid "Display category pages"
+msgid ""
+"If norms are activated, this option will ensure that users change at least "
+"one norm with each proposal."
 msgstr ""
 
 msgid "Hide global categories"
 msgstr "Hide global categories"
+
+msgid "Members of your instance only see the catagories you created."
+msgstr ""
+
+msgid "Display page index as tiles"
+msgstr ""
 
 msgid "Hide this instance"
 msgstr "Hide this instance"
@@ -2759,8 +2800,8 @@ msgid "Freeze this instance"
 msgstr "Freeze this instance"
 
 msgid ""
-"This will prevent members from making any more contributions to the existing"
-" discussion."
+"This will prevent members from making any more changes or contributions to "
+"the existing discussion."
 msgstr ""
 
 msgid "Break down Voting Result by Badge"
@@ -2784,6 +2825,16 @@ msgstr ""
 msgid "Authenticate this instance"
 msgstr ""
 
+msgid "Activates additional feature, e.g. massinvite und massmessage"
+msgstr ""
+
+msgid "Language"
+msgstr "Language"
+
+msgid ""
+"The language setting will be overridden by the user's personal setting."
+msgstr "The language setting will be overridden by the user's personal setting."
+
 msgid "Enable delegated voting"
 msgstr ""
 
@@ -2795,12 +2846,11 @@ msgid ""
 "calendar function."
 msgstr ""
 
-msgid "Language"
-msgstr "Language"
+msgid "Display category pages"
+msgstr ""
 
-msgid ""
-"The language setting will be overridden by the user's personal setting."
-msgstr "The language setting will be overridden by the user's personal setting."
+msgid "Delete this instance"
+msgstr ""
 
 msgid "Require email validation"
 msgstr "Require email validation"
@@ -2809,6 +2859,12 @@ msgid "Require instance members to validate their email address."
 msgstr "Require instance members to validate their email address."
 
 msgid "Default group for new members"
+msgstr ""
+
+msgid ""
+"This will initially decide whether new members can actively participate in "
+"or simply read the discussions on your instance. You can change user groups "
+"of individual members later."
 msgstr ""
 
 msgid "Name of the instance"
@@ -2856,6 +2912,9 @@ msgid "Allow members to propose norms"
 msgstr ""
 
 msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Members will be able to propose changes of the norms you introduce."
 msgstr ""
 
 msgid "Show norms navigation item"
@@ -3211,6 +3270,11 @@ msgstr ""
 msgid "Use markdown formatting."
 msgstr "Use markdown formatting."
 
+msgid ""
+"Upload a logo for this page. Please note that the logo will only be "
+"displayed in the pages index."
+msgstr ""
+
 msgid "Parent page:"
 msgstr "Parent page:"
 
@@ -3256,6 +3320,12 @@ msgstr ""
 
 msgid "Norm content"
 msgstr "Norm content"
+
+msgid "Use as a container for other norms"
+msgstr ""
+
+msgid "Upload a logo for this page"
+msgstr ""
 
 msgid "Tag and classify"
 msgstr "Tag and classify"
@@ -3450,6 +3520,9 @@ msgid ""
 "Vote results are updated with a short delay. After casting your vote, expect"
 " a short delay before the tally updates."
 msgstr "Vote results are updated with a short delay. After casting your vote, expect a short delay before the tally updates."
+
+msgid "This is a record of all recent actions concerning this proposal."
+msgstr ""
 
 msgid "Call a poll"
 msgstr "Call a poll"
@@ -3667,6 +3740,15 @@ msgstr "%s%% approval"
 #, python-format
 msgid "%s:%s votes"
 msgstr "%s:%s votes"
+
+msgid "hide"
+msgstr ""
+
+msgid "show"
+msgstr ""
+
+msgid "Join the discussion"
+msgstr ""
 
 #, python-format
 msgid "The proposal was created by %s on %s"
