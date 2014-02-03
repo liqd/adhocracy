@@ -189,7 +189,7 @@ def get_redirect_url(target=u'login', entity=None, **kwargs):
     to the given entity after successful login. If ``entity`` is None, it will
     redirect to the current URL.
     '''
-    if c.ret_url is None:
+    if c.ret_url == u'':
         if entity is None:
             c.ret_url = base_url(request.path,
                                  query_string=request.query_string)

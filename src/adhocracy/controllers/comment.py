@@ -136,7 +136,7 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance,
                    topics=[topic], comment=comment, topic=topic,
                    rev=comment.latest)
-        if c.ret_url is not None:
+        if c.ret_url != u'':
             redirect(c.ret_url + "#c" + str(comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
@@ -148,7 +148,7 @@ class CommentController(BaseController):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
         extra_vars = {'comment': c.comment}
-        if c.ret_url is not None:
+        if c.ret_url != u'':
             extra_vars[u'ret_url'] = c.ret_url
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
@@ -180,7 +180,7 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance,
                    topics=[c.comment.topic], comment=c.comment,
                    topic=c.comment.topic, rev=rev)
-        if c.ret_url is not None:
+        if c.ret_url != u'':
             redirect(c.ret_url + "#c" + str(c.comment.id))
         if format != 'html':
             return ret_success(entity=c.comment, format=format)

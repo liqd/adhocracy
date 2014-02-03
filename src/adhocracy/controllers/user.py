@@ -293,7 +293,7 @@ class UserController(BaseController):
         if authenticated:
             session['logged_in'] = True
             session.save()
-            if c.ret_url is not None:
+            if c.ret_url != u'':
                 location = urllib.unquote_plus(c.ret_url)
             else:
                 location = h.user.post_register_url(user)
@@ -998,7 +998,7 @@ class UserController(BaseController):
     def login(self):
         c.active_global_nav = "login"
         if c.user:
-            if c.ret_url is not None:
+            if c.ret_url != u'':
                 redirect(urllib.unquote_plus(c.ret_url))
             else:
                 redirect(h.user.post_login_url(c.user))
@@ -1032,7 +1032,7 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            if c.ret_url is not None:
+            if c.ret_url != u'':
                 redirect(urllib.unquote_plus(c.ret_url))
             else:
                 # redirect to the dashboard inside the instance exceptionally

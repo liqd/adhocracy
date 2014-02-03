@@ -213,7 +213,7 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
-        if c.ret_url is not None:
+        if c.ret_url != u'':
             ret_url = c.ret_url
         elif proposal is not None and can.selection.create(proposal):
             model.Selection.create(proposal, page, c.user, variant=variant)
@@ -273,7 +273,7 @@ class PageController(BaseController):
         if branch and c.text is None:
             c.text = c.page.head.text
 
-        if c.ret_url is not None:
+        if c.ret_url != u'':
             c.ret_url = c.ret_url
         elif c.section:
             c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
@@ -369,7 +369,7 @@ class PageController(BaseController):
             watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        if c.ret_url is not None:
+        if c.ret_url != u'':
             redirect(c.ret_url)
         else:
             redirect(h.entity_url(text))
