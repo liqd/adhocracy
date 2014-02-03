@@ -293,9 +293,8 @@ class UserController(BaseController):
         if authenticated:
             session['logged_in'] = True
             session.save()
-            came_from = request.params.get('came_from')
-            if came_from:
-                location = urllib.unquote_plus(came_from)
+            if c.came_from != u'':
+                location = urllib.unquote_plus(c.came_from)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -761,12 +760,12 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
-        path = request.params.get('came_from', None)
+
         ret_success(
             message=_("The activation link has been re-sent to your email "
                       "address."), category='success',
             entity=c.page_user, member='settings/notifications',
-            format=None, force_path=path)
+            format=None, force_path=c.came_from)
 
     @staticmethod
     def _get_profile_nav(user, active_key):
@@ -999,9 +998,8 @@ class UserController(BaseController):
     def login(self):
         c.active_global_nav = "login"
         if c.user:
-            came_from = request.params.get('came_from', None)
-            if came_from is not None:
-                redirect(urllib.unquote_plus(came_from))
+            if c.came_from != u'':
+                redirect(urllib.unquote_plus(c.came_from))
             else:
                 redirect(h.user.post_login_url(c.user))
         else:
@@ -1034,9 +1032,8 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            came_from = request.params.get('came_from', None)
-            if came_from is not None:
-                redirect(urllib.unquote_plus(came_from))
+            if c.came_from != u'':
+                redirect(urllib.unquote_plus(c.came_from))
             else:
                 # redirect to the dashboard inside the instance exceptionally
                 # to be able to link to proposals and norms in the welcome

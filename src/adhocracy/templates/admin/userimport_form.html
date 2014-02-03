@@ -11,7 +11,7 @@
 ${self.form()}
 </%block>
 
-<%def name="form(ret_url='')">
+<%def name="form(came_from='')">
 
 <form name="import_users" class="well" method="POST">
 
@@ -70,6 +70,6 @@ ${self.form()}
            </%def>
         </%forms:textarea>
     </div>
-    ${components.savebox(ret_url)}
+    ${components.savebox(came_from)}
 </form>
 </%def>

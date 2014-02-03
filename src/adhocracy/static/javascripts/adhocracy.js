@@ -157,7 +157,7 @@ var adhocracy = adhocracy || {};
          *
          *    Form actions are not rewritten. Instead, possible
          *    error or success messages are loaded inside the overlay.
-         *    You should set a sensible `ret_url` for forms in overlays.
+         *    You should set a sensible `came_from` for forms in overlays.
          *
          * This mechanism is powerful because it allows to load
          * any page inside an overlay and most things just work.
@@ -285,20 +285,20 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.overlay.rebindCameFrom = function () {
+    adhocracy.overlay.rebindRetURL = function () {
         var came_from = this.getTrigger().attr('href');
         if (came_from === undefined) {
             came_from = window.location.pathname;
         }
-        var patch_camefrom = function (i, val) {
+        var patch_returl = function (i, val) {
             if (val === undefined) {
                 return undefined;
             }
             return new Uri(val).replaceQueryParam('came_from', came_from).toString();
         };
-        this.getOverlay().find('.patch_camefrom').attr({
-            'action': patch_camefrom,
-            'href': patch_camefrom
+        this.getOverlay().find('.patch_returl').attr({
+            'action': patch_returl,
+            'href': patch_returl
         });
     };
 
@@ -328,9 +328,8 @@ var adhocracy = adhocracy || {};
     }
 
     adhocracy.overlay.trigger = function (path, type) {
-        // minimal validation. not sure if this is enough
-        if (path[0] !== '/' || path[1] === '/') {
-            throw "Overlay path must be an absolute path.";
+        if (!adhocracy.helpers.is_local_url(path)) {
+            throw "Overlay path must be a local URL.";
         }
 
         var target = '#overlay-default';
@@ -410,7 +409,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-login',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
 
@@ -420,7 +419,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-join',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
 
@@ -430,7 +429,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-validate',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
         } else {
@@ -627,6 +626,37 @@ var adhocracy = adhocracy || {};
         el.attr('class', 'alert alert-' + category);
         el.text(message);
         container.append(el);
+    };
+
+    adhocracy.helpers.is_local_url = function(url) {
+        // this function aims to replicate the python function by the same name
+        // in lib.helpers.site_helpers .
+        //
+        // However we do not know if relative URLs are activated.
+
+        if (url === '') {
+            return false;
+        }
+
+        var domain = window.location.host;
+        // we might be in a subdomain
+        if (domain.split('.').length > 2) {
+            domain = domain.match(/^[^.]*\.(.*)$/)[1];
+        }
+
+        var u = new Uri(url);
+        var netloc = u.host();
+        if (u.port()) {
+            netloc += ':' + u.port();
+        }
+
+        if (netloc === '' || netloc === domain) {
+            return true;
+        } else if (netloc.match('\\.' + domain + '$')) {
+            return (netloc.split('.').length - domain.split('.').length <= 2);
+        } else {
+            return false;
+        }
     };
 }());
 

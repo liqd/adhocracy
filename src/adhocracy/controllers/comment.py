@@ -17,7 +17,7 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import (render, render_def, render_json,
                                       ret_abort, ret_success)
-from adhocracy.lib.util import get_entity_or_abort, validate_ret_url
+from adhocracy.lib.util import get_entity_or_abort
 
 log = logging.getLogger(__name__)
 
@@ -136,8 +136,8 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_CREATE, c.user, instance=c.instance,
                    topics=[topic], comment=comment, topic=topic,
                    rev=comment.latest)
-        if len(request.params.get('ret_url', '')):
-            redirect(request.params.get('ret_url') + "#c" + str(comment.id))
+        if c.came_from != u'':
+            redirect(c.came_from + "#c" + str(comment.id))
         if format != 'html':
             return ret_success(entity=comment, format=format)
         else:
@@ -148,10 +148,8 @@ class CommentController(BaseController):
         c.comment = get_entity_or_abort(model.Comment, id)
         require.comment.edit(c.comment)
         extra_vars = {'comment': c.comment}
-        ret_url = request.params.get(u'ret_url', u'')
-        if validate_ret_url(ret_url):
-            extra_vars[u'ret_url'] = ret_url
-            c.ret_url = ret_url
+        if c.came_from != u'':
+            extra_vars[u'came_from'] = c.came_from
         if format == 'ajax':
             return render_def('/comment/tiles.html', 'edit_form',
                               extra_vars=extra_vars)
@@ -182,8 +180,8 @@ class CommentController(BaseController):
         event.emit(event.T_COMMENT_EDIT, c.user, instance=c.instance,
                    topics=[c.comment.topic], comment=c.comment,
                    topic=c.comment.topic, rev=rev)
-        if len(request.params.get('ret_url', '')):
-            redirect(request.params.get('ret_url') + "#c" + str(c.comment.id))
+        if c.came_from != u'':
+            redirect(c.came_from + "#c" + str(c.comment.id))
         if format != 'html':
             return ret_success(entity=c.comment, format=format)
         else:
@@ -294,13 +292,13 @@ class CommentController(BaseController):
                              code=400)
         return self._render_ajax_create_form(None, topic, variant)
 
-    def _render_ajax_create_form(self, parent, topic, variant, ret_url=None):
+    def _render_ajax_create_form(self, parent, topic, variant, came_from=None):
         '''
         render a create form fragment that can be inserted loaded
         into another page.
         '''
-        if ret_url is None:
-            ret_url = ''
+        if came_from is None:
+            came_from = ''
 
         # FIXME: uncomment the format parameter when we have javascript
         # code to submit the form with ajax and replace the form with the
@@ -311,7 +309,7 @@ class CommentController(BaseController):
                              topic=topic,
                              variant=variant,
                              #format="ajax",
-                             ret_url=ret_url,
+                             came_from=came_from,
                              )
         return render_def('/comment/tiles.html', 'create_form',
                           extra_vars=template_args)
@@ -321,5 +319,5 @@ class CommentController(BaseController):
         require.comment.reply(parent)
         topic = parent.topic
         variant = getattr(topic, 'variant', None)
-        ret_url = request.params['ret_url']
-        return self._render_ajax_create_form(parent, topic, variant, ret_url)
+        came_from = c.came_from
+        return self._render_ajax_create_form(parent, topic, variant, came_from)

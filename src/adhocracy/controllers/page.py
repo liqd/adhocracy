@@ -213,15 +213,15 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
-        if 'ret_url' in request.params:
-            ret_url = request.params.get('ret_url')
+        if c.came_from != u'':
+            came_from = c.came_from
         elif proposal is not None and can.selection.create(proposal):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
-            ret_url = h.page.url(page, member='branch',
+            came_from = h.page.url(page, member='branch',
                                  query={'proposal': proposal.id})
         else:
-            ret_url = h.entity_url(page)  # by default, redirect to the page
+            came_from = h.entity_url(page)  # by default, redirect to the page
 
         categories = self.form_result.get('category')
         category = categories[0] if categories else None
@@ -232,7 +232,7 @@ class PageController(BaseController):
             watchlist.set_watch(page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
                    topics=[page], page=page, rev=page.head)
-        redirect(ret_url)
+        redirect(came_from)
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
@@ -273,15 +273,12 @@ class PageController(BaseController):
         if branch and c.text is None:
             c.text = c.page.head.text
 
-        if ('ret_url' in request.params and
-                len(request.params['ret_url']) >= 2 and
-                request.params['ret_url'][0] == '/' and
-                request.params['ret_url'][1] != '/'):
-            c.ret_url = request.params['ret_url']
+        if c.came_from != u'':
+            c.came_from = c.came_from
         elif c.section:
-            c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
+            c.came_from = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
         else:
-            c.ret_url = h.entity_url(c.text)
+            c.came_from = h.entity_url(c.text)
 
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
@@ -372,8 +369,8 @@ class PageController(BaseController):
             watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        if 'ret_url' in request.params:
-            redirect(request.params.get('ret_url'))
+        if c.came_from != u'':
+            redirect(c.came_from)
         else:
             redirect(h.entity_url(text))
 
@@ -668,12 +665,12 @@ class PageController(BaseController):
             h.flash(_("No such text revision."), 'notice')
             redirect(h.entity_url(c.page))
         self._common_metadata(c.page, c.text)
-        c.ret_url = ''
+        c.came_from = ''
 
         if format == 'ajax':
             return tiles.comment.list(c.page)
         elif format == 'overlay':
-            c.ret_url = h.entity_url(c.page, member='comments') + '.overlay'
+            c.came_from = h.entity_url(c.page, member='comments') + '.overlay'
             return render('/page/comments.html', overlay=True)
         else:
             return render('/page/comments.html')
@@ -754,9 +751,9 @@ class PageController(BaseController):
         if c.section:
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
-            c.ret_url = h.entity_url(c.parent)
+            c.came_from = h.entity_url(c.parent)
         else:
-            c.ret_url = h.entity_url(c.page.instance)
+            c.came_from = h.entity_url(c.page.instance)
 
         return render("/page/ask_delete.html", overlay=(format == u'overlay'))
 
@@ -771,7 +768,7 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title,
                 'success')
-        redirect(request.params.get('ret_url'))
+        redirect(c.came_from)
 
     def _get_page_and_text(self, id, variant, text):
         page = get_entity_or_abort(model.Page, id)
