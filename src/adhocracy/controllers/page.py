@@ -50,6 +50,8 @@ class PageCreateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    container = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
@@ -203,7 +205,11 @@ class PageController(BaseController):
         variant = self.form_result.get("title")
         page = model.Page.create(
             c.instance, variant, _text, c.user,
-            formatting=self.form_result.get("formatting"),
+            function=(model.Page.CONTAINER
+                      if self.form_result.get("container")
+                      else model.Page.NORM),
+            formatting=(self.form_result.get("formatting")
+                        or self.form_result.get("container")),
             sectionpage=self.form_result.get("sectionpage"),
             allow_comment=self.form_result.get("allow_comment"),
             allow_selection=self.form_result.get("allow_selection"),
@@ -262,6 +268,7 @@ class PageController(BaseController):
         c.always_show_original = request.params.get("always_show_original",
                                                     False)
         c.branch = branch
+        c.container = c.page.function == c.page.CONTAINER
 
         c.section = 'section_parent' in request.params
         if c.section:
@@ -652,13 +659,18 @@ class PageController(BaseController):
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
         c.subpages_pager = pager.NamedPager(
-            'subpages', c.page.subpages, tiles.page.smallrow, sorts=sorts,
-            default_sort=sorting.delegateable_title)
+            'subpages', c.page.subpages,
+            (tiles.page.row
+             if c.page.function == model.Page.CONTAINER
+             else tiles.page.smallrow),
+            sorts=sorts, default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
-        if not c.amendment and c.page.is_sectionpage():
+        if c.page.function == c.page.CONTAINER:
+            return render("/page/show_container.html")
+        elif not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
                           overlay=(format == 'overlay'))
         else:

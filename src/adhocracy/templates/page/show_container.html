@@ -1,0 +1,42 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%namespace name="index_tiles" file="/page/index_tiles.html"/>
+
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+
+
+<%block name="main_content">
+<div class="morelink_header">
+    <h2>
+        ${c.page.title}
+        <div class="utility">
+            %if can.page.edit(c.page):
+            <a href="${h.entity_url(c.page, member='edit')}">${_(u"Edit")}</a>
+            %endif
+            %if can.page.delete(c.page):
+            <a href="${h.entity_url(c.page, member='ask_delete')}">${_(u"Delete")}</a>
+            %endif
+        </div>
+    </h2>
+    %if can.norm.create():
+        <a class="more_link"
+           href=${h.base_url('/page/new', query_params={'parent': c.page.id})}>${_("Create new norm")}</a>
+    %endif
+</div>
+<hr />
+
+${c.variant_details['text']|n}
+
+%if c.instance.page_index_as_tiles:
+${index_tiles.as_tiles(c.subpages_pager._items, columns=2)}
+%else:
+${c.subpages_pager.here()|n}
+%endif
+
+<div class="list_button">
+%if can.norm.create():
+    <a class="button title admin ttip" title="${_('Create a new norm.')}"
+       href=${h.base_url('/page/new', query_params={'parent': c.page.id})}>${_("new norm")}</a>
+%endif
+</div>
+</%block>
