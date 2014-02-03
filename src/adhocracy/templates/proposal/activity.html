@@ -8,15 +8,15 @@
 
 <%block name="headline">
 ${tiles.proposal.header(c.proposal, c.tile, active='activity')}
-${_("This is a record of all recent actions within this instance.")}
-${_("You can also have notifications sent to you.")}
-<a href="/static/notification_faq.html">${_("Info...")}</a>
+${_("This is a record of all recent actions concerning this proposal.")}
 </%block>
 
 <%block name="main_content">
 <div id="events_table" class="table">
     ${c.events_pager.here()}
 </div>
-${tiles.proposal.sidebar(c.proposal, c.tile)}
+</%block>
 
+<%block name="sidebar">
+${tiles.proposal.sidebar(c.proposal, c.tile)}
 </%block>
