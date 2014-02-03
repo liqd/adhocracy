@@ -2,7 +2,7 @@ Adhocracy Changelog
 ===================
 
 
-2.0.0 (unreleased)
+2.0.0 (2014-02-03)
 ------------------
 
 - Start doing releases using semantic versioning (#77). This release's
