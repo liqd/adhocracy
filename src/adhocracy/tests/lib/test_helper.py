@@ -113,15 +113,27 @@ class TestSiteHelper(TestController):
 
         return instance, user
 
-    def test_is_local_url(self):
+    def test_is_local_url_empty(self):
+        from adhocracy.lib import helpers as h
+
+        self.assert_(not h.site.is_local_url(''))
+        self.assert_(not h.site.is_local_url(None))
+
+    def test_is_local_url_domain(self):
+        from adhocracy.lib import helpers as h
+
+        self.assert_(not h.site.is_local_url('http://evil.com'))
+
+    def test_is_local_url_relative(self):
+        from adhocracy.lib import helpers as h
+
+        self.assert_(h.site.is_local_url('/i/test'))
+        self.assert_(h.site.is_local_url('relative_path'))
+
+    def test_is_local_url_entity(self):
         from adhocracy.lib import helpers as h
 
         instance, user = self._make_content()
 
         self.assert_(h.site.is_local_url(h.entity_url(user)))
         self.assert_(h.site.is_local_url(h.entity_url(instance)))
-        self.assert_(h.site.is_local_url('/i/test'))
-        self.assert_(h.site.is_local_url('relative_path'))
-        self.assert_(not h.site.is_local_url('http://evil.com'))
-        self.assert_(not h.site.is_local_url(''))
-        self.assert_(not h.site.is_local_url(None))
