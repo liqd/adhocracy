@@ -653,7 +653,7 @@ var adhocracy = adhocracy || {};
         if (netloc === '' || netloc === domain) {
             return true;
         } else if (netloc.match(domain + '$')) {
-            return (netloc.split('.').length - domain.split('.').length < 2);
+            return (netloc.split('.').length - domain.split('.').length <= 2);
         } else {
             return false;
         }
