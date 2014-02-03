@@ -9,6 +9,24 @@ Adhocracy Changelog
   changelog contains many changes from the past two years, but rather
   incomplete.
 
+- Allow to list norms in a tiled fashion. (#714)
+
+- Add container pages. These special norms act as containers of other norms.
+  (#709)
+
+- Proposal descriptions can now be shown directly in proposal lists. (#733)
+
+- It is now possible to translate the English source strings through Transifex
+  as it is done in all other languages. In Transifex, the `en_GB` language
+  is used as the "translated" English langauage in contrast to the "source"
+  English langauage and doesn't imply that british English shall be used.
+  (#102)
+
+- Automatically crop and center uploaded images (logos etc) to the desired
+  size. (#711)
+
+- Badges can now be managed in context. (#713)
+
 - Add images and long description texts to categories. Categories can now be
   listed and individually displayed, each showing all assigned proposals.
   (#695)
