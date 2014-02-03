@@ -130,6 +130,7 @@ ${self.form()}
 
     %if c.badge_type == 'category':
     <label for="parent" class="">${_("Parent Category")}</label>
+    <div class="help-block">${_('Link this category to a superordinate category')}</div>
     <select name="parent">
         <option value="">${_('No Parent Category')}</option>
         %if h.has_permission('global.admin'):
