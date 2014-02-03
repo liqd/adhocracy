@@ -242,6 +242,8 @@ def entity_url(entity, **kwargs):
 def logo_url(entity, y, x=None, **kwargs):
     if isinstance(entity, model.User):
         return user.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.Page):
+        return page.logo_url(entity, y, x=x, **kwargs)
     elif isinstance(entity, model.Instance):
         return instance.logo_url(entity, y, x=x, **kwargs)
     elif isinstance(entity, model.CategoryBadge):

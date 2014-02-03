@@ -169,6 +169,11 @@ def make_map(config):
                  parent_resource=dict(member_name='proposal',
                                       collection_name='proposal'))
 
+    map.connect('/page/{id}_{x}x{y}.png', controller='page',
+                action='logo')
+    map.connect('/page/{id}_{y}.png', controller='page',
+                action='logo')
+
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
 

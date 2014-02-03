@@ -13,13 +13,14 @@ from pylons.i18n import _
 
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h
-from adhocracy.lib import pager, sorting, tiles, watchlist
+from adhocracy.lib import pager, sorting, tiles, watchlist, logo
 from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import (render, render_json, ret_abort,
+                                      render_logo)
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
                                      page_titles_compare)
 from adhocracy.lib.text.render import render_line_based, render as render_text
@@ -137,10 +138,11 @@ class PageController(BaseController):
         c.tutorial_intro = _('tutorial_norms_overview_tab')
         c.tutorial = 'page_index'
 
-        if format == 'overlay':
-            return render("/page/index.html", overlay=True)
+        if c.instance.page_index_as_tiles:
+            return render("/page/index_tiles.html",
+                          overlay=format == u'overlay')
         else:
-            return render("/page/index.html")
+            return render("/page/index.html", overlay=format == u'overlay')
 
     @RequireInstance
     @guard.page.create()
@@ -228,6 +230,18 @@ class PageController(BaseController):
         page.set_category(category, c.user)
 
         model.meta.Session.commit()
+
+        try:
+            # fixme: show image errors in the form
+            if ('logo' in request.POST and
+                    hasattr(request.POST.get('logo'), 'file') and
+                    request.POST.get('logo').file):
+                logo.store(page, request.POST.get('logo').file)
+        except Exception, e:
+            h.flash(_(u"errors while uploading image: %s") % unicode(e),
+                    'error')
+            log.debug(e)
+
         if can.watch.create():
             watchlist.set_watch(page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
@@ -265,6 +279,9 @@ class PageController(BaseController):
         # categories for this page
         # (single category not assured in db model)
         c.category = c.page.category
+
+        if logo.exists(c.page):
+            c.logo = '<img src="%s" />' % h.logo_url(c.page, 48)
 
         defaults = dict(request.params)
         if not 'watch' in defaults:
@@ -305,6 +322,26 @@ class PageController(BaseController):
 
             self.form_result = PageUpdateForm().to_python(request.params,
                                                           state=state_())
+
+            # delete the logo if the button was pressed and exit
+            if 'delete_logo' in self.form_result:
+                updated = logo.delete(c.page)
+                h.flash(_(u'The logo has been deleted.'), 'success')
+                redirect(h.entity_url(c.page))
+
+            try:
+                # fixme: show image errors in the form
+                if ('logo' in request.POST and
+                        hasattr(request.POST.get('logo'), 'file') and
+                        request.POST.get('logo').file):
+                    logo.store(c.page, request.POST.get('logo').file)
+            except Exception, e:
+                model.meta.Session.rollback()
+                h.flash(unicode(e), 'error')
+                log.debug(e)
+                return self.edit(id, variant=c.variant, text=c.text.id,
+                                 branch=branch, format=format)
+
             parent_text = self.form_result.get("parent_text")
             if ((branch or
                  parent_text.variant != self.form_result.get("variant")) and
@@ -800,3 +837,8 @@ class PageController(BaseController):
                    page.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author",
                    libtext.meta_escape(text.user.name, markdown=False))
+
+    @RequireInstance
+    def logo(self, id, y, x=None):
+        page = get_entity_or_abort(model.Page, id)
+        return render_logo(page, y, x=x)
