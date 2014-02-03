@@ -51,7 +51,7 @@ class PageCreateForm(formencode.Schema):
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
     container = validators.StringBool(not_empty=False, if_empty=False,
-                                           if_missing=False)
+                                      if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
@@ -662,16 +662,16 @@ class PageController(BaseController):
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
         c.subpages_pager = pager.NamedPager(
-            'subpages', c.page.subpages, tiles.page.smallrow, sorts=sorts,
-            default_sort=sorting.delegateable_title)
+            'subpages', c.page.subpages,
+            (tiles.page.row
+             if c.page.function == model.Page.CONTAINER
+             else tiles.page.smallrow),
+            sorts=sorts, default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
         if c.page.function == c.page.CONTAINER:
-            c.subpages_pager = pager.NamedPager(
-                'subpages', c.page.subpages, tiles.page.row, sorts=sorts,
-                default_sort=sorting.delegateable_title)
             return render("/page/show_container.html")
         elif not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
