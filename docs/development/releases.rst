@@ -4,14 +4,18 @@ Release Management
 Release Versioning
 ------------------
 
-For adhocracy we use `semantic versioning <http://semver.org/>`_. This
-basically means that a release version consists of a major, a minor and
-a patch version (e.g. 1.2.3), where you increment
+For adhocracy we want to use `semantic versioning <http://semver.org/>`_. This
+basically means that a release version consists of a major, a minor and a patch
+version (e.g. 1.2.3), where you increment
 
 -  the *major* version when you make incompatible changes,
 -  the *minor* version when you add functionality in a
    backwards-compatible manner, and
 -  the *patch* version when you make backwards-compatible bug fixes.
+
+However, version 3 is a complete rewrite already in development. So for
+version 2 we cannot increment the major version number. Instead, we increment
+the minor version number also for incompatible changes.
 
 Changelog
 ---------
