@@ -2,7 +2,7 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="forms" file="/forms.html"/>
 
-<%def name="title()">${_("Variant: %s") % c.text.title}</%def>
+<%def name="title()">${_("Variant: %s") % c.text.title|n}</%def>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 

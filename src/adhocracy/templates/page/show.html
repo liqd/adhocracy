@@ -3,7 +3,7 @@
 <%namespace name="sidebar_defs" file="/sidebar.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 <% from adhocracy.lib import sorting %>
-<%def name="title()">${c.page.title}</%def>
+<%def name="title()">${c.page.title|n}</%def>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
