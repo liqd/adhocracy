@@ -290,7 +290,13 @@ def proposals(proposals, default_sort=None, **kwargs):
              _("Mixed"): sorting.proposal_mixed,
              _("Controversy"): sorting.proposal_controversy,
              _("Alphabetically"): sorting.delegateable_label}
-    return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
+
+    if config.get_bool(u'adhocracy.proposal_pager_inline'):
+        row = tiles.proposal.row_inline
+    else:
+        row = tiles.proposal.row
+
+    return NamedPager('proposals', proposals, row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
 
@@ -1615,7 +1621,12 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
     if instance.milestones:
         facets.insert(1, (DelegateableMilestoneFacet, {}))
 
-    pager = SolrPager('proposals', tiles.proposal.row,
+    if config.get_bool(u'adhocracy.proposal_pager_inline'):
+        row = tiles.proposal.row_inline
+    else:
+        row = tiles.proposal.row
+
+    pager = SolrPager('proposals', row,
                       entity_type=model.Proposal,
                       sorts=sorts,
                       extra_filter=extra_filter,

@@ -9,3 +9,29 @@ ul.papers_list {
 .paper p {
     display: inline;
 }
+
+.proposals_pager {
+    .content_box {
+        @include clearfix;
+
+        > div {
+            float: left;
+            margin-bottom: 0.5em;
+        }
+    }
+    .showhide_button {
+        float: right;
+        margin-right: 1em;
+    }
+    .proposal {
+        padding: 1.5em;
+        clear: both;
+
+        .vote_wrapper {
+            float: right;
+        }
+        hr {
+            margin-bottom: 1em;
+        }
+    }
+}

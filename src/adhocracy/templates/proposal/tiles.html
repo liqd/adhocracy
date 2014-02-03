@@ -1,52 +1,81 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
+<%def name="_row(tile, proposal)">
+    <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
+          data-id="${proposal.id}">
+        ${tiles.badge.badges(proposal.thumbnails)}
+    </div>
+    <div>
+        <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+            %if tile.fresh:
+                ${_("(new)")}
+            %endif
+            <span id="badges_${proposal.id}" class="badges"
+                  data-id="${proposal.id}">
+                ${tiles.badge.badges(proposal.badges)}
+            </span>
+            <span  class="badges">
+                ${tiles.badge.badges(proposal.categories)}
+            </span>
+            %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
+            %if can.proposal.edit_badges(proposal):
+            <a class="button_small edit"
+               href="${h.entity_url(proposal, member='badges')}"
+               rel="#overlay-form">${_(u"Edit Badges")}</a>
+            %endif
+            %else:
+            %if can.proposal.edit(proposal):
+            <a class="button_small edit"
+               href="${h.entity_url(proposal, member='edit')}"
+               rel="#overlay-form">${_(u"Edit")}</a>
+            %endif
+            %endif
+        </h3>
+        <div class="meta">
+            %if proposal.is_adopt_polling():
+                ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+                ·
+            %elif proposal.rate_poll is not None:
+                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
+                ·
+            %endif
+            %if proposal.instance.use_norms and proposal.instance.allow_propose_changes:
+                ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
+                ·
+            %endif
+        </div>
+    </div>
+</%def>
+
+
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
-              data-id="${proposal.id}">
-            ${tiles.badge.badges(proposal.thumbnails)}
-        </div>
-        <div>
-            <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
-                %if tile.fresh:
-                    ${_("(new)")}
-                %endif
-                <span id="badges_${proposal.id}" class="badges"
-                      data-id="${proposal.id}">
-                    ${tiles.badge.badges(proposal.badges)}
-                </span>
-                <span  class="badges">
-                    ${tiles.badge.badges(proposal.categories)}
-                </span>
-                %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-                %if can.proposal.edit_badges(proposal):
-                <a class="button_small edit"
-                   href="${h.entity_url(proposal, member='badges')}"
-                   rel="#overlay-form">${_(u"Edit Badges")}</a>
-                %endif
-                %else:
-                %if can.proposal.edit(proposal):
-                <a class="button_small edit"
-                   href="${h.entity_url(proposal, member='edit')}"
-                   rel="#overlay-form">${_(u"Edit")}</a>
-                %endif
-                %endif
-            </h3>
-            <div class="meta">
-                %if proposal.is_adopt_polling():
-                    ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-                    ·
-                %elif proposal.rate_poll:
-                    ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
-                    ·
-                %endif
-                %if proposal.instance.use_norms and proposal.instance.allow_propose_changes:
-                    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-                    ·
-                %endif
+        ${_row(tile, proposal)}
+    </li>
+</%def>
+
+
+<%def name="row_inline(tile, proposal)">
+    <li class="content_box ${'fresh' if tile.fresh else ''}">
+        ${_row(tile, proposal)}
+        <a class="button_small showhide_button"
+           data-target="#proposal-${proposal.id}"
+           data-target-speed="fast"
+           data-toggle-class="less"
+           data-toggle-text="${_('hide')}"
+           href="#">${_('show')}</a>
+        <article class="proposal" style="display: none" id="proposal-${proposal.id}">
+            <div class="body">
+                ${tiles.page.inline(proposal.description)}
             </div>
-        </div>
+            <hr />
+
+            %if not proposal.is_adopt_polling() and proposal.rate_poll is not None:
+            ${tiles.poll.widget(proposal.rate_poll, cls='big')}
+            %endif
+            <a class="button" href="${h.entity_url(proposal, member='comments')}" rel="#overlay-url">${_('Join the discussion')}</a>
+        </article>
     </li>
 </%def>
 
