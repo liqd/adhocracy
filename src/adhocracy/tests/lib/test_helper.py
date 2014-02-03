@@ -121,8 +121,20 @@ class TestSiteHelper(TestController):
 
     def test_is_local_url_domain(self):
         from adhocracy.lib import helpers as h
+        from adhocracy import config
 
+        self.assert_(h.site.is_local_url(
+            '//' + config.get(u'adhocracy.domain')))
         self.assert_(not h.site.is_local_url('http://evil.com'))
+
+    def test_is_local_url_subdomain(self):
+        from adhocracy.lib import helpers as h
+        from adhocracy import config
+
+        self.assert_(h.site.relative_urls() ^ h.site.is_local_url(
+            u'//subdomain.' + config.get(u'adhocracy.domain')))
+        self.assert_(not h.site.is_local_url(
+            u'//subsub.sub.' + config.get(u'adhocracy.domain')))
 
     def test_is_local_url_relative(self):
         from adhocracy.lib import helpers as h
