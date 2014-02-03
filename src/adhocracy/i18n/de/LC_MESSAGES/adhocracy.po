@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:56+0000\n"
+"POT-Creation-Date: 2014-02-03 18:32+0100\n"
+"PO-Revision-Date: 2014-02-03 17:33+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1017,6 +1017,9 @@ msgstr "Ungültige Anfrage. Bitte gehen Sie zurück und versuchen es erneut."
 msgid "The method you used is not implemented."
 msgstr "Was Sie versuchten ist nicht implementiert."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Missbrauch-Report: %s"
@@ -1830,9 +1833,6 @@ msgstr "zurück"
 msgid "next"
 msgstr "nächste"
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Gruppen"
 
@@ -2166,14 +2166,14 @@ msgstr "Seiteneinstellungen"
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
 
+msgid "Users CSV"
+msgstr "Benutzer CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, E-mail und Badges (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
-
-msgid "Users CSV"
-msgstr "Benutzer CSV"
 
 msgid "Email Subject"
 msgstr "E-Mail-Betreff"
@@ -2258,12 +2258,12 @@ msgstr "Beschreibung der Kategorie"
 msgid "Badge description"
 msgstr "Beschreibung des Badges"
 
+msgid "Long category description"
+msgstr "Ausführliche Beschreibung der Kategorie"
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Hier können Sie eine detaillierte Beschreibung der Kategorie mit markdown Formatierung vornehmen. Sie können auch Bilder und Links einbetten."
-
-msgid "Long category description"
-msgstr "Ausführliche Beschreibung der Kategorie"
 
 msgid "The color that is used to show the category"
 msgstr "Die Farbe dieser Kategorie."
@@ -2326,6 +2326,9 @@ msgstr "Global"
 
 msgid "Parent Category"
 msgstr "Elternkategorie"
+
+msgid "Link this category to a superordinate category"
+msgstr "Diese Kategorie mit einer übergeordneten Kategorie verknüpfen"
 
 msgid "No Parent Category"
 msgstr "Keine Elternkategorie"
@@ -2930,11 +2933,11 @@ msgstr "Abstimmungsresultat nach Badge aufteilen"
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Die Meinung der Benutzer zu diesem Thema anzeigen, welche die ausgewählten Badges besitzen."
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
 
 msgid "Status badge image width"
 msgstr "Verändern Sie die Breite des Status-Badge Bildes."
@@ -3000,20 +3003,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr "Geben Sie der Instanz einen Namen."
 
+msgid "Description of the instance"
+msgstr "Beschreibung der Gruppe"
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Geben Sie hier den Text ein, der auf der Übersichtsseite Ihrer Instanz angezeigt werden soll. Beschreiben Sie Ihren Beteiligungsprozess, durch Angabe konkreter Ziele der Beteiligung und wie die Mitglieder diese durch ihre Mitarbeit erreichen können."
 
-msgid "Description of the instance"
-msgstr "Beschreibung der Gruppe"
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Wählen Sie ein Logo für Ihre Instanz."
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Aktuelles Logo"
@@ -4513,13 +4516,13 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
+msgid "Avatar"
+msgstr "Profilbild"
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Wählen Sie ein Profilbild. Das Bild sollte quadratisch sein. Andernfalls wird es entsprechend verzerrt."
-
-msgid "Avatar"
-msgstr "Profilbild"
 
 msgid "Current avatar"
 msgstr "Aktuelles Profilbild"
@@ -4527,13 +4530,13 @@ msgstr "Aktuelles Profilbild"
 msgid "Delete current avatar"
 msgstr "Aktuelles Profilbild löschen"
 
+msgid "Short biography"
+msgstr "Kurzbiographie"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
-
-msgid "Short biography"
-msgstr "Kurzbiographie"
 
 msgid "I am an organisation"
 msgstr "Ich vertrete eine Organisation"
