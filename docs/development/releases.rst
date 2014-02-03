@@ -44,6 +44,25 @@ pull request. This makes reviewing much easier.
 Small changes like typo or pep8 fixes may be committed directly to
 develop.
 
+How to release adhocracy
+------------------------
+
+If the steps described above are followed, releasing a new version of adhocracy
+is simple. Just run the following commands from adhocracy root folder::
+
+    git checkout master
+    git merge develop
+    git tag $VERSION
+    bin/mkrelease -TCd pypi
+
+To create a local develop release, just run::
+
+    bin/mkrelease -CTqed localhost:/home/...
+
+Note that you need to have your `.pypirc
+http://docs.python.org/2/distutils/packageindex.html#the-pypirc-file`
+configured.
+
 Limitations
 -----------
 
