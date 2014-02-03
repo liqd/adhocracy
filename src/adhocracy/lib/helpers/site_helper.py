@@ -130,5 +130,5 @@ def is_local_url(url):
         return False
     else:
         # this allows only one subdomain below domain
-        return (netloc.endswith(domain) and
+        return (netloc.endswith(u'.' + domain) and
                 (netloc.count(u'.') - domain.count(u'.') == 1))
