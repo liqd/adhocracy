@@ -182,21 +182,21 @@ def help_link(text, page, anchor=None):
 
 def get_redirect_url(target=u'login', entity=None, **kwargs):
     '''
-    Builds an URL similar to  ".../login?ret_url=http...." pointing to the
+    Builds an URL similar to  ".../login?came_from=http...." pointing to the
     target path in the current instance domain. If we already have a
-    ``ret_url`` parameter in the path, this is going to be used as the new
-    ``ret_url`` target. Otherwise, if ``entity`` is set, this will redirect
+    ``came_from`` parameter in the path, this is going to be used as the new
+    ``came_from`` target. Otherwise, if ``entity`` is set, this will redirect
     to the given entity after successful login. If ``entity`` is None, it will
     redirect to the current URL.
     '''
-    if c.ret_url == u'':
+    if c.came_from == u'':
         if entity is None:
-            c.ret_url = base_url(request.path,
+            c.came_from = base_url(request.path,
                                  query_string=request.query_string)
         else:
-            c.ret_url = entity_url(entity, **kwargs)
+            c.came_from = entity_url(entity, **kwargs)
 
-    return build(c.instance, '', target, query={'ret_url': c.ret_url})
+    return build(c.instance, '', target, query={'came_from': c.came_from})
 
 
 def login_redirect_url(entity=None, **kwargs):

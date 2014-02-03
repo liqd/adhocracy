@@ -36,4 +36,4 @@ Anonymous users cannot open the form:
     >>> anon.raiseHttpErrors = False
     >>> anon.open('http://test.lan/admin/users/import')
     >>> anon.url
-    'http://test.lan/login?ret_url=http%3A%2F%2Ftest.lan%2Fadmin%2Fusers%2Fimport'
+    'http://test.lan/login?came_from=http%3A%2F%2Ftest.lan%2Fadmin%2Fusers%2Fimport'

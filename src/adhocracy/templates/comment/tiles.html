@@ -19,7 +19,7 @@
 </%def>
 
 
-<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True, ret_url='')">
+<%def name="list(tile, comments, topic, variant=None, root=None, recurse=True, came_from='')">
     <%
     _comments = h.comments_sorted(comments, root=root, variant=variant)
     %>
@@ -41,7 +41,7 @@
              id="${target}"
              data-cancel=".cancel">
             <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url, show_cancel=(len(comments) != 0))}
+                ${create_form(None, topic, variant=variant, came_from=came_from, show_cancel=(len(comments) != 0))}
             </div>
         </div>
         %if hide_form:
@@ -102,10 +102,10 @@
         %for comment, tile in _comments:
         %if tile.show:
         <li>
-            ${tiles.comment.show(comment, recurse=recurse, ret_url=ret_url)}
+            ${tiles.comment.show(comment, recurse=recurse, came_from=came_from)}
 
             %if recurse:
-            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, ret_url=ret_url)}
+            ${tiles.comment.list(comment.topic, comment, comment.topic.comments,  variant=variant, recurse=recurse, came_from=came_from)}
             %endif
 
         </li>
@@ -116,7 +116,7 @@
 </%def>
 
 
-<%def name="show(tile, comment, ret_url='')">
+<%def name="show(tile, comment, came_from='')">
     <%
     if not tile.show:
         return
@@ -144,7 +144,7 @@
                     %if can.comment.edit(comment):
                     <a class="edit_comment"
                        href="${h.entity_url(comment, member='edit',
-                                            query=dict(ret_url=ret_url))}">
+                                            query=dict(came_from=came_from))}">
                         ${_("edit")}</a>
                     %endif
 
@@ -210,7 +210,7 @@
                 ## Reply button
                 <% auth = check.comment.reply(comment) %>
                 %if auth and recurse:
-                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id), query_params={'ret_url': ret_url})}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
+                <a class="new_comment" data-reply-url="${h.base_url('/comment/form/reply/' + str(comment.id), query_params={'came_from': came_from})}" href="#">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_join():
                 <a class="new_comment" title="${_('Join instance to reply') if h.comment.wording() else _('Join instance to argue')}" rel="#overlay-join-button">${_('reply') if h.comment.wording() else _('Add argument')}</a>
                 %elif auth.propose_login():
@@ -223,7 +223,7 @@
     </div>
 </%def>
 
-<%def name="edit_form(comment, ret_url='')">
+<%def name="edit_form(comment, came_from='')">
 
 <%
 
@@ -243,7 +243,7 @@ klass_con = klass(-1)
           method="POST" action="${h.entity_url(comment, comment_page=True)}">
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
-        <input type="hidden" name="ret_url" value="${ret_url}" />
+        <input type="hidden" name="came_from" value="${came_from}" />
       <div class="subcolumns">
         <div class="c60l">
           <div class="subcl">
@@ -280,7 +280,7 @@ klass_con = klass(-1)
 </%def>
 
 
-<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, ret_url='', format=None, show_cancel=True)">
+<%def name="create_form(parent, topic, wiki=None, arm=False, can_wiki=True, variant=None, came_from='', format=None, show_cancel=True)">
 
 <%
 if format is None:
@@ -295,7 +295,7 @@ if wiki is None:
         method="POST" action="${h.base_url('/comment%s' % format, topic.instance)}">
       ${h.field_token()|n}
       <input type="hidden" name="topic" value="${topic.id}" />
-      <input type="hidden" name="ret_url" value="${ret_url}" />
+      <input type="hidden" name="came_from" value="${came_from}" />
       %if variant:
           <input type="hidden" name="variant" value="${variant}" />
       %endif

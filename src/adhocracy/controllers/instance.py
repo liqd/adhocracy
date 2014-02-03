@@ -977,7 +977,7 @@ class InstanceController(BaseController):
                                'instance': c.page_instance.label
                            },
                            category='success',
-                           force_path=c.ret_url)
+                           force_path=c.came_from)
 
     def ask_leave(self, id):
         c.page_instance = self._get_current_instance(id)

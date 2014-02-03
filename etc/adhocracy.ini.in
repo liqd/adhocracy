@@ -319,7 +319,7 @@ piwik.id =
 # INSTALL: Allow users to lock themselves out of adhocracy
 # adhocracy.self_deletion_allowed = true
 
-# In the case that no ret_url parameter is set, users are redirected to the
+# In the case that no came_from parameter is set, users are redirected to the
 # locations defined in the following settings. You can leave any of these
 # commented out. If instance is given, the url of the given instance is used
 # to build the URL, otherwise the current instance is used.

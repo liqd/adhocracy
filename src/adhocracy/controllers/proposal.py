@@ -529,21 +529,21 @@ class ProposalController(BaseController):
         c.proposal = get_entity_or_abort(model.Proposal, id)
         require.proposal.delete(c.proposal)
         if c.proposal.is_amendment:
-            ret_url = h.entity_url(c.proposal.selection.page,
-                                   member='amendment')
+            came_from = h.entity_url(c.proposal.selection.page,
+                                     member='amendment')
             page = c.proposal.selection.page
             event.emit(event.T_AMENDMENT_DELETE, c.user, instance=c.instance,
                        topics=[c.proposal, page], proposal=c.proposal,
                        page=page)
         else:
-            ret_url = h.entity_url(c.instance)
+            came_from = h.entity_url(c.instance)
             event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
                        topics=[c.proposal], proposal=c.proposal)
         c.proposal.delete()
         model.meta.Session.commit()
         h.flash(_("The proposal %s has been deleted.") % c.proposal.title,
                 'success')
-        redirect(ret_url)
+        redirect(came_from)
 
     @RequireInstance
     def ask_adopt(self, id):

@@ -293,8 +293,8 @@ class UserController(BaseController):
         if authenticated:
             session['logged_in'] = True
             session.save()
-            if c.ret_url != u'':
-                location = urllib.unquote_plus(c.ret_url)
+            if c.came_from != u'':
+                location = urllib.unquote_plus(c.came_from)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -765,7 +765,7 @@ class UserController(BaseController):
             message=_("The activation link has been re-sent to your email "
                       "address."), category='success',
             entity=c.page_user, member='settings/notifications',
-            format=None, force_path=c.ret_url)
+            format=None, force_path=c.came_from)
 
     @staticmethod
     def _get_profile_nav(user, active_key):
@@ -909,7 +909,7 @@ class UserController(BaseController):
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
             redirect(h.base_url('/login', query_params={
-                u'ret_url': request.url,
+                u'came_from': request.url,
             }))
 
         require.user.show_dashboard(c.user)
@@ -998,8 +998,8 @@ class UserController(BaseController):
     def login(self):
         c.active_global_nav = "login"
         if c.user:
-            if c.ret_url != u'':
-                redirect(urllib.unquote_plus(c.ret_url))
+            if c.came_from != u'':
+                redirect(urllib.unquote_plus(c.came_from))
             else:
                 redirect(h.user.post_login_url(c.user))
         else:
@@ -1032,8 +1032,8 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            if c.ret_url != u'':
-                redirect(urllib.unquote_plus(c.ret_url))
+            if c.came_from != u'':
+                redirect(urllib.unquote_plus(c.came_from))
             else:
                 # redirect to the dashboard inside the instance exceptionally
                 # to be able to link to proposals and norms in the welcome
@@ -1417,7 +1417,7 @@ class UserController(BaseController):
     def welcome(self, id, token):
         # Intercepted by WelcomeRepozeWho, only errors go in here
         if c.user:
-            return redirect(request.params.get('ret_url', '/'))
+            return redirect(request.params.get('came_from', '/'))
 
         h.flash(_('You already have a password - use that to log in.'),
                 'error')

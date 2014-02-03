@@ -33,7 +33,7 @@
     %endif
 
     <input type="hidden" name="_method" value="PUT" />
-    <input type="hidden" name="ret_url" value="${c.ret_url}" />
+    <input type="hidden" name="came_from" value="${c.came_from}" />
 
     <label for="text">${_("Text")}</label>
     <textarea rows="${c.text_rows}"
@@ -111,7 +111,7 @@
     ${tiles.milestone.select(c.page.milestone)}
     %endif
 
-    ${components.savebox(c.ret_url)}
+    ${components.savebox(c.came_from)}
     ${components.form_watch(c.page)}
 
 </form>

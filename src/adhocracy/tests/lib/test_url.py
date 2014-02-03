@@ -83,7 +83,7 @@ class TestUrls(TestController):
 
         proposal = tt_make_proposal(title=u'testproposal')
         url = login_redirect_url(proposal)
-        expected = (u'http://test.test.lan/login?ret_url='
+        expected = (u'http://test.test.lan/login?came_from='
                     u'http%3A%2F%2Ftest.test.lan%2Fproposal%2F2-testproposal')
         self.assertEqual(url, expected)
 
