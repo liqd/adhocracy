@@ -1,13 +1,14 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 
-<%def name="title()">${_("Variant: %s") % c.text.title}</%def>
+<%def name="title()">${_("Variant: %s") % c.text.title|n}</%def>
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n} &raquo; ${_("Edit variant")}</%def>
 
 
 <%block name="main_content">
-<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page, in_context=False)}">
+<form name="edit_page" class="inplace" method="POST" action="${h.entity_url(c.page, in_context=False)}" enctype="multipart/form-data">
 
     <h2>${_(u"Edit section") if c.section else _(u"Norm: %s") % c.page.title}</h2>
     ${h.field_token()|n}
@@ -33,7 +34,7 @@
     %endif
 
     <input type="hidden" name="_method" value="PUT" />
-    <input type="hidden" name="ret_url" value="${c.ret_url}" />
+    <input type="hidden" name="came_from" value="${c.came_from}" />
 
     <label for="text">${_("Text")}</label>
     <textarea rows="${c.text_rows}"
@@ -46,7 +47,7 @@
 
     %if can.page.manage(c.page):
     <fieldset>
-        %if not c.section:
+        %if not c.section and not c.container:
         <div class="input_wrapper">
             <label>
                 <input name="sectionpage" type="checkbox" ${'checked="checked"' if c.page.sectionpage else '' | n} value="1" />
@@ -54,13 +55,15 @@
             </label>
         </div>
         %endif
+        %if not c.container:
         <div class="input_wrapper">
             <label>
                 <input name="allow_comment" type="checkbox" ${'checked="checked"' if c.page.allow_comment else '' | n} value="1" />
                 ${_('Allow Comments')}
             </label>
         </div>
-        %if c.instance.allow_propose_changes or c.page.is_sectionpage():
+        %endif
+        %if not c.container and (c.instance.allow_propose_changes or c.page.is_sectionpage()):
         <div class="input_wrapper">
             <label>
                 <input name="allow_selection" type="checkbox" ${'checked="checked"' if c.page.allow_selection else '' | n} value="1" />
@@ -77,13 +80,32 @@
             </label>
         </div>
         </%doc>
+        %if not c.container:
         <div class="input_wrapper">
             <label>
                 <input name="formatting" type="checkbox" ${'checked="checked"' if c.page.formatting else '' | n} value="1" />
                 ${_("Use markdown formatting.")}
             </label>
         </div>
+        %else:
+        <input name="formatting" type="hidden" ${'checked="checked"' if c.page.formatting else '' | n} value="1" />
+        %endif
     </fieldset>
+
+    %if c.instance.page_index_as_tiles:
+    <fieldset class="logo">
+        <%forms:input label="Logo" name="logo" type="file"
+                      help="${_('Upload a logo for this page. Please note that the logo will only be displayed in the pages index.')}">
+        </%forms:input>
+        %if c.logo:
+        <div class="current">
+            ${h.literal(c.logo)}
+            <br />
+            <input type="submit" name="delete_logo" value="${_('Delete current logo')}" />
+        </div>
+        %endif
+    </fieldset>
+    %endif
 
     %if not c.section:
     <fieldset>
@@ -111,7 +133,7 @@
     ${tiles.milestone.select(c.page.milestone)}
     %endif
 
-    ${components.savebox(c.ret_url)}
+    ${components.savebox(c.came_from)}
     ${components.form_watch(c.page)}
 
 </form>

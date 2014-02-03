@@ -68,6 +68,16 @@ def row_small(proposal):
                        badgesglobal_admin=global_admin)
 
 
+def row_inline(proposal):
+    global_admin = authorization.has('global.admin')
+    if not proposal:
+        return ""
+    return render_tile('/proposal/tiles.html', 'row_inline',
+                       ProposalTile(proposal),
+                       proposal=proposal, cached=True,
+                       badgesglobal_admin=global_admin)
+
+
 def header(proposal, tile=None, active='goal'):
     if tile is None:
         tile = ProposalTile(proposal)

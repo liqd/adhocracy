@@ -16,5 +16,5 @@
         ${tiles.comment.show(c.comment.reply, recurse=False)}
     %endif
 
-    ${t.edit_form(c.comment, ret_url=c.ret_url)}
+    ${t.edit_form(c.comment, came_from=c.came_from)}
 </%block>

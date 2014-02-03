@@ -15,13 +15,14 @@ import geojson
 
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h
-from adhocracy.lib import pager, sorting, tiles, watchlist
+from adhocracy.lib import pager, sorting, tiles, watchlist, logo
 from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import (render, render_json, ret_abort,
+                                      render_logo)
 from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
                                      page_titles_compare)
@@ -53,6 +54,8 @@ class PageCreateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    container = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
@@ -145,10 +148,11 @@ class PageController(BaseController):
         c.tutorial_intro = _('tutorial_norms_overview_tab')
         c.tutorial = 'page_index'
 
-        if format == 'overlay':
-            return render("/page/index.html", overlay=True)
+        if c.instance.page_index_as_tiles:
+            return render("/page/index_tiles.html",
+                          overlay=format == u'overlay')
         else:
-            return render("/page/index.html")
+            return render("/page/index.html", overlay=format == u'overlay')
 
     @RequireInstance
     @guard.page.create()
@@ -209,7 +213,11 @@ class PageController(BaseController):
         variant = self.form_result.get("title")
         page = model.Page.create(
             c.instance, variant, _text, c.user,
-            formatting=self.form_result.get("formatting"),
+            function=(model.Page.CONTAINER
+                      if self.form_result.get("container")
+                      else model.Page.NORM),
+            formatting=(self.form_result.get("formatting")
+                        or self.form_result.get("container")),
             sectionpage=self.form_result.get("sectionpage"),
             allow_comment=self.form_result.get("allow_comment"),
             allow_selection=self.form_result.get("allow_selection"),
@@ -221,26 +229,38 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
-        if 'ret_url' in request.params:
-            ret_url = request.params.get('ret_url')
+        if c.came_from != u'':
+            came_from = c.came_from
         elif proposal is not None and can.selection.create(proposal):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
-            ret_url = h.page.url(page, member='branch',
+            came_from = h.page.url(page, member='branch',
                                  query={'proposal': proposal.id})
         else:
-            ret_url = h.entity_url(page)  # by default, redirect to the page
+            came_from = h.entity_url(page)  # by default, redirect to the page
 
         categories = self.form_result.get('category')
         category = categories[0] if categories else None
         page.set_category(category, c.user)
 
         model.meta.Session.commit()
+
+        try:
+            # fixme: show image errors in the form
+            if ('logo' in request.POST and
+                    hasattr(request.POST.get('logo'), 'file') and
+                    request.POST.get('logo').file):
+                logo.store(page, request.POST.get('logo').file)
+        except Exception, e:
+            h.flash(_(u"errors while uploading image: %s") % unicode(e),
+                    'error')
+            log.debug(e)
+
         if can.watch.create():
             watchlist.set_watch(page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
                    topics=[page], page=page, rev=page.head)
-        redirect(ret_url)
+        redirect(came_from)
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
@@ -256,6 +276,7 @@ class PageController(BaseController):
         c.always_show_original = request.params.get("always_show_original",
                                                     False)
         c.branch = branch
+        c.container = c.page.function == c.page.CONTAINER
 
         c.section = 'section_parent' in request.params
         if c.section:
@@ -274,6 +295,9 @@ class PageController(BaseController):
         # (single category not assured in db model)
         c.category = c.page.category
 
+        if logo.exists(c.page):
+            c.logo = '<img src="%s" />' % h.logo_url(c.page, 48)
+
         defaults = dict(request.params)
         if not 'watch' in defaults:
             defaults['watch'] = h.find_watch(c.page)
@@ -281,15 +305,12 @@ class PageController(BaseController):
         if branch and c.text is None:
             c.text = c.page.head.text
 
-        if ('ret_url' in request.params and
-                len(request.params['ret_url']) >= 2 and
-                request.params['ret_url'][0] == '/' and
-                request.params['ret_url'][1] != '/'):
-            c.ret_url = request.params['ret_url']
+        if c.came_from != u'':
+            c.came_from = c.came_from
         elif c.section:
-            c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
+            c.came_from = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
         else:
-            c.ret_url = h.entity_url(c.text)
+            c.came_from = h.entity_url(c.text)
 
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
@@ -316,6 +337,26 @@ class PageController(BaseController):
 
             self.form_result = PageUpdateForm().to_python(request.params,
                                                           state=state_())
+
+            # delete the logo if the button was pressed and exit
+            if 'delete_logo' in self.form_result:
+                updated = logo.delete(c.page)
+                h.flash(_(u'The logo has been deleted.'), 'success')
+                redirect(h.entity_url(c.page))
+
+            try:
+                # fixme: show image errors in the form
+                if ('logo' in request.POST and
+                        hasattr(request.POST.get('logo'), 'file') and
+                        request.POST.get('logo').file):
+                    logo.store(c.page, request.POST.get('logo').file)
+            except Exception, e:
+                model.meta.Session.rollback()
+                h.flash(unicode(e), 'error')
+                log.debug(e)
+                return self.edit(id, variant=c.variant, text=c.text.id,
+                                 branch=branch, format=format)
+
             parent_text = self.form_result.get("parent_text")
             if ((branch or
                  parent_text.variant != self.form_result.get("variant")) and
@@ -380,8 +421,8 @@ class PageController(BaseController):
             watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        if 'ret_url' in request.params:
-            redirect(request.params.get('ret_url'))
+        if c.came_from != u'':
+            redirect(c.came_from)
         else:
             redirect(h.entity_url(text))
 
@@ -626,13 +667,18 @@ class PageController(BaseController):
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
         c.subpages_pager = pager.NamedPager(
-            'subpages', c.page.subpages, tiles.page.smallrow, sorts=sorts,
-            default_sort=sorting.delegateable_title)
+            'subpages', c.page.subpages,
+            (tiles.page.row
+             if c.page.function == model.Page.CONTAINER
+             else tiles.page.smallrow),
+            sorts=sorts, default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
-        if not c.amendment and c.page.is_sectionpage():
+        if c.page.function == c.page.CONTAINER:
+            return render("/page/show_container.html")
+        elif not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
                           overlay=(format == 'overlay'))
         else:
@@ -676,12 +722,12 @@ class PageController(BaseController):
             h.flash(_("No such text revision."), 'notice')
             redirect(h.entity_url(c.page))
         self._common_metadata(c.page, c.text)
-        c.ret_url = ''
+        c.came_from = ''
 
         if format == 'ajax':
             return tiles.comment.list(c.page)
         elif format == 'overlay':
-            c.ret_url = h.entity_url(c.page, member='comments') + '.overlay'
+            c.came_from = h.entity_url(c.page, member='comments') + '.overlay'
             return render('/page/comments.html', overlay=True)
         else:
             return render('/page/comments.html')
@@ -762,9 +808,9 @@ class PageController(BaseController):
         if c.section:
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
-            c.ret_url = h.entity_url(c.parent)
+            c.came_from = h.entity_url(c.parent)
         else:
-            c.ret_url = h.entity_url(c.page.instance)
+            c.came_from = h.entity_url(c.page.instance)
 
         return render("/page/ask_delete.html", overlay=(format == u'overlay'))
 
@@ -779,7 +825,7 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title,
                 'success')
-        redirect(request.params.get('ret_url'))
+        redirect(c.came_from)
 
     def _get_page_and_text(self, id, variant, text):
         page = get_entity_or_abort(model.Page, id)
@@ -811,6 +857,11 @@ class PageController(BaseController):
                    page.create_time.strftime("%Y-%m-%d"))
         h.add_meta("dc.author",
                    libtext.meta_escape(text.user.name, markdown=False))
+
+    @RequireInstance
+    def logo(self, id, y, x=None):
+        page = get_entity_or_abort(model.Page, id)
+        return render_logo(page, y, x=x)
 
     def proposal_geotags(self, id):
         c.page = get_entity_or_abort(model.Page, id)

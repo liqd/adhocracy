@@ -5,7 +5,7 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
-<%def name="title()">${c.proposal.title}</%def>
+<%def name="title()">${c.proposal.title|n}</%def>
 
 <%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
 
@@ -38,7 +38,7 @@
     delegate_url = url if can.delegation.create(c.proposal) else None
 %>
 
-%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
+%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll is not None:
 ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
 %endif
 

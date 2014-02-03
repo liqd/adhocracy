@@ -148,17 +148,14 @@ def make_map(config):
     #map.connect('/proposal/{id}/badges', controller='proposal',
                 #action='update_badges', conditions=dict(method=['POST']))
 
-    map.resource('proposal', 'proposal', member={'votes': 'GET',
-                                                 'delegations': 'GET',
+    map.resource('proposal', 'proposal', member={'delegations': 'GET',
                                                  'activity': 'GET',
-                                                 'alternatives': 'GET',
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST',
-                                                 'tag': 'POST',
-                                                 'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
+                                                 'comments': 'GET',
                                                  'history': 'GET',
                                                  'get_geotag': 'GET',
                                                  'edit_geotag': 'GET',
@@ -179,6 +176,11 @@ def make_map(config):
                              'propose': 'GET'},
                  parent_resource=dict(member_name='proposal',
                                       collection_name='proposal'))
+
+    map.connect('/page/{id}_{x}x{y}.png', controller='page',
+                action='logo')
+    map.connect('/page/{id}_{y}.png', controller='page',
+                action='logo')
 
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))

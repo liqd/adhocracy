@@ -1,7 +1,6 @@
 <%inherit file="/instance/settings.html" />
 <%namespace name="forms" file="/forms.html"/>
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
 
 
 <%block name="settings_content">
@@ -17,6 +16,7 @@
         ${forms.checkbox(_("Allow editing of proposals by default"), 'editable_proposals_default')}
         ${forms.checkbox(_("Require to propose a variant"), 'require_selection', help=_("If norms are activated, this option will ensure that users change at least one norm with each proposal."))}
         ${forms.checkbox(_("Hide global categories"), 'hide_global_categories', help=_("Members of your instance only see the catagories you created."))}
+        ${forms.checkbox(_("Display page index as tiles"), 'page_index_as_tiles')}
     </fieldset>
     <fieldset>
         ${forms.checkbox(_("Hide this instance"), 'hidden', help=_("Select whether this instance will be shown in public listings."))}

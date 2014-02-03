@@ -1,0 +1,67 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Norms")}</%def>
+
+
+<%def name="as_tiles(pages, columns=2)">
+    <div class="tile-table">
+        <% counter = 0 %>
+
+        %for page in pages:
+
+        %if counter % columns == 0:
+        <div class="tile-row">
+        %endif
+
+            <a class="tile" href="${h.entity_url(page)|n}">
+                <img class="tile-image" src="${h.logo_url(page, 128, 256)}" alt="" />
+                <h3>${page.title}</h3>
+                <p>${h.text.truncate_html(page.head.lines_text, 26)}</p>
+                <span class="button tile-button highlight">${_('View and discuss')}</span>
+            </a>
+
+        <% counter += 1 %>
+        %if counter % columns == 0:
+        </div>
+        %endif
+
+        %endfor
+
+        %if counter % columns != 0:
+
+        %for i in range(counter, columns):
+            <span class="tile"></span>
+        %endfor
+
+        </div>
+        %endif
+    </div>
+</%def>
+
+
+<%def name="breadcrumbs()">
+    ${h.page.breadcrumbs(None)|n}
+</%def>
+
+
+<%block name="headline">
+    <div class="morelink_header">
+        <h2 class="page_title">${_("Norms")}</h2>
+
+        %if can.norm.create():
+            <a class="more_link"
+               href="${h.base_url('/page/new')}">${_("Create new norm")}</a>
+        %endif
+    </div>
+
+    <hr/>
+
+    ${as_tiles(c.pages_pager._items, columns=3)}
+
+    <div class="list_button title">
+        %if can.norm.create():
+            <a class="button title admin ttip" title="${_('Create a new norm.')}"
+               href=${h.base_url('/page/new')}>${_("new norm")}</a>
+        %endif
+    </div>
+</%block>

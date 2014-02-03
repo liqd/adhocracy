@@ -1,7 +1,6 @@
 <%inherit file="/instance/settings.html" />
 <%namespace name="forms" file="/forms.html"/>
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Manage: %s") % c.page_instance.label}</%def>
 
 
 <%block name="settings_content">
@@ -20,6 +19,10 @@
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
     ${c.category_badge_tables}
+
+    %if can.instance.delete(c.page_instance):
+    <a class="button" href="${h.entity_url(c.page_instance, member='ask_delete')}">${_("Delete this instance")}</a>
+    %endif
 
 </form>
 </%block>

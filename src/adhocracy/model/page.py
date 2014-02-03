@@ -32,11 +32,12 @@ class Page(Delegateable):
 
     DESCRIPTION = u"description"
     NORM = u"norm"
+    CONTAINER = u"container"
 
-    FUNCTIONS = [DESCRIPTION, NORM]
-    PARENT_FUNCTIONS = [NORM]
+    FUNCTIONS = [DESCRIPTION, NORM, CONTAINER]
+    PARENT_FUNCTIONS = [NORM, CONTAINER]
     WITH_VARIANTS = [NORM]  # [DESCRIPTION, NORM]
-    LISTED = [NORM]
+    LISTED = [NORM, CONTAINER]
 
     def __init__(self, instance, alias, creator, function, formatting=False,
                  sectionpage=False, allow_comment=True, allow_selection=True,

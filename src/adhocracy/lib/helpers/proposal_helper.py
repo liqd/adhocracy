@@ -43,8 +43,9 @@ def bc_entity(proposal):
 
 
 def breadcrumbs(proposal):
+    from adhocracy.lib.helpers import base_url
     bc = _url.root()
-    bc += _url.link(_("Proposals"), u'/proposal')
+    bc += _url.link(_("Proposals"), base_url(u'/proposal'))
     if proposal is not None:
         bc += bc_entity(proposal)
     return bc

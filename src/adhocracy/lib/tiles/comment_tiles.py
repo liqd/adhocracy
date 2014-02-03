@@ -60,20 +60,20 @@ def header(comment, tile=None, active='comment'):
 
 
 def list(topic, root=None, comments=None, variant=None, recurse=True,
-         ret_url=''):
+         came_from=''):
     cached = c.user is None
     if comments is None:
         comments = topic.comments
     return render_tile('/comment/tiles.html', 'list', tile=None,
                        comments=comments, topic=topic,
                        variant=variant, root=root, recurse=recurse,
-                       cached=cached, ret_url=ret_url)
+                       cached=cached, came_from=came_from)
 
 
-def show(comment, recurse=True, ret_url=''):
+def show(comment, recurse=True, came_from=''):
     can_edit = can.comment.edit(comment)
     groups = sorted(c.user.groups if c.user else [])
     return render_tile('/comment/tiles.html', 'show', CommentTile(comment),
                        comment=comment, cached=True, can_edit=can_edit,
-                       groups=groups, ret_url=ret_url, recurse=recurse,
+                       groups=groups, came_from=came_from, recurse=recurse,
                        cache_csrf_token=token_id())

@@ -13,7 +13,7 @@
     action="${h.entity_url(c.page, in_context=False)}">
     ${h.field_token()|n}
     <input type="hidden" name="_method" value="DELETE" />
-    <input type="hidden" name="ret_url" value="${c.ret_url}"/>
+    <input type="hidden" name="came_from" value="${c.came_from}"/>
     <div class="sidebar">
         &nbsp;
     </div>

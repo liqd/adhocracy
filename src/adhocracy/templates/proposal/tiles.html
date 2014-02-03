@@ -1,54 +1,59 @@
 <%namespace name="components" file="/components.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
-<%def name="row(tile, proposal)">
-    <li class="content_box ${'fresh' if tile.fresh else ''}">
-        <div class="content_box_no_marker">
-            <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
-                  data-id="${proposal.id}">
-                ${tiles.badge.badges(proposal.thumbnails)}
-            </div>
-            <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
-                %if tile.fresh:
-                    ${_("(new)")}
-                %endif
-                <span id="badges_${proposal.id}" class="badges"
-                      data-id="${proposal.id}">
-                    ${tiles.badge.badges(proposal.badges + proposal.categories)}
-                </span>
-                %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
-                %if can.proposal.edit_badges(proposal):
-                <a class="button_small edit"
-                   href="${h.entity_url(proposal, member='badges')}"
-                   rel="#overlay-form">${_(u"Edit Badges")}</a>
-                %endif
-                %else:
-                %if can.proposal.edit(proposal):
-                <a class="button_small edit"
-                   href="${h.entity_url(proposal, member='edit')}"
-                   rel="#overlay-form">${_(u"Edit")}</a>
-                %endif
-                %endif
-            </h3>
-            <div class="meta">
-                %if proposal.is_adopt_polling():
-                    ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
-                    ·
-                %elif proposal.rate_poll: 
-                    ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
-                    ·
-                %endif
-                %if proposal.instance.use_norms and proposal.instance.allow_propose_changes:
-                    ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
-                    ·
-                %endif
-            </div>
+<%def name="_row(tile, proposal)">
+    <div class="content_box_no_marker">
+        <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
+                data-id="${proposal.id}">
+            ${tiles.badge.badges(proposal.thumbnails)}
         </div>
-        <div class="marker">
-            %if proposal.has_geotag():
-                <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
+        <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+            %if tile.fresh:
+                ${_("(new)")}
+            %endif
+            <span id="badges_${proposal.id}" class="badges"
+                    data-id="${proposal.id}">
+                ${tiles.badge.badges(proposal.badges + proposal.categories)}
+            </span>
+            %if h.config.get_bool('adhocracy.proposal.split_badge_edit'):
+            %if can.proposal.edit_badges(proposal):
+            <a class="button_small edit"
+                href="${h.entity_url(proposal, member='badges')}"
+                rel="#overlay-form">${_(u"Edit Badges")}</a>
+            %endif
+            %else:
+            %if can.proposal.edit(proposal):
+            <a class="button_small edit"
+                href="${h.entity_url(proposal, member='edit')}"
+                rel="#overlay-form">${_(u"Edit")}</a>
+            %endif
+            %endif
+        </h3>
+        <div class="meta">
+            %if proposal.is_adopt_polling():
+                ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
+                ·
+            %elif proposal.rate_poll: 
+                ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
+                ·
+            %endif
+            %if proposal.instance.use_norms and proposal.instance.allow_propose_changes:
+                ${ungettext("%s norm", "%s norms", len(proposal.selections)) % len(proposal.selections)}
+                ·
             %endif
         </div>
+    </div>
+    <div class="marker">
+        %if proposal.has_geotag():
+            <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
+        %endif
+    </div>
+</%def>
+
+
+<%def name="row(tile, proposal)">
+    <li class="content_box ${'fresh' if tile.fresh else ''}">
+        ${_row(tile, proposal)}
     </li>
 </%def>
 
@@ -75,44 +80,70 @@ FIXME - stupid code duplication, see lib.pager.proposals_small
 </%def>
 
 
+<%def name="row_inline(tile, proposal)">
+    <li class="content_box ${'fresh' if tile.fresh else ''}">
+        ${_row(tile, proposal)}
+        <a class="button_small showhide_button"
+           data-target="#proposal-${proposal.id}"
+           data-target-speed="fast"
+           data-toggle-class="less"
+           data-toggle-text="${_('hide')}"
+           href="#">${_('show')}</a>
+        <article class="proposal" style="display: none" id="proposal-${proposal.id}">
+            <div class="body">
+                ${tiles.page.inline(proposal.description)}
+            </div>
+            <hr />
+
+            %if not proposal.is_adopt_polling() and proposal.rate_poll is not None:
+            ${tiles.poll.widget(proposal.rate_poll, cls='big')}
+            %endif
+            <a class="button" href="${h.entity_url(proposal, member='comments')}" rel="#overlay-url">${_('Join the discussion')}</a>
+        </article>
+    </li>
+</%def>
+
+
 <%def name="sidebar(tile, proposal)">
     %if proposal.is_adopt_polling():
         ${tiles.poll.booth(proposal.adopt_poll)}
     %endif
 
-    <h3>${_("Information")}</h3>
-    <div>
-        ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n}
-        %if h.config.get_bool('adhocracy.show_abuse_button'):
-        · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+    <div class="sidebar_box">
+        <h3>${_("Information")}</h3>
+        <div>
+            ${_("The proposal was created by %s on %s") % (h.user.link(proposal.creator), h.date_tag(proposal.create_time))|n}
+            %if h.config.get_bool('adhocracy.show_abuse_button'):
+            · <a href="${h.abuse.for_entity(proposal)}">${_("report")}</a>
+            %endif
+        </div>
+
+        %if proposal.milestone and c.instance.milestones:
+        <div class="infobox">
+            ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
+        </div>
         %endif
-    </div>
 
-    %if proposal.milestone and c.instance.milestones:
-    <div class="infobox">
-        ${_("This proposal relates to the milestone %s.") % h.milestone.link(proposal.milestone)|n}
-    </div>
-    %endif
-
-    %if proposal.description.head.wiki:
-    <div class="infobox">
-        ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
-    </div>
-    %endif
-
-    <ul>
-        <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
-        <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
-        %if c.instance.allow_delegate:
-        <li><a title="${_('Who is receiving delegations?')}"
-               href="${h.entity_url(proposal, member='delegations')}"
-               class="delegations ttip">${_("Delegations")}
-                ##(${len(proposal.current_delegations())})</a>
-        </li>
+        %if proposal.description.head.wiki:
+        <div class="infobox">
+            ${_("This is a <b>joint proposal</b> that can be improved by anyone. Edit it to improve or refine the text.")|n}
+        </div>
         %endif
-    </ul>
 
-    ${tiles.tag.sidebar(proposal)}
+        <ul>
+            <li><a href="${h.entity_url(proposal)}">${_("Main page")}</a></li>
+            <li><a href="${h.entity_url(proposal.description, member='history')}">${_("History")}</a></li>
+            %if c.instance.allow_delegate:
+            <li><a title="${_('Who is receiving delegations?')}"
+                   href="${h.entity_url(proposal, member='delegations')}"
+                   class="delegations ttip">${_("Delegations")}
+                    ##(${len(proposal.current_delegations())})</a>
+            </li>
+            %endif
+        </ul>
+
+        ${tiles.tag.sidebar(proposal)}
+    </div>
     ${tiles.delegation.sidebar(proposal, tile)}
 </%def>
 

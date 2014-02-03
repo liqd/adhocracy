@@ -191,15 +191,14 @@ def get_redirect_url(target=u'login', entity=None, **kwargs):
     to the given entity after successful login. If ``entity`` is None, it will
     redirect to the current URL.
     '''
-    came_from_url = request.params.get('came_from')
-    if came_from_url is None:
+    if c.came_from == u'':
         if entity is None:
-            came_from_url = base_url(request.path,
-                                     query_string=request.query_string)
+            c.came_from = base_url(request.path,
+                                 query_string=request.query_string)
         else:
-            came_from_url = entity_url(entity, **kwargs)
+            c.came_from = entity_url(entity, **kwargs)
 
-    return build(c.instance, '', target, query={'came_from': came_from_url})
+    return build(c.instance, '', target, query={'came_from': c.came_from})
 
 
 def login_redirect_url(entity=None, **kwargs):
@@ -245,6 +244,8 @@ def entity_url(entity, **kwargs):
 def logo_url(entity, y, x=None, **kwargs):
     if isinstance(entity, model.User):
         return user.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.Page):
+        return page.logo_url(entity, y, x=x, **kwargs)
     elif isinstance(entity, model.Instance):
         return instance.logo_url(entity, y, x=x, **kwargs)
     elif isinstance(entity, model.CategoryBadge):

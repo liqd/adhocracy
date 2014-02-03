@@ -12,7 +12,7 @@ def url(instance, member=None, format=None, **kwargs):
 def logo_url(instance, y, x=None):
     size = "%s" % y if x is None else "%sx%s" % (x, y)
     filename = "%s_%s.png" % (instance.key, size)
-    (path, mtime) = logo.path_and_mtime(instance)
+    (path, mtime) = logo.path_and_mtime(instance, fallback=logo.INSTANCE)
     return _url.build(instance, 'instance', filename, query={'t': str(mtime)})
 
 

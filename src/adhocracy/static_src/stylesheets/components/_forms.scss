@@ -14,7 +14,6 @@
 
 form {
     background-color: $bg1;
-    @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     padding: 2em;
     overflow: hidden;  // clearfix
 }
@@ -246,4 +245,11 @@ fieldset.logo {
         float: right;
         text-align: center;
     }
+}
+
+.only-no-formdata {
+    display: none;
+}
+.overlay.no-formdata .only-no-formdata {
+    display: block;
 }
