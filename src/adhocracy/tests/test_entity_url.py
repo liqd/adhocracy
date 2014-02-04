@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import unittest
 from adhocracy.tests import TestController
 
 
@@ -109,7 +108,7 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         page = model.Page.create(instance, u'test_page', u'text', user,
-            sectionpage=True)
+                                 sectionpage=True)
         url = u'http://test.test.lan/page/test_page'
 
         self.assertEqual(entity_url(page), url)
@@ -121,7 +120,7 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         page = model.Page.create(instance, u'test_page', u'text', user,
-            sectionpage=True)
+                                 sectionpage=True)
         url = u'http://test.test.lan/page/test_page/edit'
 
         self.assertEqual(entity_url(page, member='edit'), url)
@@ -133,7 +132,7 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         parent = model.Page.create(instance, u'test_parent', u'text', user,
-            sectionpage=True)
+                                   sectionpage=True)
         page = model.Page.create(instance, u'test_page', u'text', user)
         page.parents.append(parent)
         url = u'http://test.test.lan/page/test_parent#subpage-%i' % page.id
@@ -147,7 +146,7 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         parent = model.Page.create(instance, u'test_parent', u'text', user,
-            sectionpage=True)
+                                   sectionpage=True)
         page = model.Page.create(instance, u'test_page', u'text', user)
         page.parents.append(parent)
         url = u'http://test.test.lan/page/test_page/edit'
@@ -161,9 +160,9 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         page = model.Page.create(instance, u'test_page', u'text', user,
-            sectionpage=True)
+                                 sectionpage=True)
         proposal = model.Proposal.create(instance, u'test_proposal', user,
-            is_amendment=True)
+                                         is_amendment=True)
         _selection = model.Selection.create(proposal, page, user)
         url = u'http://test.test.lan/page/test_page?overlay_type=' \
             u'%23overlay-url-big&overlay_path=http%3A%2F%2Ftest.test.lan' \
@@ -179,9 +178,9 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         page = model.Page.create(instance, u'test_page', u'text', user,
-            sectionpage=True)
+                                 sectionpage=True)
         proposal = model.Proposal.create(instance, u'test_proposal', user,
-            is_amendment=True)
+                                         is_amendment=True)
         _selection = model.Selection.create(proposal, page, user)
         url = u'http://test.test.lan/proposal/%i-test_proposal/edit' % (
             proposal.id)
@@ -195,7 +194,7 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         page = model.Page.create(instance, u'test_page', u'text', user,
-            sectionpage=True)
+                                 sectionpage=True)
         comment = model.Comment.create(u'text', user, page)
         url = u'http://test.test.lan/page/test_page?overlay_type=' \
             u'%23overlay-url&overlay_path=http%3A%2F%2Ftest.test.lan%2Fpage' \
@@ -213,7 +212,7 @@ class TestEntityUrl(TestController):
         instance, user = self._make_content()
 
         parent = model.Page.create(instance, u'test_parent', u'text', user,
-            sectionpage=True)
+                                   sectionpage=True)
         page = model.Page.create(instance, u'test_page', u'text', user)
         page.parents.append(parent)
         comment = model.Comment.create(u'text', user, page)

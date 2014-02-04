@@ -4,7 +4,6 @@ Provides the BaseController class for subclassing.
 """
 import logging
 
-from paste.deploy.converters import asbool, asint
 from pylons.controllers import WSGIController
 from pylons import request, tmpl_context as c
 from pylons.i18n import _

@@ -1,7 +1,5 @@
 """Setup the adhocracy application"""
 import logging
-import os
-import os.path
 
 import alembic
 import alembic.config

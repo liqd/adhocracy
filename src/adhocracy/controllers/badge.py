@@ -522,7 +522,8 @@ class BadgeController(BaseController):
         # delete the logo if the button was pressed and exit
         if 'delete_image' in self.form_result:
             updated = logo.delete(badge)
-            h.flash(_(u'The image has been deleted.'), 'success')
+            if updated:
+                h.flash(_(u'The image has been deleted.'), 'success')
             redirect(self.base_url)
 
         try:
