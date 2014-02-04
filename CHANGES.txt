@@ -2,6 +2,9 @@ Adhocracy Changelog
 ===================
 
 
+- The translation files are now built automatically when running buildout.
+
+
 2.3.0 (2014-03-31)
 ------------------
 
