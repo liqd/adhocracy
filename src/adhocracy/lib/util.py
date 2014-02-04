@@ -6,7 +6,6 @@ import shutil
 import time
 import uuid
 
-from paste.deploy.converters import asbool
 from pylons import config
 from pylons.i18n import _
 

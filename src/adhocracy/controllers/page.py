@@ -235,7 +235,7 @@ class PageController(BaseController):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
             came_from = h.page.url(page, member='branch',
-                                 query={'proposal': proposal.id})
+                                   query={'proposal': proposal.id})
         else:
             came_from = h.entity_url(page)  # by default, redirect to the page
 
@@ -308,7 +308,8 @@ class PageController(BaseController):
         if c.came_from != u'':
             c.came_from = c.came_from
         elif c.section:
-            c.came_from = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
+            c.came_from = h.entity_url(c.parent,
+                                       anchor="subpage-%i" % c.page.id)
         else:
             c.came_from = h.entity_url(c.text)
 
