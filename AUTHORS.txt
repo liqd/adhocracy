@@ -4,10 +4,10 @@ which can be found in LICENSE.txt
 Adhocracy is Copyright 2009, 2010, 2011, 2012, 2013, 2014 by
 
 Friedrich Lindenberg
-Martin Häcker
 Joscha Krutzki
-Bernhard Reiter
 Carsten Senger
 Nicolas Dietrich
 Philipp Hagemeister
 Tobias Bengfort
+
+and others. Check git history to get a list of all contributors.
