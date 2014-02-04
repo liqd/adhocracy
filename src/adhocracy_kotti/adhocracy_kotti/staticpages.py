@@ -60,7 +60,7 @@ def get_staticpage(path, languages):
         if page.state == u'private':
             return None
         return {
-            'path': path,
+            #'path': path,
             'lang': lang,
             'title': page.title,
             'description': page.description,
