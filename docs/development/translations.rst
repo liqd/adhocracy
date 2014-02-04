@@ -158,6 +158,9 @@ Babel commands
 ``(adhocracy)$ bin/adhocpy setup.py compile_catalog``
   Compile the ``.po`` files for all languages to ``.mo`` files.
 
+You should not need to run `compile_catalog` manually as it is automatically
+run from buildout.
+
 The babel command `update_catalog` should not be used anymore. Use the
 tx client instead.
 
