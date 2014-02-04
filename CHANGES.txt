@@ -2,6 +2,45 @@ Adhocracy Changelog
 ===================
 
 
+2.1.0 (2014-02-04)
+------------------
+
+This upgrade only splits the SQLAlchemy-related changes from the 2.0.0 release
+in order to make sure all migrations are executed and the database remains in
+a consistent state.
+
+Changes:
+
+- Update SQLAlchemy from 0.7.10 to 0.9.1
+
+- Switch from sqlalchemy-migrate to Alembic. (#219)
+
+
+Upgrade instructions:
+~~~~~~~~~~~~~~~~~~~~~
+
+If you haven't upgraded for a long time (say six months or more), it's best to
+delete ``parts``, ``eggs``, ``python/python-2.7`` and ``python/parts``
+directories and rebuild everything according to ``INSTALLATION.rst``.
+
+In any case, don't upgrade to 2.1.0 in one go, but upgrade to 2.0.0 first by
+running::
+
+    git checkout 2.0.0
+    bin/buildout
+    bin/paster setup-app etc/adhocracy.ini --name=content
+
+And upgrade to 2.1.0 in a second step::
+
+    git checkout 2.1.0
+    bin/buildout
+    bin/paster setup-app etc/adhocracy.ini --name=content
+
+This makes sure the remaining sqlalchemy-migration based migrations are
+executed in the first step, and the Alembic environment is initialized properly
+in the second step.
+
+
 2.0.0 (2014-02-03)
 ------------------
 
