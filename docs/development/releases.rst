@@ -4,14 +4,18 @@ Release Management
 Release Versioning
 ------------------
 
-For adhocracy we use `semantic versioning <http://semver.org/>`_. This
-basically means that a release version consists of a major, a minor and
-a patch version (e.g. 1.2.3), where you increment
+For adhocracy we want to use `semantic versioning <http://semver.org/>`_. This
+basically means that a release version consists of a major, a minor and a patch
+version (e.g. 1.2.3), where you increment
 
 -  the *major* version when you make incompatible changes,
 -  the *minor* version when you add functionality in a
    backwards-compatible manner, and
 -  the *patch* version when you make backwards-compatible bug fixes.
+
+However, version 3 is a complete rewrite already in development. So for
+version 2 we cannot increment the major version number. Instead, we increment
+the minor version number also for incompatible changes.
 
 Changelog
 ---------
@@ -43,6 +47,25 @@ pull request. This makes reviewing much easier.
 
 Small changes like typo or pep8 fixes may be committed directly to
 develop.
+
+How to release adhocracy
+------------------------
+
+If the steps described above are followed, releasing a new version of adhocracy
+is simple. Just run the following commands from adhocracy root folder::
+
+    git checkout master
+    git merge develop
+    git tag $VERSION
+    bin/mkrelease -TCd pypi
+
+To create a local develop release, just run::
+
+    bin/mkrelease -CTqed localhost:/home/...
+
+Note that you need to have your `.pypirc
+http://docs.python.org/2/distutils/packageindex.html#the-pypirc-file`
+configured.
 
 Limitations
 -----------

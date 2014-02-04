@@ -39,8 +39,8 @@ setup(
         "adhocracy-Pylons>=1.0.1",
         "Babel>=0.9",
         "WebOb>=1.2.3",
-        "SQLAlchemy==0.7.10",
-        "sqlalchemy-migrate>=0.6",
+        "SQLAlchemy>=0.9.1",
+        "alembic",
         "FormEncode>=1.2.5",
         "repoze.who>=2.0",
         "repoze.what==1.0.8",  # 1.0.9 conflicts with repoze.who>=2.0
