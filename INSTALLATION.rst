@@ -9,10 +9,10 @@ supervisord service manager, which allows to easily start and stop the
 services which Adhocracy needs to run:
 
 -  adhocracy (http server that runs Adhocracy with Spawning/WSGI)
--  adhocracy\_background (background queue processing)
+-  adhocracy\_worker (background queue processing)
 -  solr (searching)
 -  memcached (key-value cache)
--  rabbitmq (internal messaging queue)
+-  redis (internal messaging queue)
 
 Adhocracy is known to work on all modern Linux distributions, but should
 also run on OS X and FreeBSD with minor modifications.
