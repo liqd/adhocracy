@@ -1,10 +1,11 @@
 import logging
 from datetime import datetime
 
-from sqlalchemy import Table, Column, ForeignKey, Integer, Boolean, or_
+from sqlalchemy import Table, Column, ForeignKey, Integer, Boolean, or_, func
 from sqlalchemy.orm import reconstructor, eagerload
 
-from geoalchemy import GeometryExtensionColumn, Geometry
+from geoalchemy2 import Geometry
+import geojson
 
 import meta
 import instance_filter as ifilter
@@ -22,8 +23,7 @@ proposal_table = Table(
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False),
     Column('is_amendment', Boolean, default=False),
-    GeometryExtensionColumn(
-        'geotag', Geometry(dimension=2, srid=900913), nullable=True),
+    Column('geotag', Geometry(dimension=2, srid=900913), nullable=True),
 )
 
 
@@ -257,14 +257,12 @@ class Proposal(Delegateable):
 
     def get_geojson_feature(self):
 
-        import geojson
-        from shapely import wkb
-
         if self.geotag is None:
             return {}
         else:
+            j = meta.Session.query(func.ST_AsGeoJSON(self.geotag)).one()[0]
             return geojson.Feature(
-                geometry=wkb.loads(str(self.geotag.geom_wkb)),
+                geometry=geojson.loads(j),
                 properties={
                     'title': self.title,
                     'regionId': self.id,

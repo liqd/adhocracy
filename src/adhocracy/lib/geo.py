@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import func
-from shapely import wkb
-from shapely import wkt
+import shapely
+import shapely.geometry
 import geojson
 
 from adhocracy.model import meta
@@ -42,13 +42,12 @@ ZOOM_TOLERANCE = map(lambda e: MIN_ZOOM_TOLERANCE / 2 ** e,
 
 def format_json_feature_to_geotag(geotag):
 
-    from geoalchemy.utils import to_wkt
-
     if geotag is None or geotag == '':
         return None
 
     else:
-        return to_wkt(geojson.loads(geotag)['geometry'])
+        return shapely.geometry.asShape(
+            geojson.loads(geotag)['geometry']).wkt
 
 
 def get_bbox(x, y, zoom):
@@ -59,16 +58,15 @@ def get_bbox(x, y, zoom):
 
 
 def get_instance_geo_centre(instance):
-    if instance.geo_centre is not None:
-        geom = wkb.loads(str(instance.geo_centre.geom_wkb))
-    else:
+    if instance.geo_centre is None and instance.region is not None:
         log.info('setting geo_centre to region centroid for instance %s' %
                  instance.label)
-        geom = wkb.loads(str(instance.region.boundary.geom_wkb)).centroid
-        instance.geo_centre = wkt.dumps(geom)
+        instance.geo_centre = meta.Session.query(
+            func.ST_Centroid(instance.region.boundary)).one()[0]
         meta.Session.commit()
 
-    return geom
+    return geojson.loads(
+        meta.Session.query(func.ST_AsGeoJSON(instance.geo_centre)).one()[0])
 
 
 def add_instance_props(instance, properties):

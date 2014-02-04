@@ -2,8 +2,6 @@
 from sqlalchemy import orm, and_
 from sqlalchemy import event as sa_event
 from sqlalchemy.orm import mapper, relation, backref, synonym
-from geoalchemy.postgis import PGComparator
-from geoalchemy import GeometryColumn
 
 import meta
 
@@ -492,8 +490,6 @@ mapper(Selection, selection_table, properties={
 mapper(RequestLog, requestlog_table)
 
 mapper(Region, region_table, properties={
-    'boundary': GeometryColumn(region_table.c.boundary,
-                               comparator=PGComparator),
     'inner_regions': relation(
         Region,
         secondary=region_hierarchy_table,
@@ -504,8 +500,6 @@ mapper(Region, region_table, properties={
 })
 
 mapper(RegionSimplified, region_simplified_table, properties={
-    'boundary': GeometryColumn(region_simplified_table.c.boundary,
-                               comparator=PGComparator),
     'region': relation(
         Region,
         primaryjoin=region_simplified_table.c.region_id == region_table.c.id,

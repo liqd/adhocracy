@@ -5,7 +5,8 @@ import re
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
 from sqlalchemy import Integer, Unicode, Boolean
-from geoalchemy import GeometryExtensionColumn, Geometry
+from geoalchemy2 import Geometry
+import geojson
 
 import meta
 from delegateable import Delegateable
@@ -23,8 +24,7 @@ page_table = Table(
     Column('allow_comment', Boolean, default=True),
     Column('allow_selection', Boolean, default=True),
     Column('always_show_original', Boolean, default=True),
-    GeometryExtensionColumn(
-        'geotag', Geometry(dimension=2, srid=900913), nullable=True),
+    Column('geotag', Geometry(dimension=2, srid=900913), nullable=True),
 )
 
 
@@ -461,15 +461,14 @@ class Page(Delegateable):
 
     def get_geojson_feature(self):
 
-        import geojson
-        from shapely import wkb
         from adhocracy.lib import helpers as h
 
         if self.geotag is None:
             return {}
         else:
+            j = meta.Session.query(func.ST_AsGeoJSON(self.geotag)).one()[0]
             return geojson.Feature(
-                geometry=wkb.loads(str(self.geotag.geom_wkb)),
+                geometry=geojson.loads(j),
                 properties={
                     'id': self.id,
                     'title': self.title,

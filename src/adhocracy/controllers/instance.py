@@ -10,8 +10,8 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
+from sqlalchemy import func
 import geojson
-from shapely import wkb
 
 from adhocracy import config
 from adhocracy import forms, i18n, model
@@ -1043,7 +1043,8 @@ class InstanceController(BaseController):
         if c.instance.region is None:
             feature = {}
         else:
-            geom = wkb.loads(str(c.instance.region.boundary.geom_wkb))
+            j = model.meta.Session.query(
+                func.ST_AsGeoJSON(c.instance.region.boundary)).one()[0]
             instance_props = {
                 'name': c.instance.region.name,
                 'adminLevel': c.instance.region.admin_level,
@@ -1054,7 +1055,7 @@ class InstanceController(BaseController):
             add_instance_props(c.instance, instance_props)
 
             feature = geojson.Feature(
-                geometry=geom,
+                geometry=geojson.loads(j),
                 properties=instance_props
             )
 
@@ -1105,7 +1106,8 @@ class InstanceController(BaseController):
         instances = model.Instance.all()
 
         def make_feature(instance):
-            geom = wkb.loads(str(instance.region.boundary.geom_wkb))
+            j = model.meta.Session.query(
+                func.ST_AsGeoJSON(instance.region.boundary)).one()[0]
             geo_centre = get_instance_geo_centre(instance)
             admin_centre_feature = geojson.Feature(
                 geometry=geo_centre,
@@ -1116,7 +1118,7 @@ class InstanceController(BaseController):
                     'numMembers': instance.num_members,
                 })
             feature = geojson.Feature(
-                geometry=geom,
+                geometry=geojson.loads(j),
                 properties={
                     'url': h.base_url(instance=instance),
                     'label': instance.label,

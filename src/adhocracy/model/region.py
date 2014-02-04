@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import Table, Column, ForeignKey, Index
 from sqlalchemy import Float, Integer, Unicode
-from geoalchemy import GeometryExtensionColumn, Geometry
+from geoalchemy2 import Geometry
 
 from adhocracy.model import meta
 
@@ -52,8 +52,7 @@ region_table = Table(
     Column('name', Unicode(255), nullable=False, index=True),
     Column('admin_level', Integer, nullable=False, index=True),
     Column('admin_type', Unicode(64), nullable=False),
-    GeometryExtensionColumn(
-        'boundary', Geometry(dimension=2, srid=900913), nullable=False),
+    Column('boundary', Geometry(dimension=2, srid=900913), nullable=False),
     # potentially to be done:
     # de:regionalschluessel (12 stellen, numerisch)
 )
@@ -82,7 +81,7 @@ region_simplified_table = Table(
     Column('id', Integer, primary_key=True),
     Column('region_id', Integer, ForeignKey('region.id'), nullable=False),
     Column('tolerance', Float, nullable=False),
-    GeometryExtensionColumn('boundary', Geometry, nullable=False)
+    Column('boundary', Geometry, nullable=False)
 )
 
 

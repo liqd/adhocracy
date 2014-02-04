@@ -160,7 +160,10 @@ class GeoController(BaseController):
 
             def make_feature(instance):
 
-                return dict(geometry=wkb.loads(str(instance.geo_centre.geom_wkb)),
+                j = meta.Session.query(
+                    func.ST_AsGeoJSON(instance.geo_centre)).one()[0]
+
+                return dict(geometry=geojson.loads(j),
                             properties={
                                 'key': instance.key,
                                 'label': instance.label,
@@ -359,7 +362,9 @@ class GeoController(BaseController):
         def make_item(row):
             (instance, rid, rname, ralevel) = row
 
-            geom = wkb.loads(str(instance.region.boundary.geom_wkb))
+            geom = wkb.loads(str(meta.Session.query(
+                func.ST_AsBinary(instance.region.boundary)).one()[0]))
+
             geo_centre = get_instance_geo_centre(instance)
 
             direct_hit = instance.region_id == rid

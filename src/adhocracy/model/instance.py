@@ -8,7 +8,7 @@ from babel import Locale
 from sqlalchemy import Table, Column, ForeignKey, Index, func, or_
 from sqlalchemy import DateTime, Integer, Float, Boolean, Unicode, UnicodeText
 from sqlalchemy.orm import reconstructor
-from geoalchemy import GeometryExtensionColumn, Geometry
+from geoalchemy2 import Geometry
 
 from adhocracy import config
 import adhocracy.model
@@ -61,9 +61,7 @@ instance_table = Table(
     Column('show_norms_navigation', Boolean, nullable=True, default=True),
     Column('show_proposals_navigation', Boolean, nullable=True, default=True),
     Column('region_id', Integer, ForeignKey('region.id'), nullable=True),
-    GeometryExtensionColumn('geo_centre',
-                            Geometry(dimension=2, srid=900913),
-                            nullable=True),
+    Column('geo_centre', Geometry(dimension=2, srid=900913), nullable=True),
 )
 
 Index('geo_centre_idx', instance_table.c.geo_centre, postgresql_using='gist')
