@@ -172,11 +172,11 @@
 <%def name="subheader_instance_navigation(active)">
 
 <%
-   import cgi
+   import mako
    from adhocracy.lib.tiles.instance_tiles import InstanceTile
    active_subnav = {}
    active_subnav[active or 'instance'] = 'current'
-   search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % cgi.escape(c.instance.label)
+   search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % mako.filters.html_escape(c.instance.label)
    logo = ''
    url = None
    if c.instance:
