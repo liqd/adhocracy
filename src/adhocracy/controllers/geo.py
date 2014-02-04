@@ -56,7 +56,7 @@ class GeoController(BaseController):
                         })
 
         instances = meta.Session.query(Instance)\
-            .filter(Instance.region != None).all()
+            .filter(Instance.region != None).all()  # noqa
         instance_features = map(make_feature, instances)
         return render_geojson(geojson.FeatureCollection(
             [geojson.Feature(**i) for i in instance_features]))
@@ -81,9 +81,10 @@ class GeoController(BaseController):
             tolerance = ZOOM_TOLERANCE[zoom]
             bbox = get_bbox(x, y, zoom)
 
-            q = meta.Session.query('id', 'name', 'admin_level',
-                                   func.ST_AsBinary(func.ST_intersection(
-                                       func.st_boundary(Region.boundary.RAW), bbox)))
+            q = meta.Session.query(
+                'id', 'name', 'admin_level',
+                func.ST_AsBinary(func.ST_intersection(
+                    func.st_boundary(Region.boundary.RAW), bbox)))
             q = q.filter(Region.admin_level == admin_level)
 
             if SIMPLIFY_TYPE == USE_POSTGIS:
@@ -111,9 +112,11 @@ class GeoController(BaseController):
 
                 def simplify_region(region):
                     if region['geometry'].is_valid:
-                        geom_simple = region['geometry'].simplify(tolerance, True)
+                        geom_simple = region['geometry'].simplify(tolerance,
+                                                                  True)
                         region['geometry'] = geom_simple
-                        if not (geom_simple.is_valid and geom_simple.length > 0):
+                        if not (geom_simple.is_valid
+                                and geom_simple.length > 0):
                             # just send the invalid polygon anyway.
                             log.warn('invalid simplified geometry for %s' %
                                      region['properties']['label'])
@@ -152,7 +155,7 @@ class GeoController(BaseController):
 
             q = meta.Session.query(Instance)
             q = q.filter(Instance.geo_centre != None)\
-                .join(Region).filter(Region.admin_level == admin_level)
+                .join(Region).filter(Region.admin_level == admin_level)  # noqa
 
             if BBOX_FILTER_TYPE == USE_POSTGIS:
                 q = q.filter(func.ST_Contains(bbox,
@@ -179,13 +182,15 @@ class GeoController(BaseController):
 
             if BBOX_FILTER_TYPE == USE_SHAPELY:
                 sbox = box(*bbox)
-                instances = filter(lambda instance: sbox.contains(
-                    instance['geoCentre']), map(make_feature, instanceResultSet))
+                instances = filter(
+                    lambda instance: sbox.contains(instance['geoCentre']),
+                    map(make_feature, instanceResultSet))
 
             elif BBOX_FILTER_TYPE == USE_POSTGIS:
                 instances = map(make_feature, instanceResultSet)
 
-            return geojson.FeatureCollection([geojson.Feature(**r) for r in instances])
+            return geojson.FeatureCollection(
+                [geojson.Feature(**r) for r in instances])
 
         return render_geojson(
             calculate_tiled_admin_centres_json(x, y, zoom, admin_level))

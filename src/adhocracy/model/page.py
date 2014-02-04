@@ -475,7 +475,8 @@ class Page(Delegateable):
                     'url': h.entity_url(self),
                     'numProposals': len(self.selections),
                     'zIndex': 500 + self.depth(),
-                    'fillColor': '#656565' if self.category is None else self.category.color,
+                    'fillColor': ('#656565' if self.category is None
+                                  else self.category.color),
                 },
                 id=self.id
             )

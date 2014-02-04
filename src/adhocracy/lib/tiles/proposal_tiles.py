@@ -58,12 +58,13 @@ def row(proposal):
                        proposal=proposal, cached=True,
                        badgesglobal_admin=global_admin)
 
+
 # FIXME - stupid code duplication, see lib.pager.proposals_small
 def row_small(proposal):
     global_admin = authorization.has('global.admin')
     if not proposal:
         return ""
-    return render_tile('/proposal/tiles.html', 'row_small', 
+    return render_tile('/proposal/tiles.html', 'row_small',
                        ProposalTile(proposal), proposal=proposal, cached=True,
                        badgesglobal_admin=global_admin)
 

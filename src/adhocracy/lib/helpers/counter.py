@@ -1,6 +1,7 @@
 class Counter(object):
     """
-    Counter functionality is currently unused and replaced by a function done in javascript.
+    Counter functionality is currently unused and replaced by a function
+    done in javascript.
     """
 
     def __init__(self):
@@ -19,4 +20,3 @@ class Counter(object):
 
 
 counter = Counter()
-
