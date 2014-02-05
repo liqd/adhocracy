@@ -22,6 +22,10 @@ ul.papers_list {
     .showhide_button {
         float: right;
         margin-right: 1em;
+
+        &:after {
+            margin: 0;
+        }
     }
     .proposal {
         padding: 1.5em;
