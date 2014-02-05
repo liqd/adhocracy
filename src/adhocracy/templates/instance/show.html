@@ -4,7 +4,7 @@
 <%def name="title()">${_("Home")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.instance.breadcrumbs(c.page_instance)|n} ${h.url.link(_("Overview"), h.entity_url(c.page_instance))|n}
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${h.url.link(h.instance.area_title('overview'), h.entity_url(c.page_instance))|n}
 </%def>
 
 
