@@ -35,14 +35,12 @@ def settings_breadcrumbs(instance, member=None):
 
 def area_title(identifier):
     """identifier is typically the value of c.active_subheader_nav"""
-    if identifier == 'proposals':
-        return _("Proposals")
+    if identifier in ['proposals', 'category']:
+        return _("Categories")
     elif identifier == 'milestones':
         return _("Milestones")
     elif identifier == 'norms':
-        return _("Norms")
-    elif identifier == 'category':
-        return _("Categories")
+        return _("Wettbewerb")
     elif identifier == 'members':
         return _("Members")
     else:
