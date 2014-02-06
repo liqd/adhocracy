@@ -4,8 +4,7 @@
 
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
-
-<%block name="main_content">
+<%block name="headline">
 <div class="morelink_header">
     <h2>
         ${c.page.title}
@@ -23,8 +22,12 @@
            href=${h.base_url('/page/new', query_params={'parent': c.page.id})}>${_("Create new norm")}</a>
     %endif
 </div>
-<hr />
 
+<img class="container_banner" alt="" src="${h.logo_url(c.page, 213, 960)}"/>
+</%block>
+
+
+<%block name="main_content">
 <div class="paper_text">
     ${c.variant_details['text']|n}
 </div>
