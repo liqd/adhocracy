@@ -1113,7 +1113,8 @@ var adhocracy = adhocracy || {};
                  numZoomLevels: maxZoom - minZoom + 1,
                  maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[minZoom],
                  tileOptions: {crossOriginKeyword: null},
-                 visibility: l.visible || false
+                 visibility: l.visible || false,
+                 opacity: l.opacity || 1
                 }));
         };
 
