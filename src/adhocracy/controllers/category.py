@@ -28,6 +28,8 @@ class CategoryController(BaseController):
 
         category = get_entity_or_abort(model.CategoryBadge, id)
 
+        categories = model.CategoryBadge.all(instance=c.instance)
+
         pages = model.Page.all_q(instance=c.instance,
                                  functions=model.Page.LISTED) \
             .join(model.DelegateableBadges) \
@@ -45,6 +47,7 @@ class CategoryController(BaseController):
 
         data = {
             'category': category,
+            'categories': categories,
             'pages_pager': pages_pager,
             'proposals_pager': proposals_pager,
         }

@@ -236,6 +236,8 @@ def entity_url(entity, **kwargs):
         return staticpage.url(entity, **kwargs)
     elif isinstance(entity, model.Treatment):
         return treatment.url(entity, **kwargs)
+    elif isinstance(entity, model.CategoryBadge):
+        return category.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

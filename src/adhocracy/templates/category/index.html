@@ -30,7 +30,10 @@ ${h.category.breadcrumbs(None)|n}
 
         <a class="tile" href="${h.base_url(member='category/%s' % category.id)|n}">
             <img class="tile-image" src="${h.logo_url(category, 128, 256)}" alt="" />
-            <h3>${category.title}</h3>
+            <h3>
+                ${components.senat_icon(category, link=False, highlight=True)}
+                ${category.title}
+            </h3>
             <p>${category.description}</p>
             <span class="button tile-button">${_('View and discuss')}</span>
         </a>

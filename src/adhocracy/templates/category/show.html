@@ -12,12 +12,20 @@ ${h.category.breadcrumbs(c.category)|n}
 
 <%block name="headline">
 <h2>
+    ${components.senat_icon(c.category, highlight=True, link=False)}
     ${c.category.title}
     <div class="utility">
         %if can.badge.edit_instance():
         <a href="${h.base_url('/badge/edit/%i' % c.category.id)}">${_("edit")}</a>
         %endif
     </div>
+    <ul class="senat_icons">
+        %for category in c.categories:
+        %if category != c.category:
+        <li>${components.senat_icon(category, highlight=False, link=True)}</li>
+        %endif
+        %endfor
+    </ul>
 </h2>
 <hr />
 
