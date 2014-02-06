@@ -46,6 +46,194 @@
         &ndash; ${c.variant_details['display_title']}
         %endif
     </h2>
+    <hr />
+
+    <%
+        entwuerfe = {
+            # Karl-Marx-Allee
+
+            21: {
+                'architect': u'barkowleibinger',
+                'categories': [],
+            },
+            22: {
+                'architect': u'beckmannnthepe',
+                'categories': [],
+            },
+            23: {
+                'architect': u'eckertnegwersuselbeek',
+                'categories': [],
+            },
+            24: {
+                'architect': u'june14',
+                'categories': [],
+            },
+
+            # Jacobystraße
+
+            25: {
+                'architect': u'schnitzlertalli',
+                'categories': [],
+            },
+            26: {
+                'architect': u'gies',
+                'categories': [],
+            },
+            27: {
+                'architect': u'naegeliarchitekten',
+                'categories': [],
+            },
+            28: {
+                'architect': u'temperaturasextremas',
+                'categories': [],
+            },
+
+            # Arcostraße 9, 11
+
+            29: {
+                'architect': u'brunofiorettimarquez',
+                'categories': [],
+            },
+            30: {
+                'architect': u'cobe',
+                'categories': [],
+            },
+            31: {
+                'architect': u'fatkoehl',
+                'categories': [],
+            },
+            32: {
+                'architect': u'wiewiorrahoppschwark',
+                'categories': [],
+            },
+
+            # Briesestraße 19, Kienitzer Str. 26
+
+            33: {
+                'architect': u'augustinfrank',
+                'categories': [],
+            },
+            34: {
+                'architect': u'belsozietaet',
+                'categories': [],
+            },
+            35: {
+                'architect': u'cityfoerster',
+                'categories': [],
+            },
+            38: {
+                'architect': u'ppag',
+                'categories': [],
+            },
+
+            # Langhansstraße 27-29
+
+            37: {
+                'architect': u'bararchitekten',
+                'categories': [],
+            },
+            39: {
+                'architect': u'deadline',
+                'categories': [],
+            },
+            36: {
+                'architect': u'finkjocher',
+                'categories': [],
+            },
+            40: {
+                'architect': u'kadenklingbeil',
+                'categories': [],
+            },
+
+            # Am Mühlenberg/Meraner Straße
+
+            41: {
+                'architect': u'duplex',
+                'categories': [],
+            },
+            42: {
+                'architect': u'ifaujeskofezer',
+                'categories': [],
+            },
+            43: {
+                'architect': u'baupiloten',
+                'categories': [],
+            },
+            44: {
+                'architect': u'03architekten',
+                'categories': [],
+            },
+
+            # Wongrowitzer Steig 34/36
+
+            45: {
+                'architect': u'imkewoelk',
+                'categories': [],
+            },
+            46: {
+                'architect': u'janwiese',
+                'categories': [],
+            },
+            47: {
+                'architect': u'offsea',
+                'categories': [],
+            },
+
+            # Elsastraße 40 / Oberseestraße 69, 71, 73
+
+            48: {
+                'architect': u'canalsmoneogps',
+                'categories': [],
+            },
+            49: {
+                'architect': u'dezwartehond',
+                'categories': [],
+            },
+            50: {
+                'architect': u'heraultarnod',
+                'categories': [],
+            },
+            51: {
+                'architect': u'vukojagoldinger',
+                'categories': [],
+            },
+        }
+        current = entwuerfe.get(c.page.id, None)
+    %>
+    %if current is not None and c.page.parent is not None and current['architect'] is not None:
+    <div class="row">
+        <div class="cell width-4 position-0">
+            <h4>Grundstück</h4>
+            <div>
+                <img alt="" src="${h.logo_url(c.page.parent, 64, 64)}" style="border-radius: 50%; vertical-align: middle"/>
+                    <a href="${h.entity_url(c.page.parent)}">${c.page.parent.title}</a>
+            </div>
+        </div>
+        <div class="cell width-4 position-4">
+            <h4>Architekturbüro</h4>
+            <%
+                from adhocracy.model import User
+                architect = User.find(current['architect'])
+            %>
+            <p><a href="${h.entity_url(architect)}">${architect.name}</a></p>
+        </div>
+        <div class="cell width-4 position-8">
+            <h4>Themen</h4>
+            <%
+                from adhocracy.model import CategoryBadge
+                categories = CategoryBadge.all(instance=c.instance)
+            %>
+            <ul class="senat_icons">
+                %for category in categories:
+                <li>${components.senat_icon(category, highlight=category.id in current.get('categories', []), link=True)}</li>
+                %endfor
+            </ul>
+        </div>
+    </div>
+    %endif
+
+    <h3>${_('Norm')}</h3>
+    <hr />
 
     <section class="subpage">
         <div class="body">
