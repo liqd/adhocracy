@@ -39,8 +39,9 @@ select {
 }
 
 /* without this, html will be 100vw max */
+
 html {
-    min-width: 1004px;
+    min-width: $min-width;
 }
 
 body {
@@ -176,25 +177,6 @@ q:before, q:after {
     /*------------------------------------------------------------------------------------------------------*/
 
     /**
-    * @section subtemplates
-    * @see     http://www.yaml.de/en/documentation/practice/subtemplates.html
-    */
-    .subcolumns {
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .c33l, .c60l { float: left; }
-    .c33r, .c40r { float: right; margin-left: -5px; }
-
-    .c40r { width: 40%; }
-    .c60l { width: 60%; }
-    .c33l, .c33r { width: 33.333%; }
-
-    .subcl { padding: 0 1em 0 0; }
-    .subcr { padding: 0 0 0 1em; }
-
-    /**
     * Forcing vertical scrollbars in IE8, Firefox, Webkit & Opera
     *
     * @workaround
@@ -221,9 +203,9 @@ q:before, q:after {
         position: relative;
 
         margin: 0 auto;
-        width: 1004px;
+        max-width: $max-width;
         background: transparent;
-        padding: 0 1.8em;
+        padding: 0 0.5em;
         @include box-sizing(border-box);
     }
 
@@ -235,7 +217,7 @@ q:before, q:after {
         @include background-image(linear-gradient(to bottom, darken($header-color, 2%), lighten($header-color, 2%)));
     }
     #topnav { text-align: right; color: #fff; background: transparent; }
-    #main { margin: 0.8em 0 4.5em; }
+    #main { margin: 0.8em 0 2.5em; }
     #footer {
         padding: 0;
         background-color: $bg1;
@@ -244,45 +226,10 @@ q:before, q:after {
 
     /*-------------------------------------------------------------------------*/
 
-    /**
-    * Formatting content container
-    */
-
-    #col1 {
-        float: left;
-        width: 67%;
-    }
+    #col1,
     #col3 {
-        width: 33%;
-        margin: 0 0 0 67%;
+        margin-bottom: 2em;
     }
-    #sidebar {
-        margin: 0 0 0 2.4em;
-    }
-
-    #settings #col1 {
-        float: right;
-        // if this fails it falls back to the default 67%
-        width: calc(100% - 13em);
-    }
-    #settings #col3 {
-        width: 12em;
-        margin-left: 0;
-    }
-
-    #settings #sidebar {
-        margin: 0;
-        .well {
-            width: 12em;
-        }
-        .affix {
-            top: 1.5em;
-        }
-    }
-
-    .subcl { padding: 0 1.5em 0 0; }
-    .subc { padding: 0 0.8em; }
-    .subcr { padding: 0 0 0 1.5em; }
 }
 
 @media print {
@@ -334,4 +281,61 @@ q:before, q:after {
     h1, h2, h3, h4, h5, h6 {
         page-break-after: avoid;
     }
+}
+
+
+@include desktop {
+    #col1 {
+        float: left;
+        width: 67%;
+    }
+    #col3 {
+        width: 33%;
+        margin: 0 0 0 67%;
+    }
+    #sidebar {
+        margin: 0 0 0 5%;
+    }
+    #settings #col1 {
+        float: right;
+        // if this fails it falls back to the default 67%
+        width: calc(100% - 13em);
+    }
+    #settings #col3 {
+        width: 12em;
+        margin-left: 0;
+    }
+
+    #settings #sidebar {
+        margin: 0;
+        .well {
+            width: 12em;
+        }
+        .affix {
+            top: 1.5em;
+        }
+    }
+
+    /**
+     * @section subtemplates
+     * @see     http://www.yaml.de/en/documentation/practice/subtemplates.html
+     */
+    .subcolumns {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .c33l, .c60l { float: left; }
+    .c33r, .c40r { float: right; margin-left: -5px; }
+
+    .c40r { width: 40%; }
+    .c60l { width: 60%; }
+    .c33l, .c33r { width: 33.333%; }
+
+    .subcl { padding: 0 1em 0 0; }
+    .subcr { padding: 0 0 0 1em; }
+
+    .subcl { padding: 0 1.5em 0 0; }
+    .subc { padding: 0 0.8em; }
+    .subcr { padding: 0 0 0 1.5em; }
 }

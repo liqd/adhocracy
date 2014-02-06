@@ -1,3 +1,14 @@
+@mixin desktop {
+    @media (min-width: $min-width-large) {
+        @content;
+    }
+}
+@mixin mobile {
+    @media (max-width: $min-width-large) {
+        @content;
+    }
+}
+
 @mixin button-background($color) {
     background-color: $color;
     @include background-image(linear-gradient(170deg, lighten($color, 14%), $color));
