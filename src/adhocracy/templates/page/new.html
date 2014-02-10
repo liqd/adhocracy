@@ -93,7 +93,7 @@
             </div>
         </fieldset>
 
-        %if c.instance.page_index_as_tiles:
+        %if c.instance.page_index_as_tiles and not c.section:
         <fieldset class="logo">
             <%forms:input label="Logo" name="logo" type="file"
                           help="${_('Upload a logo for this page')}">
