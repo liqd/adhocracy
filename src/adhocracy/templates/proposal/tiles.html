@@ -58,12 +58,14 @@
 
 <%def name="row_inline(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        ${_row(tile, proposal)}
-        <a class="button_small showhide_button"
-           data-target="#proposal-${proposal.id}"
-           data-target-speed="fast"
-           data-toggle-class="less"
-           href="#"></a>
+        <div class="main_row">
+            ${_row(tile, proposal)}
+            <a class="button_small showhide_button"
+               data-target="#proposal-${proposal.id}"
+               data-target-speed="fast"
+               data-toggle-class="less"
+               href="#"></a>
+        </div>
         <article class="proposal" style="display: none" id="proposal-${proposal.id}">
             <div class="body">
                 ${tiles.page.inline(proposal.description)}
