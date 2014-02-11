@@ -27,6 +27,10 @@
     text-overflow: ellipsis;
     vertical-align: middle;
     border: none;
+
+    max-width: 100%;
+    @include box-sizing(border-box);
+
     &:hover, &:focus {
         text-decoration: none;
     }
