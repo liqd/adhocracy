@@ -862,6 +862,7 @@ class UserController(BaseController):
         c.global_badges = filter(lambda b: b.instance is None, badges)
         c.visible_badges = filter(lambda b: b.visible,
                                   c.global_badges + c.local_badges)
+        c.instances = c.page_user.real_instances(exclude_current=False)
 
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
@@ -869,7 +870,6 @@ class UserController(BaseController):
     def _show(self, id, format=None, current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        c.instances = c.page_user.real_instances(exclude_current=False)
 
         if current_nav is None:
             redirect(h.entity_url(c.page_user, member=u'about', format=format))
@@ -910,7 +910,6 @@ class UserController(BaseController):
         require.user.show_dashboard(c.user)
 
         c.page_user = c.user
-        c.instances = c.page_user.real_instances(exclude_current=False)
 
         notifications = self._get_notifications(100, event_filter)
         c.events = [n.event for n in notifications]
