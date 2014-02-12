@@ -1010,6 +1010,7 @@ class InstanceController(BaseController):
             if membership.instance == c.page_instance:
                 membership.expire()
                 model.meta.Session.add(membership)
+                update_entity(c.user, model.UPDATE)
 
                 c.user.revoke_delegations(c.page_instance)
 
