@@ -50,9 +50,6 @@ a.tile {
             @include button-background($primary-color);
         }
     }
-    .tile-button:last-child {
-        @include button-background($button-color);
-    }
 }
 
 .tile-image {
