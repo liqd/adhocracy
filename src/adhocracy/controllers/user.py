@@ -869,7 +869,7 @@ class UserController(BaseController):
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
 
-    def show(self, id, format=None, current_nav=None, event_filter=[]):
+    def _show(self, id, format=None, current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         c.instances = c.page_user.real_instances(exclude_current=False)
@@ -975,20 +975,20 @@ class UserController(BaseController):
             return render("/user/show.html", data=data)
 
     def latest_events(self, id, format='html'):
-        return self.show(id, format, u'activity')
+        return self._show(id, format, u'activity')
 
     def latest_contributions(self, id, format='html'):
-        return self.show(id, format, u'contributions', S_CONTRIBUTION)
+        return self._show(id, format, u'contributions', S_CONTRIBUTION)
 
     def latest_milestones(self, id, format='html'):
         # Milestone events don't exist yet
         return NotImplemented
 
     def latest_votes(self, id, format='html'):
-        return self.show(id, format, u'votes', S_VOTE)
+        return self._show(id, format, u'votes', S_VOTE)
 
     def latest_delegations(self, id, format='html'):
-        return self.show(id, format, u'delegations', S_DELEGATION)
+        return self._show(id, format, u'delegations', S_DELEGATION)
 
     @guard.perm('user.view')
     def avatar(self, id, y=24, x=None):
