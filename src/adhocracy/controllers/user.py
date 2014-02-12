@@ -186,10 +186,7 @@ class UserController(BaseController):
         c.tutorial_intro = _('tutorial_user_index_intro')
         c.tutorial = 'user_index'
 
-        if format == 'overlay':
-            return render("/user/index.html", overlay=True)
-        else:
-            return render("/user/index.html")
+        return render("/user/index.html", overlay=(format == 'overlay'))
 
     @guard.perm('user.index_all')
     def all(self):
@@ -901,10 +898,8 @@ class UserController(BaseController):
                                     not logo.exists(c.page_user)),
         }
 
-        if format == 'overlay':
-            return render("/user/show.html", overlay=True, data=data)
-        else:
-            return render("/user/show.html", data=data)
+        return render("/user/show.html", data=data,
+                      overlay=(format == 'overlay'))
 
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
@@ -935,10 +930,7 @@ class UserController(BaseController):
         c.dashboard = True
         c.user_nav = self._get_dashboard_nav(c.user, current_nav)
 
-        if format == 'overlay':
-            return render("/user/show.html", overlay=True)
-        else:
-            return render("/user/show.html")
+        return render("/user/show.html", overlay=(format == 'overlay'))
 
     def dashboard_contributions(self, format='html',
                                 current_nav=u'contributions'):
@@ -969,10 +961,8 @@ class UserController(BaseController):
             u'bio': c.page_user.bio,
         }
 
-        if format == 'overlay':
-            return render("/user/show.html", overlay=True, data=data)
-        else:
-            return render("/user/show.html", data=data)
+        return render("/user/show.html", data=data,
+                      overlay=(format == 'overlay'))
 
     def latest_events(self, id, format='html'):
         return self._show(id, format, u'activity')
@@ -1170,10 +1160,7 @@ class UserController(BaseController):
         c.decisions_pager = pager.user_decisions(decisions)
         self._common_metadata(c.page_user, member='votes')
 
-        if format == 'overlay':
-            return render("/user/votes.html", overlay=True)
-        else:
-            return render("/user/votes.html")
+        return render("/user/votes.html", overlay=(format == 'overlay'))
 
     @RequireInstance
     def delegations(self, id, format='html'):
@@ -1199,10 +1186,7 @@ class UserController(BaseController):
         c.nodeClass = democracy.DelegationNode
         self._common_metadata(c.page_user, member='delegations')
 
-        if format == 'overlay':
-            return render("/user/delegations.html", overlay=True)
-        else:
-            return render("/user/delegations.html")
+        return render("/user/delegations.html", overlay=(format == 'overlay'))
 
     def instances(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
@@ -1217,10 +1201,7 @@ class UserController(BaseController):
         self._common_metadata(c.page_user, member='instances',
                               add_canonical=True)
 
-        if format == 'overlay':
-            return render("/user/instances.html", overlay=True)
-        else:
-            return render("/user/instances.html")
+        return render("/user/instances.html", overlay=(format == 'overlay'))
 
     @guard.watch.index()
     def watchlist(self, id, format='html'):
@@ -1242,10 +1223,7 @@ class UserController(BaseController):
             return render_json(c.entities_pager)
 
         self._common_metadata(c.page_user, member='watchlist')
-        if format == 'overlay':
-            return render("/user/watchlist.html", overlay=True)
-        else:
-            return render("/user/watchlist.html")
+        return render("/user/watchlist.html", overlay=(format == 'overlay'))
 
     @RequireInstance
     @RequireInternalRequest()
