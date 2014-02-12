@@ -828,8 +828,8 @@ class UserBadgeFacet(SolrFacet):
             return
         for instance in model.Instance.all(include_hidden=True):
             index[cls.get_solr_field(instance)] =\
-                [entity_to_solr_token(badge) for badge in user.badges
-                 if badge.instance is None or badge.instance == instance]
+                [entity_to_solr_token(badge)
+                 for badge in user.get_badges(instance)]
 
 
 class InstanceBadgeFacet(SolrFacet):
