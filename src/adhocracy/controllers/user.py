@@ -871,9 +871,6 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
 
-        if current_nav is None:
-            redirect(h.entity_url(c.page_user, member=u'about', format=format))
-
         require.user.show(c.page_user)
         c.events = self._get_events(nr_events=100, event_filter=event_filter)
         self._show_common(id, user=c.page_user, events=c.events)
@@ -900,6 +897,12 @@ class UserController(BaseController):
 
         return render("/user/show.html", data=data,
                       overlay=(format == 'overlay'))
+
+    def show(self, id, format=None):
+        """ legacy route. """
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        redirect(h.entity_url(c.page_user, member=u'about', format=format))
 
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
