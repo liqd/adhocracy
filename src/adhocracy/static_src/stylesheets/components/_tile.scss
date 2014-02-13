@@ -1,5 +1,5 @@
 // responsive: multi-column
-.tile-table {
+html.no-flexbox .tile-table {
     display: table;
     table-layout: fixed;
 
@@ -20,6 +20,25 @@
             display: table-cell;
             position: relative;
         }
+    }
+}
+html.flexbox .tile-table {
+    .tile-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 4em 0;
+    }
+    .tile {
+        flex: 1;
+        max-width: 31.5%;
+        position: relative;
+
+        // leave space for button
+        padding-bottom: 3em;
+    }
+    .tile-button {
+        position: absolute;
+        bottom: 0;
     }
 }
 
