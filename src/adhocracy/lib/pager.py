@@ -1200,6 +1200,24 @@ class ProposalVotedetailScoreIndexer(SolrIndexer):
                 data[cls.solr_field(b)] = t.num_for - t.num_against
 
 
+class InstanceUserJoinTimeIndexer(SolrIndexer):
+
+    @classmethod
+    def solr_field(cls, instance=None):
+        field = 'order.user.create_time'
+        if instance is not None:
+            field = field + '.%s' % instance.key
+        return field
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.User):
+            for instance in entity.instances:
+                join_time = entity.instance_membership(instance)\
+                    .create_time.strftime("%s")
+                data[cls.solr_field(instance)] = join_time
+
+
 class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
@@ -1507,14 +1525,25 @@ def get_user_sorts(instance=None, default='ACTIVITY'):
     rating = SortOption(
         '-%s' % InstanceUserRatingIndexer.solr_field(instance),
         L_('Rating'))
-    sorts = {"OLDEST": OLDEST,
-             "NEWEST": NEWEST,
+
+    if instance is None:
+        oldest = OLDEST
+        newest = NEWEST
+    else:
+        oldest = SortOption(
+            '+%s' % InstanceUserJoinTimeIndexer.solr_field(instance),
+            L_('Oldest'))
+        newest = SortOption(
+            '-%s' % InstanceUserJoinTimeIndexer.solr_field(instance),
+            L_('Newest'))
+    sorts = {"OLDEST": oldest,
+             "NEWEST": newest,
              "ACTIVITY": activity,
              "RATING": rating,
              "ALPHA": ALPHA}
 
-    return NamedSort([[L_('Date'), (OLDEST(old=1),
-                                    NEWEST(old=2))],
+    return NamedSort([[L_('Date'), (oldest(old=1),
+                                    newest(old=2))],
                       [L_('User behavior'), (activity(old=3),
                                              rating(old=4))],
                       [L_('Other'), (ALPHA(old=5),)]],
