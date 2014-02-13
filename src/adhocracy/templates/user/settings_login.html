@@ -55,7 +55,14 @@ ${tiles.user.header(c.page_user)}
     </fieldset>
     %endif
 
+
     ${components.savebox(cancel_url=None)}
 
 </form>
+    %if 'facebook' in h.allowed_login_types():
+      <form action="${h.velruse_url('/login/facebook')}" method="post">
+      <!-- <input type="hidden" name="scope" value="publish_stream,create_event" /> -->
+      <input type="submit" value="Connect with Facebook" />
+      </form>
+    %endif
 </%block>
