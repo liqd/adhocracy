@@ -1,0 +1,81 @@
+#
+# WARNING: Please make your changes in *.ini.in file and then run buildout to install it.
+#
+
+##############################################################
+# Generated velruse settings
+##############################################################
+
+[DEFAULT]
+{% if parts.velruse.debug == 'True' %}debug = True{% end %}
+{% if parts.velruse.debug != 'True' %}debug = False{% end %}
+
+# Uncomment and replace with the address which should receive any error reports
+email_to = ${parts.velruse['email.to']}
+smtp_server = ${parts.velruse['smtp_server']}
+smtp_port = ${parts.velruse['smtp_port']}
+error_email_from = ${parts.velruse['email.from']}
+
+[server:main]
+use = egg:Paste#http
+host = ${parts.velruse.host}
+port = ${parts.ports.velruse}
+{% if parts.velruse.debug == 'True' %}use_threadpool = False{% end %}
+{% if parts.velruse.debug != 'True' %}use_threadpool = True{% end %}
+threadpool_workers = 20
+
+[composite:main]
+use = egg:Paste#urlmap
+/velruse = velruse
+
+[app:velruse]
+use = egg:velruse
+endpoint = ${parts.adhocracy.protocol}://${parts.domains.main}:${parts.ports.main}/velruse/logged_in
+
+#setup = velruse.app.make_app  (this is implicit -- do not uncomment!)
+
+store             = redis
+store.host        = ${parts.velruse.redis_host}
+store.port        = ${parts.velruse.redis_port}
+store.db          = ${parts.velruse.redis_db}
+store.key_prefix  = ${parts.velruse.redis_prefix}
+
+provider.facebook.consumer_key = ${parts.velruse.facebook_app_key}
+provider.facebook.consumer_secret = ${parts.velruse.facebook_app_secret}
+provider.facebook.scope = email
+
+provider.tw.impl = twitter
+provider.tw.consumer_key = ${parts.velruse.twitter_app_key}
+provider.tw.consumer_secret = ${parts.velruse.twitter_app_secret}
+
+provider.google_oauth2.consumer_key = ${parts.velruse.gmail_consumer_key}
+provider.google_oauth2.consumer_secret = ${parts.velruse.gmail_consumer_secret}
+provider.google_oauth2.scope = email
+
+
+[loggers]
+keys = root, velruse
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_velruse]
+level = DEBUG
+handlers =
+qualname = velruse
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s

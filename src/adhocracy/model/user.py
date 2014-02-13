@@ -207,6 +207,14 @@ class User(meta.Indexable):
         return _ids
 
     @property
+    def velruse(self):
+        _ids = []
+        for velruse in self._velruse:
+            if not velruse.is_deleted():
+                _ids.append(velruse)
+        return _ids
+
+    @property
     def num_watches(self):
         from watch import Watch
         q = meta.Session.query(Watch)
@@ -385,6 +393,8 @@ class User(meta.Indexable):
             twitter.delete(delete_time=delete_time)
         for openid in self.openids:
             openid.delete(delete_time=delete_time)
+        for velruse in self.velruse:
+            velruse.delete(delete_time=delete_time)
         for comment in self.comments:
             comment.delete(delete_time=delete_time)
         for membership in self.memberships:
@@ -403,6 +413,8 @@ class User(meta.Indexable):
             twitter.delete_time = None
         for openid in self.openids:
             openid.delete_time = None
+        for velruse in self.velruse:
+            velruse.delete_time = None
         for comment in self.comments:
             comment.delete_time = None
         for membership in self.memberships:
