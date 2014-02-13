@@ -44,7 +44,7 @@ ${h.category.breadcrumbs(None)|n}
 
     %if counter % 3 != 0:
 
-    %for i in range(counter, 3):
+    %for i in range(counter % 3, 3):
         <span class="tile"></span>
     %endfor
 

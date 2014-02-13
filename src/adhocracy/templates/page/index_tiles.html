@@ -29,7 +29,7 @@
 
         %if counter % columns != 0:
 
-        %for i in range(counter, columns):
+        %for i in range(counter % columns, columns):
             <span class="tile"></span>
         %endfor
 
