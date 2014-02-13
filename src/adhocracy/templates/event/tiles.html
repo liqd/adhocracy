@@ -14,7 +14,7 @@
         <div class="time">${h.datetime_tag(event.time)|n}</div>
         <div class="action">
             <a href="${h.entity_url(event.user)}">${event.user.name}</a>
-            ${tiles.badge.badges(event.user.badges)}
+            ${tiles.badge.badges(event.user.get_badges(event.instance))}
             ${event_html|n}
         </div>
 
