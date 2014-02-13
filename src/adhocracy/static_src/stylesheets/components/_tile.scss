@@ -23,6 +23,9 @@ html.no-flexbox .tile-table {
     }
 }
 html.flexbox .tile-table {
+    width: calc(100% + 2em);
+    margin-left: -1em;
+
     .tile-row {
         display: flex;
         justify-content: space-between;
@@ -30,8 +33,8 @@ html.flexbox .tile-table {
     }
     .tile {
         flex: 1;
-        max-width: 31.5%;
         position: relative;
+        margin: 0 1em;
 
         // leave space for button
         padding-bottom: 3em;
