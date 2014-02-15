@@ -1468,7 +1468,8 @@ class NamedSort(object):
                 new_value = self.by_old[value].value
                 redirect(self.pager.build_url(sort=new_value), code=301)
             except KeyError:
-                redirect(self.pager.build_url(sort=self.default, code=301))
+                redirect(self.pager.build_url(sort=self.default.value,
+                                              code=301))
 
     def add_group(self, label, options):
         assert (label not in self.groups), 'We do not support changing groups'
