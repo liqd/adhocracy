@@ -7,6 +7,12 @@ For examples, see docs/development/use_cases/shibboleth_authentication.rst.
 
 '''
 
+import random
+from string import ascii_uppercase
+
+from adhocracy.model import meta
+from adhocracy.model.user import User
+
 
 def _attribute_equals(request, key, value):
     """
@@ -41,6 +47,28 @@ def _full_name(request, name_attr, surname_attr):
     return u"%s %s" % (request.headers.get(name_attr),
                        request.headers.get(surname_attr))
 
+
+def _full_name_random_suffix(request, name_attr, surname_attr):
+
+    letter = lambda: random.choice(ascii_uppercase)
+
+    base = _full_name(request, name_attr, surname_attr)
+
+    display_name = None
+    while display_name is None:
+
+        suffix = letter() + letter()
+        try_display_name = '%s %s' % (base, suffix)
+
+        if (meta.Session.query(User)
+                .filter(User.display_name == try_display_name).first()  # noqa
+                is None):
+            display_name = try_display_name
+
+    return display_name
+
+
 DISPLAY_NAME_FUNCTIONS = {
-    "full_name": _full_name
+    "full_name": _full_name,
+    "full_name_random_suffix": _full_name_random_suffix,
 }
