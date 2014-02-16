@@ -11,19 +11,23 @@ ul.papers_list {
 }
 
 .proposals_pager {
-    .content_box {
-        @include clearfix;
+    .main_row {
+        @include pie-clearfix;
 
         > div {
             float: left;
-            margin-bottom: 0.5em;
         }
     }
     .showhide_button {
         float: right;
         margin-right: 1em;
+
+        &:after {
+            margin: 0;
+        }
     }
     .proposal {
+        margin-top: 0.5em;
         padding: 1.5em;
         clear: both;
 

@@ -17,7 +17,7 @@
                 <img class="tile-image" src="${h.logo_url(page, 128, 256)}" alt="" />
                 <h3>${page.title}</h3>
                 <p>${h.text.truncate_html(page.head.lines_text, 26)}</p>
-                <span class="button tile-button highlight">${_('View and discuss')}</span>
+                <span class="button tile-button">${_('View and discuss')}</span>
             </a>
 
         <% counter += 1 %>
@@ -29,7 +29,7 @@
 
         %if counter % columns != 0:
 
-        %for i in range(counter, columns):
+        %for i in range(counter % columns, columns):
             <span class="tile"></span>
         %endfor
 

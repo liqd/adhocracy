@@ -1,5 +1,6 @@
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy.lib import logo
 from adhocracy.lib.helpers import url as _url
 
@@ -30,3 +31,22 @@ def settings_breadcrumbs(instance, member=None):
             member['label'],
             url(instance, member="settings/" + member['name']))
     return bc
+
+
+def area_title(identifier):
+    """identifier is typically the value of c.active_subheader_nav"""
+    if identifier == 'proposals':
+        return _("Proposals")
+    elif identifier == 'milestones':
+        return _("Milestones")
+    elif identifier == 'norms':
+        return _("Norms")
+    elif identifier == 'category':
+        return _("Categories")
+    elif identifier == 'members':
+        return _("Members")
+    else:
+        if config.get_bool('adhocracy.wording.intro_for_overview'):
+            return _(u"Intro")
+        else:
+            return _(u"Overview")

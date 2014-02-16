@@ -55,3 +55,4 @@ buildout-*.cfg
 src/adhocracy/static/stylesheets/adhocracy.css
 src/adhocracy/tests/loadtests/data
 src/adhocracy/static/stylesheets/min/
+src/js.socialshareprivacy/

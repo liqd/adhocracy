@@ -111,6 +111,13 @@ class User(meta.Indexable):
                 groups.append(group)
         return groups
 
+    def get_badges(self, instance=None):
+        """
+        Get user badges which are appropriate in the given context.
+        """
+        return [b for b in self.badges if b.instance is None
+                or b.instance is instance]
+
     def membership_groups(self):
         from membership import Membership
         current_instance = ifilter.get_instance()

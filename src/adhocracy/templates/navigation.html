@@ -194,12 +194,12 @@
                                   url=url)">
 
   ${nav_link(href=h.entity_url(c.instance),
-             text=_(u"Intro") if h.config.get_bool('adhocracy.wording.intro_for_overview') else _(u"Overview"),
+             text=h.instance.area_title('instance'),
              li_class=_class('instance'),
              id_='subnav-overview')}
 
   ${nav_link(href=h.base_url('/proposal'),
-             text=_("Proposals"),
+             text=h.instance.area_title('proposals'),
              li_class=_class('proposals'),
              condition=c.instance.show_proposals_navigation,
              id_='subnav-proposals')}
@@ -212,25 +212,25 @@
 %endif
 
   ${nav_link(href=h.base_url('/milestone'),
-             text=_("Milestones"),
+             text=h.instance.area_title('milestones'),
              li_class=_class('milestones'),
              condition=c.instance.milestones,
              id_='subnav-milestones')}
 
   ${nav_link(href=h.base_url('/page'),
-             text=_("Norms"),
+             text=h.instance.area_title('norms'),
              li_class=_class('norms'),
              condition=c.instance.use_norms and c.instance.show_norms_navigation,
              id_='subnav-norms')}
 
   ${nav_link(href=h.base_url('/category'),
-             text=_("Categories"),
+             text=h.instance.area_title('category'),
              li_class=_class('category'),
              condition=c.instance.display_category_pages,
              id_='subnav-category')}
 
   ${nav_link(href=h.base_url('/user'),
-             text=_("Members"),
+             text=h.instance.area_title('members'),
              li_class=_class('members'),
              id_='subnav-members')}
 

@@ -131,7 +131,7 @@ def ret_status(type_, message, category=None, entity=None, member=None,
         if format == 'json':
             return ret_json_status(type_, message, code)
         h.flash(message, category)
-    if force_path is not None:
+    if force_path:  # neither None nor ''
         redirect(force_path)
     if entity is not None:
         redirect(h.entity_url(entity, format=format, member=member))

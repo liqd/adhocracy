@@ -28,8 +28,7 @@ def link(user, size=16, scope=None, show_badges=True):
                        show_badges):
         from adhocracy.lib import tiles
         url = _generic_link(user, instance, size, scope)
-        badges = [b for b in user.badges if b.instance is None
-                  or b.instance is instance]
+        badges = user.get_badges(instance)
         if show_badges and badges:
             url += u"<span class='badges'>" + \
                 unicode(tiles.badge.badges(badges)) + "</span>"

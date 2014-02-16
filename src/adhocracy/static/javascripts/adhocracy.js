@@ -491,14 +491,14 @@ var adhocracy = adhocracy || {};
             elements.socialSharePrivacy({
                 services : {
                     facebook: {
-                        'dummy_img': baseUrl + '/images/dummy_facebook.png'
+                        'dummy_img': baseUrl + '/socialshareprivacy/images/dummy_facebook.png'
                     },
                     twitter : {
-                        'dummy_img': baseUrl + '/images/dummy_twitter.png',
+                        'dummy_img': baseUrl + '/socialshareprivacy/images/dummy_twitter.png',
                         'tweet_text': tweetText
                     },
                     gplus : {
-                        'dummy_img': baseUrl + '/images/dummy_gplus.png'
+                        'dummy_img': baseUrl + '/socialshareprivacy/images/dummy_gplus.png'
                     }
                 },
                 'css_path': '',
