@@ -101,6 +101,11 @@ class ShibbolethController(BaseController):
     def _login(self, user, target):
         self._update_userbadges(user)
 
+        if config.get_bool('adhocracy.shibboleth.display_name.force_update'):
+            display_name = self._get_display_name()
+            if display_name is not None:
+                user.display_name = display_name
+
         login_user(user, request, response)
         session['login_type'] = 'shibboleth'
 

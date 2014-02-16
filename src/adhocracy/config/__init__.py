@@ -60,6 +60,7 @@ DEFAULTS = {
     'adhocracy.require_email': True,
     'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.shibboleth.display_name.force_update': False,
     'adhocracy.shibboleth.display_name.function': None,
     'adhocracy.shibboleth.locale.attribute': None,
     'adhocracy.shibboleth.register_form': True,
