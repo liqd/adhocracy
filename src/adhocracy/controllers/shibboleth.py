@@ -150,15 +150,7 @@ class ShibbolethController(BaseController):
         else:
             user_data['username'] = request.headers.get('shib-username')
 
-        display_name_function = config.get_json(
-            "adhocracy.shibboleth.display_name.function")
-        if display_name_function is not None:
-            function = display_name_function["function"]
-            kwargs = display_name_function["args"]
-            user_data['display_name'] = DISPLAY_NAME_FUNCTIONS[function](
-                request, **kwargs)
-        else:
-            user_data['display_name'] = None
+        user_data['display_name'] = self._get_display_name()
 
         locale_attribute = config.get("adhocracy.shibboleth.locale.attribute")
         if locale_attribute is not None:
@@ -191,6 +183,17 @@ class ShibbolethController(BaseController):
 
             except formencode.Invalid, i:
                 return self._register_form(errors=i.unpack_errors())
+
+    def _get_display_name(self):
+        display_name_function = config.get_json(
+            "adhocracy.shibboleth.display_name.function")
+        if display_name_function is not None:
+            function = display_name_function["function"]
+            kwargs = display_name_function["args"]
+            display_name = DISPLAY_NAME_FUNCTIONS[function](request, **kwargs)
+        else:
+            display_name = None
+        return display_name
 
     def _update_userbadges(self, user):
 
