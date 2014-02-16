@@ -21,6 +21,7 @@ DEFAULTS = {
     'adhocracy.feedback_check_instance': True,
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,
+    'adhocracy.force_no_http_proxy': False,
     'adhocracy.force_randomized_user_names': False,
     'adhocracy.hide_empty_categories_in_facet_list': False,
 
