@@ -106,6 +106,7 @@ class ShibbolethController(BaseController):
             display_name = self._get_display_name()
             if display_name is not None:
                 user.display_name = display_name
+                meta.Session.commit()
 
         login_user(user, request, response)
         session['login_type'] = 'shibboleth'
