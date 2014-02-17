@@ -10,7 +10,7 @@ import json
 import urllib
 
 from pylons import tmpl_context as c, request
-from pylons.i18n import _
+from pylons.i18n import _, get_lang
 from webhelpers.html import literal
 from webhelpers.html.tags import file
 from webhelpers.pylonslib import Flash as _Flash
@@ -303,3 +303,10 @@ def overlay_link():
         return None
     else:
         return overlay_path.replace('.overlay', '.html')
+
+
+def need_js_i18n(resource):
+    from adhocracy.static import js_i18n
+    lang = get_lang()[0]
+    res = js_i18n[resource][lang]
+    return res.need()
