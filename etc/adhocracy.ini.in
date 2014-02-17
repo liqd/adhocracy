@@ -16,6 +16,10 @@ smtp_server = ${parts.adhocracy['smtp_server']}
 smtp_port = ${parts.adhocracy['smtp_port']}
 error_email_from = ${parts.adhocracy['email.from']}
 
+velruse.host = ${parts.velruse.host}
+velruse.port = ${parts.velruse.port}
+velruse.protocol = ${parts.velruse.protocol}
+
 [server:main]
 use = egg:Paste#http
 host = ${parts.adhocracy.host}
@@ -299,9 +303,9 @@ piwik.id =
 # adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
 
 # INSTALL: How can users login?
-# Available options are openid, username+password, email+password, shibboleth
-# Note that shibboleth needs additional configuration
-#adhocracy.login_type = openid,username+password,email+password
+# Available options are facebook, openid, username+password, email+password, shibboleth
+# Note that shibboleth and facebook need additional configuration
+#adhocracy.login_type = facebook,openid,username+password,email+password
 
 # Allow password change for shibboleth users (default: false)
 # adhocracy.allow_shibboleth_password_change = false

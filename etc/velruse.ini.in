@@ -30,12 +30,9 @@ use = egg:Paste#urlmap
 
 [app:velruse]
 use = egg:velruse
-endpoint = http://example.com/logged_in
+endpoint = ${parts.adhocracy.protocol}://${parts.domains.main}:${parts.ports.main}/velruse/logged_in
 
-#setup = velruse.app.make_app
-# FIXME: if this line is activated, paster attempts to start two
-# services, and the second has an empty settings dict.  perhaps it is
-# implicit in the rest of this config?
+#setup = velruse.app.make_app  (this is implicit -- do not uncomment!)
 
 store             = redis
 store.host        = ${parts.velruse.redis_host}
@@ -50,6 +47,11 @@ provider.facebook.scope = email
 provider.tw.impl = twitter
 provider.tw.consumer_key = ${parts.velruse.twitter_app_key}
 provider.tw.consumer_secret = ${parts.velruse.twitter_app_secret}
+
+provider.google_oauth2.consumer_key = ${parts.velruse.gmail_consumer_key}
+provider.google_oauth2.consumer_secret = ${parts.velruse.gmail_consumer_secret}
+provider.google_oauth2.scope = email
+
 
 [loggers]
 keys = root, velruse
