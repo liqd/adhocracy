@@ -929,9 +929,6 @@ msgstr ""
 msgid "The method you used is not implemented."
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
 #, python-format
 msgid "Abuse report: %s"
 msgstr ""
@@ -1457,13 +1454,19 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "(Unknown)"
+msgid "Proposals"
 msgstr ""
 
 msgid "Norms"
 msgstr ""
 
-msgid "Proposals"
+msgid "Members"
+msgstr ""
+
+msgid "Intro"
+msgstr ""
+
+msgid "(Unknown)"
 msgstr ""
 
 msgid "Implementation"
@@ -1477,9 +1480,6 @@ msgstr ""
 
 #, python-format
 msgid "%s (deleted user)"
-msgstr ""
-
-msgid "Members"
 msgstr ""
 
 msgid "Dashboard"
@@ -1739,6 +1739,9 @@ msgstr ""
 msgid "<b>%s</b> votes"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 msgid "Instances"
 msgstr ""
 
@@ -1768,9 +1771,6 @@ msgstr ""
 
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr ""
-
-msgid "Intro"
 msgstr ""
 
 msgid "Map"
@@ -2061,10 +2061,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
+msgid "Users CSV"
 msgstr ""
 
 msgid "Email Subject"
@@ -2143,10 +2143,10 @@ msgstr ""
 msgid "Badge description"
 msgstr ""
 
-msgid "Long category description"
+msgid "Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
-msgid "Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2715,6 +2715,9 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
+msgid "Allow editing of comments by default"
+msgstr ""
+
 msgid "Allow editing of proposals by default"
 msgstr ""
 
@@ -2748,16 +2751,13 @@ msgstr ""
 msgid "Break down Voting Result by Badge"
 msgstr ""
 
-msgid "Use Maps"
-msgstr ""
-
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
 msgid "Status badge image width"
@@ -2811,16 +2811,16 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
+msgid "Description of the instance"
 msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
+msgstr ""
+
+msgid "Logo"
 msgstr ""
 
 msgid "Current logo"
@@ -2833,6 +2833,9 @@ msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Show proposals as an extra tab"
+msgstr ""
+
+msgid "Enable maps"
 msgstr ""
 
 msgid "Enable norms"
@@ -3277,9 +3280,6 @@ msgstr ""
 msgid "New Proposal"
 msgstr ""
 
-msgid "Information about the norm"
-msgstr ""
-
 msgid "Last Activity"
 msgstr ""
 
@@ -3679,17 +3679,11 @@ msgstr ""
 msgid "%s:%s votes"
 msgstr ""
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
+#, python-format
+msgid "from %s · on %s"
 msgstr ""
 
 msgid "Join the discussion"
-msgstr ""
-
-#, python-format
-msgid "from %s · on %s"
 msgstr ""
 
 #, python-format
@@ -4202,10 +4196,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
+msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
 msgstr ""
 
-msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4214,10 +4208,10 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
 msgid "I am an organisation"
