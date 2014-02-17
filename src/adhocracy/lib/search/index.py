@@ -3,9 +3,9 @@ import logging
 
 from httplib2 import Http
 from pylons import tmpl_context as c
-from pylons import config
 from sunburnt import SolrInterface
 
+from adhocracy import config
 from adhocracy import model
 from adhocracy.model import refs
 
