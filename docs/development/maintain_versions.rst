@@ -28,18 +28,18 @@ To pin versions of new dependencies:
 * make sure your working copy is clean and buildout has successfully
   been run.
 
-* empty versions.cfg:
+* empty versions.cfg ::
 
     echo -n > versions.cfg
 
-* let buildout suggest versions.cfg contents:
+* let buildout suggest versions.cfg contents ::
 
     ./bin/buildout -N > versions.cfg 2>&1
 
 * crop versions.cfg to contain only the lines starting from and
   including '[versions]'
 
-* compare to previous version:
+* compare to previous version ::
 
     git diff versions.cfg
 
