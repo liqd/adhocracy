@@ -14,18 +14,27 @@ from adhocracy.model import meta
 from adhocracy.model.user import User
 
 
+def get_attribute(request, key, default=None):
+    """ Shibboleth attributes are UTF-8 encoded """
+    value = request.headers.get(key, default)
+    if value is None:
+        return None
+    else:
+        return value.decode('utf-8')
+
+
 def _attribute_equals(request, key, value):
     """
     exact match
     """
-    return request.headers.get(key) == value
+    return get_attribute(request, key) == value
 
 
 def _attribute_contains(request, key, value):
     """
     contains element
     """
-    elements = (e.strip() for e in request.headers.get(key).split(';'))
+    elements = (e.strip() for e in get_attribute(request, key).split(';'))
     return value in elements
 
 
@@ -33,7 +42,7 @@ def _attribute_contains_substring(request, key, value):
     """
     contains substring
     """
-    return value in request.headers.get(key)
+    return value in get_attribute(request, key)
 
 
 USERBADGE_MAPPERS = {
@@ -44,8 +53,8 @@ USERBADGE_MAPPERS = {
 
 
 def _full_name(request, name_attr, surname_attr):
-    return u"%s %s" % (request.headers.get(name_attr),
-                       request.headers.get(surname_attr))
+    return u"%s %s" % (get_attribute(request, name_attr),
+                       get_attribute(request, surname_attr))
 
 
 def _full_name_random_suffix(request, name_attr, surname_attr):

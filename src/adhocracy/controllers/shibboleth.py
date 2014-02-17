@@ -11,6 +11,7 @@ from adhocracy.lib import helpers as h
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.auth.csrf import check_csrf
+from adhocracy.lib.auth.shibboleth import get_attribute
 from adhocracy.lib.auth.shibboleth import USERBADGE_MAPPERS
 from adhocracy.lib.auth.shibboleth import DISPLAY_NAME_FUNCTIONS
 from adhocracy.lib.base import BaseController
@@ -148,18 +149,18 @@ class ShibbolethController(BaseController):
         # initializing user data dict
         user_data = {}
 
-        user_data['email'] = request.headers.get('shib-email', None)
+        user_data['email'] = get_attribute(request, 'shib-email', None)
 
         if config.get_bool('adhocracy.force_randomized_user_names'):
             user_data['username'] = None
         else:
-            user_data['username'] = request.headers.get('shib-username')
+            user_data['username'] = get_attribute(request, 'shib-username')
 
         user_data['display_name'] = self._get_display_name()
 
         locale_attribute = config.get("adhocracy.shibboleth.locale.attribute")
         if locale_attribute is not None:
-            user_data['locale'] = request.headers.get(locale_attribute)
+            user_data['locale'] = get_attribute(request, locale_attribute)
 
         # what to do
         if request.method == 'GET':
