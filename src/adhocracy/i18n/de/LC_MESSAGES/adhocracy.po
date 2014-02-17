@@ -3030,6 +3030,9 @@ msgstr "Zeige \"Vorschlag\"-Reiter"
 msgid "Show proposals as an extra tab"
 msgstr "Zeige \"Vorschlag\"-Reiter"
 
+msgid "Enable maps"
+msgstr "Kartenfunktionen aktivieren"
+
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"
 
