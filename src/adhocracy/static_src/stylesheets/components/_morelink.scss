@@ -6,7 +6,7 @@
     white-space: nowrap;
 
     &:before {
-        content: "⟶";
+        content: "\27f6";
         text-decoration: none !important;
         font-weight: normal !important;
         position: absolute;
