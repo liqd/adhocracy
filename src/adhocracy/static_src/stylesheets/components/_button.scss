@@ -9,6 +9,7 @@
         color: #fff;
         line-height: 2;
         float: left;
+        margin-right: 1em;
         padding-right: 2em;
         min-width: 10em;
         position: relative;
@@ -23,6 +24,9 @@
             right: 0.75em;
             top: 50%;
             margin-top: -0.75em;
+        }
+        &:last-child {
+            margin-right: 0;
         }
     }
 }
