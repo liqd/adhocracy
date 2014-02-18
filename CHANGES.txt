@@ -2,6 +2,39 @@ Adhocracy Changelog
 ===================
 
 
+2.1.2 (2014-02-18)
+------------------
+
+This is mainly a bugfix release.
+
+Improvements:
+
+- a11y: Updated js.socialshareprivacy to 1.5 permits keyboard navigation.
+  (#755)
+
+- Sort instance member lists by member, not user age. (#750)
+
+- More configuration options for Shibboleth authentication.
+
+Bug fixes:
+
+- Proper fallback on non-existant sort order entry. (#758)
+
+- Only display locally relevant user badges in event stream. (#754)
+
+- Remove user from member list after user left instance. (#753)
+
+- Fix instance selector in user profile. (#751)
+
+- Fix regression causing instance join to raise a 403 error.
+
+- Fix adding subcomments on touch devices. (#748)
+
+- Nicer display of grid tiles. (#757)
+
+- Fix editing of database backed static pages.
+
+
 2.1.1 (2014-02-04)
 ------------------
 
