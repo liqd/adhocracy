@@ -1,6 +1,5 @@
 # To change this config file please edit *.in and rerun buildout.
 
-Encoding.default_external = 'utf-8'
 http_path = "/"
 css_dir = "src/adhocracy/static/stylesheets"
 sass_dir = "${adhocracy_code:relative_theme_dir}/static_src/stylesheets"
