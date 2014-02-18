@@ -8,7 +8,7 @@
 <h1>${_('Edit %(key)s (%(langname)s)') % {'key': c.staticpage.key,
 	'langname': h.staticpage.get_lang_info(c.staticpage.lang)['name']}}</h1>
 
-<form action="${h.entity_url(c.staticpage)}" method="POST">
+<form action="${h.entity_url(c.staticpage)}_${c.staticpage.lang}" method="POST">
 	${h.field_token()|n}
 
 	<label>${_('Title:')} <input type="text" name="title" /></label>

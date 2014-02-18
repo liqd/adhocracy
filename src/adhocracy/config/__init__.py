@@ -1,9 +1,12 @@
 import json
+import logging
 from paste.deploy.converters import asbool
 from paste.deploy.converters import asint
 from paste.deploy.converters import aslist
 from pylons import config
 from pylons.i18n import _
+
+log = logging.getLogger(__name__)
 
 
 DEFAULTS = {
@@ -18,6 +21,7 @@ DEFAULTS = {
     'adhocracy.feedback_check_instance': True,
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,
+    'adhocracy.force_no_http_proxy': False,
     'adhocracy.force_randomized_user_names': False,
     'adhocracy.geo.image_layers': [],
     'adhocracy.geo.instance_overwrites': False,
@@ -60,6 +64,15 @@ DEFAULTS = {
     'adhocracy.require_email': True,
     'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.shibboleth.display_name.force_update': False,
+    'adhocracy.shibboleth.display_name.function': None,
+    'adhocracy.shibboleth.locale.attribute': None,
+    'adhocracy.shibboleth.register_form': True,
+
+    # Configures how to map shibboleth attributes to badges.
+    # See lib.auth.shibboleth.
+    'adhocracy.shibboleth.userbadge_mapping': [],
+
     'adhocracy.show_abuse_button': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
@@ -127,7 +140,12 @@ def get_tuples(key, default=[], sep=u' '):
 
 
 def get_json(key, default=None, config=config):
-    return get_value(key, json.loads, default, config)
+    try:
+        return get_value(key, json.loads, default, config)
+    except ValueError, e:
+        log.error("invalid json: %s \nin config option %s" %
+                  (config.get(key), key))
+        raise
 
 
 def get_optional_user_attributes():

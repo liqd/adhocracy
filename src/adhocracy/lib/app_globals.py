@@ -22,7 +22,7 @@ class Globals(object):
         """
         if 'memcached.server' in config:
             self.cache = memcache.Client([config['memcached.server']])
-            log.info("Memcache set up")
+            log.debug("Memcache set up")
             log.debug("Flushing cache")
             self.cache.flush_all()
         else:

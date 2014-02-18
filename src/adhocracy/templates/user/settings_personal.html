@@ -15,7 +15,9 @@ ${tiles.user.header(c.page_user)}
 
     <h2>${_(u'Personal settings')}</h2>
 
+    %if h.config.get_bool('adhocracy.user.display_name.allow_change'):
     ${forms.input(_("Display name"), 'display_name', help=_("You can chose which name other users see."), placeholder=c.page_user.user_name)}
+    %endif
 
     ${forms.select(_("Language"), 'locale', c.locales, help=_("Prefered user interface language"))}
 

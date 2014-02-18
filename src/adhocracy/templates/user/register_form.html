@@ -43,7 +43,7 @@
     <p>
       %if c.agree_text is None:
         ${_("By registering, you agree with the %s.") % ("<a class='staticlink_terms' href='/static/terms.html'>%s</a>" % _("Terms and Conditions")) |n}
-        Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Projektgruppen per E-Mail informieren.
+        ${_("Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Projektgruppen per E-Mail informieren.")}
       %else:
         ${c.agree_text|n}
       %endif

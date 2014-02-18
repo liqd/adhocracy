@@ -92,7 +92,7 @@ def all_languages(include_preferences=False):
 
 
 def all_language_infos(include_preferences=False):
-    return ({'id': l.language, 'name': l.display_name}
+    return ({'id': l.language, 'name': l.language_name}
             for l in all_locales(include_preferences))
 
 

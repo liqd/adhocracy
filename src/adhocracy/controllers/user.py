@@ -86,7 +86,8 @@ class UserCreateForm(formencode.Schema):
 class UserSettingsPersonalForm(formencode.Schema):
     allow_extra_fields = True
     locale = forms.ValidLocale()
-    display_name = validators.String(not_empty=False)
+    if config.get_bool('adhocracy.user.display_name.allow_change'):
+        display_name = validators.String(not_empty=False)
     bio = validators.String(max=1000, min=0, not_empty=False)
     _is_organization = validators.StringBool(not_empty=False, if_empty=False,
                                              if_missing=False)
@@ -393,9 +394,12 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.edit(c.page_user)
+
+        _attributes = ['locale', 'bio', '_is_organization']
+        if config.get_bool('adhocracy.user.display_name.allow_change'):
+            _attributes.append('display_name')
         updated = update_attributes(c.page_user, self.form_result,
-                                    ['display_name', 'locale', 'bio',
-                                     '_is_organization'])
+                                    _attributes)
 
         # delete the logo if the button was pressed and exit
         if 'delete_avatar' in self.form_result:

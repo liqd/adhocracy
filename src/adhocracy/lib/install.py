@@ -2,6 +2,7 @@ import logging
 
 import adhocracy.model as model
 from adhocracy.config import get_bool as config_get_bool
+from adhocracy.config import get_json as config_get_json
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.helpers.site_helper import get_domain_part
 
@@ -188,10 +189,11 @@ def setup_entities(config, initial_setup):
                 fb.require_valid_email = False
 
     if 'shibboleth' in allowed_login_types(config):
-        from adhocracy.lib.auth.shibboleth import get_userbadge_mapping
-        for mapping in get_userbadge_mapping(config):
-            title = mapping[0]
+        mappings = config_get_json("adhocracy.shibboleth.userbadge_mapping",
+                                   config=config)
+        for mapping in mappings:
+            title = mapping["title"]
             if model.UserBadge.find(title) is None:
-                model.UserBadge.create(mapping[0], u'#000000', True, u'')
+                model.UserBadge.create(mapping["title"], u'#000000', True, u'')
 
     model.meta.Session.commit()

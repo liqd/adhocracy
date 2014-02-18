@@ -3,9 +3,9 @@ import logging
 
 from httplib2 import Http
 from pylons import tmpl_context as c
-from pylons import config
 from sunburnt import SolrInterface
 
+from adhocracy import config
 from adhocracy import model
 from adhocracy.model import refs
 
@@ -33,7 +33,10 @@ def make_connection():
     solr_url = solr_url.strip()
     if not solr_url.endswith('/'):
         solr_url = solr_url + '/'
-    http_connection = Http()
+    kwargs = {}
+    if config.get_bool('adhocracy.force_no_http_proxy'):
+        kwargs['proxy_info'] = None
+    http_connection = Http(**kwargs)
     return SolrInterface(solr_url,
                          http_connection=http_connection)
 
