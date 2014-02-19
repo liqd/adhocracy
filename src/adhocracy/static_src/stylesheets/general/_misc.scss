@@ -105,6 +105,9 @@ Added during template integration
 
 /* Fixes for js.socialshareprivace */
 
+#socialshareprivacy {
+    @include pie-clearfix;
+}
 #socialshareprivacy form {
     padding: 0;
 }
