@@ -86,3 +86,24 @@
         text-decoration: none;
     }
 }
+
+// flex
+@mixin flex($args) {
+    flex: $args;
+    -webkit-flex: $args;
+    -ms-flex: $args;
+}
+@mixin display($arg) {
+    @if $arg == 'flex' {
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flex;
+    } @else {
+        display: $args;
+    }
+}
+@mixin justify-content($arg) {
+    justify-content: $arg;
+    -webkit-justify-content: $arg;
+    -ms-justify-content: $arg;
+}
