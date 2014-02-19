@@ -27,12 +27,12 @@ html.flexbox .tile-table {
     margin-left: -1em;
 
     .tile-row {
-        display: flex;
-        justify-content: space-between;
+        @include display(flex);
+        @include justify-content(space-between);
         margin: 4em 0;
     }
     .tile {
-        flex: 1;
+        @include flex(1);
         position: relative;
         margin: 0 1em;
 
