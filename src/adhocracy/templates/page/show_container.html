@@ -25,7 +25,9 @@
 </div>
 <hr />
 
-${c.variant_details['text']|n}
+<div class="paper_text">
+    ${c.variant_details['text']|n}
+</div>
 
 %if c.instance.page_index_as_tiles:
 ${index_tiles.as_tiles(c.subpages_pager._items, columns=2)}
