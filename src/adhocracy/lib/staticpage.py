@@ -123,7 +123,7 @@ def get_static_page(key, language=None):
 
 
 def add_static_content(data, config_key, title_key=u'title',
-                       body_key=u'body'):
+                       body_key=u'body', css_classes_key=u'css_classes'):
 
     static_path = config.get(config_key)
     if static_path is not None:
@@ -133,5 +133,6 @@ def add_static_content(data, config_key, title_key=u'title',
         else:
             data[title_key] = page.title
             data[body_key] = render_body(page.body)
+            data[css_classes_key] = page.css_classes
     else:
         data[title_key] = data[body_key] = None

@@ -1,6 +1,18 @@
 Adhocracy Changelog
 ===================
 
+Unreleased
+----------
+
+- Added context variable "body_css_classes" to append context specific css
+  classes to the body tag. The default classes are:
+  * logged_in|not_logged_in,
+  * instance_key_<key>,
+  * global_nav_home|global_nav_instances,
+  * added_static_content|context_static_content,
+  * css_classes from the static pages backend.
+  [joka]
+
 
 2.1.3 (2014-02-21)
 ------------------
