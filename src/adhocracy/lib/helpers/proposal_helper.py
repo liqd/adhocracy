@@ -1,10 +1,12 @@
 import cgi
 
 from pylons.i18n import _
+from pylons import tmpl_context as c
 
 from adhocracy.lib import cache
 from adhocracy.lib.text import label2url
 from adhocracy.lib.helpers import url as _url
+from adhocracy.lib.helpers.category_helper import bc_entity as bc_category
 
 
 @cache.memoize('proposal_link', 3600)
@@ -45,7 +47,16 @@ def bc_entity(proposal):
 def breadcrumbs(proposal):
     from adhocracy.lib.helpers import base_url
     bc = _url.root()
-    bc += _url.link(_("Proposals"), base_url(u'/proposal'))
+    if c.instance.show_proposals_navigation:
+        bc += _url.link(_("Proposals"), base_url(u'/proposal'))
+    elif c.instance.display_category_pages:
+        bc += _url.link(_("Categories"), base_url(u'/category'))
+
+        if proposal.category is not None:
+            bc += bc_category(proposal.category)
+    else:
+        # FIXME this case will produce a double BREAD_SEP
+        pass
     if proposal is not None:
         bc += bc_entity(proposal)
     return bc
