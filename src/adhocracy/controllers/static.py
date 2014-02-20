@@ -3,7 +3,7 @@ import logging
 import formencode
 from formencode import htmlfill, validators, Invalid
 
-from pylons import request
+from pylons import request, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.i18n import _
 
@@ -121,6 +121,8 @@ class StaticController(BaseController):
         page = get_static_page(key)
         if page is None:
             return abort(404, _('The requested page was not found'))
+        c.body_css_classes += page.css_classes
+        c.body_css_classes.append('context_static_content')
         if page.redirect_url != u'':
             return redirect(page.redirect_url)
         data = {
