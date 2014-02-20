@@ -89,8 +89,9 @@ class UserSettingsPersonalForm(formencode.Schema):
     if config.get_bool('adhocracy.user.display_name.allow_change'):
         display_name = validators.String(not_empty=False)
     bio = validators.String(
-        max=config.get_int('adhocracy.user.bio.max_length'), min=0,
-        not_empty=False)
+        max=(None if config.get_bool('adhocracy.user.bio.no_max_length')
+             else config.get_int('adhocracy.user.bio.max_length')),
+        min=0, not_empty=False)
     _is_organization = validators.StringBool(not_empty=False, if_empty=False,
                                              if_missing=False)
 
