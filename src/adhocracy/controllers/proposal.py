@@ -99,7 +99,7 @@ class ProposalController(BaseController):
 
     def __init__(self):
         super(ProposalController, self).__init__()
-        c.active_subheader_nav = 'proposals'
+        c.active_subheader_nav = 'category'
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
