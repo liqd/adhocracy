@@ -34,7 +34,7 @@ def header(milestone, tile=None):
 
 
 def select(selected, name='milestone'):
-    options = [('--', _('(no milestone)'), selected is None)]
+    options = [('--', None, _('(no milestone)'), selected is None)]
 
     if has('milestone.edit'):
         milestones = model.Milestone.all(instance=c.instance)
@@ -47,7 +47,7 @@ def select(selected, name='milestone'):
             milestones.insert(0, selected)
 
     for milestone in milestones:
-        options.append((milestone.id, milestone.title,
+        options.append((milestone.id, milestone.time, milestone.title,
                         milestone == selected))
 
     return render_tile('/milestone/tiles.html', 'select',
