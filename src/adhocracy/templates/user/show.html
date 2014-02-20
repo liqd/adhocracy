@@ -18,6 +18,7 @@
 
     <div class="dashboard_header_row">
         <div class="dashboard_select_instance">
+            %if can.instance.index():
             ${_(u'Activity in')}
             <select class="autoreload">
                 %if c.dashboard:
@@ -36,6 +37,7 @@
                 %endfor
                 %endif
             </select>
+            %endif
         </div>
 
         <h2>
@@ -192,12 +194,14 @@
         ${h.date_tag(c.last_activity)|n}
         %endif
 
+        %if can.instance.index():
         <h6>${_('Member in the following instances') if c.instance is None else _('Member in other instances')}</h6>
         <% instances = c.page_user.real_instances(exclude_current=True) %>
         %if instances:
         <div>${', '.join(['<a href="%s">%s</a>' % (h.entity_url(c.page_user, instance=i), i.label) for i in instances]) | n}</div>
         %else:
         <span>${_(u'None')}</span>
+        %endif
         %endif
 
         <%doc>
