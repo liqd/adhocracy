@@ -37,9 +37,11 @@ def select(selected, name='milestone'):
     options = [('--', _('(no milestone)'), selected is None)]
 
     if has('milestone.edit'):
-        milestones = model.Milestone.all(instance=c.instance)
+        milestones = model.Milestone.all_q(instance=c.instance)\
+            .order_by(model.Milestone.time).all()
     else:
-        milestones = model.Milestone.all_future(instance=c.instance)
+        milestones = model.Milestone.all_future(instance=c.instance)\
+            .order_by(model.Milestone.time).all()
 
         # Add the currently selected milestone if it is in the past
         # so it will be shown and won't be overwritten on save
