@@ -82,6 +82,7 @@ DEFAULTS = {
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
+    'adhocracy.user.bio.max_length': 1000,
     'adhocracy.wording.intro_for_overview': False,
     'debug': False,
 
