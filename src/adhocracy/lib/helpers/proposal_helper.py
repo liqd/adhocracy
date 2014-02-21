@@ -52,7 +52,7 @@ def breadcrumbs(proposal):
     elif c.instance.display_category_pages:
         bc += _url.link(_("Categories"), base_url(u'/category'))
 
-        if proposal.category is not None:
+        if proposal is not None and proposal.category is not None:
             bc += bc_category(proposal.category)
     else:
         # FIXME this case will produce a double BREAD_SEP
