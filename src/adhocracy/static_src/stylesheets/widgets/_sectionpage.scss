@@ -18,17 +18,11 @@ section.subpage {
 
         // FIXME not accessible
         &:hover {
-            > aside {
-                opacity: 1;
-            }
             border-right-color: $primary-color;
             border-left-color: $bg2;
         }
 
         aside {
-            opacity: 0.3;
-            @include transition(opacity .5s);
-
             position: absolute;
             height: 100%;
             width: $border-width;
@@ -89,6 +83,18 @@ section.subpage {
                     }
                 }
             }
+        }
+    }
+}
+html.no-touch {
+    section.subpage > .body {
+        aside {
+            opacity: 0.3;
+            @include transition(opacity .5s);
+        }
+        // FIXME not accessible
+        &:hover > aside {
+            opacity: 1;
         }
     }
 }

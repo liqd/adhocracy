@@ -28,8 +28,8 @@ def get_sunburnt_connection():
 
 
 def make_connection():
-    solr_url = config.get('adhocracy.solr.url',
-                          'http://localhost:8983/solr/')
+    solr_url = config.get_string('adhocracy.solr.url',
+                                 'http://localhost:8983/solr/')
     solr_url = solr_url.strip()
     if not solr_url.endswith('/'):
         solr_url = solr_url + '/'

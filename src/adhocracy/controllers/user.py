@@ -88,7 +88,10 @@ class UserSettingsPersonalForm(formencode.Schema):
     locale = forms.ValidLocale()
     if config.get_bool('adhocracy.user.display_name.allow_change'):
         display_name = validators.String(not_empty=False)
-    bio = validators.String(max=1000, min=0, not_empty=False)
+    bio = validators.String(
+        max=(None if config.get_bool('adhocracy.user.bio.no_max_length')
+             else config.get_int('adhocracy.user.bio.max_length')),
+        min=0, not_empty=False)
     _is_organization = validators.StringBool(not_empty=False, if_empty=False,
                                              if_missing=False)
 

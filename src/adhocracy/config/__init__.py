@@ -85,6 +85,8 @@ DEFAULTS = {
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.user.optional_attributes': [],
+    'adhocracy.user.bio.max_length': 1000,
+    'adhocracy.user.bio.no_max_length': False,
     'adhocracy.wording.intro_for_overview': False,
     'debug': False,
 
@@ -111,7 +113,17 @@ def get_value(key, converter, default=None, config=config,
 
 
 def get(key, default=None, config=config):
+    """ Return a config value as unicode. """
     return get_value(key, lambda x: x.decode('utf-8'), default, config)
+
+
+def get_string(key, default=None, config=config):
+    """ Return a config value as string.
+
+    This is pretty much the same as pylons.config.get.
+
+    """
+    return get_value(key, None, default, config)
 
 
 def get_bool(key, default=None, config=config):

@@ -2,6 +2,37 @@ Adhocracy Changelog
 ===================
 
 
+2.1.3 (2014-02-21)
+------------------
+
+Improvements:
+
+- Adopt breadcrumbs if proposal tab is disabled and category pages are enabled
+  (#768)
+
+- Hide dashboard instance chooser in single instance settings through
+  instance.index permission. (#766)
+
+- Sort milestone select items by date. (#769)
+
+- Show milestone date in milestone select. (#770)
+
+- Make user max bio length configurable. (#771)
+
+Bug fixes:
+
+- Fix broken solr connection with non-ascii characters (regression introduced
+  in 2.1.2).
+
+- Fix broken registration (regression introduced in 2.1.2).
+
+- Fix build issues with non-ascii characters in scss files. (#761)
+
+- Fix flex based grid tiles in Safari. (#763)
+
+- Fix section page display issue with touch devices. (#764)
+
+
 2.1.2 (2014-02-18)
 ------------------
 
