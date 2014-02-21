@@ -24,15 +24,11 @@ class BaseController(WSGIController):
 
         c.body_css_classes = []
         c.instance = model.instance_filter.get_instance()
-        if c.instance is not None:
-            # setup a global variable to mark the current item in
-            # the global navigation
-            c.active_global_nav = 'instances'
-            c.body_css_classes.append('global_nav_instances')
-            c.body_css_classes.append('instance_key_' + str(c.instance.key))
-        else:
-            c.active_global_nav = 'home'
-            c.body_css_classes.append('global_nav_home')
+        # setup a global variable to mark the current item in
+        # the global navigation
+        global_nav = 'instances' if c.instance is not None else 'home'
+        c.active_global_nav = global_nav
+        c.body_css_classes.append('global_nav_' + global_nav)
         user_id = environ.get('repoze.who.identity', {}).get('user', None)
         user = None
         # make sure we're not using a detached user object
