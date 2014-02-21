@@ -81,6 +81,7 @@ DEFAULTS = {
     'adhocracy.store_notification_events': True,
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
+    'adhocracy.use_test_instance': True,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.user.bio.max_length': 1000,
     'adhocracy.user.bio.no_max_length': False,
