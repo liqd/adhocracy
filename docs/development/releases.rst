@@ -58,6 +58,7 @@ is simple. Just run the following commands from adhocracy root folder::
     git merge develop
     git tag $VERSION
     bin/mkrelease -TCd pypi
+    git push --tags
 
 To create a local develop release, just run::
 
