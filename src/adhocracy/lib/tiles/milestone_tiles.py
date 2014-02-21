@@ -40,7 +40,7 @@ def select(selected, name='milestone'):
         milestones = model.Milestone.all_q(instance=c.instance)\
             .order_by(model.Milestone.time).all()
     else:
-        milestones = model.Milestone.all_future(instance=c.instance)\
+        milestones = model.Milestone.all_future_q(instance=c.instance)\
             .order_by(model.Milestone.time).all()
 
         # Add the currently selected milestone if it is in the past
