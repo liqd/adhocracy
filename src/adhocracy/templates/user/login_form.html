@@ -51,18 +51,11 @@ else:
       c.openid_scenario = "login"
       %>
       <%include file="/openid/form.html"/>
+  %elif 'facebook' in login_types:
+      <form id="facebook_login_form" action="${h.velruse_url('/login/facebook')}" method="post">
+        <input type="image" src="velruse/active_404.png" value=${_("Login with Facebook")} />
+      </form>
   %endif
 
-  %if 'facebook' in login_types:
-  <form action="${h.velruse_url('/login/facebook')}"
-        method="post">
-    <!-- <input type="hidden" name="scope" value="publish_stream,create_event" /> -->
-    <input type="image" src="velruse/active_404.png" alt="Login with Facebook" />
-  </form>
-  </br>
-  <form action="${h.velruse_url('/login/google')}"
-        method="post">
-    <input type="submit" value="Login with google" />
-  </form>
-  %endif
+
 </div>
