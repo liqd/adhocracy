@@ -1,17 +1,8 @@
 <form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
    <div>${_('Alternative')}:</div>
-   <div>
-      %if c.openid_scenario and c.openid_scenario == "login":
-         <span class="hint">
-           %if h.allow_user_registration():
-           ${_('Login with your OpenID to skip registration.')}
-           %else:
-           ${_('Login with your OpenID.')}
-           %endif
-         </span>
-      %endif
-      <div class="openid_btns"></div>
+   <div class="openid_btns">
    </div>
+
    <div class="openid_input_area">
       <input name="openid" type="text" value="http://" />
     %if c.openid_scenario and c.openid_scenario == "login":
