@@ -19,10 +19,17 @@ log = logging.getLogger(__name__)
 
 class BaseController(WSGIController):
 
+    # Identifier for what area this controler is used.
+    # This is used to set the c.active_subheader_nav variable and
+    # to append a controller specific css class to the body tag.
+    identifier = 'base'
+
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
 
         c.body_css_classes = []
+        c.body_css_classes.append('area-' + self.identifier)
+        c.active_subheader_nav = self.identifier
         c.instance = model.instance_filter.get_instance()
         # setup a global variable to mark the current item in
         # the global navigation

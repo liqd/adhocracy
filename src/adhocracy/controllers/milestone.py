@@ -57,9 +57,7 @@ class MilestoneUpdateForm(MilestoneEditForm):
 
 class MilestoneController(BaseController):
 
-    def __init__(self):
-        super(MilestoneController, self).__init__()
-        c.active_subheader_nav = 'milestones'
+    identifier = 'milestones'
 
     @RequireInstance
     def index(self, format="html"):
