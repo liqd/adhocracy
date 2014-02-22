@@ -78,4 +78,5 @@ class StaticPageGET(colander.MappingSchema):
 
 class StaticPagesGET(colander.MappingSchema):
 
+    base = Path(location="querystring", missing=u"")
     lang = LangList(location="querystring")
