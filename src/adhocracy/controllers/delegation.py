@@ -33,6 +33,8 @@ class DelegationCreateForm(DelegationNewForm):
 
 class DelegationController(BaseController):
 
+    identifier = "delegations"
+
     @RequireInstance
     @guard.delegation.index()
     def index(self, format='html'):

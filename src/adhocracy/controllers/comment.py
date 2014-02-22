@@ -65,6 +65,8 @@ class CommentPurgeForm(formencode.Schema):
 
 class CommentController(BaseController):
 
+    identifier = "comments"
+
     def __init__(self):
         super(CommentController, self).__init__()
         c.api = h.adhocracy_service.RESTAPI()

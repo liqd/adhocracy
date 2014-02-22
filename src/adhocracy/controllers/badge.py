@@ -99,6 +99,7 @@ class BadgeController(BaseController):
     form_template = "/badge/form.html"
     index_template = "/badge/index.html"
     base_url_ = None
+    identifier = "badges"
 
     @property
     def base_url(self):

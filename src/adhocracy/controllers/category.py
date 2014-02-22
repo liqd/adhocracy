@@ -14,9 +14,8 @@ from proposal import ProposalFilterForm
 
 
 class CategoryController(BaseController):
-    def __init__(self):
-        super(CategoryController, self).__init__()
-        c.active_subheader_nav = 'category'
+
+    identifier = 'category'
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)

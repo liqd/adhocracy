@@ -168,9 +168,7 @@ class NoPasswordForm(formencode.Schema):
 
 class UserController(BaseController):
 
-    def __init__(self):
-        super(UserController, self).__init__()
-        c.active_subheader_nav = 'members'
+    identifier = 'members'
 
     @RequireInstance
     @guard.user.index()
