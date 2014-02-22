@@ -9,8 +9,9 @@ Unreleased
   * logged_in|not_logged_in,
   * instance_key_<key>,
   * global_nav_home|global_nav_instances,
-  * added_static_content|context_static_content,
+  * added_static_content,
   * css_classes from the static pages backend.
+  * area-<controller_identifier>
   [joka]
 
 

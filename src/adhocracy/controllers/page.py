@@ -113,9 +113,7 @@ class PageDiffForm(formencode.Schema):
 
 class PageController(BaseController):
 
-    def __init__(self):
-        super(PageController, self).__init__()
-        c.active_subheader_nav = 'norms'
+    identifier = 'norms'
 
     @RequireInstance
     @guard.page.index()

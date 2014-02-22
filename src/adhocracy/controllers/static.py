@@ -35,6 +35,8 @@ class NewForm(EditForm):
 
 class StaticController(BaseController):
 
+    identifier = "staticpages"
+
     @guard_perms
     def index(self):
         try:
@@ -122,7 +124,6 @@ class StaticController(BaseController):
         if page is None:
             return abort(404, _('The requested page was not found'))
         c.body_css_classes += page.css_classes
-        c.body_css_classes.append('context_static_content')
         data = {
             'static': page,
             'body_html': render_body(page.body),
