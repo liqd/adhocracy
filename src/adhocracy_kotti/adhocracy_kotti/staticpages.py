@@ -65,6 +65,7 @@ def get_staticpage(path, languages):
             'title': page.title,
             'description': page.description,
             'body': page.body,
+            'private': u'private' in page.tags,
             #'last_modified': page.modification_date,
         }
 
