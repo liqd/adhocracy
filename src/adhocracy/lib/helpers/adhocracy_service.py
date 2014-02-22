@@ -16,12 +16,14 @@ class RESTAPI(object):
         self.api_address = config.get('adhocracy_service.rest_api_address', '')
         self.headers = {"X-API-Token": self.api_token}
 
-    def staticpages_get(self, languages=None):
+    def staticpages_get(self, base=None, languages=None):
         if languages is None:
             languages = i18n.all_languages(include_preferences=True)
         params = {
             'lang': languages
         }
+        if base is not None:
+            params['base'] = base
         request = requests.Request("GET",
                                    url='%s%s' % (
                                        self.api_address,

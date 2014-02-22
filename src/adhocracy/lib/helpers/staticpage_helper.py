@@ -55,7 +55,8 @@ def use_external_navigation():
 
 def render_external_navigation():
     api = RESTAPI()
-    result = api.staticpages_get()
+    base = config.get('adhocracy.kotti_navigation_base', None)
+    result = api.staticpages_get(base=base)
     nav = result.json()
     if nav is None or not nav.get('children'):
         log.error('External navigation not found for configured languages')
