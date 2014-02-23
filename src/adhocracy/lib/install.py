@@ -170,7 +170,8 @@ def setup_entities(config, initial_setup):
         model.Instance.create(config.get('adhocracy.instance'),
                               u"Adhocracy", admin)
     else:
-        if not model.Instance.find(u"test"):
+        if config_get_bool('adhocracy.use_test_instance', config=config)\
+                and not model.Instance.find(u"test"):
             log.debug(u'Creating test instance')
             model.Instance.create(u"test", u"Test Instance", admin)
 
