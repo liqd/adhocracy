@@ -16,11 +16,12 @@ log = logging.getLogger(__name__)
 
 
 class FileStaticPage(object):
-    def __init__(self, key, lang, body, title):
+    def __init__(self, key, lang, body, title, css_classes=[]):
         self.key = key
         self.lang = lang
         self.title = title
         self.body = body
+        self.css_classes = css_classes
 
     @staticmethod
     def get(key, lang):
