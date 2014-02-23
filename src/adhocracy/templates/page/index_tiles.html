@@ -45,6 +45,9 @@
 
 
 <%block name="headline">
+    %if c.heading_title:
+    <h2>${_(c.heading_title)|n}</h2>
+    %else:
     <div class="morelink_header">
         <h2 class="page_title">${_("Norms")}</h2>
 
@@ -53,8 +56,13 @@
                href="${h.base_url('/page/new')}">${_("Create new norm")}</a>
         %endif
     </div>
+    %endif
 
-    <hr/>
+    %if c.heading_text:
+    <div class="description">${_(c.heading_text)|n}</div>
+    %else:
+    <hr />
+    %endif
 
     ${as_tiles(c.pages_pager._items, columns=3)}
 

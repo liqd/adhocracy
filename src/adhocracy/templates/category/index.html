@@ -9,6 +9,9 @@ ${h.category.breadcrumbs(None)|n}
 
 <%block name="headline">
 
+%if c.heading_title:
+<h2>${_(c.heading_title)|n}</h2>
+%else:
 <h2>${_(u"Categories")}
 %if can.instance.any_admin():
 <a class="button_small edit"
@@ -16,8 +19,13 @@ ${h.category.breadcrumbs(None)|n}
     rel="#overlay-form">${_(u"Edit")}</a>
 %endif
 </h2>
+%endif
 
+%if c.heading_text:
+<div class="description">${_(c.heading_text)|n}</div>
+%else:
 <hr />
+%endif
 
 <div class="tile-table">
     <% counter = 0 %>

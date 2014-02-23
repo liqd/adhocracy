@@ -19,6 +19,7 @@ from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import (render, render_json, ret_abort,
                                       render_logo)
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
@@ -141,6 +142,10 @@ class PageController(BaseController):
                                     key=lambda (k, c, v): k.name)
         data['tutorial_intro'] = _('tutorial_norms_overview_tab')
         data['tutorial'] = 'page_index'
+
+        add_static_content(data, u'adhocracy.static.page_index_heading',
+                           body_key=u'heading_text',
+                           title_key=u'heading_title')
 
         if c.instance.page_index_as_tiles:
             return render("/page/index_tiles.html", data,

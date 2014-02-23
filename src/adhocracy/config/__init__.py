@@ -83,6 +83,8 @@ DEFAULTS = {
     'adhocracy.use_feedback_instance': False,
     'adhocracy.use_test_instance': True,
     'adhocracy.user.optional_attributes': [],
+    'adhocracy.static.category_index_heading': None,
+    'adhocracy.static.page_index_heading': None,
     'adhocracy.user.bio.max_length': 1000,
     'adhocracy.user.bio.no_max_length': False,
     'adhocracy.wording.intro_for_overview': False,

@@ -7,6 +7,7 @@ from adhocracy.lib.templating import render, render_logo
 from adhocracy.lib import pager
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.auth import require
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy import model
 
@@ -60,6 +61,9 @@ class CategoryController(BaseController):
         data = {
             'categories': filter(lambda c: len(c.children) == 0, categories)
         }
+        add_static_content(data, u'adhocracy.static.category_index_heading',
+                           body_key=u'heading_text',
+                           title_key=u'heading_title')
         return render('/category/index.html', data,
                       overlay=format == u'overlay')
 
