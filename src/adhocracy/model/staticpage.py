@@ -19,11 +19,14 @@ class StaticPage(object):
         self.body = body
 
     @classmethod
-    def get(cls, key, lang):
+    def get(cls, key, languages):
         """ Get the specified static page or None if it cannot be found """
-        q = meta.Session.query(cls)
-        q = q.filter(cls.key == key, cls.lang == lang)
-        return q.first()
+        for lang in languages:
+            q = meta.Session.query(cls)
+            q = q.filter(cls.key == key, cls.lang == lang)
+            if q.count():
+                return q.first()
+        return None
 
     @classmethod
     def create(cls, key, lang, title, body):

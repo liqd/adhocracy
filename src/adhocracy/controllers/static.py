@@ -8,11 +8,11 @@ from pylons.controllers.util import abort, redirect
 from pylons.i18n import _
 
 from adhocracy import forms
+from adhocracy import i18n
 from adhocracy.lib import helpers
 from adhocracy.lib.auth import guard, csrf
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.staticpage import (get_static_page, get_backend,
-                                      all_languages, all_language_infos,
                                       render_body)
 from adhocracy.lib.templating import render, ret_abort
 
@@ -30,7 +30,7 @@ class EditForm(formencode.Schema):
 
 class NewForm(EditForm):
     key = forms.StaticPageKey()
-    lang = validators.OneOf(set(all_languages()))
+    lang = validators.OneOf(set(i18n.all_languages()))
 
 
 class StaticController(BaseController):
@@ -48,7 +48,7 @@ class StaticController(BaseController):
     @guard_perms
     def new(self, errors=None, format=u'html'):
         data = {
-            'all_language_infos': list(all_language_infos())
+            'all_language_infos': list(i18n.all_language_infos())
         }
         defaults = dict(request.params)
         defaults['_tok'] = csrf.token_id()
@@ -83,7 +83,7 @@ class StaticController(BaseController):
     @guard_perms
     def edit(self, key, lang, errors=None, format=u'html'):
         backend = get_backend()
-        sp = backend.get(key, lang)
+        sp = backend.get(key, [lang])
         if not sp:
             return ret_abort(_('Cannot find static page to edit'), code=404)
         data = {'staticpage': sp}
@@ -101,7 +101,7 @@ class StaticController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     def update(self, key, lang):
         backend = get_backend()
-        sp = backend.get(key, lang)
+        sp = backend.get(key, [lang])
         if not sp:
             return ret_abort(_('Cannot find static page to edit'), code=404)
 
@@ -121,7 +121,8 @@ class StaticController(BaseController):
         page = get_static_page(key)
         if page is None:
             return abort(404, _('The requested page was not found'))
-
+        if page.redirect_url != u'':
+            return redirect(page.redirect_url)
         data = {
             'static': page,
             'body_html': render_body(page.body),
