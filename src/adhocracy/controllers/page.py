@@ -121,6 +121,7 @@ class PageController(BaseController):
     @guard.page.index()
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
+        data = {}
         pages = model.Page.all(instance=c.instance,
                                functions=model.Page.LISTED)
         if request.params.get('pages_sort', '4') == '4':
@@ -129,22 +130,24 @@ class PageController(BaseController):
             # WARNING: This will break if the index of the sort changes.
             c.is_hierarchical = True
             pages = [page for page in pages if page.parent is None]
-        c.pages_pager = pager.pages(pages)
+
+        data['pages_pager'] = pager.pages(pages)
 
         if format == 'json':
-            return render_json(c.pages_pager)
+            return render_json(data['pages_pager'])
 
         tags = model.Tag.popular_tags(limit=30)
-        c.cloud_tags = sorted(libtext.tag_cloud_normalize(tags),
-                              key=lambda (k, c, v): k.name)
-        c.tutorial_intro = _('tutorial_norms_overview_tab')
-        c.tutorial = 'page_index'
+        data['cloud_tags'] = sorted(libtext.tag_cloud_normalize(tags),
+                                    key=lambda (k, c, v): k.name)
+        data['tutorial_intro'] = _('tutorial_norms_overview_tab')
+        data['tutorial'] = 'page_index'
 
         if c.instance.page_index_as_tiles:
-            return render("/page/index_tiles.html",
+            return render("/page/index_tiles.html", data,
                           overlay=format == u'overlay')
         else:
-            return render("/page/index.html", overlay=format == u'overlay')
+            return render("/page/index.html", data,
+                          overlay=format == u'overlay')
 
     @RequireInstance
     @guard.page.create()
