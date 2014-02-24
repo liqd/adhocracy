@@ -48,111 +48,13 @@ ${c.subpages_pager.here()|n}
 
 
 <%block name="sidebar">
-<%
-    grundstuecke = {
-        6: {  # Karl-Marx-Allee
-            'size': u'1.600 m²',
-            'owner': u'WBM Wohnungsbaugesellschaft Berlin-Mitte mbH',
-            'current_use': u'Freiflächen',
-            'challenges': [
-                u'KMA als Durchgangsstraße – Lärm',
-                u'bekannte Solitäre',
-                u'insgesamt wenig Aufenthaltsqualität',
-                u'kaum Nutzungen in der Lauflage',
-                u'Antragsgebiet Weltkulturerbe',
-            ],
-            'categories': [],
-        },
-        12: {  # Jacobystraße
-            'size': u'7.300 m²',
-            'owner': u'WBM Wohnungsbaugesellschaft Berlin-Mitte mbH, Land Berlin',
-            'current_use': u'Freifläche und Parkplatz',
-            'challenges': [
-                u'Zeilenbauten auf der „Rückseite“ der Karl-Marx-Allee zwischen Schilling- und Alexanderstraße',
-                u'verborgenes Quartier in direkter Nachbarschaft zum Alexanderplatz',
-                u'innere Peripherie',
-            ],
-            'categories': [],
-        },
-        13: {  # Arcostraße 9, 11
-            'size': u'4.300 m²',
-            'owner': 'Liegenschaftsfonds Berlin GmbH & Co.KG, Bezirksamt Charlottenburg-Wilmersdorf',
-            'current_use': u'Arcostraße 9 - Gewerbefläche (Holzbearbeitungsbetrieb); Arcostraße 11 - Sportnutzung',
-            'challenges': [
-                u'Charlottenburg',
-                u'innere Peripherie',
-                u'im „Schatten“ des Rathauses',
-                u'disperse Bebauungsstruktur – Gründerzeit, 1960er, 1970er Jahre',
-                u'unmittelbare Nähe zur Spree',
-            ],
-            'categories': [],
-        },
-        14: {  # Briesestraße 19, Kienitzer Str. 26
-            'size': u'3.300 m²',
-            'owner': u'Stadt und Land Wohnbautengesellschaft mbH',
-            'current_use': u'Parkhaus (nicht öffentlich), Zugang über Kienitzer Straße; Grünfläche',
-            'challenges': [
-                u'Quartier angrenzend an Karl-Marx-Straße und Rollbergkiez',
-                u'Ersatz des aus der Zeit gefallenen Parkhauses',
-                u'integrierte Grünfläche wird kaum genutzt',
-            ],
-            'categories': [],
-        },
-        17: {  # Langhansstr. 27-29
-            'size': u'1.500 m²',
-            'owner': u'Nr. 27 GESOBAU AG, Nr. 28 und 29 Liegenschaftsfonds Berlin GmbH & Co.KG',
-            'current_use': u'Brachfläche (umzäunt)',
-            'challenges': [
-                u'Weißensee',
-                u'deutlicher Abfall der Nutzungen in Erdgeschosszonen',
-                u'Nachbarschaft zum Prenzlauer Berg',
-                u'Grenze zu Gewerbegebiet',
-                u'gegenüber Schulneubau',
-            ],
-            'categories': [],
-        },
-        18: {  # Am Mühlenberg / Meraner Straße
-            'size': u'7.800 m²',
-            'owner': u'Liegenschaftsfonds Berlin GmbH & Co.KG, Land Berlin, privat',
-            'current_use': u'Freifläche/Grünfläche/„Abstandsgrün“',
-            'challenges': [
-                u'Siedlungsbau inmitten gründerzeitlicher Strukturen',
-                u'Blickbeziehung zum Rathaus Schöneberg',
-                u'kaum genutzte Freiflächen',
-            ],
-            'categories': [],
-        },
-        19: {  # Wongrowitzer Steig 34, 36
-            'size': u'2.700 m²',
-            'owner': u'degewo AG',
-            'current_use': u'Brachfläche mit Flachbau (ehemalige Kaufhalle)',
-            'challenges': [
-                u'Gefühlte Peripherie in der Nähe der Altstadt Köpenick',
-                u'reines Wohngebiet',
-                u'Einfamilienhäuser treffen auf Zeilenbauten',
-                u'Brache als „Schandfleck“',
-            ],
-            'categories': [],
-        },
-        20: {  # Elsastraße 40, Oberseestraße 69,71,73
-            'size': u'4.600 m²',
-            'owner': u'Howoge Wohnungsbaugesellschaft mbH',
-            'current_use': u'nördlich Brachfläche, umzäunt; südlich vor Bestandsbauten Spielplatz, Park- und Verkehrsflächen',
-            'challenges': [
-                u'Ruhige Wohnlage in Hohenschönhausen',
-                u'monofunktional',
-                u'in unmittelbarer Nähe zum Obersee',
-                u'heterogene Bebauung, 1- bis 9-geschossig',
-            ],
-            'categories': [],
-        },
-    }
-    current = grundstuecke.get(c.page.id, None)
-%>
+<% current = h.config.get_json('adhocracy.urbanliving.grundstuecke').get(str(c.page.id), None) %>
 
 %if current is not None:
 <div class="sidebar_box">
     <h3>Informationen zum Grundstück</h3>
+    <h6>Adresse</h6>
+    <p>${current['name']}</p>
 
     <h6>Grundstücksgröße</h6>
     <p>${current['size']}</p>
@@ -162,6 +64,8 @@ ${c.subpages_pager.here()|n}
 
     <h6>Bisherige Nutzung</h6>
     <p>${current['current_use']}</p>
+
+    <img src="${'/static_theme/static/images/karte-%s.png' % current['key']}" class="karte" />
 </div>
 
 <div class="sidebar_box">
