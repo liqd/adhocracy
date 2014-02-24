@@ -201,15 +201,15 @@
         current = entwuerfe.get(c.page.id, None)
     %>
     %if current is not None and c.page.parent is not None and current['architect'] is not None:
-    <div class="row">
-        <div class="cell width-4 position-0">
+    <div id="entwurf_metadata">
+        <div class="grundstueck">
             <h4>Grundstück</h4>
-            <div>
-                <img alt="" src="${h.logo_url(c.page.parent, 64, 64)}" style="border-radius: 50%; vertical-align: middle"/>
-                    <a href="${h.entity_url(c.page.parent)}">${c.page.parent.title}</a>
-            </div>
+            <a href="${h.entity_url(c.page.parent)}">
+                <img alt="" src="${h.logo_url(c.page.parent, 64, 64)}" />
+                <span>${c.page.parent.title}</span>
+            </a>
         </div>
-        <div class="cell width-4 position-4">
+        <div class="architect">
             <h4>Architekturbüro</h4>
             <%
                 from adhocracy.model import User
@@ -217,7 +217,7 @@
             %>
             <p><a href="${h.entity_url(architect)}">${architect.name}</a></p>
         </div>
-        <div class="cell width-4 position-8">
+        <div class="categories">
             <h4>Themen</h4>
             <%
                 from adhocracy.model import CategoryBadge
