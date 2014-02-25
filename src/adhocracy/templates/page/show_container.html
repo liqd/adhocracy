@@ -53,6 +53,8 @@ ${c.subpages_pager.here()|n}
 %if current is not None:
 <div class="sidebar_box">
     <h3>Informationen zum Grundstück</h3>
+    <img src="${'/static_theme/static/images/karte-%s.png' % current['key']}" class="karte" />
+
     <h6>Adresse</h6>
     <p>${current['name']}</p>
 
@@ -64,8 +66,6 @@ ${c.subpages_pager.here()|n}
 
     <h6>Bisherige Nutzung</h6>
     <p>${current['current_use']}</p>
-
-    <img src="${'/static_theme/static/images/karte-%s.png' % current['key']}" class="karte" />
 </div>
 
 <div class="sidebar_box">
