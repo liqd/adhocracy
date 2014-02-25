@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"POT-Creation-Date: 2014-02-25 22:14+0100\n"
+"PO-Revision-Date: 2014-02-25 21:15+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1506,14 +1506,20 @@ msgstr "This proposal is currently being voted on and cannot be modified."
 msgid "Settings"
 msgstr "Settings"
 
-msgid "(Unknown)"
-msgstr "(Unknown)"
+msgid "Proposals"
+msgstr "Proposals"
 
 msgid "Norms"
 msgstr "Norms"
 
-msgid "Proposals"
-msgstr "Proposals"
+msgid "Members"
+msgstr "Members"
+
+msgid "Intro"
+msgstr ""
+
+msgid "(Unknown)"
+msgstr "(Unknown)"
 
 msgid "Implementation"
 msgstr "Implementation"
@@ -1527,9 +1533,6 @@ msgstr "delete"
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (deleted user)"
-
-msgid "Members"
-msgstr "Members"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1770,9 +1773,6 @@ msgstr "Search"
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Search in &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2029,6 +2029,9 @@ msgstr "Import successfully performed."
 msgid "back to main page"
 msgstr "back to main page"
 
+msgid "Site administration"
+msgstr "Site administration"
+
 msgid "Admin: Group Permissions"
 msgstr "Admin: Group permissions"
 
@@ -2066,9 +2069,6 @@ msgstr "Send an email to users"
 
 msgid "Assign treatment badges"
 msgstr "Assign treatment badges"
-
-msgid "Site administration"
-msgstr "Site administration"
 
 msgid "Admin: Import Users"
 msgstr "Admin: Import users"
@@ -2230,6 +2230,9 @@ msgid "Global"
 msgstr "Global"
 
 msgid "Parent Category"
+msgstr ""
+
+msgid "Link this category to a superordinate category"
 msgstr ""
 
 msgid "No Parent Category"
@@ -2826,7 +2829,7 @@ msgid "Authenticate this instance"
 msgstr ""
 
 msgid "Activates additional feature, e.g. massinvite und massmessage"
-msgstr ""
+msgstr "Activates additional feature, e.g. massinvite und massmessage."
 
 msgid "Language"
 msgstr "Language"
@@ -2898,7 +2901,7 @@ msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Show proposals as an extra tab"
-msgstr ""
+msgstr "Show proposals as an extra tab."
 
 msgid "Enable norms"
 msgstr ""
@@ -2921,7 +2924,7 @@ msgid "Show norms navigation item"
 msgstr "Show norms navigation item"
 
 msgid "Show norms as an extra tab"
-msgstr ""
+msgstr "Show norms as an extra tab."
 
 msgid "Home"
 msgstr "Home"
@@ -3741,12 +3744,6 @@ msgstr "%s%% approval"
 msgid "%s:%s votes"
 msgstr "%s:%s votes"
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
 msgid "Join the discussion"
 msgstr ""
 
@@ -4139,8 +4136,8 @@ msgid ""
 " here</a>."
 msgstr "If you have an account but you've lost your password, <a href='/reset'>click here</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Can only contain letters and numbers."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr "You can choose which name other users see."
@@ -4163,6 +4160,11 @@ msgstr "By registering, you agree with the %s."
 
 msgid "Terms and Conditions"
 msgstr "Terms and conditions"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "leave empty"
@@ -4359,7 +4361,7 @@ msgstr ""
 msgid "Not a member in \"%s\""
 msgstr ""
 
-msgid "User groups"
+msgid "User group"
 msgstr ""
 
 msgid "change group"

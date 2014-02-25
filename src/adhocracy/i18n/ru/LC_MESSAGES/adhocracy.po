@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"POT-Creation-Date: 2014-02-25 22:14+0100\n"
+"PO-Revision-Date: 2014-02-25 21:15+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1508,14 +1508,20 @@ msgstr "Предложение в данный момент находится �
 msgid "Settings"
 msgstr "Настройки"
 
-msgid "(Unknown)"
-msgstr "(неизвестно)"
+msgid "Proposals"
+msgstr "Предложения"
 
 msgid "Norms"
 msgstr "Нормативные документы"
 
-msgid "Proposals"
-msgstr "Предложения"
+msgid "Members"
+msgstr "Участники"
+
+msgid "Intro"
+msgstr ""
+
+msgid "(Unknown)"
+msgstr "(неизвестно)"
 
 msgid "Implementation"
 msgstr "Реализация"
@@ -1529,9 +1535,6 @@ msgstr "удалить"
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (удаленный пользователь)"
-
-msgid "Members"
-msgstr "Участники"
 
 msgid "Dashboard"
 msgstr ""
@@ -1772,9 +1775,6 @@ msgstr "Поиск"
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Поиск в  &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2031,6 +2031,9 @@ msgstr "Импорт завершён"
 msgid "back to main page"
 msgstr "Возврат на главную"
 
+msgid "Site administration"
+msgstr "Администрирование сайта"
+
 msgid "Admin: Group Permissions"
 msgstr "Администратор: права пользовательских групп. "
 
@@ -2068,9 +2071,6 @@ msgstr ""
 
 msgid "Assign treatment badges"
 msgstr ""
-
-msgid "Site administration"
-msgstr "Администрирование сайта"
 
 msgid "Admin: Import Users"
 msgstr "Администратор: ипмортировать список пользователей"
@@ -2232,6 +2232,9 @@ msgid "Global"
 msgstr ""
 
 msgid "Parent Category"
+msgstr ""
+
+msgid "Link this category to a superordinate category"
 msgstr ""
 
 msgid "No Parent Category"
@@ -3746,12 +3749,6 @@ msgstr "%s%% одобрены"
 msgid "%s:%s votes"
 msgstr "%s:%s голосов"
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
 msgid "Join the discussion"
 msgstr ""
 
@@ -4144,8 +4141,8 @@ msgid ""
 " here</a>."
 msgstr "Если у Вас есть учетная запись, но Вы потеряли "
 
-msgid "Can only contain letters and numbers."
-msgstr "Может содержать только буквы и цифры."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr ""
@@ -4168,6 +4165,11 @@ msgstr "Регистрируясь, Вы соглашаетесь с %s."
 
 msgid "Terms and Conditions"
 msgstr "Правила и Условия"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "оставить пустым"
@@ -4364,7 +4366,7 @@ msgstr ""
 msgid "Not a member in \"%s\""
 msgstr ""
 
-msgid "User groups"
+msgid "User group"
 msgstr ""
 
 msgid "change group"

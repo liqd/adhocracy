@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"POT-Creation-Date: 2014-02-25 22:14+0100\n"
+"PO-Revision-Date: 2014-02-25 21:15+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1506,14 +1506,20 @@ msgstr "Propunerea este in votare in acest moment si nu poate fi modificata."
 msgid "Settings"
 msgstr "Setari"
 
-msgid "(Unknown)"
-msgstr "(Necunoscut)"
+msgid "Proposals"
+msgstr "Propuneri"
 
 msgid "Norms"
 msgstr "Documente"
 
-msgid "Proposals"
-msgstr "Propuneri"
+msgid "Members"
+msgstr "Membri"
+
+msgid "Intro"
+msgstr ""
+
+msgid "(Unknown)"
+msgstr "(Necunoscut)"
 
 msgid "Implementation"
 msgstr "Implementare"
@@ -1527,9 +1533,6 @@ msgstr "sterge"
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (utilizator sters)"
-
-msgid "Members"
-msgstr "Membri"
 
 msgid "Dashboard"
 msgstr "Prima pagina"
@@ -1770,9 +1773,6 @@ msgstr "Cauta"
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2029,6 +2029,9 @@ msgstr "Importul a reusit cu succes."
 msgid "back to main page"
 msgstr "inapoi la pagina principala"
 
+msgid "Site administration"
+msgstr "Administrare site"
+
 msgid "Admin: Group Permissions"
 msgstr "Admin: Permisiuni de grup"
 
@@ -2066,9 +2069,6 @@ msgstr "Trimite email la utilizatori"
 
 msgid "Assign treatment badges"
 msgstr ""
-
-msgid "Site administration"
-msgstr "Administrare site"
 
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
@@ -2230,6 +2230,9 @@ msgid "Global"
 msgstr "Global"
 
 msgid "Parent Category"
+msgstr ""
+
+msgid "Link this category to a superordinate category"
 msgstr ""
 
 msgid "No Parent Category"
@@ -3744,12 +3747,6 @@ msgstr "%s%% sustinere"
 msgid "%s:%s votes"
 msgstr "%s:%s voturi"
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
 msgid "Join the discussion"
 msgstr ""
 
@@ -4142,8 +4139,8 @@ msgid ""
 " here</a>."
 msgstr "Daca ai un cont dar ti-ai pierdut parola, <a href='/reset'>apasa aici</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Poate contine doar litere si numere."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr ""
@@ -4166,6 +4163,11 @@ msgstr "Prin inregistrare, iti dai acordul pentru %s."
 
 msgid "Terms and Conditions"
 msgstr "Termeni si Conditii"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "lasa necompletat"
@@ -4362,7 +4364,7 @@ msgstr ""
 msgid "Not a member in \"%s\""
 msgstr ""
 
-msgid "User groups"
+msgid "User group"
 msgstr ""
 
 msgid "change group"
