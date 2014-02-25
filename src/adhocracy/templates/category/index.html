@@ -37,7 +37,7 @@ ${h.category.breadcrumbs(None)|n}
     %endif
 
         <a class="tile" href="${h.base_url(member='category/%s' % category.id)|n}">
-            <img class="tile-image" src="${h.logo_url(category, 128, 256)}" alt="" />
+            <img class="tile-image" src="${h.logo_url(category, 160, 320)}" alt="" />
             <h3>
                 ${components.senat_icon(category, link=False, highlight=True)}
                 ${category.title}
