@@ -432,6 +432,11 @@ class User(meta.Indexable):
     def is_email_activated(self):
         return self.email is not None and self.activation_code is None
 
+    def set_email_verified(self):
+        # for adhocracy, None means email is verified
+        self.activation_code = None
+        meta.Session.commit()
+
     def delegation_node(self, scope):
         from adhocracy.lib.democracy import DelegationNode
         return DelegationNode(self, scope)
