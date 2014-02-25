@@ -136,7 +136,7 @@
         %endif
 
         <% instance_groups = c.page_user.instance_groups() %>
-        <h6>${_('User groups')}</h6>
+        <h6>${_('User group')}</h6>
         %if instance_groups:
         <span>${u', '.join([_(g.group_name) for g in instance_groups])}</span>
         %else:
@@ -168,6 +168,7 @@
         </form>
         %endif
 
+        %if c.visible_badges or not c.dashboard and can.user.supervise(c.page_user):
         <h6>
             ${_('User badges')}
 
@@ -187,6 +188,7 @@
         </ul>
         %else:
         <span>${_(u"None")}</span>
+        %endif
         %endif
 
         %if c.last_activity:
