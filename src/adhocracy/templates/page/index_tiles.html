@@ -16,7 +16,7 @@
             <a class="tile" href="${h.entity_url(page)|n}">
                 <img class="tile-image" src="${h.logo_url(page, 160, 320)}" alt="" />
                 <h3>${page.title}</h3>
-                <p>${h.text.truncate_html(page.head.lines_text, 26)}</p>
+                <p>${h.truncate(h.markdown_to_plain_text(page.head.lines_text), 26)}</p>
                 <span class="button tile-button">${_('View and discuss')}</span>
             </a>
 
