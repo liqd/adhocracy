@@ -19,7 +19,12 @@ class EventController(BaseController):
     def all(self, format='html'):
         query = model.Event.all_q(include_hidden=False)\
             .order_by(model.Event.time.desc())\
-            .limit(request.params.get('count', 50))
+
+        if 'event_filter' in request.params:
+            query = query.filter(model.Event.event.in_(
+                request.params.getall('event_filter')))
+
+        query = query.limit(request.params.get('count', 50))
 
         if format == 'rss':
             events = query.all()

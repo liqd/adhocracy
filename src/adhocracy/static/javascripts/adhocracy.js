@@ -1237,7 +1237,7 @@ $(document).ready(function () {
             // if the request fails the old data will be kept instead
 
             // FIXME this takes really long
-            $.ajax('/event/all.ajax?limit=5', {
+            $.ajax('/event/all.ajax?limit=5&event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create', {
                 'success': function(d) {
                     data = $(d).children();
                     if (fn) {
