@@ -70,6 +70,12 @@
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
+    <div class="overlay" id="overlay-img">
+      <a class="close only-js" href="#"></a>
+      <div class="contentWrap">
+          <img src="" />
+      </div>
+    </div>
     %if c.user and c.user.welcome_code:
       <form id="user_welcome" action="${h.entity_url(c.user, member='set_password')}" method="post" data-success-message="${_('Password has been set. Have fun!')}">
       ${h.field_token()|n}

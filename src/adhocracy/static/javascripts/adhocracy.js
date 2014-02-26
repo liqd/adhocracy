@@ -1210,4 +1210,11 @@ $(document).ready(function () {
     } else {
         $('html').addClass('no-formdata');
     }
+
+    $('.subpage img').overlay({
+        target: '#overlay-img',
+        onBeforeLoad: function (event) {
+            this.getOverlay().find('img').attr('src', this.getTrigger().attr('src'));
+        }
+    });
 });
