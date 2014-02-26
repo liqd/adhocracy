@@ -74,6 +74,15 @@ div.overlay {
     }
 }
 
+#overlay-img {
+    width: auto;
+    max-width: 90%;
+}
+
+#overlay-img img {
+    width: 100%;
+}
+
 #overlay-big.overlay {
     width: 1000px;
     background-color: #fff;
