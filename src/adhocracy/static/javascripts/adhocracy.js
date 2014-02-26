@@ -1214,7 +1214,11 @@ $(document).ready(function () {
     $('.subpage img').overlay({
         target: '#overlay-img',
         onBeforeLoad: function (event) {
-            this.getOverlay().find('img').attr('src', this.getTrigger().attr('src'));
+            var src = this.getTrigger().attr('src');
+            if (src.slice(-6) === '/large') {
+                src = src.slice(0, -6);
+            }
+            this.getOverlay().find('img').attr('src', src);
         }
     });
 });
