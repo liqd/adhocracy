@@ -162,18 +162,21 @@ class FormattedEvent(object):
             return _("(Undefined)")
 
 
-def as_unicode(event):
+def _format(event, decoder, msg=None):
     if not event.event:
         return _("(Undefined)")
-    fe = FormattedEvent(event, lambda f, value: f.unicode(value))
-    return event.event.event_msg() % fe
+    fe = FormattedEvent(event, decoder)
+    if msg is None:
+        msg = event.event.event_msg()
+    return msg % fe
 
 
-def as_html(event):
-    if not event.event:
-        return _("(Undefined)")
-    fe = FormattedEvent(event, lambda f, value: f.html(value))
-    return event.event.event_msg() % fe
+def as_unicode(event, msg=None):
+    return _format(event, lambda f, value: f.unicode(value), msg)
+
+
+def as_html(event, msg=None):
+    return _format(event, lambda f, value: f.html(value), msg)
 
 
 def as_icon(event, classes=''):
