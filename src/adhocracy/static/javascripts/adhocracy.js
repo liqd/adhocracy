@@ -434,6 +434,7 @@ var adhocracy = adhocracy || {};
             });
 
             wrapped.find('.subpage img').overlay({
+                fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-img',
                 onBeforeLoad: function (event) {
