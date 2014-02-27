@@ -97,9 +97,10 @@ class DelegateableBadgesForm(formencode.Schema):
 
 class ProposalController(BaseController):
 
+    identifier = 'proposals'
+
     def __init__(self):
         super(ProposalController, self).__init__()
-        c.active_subheader_nav = 'proposals'
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)

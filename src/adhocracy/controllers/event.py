@@ -15,6 +15,8 @@ log = logging.getLogger(__name__)
 
 class EventController(BaseController):
 
+    identifier = 'events'
+
     @guard.perm('event.index_all')
     def all(self, format='html'):
         query = model.Event.all_q(include_hidden=False)\
