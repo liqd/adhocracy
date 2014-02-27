@@ -5,7 +5,7 @@
 
 <%def name="title()">${c.proposal.title}</%def>
 
-<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.proposal.description.head)|n}</%def>
 
 <%block name="headline">
 </%block>
