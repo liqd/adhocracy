@@ -28,8 +28,13 @@ class BaseController(WSGIController):
         """Invoke the Controller"""
 
         c.body_css_classes = []
-        c.body_css_classes.append('area-' + self.identifier)
-        c.active_subheader_nav = self.identifier
+        c.body_css_classes.append('controller-' + self.identifier)
+
+        if self.identifier in ['proposals', 'milestones', 'norms', 'category',
+                               'members']:
+            c.active_subheader_nav = self.identifier
+            c.body_css_classes.append('area-' + self.identifier)
+
         c.instance = model.instance_filter.get_instance()
         # setup a global variable to mark the current item in
         # the global navigation
