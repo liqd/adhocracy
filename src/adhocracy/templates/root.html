@@ -152,10 +152,10 @@
     </div>
   </header>
 
-  %if c.instance:
+  %if c.instance or c.static:
   <div id="subheader">
     <div class="page_wrapper">
-      <h2>${h.instance.area_title(c.active_subheader_nav)}</h2>
+      <h2>${c.static.title if c.static else h.instance.area_title(c.active_subheader_nav)}</h2>
       <div class="breadcrumbs">
         ${self.breadcrumbs()}
       </div>
