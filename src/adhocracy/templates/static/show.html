@@ -13,10 +13,6 @@
 <%block name="main">
 <div class="static_wrapper ${" ".join(c.static.css_classes)}">
     <div class="full_teaser">
-        %if c.static.nav:
-        <nav id="static_nav">${h.literal(c.static.nav)}</nav>
-        %endif
-
         %if h.staticpage.can_edit():
         <a class="button staticpage_edit" href="${h.entity_url(c.static)}_${c.static.lang}">${_('Edit this page')}</a>
         %endif
