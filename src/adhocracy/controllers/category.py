@@ -62,7 +62,7 @@ class CategoryController(BaseController):
         categories = model.CategoryBadge.all_q(instance=c.instance,
                                                visible_only=True)\
             .filter(model.CategoryBadge.id.in_(SORTED_LIST)).all()
-        categories = filter(lambda c: len(children) == 0, categories)
+        categories = filter(lambda c: len(c.children) == 0, categories)
         categories = sorted(categories,
                               key=lambda c: SORTED_LIST.index(c.id))
         data = {
