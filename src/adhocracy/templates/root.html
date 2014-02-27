@@ -152,6 +152,17 @@
     </div>
   </header>
 
+  %if c.instance or c.static:
+  <div id="subheader">
+    <div class="page_wrapper">
+      <h2>${c.static.title if c.static else h.instance.area_title(c.active_subheader_nav)}</h2>
+      <div class="breadcrumbs">
+        ${self.breadcrumbs()}
+      </div>
+    </div>
+  </div>
+  %endif
+
   <%block name="attention_getter">
   %if not h.config.get_bool(u'adhocracy.readonly') and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.requires_valid_email() and c.user and not c.user.is_email_activated()) or (h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
   <%doc>add an attention getter on instances</%doc>
@@ -217,17 +228,6 @@
   </div>
   %endif
   </%block>
-
-  %if c.instance:
-  <div id="subheader">
-    <div class="page_wrapper">
-      <h2>${h.instance.area_title(c.active_subheader_nav)}</h2>
-      <div class="breadcrumbs">
-        ${self.breadcrumbs()|}
-      </div>
-    </div>
-  </div>
-  %endif
 
   <%block name="welcome">
   <div id="welcome_message">
