@@ -24,7 +24,7 @@ class EventController(BaseController):
             query = query.filter(model.Event.event.in_(
                 request.params.getall('event_filter')))
 
-        query = query.limit(request.params.get('count', 50))
+        query = query.limit(min(int(request.params.get('count', 50)), 100))
 
         if format == 'rss':
             events = query.all()
