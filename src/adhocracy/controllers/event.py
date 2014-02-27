@@ -25,20 +25,21 @@ class EventController(BaseController):
                 request.params.getall('event_filter')))
 
         query = query.limit(min(int(request.params.get('count', 50)), 100))
+        events = query.all()
 
         if format == 'rss':
-            events = query.all()
             return event.rss_feed(events,
                                   _('%s News' % h.site.name()),
                                   h.base_url(instance=None),
                                   _("News from %s") % h.site.name())
 
-        c.event_pager = pager.events(query.all(), count=50)
-
-        if format == 'ajax':
+        elif format == 'ajax':
             return render_def('/event/tiles.html', 'carousel',
-                              events=query.all())
-        elif format == 'overlay':
-            return render('/event/all.html', overlay=True)
+                              events=events)
         else:
-            return render('/event/all.html')
+            c.event_pager = pager.events(events, count=50)
+
+            if format == 'overlay':
+                return render('/event/all.html', overlay=True)
+            else:
+                return render('/event/all.html')
