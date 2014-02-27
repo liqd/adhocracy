@@ -432,6 +432,19 @@ var adhocracy = adhocracy || {};
                     adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
+
+            wrapped.find('.subpage img').overlay({
+                mask: adhocracy.overlay.mask,
+                target: '#overlay-img',
+                onBeforeLoad: function (event) {
+                    var src = this.getTrigger().attr('src');
+                    if (src.slice(-6) === '/large') {
+                        src = src.slice(0, -6);
+                    }
+                    this.getOverlay().find('img').attr('src', src);
+                }
+            });
+
         } else {
             // if we are in an iframe open overlays in new window instead
             wrapped.find("a[rel=#overlay-url]").attr('target', '_new');
@@ -1210,4 +1223,5 @@ $(document).ready(function () {
     } else {
         $('html').addClass('no-formdata');
     }
+
 });
