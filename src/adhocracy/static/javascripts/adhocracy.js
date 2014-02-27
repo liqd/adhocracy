@@ -441,7 +441,8 @@ var adhocracy = adhocracy || {};
                     if (src.slice(-6) === '/large') {
                         src = src.slice(0, -6);
                     }
-                    this.getOverlay().find('img').attr('src', src);
+                    var alt = this.getTrigger().attr('alt');
+                    this.getOverlay().find('img').attr('src', src).attr('alt', alt);
                 }
             });
 
