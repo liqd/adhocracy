@@ -82,6 +82,7 @@ DEFAULTS = {
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.use_test_instance': True,
+    'adhocracy.user.display_name.allow_change': True,
     'adhocracy.user.optional_attributes': [],
     'adhocracy.static.category_index_heading': None,
     'adhocracy.static.page_index_heading': None,
