@@ -48,6 +48,7 @@ DEFAULTS = {
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
+    'adhocracy.page.allow_abstracts': False,
     'adhocracy.proposal_pager_inline': False,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,

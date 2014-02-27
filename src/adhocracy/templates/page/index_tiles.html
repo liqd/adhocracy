@@ -16,7 +16,13 @@
             <a class="tile" href="${h.entity_url(page)|n}">
                 <img class="tile-image" src="${h.logo_url(page, 160, 320)}" alt="" />
                 <h3>${page.title}</h3>
-                <p>${h.truncate(h.markdown_to_plain_text(page.head.lines_text), 170)}</p>
+                <p>
+                    %if h.config.get_bool('adhocracy.page.allow_abstracts') and page.abstract:
+                    ${page.abstract}
+                    %else:
+                    ${h.truncate(h.markdown_to_plain_text(page.head.lines_text), 170)}
+                    %endif
+                </p>
                 <span class="button tile-button">${_('View and discuss')}</span>
             </a>
 
