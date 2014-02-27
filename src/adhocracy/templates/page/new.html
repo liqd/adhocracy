@@ -56,7 +56,7 @@
 
         %if h.config.get_bool('adhocracy.page.allow_abstracts') and c.instance.page_index_as_tiles and not c.section:
         <%forms:textarea label="${_('Abstract')}" name="abstract" value=""
-        help="${_(u'Page abstract. This is only used if a page is displayed as a tile')}">
+        help="${_(u'Page abstract. This is only used if a page is displayed as a tile.')}">
         </%forms:textarea>
         %endif
 
