@@ -30,7 +30,7 @@
                 li_class=_class('home'),
                 id_="nav_home")}
 
-                %if not h.config.get_bool('adhocracy.hide_instance_list_in_navigation'):
+                %if can.instance.index() and not h.config.get_bool('adhocracy.hide_instance_list_in_navigation'):
                 %if app_globals.single_instance is None:
                 ${nav_link(href=h.base_url('/instance', None),
                            a_rel='#overlay-default',
