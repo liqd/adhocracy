@@ -343,7 +343,11 @@ class Page(Delegateable):
     def is_sectionpage(self):
         if self.sectionpage:
             return True
-        elif self.parent:
+        else:
+            return self.is_section()
+
+    def is_section(self):
+        if self.parent:
             return self.parent.is_sectionpage()
         else:
             return False
