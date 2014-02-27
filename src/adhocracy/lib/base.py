@@ -19,24 +19,40 @@ log = logging.getLogger(__name__)
 
 class BaseController(WSGIController):
 
+    # Identifier for what area this controler is used.
+    # This is used to set the c.active_subheader_nav variable and
+    # to append a controller specific css class to the body tag.
+    identifier = 'base'
+
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
 
+        c.body_css_classes = []
+        c.body_css_classes.append('controller-' + self.identifier)
+
+        if self.identifier in ['proposals', 'milestones', 'norms', 'category',
+                               'members']:
+            c.active_subheader_nav = self.identifier
+            c.body_css_classes.append('area-' + self.identifier)
+
         c.instance = model.instance_filter.get_instance()
-        if c.instance is not None:
-            # setup a global variable to mark the current item in
-            # the global navigation
-            c.active_global_nav = 'instances'
-        else:
-            c.active_global_nav = 'home'
-        c.user = environ.get('repoze.who.identity', {}).get('user')
-
+        # setup a global variable to mark the current item in
+        # the global navigation
+        global_nav = 'instances' if c.instance is not None else 'home'
+        c.active_global_nav = global_nav
+        c.body_css_classes.append('global_nav_' + global_nav)
+        user_id = environ.get('repoze.who.identity', {}).get('user', None)
+        user = None
         # make sure we're not using a detached user object
-        if c.user:
-            c.user = model.meta.Session.merge(c.user)
-
-        if c.user and (c.user.banned or c.user.delete_time):
-            c.user = None
+        if user_id is not None:
+            user = model.meta.Session.merge(user_id)
+        if user and (user.banned or user.delete_time):
+            user = None
+        if user is not None:
+            c.body_css_classes.append('logged_in')
+        else:
+            c.body_css_classes.append('not_logged_in')
+        c.user = user
         c.active_controller = request.environ.get('pylons.routes_dict')\
             .get('controller')
         c.debug = config.get_bool('debug')

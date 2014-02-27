@@ -3,7 +3,7 @@ import logging
 import formencode
 from formencode import htmlfill, validators, Invalid
 
-from pylons import request
+from pylons import request, tmpl_context as c
 from pylons.controllers.util import abort, redirect
 from pylons.i18n import _
 
@@ -34,6 +34,8 @@ class NewForm(EditForm):
 
 
 class StaticController(BaseController):
+
+    identifier = "staticpages"
 
     @guard_perms
     def index(self):
@@ -123,6 +125,7 @@ class StaticController(BaseController):
             return abort(404, _('The requested page was not found'))
         if page.redirect_url != u'':
             return redirect(page.redirect_url)
+        c.body_css_classes += page.css_classes
         data = {
             'static': page,
             'body_html': render_body(page.body),

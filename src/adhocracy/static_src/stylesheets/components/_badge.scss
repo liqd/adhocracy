@@ -43,17 +43,8 @@
     border-left: 1px dotted $border;
 }
 
-.thumbnailbadges {
-    float: left;
-    margin-top: 0.5em;
-
-    img {
-        margin-right: 0.5em;
-        vertical-align: bottom;
-    }
-    + div {
-        overflow: hidden;
-    }
+.thumbnailbadges img {
+    vertical-align: bottom;
 }
 .thumbnailbadge {
     display: inline-block;

@@ -45,11 +45,13 @@
 
             <div class="utility">
                 %if not c.dashboard:
-                    %if c.instance is None and can.user.edit(c.page_user):
+                    <% global_controls = c.instance is None or not can.instance.index() %>
+
+                    %if global_controls and can.user.edit(c.page_user):
                     <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
                     %endif
 
-                    %if c.instance is None:
+                    %if global_controls:
                         %if can.user.delete(c.page_user):
                         <a class="ttip" title="${_('Delete this user.')}"
                            href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
@@ -61,7 +63,7 @@
                         %endif
                     %endif
 
-                    %if c.instance is None and can.user.manage(c.page_user):
+                    %if global_controls and can.user.manage(c.page_user):
                         %if c.page_user.banned:
                         <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
                            class="add">${_("un-ban")}</a>

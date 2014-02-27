@@ -1376,11 +1376,12 @@ class SolrPager(PagerMixin):
         finally:
             return size
 
-    def render_facets(self, cls=None):
+    def render_facets(self, cls=None, exclude=[]):
         '''
         render all facets
         '''
-        return render_def('/pager.html', 'facets', pager=self, cls=cls)
+        return render_def('/pager.html', 'facets', pager=self, cls=cls,
+                          exclude=exclude)
 
 
 class SortOption(object):

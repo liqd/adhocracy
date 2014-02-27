@@ -171,9 +171,7 @@ class NoPasswordForm(formencode.Schema):
 
 class UserController(BaseController):
 
-    def __init__(self):
-        super(UserController, self).__init__()
-        c.active_subheader_nav = 'members'
+    identifier = 'members'
 
     @RequireInstance
     @guard.user.index()
@@ -1256,7 +1254,6 @@ class UserController(BaseController):
         model.meta.Session.commit()
         redirect(h.entity_url(c.page_user))
 
-    @RequireInstance
     @RequireInternalRequest()
     def ban(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
@@ -1266,7 +1263,6 @@ class UserController(BaseController):
         h.flash(_("The account has been suspended."), 'success')
         redirect(h.entity_url(c.page_user))
 
-    @RequireInstance
     @RequireInternalRequest()
     def unban(self, id):
         c.page_user = get_entity_or_abort(model.User, id)

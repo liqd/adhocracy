@@ -45,6 +45,10 @@
 
 
 <%block name="headline">
+    %if c.heading_title and c.heading_text:
+    <div class="custom_heading">
+    %endif
+
     %if c.heading_title:
     <h2>${_(c.heading_title)|n}</h2>
     %else:
@@ -62,6 +66,10 @@
     <div class="description">${_(c.heading_text)|n}</div>
     %else:
     <hr />
+    %endif
+
+    %if c.heading_title and c.heading_text:
+    </div>
     %endif
 
     ${as_tiles(c.pages_pager._items, columns=3)}

@@ -12,11 +12,12 @@ staticpage_table = Table(
 
 
 class StaticPage(object):
-    def __init__(self, key, lang, title, body):
+    def __init__(self, key, lang, title, body, css_classes=[]):
         self.key = key
         self.lang = lang
         self.title = title
         self.body = body
+        self.css_classes = css_classes
 
     @classmethod
     def get(cls, key, languages):

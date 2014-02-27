@@ -12,24 +12,34 @@ ul.papers_list {
 
 .proposals_pager {
     .main_row {
-        @include pie-clearfix;
+        display: table;
+        width: 100%;
 
-        > div {
-            float: left;
+        > * {
+            display: table-cell;
+            vertical-align: top;
         }
-    }
-    .showhide_button {
-        float: right;
-        margin-right: 1em;
+        .row_button {
+            width: 4em;
+            padding-top: 0.6em;
+            text-align: center;
 
-        &:after {
-            margin: 0;
+            .button_small {
+                padding: 0;
+                width: 1.6em;
+                line-height: 1.6;
+            }
+        }
+        .row_title {
+            margin-top: 0;
+        }
+        .thumbnailbadges {
+            text-align: right;
         }
     }
     .proposal {
         margin-top: 0.5em;
         padding: 1.5em;
-        clear: both;
 
         .vote_wrapper {
             float: right;

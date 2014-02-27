@@ -62,6 +62,16 @@ ${h.category.breadcrumbs(c.category)|n}
 
 
 <%block name="main_content">
+<div class="list_filter" id="proposals-search">
+    <form class="list_form" action="?" method="GET" autocomplete="off">
+        <input class="search_text" placeholder="${_(u"Find proposals")}"
+               id="proposals_q" class="live_search" name="proposals_q"
+               type="text" value="${request.params.get('proposals_q', '')}" />
+        <input type="submit" value="${_(u'Go')}"
+               class="search_button" />
+    </form>
+</div>
+
 ${c.proposals_pager.render_pager()}
 
 <% auth = check.proposal.create() %>
@@ -89,14 +99,10 @@ ${c.proposals_pager.render_pager()}
 </%block>
 
 <%block name="sidebar">
-<form action="?" method="GET" autocomplete="off" id="category_search">
-    <input name="proposals_q" placeholder="${_(u"Search proposals")}" class="search_text"
-           type="text" value="${request.params.get('proposals_q', '')}" />
-    <input type="submit" value="${_(u'Find')}" class="search_button" />
-</form>
+${c.proposals_pager.render_facets(cls='sidebar_box', exclude=['delegateablebadgecategory'])}
 
 %if c.instance.use_norms:
-<div class="sidebar_block">
+<div class="sidebar_box">
     <h3>${_("Norms in this Category")}</h3>
 
     ${c.pages_pager.render_pager()}
