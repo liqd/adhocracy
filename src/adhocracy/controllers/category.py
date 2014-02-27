@@ -58,9 +58,13 @@ class CategoryController(BaseController):
     def index(self):
         if not c.instance.display_category_pages:
             abort(404)
-        c.categories = model.CategoryBadge.all(instance=c.instance,
-                                               visible_only=True)
+        SORTED_LIST = [1, 2, 5, 4, 3, 6]
+        c.categories = model.CategoryBadge.all_q(instance=c.instance,
+                                                 visible_only=True)\
+            .filter(model.CategoryBadge.id.in_(SORTED_LIST)).all()
         c.categories = filter(lambda c: len(c.children) == 0, c.categories)
+        c.categories = sorted(c.categories,
+                              key=lambda c: SORTED_LIST.index(c.id))
         return render('/category/index.html', overlay=format == u'overlay')
 
     @RequireInstance

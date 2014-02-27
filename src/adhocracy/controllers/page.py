@@ -121,15 +121,19 @@ class PageController(BaseController):
     @guard.page.index()
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
-        pages = model.Page.all(instance=c.instance,
-                               functions=model.Page.LISTED)
+        SORTED_LIST = [6, 12, 13, 14, 17, 18, 19, 20]
+        c.pages = model.Page.all_q(instance=c.instance,
+                                   functions=model.Page.LISTED)\
+            .filter(model.Page.id.in_(SORTED_LIST)).all()
+        c.pages = sorted(c.pages, key=lambda p: SORTED_LIST.index(p.id))
+
         if request.params.get('pages_sort', '4') == '4':
             # crude hack to get only top level pages cause the pager
             # cannot handle this and we can not pass arguments to the tile
             # WARNING: This will break if the index of the sort changes.
             c.is_hierarchical = True
-            pages = [page for page in pages if page.parent is None]
-        c.pages_pager = pager.pages(pages)
+            c.pages = [page for page in c.pages if page.parent is None]
+        c.pages_pager = pager.pages(c.pages)
 
         if format == 'json':
             return render_json(c.pages_pager)
