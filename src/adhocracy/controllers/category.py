@@ -58,10 +58,15 @@ class CategoryController(BaseController):
     def index(self):
         if not c.instance.display_category_pages:
             abort(404)
-        categories = model.CategoryBadge.all(instance=c.instance,
-                                             visible_only=True)
+        SORTED_LIST = [1, 2, 5, 4, 3, 6]
+        categories = model.CategoryBadge.all_q(instance=c.instance,
+                                               visible_only=True)\
+            .filter(model.CategoryBadge.id.in_(SORTED_LIST)).all()
+        categories = filter(lambda c: len(children) == 0, categories)
+        categories = sorted(categories,
+                              key=lambda c: SORTED_LIST.index(c.id))
         data = {
-            'categories': filter(lambda c: len(c.children) == 0, categories)
+            'categories': categories,
         }
         add_static_content(data, u'adhocracy.static.category_index_heading',
                            body_key=u'heading_text',

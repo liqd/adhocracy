@@ -121,8 +121,12 @@ class PageController(BaseController):
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
         data = {}
-        pages = model.Page.all(instance=c.instance,
-                               functions=model.Page.LISTED)
+        SORTED_LIST = [6, 12, 13, 14, 17, 18, 19, 20]
+        pages = model.Page.all_q(instance=c.instance,
+                                 functions=model.Page.LISTED)\
+            .filter(model.Page.id.in_(SORTED_LIST)).all()
+        pages = sorted(pages, key=lambda p: SORTED_LIST.index(p.id))
+
         if request.params.get('pages_sort', '4') == '4':
             # crude hack to get only top level pages cause the pager
             # cannot handle this and we can not pass arguments to the tile
@@ -130,6 +134,7 @@ class PageController(BaseController):
             c.is_hierarchical = True
             pages = [page for page in pages if page.parent is None]
 
+        data['pages'] = pages
         data['pages_pager'] = pager.pages(pages)
 
         if format == 'json':
