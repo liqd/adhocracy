@@ -1,0 +1,29 @@
+#event-carousel {
+    text-align: center;
+
+    .ts {
+        display: block;
+        font-size: $large;
+        font-weight: bold;
+        margin: 0.5em 0;
+    }
+    .preview {
+        display: block;
+        font-size: $x-large;
+        margin: 0.5em 0;
+        color: $black;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    .summary {
+        display: block;
+        max-width: 80%;
+        margin: 0 auto;
+    }
+    .icon {
+        margin: 0.5em 0;
+    }
+}
