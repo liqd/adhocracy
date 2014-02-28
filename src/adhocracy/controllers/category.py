@@ -4,6 +4,7 @@ from pylons.controllers.util import abort
 
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_logo
+from adhocracy.lib import helpers as h
 from adhocracy.lib import pager
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.auth import require
@@ -58,15 +59,8 @@ class CategoryController(BaseController):
     def index(self):
         if not c.instance.display_category_pages:
             abort(404)
-        SORTED_LIST = [1, 2, 5, 4, 3, 6]
-        categories = model.CategoryBadge.all_q(instance=c.instance,
-                                               visible_only=True)\
-            .filter(model.CategoryBadge.id.in_(SORTED_LIST)).all()
-        categories = filter(lambda c: len(c.children) == 0, categories)
-        categories = sorted(categories,
-                              key=lambda c: SORTED_LIST.index(c.id))
         data = {
-            'categories': categories,
+            'categories': h.category.get_sorted_categories(c.instance)
         }
         add_static_content(data, u'adhocracy.static.category_index_heading',
                            body_key=u'heading_text',

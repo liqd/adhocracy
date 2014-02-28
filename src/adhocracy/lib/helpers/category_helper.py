@@ -1,5 +1,7 @@
 from pylons.i18n import _
 
+from adhocracy import config
+from adhocracy import model
 from adhocracy.lib import cache
 from adhocracy.lib import logo
 from adhocracy.lib.helpers import url as _url
@@ -30,3 +32,14 @@ def breadcrumbs(category):
     if category is not None:
         bc += bc_entity(category)
     return bc
+
+
+def get_sorted_categories(instance):
+    SORTED_LIST = config.get_list('adhocracy.urbanliving.category_list',
+                                    default=[], cast=int)
+
+    categories = model.CategoryBadge.all_q(instance=instance,
+                                           visible_only=True)\
+        .filter(model.CategoryBadge.id.in_(SORTED_LIST)).all()
+    #categories = filter(lambda c: len(c.children) == 0, categories)
+    return sorted(categories, key=lambda c: SORTED_LIST.index(c.id))
