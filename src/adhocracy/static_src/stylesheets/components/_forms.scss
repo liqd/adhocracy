@@ -57,6 +57,8 @@ form p.info {
 textarea {
     width: 100%;
     min-height: 10em;
+    max-width: 100%;
+    @include box-sizing(border-box);
 }
 
 input[type=checkbox], input[type=radio] {
