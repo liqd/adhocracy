@@ -220,8 +220,7 @@
         <div class="categories">
             <h4>Themen</h4>
             <%
-                from adhocracy.model import CategoryBadge
-                categories = CategoryBadge.all(instance=c.instance)
+                categories = h.category.get_sorted_categories(c.instance)
             %>
             <ul class="senat_icons">
                 %for category in categories:
