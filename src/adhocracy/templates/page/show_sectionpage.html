@@ -10,17 +10,19 @@
 <%def name="flags(page)">
     <ul class="flags">
         %if page.allow_comment:
+        <% comment_count = page.comment_count() %>
         <li class="comments"><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url"
             title="${_(u'Comments') if h.comment.wording() else _('Discussions')}">
-            <span class="caption">${_(u'Comments') if h.comment.wording() else _('Discussions')}</span>
-            <span class="count">${page.comment_count()}</span>
+            <span class="count">${comment_count}</span>
+            <span class="caption">${ungettext(u'Comment' , u'Comments', comment_count) if h.comment.wording() else ungettext(u'Discussion', u'Discussions', comment_count)}</span>
         </a></li>
         %endif
         %if page.allow_selection:
+        <% selection_count = len(page.selections) %>
         <li class="selections"><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big"
             title="${_(u'Amendments')}">
-            <span class="caption">${_(u'Amendments')}</span>
-            <span class="count">${len(page.selections)}</span>
+            <span class="count">${selection_count}</span>
+            <span class="caption">${ungettext(u'Amendment', u'Amendments', selection_count)}</span>
         </a></li>
         %endif
     </ul>
