@@ -2,6 +2,9 @@
     @media (min-width: $min-width-large) {
         @content;
     }
+    html.no-mediaquery {
+        @content;
+    }
 }
 @mixin mobile {
     @media (max-width: $min-width-large) {

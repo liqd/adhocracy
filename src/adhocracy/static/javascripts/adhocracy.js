@@ -732,6 +732,13 @@ $(window).load(function() {
 
 $(document).ready(function () {
 
+    // media query detection
+    if (Modernizr.mq('only all')) {
+        $('html').addClass('mediaquery');
+    } else {
+        $('html').addClass('no-mediaquery');
+    }
+
     // initial jquery elastic
     $('textarea').elastic();
 
