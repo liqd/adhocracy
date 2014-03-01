@@ -213,26 +213,19 @@ var adhocracy = adhocracy || {};
             resizeWidth(speed);
             resizeHeight(speed);
         };
-        var autoResizeLock = false;
         var autoResize = function(speed, interval) {
-            if (!autoResizeLock) {
-                autoResizeLock = true;
-                var loop = function() {
-                    if (overlay.not(':hidden').length > 0) {
-                        try {
-                            // dont resize width as this never happens
-                            // fails if the iframe currently loads a new page
-                            resizeHeight(speed);
-                        } catch (ex) {
-                            console.log(ex);
-                        }
-                        setTimeout(loop, interval);
-                    } else {
-                        autoResizeLock = false;
+            var intervalID = setInterval(function() {
+                if (overlay.not(':hidden').length > 0) {
+                    try {
+                        // fails if the iframe currently loads a new page
+                        resizeHeight(speed);
+                    } catch (ex) {
+                        console.log(ex);
                     }
-                };
-                loop();
-            }
+                } else {
+                    clearInterval(intervalID);
+                }
+            }, interval);
         };
 
         iframe.load(function() {
