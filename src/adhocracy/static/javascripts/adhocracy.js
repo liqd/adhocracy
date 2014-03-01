@@ -191,7 +191,7 @@ var adhocracy = adhocracy || {};
             var old_height = overlay.height(),
                 // iframe.contents().height does not shrink for some reason
                 height = $('body', iframe.contents()).height()+20;
-            if (old_height !== height) {
+            if (Math.abs(old_height - height) > 2) {
                 overlay.animate({'height': height}, speed);
             }
         };
@@ -201,7 +201,7 @@ var adhocracy = adhocracy || {};
                 old_left = parseInt(overlay.css('left')),
                 width = iframe.contents().width(),
                 left = old_left + (old_width - width) / 2;
-            if (old_width !== width || old_left !== left) {
+            if (Math.abs(old_width - width) > 2 || Math.abs(old_left - left) > 2) {
                 var css = {
                     'width': width,
                     'left': left,
