@@ -214,6 +214,10 @@ var adhocracy = adhocracy || {};
             resizeHeight(speed);
         };
         var autoResize = function(speed, interval) {
+            $(window).on('resize.adhocracy_overlay', function() {
+                resizeWidth(0);
+            });
+
             var intervalID = setInterval(function() {
                 if (overlay.not(':hidden').length > 0) {
                     try {
@@ -224,6 +228,7 @@ var adhocracy = adhocracy || {};
                     }
                 } else {
                     clearInterval(intervalID);
+                    $(window).off('resize.adhocracy_overlay');
                 }
             }, interval);
         };
