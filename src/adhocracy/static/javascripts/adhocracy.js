@@ -235,6 +235,7 @@ var adhocracy = adhocracy || {};
         var autoResize = function(speed, interval) {
             $(window).on('resize.adhocracy_overlay', function() {
                 resizeWidth(0);
+                $('#exposeMask').width($('html').width());
             });
 
             var intervalID = setInterval(function() {
