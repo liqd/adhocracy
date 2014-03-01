@@ -101,11 +101,4 @@ ${c.proposals_pager.render_pager()}
 <%block name="sidebar">
 ${c.proposals_pager.render_facets(cls='sidebar_box', exclude=['delegateablebadgecategory'])}
 
-%if c.instance.use_norms:
-<div class="sidebar_box">
-    <h3>${_("Norms in this Category")}</h3>
-
-    ${c.pages_pager.render_pager()}
-</div>
-%endif
 </%block>
