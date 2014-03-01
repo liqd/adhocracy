@@ -34,9 +34,12 @@ def breadcrumbs(category):
     return bc
 
 
-def get_sorted_categories(instance):
+def get_sorted_categories(instance, skip_last=False):
     SORTED_LIST = config.get_list('adhocracy.urbanliving.category_list',
-                                    default=[], cast=int)
+                                  default=[], cast=int)
+
+    if skip_last:
+        SORTED_LIST = SORTED_LIST[:-1]
 
     categories = model.CategoryBadge.all_q(instance=instance,
                                            visible_only=True)\
