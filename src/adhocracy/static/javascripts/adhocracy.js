@@ -188,25 +188,27 @@ var adhocracy = adhocracy || {};
         }
 
         var resizeHeight = function(speed) {
-            var old_height = overlay.height(),
+            var old_height = iframe.height(),
                 // iframe.contents().height does not shrink for some reason
                 height = $('body', iframe.contents()).height()+20;
             if (Math.abs(old_height - height) > 2) {
-                overlay.animate({'height': height}, speed);
+                iframe.animate({'height': height}, speed);
             }
         };
         var resizeWidth = function(speed) {
             /* adjust size to iframe content */
-            var old_width = overlay.width(),
+            var old_width = iframe.width(),
                 old_left = parseInt(overlay.css('left')),
+                padding = (overlay.outerWidth() - old_width) / 2,
+                screen_width = $('html').width(),
                 width = iframe.contents().width(),
-                left = old_left + (old_width - width) / 2;
-            if (Math.abs(old_width - width) > 2 || Math.abs(old_left - left) > 2) {
-                var css = {
-                    'width': width,
-                    'left': left,
-                };
-                overlay.animate(css, speed);
+                left = (screen_width - width) / 2 - padding;
+
+            if (Math.abs(old_width - width) > 2) {
+                iframe.animate({'width': width}, speed);
+            }
+            if (Math.abs(old_left - left) > 2) {
+                overlay.animate({'left': left}, speed);
             }
         };
         var resize = function(speed) {
