@@ -220,7 +220,7 @@
         <div class="categories">
             <h4>Themen</h4>
             <%
-                categories = h.category.get_sorted_categories(c.instance)
+                categories = h.category.get_sorted_categories(c.instance, skip_last=True)
             %>
             <ul class="senat_icons">
                 %for category in categories:
