@@ -76,6 +76,7 @@ div.overlay {
 
 html.overlay {
     background: none;
+    min-width: 0;
 
     #header, #subheader, #footer, #feedback, .ie-message,
     #user_welcome, #welcome_message, #flash_message {

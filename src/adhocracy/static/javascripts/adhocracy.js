@@ -212,6 +212,11 @@ var adhocracy = adhocracy || {};
                 width,
                 left;
 
+            // if this layout is not responsive ignore min-width
+            if (min_width === parseInt($('.page_wrapper').css('max-width'), 10)) {
+                min_width /= 2;
+            }
+
             if (overlay.attr('id') === 'overlay-big') {
                 width = Math.min(wrapper_width, (screen_width - 2*padding) * 0.9);
             } else {
