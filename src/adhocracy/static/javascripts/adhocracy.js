@@ -196,13 +196,30 @@ var adhocracy = adhocracy || {};
             }
         };
         var resizeWidth = function(speed) {
-            /* adjust size to iframe content */
+            /* This calculates a new width and horizontal position for the overlay.
+             *
+             * For small overlays, the width defaults to 2/3 of the parent's
+             * .page_wrapper For big overlays, the width defaults to the
+             * minimum of the parent's .page_wrapper and 90% of the screen
+             * width. The width can never be less than html's min-width.
+             */
             var old_width = iframe.width(),
                 old_left = parseInt(overlay.css('left')),
                 padding = (overlay.outerWidth() - old_width) / 2,
                 screen_width = $('html').width(),
-                width = iframe.contents().width(),
-                left = (screen_width - width) / 2 - padding;
+                wrapper_width = $('.page_wrapper').width(),
+                min_width = parseInt($('html').css('min-width'), 10),
+                width,
+                left;
+
+            if (overlay.attr('id') === 'overlay-big') {
+                width = Math.min(wrapper_width, (screen_width - 2*padding) * 0.9);
+            } else {
+                width = wrapper_width * 2/3;
+            }
+
+            width = Math.max(width, min_width);
+            left = (screen_width - width) / 2 - padding;
 
             if (Math.abs(old_width - width) > 2) {
                 iframe.animate({'width': width}, speed);

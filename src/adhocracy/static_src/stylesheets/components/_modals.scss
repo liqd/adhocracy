@@ -88,13 +88,10 @@ html.overlay {
         overflow: hidden;
         min-height: 0;
     }
-
+    .page_wrapper {
+        padding: 0;
+    }
     &.overlay-small {
-        min-width: 665px;
-        .page_wrapper {
-            width: auto;
-            padding: 0;
-        }
         #col1 {
             width: 100%;
         }
