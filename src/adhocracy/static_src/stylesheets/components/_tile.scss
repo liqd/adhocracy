@@ -1,57 +1,60 @@
-// responsive: multi-column
-html.no-flexbox .tile-table {
-    display: table;
-    table-layout: fixed;
+@include desktop {
+    // responsive: multi-column
+    html.no-flexbox .tile-table {
+        display: table;
+        table-layout: fixed;
 
-    border-collapse: separate;
-    border-spacing: 2em 4em;
+        border-collapse: separate;
+        border-spacing: 2em 4em;
 
-    // this is not nice but I could not find another to have same-width tiles
-    // IE9 will ignore the width if calc(...) is used. So only the prefixed versions here.
-    width: 100%;
-    width: -webkit-calc(100% + 4em);
-    width: -moz-calc(100% + 4em);
-    margin-left: -2em;
+        // this is not nice but I could not find another to have same-width tiles
+        // IE9 will ignore the width if calc(...) is used. So only the prefixed versions here.
+        width: 100%;
+        width: -webkit-calc(100% + 4em);
+        width: -moz-calc(100% + 4em);
+        margin-left: -2em;
 
-    .tile-row {
-        display: table-row;
+        .tile-row {
+            display: table-row;
 
+            .tile {
+                display: table-cell;
+                position: relative;
+            }
+        }
+    }
+    html.flexbox .tile-table {
+        width: calc(100% + 2em);
+        margin-left: -1em;
+
+        .tile-row {
+            @include display(flex);
+            @include justify-content(space-between);
+            margin: 4em 0;
+        }
         .tile {
-            display: table-cell;
+            @include flex(1);
             position: relative;
+            margin: 0 1em;
+
+            // leave space for button
+            padding-bottom: 3em;
+        }
+        .tile-button {
+            position: absolute;
+            bottom: 0;
         }
     }
 }
-html.flexbox .tile-table {
-    width: calc(100% + 2em);
-    margin-left: -1em;
+@include mobile {
+    // responsive: single column
+    .tile-table {
+        margin: 1.5em 0;
 
-    .tile-row {
-        @include display(flex);
-        @include justify-content(space-between);
-        margin: 4em 0;
-    }
-    .tile {
-        @include flex(1);
-        position: relative;
-        margin: 0 1em;
-
-        // leave space for button
-        padding-bottom: 3em;
-    }
-    .tile-button {
-        position: absolute;
-        bottom: 0;
-    }
-}
-
-// responsive: single column, not yet active
-.tile-table-smallscreen {
-    margin: 1.5em 0;
-
-    .tile {
-        display: block;
-        margin: 4em 0;
+        .tile {
+            display: block;
+            margin: 4em 0;
+        }
     }
 }
 
