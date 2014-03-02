@@ -72,6 +72,8 @@ class ImportForm(formencode.Schema):
 
 class AdminController(BaseController):
 
+    identifier = 'admin'
+
     @guard.perm("global.admin")
     def index(self):
         return render("/admin/index.html", {})

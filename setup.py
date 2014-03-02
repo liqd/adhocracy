@@ -123,6 +123,7 @@ setup(
             'placeholder = adhocracy.static:placeholder_library',
             'jquerytools = adhocracy.static:jquerytools_library',
             'knockout = adhocracy.static:knockout_library',
+            'moment = adhocracy.static:moment_library',
             'misc = adhocracy.static:misc_library',
             'adhocracy = adhocracy.static:adhocracy_library',
             'bootstrap = adhocracy.static:bootstrap_library',

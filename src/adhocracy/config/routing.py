@@ -552,6 +552,8 @@ def make_map(config):
                 action='outgoing_link',
                 conditions=dict(method=['GET', 'HEAD']))
 
+    map.connect('/event/all{.format}', controller='event', action='all')
+
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 

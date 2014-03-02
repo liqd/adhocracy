@@ -15,7 +15,7 @@
       %endif
   </head>
 
-<body lang="${c.locale.language}" class="<%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}</%block>"
+<body lang="${c.locale.language}" class="${u" ".join(c.body_css_classes)} <%block filter="trim">${'compact ' if c.user or c.instance else 'normal '}</%block>"
     data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
     data-stats-interval="${c.monitor_page_time_interval}"
@@ -252,7 +252,7 @@
   </div>
 
   </%block>
-  <div id="main" class="default_content ${u'area-%s' % c.active_subheader_nav if c.active_subheader_nav else u''}">
+  <div id="main" class="default_content">
     <div id="main_page_wrapper" class="page_wrapper">
       <%block name="main" />
     </div>

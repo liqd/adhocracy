@@ -14,9 +14,15 @@
         %endif
 
             <a class="tile" href="${h.entity_url(page)|n}">
-                <img class="tile-image" src="${h.logo_url(page, 128, 256)}" alt="" />
+                <img class="tile-image" src="${h.logo_url(page, 160, 320)}" alt="" />
                 <h3>${page.title}</h3>
-                <p>${h.text.truncate_html(page.head.lines_text, 26)}</p>
+                <p>
+                    %if h.config.get_bool('adhocracy.page.allow_abstracts') and page.abstract:
+                    ${page.abstract}
+                    %else:
+                    ${h.truncate(h.markdown_to_plain_text(page.head.lines_text), 170)}
+                    %endif
+                </p>
                 <span class="button tile-button">${_('View and discuss')}</span>
             </a>
 
@@ -45,6 +51,13 @@
 
 
 <%block name="headline">
+    %if c.heading_title and c.heading_text:
+    <div class="custom_heading">
+    %endif
+
+    %if c.heading_title:
+    <h2>${_(c.heading_title)|n}</h2>
+    %else:
     <div class="morelink_header">
         <h2 class="page_title">${_("Norms")}</h2>
 
@@ -53,8 +66,17 @@
                href="${h.base_url('/page/new')}">${_("Create new norm")}</a>
         %endif
     </div>
+    %endif
 
-    <hr/>
+    %if c.heading_text:
+    <div class="description">${_(c.heading_text)|n}</div>
+    %else:
+    <hr />
+    %endif
+
+    %if c.heading_title and c.heading_text:
+    </div>
+    %endif
 
     ${as_tiles(c.pages_pager._items, columns=3)}
 

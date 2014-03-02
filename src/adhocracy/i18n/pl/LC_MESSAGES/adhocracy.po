@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"POT-Creation-Date: 2014-02-25 22:14+0100\n"
+"PO-Revision-Date: 2014-02-25 21:15+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1503,14 +1503,20 @@ msgstr "Obecnie trwa głosowanie nad tą propozycją, więc nie może ona zosta�
 msgid "Settings"
 msgstr "Ustawienia"
 
-msgid "(Unknown)"
-msgstr "(nieznany)"
+msgid "Proposals"
+msgstr "Propozycje"
 
 msgid "Norms"
 msgstr "Dokumenty"
 
-msgid "Proposals"
-msgstr "Propozycje"
+msgid "Members"
+msgstr "Członkowie"
+
+msgid "Intro"
+msgstr ""
+
+msgid "(Unknown)"
+msgstr "(nieznany)"
 
 msgid "Implementation"
 msgstr "Wdrożenie"
@@ -1524,9 +1530,6 @@ msgstr "usuń"
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (usunięty użytkownik)"
-
-msgid "Members"
-msgstr "Członkowie"
 
 msgid "Dashboard"
 msgstr "Strona startowa"
@@ -1767,9 +1770,6 @@ msgstr "Szukaj"
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Szukaj w &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2026,6 +2026,9 @@ msgstr "Import zakończył się sukcesem."
 msgid "back to main page"
 msgstr "wróć do strony głównej"
 
+msgid "Site administration"
+msgstr "Ustawienia strony"
+
 msgid "Admin: Group Permissions"
 msgstr "Zarządzanie: Uprawnienia użytkowników"
 
@@ -2063,9 +2066,6 @@ msgstr ""
 
 msgid "Assign treatment badges"
 msgstr ""
-
-msgid "Site administration"
-msgstr "Ustawienia strony"
 
 msgid "Admin: Import Users"
 msgstr "Administrator: Importuj użytkowników"
@@ -2227,6 +2227,9 @@ msgid "Global"
 msgstr "Globalne"
 
 msgid "Parent Category"
+msgstr ""
+
+msgid "Link this category to a superordinate category"
 msgstr ""
 
 msgid "No Parent Category"
@@ -3741,12 +3744,6 @@ msgstr "%s%% poparcie"
 msgid "%s:%s votes"
 msgstr "%s:%s głosów"
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
 msgid "Join the discussion"
 msgstr ""
 
@@ -4139,8 +4136,8 @@ msgid ""
 " here</a>."
 msgstr "Jeśli masz już konto, ale zapomniałeś(aś) hasła, <a href='/reset'>naciśnij tutaj</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Dopuszczalne tylko litery i cyfry."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr ""
@@ -4163,6 +4160,11 @@ msgstr "Rejestrując się, zgadzasz się na %s."
 
 msgid "Terms and Conditions"
 msgstr "Warunki korzystania"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "pozostaw puste"
@@ -4359,7 +4361,7 @@ msgstr ""
 msgid "Not a member in \"%s\""
 msgstr ""
 
-msgid "User groups"
+msgid "User group"
 msgstr ""
 
 msgid "change group"

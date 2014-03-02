@@ -189,6 +189,8 @@ class InstancePresetsForm(formencode.Schema):
 
 class InstanceController(BaseController):
 
+    identifier = 'instances'
+
     @guard.instance.index()
     def index(self, format="html"):
 

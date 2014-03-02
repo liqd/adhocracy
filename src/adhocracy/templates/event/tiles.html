@@ -50,3 +50,34 @@
         <a href="${url}" class="more_link">${link_text}</a>
     </blockquote>
 </%def>
+
+
+<%def name="carousel(events)">
+    <%
+    from adhocracy.i18n import datetime_tag
+    from adhocracy.lib.event import formatting
+    %>
+    <ul>
+        %for event in events:
+        <%
+        if event.event.code == 't_proposal_create':
+            body = event.proposal.title
+            meta = formatting.as_html(event, msg=_('created new proposal'))
+        else:
+            body = h.html_to_plain_text(event.text())
+            meta = formatting.as_html(event)
+        %>
+        <li>
+            <div class="event ${event.event.code}">
+                ${datetime_tag(event.time)|n}
+                <a class="icon" href=${event.link()}>${formatting.as_icon(event)|n}</a>
+                <div class="summary">
+                    <a href="${h.entity_url(event.user)}">${event.user.name}</a>
+                    ${meta|n}
+                </div>
+                <a class="preview" href="${event.link()}">${h.truncate(body, 60, u'&hellip;', whole_word=True)|n}</a>
+            </div>
+        </li>
+        %endfor
+    </ul>
+</%def>

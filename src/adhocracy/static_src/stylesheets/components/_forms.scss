@@ -109,15 +109,10 @@ form .error {
 }
 
 #searchform,
-.list_form,
-#category_search {
+.list_form {
     padding: 0;
     background: none;
     margin-bottom: 0;
-}
-
-#searchform,
-.list_form {
     float: right;
 }
 
@@ -138,10 +133,6 @@ input[type="text"].search_text {
     width: 25em;
 }
 
-form#category_search .search_text {
-    width: 11em;
-}
-
 .search_button {
     @include button($button-color);
     margin-left: -0.5em;
@@ -157,10 +148,6 @@ input[type="text"].search_text,
     @include box-sizing(border-box);
     padding-top: 0.4em;
     padding-bottom: 0.4em;
-}
-
-form#category_search {
-    padding: 0;
 }
 
 form#user_welcome {

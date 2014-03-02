@@ -4,7 +4,7 @@ import re
 
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
-from sqlalchemy import Integer, Unicode, Boolean
+from sqlalchemy import Integer, Unicode, UnicodeText, Boolean
 from geoalchemy2 import Geometry
 import geojson
 
@@ -24,6 +24,7 @@ page_table = Table(
     Column('allow_comment', Boolean, default=True),
     Column('allow_selection', Boolean, default=True),
     Column('always_show_original', Boolean, default=True),
+    Column('abstract', Unicode(255), default=u'', nullable=True),
     Column('geotag', Geometry(dimension=2, srid=900913), nullable=True),
 )
 
@@ -41,7 +42,7 @@ class Page(Delegateable):
 
     def __init__(self, instance, alias, creator, function, formatting=False,
                  sectionpage=False, allow_comment=True, allow_selection=True,
-                 always_show_original=True):
+                 always_show_original=True, abstract=None):
         self.init_child(instance, alias, creator)
         self.function = function
         self.formatting = formatting
@@ -49,6 +50,7 @@ class Page(Delegateable):
         self.allow_comment = allow_comment
         self.allow_selection = allow_selection
         self.always_show_original = always_show_original
+        self.abstract = abstract
 
     @property
     def selections(self):
@@ -152,7 +154,7 @@ class Page(Delegateable):
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
                wiki=False, formatting=False, sectionpage=False,
                allow_comment=True, allow_selection=True,
-               always_show_original=True):
+               always_show_original=True, abstract=None):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
@@ -161,7 +163,7 @@ class Page(Delegateable):
         label = title2alias(title)
         page = Page(instance, label, creator, function, formatting,
                     sectionpage, allow_comment, allow_selection,
-                    always_show_original)
+                    always_show_original, abstract)
         meta.Session.add(page)
         meta.Session.flush()
         Text(page, Text.HEAD, creator, title, text, wiki)
@@ -346,7 +348,11 @@ class Page(Delegateable):
     def is_sectionpage(self):
         if self.sectionpage:
             return True
-        elif self.parent:
+        else:
+            return self.is_section()
+
+    def is_section(self):
+        if self.parent:
             return self.parent.is_sectionpage()
         else:
             return False

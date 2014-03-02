@@ -45,11 +45,13 @@
 
             <div class="utility">
                 %if not c.dashboard:
-                    %if c.instance is None and can.user.edit(c.page_user):
+                    <% global_controls = c.instance is None or not can.instance.index() %>
+
+                    %if global_controls and can.user.edit(c.page_user):
                     <a href="${h.entity_url(c.page_user, member='settings')}">${_(u'edit')}</a>
                     %endif
 
-                    %if c.instance is None:
+                    %if global_controls:
                         %if can.user.delete(c.page_user):
                         <a class="ttip" title="${_('Delete this user.')}"
                            href="${h.entity_url(c.page_user, member='ask_delete')}">${_("delete")}</a>
@@ -61,7 +63,7 @@
                         %endif
                     %endif
 
-                    %if c.instance is None and can.user.manage(c.page_user):
+                    %if global_controls and can.user.manage(c.page_user):
                         %if c.page_user.banned:
                         <a href="${h.entity_url(c.page_user, member='unban')}?${h.url_token()}"
                            class="add">${_("un-ban")}</a>
@@ -109,7 +111,7 @@
 <%block name="sidebar">
     %if h.config.get_bool('adhocracy.use_avatars') and not c.dashboard:
     <div id="avatar" class="sidebar_box">
-        <img src="${h.logo_url(c.page_user, 256)}" alt="${c.page_user.name}" />
+        <img src="${h.logo_url(c.page_user, 256, 256)}" alt="${c.page_user.name}" />
         %if c.show_upload_avatar:
         <div><a class="button_round" href="${h.entity_url(c.user, member=u'settings')}">${_(u'Upload avatar')}</a></div>
         %endif
@@ -136,7 +138,7 @@
         %endif
 
         <% instance_groups = c.page_user.instance_groups() %>
-        <h6>${_('User groups')}</h6>
+        <h6>${_('User group')}</h6>
         %if instance_groups:
         <span>${u', '.join([_(g.group_name) for g in instance_groups])}</span>
         %else:
@@ -168,6 +170,7 @@
         </form>
         %endif
 
+        %if c.visible_badges or not c.dashboard and can.user.supervise(c.page_user):
         <h6>
             ${_('User badges')}
 
@@ -187,6 +190,7 @@
         </ul>
         %else:
         <span>${_(u"None")}</span>
+        %endif
         %endif
 
         %if c.last_activity:

@@ -11,14 +11,6 @@
     padding: 0;
 }
 
-/* Correction:margin/padding reset caused too small select boxes. */
-option {
-    padding-left: 0.4em;  /* LTR */
-}
-select {
-    padding: 1px;
-}
-
 /**
 * Global fix of the Italics bugs in IE 5.x and IE 6
 *

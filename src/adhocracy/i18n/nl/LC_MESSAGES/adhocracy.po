@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"POT-Creation-Date: 2014-02-25 22:14+0100\n"
+"PO-Revision-Date: 2014-02-25 21:15+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -320,7 +320,7 @@ msgstr "U kunt geen nieuw reglement creëren"
 
 #, python-format
 msgid "errors while uploading image: %s"
-msgstr ""
+msgstr "fouten tijdens uploaden afbeelding: %s"
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -1506,14 +1506,20 @@ msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aang
 msgid "Settings"
 msgstr "Instellingen"
 
-msgid "(Unknown)"
-msgstr "(Onbekend)"
+msgid "Proposals"
+msgstr "Voorstellen"
 
 msgid "Norms"
 msgstr "Reglementen"
 
-msgid "Proposals"
-msgstr "Voorstellen"
+msgid "Members"
+msgstr "Leden"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "(Unknown)"
+msgstr "(Onbekend)"
 
 msgid "Implementation"
 msgstr "Implementatie"
@@ -1527,9 +1533,6 @@ msgstr "verwijder"
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (verwijderde gebruiker)"
-
-msgid "Members"
-msgstr "Leden"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1770,9 +1773,6 @@ msgstr "Zoeken"
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Zoek in &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr "Intro"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2029,6 +2029,9 @@ msgstr "Het importeren is gelukt."
 msgid "back to main page"
 msgstr "terug naar de hoofdpagina"
 
+msgid "Site administration"
+msgstr "Site administratie"
+
 msgid "Admin: Group Permissions"
 msgstr "Admin: Groepsrechten"
 
@@ -2066,9 +2069,6 @@ msgstr "Stuur een e-mail naar gebruikers"
 
 msgid "Assign treatment badges"
 msgstr "Wijs behandeling badge toe"
-
-msgid "Site administration"
-msgstr "Site administratie"
 
 msgid "Admin: Import Users"
 msgstr "Admin: Importeer Gebruikers"
@@ -2183,7 +2183,7 @@ msgid "Preview:"
 msgstr "Voorbeeld:"
 
 msgid "Image upload does not work in your browser. Please update."
-msgstr ""
+msgstr "Afbeelding uploaden werkt niet in uw browser. Update uw browser om dit te verhelpen."
 
 msgid "Image"
 msgstr "Afbeelding"
@@ -2231,6 +2231,9 @@ msgstr "Algemeen"
 
 msgid "Parent Category"
 msgstr "Parent Categorie"
+
+msgid "Link this category to a superordinate category"
+msgstr "Verbind deze categorie aan een bovengeschikte categorie"
 
 msgid "No Parent Category"
 msgstr "Geen Parent Categorie"
@@ -2416,7 +2419,7 @@ msgid "Join instance to comment."
 msgstr "Word lid van deze groep om te reageren."
 
 msgid "Join instance to discuss."
-msgstr "Neel deel aan de groep om te discussiëren."
+msgstr "Wordt lid van de groep om te discussiëren."
 
 msgid "Login to comment."
 msgstr "Log in om te reageren."
@@ -2788,7 +2791,7 @@ msgid "Members of your instance only see the catagories you created."
 msgstr "Deelnemers van uw groep zien enkel de categorieen die u heeft aangemaakt."
 
 msgid "Display page index as tiles"
-msgstr ""
+msgstr "Geef de pagina-index als tegels weer "
 
 msgid "Hide this instance"
 msgstr "Verberg deze groep"
@@ -2850,7 +2853,7 @@ msgid "Display category pages"
 msgstr "Toon categorie pagina's"
 
 msgid "Delete this instance"
-msgstr ""
+msgstr "Verwijder deze groep"
 
 msgid "Require email validation"
 msgstr "Vereis e-mailadres bevestiging"
@@ -3273,7 +3276,7 @@ msgstr "Gebruik markdown opmaak."
 msgid ""
 "Upload a logo for this page. Please note that the logo will only be "
 "displayed in the pages index."
-msgstr ""
+msgstr "Upload een logo voor deze pagina. Let wel, het logo zal enkel weergegeven worden op de pagina's index."
 
 msgid "Parent page:"
 msgstr "Bovenliggende pagina:"
@@ -3322,10 +3325,10 @@ msgid "Norm content"
 msgstr "Reglement inhoud"
 
 msgid "Use as a container for other norms"
-msgstr ""
+msgstr "Gebruik als een houder voor andere reglementen"
 
 msgid "Upload a logo for this page"
-msgstr ""
+msgstr "Upload een logo voor deze pagina"
 
 msgid "Tag and classify"
 msgstr "Tags en Eigenschappen"
@@ -3522,7 +3525,7 @@ msgid ""
 msgstr "Stemresultaten worden met een korte vertraging bijgewerkt. Nadat u heeft gestemd kan het even duren voordat de teller is bijgewerkt."
 
 msgid "This is a record of all recent actions concerning this proposal."
-msgstr ""
+msgstr "Dit is een lijst van alle recente activiteiten met betrekking tot dit voorstel."
 
 msgid "Call a poll"
 msgstr "Roep op tot een stemming"
@@ -3741,14 +3744,8 @@ msgstr "%s%% goedkeuring"
 msgid "%s:%s votes"
 msgstr "%s:%s stemmen"
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
 msgid "Join the discussion"
-msgstr ""
+msgstr "Neem deel aan de discussie"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -4139,8 +4136,8 @@ msgid ""
 " here</a>."
 msgstr "Als u een account heeft, maar u bent uw wachtwoord vergeten, <a href='/reset'>klik dan hier</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Mag enkel letters en cijfers bevatten."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr "U kunt kiezen welke naam andere gebruikers zien."
@@ -4163,6 +4160,11 @@ msgstr "Door te registeren gaat u akkoord met de %s."
 
 msgid "Terms and Conditions"
 msgstr "Algemene Voorwaarden"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -4359,8 +4361,8 @@ msgstr "Lid van \"%s\" sinds"
 msgid "Not a member in \"%s\""
 msgstr "Geen lid van \"%s\""
 
-msgid "User groups"
-msgstr "Gebruikersgroepen"
+msgid "User group"
+msgstr ""
 
 msgid "change group"
 msgstr "verander groep"

@@ -59,6 +59,8 @@ class CommentPurgeForm(formencode.Schema):
 
 class CommentController(BaseController):
 
+    identifier = "comments"
+
     @RequireInstance
     @guard.comment.index()
     def index(self, format='html'):

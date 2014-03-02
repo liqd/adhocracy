@@ -2,12 +2,8 @@
 <%namespace name="state" file="/poll/state.html"/>
 
 <%def name="_row(tile, proposal)">
-    <div class="content_box_no_marker">
-        <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
-                data-id="${proposal.id}">
-            ${tiles.badge.badges(proposal.thumbnails)}
-        </div>
-        <h3><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
+    <div class="row_body">
+        <h3 class="row_title"><a class="link" href="${h.entity_url(proposal)}">${proposal.title}</a>
             %if tile.fresh:
                 ${_("(new)")}
             %endif
@@ -48,12 +44,18 @@
             <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
         %endif
     </div>
+    <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
+         data-id="${proposal.id}">
+        ${tiles.badge.badges(proposal.thumbnails)}
+    </div>
 </%def>
 
 
 <%def name="row(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
-        ${_row(tile, proposal)}
+        <div class="main_row">
+            ${_row(tile, proposal)}
+        </div>
     </li>
 </%def>
 
@@ -83,12 +85,14 @@ FIXME - stupid code duplication, see lib.pager.proposals_small
 <%def name="row_inline(tile, proposal)">
     <li class="content_box ${'fresh' if tile.fresh else ''}">
         <div class="main_row">
+            <div class="row_button">
+                <a class="button_small showhide_button"
+                   data-target="#proposal-${proposal.id}"
+                   data-target-speed="fast"
+                   data-toggle-class="less"
+                   href="#"></a>
+            </div>
             ${_row(tile, proposal)}
-            <a class="button_small showhide_button"
-               data-target="#proposal-${proposal.id}"
-               data-target-speed="fast"
-               data-toggle-class="less"
-               href="#"></a>
         </div>
         <article class="proposal" style="display: none" id="proposal-${proposal.id}">
             <div class="body">

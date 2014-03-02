@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-03 17:45+0100\n"
-"PO-Revision-Date: 2014-02-03 16:46+0000\n"
+"POT-Creation-Date: 2014-02-25 22:14+0100\n"
+"PO-Revision-Date: 2014-02-25 21:15+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1506,14 +1506,20 @@ msgstr "Cette proposition est en court de vote et ne peut être modifié."
 msgid "Settings"
 msgstr "Paramètres"
 
-msgid "(Unknown)"
-msgstr "(inconnu)"
+msgid "Proposals"
+msgstr "Propositions"
 
 msgid "Norms"
 msgstr "voir les règles"
 
-msgid "Proposals"
-msgstr "Propositions"
+msgid "Members"
+msgstr "Membres"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "(Unknown)"
+msgstr "(inconnu)"
 
 msgid "Implementation"
 msgstr "Mise en oeuvre"
@@ -1527,9 +1533,6 @@ msgstr "effacer"
 #, python-format
 msgid "%s (deleted user)"
 msgstr "%s (deleted user)"
-
-msgid "Members"
-msgstr "Membres"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -1770,9 +1773,6 @@ msgstr "recherche"
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Cherchez dans &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr "Intro"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2029,6 +2029,9 @@ msgstr "Importé avec succès"
 msgid "back to main page"
 msgstr "retour à la page principale"
 
+msgid "Site administration"
+msgstr "Administration du site"
+
 msgid "Admin: Group Permissions"
 msgstr "Administrateur: permissions de groupe"
 
@@ -2066,9 +2069,6 @@ msgstr "Envoyer un email aux utilisateurs"
 
 msgid "Assign treatment badges"
 msgstr "Attribuer des treatment badges"
-
-msgid "Site administration"
-msgstr "Administration du site"
 
 msgid "Admin: Import Users"
 msgstr "Admin: Importer des utilisateurs"
@@ -2231,6 +2231,9 @@ msgstr "Global"
 
 msgid "Parent Category"
 msgstr "catégorie supérieure "
+
+msgid "Link this category to a superordinate category"
+msgstr ""
 
 msgid "No Parent Category"
 msgstr "aucune catégorie supérieure "
@@ -3741,12 +3744,6 @@ msgstr "%s%% de soutient"
 msgid "%s:%s votes"
 msgstr "%s: %s votes"
 
-msgid "hide"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
 msgid "Join the discussion"
 msgstr ""
 
@@ -4139,8 +4136,8 @@ msgid ""
 " here</a>."
 msgstr "Si vous possedez un compte mais avez oublié le mot de passe, <a href='/reset'> cliquez</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Peut seulement contenir des chiffres et des lettres"
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr "Vous pouvez choisir votre nom d'utilisateur"
@@ -4163,6 +4160,11 @@ msgstr "En registrant, vous accepterez les %s."
 
 msgid "Terms and Conditions"
 msgstr "Modalités et Conditions"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "laisser en blanc"
@@ -4359,8 +4361,8 @@ msgstr "membre dans \"%s\" depuis "
 msgid "Not a member in \"%s\""
 msgstr "pas membre dans \"%s\" "
 
-msgid "User groups"
-msgstr "Groupes d'utilisateurs"
+msgid "User group"
+msgstr ""
 
 msgid "change group"
 msgstr "changer de groupe "

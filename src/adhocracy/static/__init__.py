@@ -6,6 +6,9 @@ from js.socialshareprivacy import socialshareprivacy
 from adhocracy.i18n import LOCALES
 
 
+js_i18n = dict()
+
+
 # --[ twitter bootstrap ]---------------------------------------------------
 
 bootstrap_library = Library('bootstrap', 'bootstrap', version="2.1.1")
@@ -59,6 +62,17 @@ jquerytools = Resource(jquerytools_library, 'jquery.tools.min.js',
                        depends=[jquery])
 
 
+# --[ moment ]-------------------------------------------------------------
+
+moment_library = Library('moment', 'javascripts/moment', version="2.5.1")
+moment = Resource(moment_library, 'moment.js',
+                  minified='moment.min.js')
+js_i18n['moment'] = dict()
+for locale in LOCALES:
+    js_i18n['moment'][locale.language] = Resource(
+        moment_library, '%s.js' % locale.language, depends=[moment])
+
+
 # --[ misc javascripts ]----------------------------------------------------
 
 misc_library = Library('misc', 'javascripts')
@@ -86,7 +100,7 @@ adhocracy_library = Library('adhocracy', 'javascripts')
 adhocracy = Resource(adhocracy_library, 'adhocracy.js',
                      depends=[jquery, bootstrap_js, elastic,
                               placeholder, modernizr, jquerytools,
-                              openid_selector, js_uri])
+                              openid_selector, js_uri, moment])
 
 
 # --[ knockout ]------------------------------------------------------------

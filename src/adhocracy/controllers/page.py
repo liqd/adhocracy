@@ -13,6 +13,7 @@ from pylons.i18n import _
 
 import geojson
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h
 from adhocracy.lib import pager, sorting, tiles, watchlist, logo
@@ -21,6 +22,7 @@ from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
+from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import (render, render_json, ret_abort,
                                       render_logo)
 from adhocracy.lib.templating import render_geojson
@@ -67,6 +69,9 @@ class PageCreateForm(formencode.Schema):
                                                  if_missing=False)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    if config.get_bool('adhocracy.page.allow_abstracts'):
+        abstract = validators.String(max=255, not_empty=False, if_empty=None,
+                                     if_missing=None)
 
 
 class PageEditForm(formencode.Schema):
@@ -101,6 +106,9 @@ class PageUpdateForm(formencode.Schema):
                                                  if_missing=False)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    if config.get_bool('adhocracy.page.allow_abstracts'):
+        abstract = validators.String(max=255, not_empty=False, if_empty=None,
+                                     if_missing=None)
 
 
 class PageFilterForm(formencode.Schema):
@@ -121,14 +129,13 @@ class PageGeotagUpdateForm(formencode.Schema):
 
 class PageController(BaseController):
 
-    def __init__(self):
-        super(PageController, self).__init__()
-        c.active_subheader_nav = 'norms'
+    identifier = 'norms'
 
     @RequireInstance
     @guard.page.index()
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
+        data = {}
         pages = model.Page.all(instance=c.instance,
                                functions=model.Page.LISTED)
         if request.params.get('pages_sort', '4') == '4':
@@ -137,22 +144,28 @@ class PageController(BaseController):
             # WARNING: This will break if the index of the sort changes.
             c.is_hierarchical = True
             pages = [page for page in pages if page.parent is None]
-        c.pages_pager = pager.pages(pages)
+
+        data['pages_pager'] = pager.pages(pages)
 
         if format == 'json':
-            return render_json(c.pages_pager)
+            return render_json(data['pages_pager'])
 
         tags = model.Tag.popular_tags(limit=30)
-        c.cloud_tags = sorted(libtext.tag_cloud_normalize(tags),
-                              key=lambda (k, c, v): k.name)
-        c.tutorial_intro = _('tutorial_norms_overview_tab')
-        c.tutorial = 'page_index'
+        data['cloud_tags'] = sorted(libtext.tag_cloud_normalize(tags),
+                                    key=lambda (k, c, v): k.name)
+        data['tutorial_intro'] = _('tutorial_norms_overview_tab')
+        data['tutorial'] = 'page_index'
+
+        add_static_content(data, u'adhocracy.static.page_index_heading',
+                           body_key=u'heading_text',
+                           title_key=u'heading_title')
 
         if c.instance.page_index_as_tiles:
-            return render("/page/index_tiles.html",
+            return render("/page/index_tiles.html", data,
                           overlay=format == u'overlay')
         else:
-            return render("/page/index.html", overlay=format == u'overlay')
+            return render("/page/index.html", data,
+                          overlay=format == u'overlay')
 
     @RequireInstance
     @guard.page.create()
@@ -229,6 +242,11 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
+        if (config.get_bool('adhocracy.page.allow_abstracts')
+                and c.instance.page_index_as_tiles
+                and not page.is_section()):
+            page.abstract = self.form_result.get('abstract')
+
         if c.came_from != u'':
             came_from = c.came_from
         elif proposal is not None and can.selection.create(proposal):
@@ -277,6 +295,7 @@ class PageController(BaseController):
                                                     False)
         c.branch = branch
         c.container = c.page.function == c.page.CONTAINER
+        c.abstract = request.params.get("abstract")
 
         c.section = 'section_parent' in request.params
         if c.section:
@@ -416,6 +435,11 @@ class PageController(BaseController):
                 decision = democracy.Decision(c.user, poll)
                 decision.make(model.Vote.YES)
                 model.Tally.create_from_poll(poll)
+
+        if (config.get_bool('adhocracy.page.allow_abstracts')
+                and c.instance.page_index_as_tiles
+                and not c.page.is_section()):
+            c.page.abstract = self.form_result.get('abstract')
 
         model.meta.Session.commit()
         if can.watch.create():
