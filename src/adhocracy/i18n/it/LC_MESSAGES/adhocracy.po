@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-03 21:52+0100\n"
+"PO-Revision-Date: 2014-03-03 20:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -2332,20 +2332,22 @@ msgstr "Accedi per creare una nuova proposta"
 msgid "Validate email in order to create a new proposal."
 msgstr "Verifica il tuo indirizzo email per poter creare una nuova proposta."
 
+msgid "Find proposals"
+msgstr "Cerca proposte"
+
+msgid "Go"
+msgstr "Vai"
+
 msgid "new proposal"
 msgstr "nuova proposta"
-
-msgid "Search proposals"
-msgstr ""
-
-msgid "Find"
-msgstr ""
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Commento"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Argument"
 msgstr "Discussione"
@@ -2655,6 +2657,9 @@ msgstr "Mostra correzione completa"
 
 msgid "Show full comment"
 msgstr "Mostra commento per intero"
+
+msgid "created new proposal"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Ultimi eventi"
@@ -3260,6 +3265,12 @@ msgstr "Nome della versione"
 msgid "Text"
 msgstr "Testo"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr "Mostra le sottodelibere come sezioni"
 
@@ -3404,8 +3415,18 @@ msgstr "Commenti"
 msgid "Discussions"
 msgstr "Discussioni"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Amendments"
 msgstr "Correzioni"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Add section"
 msgstr "Aggiungi sezione"
@@ -3617,12 +3638,6 @@ msgstr "Permetti modifiche da altri utenti"
 
 msgid "Freeze proposal"
 msgstr "Blocca proposta"
-
-msgid "Find proposals"
-msgstr "Cerca proposte"
-
-msgid "Go"
-msgstr "Vai"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "La lista offre un'anteprima delle proposte suggerite fino ad oggi che vengono ordinate in base a determinati criteri."
