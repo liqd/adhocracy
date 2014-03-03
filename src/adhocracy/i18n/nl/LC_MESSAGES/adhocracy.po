@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-03 21:52+0100\n"
+"PO-Revision-Date: 2014-03-03 20:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -2333,20 +2333,22 @@ msgstr "Log in om een nieuwe voorstel te maken"
 msgid "Validate email in order to create a new proposal."
 msgstr "Bevestig uw e-mailadres om een nieuw voorstel aan te maken."
 
+msgid "Find proposals"
+msgstr "Vind voorstellen"
+
+msgid "Go"
+msgstr "Ga"
+
 msgid "new proposal"
 msgstr "nieuw voorstel"
-
-msgid "Search proposals"
-msgstr "Zoek voorstellen"
-
-msgid "Find"
-msgstr "Vind"
 
 msgid "Norms in this Category"
 msgstr "Reglementen in deze Categorie"
 
 msgid "Comment"
-msgstr "Reactie"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Argument"
 msgstr "Argument"
@@ -2656,6 +2658,9 @@ msgstr "Toon volledig amendement"
 
 msgid "Show full comment"
 msgstr "Toon volledige reactie"
+
+msgid "created new proposal"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Laatste Gebeurtenissen"
@@ -3261,6 +3266,12 @@ msgstr "Variant Naam"
 msgid "Text"
 msgstr "Tekst"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr "Toon subvoorstellen als secties"
 
@@ -3405,8 +3416,18 @@ msgstr "Reacties"
 msgid "Discussions"
 msgstr "Discussies"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Amendments"
 msgstr "Amendementen"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Add section"
 msgstr "Sectie toevoegen"
@@ -3618,12 +3639,6 @@ msgstr "Sta bewerkingen door andere gebruikers toe"
 
 msgid "Freeze proposal"
 msgstr "Voorstel Bevriezen"
-
-msgid "Find proposals"
-msgstr "Vind voorstellen"
-
-msgid "Go"
-msgstr "Ga"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Deze lijst biedt een overzicht van alle tot nu toe ingediende voorstellen. De lijst kan op verschillende manieren gesorteerd worden."
@@ -4137,7 +4152,7 @@ msgid ""
 msgstr "Als u een account heeft, maar u bent uw wachtwoord vergeten, <a href='/reset'>klik dan hier</a>."
 
 msgid "Can only contain letters and numbers. Spaces aren't allowed."
-msgstr ""
+msgstr "Mag enkel letters en cijfers bevatten. Spaties zijn niet toegestaan."
 
 msgid "You can choose which name other users see."
 msgstr "U kunt kiezen welke naam andere gebruikers zien."
@@ -4164,7 +4179,7 @@ msgstr "Algemene Voorwaarden"
 msgid ""
 "We'll occasionally inform you about important events such as the start of a "
 "new participation process via email."
-msgstr ""
+msgstr "We zullen je via e-mail af en toe te informeren over belangrijke gebeurtenissen, zoals de start van een nieuw participatieproces."
 
 msgid "leave empty"
 msgstr "laat leeg"
@@ -4362,7 +4377,7 @@ msgid "Not a member in \"%s\""
 msgstr "Geen lid van \"%s\""
 
 msgid "User group"
-msgstr ""
+msgstr "Gebruikersgroep"
 
 msgid "change group"
 msgstr "verander groep"

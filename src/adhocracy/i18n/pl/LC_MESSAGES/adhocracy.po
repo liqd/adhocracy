@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-03 21:52+0100\n"
+"PO-Revision-Date: 2014-03-03 20:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -2330,20 +2330,23 @@ msgstr "Zaloguj się, by stworzyć nową propozycję."
 msgid "Validate email in order to create a new proposal."
 msgstr ""
 
+msgid "Find proposals"
+msgstr "Znajdź propozycję"
+
+msgid "Go"
+msgstr "Start"
+
 msgid "new proposal"
 msgstr "Nowa propozycja"
-
-msgid "Search proposals"
-msgstr ""
-
-msgid "Find"
-msgstr ""
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Komentarz"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Argument"
 msgstr ""
@@ -2652,6 +2655,9 @@ msgid "Show full amendment"
 msgstr ""
 
 msgid "Show full comment"
+msgstr ""
+
+msgid "created new proposal"
 msgstr ""
 
 msgid "Latest Events"
@@ -3260,6 +3266,12 @@ msgstr "Nazwa wersji"
 msgid "Text"
 msgstr "Tekst"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr ""
 
@@ -3404,8 +3416,20 @@ msgstr ""
 msgid "Discussions"
 msgstr "Dyskusje"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "Amendments"
 msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Add section"
 msgstr ""
@@ -3618,12 +3642,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Find proposals"
-msgstr "Znajdź propozycję"
-
-msgid "Go"
-msgstr "Start"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Lista ta zawiera wszystkie do tej pory zgłoszone propozycje, które można sortować według różnych kryteriów."
