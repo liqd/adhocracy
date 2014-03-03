@@ -1,16 +1,13 @@
 import unicodedata
 import re
 import math
-import urllib
 
 SPLIT_CHARS = " ,;\""
 SPLITTER = re.compile(r'[,;\s]*', re.U)
 
 
 def tag_normalize(text):
-    text = urllib.unquote(text)
-    if not isinstance(text, unicode):
-        text = unicode(text)
+    text = h.url.unquote(text)
     text = unicodedata.normalize('NFKC', text)
     return text.strip(SPLIT_CHARS).lower()
 

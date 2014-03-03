@@ -1,7 +1,5 @@
 import cgi
 import math
-import urllib
-
 from pylons import tmpl_context as c
 from pylons.i18n import _
 
@@ -67,7 +65,7 @@ def url(tag, instance=None, **kwargs):
     def url_(tag, instance, **kwargs):
         ident = None
         try:
-            ident = urllib.quote(tag.name.encode('utf-8'))
+            ident = _url.quote(tag.name)
         except KeyError:
             ident = tag.id
         return _url.build(instance, u'tag', ident, **kwargs)

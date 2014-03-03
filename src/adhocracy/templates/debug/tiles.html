@@ -22,7 +22,7 @@
         %for num, query in enumerate(c.pdtb_sqla_queries):
         <%
         is_select = query['statement'].lower().startswith('select')
-        quoted_params = h.urllib.quote(h.json_dumps(query['parameters']))
+        quoted_params = h.url.quote(h.json_dumps(query['parameters']))
         rowcls = 'even' if (num % 2 == 0) else 'odd'
         %>
         <tr class="${rowcls}">
