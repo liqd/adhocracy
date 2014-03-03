@@ -1240,4 +1240,81 @@ $(document).ready(function () {
     $('#nav').append($('#user_menu > ul').clone()
         .attr('class', 'user-menu')
     );
+
+    $('#event-carousel').each(function(i, e) {
+        var self = $(e),
+            j = 0,
+            data = [],
+            drawIntervalID;
+
+        var draw = function() {
+            self.fadeOut('fast', function() {
+                if (data.length > 0) {
+                    self.html(data[j % data.length].innerHTML);
+
+                    // relative time
+                    var datetime = $('.ts', self);
+                    datetime.attr('title', datetime.text());
+                    datetime.text(moment(datetime.attr('datetime')).fromNow());
+
+                    self.fadeIn('fast');
+                    j += 1;
+                }
+            });
+        };
+        var update = function(fn) {
+            // get new data
+            // if the request fails the old data will be kept instead
+
+            // FIXME this takes really long
+            $.ajax('/event/all.ajax?count=5&event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create', {
+                'success': function(d) {
+                    data = $(d).children();
+                    if (fn) {
+                        fn();
+                    }
+                },
+            });
+        };
+        var startDrawInterval = function(now) {
+            if (!drawIntervalID) {
+                if (now) {
+                    draw();
+                }
+                drawIntervalID = setInterval(draw, 6000);
+            }
+        };
+
+        // do not change on mouseover
+        self.mouseover(function() {
+            clearInterval(drawIntervalID);
+            drawIntervalID = null;
+        });
+        self.mouseout(function() {
+            startDrawInterval(false);
+        });
+
+        // init
+        setInterval(update, 100000);
+        update(function() {
+            startDrawInterval(true);
+        });
+    });
+
+    $(function() {
+        // initialize scrollable
+        $(".scrollable").scrollable({circular: 'true'});
+    });
+
+    var initialize_scrollables = function () {
+        var RATIO_X_Y = 4/3;
+        var img = $(".scrollable .items img:first-child");
+        var scrollable_width = $(".scrollable").width();
+        $(".scrollable").height(scrollable_width / RATIO_X_Y);
+        $(".scrollable .pic_frame").width(scrollable_width);
+        $(".scrollable .pic_frame").height(scrollable_width / RATIO_X_Y);
+    };
+    initialize_scrollables();
+    $(window).on("resize", initialize_scrollables);
+
 });

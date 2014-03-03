@@ -53,7 +53,28 @@ ${c.subpages_pager.here()|n}
 %if current is not None:
 <div class="sidebar_box">
     <h3>Informationen zum Grundstück</h3>
+
+    <% nr_images = current.get('images', 6) %>
+    %if nr_images is None:
     <img src="${'/static_theme/static/images/karte-%s.png' % current['key']}" class="karte" />
+    %else:
+    <%
+    images = ['planausschnitt.png', 'karte.png', 'luftbild.png']
+    images.extend(['%d.jpg' % i for i in range(1, nr_images + 1)])
+    %>
+
+    <div class="scrollable_wrapper">
+        <div class="scrollable">
+            <div class="items">
+                %for image in images:
+                <div class="pic_frame">
+                    <img src=${"https://senat-stage-cms.liqd.net/de/bilder-fuer-die-ul-plattform/%s/grundstueckinfos/%s-%s/@@images/image/sidebar" % (current['key'], current['key'], image)} />
+                </div>
+                %endfor
+            </div>
+        </div>
+    </div>
+    %endif
 
     <h6>Adresse</h6>
     <p>${current['name']}</p>
