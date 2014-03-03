@@ -1358,4 +1358,26 @@ $(document).ready(function () {
             this.action = overlay_url(this.action);
         });
     }
+
+    $('#mobile-main-menu-button')
+        .addClass('showhide_button')
+        .data('target', '.menu')
+        .data('toggle-class', 'less')
+        .data('target-speed', 'fast')
+        .data('conflict', '#mobile-user-menu-button')
+    $('#mobile-menu-box').append($('#nav_login > a').clone()
+        .attr('id', 'mobile-login-button')
+    );
+    $('#mobile-menu-box').append($('#user_menu > a').clone()
+        .attr('id', 'mobile-user-menu-button')
+        .addClass('showhide_button')
+        .data('target', '#mobile-user-menu')
+        .data('toggle-class', 'less')
+        .data('target-speed', 'fast')
+        .data('conflict', '#mobile-main-menu-button')
+    );
+    $('#nav').append($('#user_menu > ul').clone()
+        .attr('id', 'mobile-user-menu')
+        .css('display', 'none')
+    );
 });
