@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-03 21:52+0100\n"
+"PO-Revision-Date: 2014-03-03 20:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -2335,20 +2335,23 @@ msgstr "Войти, чтобы создать новое предложение"
 msgid "Validate email in order to create a new proposal."
 msgstr ""
 
+msgid "Find proposals"
+msgstr "найти предложения"
+
+msgid "Go"
+msgstr "перейти"
+
 msgid "new proposal"
 msgstr "новое предложение"
-
-msgid "Search proposals"
-msgstr ""
-
-msgid "Find"
-msgstr ""
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Коментарий"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Argument"
 msgstr ""
@@ -2657,6 +2660,9 @@ msgid "Show full amendment"
 msgstr ""
 
 msgid "Show full comment"
+msgstr ""
+
+msgid "created new proposal"
 msgstr ""
 
 msgid "Latest Events"
@@ -3265,6 +3271,12 @@ msgstr "Название варианта"
 msgid "Text"
 msgstr "Текст"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr ""
 
@@ -3409,8 +3421,20 @@ msgstr ""
 msgid "Discussions"
 msgstr "Дискуссии"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "Amendments"
 msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Add section"
 msgstr ""
@@ -3623,12 +3647,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Find proposals"
-msgstr "найти предложения"
-
-msgid "Go"
-msgstr "перейти"
 
 msgid "tutorial_proposal_overview_table"
 msgstr ""

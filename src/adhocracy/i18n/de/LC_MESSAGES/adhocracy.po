@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:54+0000\n"
+"POT-Creation-Date: 2014-03-03 21:52+0100\n"
+"PO-Revision-Date: 2014-03-03 20:59+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2347,20 +2347,22 @@ msgstr "Anmelden, um einen neuen Vorschlag anzulegen."
 msgid "Validate email in order to create a new proposal."
 msgstr "Verifizieren Sie Ihre Email-Adresse, um einen neuen Vorschlag anzulegen."
 
-msgid "new proposal"
-msgstr "Neuer Vorschlag"
-
-msgid "Search proposals"
+msgid "Find proposals"
 msgstr "Vorschläge suchen"
 
-msgid "Find"
-msgstr "Finden"
+msgid "Go"
+msgstr "Los"
+
+msgid "new proposal"
+msgstr "Neuer Vorschlag"
 
 msgid "Norms in this Category"
 msgstr "Beschlüsse in dieser Kategorie"
 
 msgid "Comment"
-msgstr "Kommentar"
+msgid_plural "Comments"
+msgstr[0] "Kommentar"
+msgstr[1] "Kommentare"
 
 msgid "Argument"
 msgstr "Argument"
@@ -2670,6 +2672,9 @@ msgstr "Zeige ganzen Änderungsvorschlag"
 
 msgid "Show full comment"
 msgstr "Zeige ganzen Kommentar"
+
+msgid "created new proposal"
+msgstr "legte einen neuen Vorschlag an"
 
 msgid "Latest Events"
 msgstr "Letzte Ereignisse."
@@ -3275,6 +3280,12 @@ msgstr "Name der Version"
 msgid "Text"
 msgstr "Text"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "Abriss des Beschlusses. Wird nur verwendet, wenn der Beschluss als Kachel angezeigt wird."
+
+msgid "Abstract"
+msgstr "Abriss"
+
 msgid "Display subnorms as sections"
 msgstr "Stelle Unterbeschlüsse als Abschnitte dar"
 
@@ -3419,8 +3430,18 @@ msgstr "Kommentare"
 msgid "Discussions"
 msgstr "Diskussionen"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] "Diskussion"
+msgstr[1] "Diskussionen"
+
 msgid "Amendments"
 msgstr "Änderungsvorschläge"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] "Änderungsvorschlag"
+msgstr[1] "Änderungsvorschläge"
 
 msgid "Add section"
 msgstr "Abschnitt hinzufügen"
@@ -3632,12 +3653,6 @@ msgstr "Änderungen von anderen erlauben"
 
 msgid "Freeze proposal"
 msgstr "Vorschlag einfrieren"
-
-msgid "Find proposals"
-msgstr "Vorschläge suchen"
-
-msgid "Go"
-msgstr "Los"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Die Liste bietet einen Überblick aller bisher eingebrachter Vorschläge, welche nach mehreren Kriterien sortiert werden können."

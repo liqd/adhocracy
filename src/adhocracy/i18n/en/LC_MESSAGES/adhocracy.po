@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-03 21:52+0100\n"
+"PO-Revision-Date: 2014-03-03 20:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -2333,20 +2333,22 @@ msgstr "Login to create a new proposal."
 msgid "Validate email in order to create a new proposal."
 msgstr "Validate email in order to create a new proposal."
 
+msgid "Find proposals"
+msgstr "Find proposals"
+
+msgid "Go"
+msgstr "Go"
+
 msgid "new proposal"
 msgstr "new proposal"
-
-msgid "Search proposals"
-msgstr ""
-
-msgid "Find"
-msgstr ""
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Argument"
 msgstr "Argument"
@@ -2655,6 +2657,9 @@ msgid "Show full amendment"
 msgstr ""
 
 msgid "Show full comment"
+msgstr ""
+
+msgid "created new proposal"
 msgstr ""
 
 msgid "Latest Events"
@@ -3261,6 +3266,12 @@ msgstr "Variant name"
 msgid "Text"
 msgstr "Text"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr ""
 
@@ -3405,8 +3416,18 @@ msgstr "Comments"
 msgid "Discussions"
 msgstr "Discussions"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Amendments"
 msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Add section"
 msgstr ""
@@ -3618,12 +3639,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Find proposals"
-msgstr "Find proposals"
-
-msgid "Go"
-msgstr "Go"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "The list provides a list of every proposal which has been introduced since now. Every proposal has been sorted according to several criteria."
