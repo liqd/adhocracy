@@ -1325,4 +1325,17 @@ $(document).ready(function () {
             startDrawInterval(true);
         });
     });
+
+    $('#main_nav_buttons').append($('#nav_login > a').clone());
+    $('#main_nav_buttons').append($('#user_menu > a').clone()
+            .attr('id', 'trigger-user-menu')
+            .addClass('showhide_button')
+            .data('target', '.user-menu')
+            .data('toggle-class', 'less')
+            .data('target-speed', 'fast')
+            .data('conflict', '#trigger-main-menu')
+    );
+    $('#nav').append($('#user_menu > ul').clone()
+        .attr('class', 'user-menu')
+    );
 });
