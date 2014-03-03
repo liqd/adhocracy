@@ -98,3 +98,32 @@ html.no-touch {
         }
     }
 }
+@include mobile {
+    section.subpage > .body {
+        margin-right: 5em;
+
+        aside {
+            width: 5em;
+            right: -5em;
+            padding: 1em 0 1em 1em;
+
+            a:before {
+                font-family: 'adhocracy_icons';
+                speak: none;
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+            }
+            .comments a:before {
+                content: "\f100";
+            }
+            .selections a:before {
+                content: "\f101";
+            }
+            .caption {
+                display: none;
+            }
+        }
+    }
+}

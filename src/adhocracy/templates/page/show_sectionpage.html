@@ -7,20 +7,35 @@
 <%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
 
 
+<%def name="flags(page)">
+    <ul class="flags">
+        %if page.allow_comment:
+        <% comment_count = page.comment_count() %>
+        <li class="comments"><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url"
+            title="${_(u'Comments') if h.comment.wording() else _('Discussions')}">
+            <span class="count">${comment_count}</span>
+            <span class="caption">${ungettext(u'Comment' , u'Comments', comment_count) if h.comment.wording() else ungettext(u'Discussion', u'Discussions', comment_count)}</span>
+        </a></li>
+        %endif
+        %if page.allow_selection:
+        <% selection_count = len(page.selections) %>
+        <li class="selections"><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big"
+            title="${_(u'Amendments')}">
+            <span class="count">${selection_count}</span>
+            <span class="caption">${ungettext(u'Amendment', u'Amendments', selection_count)}</span>
+        </a></li>
+        %endif
+    </ul>
+</%def>
+
+
 <%def name="section(page)">
     <section id="subpage-${page.id}" class="subpage">
         <div class="body">
             ${page.render()|n}
 
             <aside>
-                <ul class="flags">
-                    %if page.allow_comment:
-                    <li><a href="${h.entity_url(page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _('Discussions')} (${page.comment_count()})</a></li>
-                    %endif
-                    %if page.allow_selection:
-                    <li><a href="${h.entity_url(page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(page.selections)})</a></li>
-                    %endif
-                </ul>
+                ${flags(page)}
                 <div class="utility">
                     %if can.norm.edit(page):
                     <a href="${h.entity_url(page, member='edit', query={'section_parent': c.page.id})}" rel="#overlay-form" >${_(u"Edit")}</a>
@@ -365,14 +380,7 @@
             ${c.variant_details['text']|n}
 
             <aside id="tutorial-actions">
-                <ul class="flags">
-                    %if c.page.allow_comment:
-                    <li><a href="${h.entity_url(c.page, member='comments')}" rel="#overlay-url">${_(u'Comments') if h.comment.wording() else _(u'Discussions')} (${c.page.comment_count()})</a></li>
-                    %endif
-                    %if c.page.allow_selection:
-                    <li><a href="${h.entity_url(c.page, member='amendment')}" rel="#overlay-url-big">${_(u'Amendments')} (${len(c.page.selections)})</a></li>
-                    %endif
-                </ul>
+                ${flags(c.page)}
                 <div class="utility">
                     %if c.variant_details['can_edit']:
                     <a href="${c.variant_details['edit_url']}" rel="#overlay-form" >${_(u"Edit")}</a>

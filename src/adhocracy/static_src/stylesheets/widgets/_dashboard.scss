@@ -32,15 +32,16 @@
 }
 
 ul.content_nav {
-    display: table;
     width: 100%;
     list-style: none;
     background-color: $bg1;
     border-bottom: 1px solid $border;
     padding: 0;
     margin: 1em 0 0;
+
     > li {
-        display: table-cell;
+        border-top: 1px dotted $border;
+
         a {
             text-align: center;
             padding: 0.5em;
@@ -63,6 +64,16 @@ ul.content_nav {
     // FIXME not accessible
     &:hover > li.current a:not(:hover) {
         border-bottom-color: transparent;
+    }
+}
+@include desktop {
+    ul.content_nav {
+        display: table;
+
+        > li {
+            display: table-cell;
+            border-top: none;
+        }
     }
 }
 
