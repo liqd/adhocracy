@@ -71,8 +71,8 @@ def _non_unicode_wrapper(s, func):
     """Use this to wrap functions which do not handle unicode strings properly,
     e.g. urllib
 
-    This takes a unicode or byte string, converts it to unicode, runs func on
-    it and returns the result as unicode.
+    This takes a unicode or byte string, converts it to a utf-8 encoded
+    byte string, runs func on it and returns the result as unicode.
 
     >>> urllib.quote('ß')
     '%C3%9F'
