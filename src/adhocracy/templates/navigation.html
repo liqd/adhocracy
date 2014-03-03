@@ -19,21 +19,8 @@
 
 <!-- begin: main navi -->
 <nav id="nav">
-    <div id="main_nav_buttons" class="only-mobile">
-        <a href="#" id="trigger-main-menu" class="showhide_button"
-           data-target=".menu"
-           data-toggle-class="less"
-           data-target-speed="fast">
-            ${_('Menu')}</a>
-        <a href="#" id="trigger-user-menu" class="showhide_button"
-           data-target=".user-menu"
-           data-toggle-class="less"
-           data-target-speed="fast">
-            ${_('Login')}</a>
-    </div>
-
     <!-- main navigation: horizontal list -->
-    <div class="menu hlist only-desktop">
+    <div class="menu hlist">
         <ul>
             ${nav_link(href=h.base_url('/', None),
             text=_("Start"),
