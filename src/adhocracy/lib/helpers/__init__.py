@@ -193,7 +193,7 @@ def get_redirect_url(target=u'login', entity=None, **kwargs):
     if c.came_from == u'':
         if entity is None:
             c.came_from = base_url(request.path,
-                                 query_string=request.query_string)
+                                   query_string=request.query_string)
         else:
             c.came_from = entity_url(entity, **kwargs)
 
