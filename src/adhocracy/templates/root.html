@@ -163,10 +163,6 @@
   </div>
   %endif
 
-  <%block name="attention_getter">
-  ${components.attention_getter()}
-  </%block>
-
   <%block name="welcome">
   <div id="welcome_message">
       <div class="page_wrapper">
@@ -211,6 +207,10 @@
 
   <!-- Fixme: Here to render error pages -->
   ${self.body()}
+
+  <%block name="attention_getter">
+  ${components.attention_getter()}
+  </%block>
 
   <%include file="piwik.html"/>
   <%include file="footer.html"/>
