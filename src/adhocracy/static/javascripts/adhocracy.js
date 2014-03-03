@@ -1326,7 +1326,9 @@ $(document).ready(function () {
         });
     });
 
-    $('#main_nav_buttons').append($('#nav_login > a').clone());
+    $('#main_nav_buttons').append($('#nav_login > a').clone()
+            .attr('id', 'trigger-login')
+    );
     $('#main_nav_buttons').append($('#user_menu > a').clone()
             .attr('id', 'trigger-user-menu')
             .addClass('showhide_button')
