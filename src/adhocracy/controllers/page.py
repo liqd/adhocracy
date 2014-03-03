@@ -177,7 +177,7 @@ class PageController(BaseController):
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
             if c.title is None:
-                c.title = u"%s %i" % (c.parent.head.title,
+                c.title = u"%s %i" % (c.parent.label,
                                       len(c.parent.children))
 
         html = None

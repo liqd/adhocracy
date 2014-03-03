@@ -284,15 +284,21 @@ class Page(Delegateable):
             return _("(Untitled)")
         title = self.head.title
         if self.is_sectionpage():
-            # section titles are "root_title( index)*"
+            # section titles are "root_label( index)*"
             # this transforms that title into a more human-friendly one
             root = self.sectionpage_root()
-            if root != self and \
-                    re.match('^%s( \d+)+$' % root.title, title) is not None:
-                section_no = title[len(root.title) + 1:].split(u' ')
-                section_no = [unicode(int(i, 10) + 1) for i in section_no]
-                section_no = u'.'.join(section_no)
-                return _(u"%s (section %s)") % (root.title, section_no)
+            if root != self:
+                match = re.match('^%s( \d+)+$' % root.label, title)
+
+                # legacy
+                if match is None:
+                    match = re.match('^%s( \d+)+$' % root.title, title)
+
+                if match is not None:
+                    section_no = [unicode(int(g.strip(), 10) + 1)
+                                  for g in match.groups()]
+                    section_no = u'.'.join(section_no)
+                    return _(u"%s (section %s)") % (root.title, section_no)
         return title
 
     @property

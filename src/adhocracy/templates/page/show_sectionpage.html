@@ -47,7 +47,7 @@
             </aside>
         </div>
 
-        %for subpage in sorting.delegateable_title(page.subpages):
+        %for subpage in sorting.delegateable_label(page.subpages):
         ${section(subpage)}
         %endfor
     </section>
@@ -79,7 +79,7 @@
             </aside>
         </div>
 
-        %for subpage in sorting.delegateable_title(c.page.subpages):
+        %for subpage in sorting.delegateable_label(c.page.subpages):
         ${section(subpage)}
         %endfor
     </section>
