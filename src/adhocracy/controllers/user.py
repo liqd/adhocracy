@@ -1,7 +1,6 @@
 from collections import OrderedDict
 import logging
 import re
-import urllib
 
 import formencode
 from formencode import ForEach, htmlfill, validators
@@ -293,7 +292,7 @@ class UserController(BaseController):
             session['logged_in'] = True
             session.save()
             if c.came_from != u'':
-                location = urllib.unquote_plus(c.came_from)
+                location = h.url.unquote(c.came_from)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -996,7 +995,7 @@ class UserController(BaseController):
         c.active_global_nav = "login"
         if c.user:
             if c.came_from != u'':
-                redirect(urllib.unquote_plus(c.came_from))
+                redirect(h.url.unquote(c.came_from))
             else:
                 redirect(h.user.post_login_url(c.user))
         else:
@@ -1030,7 +1029,7 @@ class UserController(BaseController):
             session['logged_in'] = True
             session.save()
             if c.came_from != u'':
-                redirect(urllib.unquote_plus(c.came_from))
+                redirect(h.url.unquote(c.came_from))
             else:
                 # redirect to the dashboard inside the instance exceptionally
                 # to be able to link to proposals and norms in the welcome

@@ -1085,6 +1085,11 @@ $(document).ready(function () {
      *   data-toggle-text. This button will display this text if the target
      *   is button was pressed and the target is visible. If no text
      *   is given, the text of the button won't change.
+     * * 'data-conflict' (attr)
+     *   The button can optionally provide a selector of a *conflicting*
+     *   showhide_button. This means that when this button is triggered
+     *   and the other one is currently active it will be triggered too
+     *   in order to avoid showing both targets at the same time.
      * * 'data-cancel' (attr)
      *   The *targed element* needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
@@ -1103,9 +1108,14 @@ $(document).ready(function () {
             toggle_element_selector = self.data('toggle-element'),
             toggle_element,
             toggle_text = self.data('toggle-text'),
-            old_text = self.text();
+            old_text = self.text(),
+            conflict = $(self.data('conflict')),
+            conflict_target = $(conflict.data('target'));
 
             //debugger;
+        if (conflict_target.filter(':not(:hidden)').length) {
+            conflict.click();
+        }
         if (toggle_element_selector) {
             toggle_element = $(toggle_element_selector);
         } else {
