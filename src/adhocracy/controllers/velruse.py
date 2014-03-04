@@ -15,13 +15,18 @@ import logging
 log = logging.getLogger(__name__)
 from adhocracy.lib.auth.authentication import allowed_login_types
 
+max_user_name_length = User.user_name.property.columns[0].type.length
+
 
 def unused_user_name(preferred_user_name):
     """
     Will find an adhocracy username which is not used
     but similiar to the given one.
-    It doesn't account for names too long.
     """
+
+    if (len(preferred_user_name) > max_user_name_length
+            or preferred_user_name == ""):
+        unused_user_name("user")
 
     if User.find_by_user_name(preferred_user_name) is None:
         return preferred_user_name
