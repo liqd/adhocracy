@@ -462,6 +462,7 @@ def make_map(config):
                 conditions=dict(method=['POST']))
 
     map.resource('instance', 'instance', member={'join': 'GET',
+                                                 'ask_join': 'GET',
                                                  'leave': 'POST',
                                                  'filter': 'GET',
                                                  'ask_leave': 'GET',
