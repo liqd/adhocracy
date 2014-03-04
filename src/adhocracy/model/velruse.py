@@ -37,7 +37,7 @@ class Velruse(object):
     def find(cls, domain, domain_user, include_deleted=False):
         try:
             q = meta.Session.query(Velruse)
-            q = q.filter(Velruse.domain == domain and
+            q = q.filter(Velruse.domain == domain,
                          Velruse.domain_user == domain_user)
             if not include_deleted:
                 q = filter_deleted(q)
@@ -96,7 +96,7 @@ class Velruse(object):
     def by_user_and_domain(cls, user, domain, include_deleted=False):
         try:
             q = meta.Session.query(Velruse)
-            q = q.filter(Velruse.user_id == user.id and
+            q = q.filter(Velruse.user_id == user.id,
                          Velruse.domain == domain)
             if not include_deleted:
                 q = filter_deleted(q)
