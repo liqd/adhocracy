@@ -1302,8 +1302,13 @@ $(document).ready(function () {
     });
 
     $(function() {
+        $(".scrollable_wrapper")
+            .append($('<a class="next">&gt;</a>'))
+            .append($('<a class="prev">&lt;</a>'));
         // initialize scrollable
-        $(".scrollable").scrollable({circular: 'true'});
+        $(".scrollable")
+            .scrollable({circular: 'true'})
+            .attr('tabindex', 0);
     });
 
     var initialize_scrollables = function () {
