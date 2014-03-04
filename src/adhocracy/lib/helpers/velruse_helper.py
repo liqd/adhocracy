@@ -3,4 +3,4 @@ from pylons import tmpl_context as c
 
 
 def is_user_connected_to_facebook():
-    return bool(Velruse.by_user_and_domain(c.user, u'facebook.com'))
+    return Velruse.by_user_and_domain(c.user, u'facebook.com') != []
