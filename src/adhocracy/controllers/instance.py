@@ -963,6 +963,12 @@ class InstanceController(BaseController):
                            force_path='/')
 
     @RequireInstance
+    def ask_join(self, id, format='html'):
+        c.page_instance = self._get_current_instance(id)
+        require.instance.join(c.page_instance)
+        return render('/instance/ask_join.html')
+
+    @RequireInstance
     @csrf.RequireInternalRequest()
     def join(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
