@@ -1,0 +1,21 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_(u'Validate email address')}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_user)|n} ${_(u'Validate email address')}
+</%def>
+
+<%block name="headline">
+<h3>${_(u'Validate email address')}</h3>
+</%block>
+
+<%block name="main_content">
+<form name="ask_activate" class="inplace" method="GET"
+    action="${h.user.activation_url()}">
+    ${h.field_token()|n}
+    <input type="hidden" name="came_from" value="${c.came_from}" />
+    ${_(u'In order to perform the requested action, you need to validate your email address.')}
+    ${components.savebox(cancel_url=None, save_text=u'Send activation link')}
+</form>
+</%block>

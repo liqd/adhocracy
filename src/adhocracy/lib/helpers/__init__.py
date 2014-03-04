@@ -212,6 +212,11 @@ def join_redirect_url(entity=None, **kwargs):
     return get_redirect_url(u'instance/%s/ask_join' % c.instance.key, **kwargs)
 
 
+def validate_redirect_url(entity=None, **kwargs):
+    return get_redirect_url(u'user/%s/ask_activate' % c.user.user_name, entity,
+                            **kwargs)
+
+
 def entity_url(entity, **kwargs):
     if isinstance(entity, model.User):
         return user.url(entity, **kwargs)

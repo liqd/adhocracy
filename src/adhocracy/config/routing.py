@@ -73,6 +73,8 @@ def make_map(config):
                                          'revert': 'GET',
                                          'reset': 'GET',
                                          'activate': 'GET',
+                                         'ask_activate': 'GET',
+                                         'pending_activate': 'GET',
                                          'resend': 'GET',
                                          'set_password': 'POST',
                                          'generate_welcome_link': 'POST'},
