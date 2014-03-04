@@ -111,7 +111,7 @@ class VelruseController(BaseController):
             # login right away
             if adhocracy_user and velruse_user:
                 update_email_trust(adhocracy_user, email)
-                self._login(velruse_user)
+                self._login(adhocracy_user)
 
             # create new user in both Velruse and User and login
             elif not adhocracy_user and not velruse_user:
@@ -123,7 +123,7 @@ class VelruseController(BaseController):
                                         display_name=display_name)
 
                 adhocracy_user, velruse_user = new_user
-                self._login(velruse_user)
+                self._login(adhocracy_user)
 
             # create new user in Velruse for a logged in user
             elif adhocracy_user and not velruse_user:
@@ -137,20 +137,19 @@ class VelruseController(BaseController):
             else:
                 raise "internal error (impossible)"
 
-    def _login(self, velruse_user):
+    def _login(self, adhocracy_user):
         """
         Log the user in and redirect him to a sane place.
         """
 
-        adhocracy_user = velruse_user.user
-        if adhocracy_user:
-            login_user(adhocracy_user, request, response)
-            session['login_type'] = 'velruse'
-            if c.instance and not adhocracy_user.is_member(c.instance):
-                redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
-                                                              h.url_token())))
-            redirect(h.user.post_login_url(adhocracy_user))
+        assert adhocracy_user
 
+        login_user(adhocracy_user, request, response)
+        session['login_type'] = 'velruse'
+        if c.instance and not adhocracy_user.is_member(c.instance):
+            redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
+                                                          h.url_token())))
+        redirect(h.user.post_login_url(adhocracy_user))
 
     def _failure(self, message, auth_info=None):
         """
