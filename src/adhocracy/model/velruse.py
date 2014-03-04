@@ -135,7 +135,7 @@ class Velruse(object):
         return v
 
     def __repr__(self):
-        return u"<Velruse(%d,%s,%s)>" % (self.id,
-                                         self.domain,
-                                         self.domain_user,
-                                         self.user.user_name)
+        return u"<Velruse(%d,%s,%s,%s)>" % (self.id,
+                                            self.domain,
+                                            self.domain_user,
+                                            self.user.user_name)
