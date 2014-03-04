@@ -139,7 +139,7 @@ class RecursiveAuthWrapper(object):
                     return self.closure()
                 else:
                     return auth_check
-            elif auth_check.need_login():
+            elif auth_check.propose_login():
                 # Authentication might help
                 from adhocracy.lib.helpers import login_redirect_url
                 from pylons.controllers.util import redirect
