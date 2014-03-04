@@ -154,7 +154,7 @@ class VelruseController(BaseController):
     def _failure(self, message, auth_info=None):
         """
         Abort a velruse authenication attempt and return to login page,
-        giving an error message at the openif / velruse area.
+        giving an error message at the openid / velruse area.
         """
 
         log.info('velruse login error: ' + message)
