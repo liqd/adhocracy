@@ -770,11 +770,13 @@ class UserController(BaseController):
     def ask_activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        c.hide_activate_attention_getter = True
         return render('/user/ask_activate.html')
 
     def pending_activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        c.hide_activate_attention_getter = True
         return render('/user/pending_activate.html')
 
     @RequireInternalRequest()

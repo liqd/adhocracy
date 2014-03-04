@@ -411,7 +411,8 @@ ${caller.body()}
         or can.instance.join(c.instance)
         or (c.instance.requires_valid_email()
             and c.user
-            and not c.user.is_email_activated())
+            and not c.user.is_email_activated()
+            and not c.hide_activate_attention_getter)
         or (h.config.get('adhocracy.propose_optional_attributes')
             and c.user.optional_attributes is None))) %>
 
