@@ -49,7 +49,7 @@ class VelruseController(BaseController):
         """
         Recieves authentication messages from the velruse service.
         It will log in users or connect their adhocracy account
-        to the authentication data given by velruse.
+        to an existing velruse account.
         It also creates adhocracy accounts if it thinks the user has none.
         """
 
