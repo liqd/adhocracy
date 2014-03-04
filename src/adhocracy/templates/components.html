@@ -358,7 +358,7 @@ ${caller.body()}
       <legend>${_('Proposal Category')}</legend>
       %if selected:
       <% (cat_id, key) = selected %>
-      <input type="hidden" name="category" value="${cat_id}">
+      <input type="hidden" name="category" value="${cat_id}" />
       <select disabled="disabled">
         <option value="${cat_id}">${key}</option>
       </select>
@@ -404,67 +404,77 @@ ${caller.body()}
 
 
 <%def name="attention_getter()">
-  %if not h.config.get_bool(u'adhocracy.readonly') and c.instance is not None and (c.user is None or can.instance.join(c.instance) or (c.instance.requires_valid_email() and c.user and not c.user.is_email_activated()) or (h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
-  <%doc>add an attention getter on instances</%doc>
-    <div id="flash_message">
-          <div class="page_wrapper">
-              <div class="message">
-                  %if c.user is None:
-                  <div class="register">
-                      %if h.allow_user_registration():
-                      <a href="${h.register_redirect_url()}"
-                         ## rel="#overlay-url" FIXME: reactivate when ready.
-                         class="button">${_('Register')}</a>
-                      ${_("or")}
-                      %endif
-                      <a href="${h.login_redirect_url()}"
-                         ## rel="#overlay-url" FIXME: reactivate.
-                         class="more_uppercase">${_('Login')}</a>
-                  </div>
-                  <p class="register_msg">
-                     %if h.allow_user_registration():
-                         ${_('Get an account to participate in the discussion.')}
-                     %else:
-                         ${_('Log in to participate in the discussion.')}
-                     %endif
-                  </p>
-                  %elif can.instance.join(c.instance):
-                  <div class="register">
-                      <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a>
-                  </div>
-                  <p>
-                      ${_('Join this instance to start contributing.')}
-                  </p>
-                  %elif c.instance.require_valid_email and c.user and not c.user.is_email_activated():
-                  %if c.user.email is None:
-                  <div class="register">
-                      <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
-                  </div>
-                  <p>
-                      ${_('You need to set an email in your profile in order to contribute to this instance.')}
-                  </p>
-                  %else:
-                  <div class="register">
-                      <a class="button large" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
-                      ${_("or")}
-                      <a class="more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
-                  </div>
-                  <p>
-                  ${_('Please validate your email address in order to contribute to this instance.')}<br />
-                  ${_('Your registered email address is:')} <em>${c.user.email}</em>
-                  </p>
-                  %endif
-                  %else:  # h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
-                  <div class="register">
-                      <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='settings/optional')}">${_("Provide information")}</a>
-                  </div>
-                  <p>
-                      ${_(u'Please provide statistical information to help scientific evaluation!')}<br />
-                  </p>
-                  </div>
-                  %endif
-              </div>
-          </div>
-  </div>
-  %endif
+<% show_attention_getter = (
+    not h.config.get_bool(u'adhocracy.readonly')
+    and c.instance is not None
+    and (c.user is None
+        or can.instance.join(c.instance)
+        or (c.instance.requires_valid_email()
+            and c.user
+            and not c.user.is_email_activated()
+            and not c.hide_activate_attention_getter)
+        or (h.config.get('adhocracy.propose_optional_attributes')
+            and c.user.optional_attributes is None))) %>
+
+%if show_attention_getter:
+<div id="flash_message">
+    <div class="page_wrapper">
+        <div class="message">
+            %if c.user is None:
+            <div class="register">
+                %if h.allow_user_registration():
+                <a href="${h.register_redirect_url()}"
+                    ## rel="#overlay-url" FIXME: reactivate when ready.
+                    class="button">${_('Register')}</a>
+                ${_("or")}
+                %endif
+                <a href="${h.login_redirect_url()}"
+                    ## rel="#overlay-url" FIXME: reactivate.
+                    class="more_uppercase">${_('Login')}</a>
+            </div>
+            <p class="register_msg">
+                %if h.allow_user_registration():
+                    ${_('Get an account to participate in the discussion.')}
+                %else:
+                    ${_('Log in to participate in the discussion.')}
+                %endif
+            </p>
+            %elif can.instance.join(c.instance):
+            <div class="register">
+                <a class="button" href="${h.entity_url(c.instance, member='join')}?${h.url_token()}">${_("join")}</a>
+            </div>
+            <p>
+                ${_('Join this instance to start contributing.')}
+            </p>
+            %elif c.instance.require_valid_email and c.user and not c.user.is_email_activated():
+            %if c.user.email is None:
+            <div class="register">
+                <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
+            </div>
+            <p>
+                ${_('You need to set an email in your profile in order to contribute to this instance.')}
+            </p>
+            %else:
+            <div class="register">
+                <a class="button large" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
+                ${_("or")}
+                <a class="more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
+            </div>
+            <p>
+            ${_('Please validate your email address in order to contribute to this instance.')}<br />
+            ${_('Your registered email address is:')} <em>${c.user.email}</em>
+            </p>
+            %endif
+            %else:  # h.config.get('adhocracy.propose_optional_attributes') and c.user.optional_attributes is None)):
+            <div class="register">
+                <a class="button" href="${h.entity_url(c.user, instance=c.instance, member='settings/optional')}">${_("Provide information")}</a>
+            </div>
+            <p>
+                ${_(u'Please provide statistical information to help scientific evaluation!')}
+            </p>
+            %endif
+        </div>
+    </div>
+</div>
+%endif
 </%def>

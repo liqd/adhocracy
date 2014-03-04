@@ -112,7 +112,7 @@
              <p class="patch_description">
                  ${_('Validate email to start contributing.')}
              </p>
-             <a class="button large patch_camefrom" href="${h.base_url('/user/%s/resend?%s' % (c.user.user_name, h.url_token()))}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
+             <a class="button large patch_camefrom" href="${h.user.activation_url()}" title="${_('Resend validation email to %s')%c.user.email}">${_('Send activation link')}</a>
              ${_("or")}
              <a class="more_uppercase" href="${h.entity_url(c.user, instance=c.instance, member='edit')}">${_("Edit profile")}</a>
          </div>
