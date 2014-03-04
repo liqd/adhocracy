@@ -15,7 +15,11 @@
     action="${h.user.activation_url()}">
     ${h.field_token()|n}
     <input type="hidden" name="came_from" value="${c.came_from}" />
-    ${_(u'In order to perform the requested action, you need to validate your email address.')}
-    ${components.savebox(cancel_url=None, save_text=u'Send activation link')}
+
+    <p>${_(u'You have not yet validated your email address.')}</p>
+    <p>${_(u'An email with a validation link has been sent to your email address (%s) right after registration. Please follow that link in order to proceed.' % c.user.email)}</p>
+    <p>${_(u'If you click on the button below, the validation link will be resent to you.')}</p>
+
+    ${components.savebox(cancel_url=None, save_text=u'Resend activation link')}
 </form>
 </%block>
