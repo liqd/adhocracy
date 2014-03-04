@@ -770,12 +770,24 @@ class UserController(BaseController):
     def ask_activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        if c.page_user.is_email_activated():
+            if c.came_from:
+                redirect(c.came_from)
+            else:
+                redirect(h.entity_url(c.page_user))
+
         c.hide_activate_attention_getter = True
         return render('/user/ask_activate.html')
 
     def pending_activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        if c.page_user.is_email_activated():
+            if c.came_from:
+                redirect(c.came_from)
+            else:
+                redirect(h.entity_url(c.page_user))
+
         c.hide_activate_attention_getter = True
         return render('/user/pending_activate.html')
 
