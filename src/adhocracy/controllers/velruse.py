@@ -151,10 +151,6 @@ class VelruseController(BaseController):
                                                               h.url_token())))
             redirect(h.user.post_login_url(adhocracy_user))
 
-        # FIXME: what happens adhocracy_user is None?
-        # ANSWER: should be impossible, velruse_user.user_id is not NULLable
-        #         and velruse_user.user is found
-        #         with velruse_user.user_id (by SQLAlchemy)
 
     def _failure(self, message, auth_info=None):
         """
