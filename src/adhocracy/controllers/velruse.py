@@ -197,7 +197,7 @@ class VelruseController(BaseController):
         Connect existing adhocracy user to velruse.
         """
 
-        if Velruse.any_by_user(adhocracy_user) is None:
+        if Velruse.by_user_and_domain(adhocracy_user, domain) == []:
             velruse_user = Velruse.connect(adhocracy_user, domain, domain_user,
                                            velruse_email, email_verified)
 
