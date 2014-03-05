@@ -433,7 +433,18 @@ var adhocracy = adhocracy || {};
                 }
             });
 
-            wrapped.find('.subpage img').overlay({
+            wrapped.find('.subpage img')
+                .wrap($('<div class="enlargable">')).parent()
+                .append('<a class="enlarge">')
+                .attr('tabindex', 0)
+                .keydown(function(event) {
+                    // for some reason pressing enter does not trigger click
+                    // events automatically
+                    if (event.keyCode === 13) {
+                        $(this).click()
+                    }
+                });
+            wrapped.find('.enlargable').overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-img',
