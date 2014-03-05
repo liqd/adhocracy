@@ -456,26 +456,36 @@ var adhocracy = adhocracy || {};
                 }
             });
 
-            wrapped.find('.subpage img').overlay({
+            wrapped.find('.subpage img')
+                .wrap($('<div class="enlargable">')).parent()
+                .append('<a class="enlarge">')
+                .attr('tabindex', 0)
+                .keydown(function(event) {
+                    // for some reason pressing enter does not trigger click
+                    // events automatically
+                    if (event.keyCode === 13) {
+                        $(this).click()
+                    }
+                });
+            wrapped.find('.enlargable').overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-img',
                 onBeforeLoad: function (event) {
-                    var src = this.getTrigger().attr('src');
+                    var src = this.getTrigger().find('img').attr('src'),
+                        alt = this.getTrigger().find('img').attr('alt'),
+                        overlay = this.getOverlay(),
+                        img = overlay.find('img'),
+                        screen_width = $('html').outerWidth();
+
                     if (src.slice(-6) === '/large') {
                         src = src.slice(0, -6);
                     }
-                    var alt = this.getTrigger().attr('alt');
-                    this.getOverlay().find('img').attr('src', src).attr('alt', alt);
-                },
-                onLoad: function (event) {
-                    var overlay = this.getOverlay();
-                    var screen_width = $('html').outerWidth();
+                    img.attr('src', src).attr('alt', alt);
 
-                    var img = new Image();
-                    img.src = overlay.find('img').attr('src');
-                    var width = img.width;
-                    width = Math.min(screen_width * 0.9, width);
+                    var tmp = new Image();
+                    tmp.src = src;
+                    var width = Math.min(screen_width * 0.9, tmp.width);
 
                     overlay.css('left', (screen_width - width) / 2 + 'px');
                 },
