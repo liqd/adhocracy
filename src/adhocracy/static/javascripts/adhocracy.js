@@ -1343,7 +1343,7 @@ $(document).ready(function () {
                 .replaceQueryParam('autoplay', 1);
 
             $('#overlay-img .contentWrap').html(iframe);
-            iframe.css('display', 'block').css('src', '');
+            iframe.css('display', 'block').css('src', '').css('max-width', '100%');
 
             $('.row:nth-child(2)').append(
                 $('<a id="video-button"></a>').overlay({
