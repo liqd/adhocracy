@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-03-05 08:37+0100\n"
-"PO-Revision-Date: 2014-03-05 07:48+0000\n"
+"PO-Revision-Date: 2014-03-05 07:52+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -4077,7 +4077,7 @@ msgid "Validate email address"
 msgstr "Email-Adresse verifizieren"
 
 msgid "You have not yet validated your email address."
-msgstr "Sie haben Ihre Email-Adress noch nicht verifiziert."
+msgstr "Sie haben Ihre Email-Adresse noch nicht verifiziert."
 
 #, python-format
 msgid ""
