@@ -1339,10 +1339,11 @@ $(document).ready(function () {
             var iframe = $('.subsection-startseite iframe'),
                 uri = new Uri(iframe.attr('src'));
 
-            uri = uri.replaceQueryParam('color', '6699ff');
+            uri = uri.replaceQueryParam('color', '6699ff')
+                .replaceQueryParam('autoplay', 1);
 
             $('#overlay-img .contentWrap').html(iframe);
-            iframe.css('display', 'block')
+            iframe.css('display', 'block').css('src', '');
 
             $('.row:nth-child(2)').append(
                 $('<a id="video-button"></a>').overlay({
@@ -1350,10 +1351,10 @@ $(document).ready(function () {
                     mask: adhocracy.overlay.mask,
                     target: '#overlay-img',
                     onLoad: function() {
-                        iframe.attr('src', uri.replaceQueryParam('autoplay', 1))
+                        iframe.attr('src', uri);
                     },
                     onClose: function() {
-                        iframe.attr('src', uri.replaceQueryParam('autoplay', 0))
+                        iframe.attr('src', '');
                     },
                 })
             );
