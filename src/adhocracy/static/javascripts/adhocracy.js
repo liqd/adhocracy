@@ -1322,4 +1322,30 @@ $(document).ready(function () {
     initialize_scrollables();
     $(window).on("resize", initialize_scrollables);
 
+    // video on frontpage
+    (function() {
+        if ($('.subsection-startseite iframe').length) {
+            var iframe = $('.subsection-startseite iframe'),
+                uri = new Uri(iframe.attr('src'));
+
+            uri = uri.replaceQueryParam('color', '6699ff');
+
+            $('#overlay-img .contentWrap').html(iframe);
+            iframe.css('display', 'block')
+
+            $('.row:nth-child(2)').append(
+                $('<a id="video-button"></a>').overlay({
+                    fixed: false,
+                    mask: adhocracy.overlay.mask,
+                    target: '#overlay-img',
+                    onLoad: function() {
+                        iframe.attr('src', uri.replaceQueryParam('autoplay', 1))
+                    },
+                    onClose: function() {
+                        iframe.attr('src', uri.replaceQueryParam('autoplay', 0))
+                    },
+                })
+            );
+        }
+    })();
 });
