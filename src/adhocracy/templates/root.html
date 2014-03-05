@@ -61,12 +61,12 @@
     %endif
 
     <div class="overlay" id="overlay-default">
-      <a class="close only-js" href="#"></a>
+      <a class="close only-js"></a>
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
     <div class="overlay" id="overlay-big">
-      <a class="close only-js" href="#"></a>
+      <a class="close only-js"></a>
       <!-- the external content is loaded inside this tag -->
       <div class="contentWrap"></div>
     </div>
@@ -87,7 +87,7 @@
     %endif
     %if c.user is None:
     <div class="overlay" id="overlay-login">
-      <a class="close only-js" href="#"></a>
+      <a class="close only-js"></a>
       <div class="contentWrap">
          <div class="register">
              %if config.get('adhocracy.login_style', 'default') == 'alternate':
@@ -100,7 +100,7 @@
     </div>
     %elif c.instance and can.instance.join(c.instance):
     <div class="overlay" id="overlay-join">
-      <a class="close only-js" href="#"></a>
+      <a class="close only-js"></a>
       <div class="contentWrap">
          <div class="register">
              <p class="patch_description">
@@ -112,7 +112,7 @@
     </div>
     %elif c.instance and c.instance.require_valid_email and c.user and not c.user.is_email_activated():
     <div class="overlay" id="overlay-validate">
-      <a class="close only-js" href="#"></a>
+      <a class="close only-js"></a>
       <div class="contentWrap">
          <div class="register">
              <p class="patch_description">
@@ -127,7 +127,7 @@
     %endif
     %if c.instance and c.instance.frozen:
     <div class="overlay">
-      <a class="close only-js" href="#"></a>
+      <a class="close only-js"></a>
       <div class="contentWrap">
       ${_('This instance has been frozen - you can not edit or post anything.')}
       </div>
