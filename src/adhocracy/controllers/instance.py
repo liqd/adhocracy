@@ -235,6 +235,9 @@ class InstanceController(BaseController):
         c.page_instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.page_instance)
 
+        # single instance: show frontpage instead of instance overview
+        redirect('/')
+
         if format == 'json':
             return render_json(c.page_instance)
         elif format == 'rss':
