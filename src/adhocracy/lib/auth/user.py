@@ -7,8 +7,9 @@ from adhocracy.lib.auth.authorization import NOT_LOGGED_IN
 
 
 def is_not_demo(check, u):
-    demo_users = config.get_list('adhocracy.demo_users')
-    check.other('demo_user', u.user_name in demo_users)
+    if u is not None:
+        demo_users = config.get_list('adhocracy.demo_users')
+        check.other('demo_user', u.user_name in demo_users)
 
 
 def index(check):
