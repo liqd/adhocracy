@@ -472,20 +472,21 @@ var adhocracy = adhocracy || {};
                 mask: adhocracy.overlay.mask,
                 target: '#overlay-img',
                 onBeforeLoad: function (event) {
-                    var src = this.getTrigger().find('img').attr('src'),
-                        alt = this.getTrigger().find('img').attr('alt'),
-                        overlay = this.getOverlay(),
-                        img = overlay.find('img'),
-                        screen_width = $('html').outerWidth();
-
+                    var src = this.getTrigger().find('img').attr('src');
                     if (src.slice(-6) === '/large') {
                         src = src.slice(0, -6);
                     }
-                    img.attr('src', src).attr('alt', alt);
+                    var alt = this.getTrigger().find('img').attr('alt');
+                    this.getOverlay().find('img').attr('src', src).attr('alt', alt);
+                },
+                onLoad: function (event) {
+                    var overlay = this.getOverlay();
+                    var screen_width = $('html').outerWidth();
 
-                    var tmp = new Image();
-                    tmp.src = src;
-                    var width = Math.min(screen_width * 0.9, tmp.width);
+                    var img = new Image();
+                    img.src = overlay.find('img').attr('src');
+                    var width = img.width;
+                    width = Math.min(screen_width * 0.9, width);
 
                     overlay.css('left', (screen_width - width) / 2 + 'px');
                 },
