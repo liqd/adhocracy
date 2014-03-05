@@ -7,6 +7,7 @@ SPLITTER = re.compile(r'[,;\s]*', re.U)
 
 
 def tag_normalize(text):
+    from adhocracy.lib import helpers as h
     text = h.url.unquote(text)
     text = unicodedata.normalize('NFKC', text)
     return text.strip(SPLIT_CHARS).lower()

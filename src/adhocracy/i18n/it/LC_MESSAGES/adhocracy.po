@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-03 21:52+0100\n"
-"PO-Revision-Date: 2014-03-03 20:52+0000\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:38+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -1711,6 +1711,49 @@ msgstr "Altri"
 msgid "Default proposal sort order"
 msgstr "Ordine predefinito di classifica delle proposte"
 
+msgid "Register"
+msgstr "Registrati"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Devi essere registrato per poter prendere parte a questa discussione."
+
+msgid "Log in to participate in the discussion."
+msgstr "Accedi per poter partecipare alla discussione."
+
+msgid "join"
+msgstr "iscriviti"
+
+msgid "Join this instance to start contributing."
+msgstr "Devi essere iscritto a questo gruppo per poter iniziare la conversazione."
+
+msgid "Edit profile"
+msgstr "modifica profilo"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "È necessario che tu inserisca il tuo indirizzo email nelle impostazioni del profilo per poter dare il tuo contributo al gruppo."
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Reinvia la email di convalida a %s"
+
+msgid "Send activation link"
+msgstr "Invia link di attivazione"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Ti preghiamo di verificare il tuo indirizzo email per poter dare il tuo contributo al gruppo."
+
+msgid "Your registered email address is:"
+msgstr "Il tuo indirizzo email di registrazione è il seguente:"
+
+msgid "Provide information"
+msgstr "Fornisci informazioni"
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr "Ti preghiamo di fornire informazioni statistiche per aiutare la valutazione scientifica."
+
 msgid "code of conduct"
 msgstr "Codice di condotta"
 
@@ -1837,54 +1880,11 @@ msgstr "Ti preghiamo di scegliere una password sicura"
 msgid "Set Password"
 msgstr "Imposta password"
 
-msgid "Join this instance to start contributing."
-msgstr "Devi essere iscritto a questo gruppo per poter iniziare la conversazione."
-
-msgid "join"
-msgstr "iscriviti"
-
 msgid "Validate email to start contributing."
 msgstr "Verifica il tuo indirizzo email per poter iniziare una discussione."
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr "Reinvia la email di convalida a %s"
-
-msgid "Send activation link"
-msgstr "Invia link di attivazione"
-
-msgid "Edit profile"
-msgstr "modifica profilo"
-
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Il gruppo é stato bloccato - non puoi modificare o inserire alcun commento."
-
-msgid "Register"
-msgstr "Registrati"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Devi essere registrato per poter prendere parte a questa discussione."
-
-msgid "Log in to participate in the discussion."
-msgstr "Accedi per poter partecipare alla discussione."
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr "È necessario che tu inserisca il tuo indirizzo email nelle impostazioni del profilo per poter dare il tuo contributo al gruppo."
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr "Ti preghiamo di verificare il tuo indirizzo email per poter dare il tuo contributo al gruppo."
-
-msgid "Your registered email address is:"
-msgstr "Il tuo indirizzo email di registrazione è il seguente:"
-
-msgid "Provide information"
-msgstr "Fornisci informazioni"
-
-msgid "Please provide statistical information to help scientific evaluation!"
-msgstr "Ti preghiamo di fornire informazioni statistiche per aiutare la valutazione scientifica."
 
 msgid "Next"
 msgstr "Avanti"
@@ -2682,6 +2682,20 @@ msgstr "Elimina gruppo"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Sei sicuro di voler eliminare questo gruppo?"
+
+#, python-format
+msgid "Join %s"
+msgstr ""
+
+msgid "Join"
+msgstr ""
+
+msgid "Join instance"
+msgstr ""
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr ""
 
 msgid "Leave"
 msgstr "Abbandona"
@@ -4044,6 +4058,22 @@ msgstr "Tutti i membri di questo Server Adhocracy"
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Una lista di tutti gli utenti di questo gruppo e del Server di Adhocracy."
 
+msgid "Validate email address"
+msgstr ""
+
+msgid "You have not yet validated your email address."
+msgstr ""
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr ""
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr ""
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Sei sicuro di voler eliminare il tuo profilo? Una volta fatto questo passo, non potrai tornare più indietro."
@@ -4139,6 +4169,14 @@ msgstr "No, non ho una password oppure l'ho dimenticata."
 
 msgid "Yes, I do have a password:"
 msgstr "Sì, ho una password:"
+
+msgid "Validation email sent"
+msgstr ""
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
+msgstr ""
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
