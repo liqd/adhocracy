@@ -126,3 +126,9 @@ def can_change_password(user):
         return asbool(config.get('adhocracy.allow_password_change', 'false'))
     else:
         return True
+
+
+def activation_url():
+    from adhocracy.lib.auth.csrf import url_token
+    from adhocracy.lib.helpers import base_url
+    return base_url('/user/%s/resend?%s' % (c.user.user_name, url_token()))
