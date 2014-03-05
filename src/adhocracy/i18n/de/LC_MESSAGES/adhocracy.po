@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-03 21:52+0100\n"
-"PO-Revision-Date: 2014-03-03 20:59+0000\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:48+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1726,6 +1726,49 @@ msgstr "Andere"
 msgid "Default proposal sort order"
 msgstr "Standard-Sortierreihenfolge von Vorschlägen"
 
+msgid "Register"
+msgstr "Registrieren"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
+
+msgid "Log in to participate in the discussion."
+msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
+
+msgid "join"
+msgstr "beitreten"
+
+msgid "Join this instance to start contributing."
+msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
+
+msgid "Edit profile"
+msgstr "Profil editieren"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "Sie müssen in Ihren Profileinstellungen eine Email-Adresse eintragen, um bei dieser Gruppe mitzumachen."
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Verifikations-Email erneut senden an %s"
+
+msgid "Send activation link"
+msgstr "Aktivierungslink senden"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe mitmachen können."
+
+msgid "Your registered email address is:"
+msgstr "Ihre eingestellte Email-Adresse ist:"
+
+msgid "Provide information"
+msgstr "Informationen angeben"
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
+
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
 
@@ -1852,54 +1895,11 @@ msgstr "Bitte wählen Sie ein sicheres Passwort"
 msgid "Set Password"
 msgstr "Passwort setzen"
 
-msgid "Join this instance to start contributing."
-msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
-
-msgid "join"
-msgstr "beitreten"
-
 msgid "Validate email to start contributing."
 msgstr "Verifizieren Sie Ihre Email-Adresse, um mitzumachen."
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr "Verifikations-Email erneut senden an %s"
-
-msgid "Send activation link"
-msgstr "Aktivierungslink senden"
-
-msgid "Edit profile"
-msgstr "Profil editieren"
-
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Diese Gruppe ist eingefroren - Bearbeiten oder Hinzufügen von neuen Beiträgen ist nicht möglich."
-
-msgid "Register"
-msgstr "Registrieren"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
-
-msgid "Log in to participate in the discussion."
-msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr "Sie müssen in Ihren Profileinstellungen eine Email-Adresse eintragen, um bei dieser Gruppe mitzumachen."
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe mitmachen können."
-
-msgid "Your registered email address is:"
-msgstr "Ihre eingestellte Email-Adresse ist:"
-
-msgid "Provide information"
-msgstr "Informationen angeben"
-
-msgid "Please provide statistical information to help scientific evaluation!"
-msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
 
 msgid "Next"
 msgstr "Weiter"
@@ -2697,6 +2697,20 @@ msgstr "Gruppe löschen"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Sind Sie sicher, dass Sie diese Gruppe entfernen möchten?"
+
+#, python-format
+msgid "Join %s"
+msgstr "%s beitreten"
+
+msgid "Join"
+msgstr "Beitreten"
+
+msgid "Join instance"
+msgstr "Gruppe beitreten"
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr "Um fortzufahren, müssen Sie dieser Gruppe beitreten."
 
 msgid "Leave"
 msgstr "verlassen"
@@ -4059,6 +4073,22 @@ msgstr "Alle Benutzer auf diesem Adhocracy-Server"
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Eine Liste aller Benutzer in dieser Gruppe und auf diesem Adhocracy-Server."
 
+msgid "Validate email address"
+msgstr "Email-Adresse verifizieren"
+
+msgid "You have not yet validated your email address."
+msgstr "Sie haben Ihre Email-Adress noch nicht verifiziert."
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr "Eine Email mit einem Verifizierungslink wurde an Ihre Email-Adresse (%s) direkt nach der Registrierung gesendet. Bitte klicken Sie auf diesen Link, um fortzufahren."
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr "Wenn Sie auf folgenden Knopf klicken, wird Ihnen der Verifikationslink erneut zugeschickt."
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Sind Sie sicher, dass Sie Ihr Profil löschen wollen? Dieser Schritt kann nicht Rückgängig gemacht werden."
@@ -4154,6 +4184,14 @@ msgstr "Nein, ich habe kein Kennwort, oder habe es vergessen."
 
 msgid "Yes, I do have a password:"
 msgstr "Ja, ich habe ein Kennwort:"
+
+msgid "Validation email sent"
+msgstr "Verifikationsemail versendet"
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
+msgstr "Eine Email wurde an Sie versendet. Bitte klicken Sie auf den Verifikationslink in dieser Email, um fortzufahren."
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"

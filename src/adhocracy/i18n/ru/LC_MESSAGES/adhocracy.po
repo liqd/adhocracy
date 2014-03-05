@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-03 21:52+0100\n"
-"PO-Revision-Date: 2014-03-03 20:52+0000\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:38+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1714,6 +1714,49 @@ msgstr ""
 msgid "Default proposal sort order"
 msgstr ""
 
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Завести аккаунт для участие в обсуждении"
+
+msgid "Log in to participate in the discussion."
+msgstr ""
+
+msgid "join"
+msgstr "присоединиться"
+
+msgid "Join this instance to start contributing."
+msgstr "Присоединиться к организации, чтобы принять в ней участие."
+
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr ""
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Отправить подтверждение на %s заново"
+
+msgid "Send activation link"
+msgstr "Получить код активации"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr ""
+
+msgid "Your registered email address is:"
+msgstr ""
+
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "пользовательское соглашение"
 
@@ -1840,53 +1883,10 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-msgid "Join this instance to start contributing."
-msgstr "Присоединиться к организации, чтобы принять в ней участие."
-
-msgid "join"
-msgstr "присоединиться"
-
 msgid "Validate email to start contributing."
 msgstr ""
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr "Отправить подтверждение на %s заново"
-
-msgid "Send activation link"
-msgstr "Получить код активации"
-
-msgid "Edit profile"
-msgstr "Редактировать профиль"
-
 msgid "This instance has been frozen - you can not edit or post anything."
-msgstr ""
-
-msgid "Register"
-msgstr "Зарегистрироваться"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Завести аккаунт для участие в обсуждении"
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr ""
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr ""
-
-msgid "Your registered email address is:"
-msgstr ""
-
-msgid "Provide information"
-msgstr ""
-
-msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
 msgid "Next"
@@ -2686,6 +2686,20 @@ msgstr "Удалить организацию"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Вы уверены, что хотите удалить эту организацию?"
+
+#, python-format
+msgid "Join %s"
+msgstr ""
+
+msgid "Join"
+msgstr ""
+
+msgid "Join instance"
+msgstr ""
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr ""
 
 msgid "Leave"
 msgstr "Покинуть"
@@ -4053,6 +4067,22 @@ msgstr "Все пользователи этого сервера Adhocracy "
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Список всех пользователей всех организаций групп на этом сервере Adhocracy."
 
+msgid "Validate email address"
+msgstr ""
+
+msgid "You have not yet validated your email address."
+msgstr ""
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr ""
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr ""
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Вы уверены, что хотите удалить свой профиль? Этот шаг непоправим!"
@@ -4147,6 +4177,14 @@ msgid "No, I do not have a password, or I forgot it."
 msgstr ""
 
 msgid "Yes, I do have a password:"
+msgstr ""
+
+msgid "Validation email sent"
+msgstr ""
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
 msgstr ""
 
 msgid ""
