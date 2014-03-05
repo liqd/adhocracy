@@ -1,7 +1,14 @@
 from paste.deploy.converters import asbool
-from pylons import tmpl_context as c, config
+from pylons import tmpl_context as c
+
+from adhocracy import config
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.authorization import NOT_LOGGED_IN
+
+
+def is_not_demo(check, u):
+    demo_users = config.get_list('adhocracy.demo_users')
+    check.other('demo_user', u.user_name in demo_users)
 
 
 def index(check):
@@ -25,6 +32,7 @@ def edit(check, u):
     show(check, u)
     check.other('user_not_self', u != c.user)
     check.other(NOT_LOGGED_IN, not c.user)
+    is_not_demo(check, c.user)
 
 
 def manage(check, u):
@@ -60,7 +68,7 @@ show_watchlist = show_dashboard
 
 def delete(check, u):
     edit(check, u)
-    allowed = asbool(config.get('adhocracy.self_deletion_allowed', 'true'))
+    allowed = config.get_bool('adhocracy.self_deletion_allowed', 'true')
     check.other('self_deletion_allowed', not allowed)
 
 

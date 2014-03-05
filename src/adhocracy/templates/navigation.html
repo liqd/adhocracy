@@ -117,7 +117,9 @@
                         </a>
                     </li>
                     %endif
+                    %if can.user.is_not_demo(c.user):
                     <li><a href="/logout">${_("Logout")}</a></li>
+                    %endif
                 </ul>
             </li>
             %endif
