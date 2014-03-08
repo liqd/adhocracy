@@ -12,12 +12,11 @@ staticpage_table = Table(
 
 
 class StaticPage(object):
-    def __init__(self, key, lang, title, body, css_classes=[]):
+    def __init__(self, key, lang, title, body):
         self.key = key
         self.lang = lang
         self.title = title
         self.body = body
-        self.css_classes = css_classes
 
     @classmethod
     def get(cls, key, lang):
@@ -25,6 +24,12 @@ class StaticPage(object):
         q = meta.Session.query(cls)
         q = q.filter(cls.key == key, cls.lang == lang)
         return q.first()
+
+    @property
+    def css_classes(self):
+        # FIXME: check how css_classes are going to be used with database
+        # staticpage backend
+        return []
 
     @classmethod
     def create(cls, key, lang, title, body):
