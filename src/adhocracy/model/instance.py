@@ -56,6 +56,7 @@ instance_table = Table(
     Column('allow_thumbnailbadges', Boolean, default=True),
     Column('thumbnailbadges_height', Integer, nullable=True),
     Column('thumbnailbadges_width', Integer, nullable=True),
+    Column('theme', Unicode, nullable=True),
     Column('show_norms_navigation', Boolean, nullable=True, default=True),
     Column('show_proposals_navigation', Boolean, nullable=True, default=True),
 )

@@ -431,6 +431,12 @@ adhocracy.static_index_path = index
 # The stylesheets are expected at /static/stylesheets/adhocracy_{key}.css
 # adhocracy.instance_stylesheets =
 
+# Allow authenticated instances to use one of these themes
+# The stylesheets are expected at /static/stylesheets/adhocracy_theme_{key}.css
+# Additionally, a preview image is expected at
+# /static_theme/static/images/theme-preview-{key}.png
+# adhocracy.instance_themes =
+
 ## Performance options
 
 # Check whether feedback instance exists before rendering a feedback button

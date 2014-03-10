@@ -55,7 +55,11 @@ def area_title(identifier):
 
 def need_stylesheet(instance):
     stylesheets = config.get_list('adhocracy.instance_stylesheets')
+    themes = config.get_list('adhocracy.instance_themes')
     if instance is not None and instance.key in stylesheets:
         return static.instance_stylesheet(instance.key).need()
+    elif (instance is not None and instance.theme in themes and
+            instance.is_authenticated):
+        return static.instance_theme(instance.theme).need()
     else:
         return static.style.need()
