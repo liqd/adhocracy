@@ -427,6 +427,10 @@ adhocracy.static_index_path = index
 # Show Facebook / Twitter / G+ buttons
 # adhocracy.show_social_buttons = False
 
+# Use a custom stylesheet for these instances
+# The stylesheets are expected at /static/stylesheets/adhocracy_{key}.css
+# adhocracy.instance_stylesheets =
+
 ## Performance options
 
 # Check whether feedback instance exists before rendering a feedback button
