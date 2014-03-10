@@ -1,6 +1,8 @@
 @mixin desktop {
     @media (min-width: $min-width-large) {
-        @content;
+        html {
+            @content;
+        }
     }
     html.no-mediaquery {
         @content;
