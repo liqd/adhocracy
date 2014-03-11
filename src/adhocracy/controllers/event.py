@@ -36,8 +36,18 @@ class EventController(BaseController):
                                   _("News from %s") % h.site.name())
 
         elif format == 'ajax':
+            query_params = request.params.copy()
+            while True:
+                try:
+                    query_params.pop('count')
+                except KeyError:
+                    break
+
+            more_url = h.base_url(instance=None,
+                                  member='event/all',
+                                  query_params=query_params)
             return render_def('/event/tiles.html', 'carousel',
-                              events=events)
+                              events=events, more_url=more_url)
         else:
             c.event_pager = pager.events(events, count=50)
 
