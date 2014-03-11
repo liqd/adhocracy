@@ -120,10 +120,13 @@
 
 
 <%def name="subheader_navigation(logo, label, search_action=None, search_label='',
-                                 search_button_text=None, url=None)">
+                                 search_button_text=None, url=None, background=None)">
 
   <div id="subheader" class="${'logo' if logo else ''}">
       <div class="page_wrapper">
+        %if background is not None:
+        <div style="background-image: url('${background}')" class="background-image"></div>
+        %endif
         <div id="logo_row">
             <div id="organisation_logo">
                 %if url:
@@ -181,10 +184,12 @@
    search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % mako.filters.html_escape(c.instance.label)
    logo = ''
    url = None
+   background = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
            logo = h.logo_url(c.instance, 48)
            url = h.entity_url(c.instance)
+           background = h.logo_url(c.instance, 256)
 
    def _class(identifier):
        return active_subnav.get(identifier, '')
@@ -193,7 +198,8 @@
 <%call expr="subheader_navigation(logo, c.instance.label,
                                   search_action=h.base_url('/search'),
                                   search_label=search_label,
-                                  url=url)">
+                                  url=url,
+                                  background=background)">
 
   ${nav_link(href=h.entity_url(c.instance),
              text=h.instance.area_title('instance'),
