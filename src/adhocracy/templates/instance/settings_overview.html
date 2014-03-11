@@ -31,6 +31,9 @@
         </div>
         %endif
     </fieldset>
+    %if c.page_instance.is_authenticated:
+    ${forms.checkbox(_('Use logo as background image'), 'logo_as_background')}
+    %endif
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 

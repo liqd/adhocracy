@@ -187,9 +187,11 @@
    background = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
-           logo = h.logo_url(c.instance, 48)
+           if c.instance.logo_as_background:
+               background = h.logo_url(c.instance, 256)
+           else:
+               logo = h.logo_url(c.instance, 48)
            url = h.entity_url(c.instance)
-           background = h.logo_url(c.instance, 256)
 
    def _class(identifier):
        return active_subnav.get(identifier, '')

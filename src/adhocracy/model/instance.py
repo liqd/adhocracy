@@ -39,6 +39,7 @@ instance_table = Table(
     Column('allow_propose_changes', Boolean, default=True),
     Column('allow_index', Boolean, default=True),
     Column('hidden', Boolean, default=False),
+    Column('logo_as_background', Boolean, default=False),
     Column('locale', Unicode(7), nullable=True),
     Column('css', UnicodeText(), nullable=True),
     Column('frozen', Boolean, default=False),
