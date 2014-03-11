@@ -86,7 +86,7 @@ class Event(object):
     event = property(_get_event)
 
     @classmethod
-    def all_q(cls, instance=None, include_hidden=False):
+    def all_q(cls, instance=None, include_hidden=False, event_filter=[]):
         query = meta.Session.query(Event)
 
         if instance is not None:
@@ -95,6 +95,9 @@ class Event(object):
             # inner join+filter would remove the rows with instance=None here
             query = query.outerjoin(Instance)  # noqa
             query = query.except_(query.filter(Instance.hidden == True))  # noqa
+
+        if event_filter:
+            query = query.filter(Event.event.in_(event_filter))
 
         return query
 
