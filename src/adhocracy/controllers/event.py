@@ -45,3 +45,7 @@ class EventController(BaseController):
                 return render('/event/all.html', overlay=True)
             else:
                 return render('/event/all.html')
+
+    @guard.perm('event.index_all')
+    def carousel(self, format=u'html'):
+        return render('/event/carousel.html', overlay=format == u'overlay')
