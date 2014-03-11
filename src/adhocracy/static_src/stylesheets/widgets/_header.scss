@@ -102,6 +102,9 @@ body.logged_in #logo {
     }
 }
 
+#nav_dummy {
+    display: none;
+}
 #user_menu {
     display: inline-block;
     border-left: 1px solid $header-color2;
