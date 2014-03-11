@@ -135,7 +135,6 @@ class Event(object):
     @classmethod
     def find_by_instance(cls, instance, limit=50, include_hidden=True):
         q = cls.all_q(instance=instance, include_hidden=include_hidden)
-        q = q.filter(Event.instance == instance)
         q = q.order_by(Event.time.desc())
         q = q.limit(limit)
         return q.all()
