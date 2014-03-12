@@ -82,3 +82,28 @@ def breadcrumbs(tag):
     if tag is not None:
         bc += bc_entity(tag)
     return bc
+
+
+def _tag_size(count, all_counts, steps=6):
+    """Calculate a font size based on a list of counts (e.g. for a tag cloud).
+    The set `all_counts` is separated into `steps` quantiles. Each quantile
+    gets a font size.
+    """
+
+    l1 = sorted(set(all_counts))
+    i = l1.index(count)
+
+    # avoid deviding by 0
+    if len(l1) <= 1:
+        return 100
+
+    f = i / float(len(l1) - 1)
+    f = int(round(steps * f)) / float(steps)
+    print count, f, int(90 + f*110)
+    return int(90 + f * 110)
+
+
+def solr_tag_size(tag, all_tags, steps=6):
+    count = tag['current_count']
+    all_counts = [t['current_count'] for t in all_tags]
+    return _tag_size(count, all_counts, steps=steps)

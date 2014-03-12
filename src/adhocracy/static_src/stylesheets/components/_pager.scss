@@ -73,3 +73,16 @@
         background-color: $button-color;
     }
 }
+
+.tagcloud_facet {
+    li {
+        display: inline;
+    }
+    .disabled {
+        color: $fg1;
+    }
+    .selected {
+        font-weight: bold;
+        font-style: italic;
+    }
+}

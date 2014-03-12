@@ -1,4 +1,3 @@
-
 <%def name="namedpager(pager)">
 <div class="pager_wrapper">
     %if (pager.enable_pages and len(pager.items)) or hasattr(pager.sorts, 'render') or (len(pager.sorts.keys()) > 1 and pager.enable_sorts):
@@ -119,8 +118,40 @@
 <p>${facet.description}</p>
 %endif
 
-${facet_items(facet.current_items)}
+%if facet.name == "delegateabletags" and h.config.get_bool('adhocracy.tagcloud_facet'):
+    ${facet_cloud_tag(facet.current_items)}
+%else:
+    ${facet_items(facet.current_items)}
+%endif
 </%def>
+
+
+<%def name="facet_cloud_tag(items)">
+%if items:
+<ul class="tagcloud_facet">
+    %for item in sorted(items, key=lambda i: i['link_text']):
+    %if item['visible']:
+    <li>
+        %if item['disabled']:
+        <span class="tag_link disabled"
+              style="font-size: ${h.tag.solr_tag_size(item, items)}%;">
+            ${item['link_text']}</span>
+        %else:
+        <a class="tag_link ${'selected' if item['selected'] else ''}"
+           style="font-size: ${h.tag.solr_tag_size(item, items)}%;"
+           href="${item['url']|n}"
+           rel="nofollow">
+            ${item['link_text']}</a>
+        %endif
+    </li>
+    %endif
+    %endfor
+</ul>
+%else:
+${_(u'None')}
+%endif
+</%def>
+
 
 <%def name="facet_items(items, indent=True)">
 <ul${'' if indent else ' class="noindent"' | n}>
