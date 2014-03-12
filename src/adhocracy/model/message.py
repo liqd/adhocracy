@@ -19,31 +19,49 @@ message_table = Table(
            onupdate=datetime.utcnow),
     Column('delete_time', DateTime, nullable=True),
     Column('creator_id', Integer, ForeignKey('user.id'), nullable=False),
-    Column('sender_email', Unicode(255), nullable=False),
+    Column('sender_email', Unicode(255), nullable=True),
     Column('include_footer', Boolean, default=True, nullable=False),
     Column('sender_name', Unicode(255), nullable=True),
+    Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True)
 )
 
 
 class Message(meta.Indexable):
 
-    def __init__(self, subject, body, creator, sender_email, sender_name,
-                 include_footer=True):
+    def __init__(self, subject, body, creator, sender_email=None,
+                 sender_name=None, instance=None, include_footer=True):
         self.subject = subject
         self.body = body
         self.creator = creator
         self.sender_email = sender_email
         self.sender_name = sender_name
         self.include_footer = include_footer
+        self.instance = instance
 
     @classmethod
-    def create(cls, subject, body, creator, sender_email, sender_name,
-               include_footer=True):
+    def create(cls, subject, body, creator, sender_email=None,
+               sender_name=None, instance=None, include_footer=True):
         message = cls(subject, body, creator, sender_email, sender_name,
-                      include_footer)
+                      instance, include_footer)
         meta.Session.add(message)
         meta.Session.flush()
         return message
+
+    @property
+    def email_from(self):
+        if self.sender_email:
+            return self.sender_email
+        elif self.creator.is_email_activated():
+            return self.creator.email
+        else:
+            return None
+
+    @property
+    def name_from(self):
+        if self.sender_name:
+            return self.sender_name
+        else:
+            return self.creator.name
 
 
 message_recipient_table = Table(
@@ -86,5 +104,5 @@ class MessageRecipient(object):
                          body,
                          headers={},
                          decorate_body=False,
-                         email_from=self.message.sender_email,
-                         name_from=self.message.sender_name)
+                         email_from=self.message.email_from,
+                         name_from=self.message.name_from)
