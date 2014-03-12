@@ -81,6 +81,7 @@ DEFAULTS = {
     'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.static_agree_text': None,
     'adhocracy.store_notification_events': True,
+    'adhocracy.tagcloud_facet': False,
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.use_test_instance': True,
