@@ -50,7 +50,8 @@ from adhocracy.lib.helpers import feedback_helper as feedback
 from adhocracy.lib.helpers.url import build
 from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.helpers import geo_helper as geo
-from adhocracy.lib.text import render
+from adhocracy.lib.text import (render, markdown_to_plain_text,
+                                html_to_plain_text)
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy.lib.helpers.counter import counter
 from adhocracy import model, static
@@ -191,15 +192,14 @@ def get_redirect_url(target=u'login', entity=None, **kwargs):
     to the given entity after successful login. If ``entity`` is None, it will
     redirect to the current URL.
     '''
-    came_from_url = request.params.get('came_from')
-    if came_from_url is None:
+    if c.came_from == u'':
         if entity is None:
-            came_from_url = base_url(request.path,
-                                     query_string=request.query_string)
+            c.came_from = base_url(request.path,
+                                   query_string=request.query_string)
         else:
-            came_from_url = entity_url(entity, **kwargs)
+            c.came_from = entity_url(entity, **kwargs)
 
-    return build(c.instance, '', target, query={'came_from': came_from_url})
+    return build(c.instance, '', target, query={'came_from': c.came_from})
 
 
 def login_redirect_url(entity=None, **kwargs):
@@ -208,6 +208,15 @@ def login_redirect_url(entity=None, **kwargs):
 
 def register_redirect_url(entity=None, **kwargs):
     return get_redirect_url(u'register', entity, **kwargs)
+
+
+def join_redirect_url(entity=None, **kwargs):
+    return get_redirect_url(u'instance/%s/ask_join' % c.instance.key, **kwargs)
+
+
+def validate_redirect_url(entity=None, **kwargs):
+    return get_redirect_url(u'user/%s/ask_activate' % c.user.user_name, entity,
+                            **kwargs)
 
 
 def entity_url(entity, **kwargs):
@@ -240,6 +249,18 @@ def entity_url(entity, **kwargs):
     elif isinstance(entity, model.Treatment):
         return treatment.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
+
+
+def logo_url(entity, y, x=None, **kwargs):
+    if isinstance(entity, model.User):
+        return user.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.Page):
+        return page.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.Instance):
+        return instance.logo_url(entity, y, x=x, **kwargs)
+    elif isinstance(entity, model.CategoryBadge):
+        return category.logo_url(entity, y, x=x, **kwargs)
+    raise ValueError("No logo URL maker for: %s" % repr(entity))
 
 
 def json_dumps(data, encoding='utf-8'):
@@ -302,3 +323,10 @@ def overlay_link():
 def need_adhocracy_geo_i18n():
     from adhocracy.static import adhocracy_geo_i18n
     return adhocracy_geo_i18n[get_lang()[0]].need()
+
+
+def need_js_i18n(resource):
+    from adhocracy.static import js_i18n
+    lang = get_lang()[0]
+    res = js_i18n[resource][lang]
+    return res.need()

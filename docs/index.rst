@@ -20,9 +20,12 @@ Development documentation
 
    development/architecture
    development/api
+   development/stylesheets
    development/translations
    development/tests
+   development/releases
    development/maintain_versions.rst
+   development/supported_browsers.rst
 
 
 REST interface (outdated)

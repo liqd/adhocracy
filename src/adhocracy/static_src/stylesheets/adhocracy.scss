@@ -19,13 +19,13 @@
 @import "general/html5";
 
 // components
+@import "components/adhocracy_icons";
 @import "components/bootstrap_forms";
 @import "components/forms";
 @import "components/type";
 @import "components/morelink";
 @import "components/showmore";
 @import "components/bootstrap_nav";
-@import "components/tooltip";
 @import "components/badge";
 @import "components/button";
 @import "components/modals";
@@ -54,6 +54,7 @@
 @import "widgets/openid";
 @import "widgets/sectionpage";
 @import "widgets/dashboard";
+@import "widgets/event_carousel";
 
 @import "geo";
 

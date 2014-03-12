@@ -16,7 +16,7 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
     <h3>${_(u"Badges")}</h3>
 
     <fieldset>
-        <legend>${_("badge")}</legend>
+        <legend>${_("Badges")}</legend>
 
         %if c.badges:
         <ul class="nobullet">
@@ -36,7 +36,7 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
     </fieldset>
 
     <fieldset>
-        <legend>${_("thumbnail badge")}</legend>
+        <legend>${_("Status Badge")}</legend>
 
         %if c.thumbnailbadges:
         <ul class="nobullet">
@@ -44,7 +44,7 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
                 <label>
                     <input type="radio" value=""
                            name="thumbnailbadge" />
-                    ${_('No Thumbnail Badge')}
+                    ${_('No Status Badge')}
                 </label>
             </li>
             %for badge in c.thumbnailbadges:
@@ -58,7 +58,7 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
             %endfor
         </ul>
         %else:
-        <p>${_(u"No Thumbnail Badges")}</p>
+        <p>${_(u"No Status Badges")}</p>
         %endif
     </fieldset>
 

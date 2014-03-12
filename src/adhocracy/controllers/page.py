@@ -13,16 +13,18 @@ from pylons.i18n import _
 
 import geojson
 
+from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import democracy, event, helpers as h
-from adhocracy.lib import pager, sorting, tiles, watchlist
+from adhocracy.lib import pager, sorting, tiles, watchlist, logo
 from adhocracy.lib.auth import guard
 from adhocracy.lib.auth import can, require
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
-from adhocracy.lib.templating import render, render_json, ret_abort
-from adhocracy.lib.templating import render_geojson
+from adhocracy.lib.staticpage import add_static_content
+from adhocracy.lib.templating import (render, render_json, ret_abort,
+                                      render_logo, render_geojson)
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
                                      page_titles_compare)
 from adhocracy.lib.text.render import render_line_based, render as render_text
@@ -53,6 +55,8 @@ class PageCreateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
+    container = validators.StringBool(not_empty=False, if_empty=False,
+                                      if_missing=False)
     section_page = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
@@ -64,6 +68,9 @@ class PageCreateForm(formencode.Schema):
                                                  if_missing=False)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    if config.get_bool('adhocracy.page.allow_abstracts'):
+        abstract = validators.String(max=255, not_empty=False, if_empty=None,
+                                     if_missing=None)
 
 
 class PageEditForm(formencode.Schema):
@@ -98,6 +105,9 @@ class PageUpdateForm(formencode.Schema):
                                                  if_missing=False)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    if config.get_bool('adhocracy.page.allow_abstracts'):
+        abstract = validators.String(max=255, not_empty=False, if_empty=None,
+                                     if_missing=None)
 
 
 class PageFilterForm(formencode.Schema):
@@ -118,14 +128,13 @@ class PageGeotagUpdateForm(formencode.Schema):
 
 class PageController(BaseController):
 
-    def __init__(self):
-        super(PageController, self).__init__()
-        c.active_subheader_nav = 'norms'
+    identifier = 'norms'
 
     @RequireInstance
     @guard.page.index()
     @validate(schema=PageFilterForm(), post_only=False, on_get=True)
     def index(self, format="html"):
+        data = {}
         pages = model.Page.all(instance=c.instance,
                                functions=model.Page.LISTED)
         if request.params.get('pages_sort', '4') == '4':
@@ -134,21 +143,28 @@ class PageController(BaseController):
             # WARNING: This will break if the index of the sort changes.
             c.is_hierarchical = True
             pages = [page for page in pages if page.parent is None]
-        c.pages_pager = pager.pages(pages)
+
+        data['pages_pager'] = pager.pages(pages)
 
         if format == 'json':
-            return render_json(c.pages_pager)
+            return render_json(data['pages_pager'])
 
         tags = model.Tag.popular_tags(limit=30)
-        c.cloud_tags = sorted(libtext.tag_cloud_normalize(tags),
-                              key=lambda (k, c, v): k.name)
-        c.tutorial_intro = _('tutorial_norms_overview_tab')
-        c.tutorial = 'page_index'
+        data['cloud_tags'] = sorted(h.tag.tag_cloud_normalize(tags),
+                                    key=lambda (k, c, v): k.name)
+        data['tutorial_intro'] = _('tutorial_norms_overview_tab')
+        data['tutorial'] = 'page_index'
 
-        if format == 'overlay':
-            return render("/page/index.html", overlay=True)
+        add_static_content(data, u'adhocracy.static.page_index_heading',
+                           body_key=u'heading_text',
+                           title_key=u'heading_title')
+
+        if c.instance.page_index_as_tiles:
+            return render("/page/index_tiles.html", data,
+                          overlay=format == u'overlay')
         else:
-            return render("/page/index.html")
+            return render("/page/index.html", data,
+                          overlay=format == u'overlay')
 
     @RequireInstance
     @guard.page.create()
@@ -168,7 +184,8 @@ class PageController(BaseController):
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
             if c.title is None:
-                c.title = u"%s %i" % (c.parent.head.title, len(c.parent.children))
+                c.title = u"%s %i" % (c.parent.label,
+                                      len(c.parent.children))
 
         html = None
         if proposal_id is not None:
@@ -208,7 +225,11 @@ class PageController(BaseController):
         variant = self.form_result.get("title")
         page = model.Page.create(
             c.instance, variant, _text, c.user,
-            formatting=self.form_result.get("formatting"),
+            function=(model.Page.CONTAINER
+                      if self.form_result.get("container")
+                      else model.Page.NORM),
+            formatting=(self.form_result.get("formatting")
+                        or self.form_result.get("container")),
             sectionpage=self.form_result.get("sectionpage"),
             allow_comment=self.form_result.get("allow_comment"),
             allow_selection=self.form_result.get("allow_selection"),
@@ -220,26 +241,43 @@ class PageController(BaseController):
         if self.form_result.get("parent") is not None:
             page.parents.append(self.form_result.get("parent"))
 
-        if 'ret_url' in request.params:
-            ret_url = request.params.get('ret_url')
+        if (config.get_bool('adhocracy.page.allow_abstracts')
+                and c.instance.page_index_as_tiles
+                and not page.is_section()):
+            page.abstract = self.form_result.get('abstract')
+
+        if c.came_from != u'':
+            came_from = c.came_from
         elif proposal is not None and can.selection.create(proposal):
             model.Selection.create(proposal, page, c.user, variant=variant)
             # if a selection was created, go there instead:
-            ret_url = h.page.url(page, member='branch',
-                                 query={'proposal': proposal.id})
+            came_from = h.page.url(page, member='branch',
+                                   query={'proposal': proposal.id})
         else:
-            ret_url = h.entity_url(page)  # by default, redirect to the page
+            came_from = h.entity_url(page)  # by default, redirect to the page
 
         categories = self.form_result.get('category')
         category = categories[0] if categories else None
         page.set_category(category, c.user)
 
         model.meta.Session.commit()
+
+        try:
+            # fixme: show image errors in the form
+            if ('logo' in request.POST and
+                    hasattr(request.POST.get('logo'), 'file') and
+                    request.POST.get('logo').file):
+                logo.store(page, request.POST.get('logo').file)
+        except Exception, e:
+            h.flash(_(u"errors while uploading image: %s") % unicode(e),
+                    'error')
+            log.debug(e)
+
         if can.watch.create():
             watchlist.set_watch(page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_CREATE, c.user, instance=c.instance,
                    topics=[page], page=page, rev=page.head)
-        redirect(ret_url)
+        redirect(came_from)
 
     @RequireInstance
     @validate(schema=PageEditForm(), form='edit', post_only=False, on_get=True)
@@ -255,6 +293,8 @@ class PageController(BaseController):
         c.always_show_original = request.params.get("always_show_original",
                                                     False)
         c.branch = branch
+        c.container = c.page.function == c.page.CONTAINER
+        c.abstract = request.params.get("abstract")
 
         c.section = 'section_parent' in request.params
         if c.section:
@@ -273,6 +313,9 @@ class PageController(BaseController):
         # (single category not assured in db model)
         c.category = c.page.category
 
+        if logo.exists(c.page):
+            c.logo = '<img src="%s" />' % h.logo_url(c.page, 48)
+
         defaults = dict(request.params)
         if not 'watch' in defaults:
             defaults['watch'] = h.find_watch(c.page)
@@ -280,15 +323,13 @@ class PageController(BaseController):
         if branch and c.text is None:
             c.text = c.page.head.text
 
-        if ('ret_url' in request.params and
-                len(request.params['ret_url']) >= 2 and
-                request.params['ret_url'][0] == '/' and
-                request.params['ret_url'][1] != '/'):
-            c.ret_url = request.params['ret_url']
+        if c.came_from != u'':
+            c.came_from = c.came_from
         elif c.section:
-            c.ret_url = h.entity_url(c.parent, anchor="subpage-%i" % c.page.id)
+            c.came_from = h.entity_url(c.parent,
+                                       anchor="subpage-%i" % c.page.id)
         else:
-            c.ret_url = h.entity_url(c.text)
+            c.came_from = h.entity_url(c.text)
 
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
@@ -315,6 +356,26 @@ class PageController(BaseController):
 
             self.form_result = PageUpdateForm().to_python(request.params,
                                                           state=state_())
+
+            # delete the logo if the button was pressed and exit
+            if 'delete_logo' in self.form_result:
+                updated = logo.delete(c.page)
+                h.flash(_(u'The logo has been deleted.'), 'success')
+                redirect(h.entity_url(c.page))
+
+            try:
+                # fixme: show image errors in the form
+                if ('logo' in request.POST and
+                        hasattr(request.POST.get('logo'), 'file') and
+                        request.POST.get('logo').file):
+                    logo.store(c.page, request.POST.get('logo').file)
+            except Exception, e:
+                model.meta.Session.rollback()
+                h.flash(unicode(e), 'error')
+                log.debug(e)
+                return self.edit(id, variant=c.variant, text=c.text.id,
+                                 branch=branch, format=format)
+
             parent_text = self.form_result.get("parent_text")
             if ((branch or
                  parent_text.variant != self.form_result.get("variant")) and
@@ -374,13 +435,18 @@ class PageController(BaseController):
                 decision.make(model.Vote.YES)
                 model.Tally.create_from_poll(poll)
 
+        if (config.get_bool('adhocracy.page.allow_abstracts')
+                and c.instance.page_index_as_tiles
+                and not c.page.is_section()):
+            c.page.abstract = self.form_result.get('abstract')
+
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(c.page, self.form_result.get('watch'))
         event.emit(event.T_PAGE_EDIT, c.user, instance=c.instance,
                    topics=[c.page], page=c.page, rev=text)
-        if 'ret_url' in request.params:
-            redirect(request.params.get('ret_url'))
+        if c.came_from != u'':
+            redirect(c.came_from)
         else:
             redirect(h.entity_url(text))
 
@@ -464,8 +530,8 @@ class PageController(BaseController):
 
         # Replace items coming from diff_details for the UI
         messages = (('text', _('<i>(No text)</i>')),
-                    ('title', _('<i>(No title))</i>')),
-                    ('text_diff', _('<i>(No differences))</i>')),
+                    ('title', _('<i>(No title)</i>')),
+                    ('text_diff', _('<i>(No differences)</i>')),
                     ('title_diff', _('<i>(No differences)</i>')))
         for (key, message) in messages:
             if details[key].strip() == '':
@@ -625,13 +691,18 @@ class PageController(BaseController):
                  _("newest"): sorting.entity_newest,
                  _("alphabetically"): sorting.delegateable_title}
         c.subpages_pager = pager.NamedPager(
-            'subpages', c.page.subpages, tiles.page.smallrow, sorts=sorts,
-            default_sort=sorting.delegateable_title)
+            'subpages', c.page.subpages,
+            (tiles.page.row
+             if c.page.function == model.Page.CONTAINER
+             else tiles.page.smallrow),
+            sorts=sorts, default_sort=sorting.delegateable_title)
         self._common_metadata(c.page, c.text)
         c.tutorial_intro = _('tutorial_norm_show_tab')
         c.tutorial = 'page_show'
 
-        if not c.amendment and c.page.is_sectionpage():
+        if c.page.function == c.page.CONTAINER:
+            return render("/page/show_container.html")
+        elif not c.amendment and c.page.is_sectionpage():
             return render("/page/show_sectionpage.html",
                           overlay=(format == 'overlay'))
         else:
@@ -675,12 +746,12 @@ class PageController(BaseController):
             h.flash(_("No such text revision."), 'notice')
             redirect(h.entity_url(c.page))
         self._common_metadata(c.page, c.text)
-        c.ret_url = ''
+        c.came_from = ''
 
         if format == 'ajax':
             return tiles.comment.list(c.page)
         elif format == 'overlay':
-            c.ret_url = h.entity_url(c.page, member='comments') + '.overlay'
+            c.came_from = h.entity_url(c.page, member='comments') + '.overlay'
             return render('/page/comments.html', overlay=True)
         else:
             return render('/page/comments.html')
@@ -761,9 +832,9 @@ class PageController(BaseController):
         if c.section:
             c.parent = get_entity_or_abort(
                 model.Page, request.params.get(u'section_parent'))
-            c.ret_url = h.entity_url(c.parent)
+            c.came_from = h.entity_url(c.parent)
         else:
-            c.ret_url = h.entity_url(c.page.instance)
+            c.came_from = h.entity_url(c.page.instance)
 
         return render("/page/ask_delete.html", overlay=(format == u'overlay'))
 
@@ -778,7 +849,7 @@ class PageController(BaseController):
                    topics=[c.page], page=c.page)
         h.flash(_("The page %s has been deleted.") % c.page.title,
                 'success')
-        redirect(request.params.get('ret_url'))
+        redirect(c.came_from)
 
     def _get_page_and_text(self, id, variant, text):
         page = get_entity_or_abort(model.Page, id)
@@ -859,3 +930,8 @@ class PageController(BaseController):
         # event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
         #           topics=[c.proposal], proposal=c.proposal, rev=_text)
         redirect(h.entity_url(c.page))
+
+    @RequireInstance
+    def logo(self, id, y, x=None):
+        page = get_entity_or_abort(model.Page, id)
+        return render_logo(page, y, x=x)

@@ -29,3 +29,9 @@
     @include rotate(90deg);
     @include transform-origin(0, 0);
 }
+
+@include mobile {
+    #feedback {
+        display: none;
+    }
+}

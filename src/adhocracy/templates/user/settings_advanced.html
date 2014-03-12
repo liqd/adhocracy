@@ -2,9 +2,6 @@
 <%namespace name="forms" file="/forms.html"/>
 <%namespace name="components" file="/components.html"/>
 
-<%def name="breadcrumbs()">
-    ${h.instance.breadcrumbs(c.page_instance)|n} ${_("Manage")}
-</%def>
 
 <%block name="settings_content">
 ${tiles.user.header(c.page_user, show_delete_user_button=True)}

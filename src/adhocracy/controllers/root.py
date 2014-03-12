@@ -52,6 +52,8 @@ class RootController(BaseController):
             data['instances'] = model.Instance.all()
 
         add_static_content(data, u'adhocracy.static_index_path')
+        c.body_css_classes += data.get('css_classes', [])
+        c.body_css_classes.append('added_static_content')
         if data['title'] is None:
             data['title'] = config.get('adhocracy.site.name')
 

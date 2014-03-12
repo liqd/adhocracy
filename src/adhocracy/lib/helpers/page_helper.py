@@ -1,10 +1,9 @@
 import cgi
-import urllib
 
 from pylons.i18n import _
 
 from adhocracy import model
-from adhocracy.lib import cache
+from adhocracy.lib import cache, logo
 from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import url as _url
 
@@ -24,6 +23,14 @@ def link(page, variant=model.Text.HEAD, link=True):
     return buf
 
 
+def logo_url(page, y, x=None):
+    from adhocracy.lib.helpers import base_url
+    size = "%s" % y if x is None else "%sx%s" % (x, y)
+    filename = u"%s_%s.png" % (page.id, size)
+    (path, mtime) = logo.path_and_mtime(page)
+    return base_url(u'/page/%s' % filename, query_params={'t': str(mtime)})
+
+
 @cache.memoize('page_url')
 def url(page, in_context=True, member=None, **kwargs):
     if in_context and page.proposal and not member:
@@ -33,7 +40,7 @@ def url(page, in_context=True, member=None, **kwargs):
         if u'anchor' not in kwargs:
             kwargs[u'anchor'] = u'subpage-%i' % page.id
         return url(page.sectionpage_root(), in_context=False, **kwargs)
-    label = urllib.quote(page.label.encode('utf-8'))
+    label = _url.quote(page.label)
     return _url.build(page.instance, 'page', label, member=member, **kwargs)
 
 
@@ -42,16 +49,16 @@ def page_variant_url(page, variant):
     TODO: Hacked together to implement new page views.
     Refactor url functions.
     '''
-    label = urllib.quote(page.label.encode('utf-8'))
+    label = _url.quote(page.label)
     if variant == model.Text.HEAD:
         variant = None
     else:
-        variant = urllib.quote(variant.encode('utf-8'))
+        variant = _url.quote(variant)
     return _url.build(page.instance, 'page', label, member=variant)
 
 
 def page_text_url(page, text, member=None):
-    label = '%s;%d' % (urllib.quote(page.label.encode('utf-8')), text.id)
+    label = '%s;%d' % (_url.quote(page.label), text.id)
     return _url.build(page.instance, 'page', label, member=member)
 
 
@@ -64,8 +71,9 @@ def entity_bc(page):
 
 
 def breadcrumbs(page):
+    from adhocracy.lib.helpers import base_url
     bc = _url.root()
-    bc += _url.link(_("Documents"), u'/page')
+    bc += _url.link(_("Norms"), base_url(u'/page'))
     if page is not None:
         bc += entity_bc(page)
     return bc

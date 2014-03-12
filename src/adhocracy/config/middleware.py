@@ -11,6 +11,7 @@ from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
 
 from adhocracy.lib.auth.authentication import setup_auth
+from adhocracy.lib.cors import CorsMiddleware
 from adhocracy.lib.instance import setup_discriminator
 from adhocracy.lib.machine_name import IncludeMachineName
 from adhocracy.lib.util import get_site_path
@@ -110,6 +111,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     if asbool(config.get('adhocracy.include_machine_name_in_header', 'false')):
         app = IncludeMachineName(app, config)
 
+    app = CorsMiddleware(app, config)
     app.config = config
 
     return app

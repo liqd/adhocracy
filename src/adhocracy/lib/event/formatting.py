@@ -6,6 +6,8 @@ from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import helpers as h
+from adhocracy.lib.event.types import (S_INSTANCE, S_VOTE, S_DELEGATION_IN,
+    S_DELEGATION_OUT, S_PROPOSAL, S_AMENDMENT, S_COMMENT, S_PAGE, S_BADGE)
 
 log = logging.getLogger(__name__)
 DT_FORMAT = "%Y%m%d%H%M%S"
@@ -160,15 +162,46 @@ class FormattedEvent(object):
             return _("(Undefined)")
 
 
-def as_unicode(event):
+def _format(event, decoder, msg=None):
     if not event.event:
         return _("(Undefined)")
-    fe = FormattedEvent(event, lambda f, value: f.unicode(value))
-    return event.event.event_msg() % fe
+    fe = FormattedEvent(event, decoder)
+    if msg is None:
+        msg = event.event.event_msg()
+    return msg % fe
 
 
-def as_html(event):
-    if not event.event:
-        return _("(Undefined)")
-    fe = FormattedEvent(event, lambda f, value: f.html(value))
-    return event.event.event_msg() % fe
+def as_unicode(event, msg=None):
+    return _format(event, lambda f, value: f.unicode(value), msg)
+
+
+def as_html(event, msg=None):
+    return _format(event, lambda f, value: f.html(value), msg)
+
+
+def as_icon(event, classes=''):
+    if event.event.code in S_INSTANCE:
+        src = '/images/event-instance.png'
+    elif event.event.code in S_PAGE:
+        src = '/images/event-page.png'
+    elif event.event.code in S_COMMENT:
+        src = '/images/event-comment.png'
+    elif event.event.code in S_PROPOSAL:
+        src = '/images/event-proposal.png'
+    elif event.event.code in S_AMENDMENT:
+        src = '/images/event-amendment.png'
+    elif event.event.code in S_DELEGATION_IN:
+        src = '/images/event-delegation-in.png'
+    elif event.event.code in S_DELEGATION_OUT:
+        src = '/images/event-delegation-out.png'
+    elif event.event.code in S_VOTE:
+        src = '/images/event-vote.png'
+    elif event.event.code in S_BADGE:
+        src = '/images/event-badge.png'
+    else:
+        src = '/images/event-unknown.png'
+
+    return '<img src="%(src)s" alt="" class="%(classes)s">' % {
+        'src': src,
+        'classes': classes,
+    }

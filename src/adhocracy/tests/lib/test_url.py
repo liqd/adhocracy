@@ -98,7 +98,7 @@ class TestInstanceUrls(TestController):
             from adhocracy.lib import helpers as h
             from adhocracy.tests.testtools import tt_get_instance
             test_instance = tt_get_instance()
-            url = h.instance.icon_url(test_instance, 48)
+            url = h.logo_url(test_instance, 48)
             self.assertEqual(
                 url, 'http://test.test.lan/instance/test_48.png?t=1234')
 
@@ -107,7 +107,7 @@ class TestInstanceUrls(TestController):
             from adhocracy.lib import helpers as h
             from adhocracy.tests.testtools import tt_get_instance
             test_instance = tt_get_instance()
-            url = h.instance.icon_url(test_instance, 48, x=11)
+            url = h.logo_url(test_instance, 48, x=11)
             self.assertEqual(
                 url, 'http://test.test.lan/instance/test_11x48.png?t=1234')
 
@@ -116,7 +116,7 @@ class TestInstanceUrls(TestController):
             from adhocracy.lib import helpers as h
             from adhocracy.tests.testtools import tt_get_instance
             test_instance = tt_get_instance()
-            url = h.instance.icon_url(test_instance, 48)
+            url = h.logo_url(test_instance, 48)
             self.assertEqual(
                 url, 'http://test.test.lan/instance/test_48.png?t=1234')
 

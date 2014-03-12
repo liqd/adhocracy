@@ -9,10 +9,10 @@ supervisord service manager, which allows to easily start and stop the
 services which Adhocracy needs to run:
 
 -  adhocracy (http server that runs Adhocracy with Spawning/WSGI)
--  adhocracy\_background (background queue processing)
+-  adhocracy\_worker (background queue processing)
 -  solr (searching)
 -  memcached (key-value cache)
--  rabbitmq (internal messaging queue)
+-  redis (internal messaging queue)
 
 Adhocracy is known to work on all modern Linux distributions, but should
 also run on OS X and FreeBSD with minor modifications.
@@ -70,13 +70,13 @@ Check out Adhocracy:
 
     $ git clone https://github.com/liqd/adhocracy
     $ cd adhocracy
-    
+
     $ git submodule init
     $ git submodule update
 
 ## Setup an isolated python environment to run Adhocracy
 
-To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but 
+To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but
 no other system-packages.
 
 Compile python and PIL with the included python buildout::
@@ -92,7 +92,7 @@ Run buildout:
 
 ::
 
-    $ bin/python bootstrap.py 
+    $ bin/python bootstrap.py
     $ bin/buildout
 
 Start Adhocracy and dependent servers:

@@ -1,23 +1,30 @@
 import json
+import logging
 from paste.deploy.converters import asbool
 from paste.deploy.converters import asint
 from paste.deploy.converters import aslist
 from pylons import config
 from pylons.i18n import _
 
+log = logging.getLogger(__name__)
+
 
 DEFAULTS = {
     'adhocracy.allow_registration': True,
+    'adhocracy.allow_organization': False,
     'adhocracy.behind_proxy': False,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
+    'adhocracy.demo_users': [],
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,
     'adhocracy.feedback_check_instance': True,
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,
+    'adhocracy.force_no_http_proxy': False,
     'adhocracy.force_randomized_user_names': False,
+    'adhocracy.hide_empty_categories_in_facet_list': False,
     'adhocracy.geo.image_layers': [],
     'adhocracy.geo.instance_overwrites': False,
     'adhocracy.geo.use_instancebadge_colors': True,
@@ -45,6 +52,8 @@ DEFAULTS = {
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
+    'adhocracy.page.allow_abstracts': False,
+    'adhocracy.proposal_pager_inline': False,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
     'adhocracy.put_watchlist_in_user_menu': False,
@@ -57,6 +66,15 @@ DEFAULTS = {
     'adhocracy.require_email': True,
     'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.shibboleth.display_name.force_update': False,
+    'adhocracy.shibboleth.display_name.function': None,
+    'adhocracy.shibboleth.locale.attribute': None,
+    'adhocracy.shibboleth.register_form': True,
+
+    # Configures how to map shibboleth attributes to badges.
+    # See lib.auth.shibboleth.
+    'adhocracy.shibboleth.userbadge_mapping': [],
+
     'adhocracy.show_abuse_button': True,
     'adhocracy.show_instance_overview_proposals_all': False,
     'adhocracy.show_instance_overview_stats': True,
@@ -66,9 +84,16 @@ DEFAULTS = {
     'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.static_agree_text': None,
     'adhocracy.store_notification_events': True,
+    'adhocracy.tagcloud_facet': False,
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
+    'adhocracy.use_test_instance': True,
+    'adhocracy.user.display_name.allow_change': True,
     'adhocracy.user.optional_attributes': [],
+    'adhocracy.static.category_index_heading': None,
+    'adhocracy.static.page_index_heading': None,
+    'adhocracy.user.bio.max_length': 1000,
+    'adhocracy.user.bio.no_max_length': False,
     'adhocracy.wording.intro_for_overview': False,
     'debug': False,
 
@@ -95,7 +120,17 @@ def get_value(key, converter, default=None, config=config,
 
 
 def get(key, default=None, config=config):
+    """ Return a config value as unicode. """
     return get_value(key, lambda x: x.decode('utf-8'), default, config)
+
+
+def get_string(key, default=None, config=config):
+    """ Return a config value as string.
+
+    This is pretty much the same as pylons.config.get.
+
+    """
+    return get_value(key, None, default, config)
 
 
 def get_bool(key, default=None, config=config):
@@ -124,7 +159,12 @@ def get_tuples(key, default=[], sep=u' '):
 
 
 def get_json(key, default=None, config=config):
-    return get_value(key, json.loads, default, config)
+    try:
+        return get_value(key, json.loads, default, config)
+    except ValueError, e:
+        log.error("invalid json: %s \nin config option %s" %
+                  (config.get(key), key))
+        raise
 
 
 def get_optional_user_attributes():

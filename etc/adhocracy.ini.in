@@ -157,6 +157,8 @@ adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 
 # adhocracy.delay_update_queue_seconds = 1
 
+# adhocracy.demo_users =
+
 # If debug is enabled, an web-based interactive debugger can be executed from
 # the HTTP500 error page, if the following option is set to true. This option
 # doesn't have any effect if debug is false.
@@ -383,6 +385,9 @@ adhocracy.put_watchlist_in_user_menu = False
 # useful in settings where users can create instances
 adhocracy.show_instance_creators = False
 
+# show tag facet as tagcloud instead of list
+# adhocracy.tagcloud_facet = True
+
 # an arbitrary list of 'proposals', 'milestones' and 'events'
 # adhocracy.instance_overview_contents = proposals, milestones
 
@@ -400,6 +405,9 @@ adhocracy.hide_empty_categories_in_facet_list = True
 
 # number of newest proposals to show on frontpage (0 to hide the list)
 # adhocracy.startpage.proposals.list_length = 3
+
+# enable displaying of proposal descriptions in the pager
+# adhocracy.proposal_pager_inline = True
 
 # Source for imprint, details etc. ("database" or "filesystem" (default))
 #adhocracy.staticpage_backend = database
@@ -427,6 +435,9 @@ adhocracy.static_index_path = index
 # Set display name in register dialog (default: false)
 # adhocracy.set_display_name_on_register = true
 
+# Allow organization accounts
+# adhocracy.allow_organization = True
+
 # Automatically set new permissions their default value. This should be
 # set to false in restrictive environments.
 # adhocracy.autoassign_permissions = true
@@ -453,6 +464,9 @@ adhocracy.static_index_path = index
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
 
+[alembic]
+script_location = src/adhocracy/alembic
+sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 # Logging configuration
 [loggers]

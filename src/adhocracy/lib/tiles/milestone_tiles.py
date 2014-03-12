@@ -34,12 +34,14 @@ def header(milestone, tile=None):
 
 
 def select(selected, name='milestone'):
-    options = [('--', _('(no milestone)'), selected is None)]
+    options = [('--', None, _('(no milestone)'), selected is None)]
 
     if has('milestone.edit'):
-        milestones = model.Milestone.all(instance=c.instance)
+        milestones = model.Milestone.all_q(instance=c.instance)\
+            .order_by(model.Milestone.time).all()
     else:
-        milestones = model.Milestone.all_future(instance=c.instance)
+        milestones = model.Milestone.all_future_q(instance=c.instance)\
+            .order_by(model.Milestone.time).all()
 
         # Add the currently selected milestone if it is in the past
         # so it will be shown and won't be overwritten on save
@@ -47,7 +49,7 @@ def select(selected, name='milestone'):
             milestones.insert(0, selected)
 
     for milestone in milestones:
-        options.append((milestone.id, milestone.title,
+        options.append((milestone.id, milestone.time, milestone.title,
                         milestone == selected))
 
     return render_tile('/milestone/tiles.html', 'select',

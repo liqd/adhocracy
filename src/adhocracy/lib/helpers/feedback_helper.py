@@ -1,4 +1,3 @@
-from paste.deploy.converters import asbool
 from adhocracy import config
 from adhocracy import model
 from adhocracy.lib.helpers import site_helper as _site

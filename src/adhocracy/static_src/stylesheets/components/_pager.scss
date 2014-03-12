@@ -14,6 +14,9 @@
     hr {
         margin-bottom: 0;
     }
+    select {
+        margin: 0;
+    }
 }
 
 /* filter / pager */
@@ -68,5 +71,18 @@
     .current, a:active {
         color: #fff;
         background-color: $button-color;
+    }
+}
+
+.tagcloud_facet {
+    li {
+        display: inline;
+    }
+    .disabled {
+        color: $fg1;
+    }
+    .selected {
+        font-weight: bold;
+        font-style: italic;
     }
 }

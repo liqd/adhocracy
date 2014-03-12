@@ -5,8 +5,7 @@ import logging
 from lxml.html import fragment_fromstring
 
 from adhocracy.lib.text import diff
-from adhocracy.lib.text.tag import (tag_normalize, tag_split,
-                                    tag_cloud_normalize, tag_split_last)
+from adhocracy.lib.text.tag import tag_normalize, tag_split, tag_split_last
 from normalize import *
 from render import render, render_line_based
 
@@ -31,13 +30,17 @@ def meta_escape(text, markdown=True):
     return text
 
 
-def markdown_to_plain_text(markup, safe_mode='escape'):
-    html = render(markup, substitutions=False, safe_mode=safe_mode)
+def html_to_plain_text(markup):
     try:
-        return fragment_fromstring(html, create_parent=True).text_content()
+        return fragment_fromstring(markup, create_parent=True).text_content()
     except Exception, e:
         log.exception(e)
         return markup
+
+
+def markdown_to_plain_text(markup, safe_mode='escape'):
+    html = render(markup, substitutions=False, safe_mode=safe_mode)
+    return html_to_plain_text(html)
 
 
 def text_rows(text):

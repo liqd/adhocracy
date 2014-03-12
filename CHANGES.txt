@@ -1,59 +1,317 @@
-adhocracy Changelog
+Adhocracy Changelog
 ===================
 
-1.2beta2dev
------------
+Unreleased
+----------
 
-- added varnish reverse proxy [joka]
+- Added context variable "body_css_classes" to append context specific css
+  classes to the body tag. The default classes are:
+  * logged_in|not_logged_in,
+  * instance_key_<key>,
+  * global_nav_home|global_nav_instances,
+  * added_static_content,
+  * css_classes from the static pages backend.
+  * area-<controller_identifier>
+  [joka]
+
+
+2.1.3 (2014-02-21)
+------------------
+
+Improvements:
+
+- Adopt breadcrumbs if proposal tab is disabled and category pages are enabled
+  (#768)
+
+- Hide dashboard instance chooser in single instance settings through
+  instance.index permission. (#766)
+
+- Sort milestone select items by date. (#769)
+
+- Show milestone date in milestone select. (#770)
+
+- Make user max bio length configurable. (#771)
+
+Bug fixes:
+
+- Fix broken solr connection with non-ascii characters (regression introduced
+  in 2.1.2).
+
+- Fix broken registration (regression introduced in 2.1.2).
+
+- Fix build issues with non-ascii characters in scss files. (#761)
+
+- Fix flex based grid tiles in Safari. (#763)
+
+- Fix section page display issue with touch devices. (#764)
+
+
+2.1.2 (2014-02-18)
+------------------
+
+This is mainly a bugfix release.
+
+Improvements:
+
+- a11y: Updated js.socialshareprivacy to 1.5 permits keyboard navigation.
+  (#755)
+
+- Sort instance member lists by member, not user age. (#750)
+
+- More configuration options for Shibboleth authentication.
+
+Bug fixes:
+
+- Proper fallback on non-existant sort order entry. (#758)
+
+- Only display locally relevant user badges in event stream. (#754)
+
+- Remove user from member list after user left instance. (#753)
+
+- Fix instance selector in user profile. (#751)
+
+- Fix regression causing instance join to raise a 403 error.
+
+- Fix adding subcomments on touch devices. (#748)
+
+- Nicer display of grid tiles. (#757)
+
+- Fix editing of database backed static pages.
+
+
+2.1.1 (2014-02-04)
+------------------
+
+This is a patch release which actually allows upgrading to 2.1.x with the
+instructions given below in the `2.1.0` sections. When upgrading from 2.0.0
+to 2.1.x, simply jump to 2.1.1 directly by doing `git checkout 2.1.1`.
+
+Changes:
+
+- Make sure the `src/adhocracy/alembic/versions` directory actually exists in
+  order to make `bin/paster setup-app ...` work.
+
+- Update some dependencies.
+
+- Fix search box placeholder for instances with quotes in title. (#740)
+
+
+2.1.0 (2014-02-04)
+------------------
+
+This upgrade only splits the SQLAlchemy-related changes from the 2.0.0 release
+in order to make sure all migrations are executed and the database remains in
+a consistent state.
+
+Changes:
+
+- Update SQLAlchemy from 0.7.10 to 0.9.1.
+
+- Switch from sqlalchemy-migrate to Alembic. (#219)
+
+
+Upgrade instructions:
+~~~~~~~~~~~~~~~~~~~~~
+
+If you haven't upgraded for a long time (say six months or more), it's best to
+delete ``parts``, ``eggs``, ``python/python-2.7`` and ``python/parts``
+directories and rebuild everything according to ``INSTALLATION.rst``.
+
+In any case, don't upgrade to 2.1.0 in one go, but upgrade to 2.0.0 first by
+running::
+
+    git checkout 2.0.0
+    bin/buildout
+    bin/paster setup-app etc/adhocracy.ini --name=content
+
+And upgrade to 2.1.0 in a second step::
+
+    git checkout 2.1.0
+    bin/buildout
+    bin/paster setup-app etc/adhocracy.ini --name=content
+
+This makes sure the remaining sqlalchemy-migration based migrations are
+executed in the first step, and the Alembic environment is initialized properly
+in the second step.
+
+
+2.0.0 (2014-02-03)
+------------------
+
+- Start doing releases using semantic versioning (#77). This release's
+  changelog contains many changes from the past two years, but rather
+  incomplete.
+
+- Allow to list norms in a tiled fashion. (#714)
+
+- Add container pages. These special norms act as containers of other norms.
+  (#709)
+
+- Proposal descriptions can now be shown directly in proposal lists. (#733)
+
+- It is now possible to translate the English source strings through Transifex
+  as it is done in all other languages. In Transifex, the `en_GB` language
+  is used as the "translated" English langauage in contrast to the "source"
+  English langauage and doesn't imply that british English shall be used.
+  (#102)
+
+- Automatically crop and center uploaded images (logos etc) to the desired
+  size. (#711)
+
+- Badges can now be managed in context. (#713)
+
+- Add images and long description texts to categories. Categories can now be
+  listed and individually displayed, each showing all assigned proposals.
+  (#695)
+
+- Added user import script. (#649)
+
+- We redesigned the instance settings. The most notable change is the added
+  possibility to select presets on instance creation. (#680)
+
+  The user import and massmessage services have been moved.  They can be found
+  on the members index and instance overview, respectively.
+
+- It is now possible to follow instances. (#655)
+
+- All milestones now must have a date. (#658)
+
+- Added installation option to freeze the complete installation. (#289)
+
+- It is possible to select whether other users can edit a proposal.
+  We added an instance option to set the default value of that option. (#632)
+
+- a11y improvements.
+
+- Added replay notification script, which recreates notifications inside the
+  database which would have been created before notifications were stored in
+  the database. (#624)
+
+- We completely redesigned the user profile (#430) and dashboard (#429): User
+  can upload an avatar now (#641) and view notifications online.
+
+- Email texts are now wrapped at 78 characters per line. Long links are
+  preserved. (#593)
+
+- Added travis configuration which automatically builds Adhocracy using
+  build.sh and runs the test suite.
+
+- It is now possible to assign user badges in user import.
+  It is also possible to define additional variables which can be used in
+  the welcome email.
+
+- Added an installation option to redirect to an instance instead of showing
+  the front page. This is useful for single-instance installations. (#431)
+
+- New comment design.
+
+- Subnorms can now be displayed as sections. This way you can add a large
+  document consisting of multiple sections and have each of these sections
+  discussed separately.
+
+- It is now possible to show all open proposals in the proposal list of future
+  milestones. For milestones in the past, this doesn't have any effect. (#562)
+
+  This will be used in the following scenario:
+
+  - There's regular (offline) board meetings. These are entered as milestones.
+    During a meeting, the board shall work on as many of the highest rated,
+    non-frozen proposals as time permits.
+  - All covered proposals will be assigned to the respective milestone, marked
+    as frozen and badged as "implemented" (or whatever).
+  - All not covered proposals will be covered in successive meetings.
+
+- It is now possible to freeze single proposals. (#559)
+
+- Overlays have their own urls now, so you can link to them. (#553)
+
+- Add warning to users of unsupported browsers. (#111)
+
+- Better user settings layout. (#174)
+
+- Allow footer customization through static URLs. (#472)
+
+- Add custom "show more" markdown extension. (#120)
+
+- build.sh now has Fedora support
+
+- Refactor all CSS and some of the templates to make development and
+  theming easier. We also switched to SCSS.
+
+- Added varnish reverse proxy [joka]
 
 - Readd bin/test to run tests (wrapper for py.test) [joka]
 
 - Update python from 2.7.4 to 2.7.5. Please rebuild python:
 
     * cd python
-    * bin/buildout 
+    * bin/buildout
 
   [joka]
 
-- Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with: 
-    "bin/buildout -n".
-  If you have versions conflicts with distribute delete the old one: 
-    "rm -r eggs/distribute..".
-  [joka]
+- Use pytest testrunner instead of nose. (#343)
 
-- The default way to isolate your python environment is to compile 
-  python and PIL now instead of using virtualenv. 
-  
-  Upgrade manual installation:
-  ----------------------------
+- Add shibboleth based authentication. (#359)
 
-  Checkout python buildout
-  
-  * git submodule init
-  * git submodule update
+- Allow to disable tutorials installation-wide. (#54)
 
-  Compile python:
+- Update buildout from 1.7 to 2.1.0 (#241). Rerun buildout with::
 
-  * cd python
-  * python boostrap.py && bin/buildout
-  
-  Reinstall Adhocracy:
+      bin/buildout -n
 
-  * cd ../
-  * rm -rf eggs/*
-  * bin/python bootstrap.py
-  * bin/buildout
+  If you have versions conflicts with distribute delete the old one::
 
-  Upgrade build.sh:
-  -----------------
-
-  * rm -rf eggs/*
-  * sh build.sh -u
-  * sh build.sh -s
+      rm -r eggs/distribute..".
 
   [joka]
 
-- Replace RabbitMQ/amqp with redis/rq. This means that you have to
+- The default way to isolate your python environment is now to compile
+  python and PIL now instead of using virtualenv::
+
+    Upgrade manual installation:
+    ----------------------------
+
+    Checkout python buildout
+
+    * git submodule init
+    * git submodule update
+
+    Compile python:
+
+    * cd python
+    * python boostrap.py && bin/buildout
+
+    Reinstall Adhocracy:
+
+    * cd ../
+    * rm -rf eggs/*
+    * bin/python bootstrap.py
+    * bin/buildout
+
+    Upgrade build.sh:
+    -----------------
+
+    * rm -rf eggs/*
+    * sh build.sh -u
+    * sh build.sh -s
+
+    [joka]
+
+- Add controversy sorting method to proposals. (#258)
+
+- Allow to hide voting lists from the UI. (#189)
+
+- Badges with thumbnails. (#191)
+
+- Option to disable registration. (#43)
+
+- Login via email address
+
+- Hierarchical categories. (#95)
+
+- Formatted norms. (#192)
+
+- Replace RabbitMQ/amqp with redis/rq (#220). This means that you have to
   provide a working redis instance if you want to use asyncronous
   jobs (highly recommended in production).
   The background process that processes the jobs is renamed from
@@ -63,20 +321,36 @@ adhocracy Changelog
   Configuration changes:
 
   * dropped: adhocracy.amqp.* settings are not required anymore.
-  * new: adhocracy.redis.host: An IP address redis can bind to 
+  * new: adhocracy.redis.host: An IP address redis can bind to
     (not a hostname!)
   * new: adhocracy.redis.port: The port redis will open
   * new: adhocracy.redis.queue: The queue name
 
-- Added facet search to the instance listing. The listing is based on solr now, 
+- Mandatory email validation. (#142)
+
+- Invisible badges. (#116)
+
+- Instance-based user rating sorting. (#190)
+
+- Disallow multiple usernames with only case differences. (#171)
+
+- Dashboard style instance overview page. (#90)
+
+- Support path based instances instead of subdomain only. (#62)
+
+- Feedback instance pull in form. (#88)
+
+- Lamson mailserver dummy for development purposes.
+
+- Added facet search to the instance listing. The listing is based on solr now,
   please reindex. [joka]
 
-- Instances can have badges now. To create instance badges use the 
-  site-administration -> badges form. To assign badges use the 
-  instance listing. [joka]]
+- Instances can have badges now. To create instance badges use the
+  site-administration -> badges form. To assign badges use the
+  instance listing. [joka]
 
 - New config option "adhocracy.registration.email.blacklist" that
-  accepts a whitspace seperated list of email address and
+  accepts a whitespace seperated list of email address and
   blocks registrations with those. Dots will be stripped before
   the test (to catch gmail addresses where dots are ignored by gmail).
   [csenger]
@@ -85,27 +359,38 @@ adhocracy Changelog
   the sort options for the instance listing configurable. This
   possible values are: OLDEST, NEWEST, ACTIVITY and ALPHA. [csenger]
 
-- Permission change: When we test the 'norm.create' permission 
+- Permission change: When we test the 'norm.create' permission
   (permission to create Norms/Topics/Themen we do no longer
   restrict it to users who also have 'instance.admin'. The main
   permission we check now is 'page.create'.
 
-  Please check the permission 'page.create' in your permission 
+  Please check the permission 'page.create' in your permission
   settings (<base_url>/admin -> Permissions). [csenger]
-- Give the users the option to permanently activate the twitter, 
-  facebook or google+ buttons. Save the setting in a wildcard 
+
+- Give the users the option to permanently activate the twitter,
+  facebook or google+ buttons. Save the setting in a wildcard
   subdomain cookie so it is valid across all instances.
 
   This requires a updated js.socialshareprivacy to work with
   our auth cookie. [csenger]
-- Add the possibility to overwrite templates in <adhocracy.site>/templates 
+
+- Add the possibility to overwrite templates in <adhocracy.site>/templates
   directory (like it's possible for static resources and static pages already.
   New templates there need a server restart to be picked up.
   [csenger]
-- Deliver (almost) all resources with fanstatic. [csenger] 
-- Delgateables can have category badgets. [joka]
-- Instances can have badgets, they are only valid inside that instance. [joka]
+
+- Deliver (almost) all resources with fanstatic. [csenger]
+
+- Delegateables can have category badges. [joka]
+
+- Instances can have badges, they are only valid inside that instance. [joka]
+
 - Added option to set the smtp port. [joka]
+
+- Many bugfixes.
+
+- Many other unmentioned improvements.
+
 
 1.2a4
 -----
@@ -116,17 +401,12 @@ adhocracy Changelog
 - Proposals can have badgets #263. [joka]
 
 
-1.2a3 
------
-
-1.2a2 
-------
-
 1.2a1
 -----
 
 - Users can have badgets #214. [carsten]
 - Proposal listing with natural sort #212. [joka]
+
 
 1.1 (2010-12-05)
 ----------------
@@ -134,7 +414,7 @@ adhocracy Changelog
 - Join "Goal" and "Implementation" pages on proposals.
 - Migrate from whoosh to solr.
 - Allow single-instance mode of operation.
-- Allow per-instance deactivation of norms. 
+- Allow per-instance deactivation of norms.
 - Remove wiki from system.
 - Change from cron-initiated regular background processing.
   to continuous background queue polling process.
@@ -142,6 +422,7 @@ adhocracy Changelog
 - Change from BSD license to AGPL-3.
 - Update to SQLAlchemy 0.6.
 - Many smaller bug fixes.
+
 
 1.0 (2010-07-24)
 ----------------

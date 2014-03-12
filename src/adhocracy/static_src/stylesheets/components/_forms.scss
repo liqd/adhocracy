@@ -14,7 +14,6 @@
 
 form {
     background-color: $bg1;
-    @include background-image(linear-gradient(left, $bg1, lighten($bg1, 2%), $bg1));
     padding: 2em;
     overflow: hidden;  // clearfix
 }
@@ -58,6 +57,8 @@ form p.info {
 textarea {
     width: 100%;
     min-height: 10em;
+    max-width: 100%;
+    @include box-sizing(border-box);
 }
 
 input[type=checkbox], input[type=radio] {
@@ -110,15 +111,10 @@ form .error {
 }
 
 #searchform,
-.list_form,
-#category_search {
+.list_form {
     padding: 0;
     background: none;
     margin-bottom: 0;
-}
-
-#searchform,
-.list_form {
     float: right;
 }
 
@@ -132,15 +128,11 @@ input[type="text"].search_text {
 }
 
 #searchform input[type="text"].search_text {
-    width: 17em;
+    width: 15em;
 }
 
 .list_form input[type="text"].search_text {
     width: 25em;
-}
-
-form#category_search .search_text {
-    width: 11em;
 }
 
 .search_button {
@@ -158,10 +150,6 @@ input[type="text"].search_text,
     @include box-sizing(border-box);
     padding-top: 0.4em;
     padding-bottom: 0.4em;
-}
-
-form#category_search {
-    padding: 0;
 }
 
 form#user_welcome {
@@ -246,4 +234,11 @@ fieldset.logo {
         float: right;
         text-align: center;
     }
+}
+
+.only-no-formdata {
+    display: none;
+}
+.overlay.no-formdata .only-no-formdata {
+    display: block;
 }

@@ -147,7 +147,7 @@ class Badge(object):
         try:
             q = q.filter(cls.id == int(title_or_id))
         except ValueError:
-            q = q.filter(cls.title.like(title_or_id))
+            q = q.filter(cls.title == title_or_id)
         if ifilter.has_instance() and instance_filter:
             q = q.filter(cls.instance_id == ifilter.get_instance().id)
         return q.first()
@@ -429,7 +429,7 @@ class ThumbnailBadge(DelegateableBadge):
     polymorphic_identity = 'thumbnail'
 
     def get_badge_type(self):
-        return _(u'Thumbnail badge')
+        return _(u'Status badge')
 
     @classmethod
     def create(cls, title, color, visible, description, thumbnail=None,

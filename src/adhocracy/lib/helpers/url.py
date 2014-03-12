@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cgi
 import urllib
 
@@ -64,3 +65,37 @@ def root():
 def link(title, href):
     title = cgi.escape(truncate(title, length=40, whole_word=True))
     return u"<a href='%s'>%s</a>" % (href, title)
+
+
+def _non_unicode_wrapper(s, func):
+    """Use this to wrap functions which do not handle unicode strings properly,
+    e.g. urllib
+
+    This takes a unicode or byte string, converts it to a utf-8 encoded
+    byte string, runs func on it and returns the result as unicode.
+
+    >>> urllib.quote('ß')
+    '%C3%9F'
+    >>> urllib.quote(u'\xdf')  # doctest: +ELLIPSIS
+    Traceback (most recent call last):
+    KeyError: ...
+    >>> _non_unicode_wrapper('ß', urllib.quote)
+    u'%C3%9F'
+    >>> _non_unicode_wrapper(u'\xdf', urllib.quote)
+    u'%C3%9F'
+    """
+
+    if isinstance(s, unicode):
+        s = s.encode('utf-8')
+    s = func(s)
+    if isinstance(s, str):
+        s = s.decode('utf-8')
+    return s
+
+
+def quote(s):
+    return _non_unicode_wrapper(s, urllib.quote)
+
+
+def unquote(s):
+    return _non_unicode_wrapper(s, urllib.unquote)

@@ -6,7 +6,7 @@
     %if not randomized_user_names:
     <fieldset>
       <legend>${_("User name")}</legend>
-      <p class="info">${_("Can only contain letters and numbers.")}</p>
+      <p class="info">${_("Can only contain letters and numbers. Spaces aren't allowed.")}</p>
       <div class="input_wrapper">
         <input type="text" autofocus="autofocus" name="user_name" />
       </div>
@@ -43,7 +43,7 @@
     <p>
       %if c.agree_text is None:
         ${_("By registering, you agree with the %s.") % ("<a class='staticlink_terms' href='/static/terms.html'>%s</a>" % _("Terms and Conditions")) |n}
-        Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Projektgruppen per E-Mail informieren.
+        ${_(u"We'll occasionally inform you about important events such as the start of a new participation process via email.")}
       %else:
         ${c.agree_text|n}
       %endif

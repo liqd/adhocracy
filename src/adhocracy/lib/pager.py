@@ -8,13 +8,13 @@ import time
 import urllib
 
 from formencode import validators
-from paste.deploy.converters import asbool
 from pylons.i18n import _, lazy_ugettext, lazy_ugettext as L_
-from pylons import config, request, tmpl_context as c, url
+from pylons import request, tmpl_context as c, url
 from pylons.controllers.util import redirect
 from pylons.controllers.util import abort
 from webob.multidict import MultiDict
 
+from adhocracy import config
 from adhocracy import model
 from adhocracy.lib import sorting, tiles
 from adhocracy.lib import votedetail
@@ -290,7 +290,13 @@ def proposals(proposals, default_sort=None, **kwargs):
              _("Mixed"): sorting.proposal_mixed,
              _("Controversy"): sorting.proposal_controversy,
              _("Alphabetically"): sorting.delegateable_label}
-    return NamedPager('proposals', proposals, tiles.proposal.row, sorts=sorts,
+
+    if config.get_bool(u'adhocracy.proposal_pager_inline'):
+        row = tiles.proposal.row_inline
+    else:
+        row = tiles.proposal.row
+
+    return NamedPager('proposals', proposals, row, sorts=sorts,
                       default_sort=default_sort, **kwargs)
 
 
@@ -482,6 +488,7 @@ class SolrFacet(SolrIndexer):
     template = '/pager.html'
     template_def = 'facet'
     _response = None
+    badge_type = None
 
     def __init__(self, param_prefix, request, **kwargs):
         # Translate the title and the description. We need to do that
@@ -609,7 +616,9 @@ class SolrFacet(SolrIndexer):
 
         return sorted(items, key=sort_key_getter)
 
-    def available(self):
+    def available(self, show_badge_admin_buttons=False):
+        if show_badge_admin_buttons and self.badge_type is not None:
+            return True
         if self.exclusive:
             return (len(self.sorted_facet_counts) > 0
                     and self.sorted_facet_counts[0][1] > 0)
@@ -798,6 +807,7 @@ class UserBadgeFacet(SolrFacet):
     entity_type = model.Badge
     title = u'Badge'
     show_current_empty = False
+    badge_type = 'user'
 
     @staticmethod
     def get_solr_field(instance):
@@ -818,8 +828,8 @@ class UserBadgeFacet(SolrFacet):
             return
         for instance in model.Instance.all(include_hidden=True):
             index[cls.get_solr_field(instance)] =\
-                [entity_to_solr_token(badge) for badge in user.badges
-                 if badge.instance is None or badge.instance == instance]
+                [entity_to_solr_token(badge)
+                 for badge in user.get_badges(instance)]
 
 
 class InstanceBadgeFacet(SolrFacet):
@@ -829,6 +839,7 @@ class InstanceBadgeFacet(SolrFacet):
     title = lazy_ugettext(u'Badge')
     solr_field = 'facet.instance.badges'
     show_current_empty = False
+    badge_type = 'instance'
 
     @classmethod
     def add_data_to_index(cls, instance, index):
@@ -929,12 +940,13 @@ class DelegateableBadgeCategoryFacet(SolrFacet):
     entity_type = model.Badge
     title = lazy_ugettext(u'Categories')
     solr_field = 'facet.delegateable.badgecategory'
+    badge_type = 'category'
     exclusive = True
 
     @property
     def show_current_empty(self):
-        return not asbool(config.get(
-            'adhocracy.hide_empty_categories_in_facet_list', 'false'))
+        return not config.get_bool(
+            'adhocracy.hide_empty_categories_in_facet_list')
 
     @classmethod
     def add_data_to_index(cls, entity, data):
@@ -949,10 +961,11 @@ class DelegateableBadgeThumbnailFacet(SolrFacet):
 
     name = 'delegateablebadgethumbnail'
     entity_type = model.Badge
-    title = lazy_ugettext(u'Thumbnails')
+    title = lazy_ugettext(u'Status')
     solr_field = 'facet.delegateable.badgethumbnail'
     show_current_empty = False
     exclusive = True
+    badge_type = 'thumbnail'
 
     def get_thumbnail(self, entity):
         return generate_thumbnail_tag(entity, 16, 16)
@@ -973,6 +986,7 @@ class DelegateableBadgeFacet(SolrFacet):
     title = lazy_ugettext(u'Badges')
     solr_field = 'facet.delegateable.badge'
     show_current_empty = False
+    badge_type = 'delegateable'
 
     @classmethod
     def add_data_to_index(cls, entity, data):
@@ -989,6 +1003,7 @@ class DelegateableAddedByBadgeFacet(SolrFacet):
     title = lazy_ugettext(u'Created by')
     solr_field = 'facet.delegateable.added.by.badge'
     show_current_empty = False
+    badge_type = 'user'
 
     @classmethod
     def add_data_to_index(cls, entity, data):
@@ -1185,6 +1200,24 @@ class ProposalVotedetailScoreIndexer(SolrIndexer):
                 data[cls.solr_field(b)] = t.num_for - t.num_against
 
 
+class InstanceUserJoinTimeIndexer(SolrIndexer):
+
+    @classmethod
+    def solr_field(cls, instance=None):
+        field = 'order.user.create_time'
+        if instance is not None:
+            field = field + '.%s' % instance.key
+        return field
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.User):
+            for instance in entity.instances:
+                join_time = entity.instance_membership(instance)\
+                    .create_time.strftime("%s")
+                data[cls.solr_field(instance)] = join_time
+
+
 class InstanceUserActivityIndexer(SolrIndexer):
 
     @classmethod
@@ -1343,11 +1376,12 @@ class SolrPager(PagerMixin):
         finally:
             return size
 
-    def render_facets(self, cls=None):
+    def render_facets(self, cls=None, exclude=[]):
         '''
         render all facets
         '''
-        return render_def('/pager.html', 'facets', pager=self, cls=cls)
+        return render_def('/pager.html', 'facets', pager=self, cls=cls,
+                          exclude=exclude)
 
 
 class SortOption(object):
@@ -1435,7 +1469,8 @@ class NamedSort(object):
                 new_value = self.by_old[value].value
                 redirect(self.pager.build_url(sort=new_value), code=301)
             except KeyError:
-                redirect(self.pager.build_url(sort=self.default, code=301))
+                redirect(self.pager.build_url(sort=self.default.value,
+                                              code=301))
 
     def add_group(self, label, options):
         assert (label not in self.groups), 'We do not support changing groups'
@@ -1492,14 +1527,25 @@ def get_user_sorts(instance=None, default='ACTIVITY'):
     rating = SortOption(
         '-%s' % InstanceUserRatingIndexer.solr_field(instance),
         L_('Rating'))
-    sorts = {"OLDEST": OLDEST,
-             "NEWEST": NEWEST,
+
+    if instance is None:
+        oldest = OLDEST
+        newest = NEWEST
+    else:
+        oldest = SortOption(
+            '+%s' % InstanceUserJoinTimeIndexer.solr_field(instance),
+            L_('Oldest'))
+        newest = SortOption(
+            '-%s' % InstanceUserJoinTimeIndexer.solr_field(instance),
+            L_('Newest'))
+    sorts = {"OLDEST": oldest,
+             "NEWEST": newest,
              "ACTIVITY": activity,
              "RATING": rating,
              "ALPHA": ALPHA}
 
-    return NamedSort([[L_('Date'), (OLDEST(old=1),
-                                    NEWEST(old=2))],
+    return NamedSort([[L_('Date'), (oldest(old=1),
+                                    newest(old=2))],
                       [L_('User behavior'), (activity(old=3),
                                              rating(old=4))],
                       [L_('Other'), (ALPHA(old=5),)]],
@@ -1551,7 +1597,6 @@ def solr_global_users_pager(default_sorting='ACTIVITY'):
 
 def solr_instance_pager(include_hidden=False):
     # override default sort
-    # TODO: is paging working? [joka]
     custom_default = config.get('adhocracy.listings.instance.sorting')
     sorts = {"ALPHA": ALPHA,
              "ACTIVITY": ACTIVITY,
@@ -1596,16 +1641,27 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
                         badge), badge.title)()
                 for badge in instance.votedetail_userbadges]))
 
-    pager = SolrPager('proposals', tiles.proposal.row,
+    facets = [(DelegateableBadgeCategoryFacet, {}),
+              (DelegateableBadgeFacet, {}),
+              (DelegateableAddedByBadgeFacet, {}),
+              (DelegateableTags, {})]
+
+    if instance.allow_thumbnailbadges:
+        facets.insert(3, (DelegateableBadgeThumbnailFacet, {}))
+
+    if instance.milestones:
+        facets.insert(1, (DelegateableMilestoneFacet, {}))
+
+    if config.get_bool(u'adhocracy.proposal_pager_inline'):
+        row = tiles.proposal.row_inline
+    else:
+        row = tiles.proposal.row
+
+    pager = SolrPager('proposals', row,
                       entity_type=model.Proposal,
                       sorts=sorts,
                       extra_filter=extra_filter,
-                      facets=[(DelegateableBadgeCategoryFacet, {}),
-                              (DelegateableMilestoneFacet, {}),
-                              (DelegateableBadgeFacet, {}),
-                              (DelegateableAddedByBadgeFacet, {}),
-                              (DelegateableBadgeThumbnailFacet, {}),
-                              (DelegateableTags, {})],
+                      facets=facets,
                       wildcard_queries=wildcard_queries)
     return pager
 

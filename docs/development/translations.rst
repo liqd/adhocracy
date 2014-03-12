@@ -17,6 +17,13 @@ It would be nice to drop us a note before you start to translate, to
 adhocracy-dev@lists.liqd.net or info@liqd.net. You can also contact us
 to set up a new language on transifex.
 
+Note that the English translation is managed in the "English (United Kingdom)"
+language in Transifex, as Transifex doesn't allow to translate the source
+language. This doesn't mean that this language should particularly use British
+English. There's currently no policy on whether to use American or British
+English in the project.
+
+
 Translations for developers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

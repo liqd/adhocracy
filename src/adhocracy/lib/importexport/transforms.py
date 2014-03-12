@@ -393,6 +393,7 @@ class ProposalTransform(_Transform):
         res = {
             'id': obj.id,
             'title': obj.title,
+            'create_time': encode_time(obj.create_time),
             'description': (None if obj.description is None
                             else obj.description.head.text),
             'creator': self._user_transform._compute_key(obj.creator),
@@ -441,6 +442,7 @@ class CommentTransform(_Transform):
 
     def _export(self, obj):
         res = {
+            'create_time': encode_time(obj.create_time),
             'text': obj.latest.text,
             'sentiment': obj.latest.sentiment,
             'creator': self._user_transform._compute_key(obj.creator),

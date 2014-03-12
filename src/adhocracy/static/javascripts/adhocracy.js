@@ -88,10 +88,9 @@ var adhocracy = adhocracy || {};
             // ajax submit takes a while. Show some feedback
             form.find('*[type="submit"]').addClass('loading');
 
-            $.ajax({
+            var settings = {
                 type: form.attr('method'),
                 url: form.attr('action'),
-                data: form.serialize(),
                 success: function(data) {
                     // read the returned html document
                     data = $(data);
@@ -102,7 +101,27 @@ var adhocracy = adhocracy || {};
                         form.html(data.find(selector).html());
                     }
                 },
-            });
+            };
+
+            /* FormData is only compatible with IE 10+, so we use it only
+             * if possible.
+             *
+             * Still, this means that file uploads with this will not work in
+             * older IEs.
+             */
+            if ('FormData' in window) {
+                $.extend(settings, {
+                    data: new FormData(e.target),
+                    contentType: false,
+                    processData: false,
+                });
+            } else {
+                $.extend(settings, {
+                    data: form.serialize(),
+                });
+            }
+
+            $.ajax(settings);
         });
     };
 
@@ -138,7 +157,7 @@ var adhocracy = adhocracy || {};
          *
          *    Form actions are not rewritten. Instead, possible
          *    error or success messages are loaded inside the overlay.
-         *    You should set a sensible `ret_url` for forms in overlays.
+         *    You should set a sensible `came_from` for forms in overlays.
          *
          * This mechanism is powerful because it allows to load
          * any page inside an overlay and most things just work.
@@ -148,9 +167,10 @@ var adhocracy = adhocracy || {};
          */
 
         // grab wrapper element inside content
-        var overlay = this.getOverlay(),
-            wrap = overlay.find(".contentWrap"),
-            trigger = this.getTrigger();
+        var self = this,
+            trigger = self.getTrigger(),
+            overlay = self.getOverlay(),
+            wrap = overlay.find(".contentWrap");
 
         var url = new Uri(trigger.attr("href"));
         url.path(url.path().replace(/(\.[a-z0-9]+)?$/i, '.overlay'));
@@ -168,51 +188,74 @@ var adhocracy = adhocracy || {};
         }
 
         var resizeHeight = function(speed) {
-            var old_height = overlay.height(),
+            var old_height = iframe.height(),
                 // iframe.contents().height does not shrink for some reason
                 height = $('body', iframe.contents()).height()+20;
-            if (old_height !== height) {
-                overlay.animate({'height': height}, speed);
+            if (Math.abs(old_height - height) > 2) {
+                iframe.animate({'height': height}, speed);
             }
         };
         var resizeWidth = function(speed) {
-            /* adjust size to iframe content */
-            var old_width = overlay.width(),
+            /* This calculates a new width and horizontal position for the overlay.
+             *
+             * For small overlays, the width defaults to 2/3 of the parent's
+             * .page_wrapper For big overlays, the width defaults to the
+             * minimum of the parent's .page_wrapper and 90% of the screen
+             * width. The width can never be less than html's min-width.
+             */
+            var old_width = iframe.width(),
                 old_left = parseInt(overlay.css('left')),
-                width = iframe.contents().width(),
-                left = old_left + (old_width - width) / 2;
-            if (old_width !== width || old_left !== left) {
-                var css = {
-                    'width': width,
-                    'left': left,
-                };
-                overlay.animate(css, speed);
+                padding = (overlay.outerWidth() - old_width) / 2,
+                screen_width = $('html').width(),
+                wrapper_width = $('.page_wrapper').width(),
+                min_width = parseInt($('html').css('min-width'), 10),
+                width,
+                left;
+
+            // if this layout is not responsive ignore min-width
+            if (min_width === parseInt($('.page_wrapper').css('max-width'), 10)) {
+                min_width /= 2;
+            }
+
+            if (overlay.attr('id') === 'overlay-big') {
+                width = Math.min(wrapper_width, (screen_width - 2*padding) * 0.9);
+            } else {
+                width = wrapper_width * 2/3;
+            }
+
+            width = Math.max(width, min_width);
+            left = (screen_width - width) / 2 - padding;
+
+            if (Math.abs(old_width - width) > 2) {
+                iframe.animate({'width': width}, speed);
+            }
+            if (Math.abs(old_left - left) > 2) {
+                overlay.animate({'left': left}, speed);
             }
         };
         var resize = function(speed) {
             resizeWidth(speed);
             resizeHeight(speed);
         };
-        var autoResizeLock = false;
         var autoResize = function(speed, interval) {
-            if (!autoResizeLock) {
-                autoResizeLock = true;
-                var loop = function() {
-                    if (overlay.not(':hidden').length > 0) {
-                        try {
-                            // dont resize width as this never happens
-                            // fails if the iframe currently loads a new page
-                            resizeHeight(speed);
-                        } catch (ex) {
-                            console.log(ex);
-                        }
-                        setTimeout(loop, interval);
-                    } else {
-                        autoResizeLock = false;
+            $(window).on('resize.adhocracy_overlay', function() {
+                resizeWidth(0);
+                $('#exposeMask').width($('html').width());
+            });
+
+            var intervalID = setInterval(function() {
+                if (overlay.not(':hidden').length > 0) {
+                    try {
+                        // fails if the iframe currently loads a new page
+                        resizeHeight(speed);
+                    } catch (ex) {
+                        console.log(ex);
                     }
-                };
-                loop();
-            }
+                } else {
+                    clearInterval(intervalID);
+                    $(window).off('resize.adhocracy_overlay');
+                }
+            }, interval);
         };
 
         iframe.load(function() {
@@ -225,6 +268,14 @@ var adhocracy = adhocracy || {};
             } else {
                 html.addClass('overlay-small');
             }
+
+            /* close on escape */
+            // http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery
+            iframe.contents().keyup(function(e) {
+                if (e.keyCode === 27) {
+                    self.close();
+                }
+            });
 
             resize(300);
             autoResize('fast', 200);
@@ -239,7 +290,7 @@ var adhocracy = adhocracy || {};
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
                     e.preventDefault();
-                    overlay.find('.close').click();
+                    self.close();
                 });
                 adhocracy.ajax_submit($('form', iframe.contents()), function() {
                     // reload parent url without overlay params
@@ -257,20 +308,20 @@ var adhocracy = adhocracy || {};
         });
     };
 
-    adhocracy.overlay.rebindCameFrom = function () {
+    adhocracy.overlay.rebindRetURL = function () {
         var came_from = this.getTrigger().attr('href');
         if (came_from === undefined) {
             came_from = window.location.pathname;
         }
-        var patch_camefrom = function (i, val) {
+        var patch_returl = function (i, val) {
             if (val === undefined) {
                 return undefined;
             }
             return new Uri(val).replaceQueryParam('came_from', came_from).toString();
         };
-        this.getOverlay().find('.patch_camefrom').attr({
-            'action': patch_camefrom,
-            'href': patch_camefrom
+        this.getOverlay().find('.patch_returl').attr({
+            'action': patch_returl,
+            'href': patch_returl
         });
     };
 
@@ -300,9 +351,8 @@ var adhocracy = adhocracy || {};
     }
 
     adhocracy.overlay.trigger = function (path, type) {
-        // minimal validation. not sure if this is enough
-        if (path[0] !== '/' || path[1] === '/') {
-            throw "Overlay path must be an absolute path.";
+        if (!adhocracy.helpers.is_local_url(path)) {
+            throw "Overlay path must be a local URL.";
         }
 
         var target = '#overlay-default';
@@ -382,7 +432,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-login',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
 
@@ -392,7 +442,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-join',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
 
@@ -410,7 +460,7 @@ var adhocracy = adhocracy || {};
                 target: '#overlay-validate',
                 onBeforeLoad: function (event) {
                     adhocracy.overlay.rewriteDescription.call(this, event);
-                    adhocracy.overlay.rebindCameFrom.call(this, event);
+                    adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
         } else {
@@ -423,31 +473,6 @@ var adhocracy = adhocracy || {};
             wrapped.find("a[rel=#overlay-validate-button]").attr('target', '_new');
         }
     };
-
-    /***************************************************
-     * @namespace: adhocracy.tooltips
-     ***************************************************/
-
-    adhocracy.namespace('adhocracy.tooltips');
-
-    /**
-     * Initialize the tooltips for all correctly marked
-     * elements found inside baseSelector. If baseSelector
-     * is not given, it searches for all elements in the
-     * document body.
-     *
-     * @param {string} baseSelector A selector string that can be
-     * passed to jQuery. Optional, defaults to 'body'.
-     */
-    adhocracy.tooltips.initialize = function (baseSelector) {
-        baseSelector = baseSelector || 'body';
-        $(baseSelector).find(".ttip[title]").tooltip({
-            position: "bottom left",
-            opacity: 1,
-            effect: 'toggle'
-        }).dynamic({ bottom: { direction: 'down', bounce: true } });
-    };
-
 
     /***************************************************
      * @namespace: adhocracy.helpers
@@ -489,14 +514,14 @@ var adhocracy = adhocracy || {};
             elements.socialSharePrivacy({
                 services : {
                     facebook: {
-                        'dummy_img': baseUrl + '/images/dummy_facebook.png'
+                        'dummy_img': baseUrl + '/socialshareprivacy/images/dummy_facebook.png'
                     },
                     twitter : {
-                        'dummy_img': baseUrl + '/images/dummy_twitter.png',
+                        'dummy_img': baseUrl + '/socialshareprivacy/images/dummy_twitter.png',
                         'tweet_text': tweetText
                     },
                     gplus : {
-                        'dummy_img': baseUrl + '/images/dummy_gplus.png'
+                        'dummy_img': baseUrl + '/socialshareprivacy/images/dummy_gplus.png'
                     }
                 },
                 'css_path': '',
@@ -633,6 +658,37 @@ var adhocracy = adhocracy || {};
         el.text(message);
         container.append(el);
     };
+
+    adhocracy.helpers.is_local_url = function(url) {
+        // this function aims to replicate the python function by the same name
+        // in lib.helpers.site_helpers .
+        //
+        // However we do not know if relative URLs are activated.
+
+        if (url === '') {
+            return false;
+        }
+
+        var domain = window.location.host;
+        // we might be in a subdomain
+        if (domain.split('.').length > 2) {
+            domain = domain.match(/^[^.]*\.(.*)$/)[1];
+        }
+
+        var u = new Uri(url);
+        var netloc = u.host();
+        if (u.port()) {
+            netloc += ':' + u.port();
+        }
+
+        if (netloc === '' || netloc === domain) {
+            return true;
+        } else if (netloc.match('\\.' + domain + '$')) {
+            return (netloc.split('.').length - domain.split('.').length <= 2);
+        } else {
+            return false;
+        }
+    };
 }());
 
 $(window).load(function() {
@@ -707,10 +763,16 @@ $(window).load(function() {
 
 $(document).ready(function () {
 
+    // media query detection
+    if (Modernizr.mq('only all')) {
+        $('html').addClass('mediaquery');
+    } else {
+        $('html').addClass('no-mediaquery');
+    }
+
     // initial jquery elastic
     $('textarea').elastic();
 
-    adhocracy.tooltips.initialize();
     adhocracy.helpers.initializeFlashMessageDelegates();
     adhocracy.helpers.initializeTagsAutocomplete('#tags');
     adhocracy.helpers.initializeUserAutocomplete(".userCompleted");
@@ -1016,6 +1078,11 @@ $(document).ready(function () {
      *   data-toggle-text. This button will display this text if the target
      *   is button was pressed and the target is visible. If no text
      *   is given, the text of the button won't change.
+     * * 'data-conflict' (attr)
+     *   The button can optionally provide a selector of a *conflicting*
+     *   showhide_button. This means that when this button is triggered
+     *   and the other one is currently active it will be triggered too
+     *   in order to avoid showing both targets at the same time.
      * * 'data-cancel' (attr)
      *   The *targed element* needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
@@ -1034,9 +1101,14 @@ $(document).ready(function () {
             toggle_element_selector = self.data('toggle-element'),
             toggle_element,
             toggle_text = self.data('toggle-text'),
-            old_text = self.text();
+            old_text = self.text(),
+            conflict = $(self.data('conflict')),
+            conflict_target = $(conflict.data('target'));
 
             //debugger;
+        if (conflict_target.filter(':not(:hidden)').length) {
+            conflict.click();
+        }
         if (toggle_element_selector) {
             toggle_element = $(toggle_element_selector);
         } else {
@@ -1072,7 +1144,7 @@ $(document).ready(function () {
     $('body').delegate('a.do_vote', 'click', function (event) {
         event.preventDefault();
         var self = $(this),
-            target = self.closest('.vote_wrapper'),
+            target = self.closest('.vote'),
             splitted,
             widget_url;
         splitted = self.attr('href').split('?');
@@ -1080,7 +1152,7 @@ $(document).ready(function () {
         $.ajax({
             url: widget_url,
             success: function (data) {
-                target.replaceWith(data);
+                target.replaceWith($(data).find('.vote'));
                 adhocracy.overlay.bindOverlays(target);
             }
         });
@@ -1111,8 +1183,13 @@ $(document).ready(function () {
         });
     });
 
-    $('a.expand_arrow').click(function () {
+    $('a.expand_arrow').click(function (e) {
         $(this).parent().toggleClass('expanded');
+
+        // To be keyboard accessible, the ``a`` element needs a href which is
+        // typically ``href="#"``. So we need to prevent the browser from going
+        // to the top of the page.
+        e.preventDefault();
     });
 
     $('.facet_check').click(function() {
@@ -1142,6 +1219,27 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    // disable/enable some options in new page form when (de)selecting container
+    (function () {
+        var container, container_function;
+        container = $('form[name="create_page"] input[name="container"]');
+        if (container.length !== 0) {
+            container_function = function() {
+                var el, name, names;
+                names = ['sectionpage', 'allow_comment', 'allow_selection', 'formatting'];
+                for (var i = 0; i < names.length; i++) {
+                    name = names[i];
+                    el = $(this.form).find('input[name="%s"]'.replace('%s', name));
+                    el.prop('disabled', $(this).prop('checked'));
+                }
+            }
+            container.click(container_function);
+
+            // also execute above code on page load
+            container_function.apply(container[0]);
+        }
+    })()
+
     var uri = new Uri(document.location.href),
         overlay_path = uri.getQueryParamValue('overlay_path'),
         overlay_type = uri.getQueryParamValue('overlay_type');
@@ -1152,5 +1250,72 @@ $(document).ready(function () {
     $('input.fake_submit').click(function() {
         this.type = 'submit';
         this.click();
+    });
+
+    // check if FormData is available and add class to html element
+    if ("FormData" in window) {
+        $('.only-no-formdata').remove();
+    } else {
+        $('html').addClass('no-formdata');
+    }
+
+    $('#event-carousel').each(function(i, e) {
+        var self = $(e),
+            j = 0,
+            data = [],
+            drawIntervalID;
+
+        var draw = function() {
+            self.fadeOut('fast', function() {
+                if (data.length > 0) {
+                    self.html(data[j % data.length].innerHTML);
+
+                    // relative time
+                    var datetime = $('.ts', self);
+                    datetime.attr('title', datetime.text());
+                    datetime.text(moment(datetime.attr('datetime')).fromNow());
+
+                    self.fadeIn('fast');
+                    j += 1;
+                }
+            });
+        };
+        var update = function(fn) {
+            // get new data
+            // if the request fails the old data will be kept instead
+
+            // FIXME this takes really long
+            $.ajax('/event/all.ajax?count=5&event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create', {
+                'success': function(d) {
+                    data = $(d).children();
+                    if (fn) {
+                        fn();
+                    }
+                },
+            });
+        };
+        var startDrawInterval = function(now) {
+            if (!drawIntervalID) {
+                if (now) {
+                    draw();
+                }
+                drawIntervalID = setInterval(draw, 6000);
+            }
+        };
+
+        // do not change on mouseover
+        self.mouseover(function() {
+            clearInterval(drawIntervalID);
+            drawIntervalID = null;
+        });
+        self.mouseout(function() {
+            startDrawInterval(false);
+        });
+
+        // init
+        setInterval(update, 100000);
+        update(function() {
+            startDrawInterval(true);
+        });
     });
 });

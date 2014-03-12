@@ -1,0 +1,16 @@
+<%inherit file="/template.html" />
+<%namespace name="badge_index" file="/badge/index.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Global badges")}</%def>
+
+<%def name="breadcrumbs()">
+${h.badge.breadcrumbs(None)|n}
+</%def>
+
+<%block name="main_content">
+${components.flashmessages()}
+
+%for (type_, data) in c.badge_tables.items():
+${badge_index.render_tables(data['global_badges'], data['instance_badges'], data['badge_base_url'], data['badge_header'], data['badge_type'])}
+%endfor
+</%block>

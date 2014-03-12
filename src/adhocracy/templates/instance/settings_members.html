@@ -1,0 +1,21 @@
+<%inherit file="/instance/settings.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+
+
+<%block name="settings_content">
+<form name="create_instance" class="well" method="POST">
+
+    ${components.flashmessages()}
+    <h2>${c.settings_menu.current['label']}</h2>
+    <input type="hidden" name="_method" value="PUT" />
+    ${h.field_token()|n}
+
+    ${forms.checkbox(_("Require email validation"), 'require_valid_email', help=_("Require instance members to validate their email address."), autofocus=True)}
+    ${forms.select(_("Default group for new members"), 'default_group', c.default_group_options, help=_("This will initially decide whether new members can actively participate in or simply read the discussions on your instance. You can change user groups of individual members later."))}
+
+    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+    ${c.user_badge_tables}
+
+</form>
+</%block>

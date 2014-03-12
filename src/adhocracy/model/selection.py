@@ -5,14 +5,12 @@ from sqlalchemy import Table, Column, ForeignKey, PickleType
 from sqlalchemy import Integer, DateTime, or_
 from sqlalchemy.orm import reconstructor
 
+from adhocracy.model.core import MutableList
 import meta
 import instance_filter as ifilter
 
 log = logging.getLogger(__name__)
 
-
-def are_elements_equal(x, y):
-    return x == y
 
 selection_table = Table(
     'selection', meta.data,
@@ -23,8 +21,7 @@ selection_table = Table(
            name='selection_page', use_alter=True), nullable=True),
     Column('proposal_id', Integer, ForeignKey('proposal.id',
            name='selection_proposal', use_alter=True), nullable=True),
-    Column('variants', PickleType(mutable=True, comparator=are_elements_equal),
-           nullable=True)
+    Column('variants', MutableList.as_mutable(PickleType), nullable=True),
 )
 
 

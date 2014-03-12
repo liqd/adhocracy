@@ -6,4 +6,6 @@ file_filter = src/adhocracy/i18n/<lang>/LC_MESSAGES/adhocracy.po
 source_lang = en
 source_file = src/adhocracy/i18n/adhocracy.pot
 
-
+# Pull English translation files from en_GB, as Transifex doesn't allow
+# translating or changing the source language (see #102).
+trans.en_GB = src/adhocracy/i18n/en/LC_MESSAGES/adhocracy.po

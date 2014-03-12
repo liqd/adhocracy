@@ -3,9 +3,9 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
-<%def name="title()">${c.page.title}</%def>
+<%def name="title()">${c.proposal.title}</%def>
 
-<%def name="breadcrumbs()">${h.text.breadcrumbs(c.text)|n}</%def>
+<%def name="breadcrumbs()">${h.text.breadcrumbs(c.proposal.description.head)|n}</%def>
 
 <%block name="headline">
 </%block>

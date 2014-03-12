@@ -1,7 +1,6 @@
-
 <%def name="namedpager(pager)">
 <div class="pager_wrapper">
-    %if pager.enable_pages or pager.enable_sorts:
+    %if (pager.enable_pages and len(pager.items)) or hasattr(pager.sorts, 'render') or (len(pager.sorts.keys()) > 1 and pager.enable_sorts):
         <div class="floatbox">
             %if pager.enable_pages:
                 <span class="pager_items">
@@ -83,20 +82,21 @@
 </div>
 </%def>
 
-<%def name="facets(pager, cls=None)">
-%if (True in [facet.available() for facet in pager.facets]):
+<%def name="facets(pager, cls=None, exclude=[])">
+<% is_admin = can.instance.any_admin() %>
+%if any(facet.available(is_admin) and facet.name not in exclude for facet in pager.facets):
 <div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
 
   %for facet in pager.facets:
-    %if facet.available():
+    %if facet.available(is_admin) and facet.name not in exclude:
     <div class="facet facet-${facet.name}">
         ${facet.render()}
     </div>
     %endif
   %endfor
-%endif
 </div>
+%endif
 </%def>
 
 <%def name="facet(facet)">
@@ -107,18 +107,57 @@
        href="${facet.unselect_all_link()|n}"
        rel="nofollow">(${_("reset")})</a>
     %endif
+
+    %if facet.badge_type is not None and can.instance.any_admin():
+    <a class="button_small edit"
+        href="${h.base_url('/badge/%s' % facet.badge_type)}"
+        rel="#overlay-form">${_(u"Edit")}</a>
+    %endif
 </h4>
 %if facet.description:
 <p>${facet.description}</p>
 %endif
 
-${facet_items(facet.current_items)}
-
-<br />
+%if facet.name == "delegateabletags" and h.config.get_bool('adhocracy.tagcloud_facet'):
+    ${facet_cloud_tag(facet.current_items)}
+%else:
+    ${facet_items(facet.current_items)}
+%endif
 </%def>
+
+
+<%def name="facet_cloud_tag(items)">
+%if items:
+<ul class="tagcloud_facet">
+    %for item in sorted(items, key=lambda i: i['link_text']):
+    %if item['visible']:
+    <li>
+        %if item['disabled']:
+        <span class="tag_link disabled"
+              style="font-size: ${h.tag.solr_tag_size(item, items)}%;">
+            ${item['link_text']}</span>
+        %else:
+        <a class="tag_link ${'selected' if item['selected'] else ''}"
+           style="font-size: ${h.tag.solr_tag_size(item, items)}%;"
+           href="${item['url']|n}"
+           rel="nofollow">
+            ${item['link_text']}</a>
+        %endif
+    </li>
+    %endif
+    %endfor
+</ul>
+%else:
+${_(u'None')}
+%endif
+</%def>
+
 
 <%def name="facet_items(items, indent=True)">
 <ul${'' if indent else ' class="noindent"' | n}>
+    %if not items:
+    ${_(u'None')}
+    %endif
     %for item in items:
     <li class="facet-item-level-${item['level']}${' expanded' if item['open'] else ''}">
         %if item['visible']:
@@ -152,7 +191,7 @@ ${facet_items(facet.current_items)}
         ${h.literal(item['thumbnail'])}
 
         %if item["children"]:
-        <a class="expand_arrow"></a>
+        <a class="expand_arrow" href="#"></a>
         ${facet_items(item["children"], indent=not item['hide_checkbox'])}
         %endif
         %endif

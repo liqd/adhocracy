@@ -139,11 +139,19 @@ class RecursiveAuthWrapper(object):
                     return self.closure()
                 else:
                     return auth_check
-            elif auth_check.need_login():
+            elif auth_check.propose_login():
                 # Authentication might help
                 from adhocracy.lib.helpers import login_redirect_url
                 from pylons.controllers.util import redirect
                 redirect(login_redirect_url())
+            elif auth_check.propose_join():
+                from adhocracy.lib.helpers import join_redirect_url
+                from pylons.controllers.util import redirect
+                redirect(join_redirect_url())
+            elif auth_check.propose_validate_email():
+                from adhocracy.lib.helpers import validate_redirect_url
+                from pylons.controllers.util import redirect
+                redirect(validate_redirect_url())
             else:
                 from adhocracy.lib.templating import ret_abort
                 log.debug("Aborting due to authorisation error: %s" %

@@ -5,13 +5,13 @@ import logging
 from datetime import datetime
 
 from babel import Locale
-from pylons import config
 from pylons.i18n import _
 
 from sqlalchemy import Table, Column, func, or_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import eagerload_all
 
+from adhocracy import config
 from adhocracy.model import meta
 from adhocracy.model import instance_filter as ifilter
 from adhocracy.model.core import JSONEncodedDict
@@ -42,6 +42,7 @@ user_table = Table(
     Column('page_size', Integer, default=10, nullable=True),
     Column('proposal_sort_order', Unicode(50), default=None, nullable=True),
     Column('gender', Unicode(1), default=None),
+    Column('_is_organization', Boolean, default=False),
     Column('email_messages', Boolean, default=True),
     Column('welcome_code', Unicode(255), nullable=True),
     Column('optional_attributes', MutationDict.as_mutable(JSONEncodedDict)),
@@ -95,6 +96,11 @@ class User(meta.Indexable):
     def email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
 
+    @property
+    def is_organization(self):
+        allow = config.get_bool('adhocracy.allow_organization')
+        return allow and self._is_organization
+
     def badge_groups(self):
         current_instance = ifilter.get_instance()
         groups = []
@@ -104,6 +110,13 @@ class User(meta.Indexable):
                and badge.instance in [None, current_instance]):
                 groups.append(group)
         return groups
+
+    def get_badges(self, instance=None):
+        """
+        Get user badges which are appropriate in the given context.
+        """
+        return [b for b in self.badges if b.instance is None
+                or b.instance is instance]
 
     def membership_groups(self):
         from membership import Membership

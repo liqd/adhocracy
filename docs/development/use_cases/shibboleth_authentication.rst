@@ -13,9 +13,18 @@ The following is needed if we're using the standard pytest doctest runner.
     >>> from pylons import config
     >>> config['adhocracy.login_type']='shibboleth'
     >>> config['adhocracy.shibboleth.institution']=SHIB_IDP_INSTITUTION
-    >>> config['adhocracy.shibboleth.userbadge_mapping']="""
-    ...     editor attribute_equals shib-user-role editor 
-    ...     staff attribute_equals shib-user-role staff
+    >>> config['adhocracy.shibboleth.email']='register'
+    >>> config['adhocracy.shibboleth.userbadge_mapping']="""[
+    ...     {
+    ...        "title": "editor",
+    ...        "function": "attribute_equals",
+    ...        "args": {"key": "shib-user-role", "value": "editor"}
+    ...     },
+    ...     {
+    ...         "title": "staff",
+    ...         "function": "attribute_equals",
+    ...         "args": {"key": "shib-user-role", "value": "staff"}
+    ...     }]
     ... """
 
 Configuring the config here doesn't have any effect as setup_what has already
@@ -67,11 +76,11 @@ to the given persistent_id in the HTTP headers.
 On the next request to whatever page, a intermediate page with a registration
 form is displayed:
 
-    >>> def set_no_redirect(browser):
-    ...     browser.mech_browser.set_handle_redirect(False)
-    ...     browser.raiseHttpErrors = False
+    >>> def set_redirect(browser, bool):
+    ...     browser.mech_browser.set_handle_redirect(bool)
+    ...     browser.raiseHttpErrors = bool
 
-    >>> set_no_redirect(browser)
+    >>> set_redirect(browser, False)
 
 FIXME: check whether ANY_URL should be encoded
     >>> browser.open(REQUEST_AUTH_URL + '?came_from=' + ANY_URL)
@@ -140,7 +149,7 @@ Hugo has lost his `editor` status. Make sure the model is updated.
     ...     'shib-email': 'hugo@example.com',
     ... }
     >>> browser2 = make_browser()
-    >>> set_no_redirect(browser2)
+    >>> set_redirect(browser2, False)
     >>> add_headers(browser2, new_hugo_headers)
     >>> browser2.open(POST_AUTH_URL + '?came_from=' + ANY_URL)
     >>> browser2.open(ANY_URL)
@@ -153,3 +162,79 @@ Hugo has lost his `editor` status. Make sure the model is updated.
     u'hugo@example.com'
     >>> hugo.badges
     []
+
+
+In another scenario, users should inherit even more attributes from the
+shibboleth IdP:
+
+    >>> config.update({
+    ...     'adhocracy.force_randomized_user_names': 'true',
+    ...     'adhocracy.shibboleth.email': 'register',
+    ...     'adhocracy.shibboleth.display_name.function': """
+    ...         {
+    ...             "function": "full_name",
+    ...             "args": {
+    ...                 "name_attr": "shib-name",
+    ...                 "surname_attr": "shib-surname"
+    ...             }
+    ...         }
+    ...     """,
+    ...     'adhocracy.shibboleth.locale.attribute': 'shib-locale',
+    ...     'adhocracy.shibboleth.register_form': 'false',
+    ...     'adhocracy.shibboleth.userbadge_mapping': """
+    ...         {}
+    ...     """
+    ... })
+
+voter main attribute_equals shib-user-role voter
+voter intern attribute_equals shib-user-role voter
+
+    >>> browser = make_browser()
+    >>> browser.open(ANY_URL)
+    >>> is_logged_in(browser)
+    False
+
+
+Let's login as another user:
+
+    >>> set_redirect(browser, False)
+    >>> browser.open(REQUEST_AUTH_URL + '?came_from=' + ANY_URL)
+
+Simulate IdP behavior:
+
+    >>> paula_headers = {
+    ...     'Persistent-Id': 'https://dummy_idp!http://test.lan/shibboleth!ohyiez0akahjielahng4Mei9Hk4=',
+    ...     'shib-email': 'paula@example.com',
+    ...     'shib-user-role': 'voter',
+    ...     'shib-locale': 'de',
+    ...     'shib-name': 'Paula',
+    ...     'shib-surname': 'Frank',
+    ... }
+
+    >>> add_headers(browser, paula_headers)
+    >>> browser.open(POST_AUTH_URL + '?came_from=' + ANY_URL)
+    >>> browser.status
+    '302 Found'
+    >>> browser.headers["location"]
+    'http://test.lan/Shibboleth.sso/Logout?return=http%3A%2F%2Ftest.lan%2Finstance'
+    >>> browser.open(ANY_URL)
+
+    >>> is_logged_in(browser)
+    True
+
+    >>> set_redirect(browser, True)
+    >>> browser.open(app_url + '/user/redirect_settings')
+
+    >>> u"Paula Frank" in unicode(browser.contents, errors = 'replace')
+    True
+
+    >>> form = browser.getForm(index=0)
+    >>> locale = form.getControl(name='locale')
+    >>> locale.value
+    ['de_DE']
+
+    >>> a = browser.getLink('Benachrichtigungen')
+    >>> a.click()
+
+    >>> u"paula@example.com" in unicode(browser.contents, errors = 'replace')
+    True

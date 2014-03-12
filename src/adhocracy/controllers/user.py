@@ -1,7 +1,6 @@
 from collections import OrderedDict
 import logging
 import re
-import urllib
 
 import formencode
 from formencode import ForEach, htmlfill, validators
@@ -13,7 +12,6 @@ from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.decorators import validate
 from pylons.i18n import _
-from pylons.i18n import lazy_ugettext as L_
 
 from webob.exc import HTTPFound
 
@@ -41,13 +39,12 @@ from adhocracy.lib.settings import Menu
 from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
-from adhocracy.lib.templating import render, render_json, ret_abort, render_png
-from adhocracy.lib.templating import ret_success
+from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_PROPOSAL,
-                                       S_COMMENT, S_PAGE, S_CONTRIBUTION)
+from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_CONTRIBUTION
 
 
 log = logging.getLogger(__name__)
@@ -60,11 +57,11 @@ def settings_menu(instance, current):
     show_optional = bool(config.get('adhocracy.user.optional_attributes'))
 
     return Menu.create(instance, current, OrderedDict([
-        ('personal', (L_(u'Personal'), True, 'settings')),
-        ('login', (L_(u'Login'), show_login)),
-        ('notifications', (L_('Notifications'),)),
-        ('advanced', (L_('Advanced'),)),
-        ('optional', (L_('Optional'), show_optional)),
+        ('personal', (_(u'Personal'), True, 'settings')),
+        ('login', (_(u'Login'), show_login)),
+        ('notifications', (_('Notifications'),)),
+        ('advanced', (_('Advanced'),)),
+        ('optional', (_('Optional'), show_optional)),
     ]))
 
 
@@ -88,8 +85,14 @@ class UserCreateForm(formencode.Schema):
 class UserSettingsPersonalForm(formencode.Schema):
     allow_extra_fields = True
     locale = forms.ValidLocale()
-    display_name = validators.String(not_empty=False)
-    bio = validators.String(max=1000, min=0, not_empty=False)
+    if config.get_bool('adhocracy.user.display_name.allow_change'):
+        display_name = validators.String(not_empty=False)
+    bio = validators.String(
+        max=(None if config.get_bool('adhocracy.user.bio.no_max_length')
+             else config.get_int('adhocracy.user.bio.max_length')),
+        min=0, not_empty=False)
+    _is_organization = validators.StringBool(not_empty=False, if_empty=False,
+                                             if_missing=False)
 
 
 class UserSettingsLoginForm(formencode.Schema):
@@ -167,9 +170,7 @@ class NoPasswordForm(formencode.Schema):
 
 class UserController(BaseController):
 
-    def __init__(self):
-        super(UserController, self).__init__()
-        c.active_subheader_nav = 'members'
+    identifier = 'members'
 
     @RequireInstance
     @guard.user.index()
@@ -186,10 +187,7 @@ class UserController(BaseController):
         c.tutorial_intro = _('tutorial_user_index_intro')
         c.tutorial = 'user_index'
 
-        if format == 'overlay':
-            return render("/user/index.html", overlay=True)
-        else:
-            return render("/user/index.html")
+        return render("/user/index.html", overlay=(format == 'overlay'))
 
     @guard.perm('user.index_all')
     def all(self):
@@ -293,9 +291,8 @@ class UserController(BaseController):
         if authenticated:
             session['logged_in'] = True
             session.save()
-            came_from = request.params.get('came_from')
-            if came_from:
-                location = urllib.unquote_plus(came_from)
+            if c.came_from != u'':
+                location = h.url.unquote(c.came_from)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -362,7 +359,7 @@ class UserController(BaseController):
         c.locales = []
         for locale in i18n.LOCALES:
             c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
+                              'label': locale.language_name,
                               'selected': locale == c.user.locale})
 
         c.salutations = [
@@ -372,7 +369,7 @@ class UserController(BaseController):
         ]
 
         if logo.exists(c.page_user):
-            c.current_avatar = h.user.avatar_url(c.page_user, 64)
+            c.current_avatar = h.logo_url(c.page_user, 64)
 
         return render("/user/settings_personal.html",
                       overlay=format == u'overlay')
@@ -387,6 +384,7 @@ class UserController(BaseController):
                 'locale': c.page_user.locale,
                 'bio': c.page_user.bio,
                 'gender': c.page_user.gender,
+                '_is_organization': c.page_user._is_organization,
                 '_tok': token_id()})
 
     @validate(schema=UserSettingsPersonalForm(),
@@ -396,8 +394,12 @@ class UserController(BaseController):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
         require.user.edit(c.page_user)
+
+        _attributes = ['locale', 'bio', '_is_organization']
+        if config.get_bool('adhocracy.user.display_name.allow_change'):
+            _attributes.append('display_name')
         updated = update_attributes(c.page_user, self.form_result,
-                                    ['display_name', 'locale', 'bio'])
+                                    _attributes)
 
         # delete the logo if the button was pressed and exit
         if 'delete_avatar' in self.form_result:
@@ -431,11 +433,6 @@ class UserController(BaseController):
     def _settings_login_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'login')
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.user.locale})
 
         return render("/user/settings_login.html",
                       overlay=format == u'overlay')
@@ -470,12 +467,6 @@ class UserController(BaseController):
     def _settings_notifications_form(self, id, format=u'html'):
         self._settings_all(id)
         c.settings_menu = settings_menu(c.page_user, 'notifications')
-
-        c.locales = []
-        for locale in i18n.LOCALES:
-            c.locales.append({'value': str(locale),
-                              'label': locale.display_name,
-                              'selected': locale == c.user.locale})
 
         return render("/user/settings_notifications.html",
                       overlay=format == u'overlay')
@@ -735,13 +726,25 @@ class UserController(BaseController):
                                           instance_filter=False)
         code = self.form_result.get('c')
 
+        # If activate_came_from is set, we assume that we've tried to do
+        # validate email address during doing some other action.
+        activate_came_from = session.get('activate_came_from')
+        if activate_came_from:
+            c.came_from = activate_came_from
+            del session['activate_came_from']
+            success_url = activate_came_from
+            no_success_url = h.validate_redirect_url()
+        else:
+            success_url = h.entity_url(c.page_user)
+            no_success_url = h.entity_url(c.page_user)
+
         if c.page_user.activation_code != code:
             h.flash(_("The activation code is invalid. Please have it "
                       "resent."), 'error')
-            redirect(h.entity_url(c.page_user))
+            redirect(no_success_url)
         if c.page_user.activation_code is None:
             h.flash(_(u'Thank you, The address is already activated.'))
-            redirect(h.entity_url(c.page_user))
+            redirect(success_url)
 
         c.page_user.activation_code = None
         model.meta.Session.commit()
@@ -760,9 +763,33 @@ class UserController(BaseController):
                 redirect(h.user.post_register_url(c.page_user))
         else:
             h.flash(_("Your email has been confirmed."), 'success')
-            redirect(h.entity_url(c.page_user))
+            redirect(success_url)
 
-        redirect(h.entity_url(c.page_user))
+        redirect(success_url)
+
+    def ask_activate(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        if c.page_user.is_email_activated():
+            if c.came_from:
+                redirect(c.came_from)
+            else:
+                redirect(h.entity_url(c.page_user))
+
+        c.hide_activate_attention_getter = True
+        return render('/user/ask_activate.html')
+
+    def pending_activate(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        if c.page_user.is_email_activated():
+            if c.came_from:
+                redirect(c.came_from)
+            else:
+                redirect(h.entity_url(c.page_user))
+
+        c.hide_activate_attention_getter = True
+        return render('/user/pending_activate.html')
 
     @RequireInternalRequest()
     def resend(self, id):
@@ -770,12 +797,19 @@ class UserController(BaseController):
                                           instance_filter=False)
         require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
-        path = request.params.get('came_from', None)
+
+        if c.came_from:
+            session['activate_came_from'] = c.came_from
+            force_path = h.entity_url(c.page_user, member='pending_activate',
+                                      query={'came_from': c.came_from})
+        else:
+            force_path = None
+
         ret_success(
             message=_("The activation link has been re-sent to your email "
                       "address."), category='success',
             entity=c.page_user, member='settings/notifications',
-            format=None, force_path=path)
+            format=None, force_path=force_path)
 
     @staticmethod
     def _get_profile_nav(user, active_key):
@@ -787,8 +821,9 @@ class UserController(BaseController):
             u'delegations': u'latest_delegations',
         }[active_key]
         nav = [
-            (u'about' == active_key, _(u'About me'), h.entity_url(
-                c.page_user, member='about')),
+            (u'about' == active_key, _(u'About us')
+                if c.page_user.is_organization else _(u'About me'),
+                h.entity_url(c.page_user, member='about')),
             (u'activity' == active_key, _(u'Newest events'), h.entity_url(
                 c.page_user, member='latest_events')),
             (u'contributions' == active_key, _(u'Contributions'), h.entity_url(
@@ -874,17 +909,14 @@ class UserController(BaseController):
         c.global_badges = filter(lambda b: b.instance is None, badges)
         c.visible_badges = filter(lambda b: b.visible,
                                   c.global_badges + c.local_badges)
+        c.instances = c.page_user.real_instances(exclude_current=False)
 
         c.tile = tiles.user.UserTile(user)
         self._common_metadata(user, add_canonical=True)
 
-    def show(self, id, format=None, current_nav=None, event_filter=[]):
+    def _show(self, id, format=None, current_nav=None, event_filter=[]):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
-        c.instances = c.page_user.real_instances(exclude_current=False)
-
-        if current_nav is None:
-            redirect(h.entity_url(c.page_user, member=u'about', format=format))
 
         require.user.show(c.page_user)
         c.events = self._get_events(nr_events=100, event_filter=event_filter)
@@ -910,10 +942,14 @@ class UserController(BaseController):
                                     not logo.exists(c.page_user)),
         }
 
-        if format == 'overlay':
-            return render("/user/show.html", overlay=True, data=data)
-        else:
-            return render("/user/show.html", data=data)
+        return render("/user/show.html", data=data,
+                      overlay=(format == 'overlay'))
+
+    def show(self, id, format=None):
+        """ legacy route. """
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        redirect(h.entity_url(c.page_user, member=u'about', format=format))
 
     def dashboard(self, format='html', current_nav=u'all', event_filter=[]):
         if c.user is None:
@@ -924,7 +960,6 @@ class UserController(BaseController):
         require.user.show_dashboard(c.user)
 
         c.page_user = c.user
-        c.instances = c.page_user.real_instances(exclude_current=False)
 
         notifications = self._get_notifications(100, event_filter)
         c.events = [n.event for n in notifications]
@@ -944,10 +979,7 @@ class UserController(BaseController):
         c.dashboard = True
         c.user_nav = self._get_dashboard_nav(c.user, current_nav)
 
-        if format == 'overlay':
-            return render("/user/show.html", overlay=True)
-        else:
-            return render("/user/show.html")
+        return render("/user/show.html", overlay=(format == 'overlay'))
 
     def dashboard_contributions(self, format='html',
                                 current_nav=u'contributions'):
@@ -978,48 +1010,35 @@ class UserController(BaseController):
             u'bio': c.page_user.bio,
         }
 
-        if format == 'overlay':
-            return render("/user/show.html", overlay=True, data=data)
-        else:
-            return render("/user/show.html", data=data)
+        return render("/user/show.html", data=data,
+                      overlay=(format == 'overlay'))
 
     def latest_events(self, id, format='html'):
-        return self.show(id, format, u'activity')
+        return self._show(id, format, u'activity')
 
     def latest_contributions(self, id, format='html'):
-        return self.show(id, format, u'contributions', S_CONTRIBUTION)
+        return self._show(id, format, u'contributions', S_CONTRIBUTION)
 
     def latest_milestones(self, id, format='html'):
         # Milestone events don't exist yet
         return NotImplemented
 
     def latest_votes(self, id, format='html'):
-        return self.show(id, format, u'votes', S_VOTE)
+        return self._show(id, format, u'votes', S_VOTE)
 
     def latest_delegations(self, id, format='html'):
-        return self.show(id, format, u'delegations', S_DELEGATION)
+        return self._show(id, format, u'delegations', S_DELEGATION)
 
     @guard.perm('user.view')
     def avatar(self, id, y=24, x=None):
         user = get_entity_or_abort(model.User, id, instance_filter=False)
-        (x, y) = logo.validate_xy(x, y)
-        try:
-            (path, mtime, io) = logo.load(user, size=(x, y),
-                                          fallback=logo.USER)
-        except logo.NoSuchSizeError:
-            abort(404, _(u"The image is not avaliable in that size"))
-        request_mtime = int(request.params.get('t', 0))
-        if request_mtime > mtime:
-            # This will set the appropriate mtime
-            redirect(h.user.avatar_url(user, y, x=x))
-        return render_png(io, mtime, cache_forever=True)
+        return render_logo(user, y, x=x, fallback=logo.USER)
 
     def login(self):
         c.active_global_nav = "login"
         if c.user:
-            came_from = request.params.get('came_from', None)
-            if came_from is not None:
-                redirect(urllib.unquote_plus(came_from))
+            if c.came_from != u'':
+                redirect(h.url.unquote(c.came_from))
             else:
                 redirect(h.user.post_login_url(c.user))
         else:
@@ -1052,9 +1071,8 @@ class UserController(BaseController):
         if c.user:
             session['logged_in'] = True
             session.save()
-            came_from = request.params.get('came_from', None)
-            if came_from is not None:
-                redirect(urllib.unquote_plus(came_from))
+            if c.came_from != u'':
+                redirect(h.url.unquote(c.came_from))
             else:
                 # redirect to the dashboard inside the instance exceptionally
                 # to be able to link to proposals and norms in the welcome
@@ -1191,10 +1209,7 @@ class UserController(BaseController):
         c.decisions_pager = pager.user_decisions(decisions)
         self._common_metadata(c.page_user, member='votes')
 
-        if format == 'overlay':
-            return render("/user/votes.html", overlay=True)
-        else:
-            return render("/user/votes.html")
+        return render("/user/votes.html", overlay=(format == 'overlay'))
 
     @RequireInstance
     def delegations(self, id, format='html'):
@@ -1220,10 +1235,7 @@ class UserController(BaseController):
         c.nodeClass = democracy.DelegationNode
         self._common_metadata(c.page_user, member='delegations')
 
-        if format == 'overlay':
-            return render("/user/delegations.html", overlay=True)
-        else:
-            return render("/user/delegations.html")
+        return render("/user/delegations.html", overlay=(format == 'overlay'))
 
     def instances(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
@@ -1238,10 +1250,7 @@ class UserController(BaseController):
         self._common_metadata(c.page_user, member='instances',
                               add_canonical=True)
 
-        if format == 'overlay':
-            return render("/user/instances.html", overlay=True)
-        else:
-            return render("/user/instances.html")
+        return render("/user/instances.html", overlay=(format == 'overlay'))
 
     @guard.watch.index()
     def watchlist(self, id, format='html'):
@@ -1263,10 +1272,7 @@ class UserController(BaseController):
             return render_json(c.entities_pager)
 
         self._common_metadata(c.page_user, member='watchlist')
-        if format == 'overlay':
-            return render("/user/watchlist.html", overlay=True)
-        else:
-            return render("/user/watchlist.html")
+        return render("/user/watchlist.html", overlay=(format == 'overlay'))
 
     @RequireInstance
     @RequireInternalRequest()
@@ -1290,7 +1296,6 @@ class UserController(BaseController):
         model.meta.Session.commit()
         redirect(h.entity_url(c.page_user))
 
-    @RequireInstance
     @RequireInternalRequest()
     def ban(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
@@ -1300,7 +1305,6 @@ class UserController(BaseController):
         h.flash(_("The account has been suspended."), 'success')
         redirect(h.entity_url(c.page_user))
 
-    @RequireInstance
     @RequireInternalRequest()
     def unban(self, id):
         c.page_user = get_entity_or_abort(model.User, id)

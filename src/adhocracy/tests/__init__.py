@@ -67,7 +67,7 @@ class MockContextObject(MockBase):
 
 if hasattr(pylons, "util"):
 
-    class MockContextObject(pylons.util.ContextObj, MockBase):
+    class MockContextObject(pylons.util.AttribSafeContextObj, MockBase):
         '''
         A mocked pylons :class:`pylons.util.ContextObj` object used
         by pylons, often thread local, in many cases, like pylons.tmpl_context

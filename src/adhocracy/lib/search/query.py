@@ -87,10 +87,15 @@ def run(terms, instance=None, entity_type=None, excluded_entity_types=set(),
                        instance=instance)
 
     for term in terms.split():
+        done = False
         if ':' in term:
             field, value = term.split(':', 1)
-            q = q.query(**{field.strip(): value.strip()})
-        else:
+            try:
+                q = q.query(**{field.strip(): value.strip()})
+                done = True
+            except ValueError:
+                pass
+        if not done:
             q = add_wildcard_query(q, 'text', term.strip())
 
     response = q.execute()

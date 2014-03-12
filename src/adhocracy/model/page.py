@@ -4,7 +4,7 @@ import re
 
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
-from sqlalchemy import Integer, Unicode, Boolean
+from sqlalchemy import Integer, Unicode, UnicodeText, Boolean
 from geoalchemy import GeometryExtensionColumn, Geometry
 
 import meta
@@ -23,6 +23,7 @@ page_table = Table(
     Column('allow_comment', Boolean, default=True),
     Column('allow_selection', Boolean, default=True),
     Column('always_show_original', Boolean, default=True),
+    Column('abstract', Unicode(255), default=u'', nullable=True),
     GeometryExtensionColumn(
         'geotag', Geometry(dimension=2, srid=900913), nullable=True),
 )
@@ -32,15 +33,16 @@ class Page(Delegateable):
 
     DESCRIPTION = u"description"
     NORM = u"norm"
+    CONTAINER = u"container"
 
-    FUNCTIONS = [DESCRIPTION, NORM]
-    PARENT_FUNCTIONS = [NORM]
+    FUNCTIONS = [DESCRIPTION, NORM, CONTAINER]
+    PARENT_FUNCTIONS = [NORM, CONTAINER]
     WITH_VARIANTS = [NORM]  # [DESCRIPTION, NORM]
-    LISTED = [NORM]
+    LISTED = [NORM, CONTAINER]
 
     def __init__(self, instance, alias, creator, function, formatting=False,
                  sectionpage=False, allow_comment=True, allow_selection=True,
-                 always_show_original=True):
+                 always_show_original=True, abstract=None):
         self.init_child(instance, alias, creator)
         self.function = function
         self.formatting = formatting
@@ -48,6 +50,7 @@ class Page(Delegateable):
         self.allow_comment = allow_comment
         self.allow_selection = allow_selection
         self.always_show_original = always_show_original
+        self.abstract = abstract
 
     @property
     def selections(self):
@@ -111,8 +114,11 @@ class Page(Delegateable):
         return q
 
     @classmethod
-    def all(cls, **kwargs):
-        return cls.all_q(**kwargs).all()
+    def all(cls, include_sectionpages=True, **kwargs):
+        pages = cls.all_q(**kwargs).all()
+        if not include_sectionpages:
+            pages = filter(lambda p: not p.is_sectionpage(), pages)
+        return pages
 
     @classmethod
     def unusedTitle(cls, title, instance_filter=True, functions=None,
@@ -148,7 +154,7 @@ class Page(Delegateable):
     def create(cls, instance, title, text, creator, function=NORM, tags=None,
                wiki=False, formatting=False, sectionpage=False,
                allow_comment=True, allow_selection=True,
-               always_show_original=True):
+               always_show_original=True, abstract=None):
         from adhocracy.lib.text import title2alias
         from text import Text
         from tagging import Tagging
@@ -157,7 +163,7 @@ class Page(Delegateable):
         label = title2alias(title)
         page = Page(instance, label, creator, function, formatting,
                     sectionpage, allow_comment, allow_selection,
-                    always_show_original)
+                    always_show_original, abstract)
         meta.Session.add(page)
         meta.Session.flush()
         Text(page, Text.HEAD, creator, title, text, wiki)
@@ -281,15 +287,21 @@ class Page(Delegateable):
             return _("(Untitled)")
         title = self.head.title
         if self.is_sectionpage():
-            # section titles are "root_title( index)*"
+            # section titles are "root_label( index)*"
             # this transforms that title into a more human-friendly one
             root = self.sectionpage_root()
-            if root != self and \
-                    re.match('^%s( \d+)+$' % root.title, title) is not None:
-                section_no = title[len(root.title) + 1:].split(u' ')
-                section_no = [unicode(int(i, 10) + 1) for i in section_no]
-                section_no = u'.'.join(section_no)
-                return _(u"%s (section %s)") % (root.title, section_no)
+            if root != self:
+                match = re.match('^%s( \d+)+$' % root.label, title)
+
+                # legacy
+                if match is None:
+                    match = re.match('^%s( \d+)+$' % root.title, title)
+
+                if match is not None:
+                    section_no = [unicode(int(g.strip(), 10) + 1)
+                                  for g in match.groups()]
+                    section_no = u'.'.join(section_no)
+                    return _(u"%s (section %s)") % (root.title, section_no)
         return title
 
     @property
@@ -342,7 +354,11 @@ class Page(Delegateable):
     def is_sectionpage(self):
         if self.sectionpage:
             return True
-        elif self.parent:
+        else:
+            return self.is_section()
+
+    def is_section(self):
+        if self.parent:
             return self.parent.is_sectionpage()
         else:
             return False

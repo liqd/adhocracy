@@ -28,3 +28,14 @@ html.js .only-no-js, html.no-js .only-js {
 body.compact .only-anon {
   display: none;
 }
+
+@include desktop {
+    .only-mobile {
+        display: none;
+    }
+}
+@include mobile {
+    .only-desktop {
+        display: none;
+    }
+}

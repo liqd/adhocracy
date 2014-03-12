@@ -11,11 +11,13 @@
 # Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
 # Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
 # Mateusz Batelt <mateusz@batelt.eu>, 2012
-# Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2013
+# Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2014
 # oskarb <o.brabanski@gmail.com>, 2013
 # phihag <phihag@phihag.de>, 2013
 # rosangela <rosangelabochicchio@gmail.com>, 2013
+# Rouven.B <rouven.brues@liqd.de>, 2014
 # cs <schroeder_carsten@gmx.de>, 2013
+# veryrandomname <seriousemailadress@googlemail.com>, 2014
 # sicco <sicco@ddo.nl>, 2012
 # tobib <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
@@ -23,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:09+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:52+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -62,16 +64,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr "Generierung von Willkommens Codes angefordert, aber die Willkommens-Funktionalität (adhocracy.enable_welcome) ist nicht aktiv."
 
-msgid "In all instances"
-msgstr "In allen Gruppen"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "In Gruppe „%s“"
+msgid "No such badge type"
+msgstr "Dieser Badge-Typ ist nicht bekannt"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
+msgstr "The Badge (ID %s) could not be found."
+
+msgid "User Badges"
+msgstr "Benutzerbadges"
+
+msgid "Proposal Badges"
+msgstr "Badges für Vorschläge"
+
+msgid "Categories"
+msgstr "Kategorien"
+
+msgid "Instance Badges"
+msgstr "Gruppen-Badges"
+
+msgid "Status Badges"
+msgstr "Status Badges"
 
 msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
@@ -81,10 +94,6 @@ msgstr "Das Bild wurde gelöscht."
 
 msgid "Badge deleted successfully"
 msgstr "Badge erfolgreich gelöscht"
-
-#, python-format
-msgid "No image for category '%s'."
-msgstr "Kein Bild für Kategorie '%s'."
 
 msgid "oldest"
 msgstr "älteste"
@@ -151,20 +160,20 @@ msgstr "Neuigkeiten von %s"
 msgid "News from %s"
 msgstr "Neuigkeiten von %s"
 
-msgid "General"
-msgstr "Allgemein"
+msgid "Overview"
+msgstr "Übersicht"
 
-msgid "Appearance"
-msgstr "Darstellung"
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
 
-msgid "Contents"
-msgstr "Inhalte"
+msgid "Process settings"
+msgstr "Prozesseinstellungen"
 
-msgid "Votings"
-msgstr "Abstimmungen"
+msgid "Manage members"
+msgstr "Nutzer*innen verwalten"
 
-msgid "Badges"
-msgstr "Badges"
+msgid "Advanced settings"
+msgstr "Erweiterte Einstellungen"
 
 msgid "Process presets"
 msgstr "Prozess Voreinstellungen"
@@ -190,35 +199,8 @@ msgid ""
 "read."
 msgstr "Diese Gruppe wird nicht aktiv genutzt und ist archiviert. Es ist nicht möglich, Änderungen an dieser Gruppe zu machen. Alle Inhalte können aber weiterhin angesehen werden."
 
-msgid "The image is not avaliable in that size"
-msgstr "Das Bild ist nicht in dieser Größe verfügbar"
-
 msgid "The logo has been deleted."
 msgstr "Das Logo wurde entfernt."
-
-msgid "No delay"
-msgstr "Keine Verzögerung"
-
-msgid "1 Day"
-msgstr "1 Tag"
-
-msgid "2 Days"
-msgstr "2 Tage"
-
-msgid "One Week"
-msgstr "Eine Woche"
-
-msgid "Two Weeks"
-msgstr "Zwei Wochen"
-
-msgid "Four Weeks"
-msgstr "Vier Wochen"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Einfache Mehrheit (&frac12; of vote)"
-
-msgid "A two-thirds majority"
-msgstr "Eine Zweidrittelmehrheit"
 
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
@@ -355,6 +337,10 @@ msgid "You cannot create a new norm"
 msgstr "Sie können keinen Beschluss anlegen."
 
 #, python-format
+msgid "errors while uploading image: %s"
+msgstr "Fehler beim Hochlades des Bildes: %s."
+
+#, python-format
 msgid "Variant %s is already present, cannot branch."
 msgstr "Die Version %s gibt es schon, er kann nicht mehr abgeleitet werden."
 
@@ -366,11 +352,8 @@ msgstr ""
 msgid "<i>(No text)</i>"
 msgstr "<i>(Kein text)</i>"
 
-msgid "<i>(No title))</i>"
-msgstr "<i>(Kein Titel))</i>"
-
-msgid "<i>(No differences))</i>"
-msgstr "<i>(Keine Unterschiede))</i>"
+msgid "<i>(No title)</i>"
+msgstr "<i>(Ohne Titel)</i>"
 
 msgid "<i>(No differences)</i>"
 msgstr "<i>(Keine Unterschiede)</i>"
@@ -410,7 +393,7 @@ msgid "Cannot compare identical text revisions."
 msgstr "Identische Texte können nicht verglichen werden. "
 
 msgid "Cannot compare versions of different texts."
-msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden. "
+msgstr "Texte von unterschiedlichen Beschlüssen können nicht verglichen werden."
 
 #, python-format
 msgid "The variant %s has been deleted."
@@ -585,7 +568,7 @@ msgid "Password has been set. Have fun!"
 msgstr "Passwort gesetzt. Viel Spaß!"
 
 msgid "There is no user registered with that email address."
-msgstr "Unter dieser E-Mail-Adresse ist kein/e BenutzerIn angemeldet."
+msgstr "Unter dieser E-Mail-Adresse ist kein/e Benutzer*in angemeldet."
 
 msgid ""
 "you have requested that your password be reset. In order to confirm the "
@@ -639,6 +622,9 @@ msgstr "Ihre E-Mail wurde verifiziert."
 
 msgid "The activation link has been re-sent to your email address."
 msgstr "Der Aktivierungs-Link wurde an Ihre E-Mail-Adresse geschickt."
+
+msgid "About us"
+msgstr "Über uns"
 
 msgid "About me"
 msgstr "Über mich"
@@ -874,7 +860,7 @@ msgstr "Ungültiger Verweis."
 
 #, python-format
 msgid "No user with the user name '%s' exists"
-msgstr "Es existiert kein/e BenutzerIn mit dem Namen '%s'"
+msgstr "Es existiert kein/e Benutzer*in mit dem Namen '%s'"
 
 #, python-format
 msgid "No tagging with ID '%s' exists"
@@ -1162,11 +1148,11 @@ msgstr "offen"
 msgid "Instance"
 msgstr "Gruppe"
 
-msgid "Categories"
-msgstr "Kategorien"
+msgid "Status"
+msgstr "Status"
 
-msgid "Thumbnails"
-msgstr "Miniaturbilder"
+msgid "Badges"
+msgstr "Badges"
 
 msgid "Created by"
 msgstr "Erstellt von"
@@ -1221,6 +1207,9 @@ msgstr "Die Änderungen wurden gespeichert."
 
 msgid "No update required."
 msgstr "Es wurden keine Änderungen vorgenommen."
+
+msgid "The image is not avaliable in that size"
+msgstr "Das Bild ist nicht in dieser Größe verfügbar"
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Sie scheinen nicht die benötigten Rechte zu haben um fortzufahren."
@@ -1566,14 +1555,23 @@ msgstr ""
 "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht "
 "verändert werden."
 
-msgid "(Unknown)"
-msgstr "(Unbekannt)"
-
-msgid "Documents"
-msgstr "Dokumente"
+msgid "Settings"
+msgstr "Einstellungen"
 
 msgid "Proposals"
 msgstr "Vorschläge"
+
+msgid "Norms"
+msgstr "Beschlüsse"
+
+msgid "Members"
+msgstr "Mitglieder"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "(Unknown)"
+msgstr "(Unbekannt)"
 
 msgid "Implementation"
 msgstr "Umsetzung"
@@ -1588,8 +1586,8 @@ msgstr "löschen"
 msgid "%s (deleted user)"
 msgstr "%s (gelöscht)"
 
-msgid "Users"
-msgstr "Benutzer"
+msgid "Dashboard"
+msgstr "Dashboard"
 
 msgid "This action is only available in an instance context."
 msgstr "Die Handlung ist nur innerhalb einer Gruppe verfügbar."
@@ -1651,8 +1649,8 @@ msgstr "Vorschlagsbadge"
 msgid "Category"
 msgstr "Kategorie"
 
-msgid "Thumbnail badge"
-msgstr "Miniaturbildbadge"
+msgid "Status badge"
+msgstr "Status Badge"
 
 #, python-format
 msgid ""
@@ -1757,16 +1755,59 @@ msgid "Feedback"
 msgstr "Feedback"
 
 msgid "Proposal Category"
-msgstr "Bereich"
+msgstr "Kategorie"
 
 msgid "No Category"
-msgstr "Kein Bereich"
+msgstr "Keine zugewiesene Kategorie"
 
 msgid "Others"
 msgstr "Andere"
 
 msgid "Default proposal sort order"
 msgstr "Standard-Sortierreihenfolge von Vorschlägen"
+
+msgid "Register"
+msgstr "Registrieren"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
+
+msgid "Log in to participate in the discussion."
+msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
+
+msgid "join"
+msgstr "beitreten"
+
+msgid "Join this instance to start contributing."
+msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
+
+msgid "Edit profile"
+msgstr "Profil editieren"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "Sie müssen in Ihren Profileinstellungen eine Email-Adresse eintragen, um bei dieser Gruppe mitzumachen."
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Verifikations-Email erneut senden an %s"
+
+msgid "Send activation link"
+msgstr "Aktivierungslink senden"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe mitmachen können."
+
+msgid "Your registered email address is:"
+msgstr "Ihre eingestellte Email-Adresse ist:"
+
+msgid "Provide information"
+msgstr "Informationen angeben"
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
 
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
@@ -1835,8 +1876,21 @@ msgstr "zurück"
 msgid "next"
 msgstr "nächste"
 
-msgid "Start"
-msgstr "Start"
+#, python-format
+msgid "<b>%s</b> members"
+msgstr "<b>%s</b> Mitglieder"
+
+#, python-format
+msgid "<b>%s</b> proposals"
+msgstr "<b>%s</b> Vorschläge"
+
+#, python-format
+msgid "<b>%s</b> comments"
+msgstr "<b>%s</b> Kommentare"
+
+#, python-format
+msgid "<b>%s</b> votes"
+msgstr "<b>%s</b> Stimmen"
 
 msgid "Instances"
 msgstr "Gruppen"
@@ -1849,9 +1903,6 @@ msgstr "Über diese Seite"
 
 msgid "Help"
 msgstr "Hilfe"
-
-msgid "Dashboard"
-msgstr "Dashboard"
 
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
@@ -1872,23 +1923,8 @@ msgstr "Suchen"
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Suchen in &ldquo;%s&rdquo;&hellip;"
 
-msgid "Intro"
-msgstr "Intro"
-
-msgid "Overview"
-msgstr "Übersicht"
-
-msgid "Norms"
-msgstr "Beschlüsse"
-
 msgid "Map"
 msgstr "Karte"
-
-msgid "Members"
-msgstr "Mitglieder"
-
-msgid "Settings"
-msgstr "Einstellungen"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1908,6 +1944,12 @@ msgstr "Liste filtern"
 
 msgid "reset"
 msgstr "zurücksetzen"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "None"
+msgstr "Keine"
 
 msgid "Sort:"
 msgstr "Sortieren:"
@@ -1945,54 +1987,11 @@ msgstr "Bitte wählen Sie ein sicheres Passwort"
 msgid "Set Password"
 msgstr "Passwort setzen"
 
-msgid "Join this instance to start contributing."
-msgstr "Treten Sie dieser Gruppe bei, um mitzumachen."
-
-msgid "join"
-msgstr "beitreten"
-
 msgid "Validate email to start contributing."
 msgstr "Verifizieren Sie Ihre Email-Adresse, um mitzumachen."
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr "Verifikations-Email erneut senden an %s"
-
-msgid "Send activation link"
-msgstr "Aktivierungslink senden"
-
-msgid "Edit profile"
-msgstr "Profil editieren"
-
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Diese Gruppe ist eingefroren - Bearbeiten oder Hinzufügen von neuen Beiträgen ist nicht möglich."
-
-msgid "Register"
-msgstr "Registrieren"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Registrieren Sie sich, um an dieser Diskussion teilzunehmen."
-
-msgid "Log in to participate in the discussion."
-msgstr "Melden Sie sich an, um an dieser Diskussion teilzunehmen."
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr "Sie müssen in Ihren Profileinstellungen eine Email-Adresse eintragen, um bei dieser Gruppe mitzumachen."
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr "Bitte verifizieren Sie Ihre Email-Adresse, damit Sie bei dieser Gruppe mitmachen können."
-
-msgid "Your registered email address is:"
-msgstr "Ihre eingestellte Email-Adresse ist:"
-
-msgid "Provide information"
-msgstr "Informationen angeben"
-
-msgid "Please provide statistical information to help scientific evaluation!"
-msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
 
 msgid "Next"
 msgstr "Weiter"
@@ -2136,6 +2135,9 @@ msgstr "Import erfolgreich durchgeführt."
 msgid "back to main page"
 msgstr "Zurück zur Hauptseite"
 
+msgid "Site administration"
+msgstr "Seiteneinstellungen"
+
 msgid "Admin: Group Permissions"
 msgstr "Verwaltung: Gruppenrechte"
 
@@ -2152,6 +2154,9 @@ msgstr "ACHTUNG: Hiermit können Sie sich aus Ihrer eigenen Gruppe ausschließen
 
 msgid "Permissions"
 msgstr "Rechte"
+
+msgid "Users"
+msgstr "Benutzer"
 
 msgid "Import Users"
 msgstr "Benutzer importieren"
@@ -2170,9 +2175,6 @@ msgstr "Senden Sie eine E-Mail an Benutzer"
 
 msgid "Assign treatment badges"
 msgstr "Treatment-Badges zuweisen"
-
-msgid "Site administration"
-msgstr "Seiteneinstellungen"
 
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
@@ -2257,17 +2259,30 @@ msgstr "Bist du sicher, dass du dieses Badge löschen willst?"
 msgid "Confirm"
 msgstr "Bestätigen"
 
+msgid "Category title"
+msgstr "Titel der Kategorie"
+
 msgid "Badge title"
 msgstr "Titel des Badges"
+
+msgid "Category description"
+msgstr "Beschreibung der Kategorie"
 
 msgid "Badge description"
 msgstr "Beschreibung des Badges"
 
-msgid "Long badge description"
-msgstr "Ausführliche Badge-Beschreibung"
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
+msgstr "Hier können Sie eine detaillierte Beschreibung der Kategorie mit markdown Formatierung vornehmen. Sie können auch Bilder und Links einbetten."
+
+msgid "Long category description"
+msgstr "Ausführliche Beschreibung der Kategorie"
+
+msgid "The color that is used to show the category"
+msgstr "Die Farbe dieser Kategorie."
 
 msgid "The color that is used to show the badge"
-msgstr "Die Farbe, die für den Badge benutzt wird"
+msgstr "Die Farbe dieser Badge."
 
 msgid "Like '#a4a4a4'"
 msgstr "'#a4a4a4' liken"
@@ -2275,23 +2290,26 @@ msgstr "'#a4a4a4' liken"
 msgid "Preview:"
 msgstr "Vorschau:"
 
-msgid "Thumbnail"
-msgstr "Miniaturbild"
-
-msgid "Upload thumbnail icon. This is used instead of color to show the badge"
-msgstr "Miniaturbild hochladen. Dieses wird verwendet anstatt Farbe um Badges darzustellen."
-
-msgid "Delete current thumbnail image"
-msgstr "Lösche aktuelles Miniaturbild"
+msgid "Image upload does not work in your browser. Please update."
+msgstr "Bitte aktualisieren Sie Ihren Webbrowser, um Bilder hochzuladen."
 
 msgid "Image"
 msgstr "Bild"
 
+msgid "Upload image. This is used instead of color to show the badge"
+msgstr "Laden Sie ein Bild hoch. Dies wird zum Miniatur Bild der Badge und ersetzt die farbige Kennzeichnung."
+
+msgid "Delete current thumbnail image"
+msgstr "Lösche aktuelles Miniaturbild"
+
 msgid "Upload category image"
-msgstr "Bild für die Kategorie hochladen"
+msgstr "Laden Sie ein Bild für diese Kategorie hoch."
 
 msgid "Delete current category image"
 msgstr "Aktuelles Bild der Kategorie löschen"
+
+msgid "Check to hide category in user interface"
+msgstr "Hier klicken, um die Kategorie vor Teilnehmer*innen zu verbergen."
 
 msgid "Check to hide badge in user interface"
 msgstr "Auswählen, um Badge im User Interface zu verstecken"
@@ -2319,11 +2337,14 @@ msgstr "Zeige dieses Badge an, anstatt der normalen Gruppe des Nutzers."
 msgid "Global"
 msgstr "Global"
 
-msgid "Parent Badge"
-msgstr "Eltern Badge"
+msgid "Parent Category"
+msgstr "Elternkategorie"
 
-msgid "No Parent Badge"
-msgstr "Keine Eltern Badge"
+msgid "Link this category to a superordinate category"
+msgstr "Diese Kategorie mit einer übergeordneten Kategorie verknüpfen"
+
+msgid "No Parent Category"
+msgstr "Keine Elternkategorie"
 
 msgid "Global categories"
 msgstr "Globale Kategorien"
@@ -2332,27 +2353,48 @@ msgid "Local instance categories"
 msgstr "Lokale Gruppenkategorien"
 
 msgid ""
-"Description to select children of this badge (irrelevant if this badge "
-"doesn't have any children)"
-msgstr "Angabe um die Kinder dieser Badge auszuwählen (irrelevant falls diese Badge keine Kinder hat)"
+"Description to select children of this category (irrelevant if this category"
+" doesn't have any children)"
+msgstr "Angabe um die Kinder dieser Kategorie auszuwählen (irrelevant falls diese Kategorie keine Kinder hat)"
 
 msgid "Impact"
 msgstr "Einfluss"
 
-msgid "Save Badge"
-msgstr "Badge speichern"
-
-msgid "Edit"
-msgstr "Bearbeiten"
-
 msgid "Delete"
 msgstr "Löschen"
 
-msgid "No badges added yet."
-msgstr "Bisher wurden keine Badges hinzugefügt."
+msgid "New"
+msgstr "Neu"
 
-msgid "Color"
-msgstr "Farbe"
+msgid "In all instances"
+msgstr "In allen Gruppen"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "In Gruppe „%s“"
+
+msgid "No badges added yet."
+msgstr "Bisher wurden noch keine Badges hinzugefügt."
+
+msgid ""
+"User badges allow you to organize your members according to certain groups."
+msgstr "Benutzerbadges ermöglichen es Mitglieder zu gruppieren."
+
+msgid ""
+"Proposal badges may be used to link different attributes to a proposal (e.g."
+" official, first phase, etc.)."
+msgstr "Durch diese Badges können Vorschlägen bestimmte Eigenschaften zugeordnet werden."
+
+msgid ""
+"Add new categories to allow your users to categorize their proposals "
+"according to a topic."
+msgstr "Fügen Sie eine neue Kategorie hinzu, um den Nutzern die Möglichkeit zu geben ihre Vorschläge bestimmten Themen zuzuordnen."
+
+msgid ""
+"Status badges may be used to indicate different statuses of proposals in "
+"your participation process (e.g. accepted, rejected, in discussion, etc.) "
+"with an image."
+msgstr "Mit Hilfe von Status Badges kann mit einem Bild beispielsweise der Stand verschiedener Vorschläge im Beteiligungsprozess angegeben werden (z.B. akzeptiert, abgelehnt, wird diskutiert, etc.)."
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -2375,23 +2417,8 @@ msgstr "Nein"
 msgid "Parent"
 msgstr "Eltern"
 
-msgid "User Badges"
-msgstr "Benutzerbadge"
-
-msgid "New"
-msgstr "Neu"
-
-msgid "Proposal Badges"
-msgstr "Badges für Vorschläge"
-
-msgid "Proposal Category Badges"
-msgstr "Kategorien von Vorschlägen"
-
-msgid "Proposal Thumbnail Badges"
-msgstr "Miniaturbild-Badges dieses Vorschlags"
-
-msgid "Instance Badges"
-msgstr "Gruppen-Badge"
+msgid "Global badges"
+msgstr "Globale Badges"
 
 msgid "View and discuss"
 msgstr "Ansehen und diskutieren"
@@ -2414,17 +2441,22 @@ msgstr "Anmelden, um einen neuen Vorschlag anzulegen."
 msgid "Validate email in order to create a new proposal."
 msgstr "Verifizieren Sie Ihre Email-Adresse, um einen neuen Vorschlag anzulegen."
 
-msgid "Search proposals"
+msgid "Find proposals"
 msgstr "Vorschläge suchen"
 
-msgid "Find"
-msgstr "Finden"
+msgid "Go"
+msgstr "Los"
+
+msgid "new proposal"
+msgstr "Neuer Vorschlag"
 
 msgid "Norms in this Category"
 msgstr "Beschlüsse in dieser Kategorie"
 
 msgid "Comment"
-msgstr "Kommentar"
+msgid_plural "Comments"
+msgstr[0] "Kommentar"
+msgstr[1] "Kommentare"
 
 msgid "Argument"
 msgstr "Argument"
@@ -2515,7 +2547,7 @@ msgid "No comments were made yet."
 msgstr "Bisher wurden keine Kommentare hinzugefügt."
 
 msgid "No discussions were started yet."
-msgstr "\"Bisher wurden keine Argumente hinzugefügt."
+msgstr "Bisher wurden keine Argumente hinzugefügt."
 
 msgid "is pro"
 msgstr "ist dafür"
@@ -2646,7 +2678,7 @@ msgstr ""
 "Benutzernamen ein."
 
 msgid "Start typing, you will receive suggestions to find the user."
-msgstr "Wenn Sie beginnen zu tippen, bekommen Sie erste Benutzer vorgeschlagen."
+msgstr "Wenn Sie beginnen zu tippen, bekommen Sie erste Benutzer*innen vorgeschlagen."
 
 msgid "Include decisions made before now."
 msgstr "Bereits getroffene Entscheidungen einbeziehen."
@@ -2750,6 +2782,12 @@ msgstr "Zeige ganzen Änderungsvorschlag"
 msgid "Show full comment"
 msgstr "Zeige ganzen Kommentar"
 
+msgid "created new proposal"
+msgstr "legte einen neuen Vorschlag an"
+
+msgid "License"
+msgstr "Lizenz"
+
 msgid "Add geographic location"
 msgstr "Geographische Verortung hinzufügen"
 
@@ -2774,6 +2812,20 @@ msgstr "Gruppe löschen"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Sind Sie sicher, dass Sie diese Gruppe entfernen möchten?"
+
+#, python-format
+msgid "Join %s"
+msgstr "%s beitreten"
+
+msgid "Join"
+msgstr "Beitreten"
+
+msgid "Join instance"
+msgstr "Gruppe beitreten"
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr "Um fortzufahren, müssen Sie dieser Gruppe beitreten."
 
 msgid "Leave"
 msgstr "verlassen"
@@ -2839,29 +2891,33 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(Markdown und HTML sind hier erlaubt.)"
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
-msgstr "Bitte wählen Sie einen oder mehrere dieser voreingestellten Prozesse für die erstmalige Konfiguration Ihrer Gruppe. Falls benötigt können die einzelnen Optionen später genau angepasst werden."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
+msgstr "Bitte wählen Sie einen oder mehrere dieser voreingestellten Prozesse für die erstmalige und vorläufige Konfiguration Ihrer Gruppe. Falls benötigt, können die einzelnen Optionen später genau angepasst werden."
 
 msgid ""
 "You can select one or more of these presets to reset your instance "
 "configuration. Note that any manual configuration will be lost."
 msgstr "Sie können einen oder mehrere dieser voreingestellten Prozesse auswählen um die Einstellung ihrer Gruppe zurückzustellen. Bitte beachten Sie, dass jegliche individuellen Anpassungen dabei verloren gehen."
 
-msgid "Agenda Setting"
-msgstr "Agenda Setting"
-
-msgid "Users can create proposals and dicuss them."
-msgstr "Nutzer*innen können Vorschläge erstellen und diskutieren."
-
-msgid "Consultation"
-msgstr "Konsulation"
+msgid "Collecting ideas"
+msgstr "Ideen sammeln"
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
-msgstr "Erstellen Sie Texte (sogenannte \"Beschlüsse\") und diskutieren Sie diese online. Nutzer*innen können Kommentare schreiben und Änderungen vorschlagen."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr "Die Teilnehmer*innen können Vorschläge erstellen, diskutieren und so beispielsweise vom offenen Dialogverfahren bis zur offenen Ideensammlung ihre gemeinsamen Absichten formulieren und organisieren."
+
+msgid "Collaboratively drafting texts"
+msgstr "Texte gemeinsam bearbeiten"
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
+msgstr "Ob Satzung, Strategiepapier oder Jahresprogramm: Die Teilnehmer*innen können vorhandene Texte diskutieren und gemeinsam weiterentwickeln."
 
 msgid "Configure"
 msgstr "Einstellen"
@@ -2869,71 +2925,63 @@ msgstr "Einstellen"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-msgid "Logo"
-msgstr "Logo"
-
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Wählen Sie ein Logo für diese Gruppe."
-
-msgid "Current logo"
-msgstr "Aktuelles Logo"
-
-msgid "Delete current logo"
-msgstr "Lösche aktuelles Logo"
-
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
-msgid "You can add css that will be used to style the instance."
-msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
-
-msgid "Thumbnail badges width"
-msgstr "Miniaturbild-Badges Breite"
-
-msgid "Thumbnail badges height"
-msgstr "Miniaturbild-Badges Höhe"
-
-msgid "Use Norms"
-msgstr "Beschlüsse verwenden"
-
-msgid "Allow users to propose norms"
-msgstr "Mitgliedern erlauben, neue Beschlüsse anzulegen"
-
-msgid "Allow users to change norms from within proposals"
-msgstr "Nutzer*innen erlauben, Beschlüsse aus Vorschlägen heraus zu verändern"
-
-msgid "Require to propose a variant"
-msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbringen"
-
-msgid "Show norms navigation item"
-msgstr "Zeige \"Beschluss\"-Reiter"
-
-msgid "Show proposals navigation item"
-msgstr "Zeige \"Vorschlag\"-Reiter"
-
-msgid "Display category pages"
-msgstr "Kategorienseiten anzeigen"
-
-msgid "Use milestones"
-msgstr "Termine verwenden"
-
-msgid "Use thumbnail badges"
-msgstr "Verwende Miniaturbild-Badges"
-
-msgid "Hide global categories"
-msgstr "Verstecke globale Kategorien"
-
 msgid "Allow editing of comments by default"
 msgstr "Erlaube Bearbeiten von Kommentaren standardmäßig"
 
 msgid "Allow editing of proposals by default"
 msgstr "Erlaube Bearbeiten von Vorschlägen standardmäßig"
 
+msgid "Require to propose a variant"
+msgstr "Vorschläge müssen mindestens eine Änderung an einem Beschluss einbringen."
+
+msgid ""
+"If norms are activated, this option will ensure that users change at least "
+"one norm with each proposal."
+msgstr "Wenn Beschlüsse verwendet werden, stellt diese Option sicher, dass Nutzer*innen mindestens eine Änderung des Beschlusses vorschlagen müssen."
+
+msgid "Hide global categories"
+msgstr "Verstecke globale Kategorien"
+
+msgid "Members of your instance only see the catagories you created."
+msgstr "Die Mitglieder dieser Instanz sehen nur die Kategorien, die Sie erstellt haben."
+
+msgid "Display page index as tiles"
+msgstr "Beschlussliste als Kacheln anzeigen"
+
+msgid "Hide this instance"
+msgstr "Diese Gruppe verbergen"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Bitte wählen Sie aus, ob diese Gruppe öffentlich gemacht werden soll."
+
 msgid "Freeze this instance"
 msgstr "Die Arbeit in dieser Gruppe einfrieren"
 
-msgid "Name"
-msgstr "Name"
+msgid ""
+"This will prevent members from making any more changes or contributions to "
+"the existing discussion."
+msgstr "Dies verhindert das weitere Verändern und Kommentieren der bestehenden Vorschläge und Beschlüsse."
+
+msgid "Break down Voting Result by Badge"
+msgstr "Abstimmungsresultat nach Badge aufteilen"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "Die Meinung der Benutzer zu diesem Thema anzeigen, welche die ausgewählten Badges besitzen."
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
+
+msgid "Status badge image width"
+msgstr "Verändern Sie die Breite des Status-Badge Bildes."
+
+msgid "Status badge image height"
+msgstr "Verändern Sie die Höhe des Status-Badge Bildes."
+
+msgid "Authenticate this instance"
+msgstr "Diese Gruppe authentifizieren"
+
+msgid "Activates additional feature, e.g. massinvite und massmessage"
+msgstr "Dies aktiviert weitere Optionen, wie z.B. Gruppen-Einladungen und -Nachrichten."
 
 msgid "Language"
 msgstr "Sprache"
@@ -2943,14 +2991,22 @@ msgstr ""
 "Die Spracheinstellungen des jeweiligen Benutzers heben diese allgemeinen "
 "Spracheinstellungen auf."
 
-msgid "Default group"
-msgstr "Nutzerrolle für neue Mitglieder"
+msgid "Enable delegated voting"
+msgstr "Delegationen aktivieren"
 
-msgid "Hide this instance"
-msgstr "Diese Gruppe verbergen"
+msgid "Enable milestones"
+msgstr "Termine aktivieren"
 
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Bitte wählen Sie aus, ob diese Gruppe öffentlich gemacht werden soll."
+msgid ""
+"Milestones link the online discussions with offline events through a "
+"calendar function."
+msgstr "Mit der Termin Funktion können die online Diskussionen mit offline Events durch einen Kalender verbunden werden."
+
+msgid "Display category pages"
+msgstr "Kategorienseiten anzeigen"
+
+msgid "Delete this instance"
+msgstr "Diese Gruppe löschen"
 
 msgid "Require email validation"
 msgstr "Setze Email-Verifikation voraus"
@@ -2958,39 +3014,73 @@ msgstr "Setze Email-Verifikation voraus"
 msgid "Require instance members to validate their email address."
 msgstr "Setze Verifikation der Email-Adressen der Gruppenmitglieder voraus."
 
-msgid "This instance is authenticated"
-msgstr "Diese Gruppe ist „authentifiziert“"
-
-msgid "Enable (final) adoption voting"
-msgstr "Endgültige Verabschiedung zulassen"
+msgid "Default group for new members"
+msgstr "Voreingestellte Nutzerrolle für neue Mitglieder"
 
 msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr ""
-"Bevor ein Vorschlag aktiviert wird, muss dieser eine bestimmte "
-"Zustimmungsrate über einen bestimmten Zeitraum erreichen."
+"This will initially decide whether new members can actively participate in "
+"or simply read the discussions on your instance. You can change user groups "
+"of individual members later."
+msgstr "Die zugewiesene Benutzergruppe entscheidet vorläufig über die Art wie sich neu registrierte Teilnehmer*innen beteiligen können. Sie können beispielsweise vorgeben, dass neu registrierte Teilnehmer*innen vorerst Diskussionsbeiträge nur lesen aber nicht verändern dürfen. Die Benutzergruppe kann jederzeit verändert werden."
 
-msgid "Majority"
-msgstr "Mehrheit"
+msgid "Name of the instance"
+msgstr "Name der Gruppe"
 
-msgid "Delay"
-msgstr "Verzögerung"
+msgid "Give your instance a name."
+msgstr "Geben Sie der Instanz einen Namen."
 
-msgid "Enable vote delegation"
-msgstr "Delegation erlauben"
+msgid "Description of the instance"
+msgstr "Beschreibung der Gruppe"
 
-msgid "Break down Voting Result by Badge"
-msgstr "Abstimmungsresultat nach Badge aufteilen"
+msgid ""
+"This is what appears on the overview-page of your instance. Describe the "
+"participation process you have in mind. Clearly state the goals of this "
+"group and how its members can participate in reaching them."
+msgstr "Geben Sie hier den Text ein, der auf der Übersichtsseite Ihrer Instanz angezeigt werden soll. Beschreiben Sie Ihren Beteiligungsprozess, durch Angabe konkreter Ziele der Beteiligung und wie die Mitglieder diese durch ihre Mitarbeit erreichen können."
 
-msgid "Display how the users with the selected badges feel about the issue."
-msgstr "Die Meinung der Benutzer zu diesem Thema anzeigen, welche die ausgewählten Badges besitzen."
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Select the logo you would like to have as header of your group."
+msgstr "Wählen Sie ein Logo für Ihre Instanz."
+
+msgid "Current logo"
+msgstr "Aktuelles Logo"
+
+msgid "Delete current logo"
+msgstr "Lösche aktuelles Logo"
+
+msgid "Show proposals navigation item"
+msgstr "Sie können den \"Vorschlag\"-Reiter in der Gruppen Navigationsleiste verbergen, sodass Vorschläge nicht auf einer eigenen Seite angezeigt werden. Die Vorschlags-Funktion bleibt weiterhin aktiv."
+
+msgid "Show proposals as an extra tab"
+msgstr "Zeige \"Vorschlag\"-Reiter"
+
+msgid "Enable norms"
+msgstr "Beschlüsse aktivieren"
+
+msgid ""
+"Unlike proposals, norms are documents that you introduce to be discussed on "
+"the platform."
+msgstr "Im Gegensatz zu Vorschlägen, sind Beschlüsse von Ihnen zur Diskussion eingereichte Dokumente."
+
+msgid "Allow members to propose norms"
+msgstr "Mitgliedern erlauben, Beschlüsse vorzuschlagen."
+
+msgid "Allow members to change norms from within proposals"
+msgstr "Mitgliedern erlauben, Beschlüsse aus Vorschlägen heraus zu verändern."
+
+msgid "Members will be able to propose changes of the norms you introduce."
+msgstr "Mitglieder können Änderungsvorschläge zu den von Ihnen zur Diskussion freigegebenen Beschlüssen machen."
+
+msgid "Show norms navigation item"
+msgstr "Zeige \"Beschluss\"-Reiter"
+
+msgid "Show norms as an extra tab"
+msgstr "Sie können den \"Beschlüsse\"-Reiter in der Gruppen Navigationsleiste verbergen, sodass Beschlüsse nicht auf einer eigenen Seite angezeigt werden. Die Beschluss-Funktion bleibt weiterhin aktiv."
 
 msgid "Home"
 msgstr "Gruppe"
-
-msgid "new proposal"
-msgstr "Neuer Vorschlag"
 
 msgid "show a list of proposals"
 msgstr "Eine Liste mit Vorschlägen anzeigen"
@@ -3007,6 +3097,9 @@ msgstr "Nächste Termine"
 msgid "Newest Events"
 msgstr "Neueste Ereignisse"
 
+msgid "Newest geotagged proposals"
+msgstr "Neueste ortsbezogene Vorschläge"
+
 msgid "Information"
 msgstr "Information"
 
@@ -3017,23 +3110,15 @@ msgstr "angelegt"
 msgid "by %s on %s"
 msgstr "von %s am %s"
 
+msgid "Votings"
+msgstr "Abstimmungen"
+
 msgid "By the numbers"
 msgstr "nach Anzahl"
 
 #, python-format
 msgid "<b>%s</b> community members"
 msgstr "<b>%s</b> Mitglieder"
-
-#, python-format
-msgid "<b>%s</b> proposals"
-msgstr "<b>%s</b> Vorschläge"
-
-#, python-format
-msgid "<b>%s</b> comments"
-msgstr "<b>%s</b> Kommentare"
-
-msgid "Newest geotagged proposals"
-msgstr "Neueste ortsbezogene Vorschläge"
 
 msgid "tutorial_instance_proposals_table"
 msgstr "Hier finden Sie eine Liste der neuesten Vorschläge."
@@ -3073,7 +3158,7 @@ msgstr "Benachrichtigung versenden"
 msgid ""
 "Please note that only users with verified email addresses and activated "
 "newsservice will receive this message per email."
-msgstr "Bitte beachten Sie, dass nur Benutzer/innen mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
+msgstr "Bitte beachten Sie, dass nur Benutzer*innen mit verifizierten Email-Adressen und aktiviertem Benachrichtigungsdienst diese Nachricht per Email empfangen werden."
 
 msgid "Filter users ..."
 msgstr "Benutzer filtern ..."
@@ -3241,7 +3326,7 @@ msgstr ""
 "handelt."
 
 msgid "tutorial_milestone_details_listing"
-msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für den Termin relevant sind.“"
+msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für den Termin relevant sind."
 
 msgid "See more"
 msgstr "Mehr erfahren"
@@ -3347,6 +3432,12 @@ msgstr "Name der Version"
 msgid "Text"
 msgstr "Text"
 
+msgid "Abstract"
+msgstr "Abriss"
+
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "Abriss des Beschlusses. Wird nur verwendet, wenn der Beschluss als Kachel angezeigt wird."
+
 msgid "Display subnorms as sections"
 msgstr "Stelle Unterbeschlüsse als Abschnitte dar"
 
@@ -3358,6 +3449,11 @@ msgstr "Änderungsvorschläge erlauben"
 
 msgid "Use markdown formatting."
 msgstr "Nutze markdown zur Formatierung"
+
+msgid ""
+"Upload a logo for this page. Please note that the logo will only be "
+"displayed in the pages index."
+msgstr "Ein Bild für diesen Beschluss hochladen. Bitte beachten Sie, dass das Bild nur auf der Beschlussübersicht angezeigt wird."
 
 msgid "Parent page:"
 msgstr "Elternseite:"
@@ -3405,11 +3501,17 @@ msgstr "Inhalt des Abschnitts"
 msgid "Norm content"
 msgstr "Inhalt des Beschlusses"
 
+msgid "Use as a container for other norms"
+msgstr "Als Container für andere Beschlüsse verwenden"
+
+msgid "Upload a logo for this page"
+msgstr "Ein Bild für diesen Beschluss hochladen"
+
 msgid "Tag and classify"
 msgstr "Tags und Eigenschaften"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss  eingeordnet."
+msgstr "Der neue Beschluss wird unter dem angegebenen Elternbeschluss eingeordnet."
 
 msgid "Highlight Changes"
 msgstr "Änderungen hervorheben"
@@ -3426,9 +3528,6 @@ msgstr "Neue Änderung vorschlagen"
 msgid "New Proposal"
 msgstr "Neuer Vorschlag"
 
-msgid "Information about the norm"
-msgstr "Informationen über den Beschluss"
-
 msgid "Last Activity"
 msgstr "Letzte Aktivität"
 
@@ -3441,6 +3540,18 @@ msgstr "Dieser Beschluss bezieht sich auf den Termin %s."
 
 msgid "Subnorms"
 msgstr "Unterbeschlüsse"
+
+msgid "This page does currently not refer to a geographic location."
+msgstr "Dieser Beschluss ist momentan nicht geographisch verortet."
+
+msgid "Edit geographic location"
+msgstr "Ändere geographische Verortung"
+
+msgid "Join instance to edit geotag."
+msgstr "Treten Sie der Gruppen bei, um den Vorschlag geographisch zu verorten."
+
+msgid "Login to edit geotag."
+msgstr "Melden Sie sich an, um den Vorschlag geographisch zu verorten."
 
 msgid "View Proposal"
 msgstr "Vorschlag anzeigen"
@@ -3482,8 +3593,18 @@ msgstr "Kommentare"
 msgid "Discussions"
 msgstr "Diskussionen"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] "Diskussion"
+msgstr[1] "Diskussionen"
+
 msgid "Amendments"
 msgstr "Änderungsvorschläge"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] "Änderungsvorschlag"
+msgstr[1] "Änderungsvorschläge"
 
 msgid "Add section"
 msgstr "Abschnitt hinzufügen"
@@ -3606,6 +3727,9 @@ msgstr ""
 "Die Abstimmungsergebnisse werden mit einer kurzen Verzögerung "
 "aktualisiert. "
 
+msgid "This is a record of all recent actions concerning this proposal."
+msgstr "Dies ist eine Übersicht aller Aktivitäten in dieser Gruppe."
+
 msgid "Call a poll"
 msgstr "Zur Abstimmung aufrufen."
 
@@ -3621,17 +3745,14 @@ msgstr ""
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
-msgid "badge"
-msgstr "Badge"
+msgid "Status Badge"
+msgstr "Status Badge"
 
-msgid "thumbnail badge"
-msgstr "Miniaturbild-Badge"
+msgid "No Status Badge"
+msgstr "Keine Status Badge"
 
-msgid "No Thumbnail Badge"
-msgstr "Kein Miniaturbild-Badge"
-
-msgid "No Thumbnail Badges"
-msgstr "Keine Miniaturbildbadges"
+msgid "No Status Badges"
+msgstr "Keine Status Badges"
 
 #, python-format
 msgid "Delegations: %s"
@@ -3680,14 +3801,8 @@ msgstr "Neuer Änderungsvorschlag"
 msgid "New proposal"
 msgstr "Neuer Vorschlag"
 
-msgid "Proposal Category"
-msgstr "Bereich"
-
 msgid "Proposal goals"
 msgstr "Beschreibung"
-
-msgid "Proposal category hint"
-msgstr "Bereich"
 
 msgid "Give a brief explanation of the idea behind your amendment."
 msgstr "Erkläre knapp die Idee hinter deinem Änderungsvorschlag."
@@ -3714,18 +3829,9 @@ msgstr "Vorschlag einfrieren"
 msgid "Edit geotag for proposal %s"
 msgstr "Ändere geographische Verortung für Vorschlag %s"
 
-msgid "Edit geotag"
-msgstr "Ändere geographische Verortung"
-
 #, python-format
 msgid "Edit geographical location for proposal &ldquo;%s&rdquo;"
 msgstr "Ändere geographische Verortung für Vorschlag &ldquo;%s&rdquo;"
-
-msgid "Find proposals"
-msgstr "Vorschläge suchen"
-
-msgid "Go"
-msgstr "Los"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Die Liste bietet einen Überblick aller bisher eingebrachter Vorschläge, welche nach mehreren Kriterien sortiert werden können."
@@ -3822,18 +3928,6 @@ msgstr "Oder aktiv den Vorschlag mitgestalten und Alternativen einbringen."
 msgid "This proposal does currently not refer to a geographic location."
 msgstr "Dieser Vorschlag ist zur Zeit nicht geographisch verortet."
 
-msgid "Edit geographic location"
-msgstr "Ändere geographische Verortung"
-
-msgid "Join instance to edit geotag."
-msgstr "Treten Sie der Gruppen bei, um den Vorschlag geographisch zu verorten."
-
-msgid "Login to edit geotag."
-msgstr "Melden Sie sich an, um den Vorschlag geographisch zu verorten."
-
-msgid "Last Activity"
-msgstr "Letzte Aktivität"
-
 msgid "This proposal is not assigned to any category"
 msgstr "Dieser Vorschlag ist keiner Kategorie zugewiesen"
 
@@ -3866,9 +3960,6 @@ msgstr "<b>%s:%s</b> Stimmen"
 #, python-format
 msgid "from %s · on %s"
 msgstr "von %s · am %s"
-
-msgid "Information"
-msgstr "Information"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -4095,7 +4186,7 @@ msgstr "Diese Version hat keinen Text."
 msgid ""
 "This norm has not yet been decided and is thus no official position of this "
 "group."
-msgstr "Ihre Gruppe hat zu diesem Beschluss noch keine Regelung getroffen. "
+msgstr "Ihre Gruppe hat zu diesem Beschluss noch keine Regelung getroffen."
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
@@ -4159,6 +4250,22 @@ msgstr ""
 "Eine Liste aller Benutzer in dieser Gruppe und auf diesem Adhocracy-"
 "Server."
 
+msgid "Validate email address"
+msgstr "Email-Adresse verifizieren"
+
+msgid "You have not yet validated your email address."
+msgstr "Sie haben Ihre Email-Adresse noch nicht verifiziert."
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr "Eine Email mit einem Verifizierungslink wurde an Ihre Email-Adresse (%s) direkt nach der Registrierung gesendet. Bitte klicken Sie auf diesen Link, um fortzufahren."
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr "Wenn Sie auf folgenden Knopf klicken, wird Ihnen der Verifikationslink erneut zugeschickt."
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be "
 "reversed."
@@ -4173,9 +4280,6 @@ msgstr "Badges von %s bearbeiten"
 #, python-format
 msgid "Badges for %s"
 msgstr "Badges für %s"
-
-msgid "Global badges"
-msgstr "Globale Badges"
 
 msgid "Example:"
 msgstr "Beispiel:"
@@ -4217,13 +4321,6 @@ msgstr "%s ist Mitglied in den folgenden Gruppen"
 
 msgid "Who are you, then?"
 msgstr "Und wer sind Sie? "
-
-msgid ""
-"If you have an account but you've lost your password, <a "
-"href='/reset'>click here</a>."
-msgstr ""
-"Falls Sie Ihr Passwort vergessen haben, <a href='/reset'>klicken Sie "
-"hier</a>."
 
 msgid "Email or username:"
 msgstr "E-Mail oder Benutzername:"
@@ -4268,6 +4365,14 @@ msgstr "Nein, ich habe kein Kennwort, oder habe es vergessen."
 msgid "Yes, I do have a password:"
 msgstr "Ja, ich habe ein Kennwort:"
 
+msgid "Validation email sent"
+msgstr "Verifikationsemail versendet"
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
+msgstr "Eine Email wurde an Sie versendet. Bitte klicken Sie auf den Verifikationslink in dieser Email, um fortzufahren."
+
 msgid ""
 "Creating an account is easy; all you need is a user name, password and "
 "email address."
@@ -4280,8 +4385,8 @@ msgid ""
 " here</a>."
 msgstr "Falls Sie Ihr Passwort vergessen haben, <a href='/reset'>klicken Sie hier</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Darf nur Buchstaben und Zahlen enthalten."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr "Darf nur Buchstaben und Zahlen enthalten. Leerzeichen sind nicht erlaubt."
 
 msgid "You can choose which name other users see."
 msgstr "Sie können auswählen, welcher Name den anderen Benutzern angezeigt werden soll."
@@ -4304,6 +4409,11 @@ msgstr "Durch Ihre Anmeldung stimmen Sie den %s zu."
 
 msgid "Terms and Conditions"
 msgstr "Nutzungsbedingungen"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr "Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Gruppen per E-Mail informieren."
 
 msgid "leave empty"
 msgstr "frei lassen"
@@ -4351,9 +4461,6 @@ msgstr ""
 
 msgid "User settings"
 msgstr "Persönliche Einstellungen"
-
-msgid "Advanced settings"
-msgstr "Erweiterte Einstellungen"
 
 msgid "Pager size"
 msgstr "Listenlänge"
@@ -4435,13 +4542,13 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
-msgid "Avatar"
-msgstr "Profilbild"
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Wählen Sie ein Profilbild. Das Bild sollte quadratisch sein. Andernfalls wird es entsprechend verzerrt."
+
+msgid "Avatar"
+msgstr "Profilbild"
 
 msgid "Current avatar"
 msgstr "Aktuelles Profilbild"
@@ -4449,13 +4556,16 @@ msgstr "Aktuelles Profilbild"
 msgid "Delete current avatar"
 msgstr "Aktuelles Profilbild löschen"
 
-msgid "Short biography"
-msgstr "Kurzbiographie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
+
+msgid "Short biography"
+msgstr "Kurzbiographie"
+
+msgid "I am an organisation"
+msgstr "Ich vertrete eine Organisation"
 
 msgid "Activity in"
 msgstr "Aktivität in"
@@ -4504,11 +4614,8 @@ msgstr "Mitglied in \"%s\" seit"
 msgid "Not a member in \"%s\""
 msgstr "Kein Mitglied in \"%s\""
 
-msgid "User groups"
-msgstr "Nutzergruppen"
-
-msgid "None"
-msgstr "Keine"
+msgid "User group"
+msgstr "Nutzergruppe"
 
 msgid "change group"
 msgstr "Gruppe ändern"

@@ -25,6 +25,9 @@
             top: 50%;
             margin-top: -0.75em;
         }
+        &:last-child {
+            margin-right: 0;
+        }
     }
 }
 
@@ -61,8 +64,8 @@ a.button_round {
 
     // icon
     &:before {
-        content: "✚";
-        margin-right: 0.5em;
+        content: "\271a";
+        margin-right: 0.4em;
         color: #fff;
         background-color: $button-color;
         @include background-image(linear-gradient(170deg, lighten($button-color, 14%), $button-color));
@@ -80,18 +83,14 @@ a.button_round {
         @include background-image(linear-gradient(170deg, lighten($green, 14%), $green));
     }
     &.active:before {
-        content: "✔";
+        content: "\2714";
         background-color: $green;
         @include background-image(linear-gradient(170deg, lighten($green, 14%), $green));
     }
     &.active:hover:before, &.active:focus:before {
-        content: "×";
+        content: "\d7";
         background-color: $red;
         @include background-image(linear-gradient(170deg, lighten($red, 14%), $red));
-    }
-
-    #col3 & {
-        margin: 1em 0;
     }
 }
 .message_button {

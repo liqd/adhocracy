@@ -1,0 +1,16 @@
+<%= font_face(:preprocessor) %>
+
+.icon,
+<%= glyph_selectors %> {
+    font-family: "<%= font_name %>";
+    display: inline-block;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+<%= glyphs %>

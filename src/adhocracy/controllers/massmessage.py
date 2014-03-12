@@ -13,7 +13,6 @@ from formencode import validators, htmlfill
 
 from adhocracy import forms
 from adhocracy.controllers.instance import InstanceController
-from adhocracy.controllers.instance import settings_menu
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest

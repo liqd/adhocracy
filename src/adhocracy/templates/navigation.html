@@ -21,7 +21,7 @@
 <nav>
     <div id="nav">
         <!-- skiplink anchor: navigation -->
-        <a id="navigation" name="navigation"></a>
+        <a id="navigation"></a>
         <!-- main navigation: horizontal list -->
         <div class="menu hlist">
             <ul>
@@ -30,7 +30,7 @@
                 li_class=_class('home'),
                 id_="nav_home")}
 
-                %if not h.config.get_bool('adhocracy.hide_instance_list_in_navigation'):
+                %if can.instance.index() and not h.config.get_bool('adhocracy.hide_instance_list_in_navigation'):
                 %if app_globals.single_instance is None:
                 ${nav_link(href=h.base_url('/instance', None),
                            a_rel='#overlay-default',
@@ -105,7 +105,9 @@
                             </a>
                         </li>
                         %endif
+                        %if can.user.is_not_demo(c.user):
                         <li><a href="/logout">${_("Logout")}</a></li>
+                        %endif
                     </ul>
                 </li>
                 %endif
@@ -137,7 +139,7 @@
             </div>
             %if can.instance.edit(c.instance):
             <div id="instance_settings">
-              <a href="${h.entity_url(c.instance, member='settings')}" class="button settings">${_("Settings")}</a>
+              <a href="${h.entity_url(c.instance, member='settings/overview')}" class="button settings">${_("Settings")}</a>
             </div>
             %endif
         </div>
@@ -172,16 +174,16 @@
 <%def name="subheader_instance_navigation(active)">
 
 <%
-   import cgi
+   import mako
    from adhocracy.lib.tiles.instance_tiles import InstanceTile
    active_subnav = {}
    active_subnav[active or 'instance'] = 'current'
-   search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % cgi.escape(c.instance.label)
+   search_label = _('Search in &ldquo;%s&rdquo;&hellip;') % mako.filters.html_escape(c.instance.label)
    logo = ''
    url = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
-           logo = h.instance.icon_url(c.instance, 48)
+           logo = h.logo_url(c.instance, 48)
            url = h.entity_url(c.instance)
 
    def _class(identifier):
@@ -194,12 +196,12 @@
                                   url=url)">
 
   ${nav_link(href=h.entity_url(c.instance),
-             text=_(u"Intro") if h.config.get_bool('adhocracy.wording.intro_for_overview') else _(u"Overview"),
+             text=h.instance.area_title('instance'),
              li_class=_class('instance'),
              id_='subnav-overview')}
 
   ${nav_link(href=h.base_url('/proposal'),
-             text=_("Proposals"),
+             text=h.instance.area_title('proposals'),
              li_class=_class('proposals'),
              condition=c.instance.show_proposals_navigation,
              id_='subnav-proposals')}
@@ -212,25 +214,25 @@
 %endif
 
   ${nav_link(href=h.base_url('/milestone'),
-             text=_("Milestones"),
+             text=h.instance.area_title('milestones'),
              li_class=_class('milestones'),
              condition=c.instance.milestones,
              id_='subnav-milestones')}
 
   ${nav_link(href=h.base_url('/page'),
-             text=_("Norms"),
+             text=h.instance.area_title('norms'),
              li_class=_class('norms'),
              condition=c.instance.use_norms and c.instance.show_norms_navigation,
              id_='subnav-norms')}
 
   ${nav_link(href=h.base_url('/category'),
-             text=_("Categories"),
+             text=h.instance.area_title('category'),
              li_class=_class('category'),
              condition=c.instance.display_category_pages,
              id_='subnav-category')}
 
   ${nav_link(href=h.base_url('/user'),
-             text=_("Members"),
+             text=h.instance.area_title('members'),
              li_class=_class('members'),
              id_='subnav-members')}
 

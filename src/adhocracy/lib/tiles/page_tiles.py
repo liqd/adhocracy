@@ -21,11 +21,12 @@ def smallrow(page):
 
 
 def select_page(field_name='page', select=None, exclude=[], functions=[],
-                list_limit=500, allow_empty=True):
+                list_limit=500, allow_empty=True, include_sectionpages=False):
     return render_tile('/page/tiles.html', 'select_page', None, select=select,
                        exclude=exclude, field_name=field_name,
                        functions=functions,
-                       list_limit=list_limit, allow_empty=allow_empty)
+                       list_limit=list_limit, allow_empty=allow_empty,
+                       include_sectionpages=include_sectionpages)
 
 
 def inline(page, tile=None, text=None, subpages_pager=None,

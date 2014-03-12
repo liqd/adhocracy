@@ -1,40 +1,60 @@
-// responsive: multi-column
-.tile-table {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
+@include desktop {
+    // responsive: multi-column
+    html.no-flexbox .tile-table {
+        display: table;
+        table-layout: fixed;
 
-    border-collapse: separate;
-    border-spacing: 2em 4em;
+        border-collapse: separate;
+        border-spacing: 2em 4em;
 
-    // this is not nice but I could not find another to have same-width tiles
-    width: calc(100% + 4em);
-    margin-left: -2em;
+        // this is not nice but I could not find another to have same-width tiles
+        // IE9 will ignore the width if calc(...) is used. So only the prefixed versions here.
+        width: 100%;
+        width: -webkit-calc(100% + 4em);
+        width: -moz-calc(100% + 4em);
+        margin-left: -2em;
 
-    .tile-row {
-        display: table-row;
+        .tile-row {
+            display: table-row;
 
-        .tile {
-            display: table-cell;
-            padding-bottom: 2.5em;
-            position: relative;
-
-            .tile-button:last-child {
-                position: absolute;
-                // left: 0;  // buggy in firefox
-                bottom: 0;
+            .tile {
+                display: table-cell;
+                position: relative;
             }
         }
     }
+    html.flexbox .tile-table {
+        width: calc(100% + 2em);
+        margin-left: -1em;
+
+        .tile-row {
+            @include display(flex);
+            @include justify-content(space-between);
+            margin: 4em 0;
+        }
+        .tile {
+            @include flex(1);
+            position: relative;
+            margin: 0 1em;
+
+            // leave space for button
+            padding-bottom: 3em;
+        }
+        .tile-button {
+            position: absolute;
+            bottom: 0;
+        }
+    }
 }
+@include mobile {
+    // responsive: single column
+    .tile-table {
+        margin: 1.5em 0;
 
-// responsive: single column, not yet active
-.tile-table-smallscreen {
-    margin: 1.5em 0;
-
-    .tile {
-        display: block;
-        margin: 4em 0;
+        .tile {
+            display: block;
+            margin: 4em 0;
+        }
     }
 }
 
@@ -44,16 +64,21 @@ a.tile {
     text-decoration: inherit;
     cursor: pointer;
 
+    h3 {
+        font-size: 150%;
+    }
+
     &:hover {
         color: inherit;
         text-decoration: inherit;
+        .tile-button:last-child {
+            @include button-background($primary-color);
+        }
     }
 }
 
 .tile-image {
-    background-position: 50% 0;
-    display: block;
     width: 100%;
-    height: 100px;
     border-bottom: 2px solid $primary-color;
+    vertical-align: bottom;
 }

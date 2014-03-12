@@ -3,10 +3,6 @@
 
 <%def name="title()">${_("Treatments")}</%def>
 
-<%def name="breadcrumbs()">
-    ${h.breadcrumbs.generate_breadcrumbs(_("Treatments"))|n}
-</%def>
-
 <h1>${_("User assignments of %(treatment_key)s") % {'treatment_key': c.treatment.key}}</h1>
 
 <table>

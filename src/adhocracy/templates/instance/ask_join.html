@@ -1,0 +1,21 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_(u'Join %s' % c.instance.label)|n}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.instance.breadcrumbs(c.page_instance)|n} ${_(u'Join')}
+</%def>
+
+<%block name="headline">
+<h3>${_(u'Join instance')}</h3>
+</%block>
+
+<%block name="main_content">
+<form name="ask_join" class="inplace" method="GET"
+    action="${h.entity_url(c.page_instance, member='join')}">
+    ${h.field_token()|n}
+    <input type="hidden" name="came_from" value="${c.came_from}" />
+    ${_(u'In order to perform the requested action, you need to join this instance.')}
+    ${components.savebox(cancel_url=None, save_text=u'Join')}
+</form>
+</%block>

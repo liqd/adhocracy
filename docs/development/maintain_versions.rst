@@ -23,6 +23,31 @@ dependencies which have been tested as good, and avoids breakage through new
 versions in PyPI.
 
 
+To pin versions of new dependencies:
+
+* make sure your working copy is clean and buildout has successfully
+  been run.
+
+* empty versions.cfg ::
+
+    echo -n > versions.cfg
+
+* let buildout suggest versions.cfg contents ::
+
+    ./bin/buildout -N > versions.cfg 2>&1
+
+* crop versions.cfg to contain only the lines starting from and
+  including '[versions]'
+
+* compare to previous version ::
+
+    git diff versions.cfg
+
+* edit versions.cfg to suit your taste
+
+* run buildout again; if successful, commit
+
+
 To update all eggs to the latest release:
 
 * delete all versions in versions.cfg, apart from those manually pinned in

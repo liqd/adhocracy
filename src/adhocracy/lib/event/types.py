@@ -333,18 +333,35 @@ N_COMMENT_EDIT = NotificationType(
 
 
 # Sets
+S_INSTANCE = [
+    't_instance_create',
+    't_instance_edit',
+    't_instance_membership_update',
+    'n_instance_membership_update',
+    't_instance_join',
+    't_instance_leave',
+    't_instance_delete',
+    'n_instance_force_leave',
+    't_instance_force_leave',
+]
+
 S_VOTE = [
     't_vote_cast',
     't_rating_cast',
     'n_delegate_voted',
 ]
 
-S_DELEGATION = [
+S_DELEGATION_IN = [
     't_delegation_create',
     't_delegation_revoke',
+]
+
+S_DELEGATION_OUT = [
     'n_delegation_receive',
     'n_delegation_lost',
 ]
+
+S_DELEGATION = S_DELEGATION_IN + S_DELEGATION_OUT
 
 S_PROPOSAL = [
     't_proposal_create',
@@ -372,6 +389,10 @@ S_PAGE = [
     't_page_create',
     't_page_edit',
     't_page_delete',
+]
+
+S_BADGE = [
+    't_proposal_badge',
 ]
 
 S_CONTRIBUTION = S_PROPOSAL + S_AMENDMENT + S_COMMENT + S_PAGE

@@ -73,6 +73,8 @@ def make_map(config):
                                          'revert': 'GET',
                                          'reset': 'GET',
                                          'activate': 'GET',
+                                         'ask_activate': 'GET',
+                                         'pending_activate': 'GET',
                                          'resend': 'GET',
                                          'set_password': 'POST',
                                          'generate_welcome_link': 'POST'},
@@ -148,17 +150,14 @@ def make_map(config):
     #map.connect('/proposal/{id}/badges', controller='proposal',
                 #action='update_badges', conditions=dict(method=['POST']))
 
-    map.resource('proposal', 'proposal', member={'votes': 'GET',
-                                                 'delegations': 'GET',
+    map.resource('proposal', 'proposal', member={'delegations': 'GET',
                                                  'activity': 'GET',
-                                                 'alternatives': 'GET',
                                                  'ask_delete': 'GET',
                                                  'ask_adopt': 'GET',
                                                  'adopt': 'POST',
-                                                 'tag': 'POST',
-                                                 'untag': 'GET',
                                                  'badges': 'GET',
                                                  'update_badges': 'POST',
+                                                 'comments': 'GET',
                                                  'history': 'GET',
                                                  'get_geotag': 'GET',
                                                  'edit_geotag': 'GET',
@@ -179,6 +178,11 @@ def make_map(config):
                              'propose': 'GET'},
                  parent_resource=dict(member_name='proposal',
                                       collection_name='proposal'))
+
+    map.connect('/page/{id}_{x}x{y}.png', controller='page',
+                action='logo')
+    map.connect('/page/{id}_{y}.png', controller='page',
+                action='logo')
 
     map.connect('/page/diff', controller='page', action='diff',
                 conditions=dict(method=['GET']))
@@ -340,6 +344,8 @@ def make_map(config):
 
     map.connect('/badge{.format}', controller='badge', action='index',
                 conditions=dict(method=['GET']))
+    map.connect('/badge/{badge_type}{.format}', controller='badge',
+                action='index_type', conditions=dict(method=['GET']))
     map.connect('/badge/{badge_type}/add{.format}', controller='badge',
                 action='add', conditions=dict(method=['GET']))
     map.connect('/badge/{badge_type}/add{.format}', controller='badge',
@@ -411,52 +417,55 @@ def make_map(config):
     map.connect('/instance/{id}_{y}.png',
                 controller='instance', action='icon')
     map.connect('/instance/{id}/settings{.format}',
+                controller='instance', action='settings_legacy',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/overview{.format}',
+                controller='instance', action='settings_overview',
+                conditions=dict(method=['GET']))
+    map.connect('/instance/{id}/settings/overview{.format}',
+                controller='instance', action='settings_overview_update',
+                conditions=dict(method=['PUT']))
+    map.connect('/instance/{id}/settings/general{.format}',
                 controller='instance', action='settings_general',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings{.format}',
+    map.connect('/instance/{id}/settings/general{.format}',
                 controller='instance', action='settings_general_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/appearance{.format}',
-                controller='instance', action='settings_appearance',
+    map.connect('/instance/{id}/settings/process{.format}',
+                controller='instance', action='settings_process',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/appearance{.format}',
-                controller='instance', action='settings_appearance_update',
+    map.connect('/instance/{id}/settings/process{.format}',
+                controller='instance', action='settings_process_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/contents{.format}',
-                controller='instance', action='settings_contents',
+    map.connect('/instance/{id}/settings/members{.format}',
+                controller='instance', action='settings_members',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/contents{.format}',
-                controller='instance', action='settings_contents_update',
+    map.connect('/instance/{id}/settings/members{.format}',
+                controller='instance', action='settings_members_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/voting{.format}',
-                controller='instance', action='settings_voting',
+    map.connect('/instance/{id}/settings/advanced{.format}',
+                controller='instance', action='settings_advanced',
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/voting{.format}',
-                controller='instance', action='settings_voting_update',
+    map.connect('/instance/{id}/settings/advanced{.format}',
+                controller='instance', action='settings_advanced_update',
                 conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/badges{.format}',
-                controller='instance', action='settings_badges',
-                conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges{.format}',
-                controller='instance', action='settings_badges_update',
-                conditions=dict(method=['PUT']))
-    map.connect('/instance/{id}/settings/badges/{badge_type}/add{.format}',
+    map.connect('/instance/{id}/settings/{part}/{badge_type}/add{.format}',
                 controller='instance',
                 action='settings_badges_add', conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges/{badge_type}/add{.format}',
+    map.connect('/instance/{id}/settings/{part}/{badge_type}/add{.format}',
                 controller='instance',
                 action='settings_badges_create',
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/badges/edit/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/edit/{badge_id}{.format}',
                 controller='instance',
                 action="settings_badges_edit", conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges/edit/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/edit/{badge_id}{.format}',
                 controller='instance', action="settings_badges_update",
                 conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/settings/badges/delete/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/delete/{badge_id}{.format}',
                 controller='instance', action="settings_badges_ask_delete",
                 conditions=dict(method=['GET']))
-    map.connect('/instance/{id}/settings/badges/delete/{badge_id}{.format}',
+    map.connect('/instance/{id}/settings/{part}/delete/{badge_id}{.format}',
                 controller='instance', action="settings_badges_delete",
                 conditions=dict(method=['POST']))
     map.connect('/instance/{id}/message/new{.format}',
@@ -488,6 +497,7 @@ def make_map(config):
                 conditions=dict(method=['POST']))
 
     map.resource('instance', 'instance', member={'join': 'GET',
+                                                 'ask_join': 'GET',
                                                  'leave': 'POST',
                                                  'filter': 'GET',
                                                  'ask_leave': 'GET',
@@ -544,6 +554,8 @@ def make_map(config):
     map.connect('/outgoing_link/{url_enc}', controller='redirect',
                 action='outgoing_link',
                 conditions=dict(method=['GET', 'HEAD']))
+
+    map.connect('/event/all{.format}', controller='event', action='all')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

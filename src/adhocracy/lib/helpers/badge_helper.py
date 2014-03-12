@@ -4,8 +4,10 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 
 from pylons import config
+from pylons.i18n import _
 
 from adhocracy.lib import cache
+from adhocracy.lib.helpers import url as _url
 
 
 def make_key(iden, args, kwargs):
@@ -16,7 +18,8 @@ def make_key(iden, args, kwargs):
     sig = iden[:200]\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.width"))\
         + cache.util.make_tag(conf("adhocracy.thumbnailbadges.height"))\
-        + cache.util.make_tag(instance_w + instance_h)\
+        + cache.util.make_tag(instance_w)\
+        + cache.util.make_tag(instance_h)\
         + cache.util.make_tag(args) \
         + cache.util.make_tag(kwargs)
     return sha1(sig).hexdigest()
@@ -32,7 +35,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
 
     size = (width and height) and (width, height)\
         or get_default_thumbnailsize(badge)
-    img_template = """<img src="data:%s;base64,%s" width="%s" height="%s" />"""
+    img_template = ('<img src="data:%s;base64,%s" width="%s" height="%s"'
+                    'alt="%s"/>')
     imagefile = BytesIO(badge.thumbnail)
     mimetype = "image/png"
     try:
@@ -65,7 +69,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     data_enc = b64encode(imagefile.getvalue())
     del imagefile
 
-    return (img_template % (mimetype, data_enc, str(size[0]), str(size[1])))
+    return (img_template % (mimetype, data_enc, str(size[0]), str(size[1]),
+                            badge.title))
 
 
 def get_default_thumbnailsize(badge):
@@ -86,3 +91,10 @@ def get_parent_badges(badge):
         yield parent
         for p in get_parent_badges(parent):
             yield p
+
+
+def breadcrumbs(badge=None):
+    from adhocracy.lib.helpers import base_url
+    items = []
+    items.append(_url.link(_("Badges"), base_url(u'/badge')))
+    return _url.root() + _url.BREAD_SEP.join(items)

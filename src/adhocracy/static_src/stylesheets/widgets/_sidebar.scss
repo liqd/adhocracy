@@ -30,6 +30,15 @@
             padding: 1.5em;
         }
     }
+
+    > .button,
+    > .button_round,
+    > .message_button,
+    > .follow_paper,
+    > .follow_proposal {
+        display: block;
+        margin-bottom: 1em;
+    }
 }
 
 #col3 h3 {
@@ -51,4 +60,8 @@
 #settings #col3 .well a {
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+#col3 .facet {
+    margin-bottom: 2.5em;
 }

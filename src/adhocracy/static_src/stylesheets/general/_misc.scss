@@ -105,6 +105,9 @@ Added during template integration
 
 /* Fixes for js.socialshareprivace */
 
+#socialshareprivacy {
+    @include pie-clearfix;
+}
 #socialshareprivacy form {
     padding: 0;
 }
@@ -116,6 +119,11 @@ iframe {
 .staticpage_edit {float: right;}
 
 /* Images in user generated contend should never be bigger than their surrounding element */
+.static_wrapper,
+blockquote,
+.text,
+.category_body,
+.dashboard_bio,
 .instance_description,
 .comment .body,
 .paper_text,

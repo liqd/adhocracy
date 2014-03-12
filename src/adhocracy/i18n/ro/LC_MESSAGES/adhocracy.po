@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-11 22:04+0100\n"
-"PO-Revision-Date: 2014-01-11 21:05+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:38+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,16 +46,27 @@ msgid ""
 "functionality(adhocracy.enable_welcome) is not enabled."
 msgstr ""
 
-msgid "In all instances"
-msgstr "In toate comunitatile"
-
-#, python-format
-msgid "In instance \"%s\""
-msgstr "In comunitatea \"%s\""
+msgid "No such badge type"
+msgstr ""
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
 msgstr "Titlul cu id-ul %s nu a fost gasit"
+
+msgid "User Badges"
+msgstr "Titlurile utilizatorului"
+
+msgid "Proposal Badges"
+msgstr "Titluri propuse"
+
+msgid "Categories"
+msgstr "Categorii"
+
+msgid "Instance Badges"
+msgstr "Titlurile Comunitatii"
+
+msgid "Status Badges"
+msgstr ""
 
 msgid "Badge changed successfully"
 msgstr "Titlul a fost modificat"
@@ -64,10 +75,6 @@ msgid "The image has been deleted."
 msgstr ""
 
 msgid "Badge deleted successfully"
-msgstr ""
-
-#, python-format
-msgid "No image for category '%s'."
 msgstr ""
 
 msgid "oldest"
@@ -135,20 +142,20 @@ msgstr "%s Stiri"
 msgid "News from %s"
 msgstr "Stiri de la %s"
 
-msgid "General"
-msgstr "General"
+msgid "Overview"
+msgstr ""
 
-msgid "Appearance"
-msgstr "Aspect"
+msgid "General settings"
+msgstr ""
 
-msgid "Contents"
-msgstr "Continut"
+msgid "Process settings"
+msgstr ""
 
-msgid "Votings"
-msgstr "Votare"
+msgid "Manage members"
+msgstr ""
 
-msgid "Badges"
-msgstr "Title"
+msgid "Advanced settings"
+msgstr ""
 
 msgid "Process presets"
 msgstr ""
@@ -174,35 +181,8 @@ msgid ""
 "read."
 msgstr ""
 
-msgid "The image is not avaliable in that size"
-msgstr ""
-
 msgid "The logo has been deleted."
 msgstr "Logo-ul a fost sters."
-
-msgid "No delay"
-msgstr "Fara intarziere"
-
-msgid "1 Day"
-msgstr "1 Zi"
-
-msgid "2 Days"
-msgstr "2 Zile"
-
-msgid "One Week"
-msgstr "O Saptamana"
-
-msgid "Two Weeks"
-msgstr "Doua Saptamani"
-
-msgid "Four Weeks"
-msgstr "Patru Saptamani"
-
-msgid "A simple majority (&frac12; of vote)"
-msgstr "Majoritate simpla (&frac12 din voturi)"
-
-msgid "A two-thirds majority"
-msgstr "Majoritate de doua-treimi"
 
 msgid ""
 "Instance created successfully. You can now configure it in greater detail if"
@@ -339,6 +319,10 @@ msgid "You cannot create a new norm"
 msgstr "Nu poti crea un document nou."
 
 #, python-format
+msgid "errors while uploading image: %s"
+msgstr ""
+
+#, python-format
 msgid "Variant %s is already present, cannot branch."
 msgstr "Varianta %s este deja prezenta, nu o poti asocia."
 
@@ -349,11 +333,8 @@ msgstr "Incerci sa updatezi un text care nu este parte din istoricul paginii"
 msgid "<i>(No text)</i>"
 msgstr "<i>(Nici un text)</i>"
 
-msgid "<i>(No title))</i>"
-msgstr "<i>(Nici un titlu))</i>"
-
-msgid "<i>(No differences))</i>"
-msgstr "<i>(Nici o diferenta))</i>"
+msgid "<i>(No title)</i>"
+msgstr ""
 
 msgid "<i>(No differences)</i>"
 msgstr "<i>Nu sunt diferente</i>"
@@ -608,6 +589,9 @@ msgstr "Adresa de mail a fost confirmata."
 
 msgid "The activation link has been re-sent to your email address."
 msgstr "Linkul de activare a fosr retrimis pe adresa ta de mail."
+
+msgid "About us"
+msgstr ""
 
 msgid "About me"
 msgstr ""
@@ -1115,11 +1099,11 @@ msgstr ""
 msgid "Instance"
 msgstr "Comunitate"
 
-msgid "Categories"
-msgstr "Categorii"
-
-msgid "Thumbnails"
+msgid "Status"
 msgstr ""
+
+msgid "Badges"
+msgstr "Title"
 
 msgid "Created by"
 msgstr "Creat de"
@@ -1174,6 +1158,9 @@ msgstr ""
 
 msgid "No update required."
 msgstr "Nu este necesar nici un update."
+
+msgid "The image is not avaliable in that size"
+msgstr ""
 
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Ne pare rau, dar se pare ca nu ai drepturi pentru a continua."
@@ -1516,14 +1503,23 @@ msgstr "Schimba Comentariu: %(topic)s"
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Propunerea este in votare in acest moment si nu poate fi modificata."
 
-msgid "(Unknown)"
-msgstr "(Necunoscut)"
-
-msgid "Documents"
-msgstr "Documente"
+msgid "Settings"
+msgstr "Setari"
 
 msgid "Proposals"
 msgstr "Propuneri"
+
+msgid "Norms"
+msgstr "Documente"
+
+msgid "Members"
+msgstr "Membri"
+
+msgid "Intro"
+msgstr ""
+
+msgid "(Unknown)"
+msgstr "(Necunoscut)"
 
 msgid "Implementation"
 msgstr "Implementare"
@@ -1538,8 +1534,8 @@ msgstr "sterge"
 msgid "%s (deleted user)"
 msgstr "%s (utilizator sters)"
 
-msgid "Users"
-msgstr "Utilizatori"
+msgid "Dashboard"
+msgstr "Prima pagina"
 
 msgid "This action is only available in an instance context."
 msgstr "Actiunea este disponibila doar in cadrul unei comunitati."
@@ -1599,7 +1595,7 @@ msgstr ""
 msgid "Category"
 msgstr "Categorie"
 
-msgid "Thumbnail badge"
+msgid "Status badge"
 msgstr ""
 
 #, python-format
@@ -1716,6 +1712,49 @@ msgstr ""
 msgid "Default proposal sort order"
 msgstr ""
 
+msgid "Register"
+msgstr "Inregistrare"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Fa-ti un cont pentru a participa la discutie."
+
+msgid "Log in to participate in the discussion."
+msgstr ""
+
+msgid "join"
+msgstr "intra"
+
+msgid "Join this instance to start contributing."
+msgstr "Alatura-te comunitatii pentru a putea contribui."
+
+msgid "Edit profile"
+msgstr "Eidteaza profil"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "Trebuie sa setezi un email in profilul tau pentru a putea contribui in aceasta comunitate."
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Retrimite emailul de validare la adresa %s"
+
+msgid "Send activation link"
+msgstr "Trimite linkul de activare"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Te rugam sa-ti validezi adresa de email pentru a putea contribui in aceasta comunitate."
+
+msgid "Your registered email address is:"
+msgstr "Adresa de email inregistrata este:"
+
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "cod de conduita"
 
@@ -1759,9 +1798,6 @@ msgstr "Despre"
 msgid "Help"
 msgstr "Ajutor"
 
-msgid "Dashboard"
-msgstr "Prima pagina"
-
 msgid "Edit Profile"
 msgstr "Editeaza profil"
 
@@ -1774,27 +1810,12 @@ msgstr "Administreaza site"
 msgid "Logout"
 msgstr "Iesire"
 
-msgid "Settings"
-msgstr "Setari"
-
 msgid "Search"
 msgstr "Cauta"
 
 #, python-format
 msgid "Search in &ldquo;%s&rdquo;&hellip;"
 msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
-
-msgid "Intro"
-msgstr ""
-
-msgid "Overview"
-msgstr ""
-
-msgid "Norms"
-msgstr "Documente"
-
-msgid "Members"
-msgstr "Membri"
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1817,6 +1838,12 @@ msgstr "Lista filtre"
 
 msgid "reset"
 msgstr "reseteaza"
+
+msgid "Edit"
+msgstr "Modifica"
+
+msgid "None"
+msgstr ""
 
 msgid "Sort:"
 msgstr "Sortare:"
@@ -1854,53 +1881,10 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-msgid "Join this instance to start contributing."
-msgstr "Alatura-te comunitatii pentru a putea contribui."
-
-msgid "join"
-msgstr "intra"
-
 msgid "Validate email to start contributing."
 msgstr "Valideaza emailul pentru a putea incepe sa contribui."
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr "Retrimite emailul de validare la adresa %s"
-
-msgid "Send activation link"
-msgstr "Trimite linkul de activare"
-
-msgid "Edit profile"
-msgstr "Eidteaza profil"
-
 msgid "This instance has been frozen - you can not edit or post anything."
-msgstr ""
-
-msgid "Register"
-msgstr "Inregistrare"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Fa-ti un cont pentru a participa la discutie."
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr "Trebuie sa setezi un email in profilul tau pentru a putea contribui in aceasta comunitate."
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr "Te rugam sa-ti validezi adresa de email pentru a putea contribui in aceasta comunitate."
-
-msgid "Your registered email address is:"
-msgstr "Adresa de email inregistrata este:"
-
-msgid "Provide information"
-msgstr ""
-
-msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
 msgid "Next"
@@ -2045,6 +2029,9 @@ msgstr "Importul a reusit cu succes."
 msgid "back to main page"
 msgstr "inapoi la pagina principala"
 
+msgid "Site administration"
+msgstr "Administrare site"
+
 msgid "Admin: Group Permissions"
 msgstr "Admin: Permisiuni de grup"
 
@@ -2061,6 +2048,9 @@ msgstr "Atentie: Este posibilitatea sa te scoti singur din Adhocracy. Modifica c
 
 msgid "Permissions"
 msgstr "Permisiuni"
+
+msgid "Users"
+msgstr "Utilizatori"
 
 msgid "Import Users"
 msgstr "Importa Utilizatori"
@@ -2080,20 +2070,17 @@ msgstr "Trimite email la utilizatori"
 msgid "Assign treatment badges"
 msgstr ""
 
-msgid "Site administration"
-msgstr "Administrare site"
-
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
-
-msgid "Users CSV"
-msgstr "Lista utilizatori CSV"
 
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
+
+msgid "Users CSV"
+msgstr "Lista utilizatori CSV"
 
 msgid "Email Subject"
 msgstr "Subiect Email"
@@ -2164,17 +2151,30 @@ msgstr ""
 msgid "Confirm"
 msgstr "Confirma"
 
+msgid "Category title"
+msgstr ""
+
 msgid "Badge title"
 msgstr "Titlu"
+
+msgid "Category description"
+msgstr ""
 
 msgid "Badge description"
 msgstr "Descriere titlu"
 
-msgid "Long badge description"
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
+msgstr ""
+
+msgid "Long category description"
+msgstr ""
+
+msgid "The color that is used to show the category"
 msgstr ""
 
 msgid "The color that is used to show the badge"
-msgstr "Culoarea este folosita pentru titlu"
+msgstr ""
 
 msgid "Like '#a4a4a4'"
 msgstr "Ex. '#a4a4a4'"
@@ -2182,22 +2182,25 @@ msgstr "Ex. '#a4a4a4'"
 msgid "Preview:"
 msgstr "Previzualizare:"
 
-msgid "Thumbnail"
-msgstr ""
-
-msgid "Upload thumbnail icon. This is used instead of color to show the badge"
-msgstr ""
-
-msgid "Delete current thumbnail image"
+msgid "Image upload does not work in your browser. Please update."
 msgstr ""
 
 msgid "Image"
+msgstr ""
+
+msgid "Upload image. This is used instead of color to show the badge"
+msgstr ""
+
+msgid "Delete current thumbnail image"
 msgstr ""
 
 msgid "Upload category image"
 msgstr ""
 
 msgid "Delete current category image"
+msgstr ""
+
+msgid "Check to hide category in user interface"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
@@ -2226,10 +2229,13 @@ msgstr "Afiseaza acest titlu in locul grupului de utilizatori."
 msgid "Global"
 msgstr "Global"
 
-msgid "Parent Badge"
+msgid "Parent Category"
 msgstr ""
 
-msgid "No Parent Badge"
+msgid "Link this category to a superordinate category"
+msgstr ""
+
+msgid "No Parent Category"
 msgstr ""
 
 msgid "Global categories"
@@ -2239,27 +2245,48 @@ msgid "Local instance categories"
 msgstr ""
 
 msgid ""
-"Description to select children of this badge (irrelevant if this badge "
-"doesn't have any children)"
+"Description to select children of this category (irrelevant if this category"
+" doesn't have any children)"
 msgstr ""
 
 msgid "Impact"
 msgstr ""
 
-msgid "Save Badge"
-msgstr "Salveaza Titlul"
-
-msgid "Edit"
-msgstr "Modifica"
-
 msgid "Delete"
 msgstr "Sterge"
+
+msgid "New"
+msgstr "Nou"
+
+msgid "In all instances"
+msgstr "In toate comunitatile"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "In comunitatea \"%s\""
 
 msgid "No badges added yet."
 msgstr "Nici un titlu inca."
 
-msgid "Color"
-msgstr "Culoare"
+msgid ""
+"User badges allow you to organize your members according to certain groups."
+msgstr ""
+
+msgid ""
+"Proposal badges may be used to link different attributes to a proposal (e.g."
+" official, first phase, etc.)."
+msgstr ""
+
+msgid ""
+"Add new categories to allow your users to categorize their proposals "
+"according to a topic."
+msgstr ""
+
+msgid ""
+"Status badges may be used to indicate different statuses of proposals in "
+"your participation process (e.g. accepted, rejected, in discussion, etc.) "
+"with an image."
+msgstr ""
 
 msgid "Preview"
 msgstr "Previzualizare"
@@ -2282,23 +2309,8 @@ msgstr "nu"
 msgid "Parent"
 msgstr ""
 
-msgid "User Badges"
-msgstr "Titlurile utilizatorului"
-
-msgid "New"
-msgstr "Nou"
-
-msgid "Proposal Badges"
-msgstr "Titluri propuse"
-
-msgid "Proposal Category Badges"
-msgstr "Propuneri Titluri Categorii"
-
-msgid "Proposal Thumbnail Badges"
+msgid "Global badges"
 msgstr ""
-
-msgid "Instance Badges"
-msgstr "Titlurile Comunitatii"
 
 msgid "View and discuss"
 msgstr ""
@@ -2321,17 +2333,23 @@ msgstr "Logheaza-te pentru a creea o noua propunere."
 msgid "Validate email in order to create a new proposal."
 msgstr "Valideaza adresa de email pentru a putea crea o propunere."
 
-msgid "Search proposals"
-msgstr ""
+msgid "Find proposals"
+msgstr "Cauta propuneri"
 
-msgid "Find"
-msgstr ""
+msgid "Go"
+msgstr "Cauta"
+
+msgid "new proposal"
+msgstr "propunere noua"
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Comentariu"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Argument"
 msgstr ""
@@ -2642,6 +2660,9 @@ msgstr ""
 msgid "Show full comment"
 msgstr ""
 
+msgid "created new proposal"
+msgstr ""
+
 msgid "Latest Events"
 msgstr "Cele mai noi Evenimente"
 
@@ -2663,6 +2684,20 @@ msgstr "Sterge comunitatea"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Esti sigur ca vrei sa stergi aceasta comunitate?"
+
+#, python-format
+msgid "Join %s"
+msgstr ""
+
+msgid "Join"
+msgstr ""
+
+msgid "Join instance"
+msgstr ""
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr ""
 
 msgid "Leave"
 msgstr "Paraseste grup"
@@ -2721,9 +2756,9 @@ msgid "(Both Markdown and HTML are allowed here.)"
 msgstr "(sunt permise texte tip HTML)"
 
 msgid ""
-"Please select one or more of these presets for the initial configuration of "
-"your instance. If needed, you can fine-tune the individual settings later "
-"on."
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
 msgstr ""
 
 msgid ""
@@ -2731,18 +2766,22 @@ msgid ""
 "configuration. Note that any manual configuration will be lost."
 msgstr ""
 
-msgid "Agenda Setting"
-msgstr ""
-
-msgid "Users can create proposals and dicuss them."
-msgstr ""
-
-msgid "Consultation"
+msgid "Collecting ideas"
 msgstr ""
 
 msgid ""
-"Post texts (so called \"norms\") and discuss them online. Users can write "
-"comments and propose changes."
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr ""
+
+msgid "Collaboratively drafting texts"
+msgstr ""
+
+msgid ""
+" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
 msgstr ""
 
 msgid "Configure"
@@ -2751,71 +2790,66 @@ msgstr ""
 msgid "Reset"
 msgstr "Reseteaza parola"
 
-msgid "Logo"
-msgstr "Logo"
-
-msgid "Select a logo file to appear in the header area of this Instance."
-msgstr "Selecteaza o imagine care sa apara in descrierea Comunitatii."
-
-msgid "Current logo"
-msgstr "Logo curent"
-
-msgid "Delete current logo"
-msgstr "Sterge logo-ul curent"
-
-msgid "Extra CSS"
-msgstr "Still CSS aditional"
-
-msgid "You can add css that will be used to style the instance."
-msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
-
-msgid "Thumbnail badges width"
-msgstr ""
-
-msgid "Thumbnail badges height"
-msgstr ""
-
-msgid "Use Norms"
-msgstr "Utilizeaza documente"
-
-msgid "Allow users to propose norms"
-msgstr "Permite utilizatorilor sa propuna documente"
-
-msgid "Allow users to change norms from within proposals"
-msgstr ""
-
-msgid "Require to propose a variant"
-msgstr "Cere sa fie propusa o varianta"
-
-msgid "Show norms navigation item"
-msgstr ""
-
-msgid "Show proposals navigation item"
-msgstr ""
-
-msgid "Display category pages"
-msgstr ""
-
-msgid "Use milestones"
-msgstr "Permite date limita"
-
-msgid "Use thumbnail badges"
-msgstr ""
-
-msgid "Hide global categories"
-msgstr "Ascunde categoriile globale"
-
 msgid "Allow editing of comments by default"
 msgstr "Permite editarea comentariilor "
 
 msgid "Allow editing of proposals by default"
 msgstr ""
 
+msgid "Require to propose a variant"
+msgstr "Cere sa fie propusa o varianta"
+
+msgid ""
+"If norms are activated, this option will ensure that users change at least "
+"one norm with each proposal."
+msgstr ""
+
+msgid "Hide global categories"
+msgstr "Ascunde categoriile globale"
+
+msgid "Members of your instance only see the catagories you created."
+msgstr ""
+
+msgid "Display page index as tiles"
+msgstr ""
+
+msgid "Hide this instance"
+msgstr "Ascunde comunitatea"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "Selecteaza daca Comunitatea va fi afisata pe pagina principala."
+
 msgid "Freeze this instance"
 msgstr "Suspenda comunitatea"
 
-msgid "Name"
-msgstr "Nume"
+msgid ""
+"This will prevent members from making any more changes or contributions to "
+"the existing discussion."
+msgstr ""
+
+msgid "Break down Voting Result by Badge"
+msgstr ""
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
+
+msgid "Extra CSS"
+msgstr "Still CSS aditional"
+
+msgid "Status badge image width"
+msgstr ""
+
+msgid "Status badge image height"
+msgstr ""
+
+msgid "Authenticate this instance"
+msgstr ""
+
+msgid "Activates additional feature, e.g. massinvite und massmessage"
+msgstr ""
 
 msgid "Language"
 msgstr "Limba"
@@ -2824,14 +2858,22 @@ msgid ""
 "The language setting will be overridden by the user's personal setting."
 msgstr "Setarea de limba va fi modificata de setarea de limba a utilizatorului."
 
-msgid "Default group"
-msgstr "Grup standard"
+msgid "Enable delegated voting"
+msgstr ""
 
-msgid "Hide this instance"
-msgstr "Ascunde comunitatea"
+msgid "Enable milestones"
+msgstr ""
 
-msgid "Select whether this instance will be shown in public listings."
-msgstr "Selecteaza daca Comunitatea va fi afisata pe pagina principala."
+msgid ""
+"Milestones link the online discussions with offline events through a "
+"calendar function."
+msgstr ""
+
+msgid "Display category pages"
+msgstr ""
+
+msgid "Delete this instance"
+msgstr ""
 
 msgid "Require email validation"
 msgstr "Cere validarea adresei de email."
@@ -2839,37 +2881,73 @@ msgstr "Cere validarea adresei de email."
 msgid "Require instance members to validate their email address."
 msgstr "Cere membrilor comunitatii validarea adreselor de email."
 
-msgid "This instance is authenticated"
-msgstr "Comunitatea este autentificata"
-
-msgid "Enable (final) adoption voting"
-msgstr "Permite vot (final) pentru adoptare"
-
-msgid ""
-"Before activating, the defined majority must be continuously held by the "
-"proposal for the specified interval."
-msgstr "Pentru a deveni activa, majoritatea ceruta trebuie sa fie mentinuta in intervalul de timp mentionat."
-
-msgid "Majority"
-msgstr "Majoritate"
-
-msgid "Delay"
-msgstr "Amanare"
-
-msgid "Enable vote delegation"
-msgstr "Permite votul prin delegare"
-
-msgid "Break down Voting Result by Badge"
+msgid "Default group for new members"
 msgstr ""
 
-msgid "Display how the users with the selected badges feel about the issue."
+msgid ""
+"This will initially decide whether new members can actively participate in "
+"or simply read the discussions on your instance. You can change user groups "
+"of individual members later."
+msgstr ""
+
+msgid "Name of the instance"
+msgstr ""
+
+msgid "Give your instance a name."
+msgstr ""
+
+msgid ""
+"This is what appears on the overview-page of your instance. Describe the "
+"participation process you have in mind. Clearly state the goals of this "
+"group and how its members can participate in reaching them."
+msgstr ""
+
+msgid "Description of the instance"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
+msgstr ""
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Current logo"
+msgstr "Logo curent"
+
+msgid "Delete current logo"
+msgstr "Sterge logo-ul curent"
+
+msgid "Show proposals navigation item"
+msgstr ""
+
+msgid "Show proposals as an extra tab"
+msgstr ""
+
+msgid "Enable norms"
+msgstr ""
+
+msgid ""
+"Unlike proposals, norms are documents that you introduce to be discussed on "
+"the platform."
+msgstr ""
+
+msgid "Allow members to propose norms"
+msgstr ""
+
+msgid "Allow members to change norms from within proposals"
+msgstr ""
+
+msgid "Members will be able to propose changes of the norms you introduce."
+msgstr ""
+
+msgid "Show norms navigation item"
+msgstr ""
+
+msgid "Show norms as an extra tab"
 msgstr ""
 
 msgid "Home"
 msgstr "Acasa"
-
-msgid "new proposal"
-msgstr "propunere noua"
 
 msgid "show a list of proposals"
 msgstr "afiseaza lista de propuneri"
@@ -2895,6 +2973,9 @@ msgstr "Creat"
 #, python-format
 msgid "by %s on %s"
 msgstr "de %s pe %s"
+
+msgid "Votings"
+msgstr "Votare"
 
 msgid "By the numbers"
 msgstr "Statistici comunitate"
@@ -3202,6 +3283,12 @@ msgstr "Numele Variantei"
 msgid "Text"
 msgstr "Text"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr ""
 
@@ -3213,6 +3300,11 @@ msgstr ""
 
 msgid "Use markdown formatting."
 msgstr "Utilizeaza formatarea cu taguri."
+
+msgid ""
+"Upload a logo for this page. Please note that the logo will only be "
+"displayed in the pages index."
+msgstr ""
 
 msgid "Parent page:"
 msgstr "Documentul initial"
@@ -3259,6 +3351,12 @@ msgstr ""
 
 msgid "Norm content"
 msgstr "Continut document"
+
+msgid "Use as a container for other norms"
+msgstr ""
+
+msgid "Upload a logo for this page"
+msgstr ""
 
 msgid "Tag and classify"
 msgstr "Adauga etichete pentru a clasifica"
@@ -3335,8 +3433,20 @@ msgstr ""
 msgid "Discussions"
 msgstr "Discutii"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "Amendments"
 msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Add section"
 msgstr ""
@@ -3455,6 +3565,9 @@ msgid ""
 " a short delay before the tally updates."
 msgstr "Rezultatele votului sunt actualizate cu o mica pauza. Dupa ce ai votat, asteapta-te la o pauza scurta a actualizarii calculelor."
 
+msgid "This is a record of all recent actions concerning this proposal."
+msgstr ""
+
 msgid "Call a poll"
 msgstr "Porneste votul"
 
@@ -3467,16 +3580,13 @@ msgstr "Urmeaza sa pornesti votul. Cand faci asta, nu vei mai putea sa <strong>m
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Confirmi stergerea propunerii?"
 
-msgid "badge"
-msgstr "titlu"
-
-msgid "thumbnail badge"
+msgid "Status Badge"
 msgstr ""
 
-msgid "No Thumbnail Badge"
+msgid "No Status Badge"
 msgstr ""
 
-msgid "No Thumbnail Badges"
+msgid "No Status Badges"
 msgstr ""
 
 #, python-format
@@ -3549,12 +3659,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Find proposals"
-msgstr "Cauta propuneri"
-
-msgid "Go"
-msgstr "Cauta"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Tabelul cu propunerile din aceasta comunitate"
@@ -3674,6 +3778,9 @@ msgstr "%s%% sustinere"
 #, python-format
 msgid "%s:%s votes"
 msgstr "%s:%s voturi"
+
+msgid "Join the discussion"
+msgstr ""
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -3958,6 +4065,22 @@ msgstr "Toti membrii acestui Server Adhocracy"
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "O listare a tuturor utilizatorilor din toate comunitatile din acest server adhocracy."
 
+msgid "Validate email address"
+msgstr ""
+
+msgid "You have not yet validated your email address."
+msgstr ""
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr ""
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr ""
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Confirmi stergerea profilului tau? Actiunea aceasta nu este reversibila."
@@ -3969,9 +4092,6 @@ msgstr "Modifica Titlul pentru %s"
 #, python-format
 msgid "Badges for %s"
 msgstr "Titlul pentru %s"
-
-msgid "Global badges"
-msgstr ""
 
 msgid "Example:"
 msgstr "Exemplu:"
@@ -4057,6 +4177,14 @@ msgstr ""
 msgid "Yes, I do have a password:"
 msgstr ""
 
+msgid "Validation email sent"
+msgstr ""
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
+msgstr ""
+
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
 " address."
@@ -4067,8 +4195,8 @@ msgid ""
 " here</a>."
 msgstr "Daca ai un cont dar ti-ai pierdut parola, <a href='/reset'>apasa aici</a>."
 
-msgid "Can only contain letters and numbers."
-msgstr "Poate contine doar litere si numere."
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr ""
 
 msgid "You can choose which name other users see."
 msgstr ""
@@ -4091,6 +4219,11 @@ msgstr "Prin inregistrare, iti dai acordul pentru %s."
 
 msgid "Terms and Conditions"
 msgstr "Termeni si Conditii"
+
+msgid ""
+"We'll occasionally inform you about important events such as the start of a "
+"new participation process via email."
+msgstr ""
 
 msgid "leave empty"
 msgstr "lasa necompletat"
@@ -4133,9 +4266,6 @@ msgid ""
 msgstr "Ai primit un email cu un link. Apasa-l pentru a reseta parola."
 
 msgid "User settings"
-msgstr ""
-
-msgid "Advanced settings"
 msgstr ""
 
 msgid "Pager size"
@@ -4218,12 +4348,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4232,13 +4362,16 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Scurta biografie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tine si iti maresc sansele sa obtii mai multe delegari de vot."
+
+msgid "Short biography"
+msgstr "Scurta biografie"
+
+msgid "I am an organisation"
+msgstr ""
 
 msgid "Activity in"
 msgstr ""
@@ -4287,10 +4420,7 @@ msgstr ""
 msgid "Not a member in \"%s\""
 msgstr ""
 
-msgid "User groups"
-msgstr ""
-
-msgid "None"
+msgid "User group"
 msgstr ""
 
 msgid "change group"

@@ -34,6 +34,8 @@ class ErrorController(BaseController):
 
     """
 
+    identifier = "error"
+
     def document(self):
         resp = request.environ.get('pylons.original_response')
         if resp is None:

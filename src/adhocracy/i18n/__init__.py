@@ -83,8 +83,7 @@ def user_language(user, fallbacks=[]):
         locale = user.locale
 
     if locale is None:
-        locales = map(str, LOCALES)
-        locale = Locale.parse(Locale.negotiate(fallbacks, locales)) \
+        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS)) \
             or get_default_locale()
 
     # determinate from which path we load the translations

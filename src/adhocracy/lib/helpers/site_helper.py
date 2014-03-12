@@ -1,6 +1,8 @@
 import urllib
+from urlparse import urlparse
 
 from pylons import config, app_globals as g
+from pylons import request
 from pylons.i18n import _
 from paste.deploy.converters import asbool
 from adhocracy.model import instance_filter as ifilter
@@ -100,6 +102,33 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     return result
 
 
+def current_url():
+    return base_url(request.path)
+
+
 def shortlink_url(delegateable):
     path = "/d/%s" % delegateable.id
     return base_url(path, None, absolute=True)
+
+
+def is_local_url(url):
+    """check if the url points to this installation of adhocracy to
+    avoid fishing attacks and similar.
+
+    see also adhocracy.helpers.is_local_url in adhocracy.js
+    """
+
+    if url is None or url == u'':
+        return False
+
+    netloc = urlparse(url).netloc
+    domain = config.get('adhocracy.domain')
+
+    if netloc == u'' or netloc == domain:
+        return True
+    elif relative_urls():
+        return False
+    else:
+        # this allows only one subdomain below domain
+        return (netloc.endswith(u'.' + domain) and
+                (netloc.count(u'.') - domain.count(u'.') == 1))

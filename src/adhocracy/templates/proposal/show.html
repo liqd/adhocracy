@@ -5,7 +5,7 @@
 <%namespace name="comment_tiles" file="/comment/tiles.html"/>
 <%namespace name="state" file="/poll/state.html"/>
 
-<%def name="title()">${c.proposal.title}</%def>
+<%def name="title()">${c.proposal.title|n}</%def>
 
 <%def name="breadcrumbs()">${h.proposal.breadcrumbs(c.proposal)|n}</%def>
 
@@ -38,7 +38,7 @@
     delegate_url = url if can.delegation.create(c.proposal) else None
 %>
 
-%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll:
+%if not c.proposal.is_adopt_polling() and c.proposal.rate_poll is not None:
 ${tiles.poll.widget(c.proposal.rate_poll, cls='big', delegate_url=delegate_url)}
 %endif
 
@@ -273,6 +273,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
           %endif
         </p>
 
+        %if c.proposal.instance.milestones:
         <h6>${_('Milestones')}</h6>
         <% milestone = c.proposal.milestone %>
         <p>
@@ -288,6 +289,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
             ${_("This proposal is not related to a milestone")}
             %endif
         </p>
+        %endif
 
         <h6>${_('Created')}</h6>
         ## FIXME: ensure caching of history count (make it a tile?)

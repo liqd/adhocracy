@@ -3,7 +3,7 @@
 <%def name="row(tile, instance)">
     <li class="content_box">
         %if tile.show_icon():
-        <img class="logo" src="${h.instance.icon_url(instance, 32, x=32)}" />
+        <img class="logo" src="${h.logo_url(instance, 32, x=32)}" />
         %endif
         <div>
             <h3>

@@ -6,6 +6,7 @@ from pylons import config
 from pylons.i18n import _
 
 from adhocracy.lib import cache, logo
+from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.site_helper import CURRENT_INSTANCE
 from adhocracy.model import Instance
@@ -27,8 +28,7 @@ def link(user, size=16, scope=None, show_badges=True):
                        show_badges):
         from adhocracy.lib import tiles
         url = _generic_link(user, instance, size, scope)
-        badges = [b for b in user.badges if b.instance is None
-                  or b.instance is instance]
+        badges = user.get_badges(instance)
         if show_badges and badges:
             url += u"<span class='badges'>" + \
                 unicode(tiles.badge.badges(badges)) + "</span>"
@@ -60,27 +60,37 @@ def url(user, instance=CURRENT_INSTANCE, **kwargs):
     return _url.build(instance, 'user', user.user_name, **kwargs)
 
 
-def avatar_url(user, y, x=None):
+def logo_url(user, y, x=None):
     from adhocracy.lib.helpers import base_url
-    if x is None:
-        size = "%s" % y
-    else:
-        size = "%sx%s" % (x, y)
+    size = "%s" % y if x is None else "%sx%s" % (x, y)
     filename = u"%s_%s.png" % (user.user_name, size)
-    (path, mtime) = logo.path_and_mtime(user)
+    (path, mtime) = logo.path_and_mtime(user, fallback=logo.USER)
     return base_url(u'/user/%s' % filename, query_params={'t': str(mtime)})
 
 
-@cache.memoize('user_bc')
-def bc_entity(user):
-    return _url.BREAD_SEP + _url.link(user.name, url(user))
-
-
-def breadcrumbs(user):
-    bc = _url.root()
-    bc += _url.link(_("Users"), u'/user')
+def breadcrumbs(user, dashboard=False):
+    from adhocracy.lib.helpers import base_url
+    items = []
+    if c.instance is not None:
+        items.append(_url.link(_("Members"), base_url(u'/user')))
+    elif has('user.index_all'):
+        items.append(_url.link(_("Members"), base_url(u'/user/all')))
     if user is not None:
-        bc += bc_entity(user)
+        items.append(_url.link(user.name, url(user)))
+    if dashboard:
+        items.append(_url.link(_('Dashboard'), base_url('/user/dashboard')))
+    return _url.root() + _url.BREAD_SEP.join(items)
+
+
+def settings_breadcrumbs(user, member=None):
+    """member is a dict with the keys 'name' and 'label'."""
+    bc = breadcrumbs(user)
+    bc += _url.BREAD_SEP + _url.link(_("Settings"),
+                                     url(user, member="settings"))
+    if member is not None:
+        bc += _url.BREAD_SEP + _url.link(
+            member['label'],
+            url(user, member="settings/" + member['name']))
     return bc
 
 
@@ -116,3 +126,9 @@ def can_change_password(user):
         return asbool(config.get('adhocracy.allow_password_change', 'false'))
     else:
         return True
+
+
+def activation_url():
+    from adhocracy.lib.auth.csrf import url_token
+    from adhocracy.lib.helpers import base_url
+    return base_url('/user/%s/resend?%s' % (c.user.user_name, url_token()))
