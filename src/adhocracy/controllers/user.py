@@ -865,15 +865,10 @@ class UserController(BaseController):
 
     def _get_events(self, nr_events=None, event_filter=[]):
         """get events triggerd by this user"""
-        query = model.meta.Session.query(model.Event)
+        query = model.Event.all_q(instance=c.instance,
+                                  include_hidden=False,
+                                  event_filter=event_filter)
         query = query.filter(model.Event.user == c.page_user)
-        if c.instance:
-            query = query.filter(model.Event.instance == c.instance)
-        else:
-            query = query.join(model.Instance) \
-                         .filter(not_(model.Instance.hidden))
-        if event_filter:
-            query = query.filter(model.Event.event.in_(event_filter))
         query = query.order_by(model.Event.time.desc())
         if nr_events is not None:
             query = query.limit(nr_events)
