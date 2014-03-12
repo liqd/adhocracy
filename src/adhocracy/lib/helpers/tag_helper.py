@@ -31,8 +31,7 @@ def link(tag, count=None, size=None, base_size=12, plain=False, simple=False):
 
     text = u"<span class='tag_link %s'><a" % ("plain" if plain else "")
     if size is not None:
-        size = int(math.sqrt(size) * base_size)
-        text += u" style='font-size: %dpx !important;'" % size
+        text += u" style='font-size: %d%% !important;'" % size
     text += u" href='%s' rel='tag'>%s</a>" % (url(tag), cgi.escape(tag.name))
     if count is not None and count > 1:
         text += u"&thinsp;&times;" + str(count)
@@ -101,6 +100,11 @@ def _tag_size(count, all_counts, steps=6):
     f = int(round(steps * f)) / float(steps)
     print count, f, int(90 + f*110)
     return int(90 + f * 110)
+
+
+def tag_cloud_normalize(tags, steps=6):
+    all_counts = [co for (t, co) in tags]
+    return [(t, co, _tag_size(co, all_counts, steps=steps)) for (t, co) in tags]
 
 
 def solr_tag_size(tag, all_tags, steps=6):

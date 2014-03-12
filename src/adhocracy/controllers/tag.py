@@ -59,7 +59,7 @@ class TagController(BaseController):
         tags = model.Tag.popular_tags(limit=500)
         if format == 'json':
             return render_json(tags)
-        c.tags = sorted(text.tag_cloud_normalize(tags),
+        c.tags = sorted(h.tag.tag_cloud_normalize(tags),
                         key=lambda (k, c, v): k.name.lower())
         if format == 'overlay':
             return render("/tag/index.html", overlay=True)
@@ -91,7 +91,7 @@ class TagController(BaseController):
             q=c.query)
 
         tags = model.Tag.similar_tags(c.tag, limit=50)
-        c.cloud_tags = sorted(text.tag_cloud_normalize(tags),
+        c.cloud_tags = sorted(h.tag.tag_cloud_normalize(tags),
                               key=lambda (k, c, v): k.name)
 
         if format == 'overlay':

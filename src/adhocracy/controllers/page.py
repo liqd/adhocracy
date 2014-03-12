@@ -143,7 +143,7 @@ class PageController(BaseController):
             return render_json(data['pages_pager'])
 
         tags = model.Tag.popular_tags(limit=30)
-        data['cloud_tags'] = sorted(libtext.tag_cloud_normalize(tags),
+        data['cloud_tags'] = sorted(h.tag.tag_cloud_normalize(tags),
                                     key=lambda (k, c, v): k.name)
         data['tutorial_intro'] = _('tutorial_norms_overview_tab')
         data['tutorial'] = 'page_index'
