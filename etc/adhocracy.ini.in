@@ -98,6 +98,14 @@ suppress_http_headers = accept-encoding
 #WARNING changed name: #[app:main]
 
 [app:content]
+
+{% if parts.adhocracy.themed == 'False' %}
+adhocracy.themed = false
+{% end %}
+{% if parts.adhocracy.themed == 'True' %}
+adhocracy.themed = true
+{% end %}
+
 use = egg:adhocracy
 full_stack = true
 static_files = true
