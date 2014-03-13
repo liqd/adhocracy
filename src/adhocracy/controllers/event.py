@@ -19,15 +19,11 @@ class EventController(BaseController):
 
     @guard.perm('event.index_all')
     def all(self, format='html'):
-        query = model.Event.all_q(include_hidden=False)\
+        events = model.Event.all_q(
+            include_hidden=False,
+            event_filter=request.params.getall('event_filter'))\
             .order_by(model.Event.time.desc())\
-
-        if 'event_filter' in request.params:
-            query = query.filter(model.Event.event.in_(
-                request.params.getall('event_filter')))
-
-        query = query.limit(min(int(request.params.get('count', 50)), 100))
-        events = query.all()
+            .limit(min(int(request.params.get('count', 50)), 100)).all()
 
         if format == 'rss':
             return event.rss_feed(events,
