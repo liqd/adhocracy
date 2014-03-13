@@ -280,13 +280,6 @@ var adhocracy = adhocracy || {};
             resize(300);
             autoResize('fast', 200);
 
-            /* redirect links */
-            $('a[href]', iframe.contents()).each(function() {
-                if (this.href[0] != '#' && typeof($(this).attr('target')) === 'undefined') {
-                    this.target = '_top';
-                }
-            })
-
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
                     e.preventDefault();
@@ -1310,4 +1303,29 @@ $(document).ready(function () {
             startDrawInterval(true);
         });
     });
+
+    var top_u = new Uri(window.location.href);
+    if (top_u.path().match(/\.overlay$/)) {
+        var overlay_url = function(url) {
+            var u = new Uri(url);
+            if (u.host() === '' || u.host() === top_u.host()) {
+                u.path(u.path().replace(/(\..*)?$/, '.overlay'));
+            }
+            return u.toString();
+        };
+
+        // registering this event on parent element to also catch
+        // events from generated elements
+        $('html').on('click', 'a[href]', function() {
+            if (this.href[0] != '#' && typeof(this.target) === 'undefined') {
+                this.target = '_top';
+            }
+            if (this.target === '_self') {
+                this.href = overlay_url(this.href);
+            }
+        });
+        $('html').on('submit', 'form', function() {
+            this.action = overlay_url(this.action);
+        });
+    }
 });
