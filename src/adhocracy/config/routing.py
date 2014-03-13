@@ -519,6 +519,8 @@ def make_map(config):
                 conditions=dict(method=['GET', 'HEAD']))
 
     map.connect('/event/all{.format}', controller='event', action='all')
+    map.connect('/event/carousel{.format}', controller='event',
+                action='carousel')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
