@@ -31,7 +31,7 @@
         </div>
         %endif
     </fieldset>
-    %if c.page_instance.is_authenticated:
+    %if h.config.get_bool('adhocracy.instance.allow_logo_as_background') and c.page_instance.is_authenticated:
     ${forms.checkbox(_('Use logo as background image'), 'logo_as_background')}
     %endif
 

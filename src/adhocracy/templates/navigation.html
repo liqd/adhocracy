@@ -187,7 +187,7 @@
    background = None
    if c.instance:
        if InstanceTile(c.instance).show_icon():
-           if c.instance.logo_as_background:
+           if h.config.get_bool('adhocracy.instance.allow_logo_as_background') and c.page_instance.is_authenticated and c.instance.logo_as_background:
                background = h.logo_url(c.instance, 256)
            else:
                logo = h.logo_url(c.instance, 48)

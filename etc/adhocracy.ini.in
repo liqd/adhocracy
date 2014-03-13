@@ -445,6 +445,9 @@ adhocracy.static_index_path = index
 # /static_theme/static/images/theme-preview-{key}.png
 # adhocracy.instance_themes =
 
+# Allow to set instance logo as subheader background
+# adhocracy.instance.allow_logo_as_background = True
+
 ## Performance options
 
 # Check whether feedback instance exists before rendering a feedback button
