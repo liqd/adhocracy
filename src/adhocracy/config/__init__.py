@@ -46,6 +46,7 @@ DEFAULTS = {
     'adhocracy.instance_overview_sidebar_contents': [u'events'],
 
     'adhocracy.instance_stylesheets': [],
+    'adhocracy.instance_themes': [],
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
@@ -82,6 +83,7 @@ DEFAULTS = {
     'adhocracy.static_agree_text': None,
     'adhocracy.store_notification_events': True,
     'adhocracy.tagcloud_facet': False,
+    'adhocracy.themed': False,
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.use_test_instance': True,

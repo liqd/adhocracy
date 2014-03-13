@@ -98,6 +98,14 @@ suppress_http_headers = accept-encoding
 #WARNING changed name: #[app:main]
 
 [app:content]
+
+{% if parts.adhocracy.themed == 'False' %}
+adhocracy.themed = false
+{% end %}
+{% if parts.adhocracy.themed == 'True' %}
+adhocracy.themed = true
+{% end %}
+
 use = egg:adhocracy
 full_stack = true
 static_files = true
@@ -426,6 +434,16 @@ adhocracy.static_index_path = index
 
 # Show Facebook / Twitter / G+ buttons
 # adhocracy.show_social_buttons = False
+
+# Use a custom stylesheet for these instances
+# The stylesheets are expected at /static/stylesheets/adhocracy_{key}.css
+# adhocracy.instance_stylesheets =
+
+# Allow authenticated instances to use one of these themes
+# The stylesheets are expected at /static/stylesheets/adhocracy_theme_{key}.css
+# Additionally, a preview image is expected at
+# /static_theme/static/images/theme-preview-{key}.png
+# adhocracy.instance_themes =
 
 ## Performance options
 

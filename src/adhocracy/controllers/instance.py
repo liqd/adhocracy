@@ -104,6 +104,7 @@ class InstanceGeneralEditForm(formencode.Schema):
     display_category_pages = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
     locale = forms.ValidLocale()
+    theme = validators.String(not_empty=False, if_empty=None, if_missing=None)
 
 
 class InstanceProcessEditForm(formencode.Schema):
@@ -542,6 +543,8 @@ class InstanceController(BaseController):
         c.category_badge_tables = render_def('/badge/index.html',
                                              'render_context_tables',
                                              cat_badge_data)
+        theme = '' if c.page_instance.theme is None else c.page_instance.theme
+
         return htmlfill.render(
             self._settings_general_form(id),
             defaults={
@@ -551,6 +554,7 @@ class InstanceController(BaseController):
                 'display_category_pages':
                 c.page_instance.display_category_pages,
                 'locale': c.page_instance.locale,
+                'theme': theme,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -565,6 +569,15 @@ class InstanceController(BaseController):
         updated = update_attributes(c.page_instance, self.form_result,
                                     ['allow_delegate', 'locale', 'milestones',
                                      'display_category_pages'])
+
+        stylesheets = config.get_list('adhocracy.instance_stylesheets')
+        themes = config.get_list('adhocracy.instance_themes')
+        if (c.page_instance.is_authenticated and themes
+                and c.page_instance.key not in stylesheets):
+            auth_updated = update_attributes(c.page_instance,
+                                             self.form_result,
+                                             ['theme'])
+            updated = updated or auth_updated
 
         return self._settings_result(updated, c.page_instance, 'general')
 
