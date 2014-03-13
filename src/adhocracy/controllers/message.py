@@ -8,6 +8,7 @@ from pylons.i18n import _
 
 from adhocracy import model
 from adhocracy.lib import helpers as h
+from adhocracy.lib import message as _message
 from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render
@@ -58,4 +59,5 @@ class MessageController(BaseController):
     def show(self, id, format='html'):
         c.message = get_entity_or_abort(model.Message, id)
         require.message.show(c.message)
+        c.body = _message.render_body(c.message.body, c.user)
         return render('/message/show.html', overlay=format == 'overlay')

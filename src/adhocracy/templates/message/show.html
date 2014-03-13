@@ -65,6 +65,6 @@
 <%block name="main_content">
 <article class="message">
     <h1>${_(u'Message')}: ${c.message.subject}</h1>
-    ${h.render(c.message.body)|n}
+    ${h.render(c.body)|n}
 </article>
 </%block>
