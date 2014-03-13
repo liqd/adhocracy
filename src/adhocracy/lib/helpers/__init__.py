@@ -43,6 +43,7 @@ from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
 from adhocracy.lib.helpers import treatment_helper as treatment
 from adhocracy.lib.helpers import category_helper as category
+from adhocracy.lib.helpers import message_helper as message
 
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
@@ -246,6 +247,8 @@ def entity_url(entity, **kwargs):
         return staticpage.url(entity, **kwargs)
     elif isinstance(entity, model.Treatment):
         return treatment.url(entity, **kwargs)
+    elif isinstance(entity, model.Message):
+        return message.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

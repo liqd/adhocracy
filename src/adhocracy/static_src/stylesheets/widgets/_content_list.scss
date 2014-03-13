@@ -199,6 +199,14 @@
         &.t_proposal_badge:before {
             background-image: url("/images/event-badge.png");
         }
+
+        &.t_message_send:before {
+            background-image: url("/images/event-message.png");
+        }
+
+        &.t_massmessage_send:before {
+            background-image: url("/images/event-massmessage.png");
+        }
     }
 }
 

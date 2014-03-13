@@ -47,6 +47,8 @@ def make_map(config):
                 action='dashboard_votes')
     map.connect('/user/dashboard/delegations', controller='user',
                 action='dashboard_delegations')
+    map.connect('/user/dashboard/messages', controller='user',
+                action='dashboard_messages')
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
 
@@ -131,8 +133,8 @@ def make_map(config):
                 conditions=dict(method=['PUT']))
 
     map.connect('/message/new', controller='massmessage', action='new')
-    map.connect('/message/preview', controller='massmessage', action='preview')
     map.connect('/message/create', controller='massmessage', action='create')
+    map.connect('/message/{id}', controller='message', action='show')
 
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
@@ -440,9 +442,6 @@ def make_map(config):
                 conditions=dict(method=['GET']))
     map.connect('/instance/{id}/message{.format}',
                 controller='massmessage', action='create',
-                conditions=dict(method=['POST']))
-    map.connect('/instance/{id}/message/preview{.format}',
-                controller='massmessage', action='preview',
                 conditions=dict(method=['POST']))
     map.connect('/instance/{id}/members_import{.format}',
                 controller='instance', action='members_import',

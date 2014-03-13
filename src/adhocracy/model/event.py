@@ -96,6 +96,10 @@ class Event(object):
             query = query.outerjoin(Instance)  # noqa
             query = query.except_(query.filter(Instance.hidden == True))  # noqa
 
+        # message events should never be displayed in public
+        query = query.filter(Event.event != 't_message_send') \
+                     .filter(Event.event != 't_massmessage_send')  # noqa
+
         return query
 
     @classmethod

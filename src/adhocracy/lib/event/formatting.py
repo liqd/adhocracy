@@ -135,6 +135,16 @@ class CommentFormatter(ObjectFormatter):
                                         cgi.escape(self.unicode(comment)))
 
 
+class MessageFormatter(ObjectFormatter):
+
+    def unicode(self, message):
+        return message.subject
+
+    def html(self, message):
+        return '<a href="%s">%s</a>' % (h.entity_url(message),
+                                        cgi.escape(self.unicode(message)))
+
+
 class FormattedEvent(object):
 
     FORMATTERS = {model.Vote: VoteFormatter(),
@@ -144,7 +154,8 @@ class FormattedEvent(object):
                   model.Proposal: ProposalFormatter(),
                   model.Poll: PollFormatter(),
                   model.Page: PageFormatter(),
-                  model.Comment: CommentFormatter()}
+                  model.Comment: CommentFormatter(),
+                  model.Message: MessageFormatter()}
 
     def __init__(self, event, decoder):
         self.event = event
