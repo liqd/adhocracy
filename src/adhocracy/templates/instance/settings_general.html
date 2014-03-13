@@ -26,12 +26,12 @@
         <table>
             <tr>
                 <td>${forms.radio(_('default'), 'theme', '')}</td>
-                <td><img src="/static_theme/static/images/theme_preview_default.png" alt="${_('preview')}" class="theme-preview" /></td>
+                <td><img src="${'/static_theme/static' if h.config.get_bool('adhocracy.themed') else ''}/images/theme_preview_default.png" alt="${_('preview')}" class="theme-preview" /></td>
             </tr>
             %for theme in instance_themes:
             <tr>
                 <td>${forms.radio(theme, 'theme', theme)}</td>
-                <td><img src="/static_theme/static/images/theme_preview_${theme}.png" alt="${_('preview')}" class="theme-preview" /></td>
+                <td><img src="${'/static_theme/static' if h.config.get_bool('adhocracy.themed') else ''}/images/theme_preview_${theme}.png" alt="${_('preview')}" class="theme-preview" /></td>
             </td>
             %endfor
         </table>
