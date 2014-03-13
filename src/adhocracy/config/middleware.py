@@ -54,6 +54,11 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     # The Pylons WSGI app
     app = PylonsApp(config=config)
 
+    if debug and asbool(app_conf.get('adhocracy.enable_profiling', False)):
+        from werkzeug.contrib.profiler import ProfilerMiddleware
+        app = ProfilerMiddleware(app, sort_by=('ncalls',),
+                                 restrictions=('src/adhocracy/.*', 25))
+
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'])
     if config.get('adhocracy.session.implementation', 'beaker') == 'cookie':
