@@ -93,6 +93,8 @@ class InstanceOverviewEditForm(formencode.Schema):
     allow_extra_fields = True
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
+    logo_as_background = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
 
 
 class InstanceGeneralEditForm(formencode.Schema):
@@ -486,6 +488,7 @@ class InstanceController(BaseController):
                 '_method': 'PUT',
                 'label': c.page_instance.label,
                 'description': c.page_instance.description,
+                'logo_as_background': c.page_instance.logo_as_background,
                 '_tok': csrf.token_id()})
 
     @RequireInstance
@@ -506,6 +509,12 @@ class InstanceController(BaseController):
 
         updated = update_attributes(c.page_instance, self.form_result,
                                     ['description', 'label'])
+
+        if c.page_instance.is_authenticated:
+            auth_updated = update_attributes(c.page_instance,
+                                             self.form_result,
+                                             ['logo_as_background'])
+            updated = updated or auth_updated
 
         try:
             # fixme: show logo errors in the form

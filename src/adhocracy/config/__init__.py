@@ -34,6 +34,7 @@ DEFAULTS = {
     'adhocracy.hide_instance_list_in_navigation': False,
 
     'adhocracy.hide_locallogin': False,
+    'adhocracy.instance.allow_logo_as_background': False,
     'adhocracy.instance_footers': [],
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
