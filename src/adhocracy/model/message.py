@@ -90,6 +90,11 @@ class Message(meta.Indexable):
         else:
             return self.creator.name
 
+    def rendered_body(self, user):
+        from adhocracy.lib.message import render_body
+
+        return render_body(self.body, user)
+
 
 message_recipient_table = Table(
     'message_recipient', meta.data,
