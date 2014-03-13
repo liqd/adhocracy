@@ -16,6 +16,7 @@ DEFAULTS = {
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.delay_update_queue_seconds': 1,
+    'adhocracy.demo_users': [],
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,
     'adhocracy.feedback_check_instance': True,
@@ -36,6 +37,7 @@ DEFAULTS = {
     'adhocracy.hide_instance_list_in_navigation': False,
 
     'adhocracy.hide_locallogin': False,
+    'adhocracy.instance.allow_logo_as_background': False,
     'adhocracy.instance_footers': [],
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
@@ -48,6 +50,7 @@ DEFAULTS = {
     'adhocracy.instance_overview_sidebar_contents': [u'events'],
 
     'adhocracy.instance_stylesheets': [],
+    'adhocracy.instance_themes': [],
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
@@ -83,6 +86,8 @@ DEFAULTS = {
     'adhocracy.startpage.proposals.list_length': 0,
     'adhocracy.static_agree_text': None,
     'adhocracy.store_notification_events': True,
+    'adhocracy.tagcloud_facet': False,
+    'adhocracy.themed': False,
     'adhocracy.use_avatars': True,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.use_test_instance': True,

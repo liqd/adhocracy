@@ -263,6 +263,20 @@ T_SELECT_VARIANT = EventType(
         h.entity_url(e.poll.selection, absolute=absolute)),
     event_msg=lambda: _(u"%(vote)s %(poll)s"))
 
+T_MESSAGE_SEND = EventType(
+    u"t_message_send", pri=3,
+    subject=lambda: _(u"Message send: %(message)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.message, absolute=absolute)),
+    event_msg=lambda: _(u"sent message: \"%(message)s\""))
+
+T_MASSMESSAGE_SEND = EventType(
+    u"t_massmessage_send", pri=3,
+    subject=lambda: _(u"Message send: %(message)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.message, absolute=absolute)),
+    event_msg=lambda: _(u"sent message: \"%(message)s\""))
+
 T_TEST = EventType(
     u"t_test", pri=5,
     subject=lambda: _(u"Adhocracy says hello: %(test)s"),
@@ -331,6 +345,12 @@ N_COMMENT_EDIT = NotificationType(
         h.entity_url(e.comment, absolute=absolute)),
     text=lambda e: e.rev.text if e.rev else None)
 
+N_MESSAGE_RECEIVE = NotificationType(
+    u"n_message_receive", pri=3,
+    subject=lambda: _(u"Message from %(sender)s: %(message)s"),
+    link_path=lambda e, absolute=False: (
+        h.entity_url(e.message, absolute=absolute)))
+
 
 # Sets
 S_INSTANCE = [
@@ -393,6 +413,12 @@ S_PAGE = [
 
 S_BADGE = [
     't_proposal_badge',
+]
+
+S_MESSAGE = [
+    't_message_send',
+    't_massmessage_send',
+    'n_message_receive',
 ]
 
 S_CONTRIBUTION = S_PROPOSAL + S_AMENDMENT + S_COMMENT + S_PAGE

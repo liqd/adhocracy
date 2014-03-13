@@ -4,9 +4,22 @@
     @include box-shadow(0 -1em 0.5em -1em rgba(0,0,0,0.1) inset);
     display: block;
     overflow: hidden;
-    padding-top: 2em;
     margin-bottom: 3em;
     overflow: hidden;
+
+    .page_wrapper {
+        padding-top: 2em;
+    }
+    .background-image {
+        position: absolute;
+        width: 120%;
+        height: 100%;
+        top: 0;
+        left: -10%;
+        background-size: cover;
+        background-position: 50%;
+        opacity: 0.2;
+    }
 }
 
 #logo_row {
@@ -43,4 +56,5 @@
 
 #nav_row {
     clear: both;
+    position: relative;
 }

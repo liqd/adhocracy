@@ -5,8 +5,7 @@ import logging
 from lxml.html import fragment_fromstring
 
 from adhocracy.lib.text import diff
-from adhocracy.lib.text.tag import (tag_normalize, tag_split,
-                                    tag_cloud_normalize, tag_split_last)
+from adhocracy.lib.text.tag import tag_normalize, tag_split, tag_split_last
 from normalize import *
 from render import render, render_line_based
 

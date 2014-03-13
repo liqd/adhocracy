@@ -1,32 +1,12 @@
 #footer .page_wrapper {
-    padding: 3em 1.8em;
+    padding-top: 3em;
+    padding-bottom: 3em;
     background: url('/images/shadow_footer.jpg') no-repeat top center;
 }
 
-#footer .footer_line {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-}
-
 #footer .footer_line > div {
-    /* we use `display: table` to give all blocks (and
-     * therefore lines) same height */
-    display: table-cell;
-    float: none;
-    padding: 1em;
     margin-bottom: 0;
     background: none;
-
-    // lines
-    border-right: 1px solid darken($bg2, 10%);
-    border-left: 1px solid lighten($bg2, 10%);
-    &:last-child {
-        border-right: none;
-    }
-    &:first-child {
-        border-left: none;
-    }
 }
 
 #footer {
@@ -48,5 +28,31 @@
     }
     h3,  a {
         color: $fg1;
+    }
+}
+
+@include desktop {
+    /* we use `display: table` to give all blocks (and
+     * therefore lines) same height */
+    #footer .footer_line {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    #footer .footer_line > div {
+        display: table-cell;
+        float: none;
+        padding: 1em;
+
+        // lines
+        border-right: 1px solid darken($bg2, 10%);
+        border-left: 1px solid lighten($bg2, 10%);
+        &:last-child {
+            border-right: none;
+        }
+        &:first-child {
+            border-left: none;
+        }
     }
 }

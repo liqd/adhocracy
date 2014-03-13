@@ -41,6 +41,7 @@ from text import Text
 from user import User
 from vote import Vote
 from milestone import Milestone
+from message import Message
 
 
 log = logging.getLogger(__name__)
@@ -70,6 +71,7 @@ TYPES = [Vote,
          ThumbnailBadge,
          InstanceBadge,
          UserBadge,
+         Message,
          ]
 
 

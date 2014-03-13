@@ -1,6 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Settings")}</%def>
+<%def name="title()">${_("Settings")|n}</%def>
 
 <%def name="breadcrumbs()">
     ${h.instance.settings_breadcrumbs(c.page_instance, c.settings_menu.current)|n}

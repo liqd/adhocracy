@@ -86,7 +86,7 @@ class Event(object):
     event = property(_get_event)
 
     @classmethod
-    def all_q(cls, instance=None, include_hidden=False):
+    def all_q(cls, instance=None, include_hidden=False, event_filter=[]):
         query = meta.Session.query(Event)
 
         if instance is not None:
@@ -95,6 +95,13 @@ class Event(object):
             # inner join+filter would remove the rows with instance=None here
             query = query.outerjoin(Instance)  # noqa
             query = query.except_(query.filter(Instance.hidden == True))  # noqa
+
+        if event_filter:
+            query = query.filter(Event.event.in_(event_filter))
+
+        # message events should never be displayed in public
+        query = query.filter(Event.event != 't_message_send') \
+                     .filter(Event.event != 't_massmessage_send')  # noqa
 
         return query
 
@@ -135,7 +142,6 @@ class Event(object):
     @classmethod
     def find_by_instance(cls, instance, limit=50, include_hidden=True):
         q = cls.all_q(instance=instance, include_hidden=include_hidden)
-        q = q.filter(Event.instance == instance)
         q = q.order_by(Event.time.desc())
         q = q.limit(limit)
         return q.all()

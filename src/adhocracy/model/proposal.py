@@ -108,6 +108,9 @@ class Proposal(Delegateable):
         self.adopt_poll.end(at_time)
         meta.Session.flush()
 
+    def get_creators(self):
+        return set(text.user for text in self.description.head.history)
+
     @classmethod
     def find(cls, id, instance_filter=True, include_deleted=False, full=False):
         try:

@@ -1,5 +1,3 @@
-import urllib
-
 from paste.deploy.converters import asbool
 from pylons import config
 
@@ -16,7 +14,7 @@ def url(text, **kwargs):
     in_context = (text == text.page.variant_head(text.variant))
     url = page.url(text.page, in_context=in_context)
     if text.page.has_variants and text.variant != text.HEAD:
-        url += u'/' + urllib.quote(text.variant.encode('utf-8'))
+        url += u'/' + _url.quote(text.variant)
     if text != text.page.variant_head(text.variant):
         url += u';' + str(text.id)
     return _url.append_member_and_format(url, **kwargs)

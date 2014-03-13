@@ -1,3 +1,12 @@
+@mixin desktop {
+    @content;
+}
+@mixin mobile {
+    #no-not-show-this-hack {
+        @content;
+    }
+}
+
 @mixin button-background($color) {
     background-color: $color;
     @include background-image(linear-gradient(170deg, lighten($color, 14%), $color));
@@ -27,6 +36,10 @@
     text-overflow: ellipsis;
     vertical-align: middle;
     border: none;
+
+    max-width: 100%;
+    @include box-sizing(border-box);
+
     &:hover, &:focus {
         text-decoration: none;
     }

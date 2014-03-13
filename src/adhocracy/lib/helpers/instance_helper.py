@@ -1,6 +1,7 @@
 from pylons.i18n import _
 
 from adhocracy import config
+from adhocracy import static
 from adhocracy.lib import logo
 from adhocracy.lib.helpers import url as _url
 
@@ -50,3 +51,15 @@ def area_title(identifier):
             return _(u"Intro")
         else:
             return _(u"Overview")
+
+
+def need_stylesheet(instance):
+    stylesheets = config.get_list('adhocracy.instance_stylesheets')
+    themes = config.get_list('adhocracy.instance_themes')
+    if instance is not None and instance.key in stylesheets:
+        return static.instance_stylesheet(instance.key).need()
+    elif (instance is not None and instance.theme in themes and
+            instance.is_authenticated):
+        return static.instance_theme(instance.theme).need()
+    else:
+        return static.style.need()

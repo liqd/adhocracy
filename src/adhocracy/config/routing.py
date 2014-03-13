@@ -47,6 +47,8 @@ def make_map(config):
                 action='dashboard_votes')
     map.connect('/user/dashboard/delegations', controller='user',
                 action='dashboard_delegations')
+    map.connect('/user/dashboard/messages', controller='user',
+                action='dashboard_messages')
     map.connect('/welcome/{id}/{token}', controller='user',
                 action='welcome')
 
@@ -73,6 +75,8 @@ def make_map(config):
                                          'revert': 'GET',
                                          'reset': 'GET',
                                          'activate': 'GET',
+                                         'ask_activate': 'GET',
+                                         'pending_activate': 'GET',
                                          'resend': 'GET',
                                          'set_password': 'POST',
                                          'generate_welcome_link': 'POST'},
@@ -131,6 +135,7 @@ def make_map(config):
     map.connect('/message/new', controller='massmessage', action='new')
     map.connect('/message/preview', controller='massmessage', action='preview')
     map.connect('/message/create', controller='massmessage', action='create')
+    map.connect('/message/{id}', controller='message', action='show')
 
     map.connect('/register', controller='user', action='new')
     map.connect('/login', controller='user', action='login')
@@ -165,6 +170,13 @@ def make_map(config):
     map.connect('/proposal/{proposal_id}/{selection_id}/details{.format}',
                 controller='selection',
                 action='details')
+
+    map.connect('/proposal/{proposal_id}/message/new{.format}',
+                controller='massmessage',
+                action='new_proposal', conditions=dict(method=['GET']))
+    map.connect('/proposal/{proposal_id}/message{.format}',
+                controller='massmessage',
+                action='create_proposal', conditions=dict(method=['POST']))
 
     map.connect('/map',
                 controller='proposal',
@@ -495,6 +507,7 @@ def make_map(config):
                 conditions=dict(method=['POST']))
 
     map.resource('instance', 'instance', member={'join': 'GET',
+                                                 'ask_join': 'GET',
                                                  'leave': 'POST',
                                                  'filter': 'GET',
                                                  'ask_leave': 'GET',
@@ -553,6 +566,8 @@ def make_map(config):
                 conditions=dict(method=['GET', 'HEAD']))
 
     map.connect('/event/all{.format}', controller='event', action='all')
+    map.connect('/event/carousel{.format}', controller='event',
+                action='carousel')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

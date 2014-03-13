@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:38+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1709,6 +1709,49 @@ msgstr ""
 msgid "Default proposal sort order"
 msgstr ""
 
+msgid "Register"
+msgstr "Zarejestruj się"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Zarejestruj się, by wziąć udział w dyskusji."
+
+msgid "Log in to participate in the discussion."
+msgstr ""
+
+msgid "join"
+msgstr "dołącz"
+
+msgid "Join this instance to start contributing."
+msgstr "Dołącz do tej grupy, by się zaangażować."
+
+msgid "Edit profile"
+msgstr "Edytuj profil"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr ""
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr ""
+
+msgid "Send activation link"
+msgstr "Wyślij link aktywacyjny"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr ""
+
+msgid "Your registered email address is:"
+msgstr ""
+
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "Kodeks postępowania"
 
@@ -1835,53 +1878,10 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-msgid "Join this instance to start contributing."
-msgstr "Dołącz do tej grupy, by się zaangażować."
-
-msgid "join"
-msgstr "dołącz"
-
 msgid "Validate email to start contributing."
 msgstr ""
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr ""
-
-msgid "Send activation link"
-msgstr "Wyślij link aktywacyjny"
-
-msgid "Edit profile"
-msgstr "Edytuj profil"
-
 msgid "This instance has been frozen - you can not edit or post anything."
-msgstr ""
-
-msgid "Register"
-msgstr "Zarejestruj się"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Zarejestruj się, by wziąć udział w dyskusji."
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr ""
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr ""
-
-msgid "Your registered email address is:"
-msgstr ""
-
-msgid "Provide information"
-msgstr ""
-
-msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
 msgid "Next"
@@ -2330,20 +2330,23 @@ msgstr "Zaloguj się, by stworzyć nową propozycję."
 msgid "Validate email in order to create a new proposal."
 msgstr ""
 
+msgid "Find proposals"
+msgstr "Znajdź propozycję"
+
+msgid "Go"
+msgstr "Start"
+
 msgid "new proposal"
 msgstr "Nowa propozycja"
-
-msgid "Search proposals"
-msgstr ""
-
-msgid "Find"
-msgstr ""
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Komentarz"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Argument"
 msgstr ""
@@ -2654,6 +2657,9 @@ msgstr ""
 msgid "Show full comment"
 msgstr ""
 
+msgid "created new proposal"
+msgstr ""
+
 msgid "Latest Events"
 msgstr "Ostatnie wydarzenia"
 
@@ -2675,6 +2681,20 @@ msgstr "Usuń grupę"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Czy na pewno chcesz usunąć tę grupę?"
+
+#, python-format
+msgid "Join %s"
+msgstr ""
+
+msgid "Join"
+msgstr ""
+
+msgid "Join instance"
+msgstr ""
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr ""
 
 msgid "Leave"
 msgstr "Opuść"
@@ -3260,6 +3280,12 @@ msgstr "Nazwa wersji"
 msgid "Text"
 msgstr "Tekst"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr ""
 
@@ -3404,8 +3430,20 @@ msgstr ""
 msgid "Discussions"
 msgstr "Dyskusje"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "Amendments"
 msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Add section"
 msgstr ""
@@ -3618,12 +3656,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Find proposals"
-msgstr "Znajdź propozycję"
-
-msgid "Go"
-msgstr "Start"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Lista ta zawiera wszystkie do tej pory zgłoszone propozycje, które można sortować według różnych kryteriów."
@@ -4030,6 +4062,22 @@ msgstr "Wszyscy użytkownicy tego serwera Adhocracy"
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Lista wszystkich użytkowników we wszystkich grupach i na tym serwerze."
 
+msgid "Validate email address"
+msgstr ""
+
+msgid "You have not yet validated your email address."
+msgstr ""
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr ""
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr ""
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Czy na pewno chcesz usunąć swój profil użytkownika? Czynności tej nie można cofnąć."
@@ -4124,6 +4172,14 @@ msgid "No, I do not have a password, or I forgot it."
 msgstr ""
 
 msgid "Yes, I do have a password:"
+msgstr ""
+
+msgid "Validation email sent"
+msgstr ""
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
 msgstr ""
 
 msgid ""

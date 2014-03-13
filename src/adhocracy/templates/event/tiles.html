@@ -28,6 +28,9 @@
             %elif event.event.code in [u't_comment_create', u't_comment_edit'] and event.comment.__class__.__name__=='Comment':
             ${row_text(h.entity_url(event.comment), _(u'Show full comment'), h.render(event.comment.latest.text))}
 
+            %elif event.event.code in [u't_message_send', u't_massmessage_send']:
+            ${row_text(h.entity_url(event.message), _(u'Show full message'), event.message.rendered_body(c.user))}
+
             %endif
         %endif
     </li>
@@ -52,7 +55,7 @@
 </%def>
 
 
-<%def name="carousel(events)">
+<%def name="carousel(events, more_url=None)">
     <%
     from adhocracy.i18n import datetime_tag
     from adhocracy.lib.event import formatting
@@ -77,6 +80,9 @@
                 </div>
                 <a class="preview" href="${event.link()}">${h.truncate(body, 60, u'&hellip;', whole_word=True)|n}</a>
             </div>
+            %if more_url:
+            <a href="${more_url}" class="more_link">${_('display all')}</a>
+            %endif
         </li>
         %endfor
     </ul>

@@ -98,6 +98,14 @@ suppress_http_headers = accept-encoding
 #WARNING changed name: #[app:main]
 
 [app:content]
+
+{% if parts.adhocracy.themed == 'False' %}
+adhocracy.themed = false
+{% end %}
+{% if parts.adhocracy.themed == 'True' %}
+adhocracy.themed = true
+{% end %}
+
 use = egg:adhocracy
 full_stack = true
 static_files = true
@@ -156,6 +164,8 @@ adhocracy.solr.url = http://${parts.solr.host}:${parts.solr.port}/solr
 # defines the delay in seconds (default: 1 second)
 
 # adhocracy.delay_update_queue_seconds = 1
+
+# adhocracy.demo_users =
 
 # If debug is enabled, an web-based interactive debugger can be executed from
 # the HTTP500 error page, if the following option is set to true. This option
@@ -383,6 +393,9 @@ adhocracy.put_watchlist_in_user_menu = False
 # useful in settings where users can create instances
 adhocracy.show_instance_creators = False
 
+# show tag facet as tagcloud instead of list
+# adhocracy.tagcloud_facet = True
+
 # an arbitrary list of 'proposals', 'milestones' and 'events'
 # adhocracy.instance_overview_contents = proposals, milestones
 
@@ -442,6 +455,19 @@ adhocracy.static_index_path = index
 
 # Show Facebook / Twitter / G+ buttons
 # adhocracy.show_social_buttons = False
+
+# Use a custom stylesheet for these instances
+# The stylesheets are expected at /static/stylesheets/adhocracy_{key}.css
+# adhocracy.instance_stylesheets =
+
+# Allow authenticated instances to use one of these themes
+# The stylesheets are expected at /static/stylesheets/adhocracy_theme_{key}.css
+# Additionally, a preview image is expected at
+# /static_theme/static/images/theme-preview-{key}.png
+# adhocracy.instance_themes =
+
+# Allow to set instance logo as subheader background
+# adhocracy.instance.allow_logo_as_background = True
 
 ## Performance options
 

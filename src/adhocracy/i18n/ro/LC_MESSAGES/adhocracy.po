@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-25 22:14+0100\n"
-"PO-Revision-Date: 2014-02-25 21:15+0000\n"
+"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"PO-Revision-Date: 2014-03-05 07:38+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1712,6 +1712,49 @@ msgstr ""
 msgid "Default proposal sort order"
 msgstr ""
 
+msgid "Register"
+msgstr "Inregistrare"
+
+msgid "Get an account to participate in the discussion."
+msgstr "Fa-ti un cont pentru a participa la discutie."
+
+msgid "Log in to participate in the discussion."
+msgstr ""
+
+msgid "join"
+msgstr "intra"
+
+msgid "Join this instance to start contributing."
+msgstr "Alatura-te comunitatii pentru a putea contribui."
+
+msgid "Edit profile"
+msgstr "Eidteaza profil"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "Trebuie sa setezi un email in profilul tau pentru a putea contribui in aceasta comunitate."
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "Retrimite emailul de validare la adresa %s"
+
+msgid "Send activation link"
+msgstr "Trimite linkul de activare"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "Te rugam sa-ti validezi adresa de email pentru a putea contribui in aceasta comunitate."
+
+msgid "Your registered email address is:"
+msgstr "Adresa de email inregistrata este:"
+
+msgid "Provide information"
+msgstr ""
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "cod de conduita"
 
@@ -1838,53 +1881,10 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-msgid "Join this instance to start contributing."
-msgstr "Alatura-te comunitatii pentru a putea contribui."
-
-msgid "join"
-msgstr "intra"
-
 msgid "Validate email to start contributing."
 msgstr "Valideaza emailul pentru a putea incepe sa contribui."
 
-#, python-format
-msgid "Resend validation email to %s"
-msgstr "Retrimite emailul de validare la adresa %s"
-
-msgid "Send activation link"
-msgstr "Trimite linkul de activare"
-
-msgid "Edit profile"
-msgstr "Eidteaza profil"
-
 msgid "This instance has been frozen - you can not edit or post anything."
-msgstr ""
-
-msgid "Register"
-msgstr "Inregistrare"
-
-msgid "Get an account to participate in the discussion."
-msgstr "Fa-ti un cont pentru a participa la discutie."
-
-msgid "Log in to participate in the discussion."
-msgstr ""
-
-msgid ""
-"You need to set an email in your profile in order to contribute to this "
-"instance."
-msgstr "Trebuie sa setezi un email in profilul tau pentru a putea contribui in aceasta comunitate."
-
-msgid ""
-"Please validate your email address in order to contribute to this instance."
-msgstr "Te rugam sa-ti validezi adresa de email pentru a putea contribui in aceasta comunitate."
-
-msgid "Your registered email address is:"
-msgstr "Adresa de email inregistrata este:"
-
-msgid "Provide information"
-msgstr ""
-
-msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
 msgid "Next"
@@ -2333,20 +2333,23 @@ msgstr "Logheaza-te pentru a creea o noua propunere."
 msgid "Validate email in order to create a new proposal."
 msgstr "Valideaza adresa de email pentru a putea crea o propunere."
 
+msgid "Find proposals"
+msgstr "Cauta propuneri"
+
+msgid "Go"
+msgstr "Cauta"
+
 msgid "new proposal"
 msgstr "propunere noua"
-
-msgid "Search proposals"
-msgstr ""
-
-msgid "Find"
-msgstr ""
 
 msgid "Norms in this Category"
 msgstr ""
 
 msgid "Comment"
-msgstr "Comentariu"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Argument"
 msgstr ""
@@ -2657,6 +2660,9 @@ msgstr ""
 msgid "Show full comment"
 msgstr ""
 
+msgid "created new proposal"
+msgstr ""
+
 msgid "Latest Events"
 msgstr "Cele mai noi Evenimente"
 
@@ -2678,6 +2684,20 @@ msgstr "Sterge comunitatea"
 
 msgid "Are you sure you want to delete this instance?"
 msgstr "Esti sigur ca vrei sa stergi aceasta comunitate?"
+
+#, python-format
+msgid "Join %s"
+msgstr ""
+
+msgid "Join"
+msgstr ""
+
+msgid "Join instance"
+msgstr ""
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr ""
 
 msgid "Leave"
 msgstr "Paraseste grup"
@@ -3263,6 +3283,12 @@ msgstr "Numele Variantei"
 msgid "Text"
 msgstr "Text"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr ""
+
+msgid "Abstract"
+msgstr ""
+
 msgid "Display subnorms as sections"
 msgstr ""
 
@@ -3407,8 +3433,20 @@ msgstr ""
 msgid "Discussions"
 msgstr "Discutii"
 
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "Amendments"
 msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "Add section"
 msgstr ""
@@ -3621,12 +3659,6 @@ msgstr ""
 
 msgid "Freeze proposal"
 msgstr ""
-
-msgid "Find proposals"
-msgstr "Cauta propuneri"
-
-msgid "Go"
-msgstr "Cauta"
 
 msgid "tutorial_proposal_overview_table"
 msgstr "Tabelul cu propunerile din aceasta comunitate"
@@ -4033,6 +4065,22 @@ msgstr "Toti membrii acestui Server Adhocracy"
 msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "O listare a tuturor utilizatorilor din toate comunitatile din acest server adhocracy."
 
+msgid "Validate email address"
+msgstr ""
+
+msgid "You have not yet validated your email address."
+msgstr ""
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr ""
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr ""
+
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
 msgstr "Confirmi stergerea profilului tau? Actiunea aceasta nu este reversibila."
@@ -4127,6 +4175,14 @@ msgid "No, I do not have a password, or I forgot it."
 msgstr ""
 
 msgid "Yes, I do have a password:"
+msgstr ""
+
+msgid "Validation email sent"
+msgstr ""
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
 msgstr ""
 
 msgid ""

@@ -219,6 +219,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
 
 
 <%block name="sidebar">
+${components.message_button(c.proposal)}
 ${components.watch(c.proposal, id='follow_proposal')}
 
 %if h.geo.use_proposal_geotags():

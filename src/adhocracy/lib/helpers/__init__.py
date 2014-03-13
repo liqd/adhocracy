@@ -43,6 +43,7 @@ from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
 from adhocracy.lib.helpers import treatment_helper as treatment
 from adhocracy.lib.helpers import category_helper as category
+from adhocracy.lib.helpers import message_helper as message
 
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
@@ -195,7 +196,7 @@ def get_redirect_url(target=u'login', entity=None, **kwargs):
     if c.came_from == u'':
         if entity is None:
             c.came_from = base_url(request.path,
-                                 query_string=request.query_string)
+                                   query_string=request.query_string)
         else:
             c.came_from = entity_url(entity, **kwargs)
 
@@ -208,6 +209,15 @@ def login_redirect_url(entity=None, **kwargs):
 
 def register_redirect_url(entity=None, **kwargs):
     return get_redirect_url(u'register', entity, **kwargs)
+
+
+def join_redirect_url(entity=None, **kwargs):
+    return get_redirect_url(u'instance/%s/ask_join' % c.instance.key, **kwargs)
+
+
+def validate_redirect_url(entity=None, **kwargs):
+    return get_redirect_url(u'user/%s/ask_activate' % c.user.user_name, entity,
+                            **kwargs)
 
 
 def entity_url(entity, **kwargs):
@@ -239,6 +249,8 @@ def entity_url(entity, **kwargs):
         return staticpage.url(entity, **kwargs)
     elif isinstance(entity, model.Treatment):
         return treatment.url(entity, **kwargs)
+    elif isinstance(entity, model.Message):
+        return message.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

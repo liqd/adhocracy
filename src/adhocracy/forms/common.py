@@ -650,6 +650,18 @@ class UnusedProposalTitle(formencode.validators.FormValidator):
             return field_dict
 
 
+class ProposalMessageNoRecipientGroup(formencode.validators.FormValidator):
+
+    def validate_python(self, field_dict, state):
+        if (not field_dict.get('creators', False) and
+                not field_dict.get('supporters', False) and
+                not field_dict.get('opponents', False)):
+            msg = _(u"Please select at least one recipient group")
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={'creators': msg}
+            )
+
 USER_NAME = 'user_name'
 DISPLAY_NAME = 'display_name'
 EMAIL = 'email'

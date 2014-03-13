@@ -70,3 +70,12 @@ def leave(check, i):
     if c.user:
         check.other('user_is_no_member', not c.user.is_member(i))
         check.other('user_is_instance_creator', c.user == i.creator)
+
+
+def message(check, i):
+    check.readonly()
+
+    if has('global.message'):
+        return
+    check.other('is_not_authenticated', not i.is_authenticated)
+    check.perm('instance.message')

@@ -1,7 +1,15 @@
 from paste.deploy.converters import asbool
-from pylons import tmpl_context as c, config
+from pylons import tmpl_context as c
+
+from adhocracy import config
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.authorization import NOT_LOGGED_IN
+
+
+def is_not_demo(check, u):
+    if u is not None:
+        demo_users = config.get_list('adhocracy.demo_users')
+        check.other('demo_user', u.user_name in demo_users)
 
 
 def index(check):
@@ -25,6 +33,7 @@ def edit(check, u):
     show(check, u)
     check.other('user_not_self', u != c.user)
     check.other(NOT_LOGGED_IN, not c.user)
+    is_not_demo(check, c.user)
 
 
 def manage(check, u):
@@ -36,8 +45,6 @@ def message(check, u):
     check.readonly()
     check.perm('user.message')
     check.other('user_is_self', u == c.user)
-    check.other('user_without_email', u.email is None)
-    check.other('email_not_activated', not u.is_email_activated())
     if c.instance is not None:
         check.other('no_member_in_instance', not u.is_member(c.instance))
 
@@ -60,7 +67,7 @@ show_watchlist = show_dashboard
 
 def delete(check, u):
     edit(check, u)
-    allowed = asbool(config.get('adhocracy.self_deletion_allowed', 'true'))
+    allowed = config.get_bool('adhocracy.self_deletion_allowed', 'true')
     check.other('self_deletion_allowed', not allowed)
 
 

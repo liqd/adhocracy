@@ -188,51 +188,74 @@ var adhocracy = adhocracy || {};
         }
 
         var resizeHeight = function(speed) {
-            var old_height = overlay.height(),
+            var old_height = iframe.height(),
                 // iframe.contents().height does not shrink for some reason
                 height = $('body', iframe.contents()).height()+20;
-            if (old_height !== height) {
-                overlay.animate({'height': height}, speed);
+            if (Math.abs(old_height - height) > 2) {
+                iframe.animate({'height': height}, speed);
             }
         };
         var resizeWidth = function(speed) {
-            /* adjust size to iframe content */
-            var old_width = overlay.width(),
+            /* This calculates a new width and horizontal position for the overlay.
+             *
+             * For small overlays, the width defaults to 2/3 of the parent's
+             * .page_wrapper For big overlays, the width defaults to the
+             * minimum of the parent's .page_wrapper and 90% of the screen
+             * width. The width can never be less than html's min-width.
+             */
+            var old_width = iframe.width(),
                 old_left = parseInt(overlay.css('left')),
-                width = iframe.contents().width(),
-                left = old_left + (old_width - width) / 2;
-            if (old_width !== width || old_left !== left) {
-                var css = {
-                    'width': width,
-                    'left': left,
-                };
-                overlay.animate(css, speed);
+                padding = (overlay.outerWidth() - old_width) / 2,
+                screen_width = $('html').width(),
+                wrapper_width = $('.page_wrapper').width(),
+                min_width = parseInt($('html').css('min-width'), 10),
+                width,
+                left;
+
+            // if this layout is not responsive ignore min-width
+            if (min_width === parseInt($('.page_wrapper').css('max-width'), 10)) {
+                min_width /= 2;
+            }
+
+            if (overlay.attr('id') === 'overlay-big') {
+                width = Math.min(wrapper_width, (screen_width - 2*padding) * 0.9);
+            } else {
+                width = wrapper_width * 2/3;
+            }
+
+            width = Math.max(width, min_width);
+            left = (screen_width - width) / 2 - padding;
+
+            if (Math.abs(old_width - width) > 2) {
+                iframe.animate({'width': width}, speed);
+            }
+            if (Math.abs(old_left - left) > 2) {
+                overlay.animate({'left': left}, speed);
             }
         };
         var resize = function(speed) {
             resizeWidth(speed);
             resizeHeight(speed);
         };
-        var autoResizeLock = false;
         var autoResize = function(speed, interval) {
-            if (!autoResizeLock) {
-                autoResizeLock = true;
-                var loop = function() {
-                    if (overlay.not(':hidden').length > 0) {
-                        try {
-                            // dont resize width as this never happens
-                            // fails if the iframe currently loads a new page
-                            resizeHeight(speed);
-                        } catch (ex) {
-                            console.log(ex);
-                        }
-                        setTimeout(loop, interval);
-                    } else {
-                        autoResizeLock = false;
+            $(window).on('resize.adhocracy_overlay', function() {
+                resizeWidth(0);
+                $('#exposeMask').width($('html').width());
+            });
+
+            var intervalID = setInterval(function() {
+                if (overlay.not(':hidden').length > 0) {
+                    try {
+                        // fails if the iframe currently loads a new page
+                        resizeHeight(speed);
+                    } catch (ex) {
+                        console.log(ex);
                     }
-                };
-                loop();
-            }
+                } else {
+                    clearInterval(intervalID);
+                    $(window).off('resize.adhocracy_overlay');
+                }
+            }, interval);
         };
 
         iframe.load(function() {
@@ -256,13 +279,6 @@ var adhocracy = adhocracy || {};
 
             resize(300);
             autoResize('fast', 200);
-
-            /* redirect links */
-            $('a[href]', iframe.contents()).each(function() {
-                if (this.href[0] != '#' && typeof($(this).attr('target')) === 'undefined') {
-                    this.target = '_top';
-                }
-            })
 
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
@@ -740,6 +756,13 @@ $(window).load(function() {
 
 $(document).ready(function () {
 
+    // media query detection
+    if (Modernizr.mq('only all')) {
+        $('html').addClass('mediaquery');
+    } else {
+        $('html').addClass('no-mediaquery');
+    }
+
     // initial jquery elastic
     $('textarea').elastic();
 
@@ -1048,6 +1071,11 @@ $(document).ready(function () {
      *   data-toggle-text. This button will display this text if the target
      *   is button was pressed and the target is visible. If no text
      *   is given, the text of the button won't change.
+     * * 'data-conflict' (attr)
+     *   The button can optionally provide a selector of a *conflicting*
+     *   showhide_button. This means that when this button is triggered
+     *   and the other one is currently active it will be triggered too
+     *   in order to avoid showing both targets at the same time.
      * * 'data-cancel' (attr)
      *   The *targed element* needs to have an attribute 'data-cancel'
      *   containing a selector string. The click event of the matching
@@ -1066,9 +1094,14 @@ $(document).ready(function () {
             toggle_element_selector = self.data('toggle-element'),
             toggle_element,
             toggle_text = self.data('toggle-text'),
-            old_text = self.text();
+            old_text = self.text(),
+            conflict = $(self.data('conflict')),
+            conflict_target = $(conflict.data('target'));
 
             //debugger;
+        if (conflict_target.filter(':not(:hidden)').length) {
+            conflict.click();
+        }
         if (toggle_element_selector) {
             toggle_element = $(toggle_element_selector);
         } else {
@@ -1278,4 +1311,29 @@ $(document).ready(function () {
             startDrawInterval(true);
         });
     });
+
+    var top_u = new Uri(window.location.href);
+    if (top_u.path().match(/\.overlay$/)) {
+        var overlay_url = function(url) {
+            var u = new Uri(url);
+            if (u.host() === '' || u.host() === top_u.host()) {
+                u.path(u.path().replace(/(\..*)?$/, '.overlay'));
+            }
+            return u.toString();
+        };
+
+        // registering this event on parent element to also catch
+        // events from generated elements
+        $('html').on('click', 'a[href]', function() {
+            if (this.href[0] != '#' && typeof(this.target) === 'undefined') {
+                this.target = '_top';
+            }
+            if (this.target === '_self') {
+                this.href = overlay_url(this.href);
+            }
+        });
+        $('html').on('submit', 'form', function() {
+            this.action = overlay_url(this.action);
+        });
+    }
 });

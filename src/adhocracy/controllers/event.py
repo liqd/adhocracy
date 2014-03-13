@@ -19,15 +19,11 @@ class EventController(BaseController):
 
     @guard.perm('event.index_all')
     def all(self, format='html'):
-        query = model.Event.all_q(include_hidden=False)\
+        events = model.Event.all_q(
+            include_hidden=False,
+            event_filter=request.params.getall('event_filter'))\
             .order_by(model.Event.time.desc())\
-
-        if 'event_filter' in request.params:
-            query = query.filter(model.Event.event.in_(
-                request.params.getall('event_filter')))
-
-        query = query.limit(min(int(request.params.get('count', 50)), 100))
-        events = query.all()
+            .limit(min(int(request.params.get('count', 50)), 100)).all()
 
         if format == 'rss':
             return event.rss_feed(events,
@@ -36,8 +32,18 @@ class EventController(BaseController):
                                   _("News from %s") % h.site.name())
 
         elif format == 'ajax':
+            query_params = request.params.copy()
+            while True:
+                try:
+                    query_params.pop('count')
+                except KeyError:
+                    break
+
+            more_url = h.base_url(instance=None,
+                                  member='event/all',
+                                  query_params=query_params)
             return render_def('/event/tiles.html', 'carousel',
-                              events=events)
+                              events=events, more_url=more_url)
         else:
             c.event_pager = pager.events(events, count=50)
 
@@ -45,3 +51,7 @@ class EventController(BaseController):
                 return render('/event/all.html', overlay=True)
             else:
                 return render('/event/all.html')
+
+    @guard.perm('event.index_all')
+    def carousel(self, format=u'html'):
+        return render('/event/carousel.html', overlay=format == u'overlay')

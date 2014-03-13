@@ -1,7 +1,6 @@
 from collections import OrderedDict
 import logging
 import re
-import urllib
 
 import formencode
 from formencode import ForEach, htmlfill, validators
@@ -45,7 +44,8 @@ from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
 
-from adhocracy.lib.event.types import S_VOTE, S_DELEGATION, S_CONTRIBUTION
+from adhocracy.lib.event.types import (S_VOTE, S_DELEGATION, S_CONTRIBUTION,
+                                       S_MESSAGE)
 
 
 log = logging.getLogger(__name__)
@@ -293,7 +293,7 @@ class UserController(BaseController):
             session['logged_in'] = True
             session.save()
             if c.came_from != u'':
-                location = urllib.unquote_plus(c.came_from)
+                location = h.url.unquote(c.came_from)
             else:
                 location = h.user.post_register_url(user)
             raise HTTPFound(location=location, headers=headers)
@@ -727,13 +727,25 @@ class UserController(BaseController):
                                           instance_filter=False)
         code = self.form_result.get('c')
 
+        # If activate_came_from is set, we assume that we've tried to do
+        # validate email address during doing some other action.
+        activate_came_from = session.get('activate_came_from')
+        if activate_came_from:
+            c.came_from = activate_came_from
+            del session['activate_came_from']
+            success_url = activate_came_from
+            no_success_url = h.validate_redirect_url()
+        else:
+            success_url = h.entity_url(c.page_user)
+            no_success_url = h.entity_url(c.page_user)
+
         if c.page_user.activation_code != code:
             h.flash(_("The activation code is invalid. Please have it "
                       "resent."), 'error')
-            redirect(h.entity_url(c.page_user))
+            redirect(no_success_url)
         if c.page_user.activation_code is None:
             h.flash(_(u'Thank you, The address is already activated.'))
-            redirect(h.entity_url(c.page_user))
+            redirect(success_url)
 
         c.page_user.activation_code = None
         model.meta.Session.commit()
@@ -752,9 +764,33 @@ class UserController(BaseController):
                 redirect(h.user.post_register_url(c.page_user))
         else:
             h.flash(_("Your email has been confirmed."), 'success')
-            redirect(h.entity_url(c.page_user))
+            redirect(success_url)
 
-        redirect(h.entity_url(c.page_user))
+        redirect(success_url)
+
+    def ask_activate(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        if c.page_user.is_email_activated():
+            if c.came_from:
+                redirect(c.came_from)
+            else:
+                redirect(h.entity_url(c.page_user))
+
+        c.hide_activate_attention_getter = True
+        return render('/user/ask_activate.html')
+
+    def pending_activate(self, id):
+        c.page_user = get_entity_or_abort(model.User, id,
+                                          instance_filter=False)
+        if c.page_user.is_email_activated():
+            if c.came_from:
+                redirect(c.came_from)
+            else:
+                redirect(h.entity_url(c.page_user))
+
+        c.hide_activate_attention_getter = True
+        return render('/user/pending_activate.html')
 
     @RequireInternalRequest()
     def resend(self, id):
@@ -763,11 +799,18 @@ class UserController(BaseController):
         require.user.edit(c.page_user)
         libmail.send_activation_link(c.page_user)
 
+        if c.came_from:
+            session['activate_came_from'] = c.came_from
+            force_path = h.entity_url(c.page_user, member='pending_activate',
+                                      query={'came_from': c.came_from})
+        else:
+            force_path = None
+
         ret_success(
             message=_("The activation link has been re-sent to your email "
                       "address."), category='success',
             entity=c.page_user, member='settings/notifications',
-            format=None, force_path=c.came_from)
+            format=None, force_path=force_path)
 
     @staticmethod
     def _get_profile_nav(user, active_key):
@@ -804,6 +847,7 @@ class UserController(BaseController):
             u'contributions': u'contributions',
             u'votes': u'votes',
             u'delegations': u'delegations',
+            u'messages': u'messages',
         }[active_key]
         nav = [
             (u'all' == active_key, _(u'All Events'), h.base_url(
@@ -812,6 +856,8 @@ class UserController(BaseController):
                 u'/user/dashboard/contributions', instance=c.instance)),
             (u'votes' == active_key, _(u'Votes'), h.base_url(
                 u'/user/dashboard/votes', instance=c.instance)),
+            (u'messages' == active_key, _(u'Messages'), h.base_url(
+                u'/user/dashboard/messages', instance=c.instance)),
         ]
         if ((c.instance is None and any(i.allow_delegate for i in c.instances))
                 or (c.instance is not None and c.instance.allow_delegate)):
@@ -823,15 +869,10 @@ class UserController(BaseController):
 
     def _get_events(self, nr_events=None, event_filter=[]):
         """get events triggerd by this user"""
-        query = model.meta.Session.query(model.Event)
+        query = model.Event.all_q(instance=c.instance,
+                                  include_hidden=False,
+                                  event_filter=event_filter)
         query = query.filter(model.Event.user == c.page_user)
-        if c.instance:
-            query = query.filter(model.Event.instance == c.instance)
-        else:
-            query = query.join(model.Instance) \
-                         .filter(not_(model.Instance.hidden))
-        if event_filter:
-            query = query.filter(model.Event.event.in_(event_filter))
         query = query.order_by(model.Event.time.desc())
         if nr_events is not None:
             query = query.limit(nr_events)
@@ -952,6 +993,10 @@ class UserController(BaseController):
         return self.dashboard(format=format, current_nav=current_nav,
                               event_filter=S_DELEGATION)
 
+    def dashboard_messages(self, format='html', current_nav=u'messages'):
+        return self.dashboard(format=format, current_nav=current_nav,
+                              event_filter=S_MESSAGE)
+
     def about(self, id, format='html'):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
@@ -996,7 +1041,7 @@ class UserController(BaseController):
         c.active_global_nav = "login"
         if c.user:
             if c.came_from != u'':
-                redirect(urllib.unquote_plus(c.came_from))
+                redirect(h.url.unquote(c.came_from))
             else:
                 redirect(h.user.post_login_url(c.user))
         else:
@@ -1030,7 +1075,7 @@ class UserController(BaseController):
             session['logged_in'] = True
             session.save()
             if c.came_from != u'':
-                redirect(urllib.unquote_plus(c.came_from))
+                redirect(h.url.unquote(c.came_from))
             else:
                 # redirect to the dashboard inside the instance exceptionally
                 # to be able to link to proposals and norms in the welcome

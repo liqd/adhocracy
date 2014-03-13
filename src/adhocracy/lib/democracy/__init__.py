@@ -5,6 +5,7 @@ from adhocracy.lib.democracy.delegation_node import DelegationNode
 
 from adhocracy.model import meta
 from adhocracy.model import Delegation, Poll, Proposal, Tally, Vote
+from adhocracy.model import User
 
 
 log = logging.getLogger(__name__)
@@ -48,3 +49,29 @@ def update_delegation(delegation):
         tally = Tally.create_from_poll(poll)
         meta.Session.commit()
         log.debug("Tallied %s: %s" % (poll, tally))
+
+
+def voters(poll, at_time=None, orientation=None):
+    query = meta.Session.query(User)
+    query = query.distinct().join(Vote)
+    query = query.filter(Vote.poll_id == poll.id)
+    if at_time:
+        query = query.filter(Vote.create_time <= at_time)
+
+    if orientation is None:
+        return query.all()
+    else:
+        voters = []
+        for user in query:
+            d = Decision(user, poll, at_time=at_time)
+            if d.result == orientation:
+                voters.append(user)
+        return voters
+
+
+def supporters(poll, at_time=None):
+    return voters(poll, at_time=at_time, orientation=Vote.YES)
+
+
+def opponents(poll, at_time=None):
+    return voters(poll, at_time=at_time, orientation=Vote.NO)
