@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.1.3-113-g18304cc\n"
+"Project-Id-Version: adhocracy 2.1.3-179-g90c2cfc\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-05 08:37+0100\n"
+"POT-Creation-Date: 2014-03-13 23:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -214,10 +214,6 @@ msgstr ""
 
 #, python-format
 msgid "Message sent to %d users."
-msgstr ""
-
-#, python-format
-msgid "[%s] Message from %s: %s"
 msgstr ""
 
 msgid "Your message has been sent. Thanks."
@@ -582,6 +578,9 @@ msgstr ""
 msgid "All Events"
 msgstr ""
 
+msgid "Messages"
+msgstr ""
+
 msgid "Invalid login"
 msgstr ""
 
@@ -840,6 +839,9 @@ msgstr ""
 msgid "Entry name cannot be purely numeric: %s"
 msgstr ""
 
+msgid "Please select at least one recipient group"
+msgstr ""
+
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
 msgstr ""
@@ -929,6 +931,9 @@ msgstr ""
 msgid "The method you used is not implemented."
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr ""
@@ -968,6 +973,9 @@ msgid "Dear Mr."
 msgstr ""
 
 msgid "Dear"
+msgstr ""
+
+msgid "[{site_name}] Message from {sender_name}: {subject}"
 msgstr ""
 
 msgid "Oldest"
@@ -1405,6 +1413,14 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr ""
 
 #, python-format
+msgid "Message send: %(message)s"
+msgstr ""
+
+#, python-format
+msgid "sent message: \"%(message)s\""
+msgstr ""
+
+#, python-format
 msgid "Adhocracy says hello: %(test)s"
 msgstr ""
 
@@ -1446,6 +1462,10 @@ msgstr ""
 
 #, python-format
 msgid "Comment Edit: %(topic)s"
+msgstr ""
+
+#, python-format
+msgid "Message from %(sender)s: %(message)s"
 msgstr ""
 
 msgid "This proposal is currently being voted on and cannot be modified."
@@ -1618,9 +1638,6 @@ msgstr ""
 msgid "Message to Members"
 msgstr ""
 
-msgid "Message to Supporters"
-msgstr ""
-
 msgid "Message"
 msgstr ""
 
@@ -1726,9 +1743,6 @@ msgstr ""
 
 #, python-format
 msgid "<b>%s</b> votes"
-msgstr ""
-
-msgid "Start"
 msgstr ""
 
 msgid "Instances"
@@ -2001,7 +2015,7 @@ msgstr ""
 msgid "Static Pages"
 msgstr ""
 
-msgid "Send an email to users"
+msgid "Send a message to users"
 msgstr ""
 
 msgid "Assign treatment badges"
@@ -2010,10 +2024,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
+msgid "Users CSV"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
 msgid "Email Subject"
@@ -2092,10 +2106,10 @@ msgstr ""
 msgid "Badge description"
 msgstr ""
 
-msgid "Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
-msgid "Long category description"
+msgid "Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2564,7 +2578,13 @@ msgstr ""
 msgid "Show full comment"
 msgstr ""
 
+msgid "Show full message"
+msgstr ""
+
 msgid "created new proposal"
+msgstr ""
+
+msgid "display all"
 msgstr ""
 
 msgid "Latest Events"
@@ -2715,10 +2735,10 @@ msgstr ""
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
 msgid "Status badge image width"
@@ -2751,6 +2771,18 @@ msgstr ""
 msgid "Display category pages"
 msgstr ""
 
+msgid "Themes"
+msgstr ""
+
+msgid "You can select one of several themes to customize the appearance of this instance."
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
 msgid "Delete this instance"
 msgstr ""
 
@@ -2772,22 +2804,25 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
-msgstr ""
-
 msgid "Description of the instance"
 msgstr ""
 
-msgid "Select the logo you would like to have as header of your group."
+msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
 msgstr ""
 
 msgid "Logo"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
 msgstr ""
 
 msgid "Current logo"
 msgstr ""
 
 msgid "Delete current logo"
+msgstr ""
+
+msgid "Use logo as background image"
 msgstr ""
 
 msgid "Show proposals navigation item"
@@ -2879,14 +2914,10 @@ msgid_plural "%s norms"
 msgstr[0] ""
 msgstr[1] ""
 
-#, python-format
-msgid "You receive this message because you're signed in to the news service on %s. You can change your subscription settings on the following page: %s"
-msgstr ""
-
 msgid "Send mass message"
 msgstr ""
 
-msgid "Please note that only users with verified email addresses and activated newsservice will receive this message per email."
+msgid "Please note that users may not necessarily receive this message by email. The message will however show up in their dashboards."
 msgstr ""
 
 msgid "Filter users ..."
@@ -2904,7 +2935,7 @@ msgstr ""
 msgid "Body"
 msgstr ""
 
-msgid "Use {email}, {name}, {salutation} to address the user directly."
+msgid "Use {name} and {salutation} to address the user directly."
 msgstr ""
 
 msgid "Add a note about why the user got this message, and how to unsubscribe."
@@ -2920,6 +2951,26 @@ msgid "Sender identity"
 msgstr ""
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid "Send to ..."
+msgstr ""
+
+msgid "Creators"
+msgstr ""
+
+#, python-format
+msgid "Users who have participated in writing \"%s\""
+msgstr ""
+
+msgid "Supporters"
+msgstr ""
+
+#, python-format
+msgid "Users who have voted in favour of \"%s\""
+msgstr ""
+
+msgid "Opponents"
 msgstr ""
 
 msgid "Mass Message Preview"
@@ -2941,18 +2992,36 @@ msgid "You can reply to %s by sending mail to: %s"
 msgstr ""
 
 #, python-format
-msgid "Unfortunately, %s has not left an email address. You will not be able to reply directly."
+msgid "You receive this message because you are signed in to the message service on %(site_name)s. You can change your subscription settings on the following page: %(url)s"
 msgstr ""
 
 #, python-format
 msgid "Message %s"
 msgstr ""
 
-msgid "Your e-mail address will be included in this message to give the recipient a method to reply to you."
+#, python-format
+msgid "Dear %s, ..."
+msgstr ""
+
+msgid "Message sent"
 msgstr ""
 
 #, python-format
-msgid "Dear %s, ..."
+msgid "by %(creator)s on %(datetime)s"
+msgstr ""
+
+msgid "Recipient"
+msgstr ""
+
+#, python-format
+msgid "%d recipients"
+msgstr ""
+
+msgid "Recipients"
+msgstr ""
+
+#, python-format
+msgid "You and %d others"
 msgstr ""
 
 #, python-format
@@ -3136,10 +3205,10 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4064,7 +4133,7 @@ msgstr ""
 msgid "Confirmation pending"
 msgstr ""
 
-msgid "You have recieved an email containing a link. Please open that link in order to reset you password"
+msgid "You have received an email containing a link. Please open that link in order to reset you password"
 msgstr ""
 
 msgid "User settings"
@@ -4121,10 +4190,10 @@ msgstr ""
 msgid "Re-send activation link"
 msgstr ""
 
-msgid "News service"
+msgid "Receive messages via email"
 msgstr ""
 
-msgid "Receive occasional news from instance administrators"
+msgid "Receive messages from administrators and other users via email. (These messages are always available on your dashboard)"
 msgstr ""
 
 msgid "Optional attributes"
@@ -4148,10 +4217,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
+msgid "Avatar"
 msgstr ""
 
-msgid "Avatar"
+msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
 msgstr ""
 
 msgid "Current avatar"
@@ -4160,10 +4229,10 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
 msgid "I am an organisation"
