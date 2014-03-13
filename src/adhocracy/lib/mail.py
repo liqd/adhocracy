@@ -24,7 +24,7 @@ def send(email_from, to_email, message):
 
 
 def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
-            email_from=None, name_from=None):
+            email_from=None, reply_to=None, name_from=None):
     try:
         if email_from is None:
             email_from = config.get('adhocracy.email.from')
@@ -53,6 +53,9 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
         msg['From'] = _("%s <%s>") % (name_from, email_from)
         to = Header(u"%s <%s>" % (to_name, to_email), ENCODING)
         msg['To'] = to
+        if reply_to is not None:
+            msg['Reply-To'] = reply_to
+        msg['']
         msg['Date'] = email.Utils.formatdate(time())
         msg['X-Mailer'] = "Adhocracy SMTP %s" % version.get_version()
         #log.debug("MAIL\r\n" + msg.as_string())
@@ -62,9 +65,9 @@ def to_mail(to_name, to_email, subject, body, headers={}, decorate_body=True,
 
 
 def to_user(to_user, subject, body, headers={}, decorate_body=True,
-            email_from=None, name_from=None):
+            email_from=None, reply_to=None, name_from=None):
     return to_mail(to_user.name, to_user.email, subject, body, headers,
-                   decorate_body, email_from, name_from)
+                   decorate_body, email_from, reply_to, name_from)
 
 
 def send_activation_link(user):

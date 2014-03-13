@@ -489,6 +489,10 @@ mapper(Message, message_table, properties={
     'creator': relation(
         User, lazy=True,
         primaryjoin=message_table.c.creator_id == user_table.c.id),
+    'instance': relation(
+        Instance, lazy=True,
+        primaryjoin=(message_table.c.instance_id ==
+                     instance_table.c.id)),
 })
 
 

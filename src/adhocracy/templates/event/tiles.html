@@ -28,6 +28,9 @@
             %elif event.event.code in [u't_comment_create', u't_comment_edit'] and event.comment.__class__.__name__=='Comment':
             ${row_text(h.entity_url(event.comment), _(u'Show full comment'), h.render(event.comment.latest.text))}
 
+            %elif event.event.code in [u't_message_send', u't_massmessage_send']:
+            ${row_text(h.entity_url(event.message), _(u'Show full message'), event.message.rendered_body(c.user))}
+
             %endif
         %endif
     </li>
