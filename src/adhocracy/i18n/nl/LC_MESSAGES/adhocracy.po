@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-05 08:37+0100\n"
-"PO-Revision-Date: 2014-03-05 07:38+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-03-13 23:14+0100\n"
+"PO-Revision-Date: 2014-03-13 22:15+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -231,10 +231,6 @@ msgstr "Weergeven van bericht kan niet: %s"
 #, python-format
 msgid "Message sent to %d users."
 msgstr "Bericht verstuurd naar %d gebruikers."
-
-#, python-format
-msgid "[%s] Message from %s: %s"
-msgstr "[%s] Bericht van %s: %s"
 
 msgid "Your message has been sent. Thanks."
 msgstr "Uw  bericht is verzonden. Dank u wel."
@@ -611,6 +607,9 @@ msgstr "Volmachtigingen"
 msgid "All Events"
 msgstr "Alle Gebeurtenissen"
 
+msgid "Messages"
+msgstr ""
+
 msgid "Invalid login"
 msgstr "Ongeldige inlog"
 
@@ -878,6 +877,9 @@ msgstr "Ongeldige naam: %s"
 msgid "Entry name cannot be purely numeric: %s"
 msgstr "Naam mag niet enkel uit cijfers bestaan: %s"
 
+msgid "Please select at least one recipient group"
+msgstr ""
+
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
 msgstr "Fout \"%(error)s\" tijdens het lezen van de regel <pre><i>%(line_content)s</i></pre>"
@@ -974,6 +976,9 @@ msgstr "Ongeldig verzoek. Ga terug en probeer het opnieuw."
 msgid "The method you used is not implemented."
 msgstr "De methode die u heeft gebruikt, is niet geïmplementeerd."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Melding van misbruik: %s"
@@ -1016,6 +1021,9 @@ msgstr "Beste meneer"
 
 msgid "Dear"
 msgstr "Beste"
+
+msgid "[{site_name}] Message from {sender_name}: {subject}"
+msgstr ""
 
 msgid "Oldest"
 msgstr "Oudste"
@@ -1457,6 +1465,14 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr "Varianten: %(user)s %(vote)s %(poll)s"
 
 #, python-format
+msgid "Message send: %(message)s"
+msgstr ""
+
+#, python-format
+msgid "sent message: \"%(message)s\""
+msgstr ""
+
+#, python-format
 msgid "Adhocracy says hello: %(test)s"
 msgstr "Adhocracy zegt hallo: %(test)s"
 
@@ -1499,6 +1515,10 @@ msgstr "Reactie Antwoord: %(topic)s"
 #, python-format
 msgid "Comment Edit: %(topic)s"
 msgstr "Reactie Bewerken: %(topic)s"
+
+#, python-format
+msgid "Message from %(sender)s: %(message)s"
+msgstr ""
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aangepast."
@@ -1670,9 +1690,6 @@ msgstr "Ontvang e-mailnotificaties als er wijzigingen optreden."
 msgid "Message to Members"
 msgstr "Bericht aan Deelnemers"
 
-msgid "Message to Supporters"
-msgstr "Bericht aan Aanhangers"
-
 msgid "Message"
 msgstr "Bericht"
 
@@ -1782,9 +1799,6 @@ msgstr "<b>%s</b> reacties"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> stemmen"
-
-msgid "Start"
-msgstr "Start"
 
 msgid "Instances"
 msgstr "Groepen"
@@ -2064,8 +2078,8 @@ msgstr "Autojoin corrigeren"
 msgid "Static Pages"
 msgstr "Statische Pagina's"
 
-msgid "Send an email to users"
-msgstr "Stuur een e-mail naar gebruikers"
+msgid "Send a message to users"
+msgstr ""
 
 msgid "Assign treatment badges"
 msgstr "Wijs behandeling badge toe"
@@ -2073,14 +2087,14 @@ msgstr "Wijs behandeling badge toe"
 msgid "Admin: Import Users"
 msgstr "Admin: Importeer Gebruikers"
 
+msgid "Users CSV"
+msgstr "Gebruikers CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de volgende vier kolommen: gebruikersnaam, weergavenaam, e-mail en badges (badges zijn optioneel, gescheiden door komma's en met aanhalingstekens rondom de lijst)"
-
-msgid "Users CSV"
-msgstr "Gebruikers CSV"
 
 msgid "Email Subject"
 msgstr "E-mail Onderwerp"
@@ -2163,12 +2177,12 @@ msgstr "Categorie beschrijving"
 msgid "Badge description"
 msgstr "Badge beschrijving"
 
+msgid "Long category description"
+msgstr "Lange categorie beschrijving"
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Hier kunt u een meer gedetailleerde beschrijving van uw categorie toevoegen met markdown."
-
-msgid "Long category description"
-msgstr "Lange categorie beschrijving"
 
 msgid "The color that is used to show the category"
 msgstr "De kleur die gebruikt wordt om de categorie te tonen"
@@ -2659,8 +2673,14 @@ msgstr "Toon volledig amendement"
 msgid "Show full comment"
 msgstr "Toon volledige reactie"
 
+msgid "Show full message"
+msgstr ""
+
 msgid "created new proposal"
 msgstr "nieuw voorstel aangemaakt"
+
+msgid "display all"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Laatste Gebeurtenissen"
@@ -2686,17 +2706,17 @@ msgstr "Weet u zeker dat u deze groep wilt verwijderen?"
 
 #, python-format
 msgid "Join %s"
-msgstr ""
+msgstr "Word lid van %s"
 
 msgid "Join"
-msgstr ""
+msgstr "Word lid"
 
 msgid "Join instance"
-msgstr ""
+msgstr "Word lid van groep"
 
 msgid ""
 "In order to perform the requested action, you need to join this instance."
-msgstr ""
+msgstr "Om de gevraagde actie uit te voeren moet u lid worden van deze groep."
 
 msgid "Leave"
 msgstr "Verlaten"
@@ -2832,11 +2852,11 @@ msgstr "Toon het Stem Resultaat per badge"
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Toon wat gebruikers met de geselecteerde badge van dit onderwerp vinden."
 
-msgid "You can add css that will be used to style the instance."
-msgstr "U kunt CSS toevoegen om de opmaak van deze groep aan te passen."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "U kunt CSS toevoegen om de opmaak van deze groep aan te passen."
 
 msgid "Status badge image width"
 msgstr "Status badge afbeeldingbreedte"
@@ -2871,6 +2891,20 @@ msgstr "Mijlpalen verbinden de online discussies met offline gebeurtenissen via 
 msgid "Display category pages"
 msgstr "Toon categorie pagina's"
 
+msgid "Themes"
+msgstr ""
+
+msgid ""
+"You can select one of several themes to customize the appearance of this "
+"instance."
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
 msgid "Delete this instance"
 msgstr "Verwijder deze groep"
 
@@ -2895,26 +2929,29 @@ msgstr "Naam van de groep"
 msgid "Give your instance a name."
 msgstr "Geef uw groep een naam."
 
+msgid "Description of the instance"
+msgstr "Beschrijving van de groep"
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Dit verschijnt er op de overzichtspagina van uw groep. Beschrijf het participatieproces dat u in gedachten heeft. Vermeld duidelijk het doel van deze groep en hoe de deelnemers kunnen helpen om dit te bereiken."
 
-msgid "Description of the instance"
-msgstr "Beschrijving van de groep"
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Selecteer het logo dat u wilt gebruiken als header van uw groep."
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Huidig logo"
 
 msgid "Delete current logo"
 msgstr "Verwijder huidig logo"
+
+msgid "Use logo as background image"
+msgstr ""
 
 msgid "Show proposals navigation item"
 msgstr "Toon voorstel navigatie item"
@@ -3007,19 +3044,13 @@ msgid_plural "%s norms"
 msgstr[0] "%s reglement"
 msgstr[1] "%s reglementen"
 
-#, python-format
-msgid ""
-"You receive this message because you're signed in to the news service on %s."
-" You can change your subscription settings on the following page: %s"
-msgstr "U ontvangt dit bericht omdat u bent aangemeld bij de nieuwsdienst van %s. U kunt uw abonnementsinstellingen op de volgende pagina wijzigen: %s"
-
 msgid "Send mass message"
 msgstr "Verstuur massa bericht"
 
 msgid ""
-"Please note that only users with verified email addresses and activated "
-"newsservice will receive this message per email."
-msgstr "Houd er rekening mee dat enkel gebruikers met een geverifieerd e-mailadres en geactiveerde nieuwsservice dit bericht per e-mail zullen ontvangen."
+"Please note that users may not necessarily receive this message by email. "
+"The message will however show up in their dashboards."
+msgstr ""
 
 msgid "Filter users ..."
 msgstr "Filter gebruikers ..."
@@ -3036,8 +3067,8 @@ msgstr "Onderwerp"
 msgid "Body"
 msgstr "Inhoud"
 
-msgid "Use {email}, {name}, {salutation} to address the user directly."
-msgstr "Gebruik {e-mail}, {naam}, {aanhef} om de gebruiker direct te adresseren."
+msgid "Use {name} and {salutation} to address the user directly."
+msgstr ""
 
 msgid ""
 "Add a note about why the user got this message, and how to unsubscribe."
@@ -3054,6 +3085,26 @@ msgstr "Afzender identiteit"
 
 msgid "Customize sender name: "
 msgstr "Pas naam van de zender aan:"
+
+msgid "Send to ..."
+msgstr ""
+
+msgid "Creators"
+msgstr ""
+
+#, python-format
+msgid "Users who have participated in writing \"%s\""
+msgstr ""
+
+msgid "Supporters"
+msgstr ""
+
+#, python-format
+msgid "Users who have voted in favour of \"%s\""
+msgstr ""
+
+msgid "Opponents"
+msgstr ""
 
 msgid "Mass Message Preview"
 msgstr "Massa Bericht Voorbeeld"
@@ -3075,22 +3126,39 @@ msgstr "U kunt reageren op %s door een e-mail te sturen naar: %s"
 
 #, python-format
 msgid ""
-"Unfortunately, %s has not left an email address. You will not be able to "
-"reply directly."
-msgstr "Helaas, %s heeft geen e-mailadres achtergelaten. U kunt niet direct reageren."
+"You receive this message because you are signed in to the message service on"
+" %(site_name)s. You can change your subscription settings on the following "
+"page: %(url)s"
+msgstr ""
 
 #, python-format
 msgid "Message %s"
 msgstr "Bericht %s"
 
-msgid ""
-"Your e-mail address will be included in this message to give the recipient a"
-" method to reply to you."
-msgstr "Uw e-mailadres wordt bij dit bericht gevoegd om de ontvanger de mogelijkheid tot antwoorden te geven."
-
 #, python-format
 msgid "Dear %s, ..."
 msgstr "Beste %s, ..."
+
+msgid "Message sent"
+msgstr ""
+
+#, python-format
+msgid "by %(creator)s on %(datetime)s"
+msgstr ""
+
+msgid "Recipient"
+msgstr ""
+
+#, python-format
+msgid "%d recipients"
+msgstr ""
+
+msgid "Recipients"
+msgstr ""
+
+#, python-format
+msgid "You and %d others"
+msgstr ""
 
 #, python-format
 msgid "Delete: %s"
@@ -3280,11 +3348,11 @@ msgstr "Variant Naam"
 msgid "Text"
 msgstr "Tekst"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
-msgstr "Pagina samenvatting. Dit wordt enkel getoond als een page wordt weergegeven als een tegel."
-
 msgid "Abstract"
 msgstr "Samenvatting"
+
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "Pagina samenvatting. Dit wordt enkel getoond als een page wordt weergegeven als een tegel."
 
 msgid "Display subnorms as sections"
 msgstr "Toon subvoorstellen als secties"
@@ -4060,20 +4128,20 @@ msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Een lijst van alle gebruikers in alle groepen op deze Adhocracy server"
 
 msgid "Validate email address"
-msgstr ""
+msgstr "Bevestig e-mailadres"
 
 msgid "You have not yet validated your email address."
-msgstr ""
+msgstr "U heeft uw e-mailadres nog niet bevestigd."
 
 #, python-format
 msgid ""
 "An email with a validation link has been sent to your email address (%s) "
 "right after registration. Please follow that link in order to proceed."
-msgstr ""
+msgstr "Een e-mail met een bevestigingslink is direct na de registratie naar uw e-mailadres (%s) verstuurd. Klik op die link om verder te gaan."
 
 msgid ""
 "If you click on the button below, the validation link will be resent to you."
-msgstr ""
+msgstr "Als u op de onderstaande knop klikt, dan wordt de bevestigingslink opnieuw verzonden naar u."
 
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
@@ -4172,12 +4240,12 @@ msgid "Yes, I do have a password:"
 msgstr "Ja, ik heb een wachtwoord:"
 
 msgid "Validation email sent"
-msgstr ""
+msgstr "Bevestigingsmail is verzonden."
 
 msgid ""
 "An email has been sent to you. Please click on the validation link in this "
 "email in order to proceed."
-msgstr ""
+msgstr "Er is een e-mail naar u verzonden. Klik op de bevestigingslink in die e-mail om verder te gaan."
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
@@ -4255,9 +4323,9 @@ msgid "Confirmation pending"
 msgstr "In afwachting van de bevestiging"
 
 msgid ""
-"You have recieved an email containing a link. Please open that link in order"
+"You have received an email containing a link. Please open that link in order"
 " to reset you password"
-msgstr "U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoord opnieuw in te stellen"
+msgstr ""
 
 msgid "User settings"
 msgstr "Gebruikersinstellingen"
@@ -4313,11 +4381,13 @@ msgstr "Niet bevestigd."
 msgid "Re-send activation link"
 msgstr "Verstuur de activatie-link opnieuw"
 
-msgid "News service"
-msgstr "Nieuwsdienst"
+msgid "Receive messages via email"
+msgstr ""
 
-msgid "Receive occasional news from instance administrators"
-msgstr "Ontvang af en toe nieuws van groepsbeheerders"
+msgid ""
+"Receive messages from administrators and other users via email. (These "
+"messages are always available on your dashboard)"
+msgstr ""
 
 msgid "Optional attributes"
 msgstr "Optionele attributen"
@@ -4342,13 +4412,13 @@ msgstr "Begroeting"
 msgid "Select your prefered gender"
 msgstr "Selecteer uw gewenste geslacht"
 
+msgid "Avatar"
+msgstr "Avatar"
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Selecteer een vierkante profielafbeelding. Als deze niet vierkant is dan kan de afbeelding vervormen."
-
-msgid "Avatar"
-msgstr "Avatar"
 
 msgid "Current avatar"
 msgstr "Huidige avatar"
@@ -4356,13 +4426,13 @@ msgstr "Huidige avatar"
 msgid "Delete current avatar"
 msgstr "Verwijder huidige avatar"
 
+msgid "Short biography"
+msgstr "Korte biografie"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Door middel van een biografie kunnen anderen wat over u te weten komen en misschien krijgt u er wel een aantal machtigingen door."
-
-msgid "Short biography"
-msgstr "Korte biografie"
 
 msgid "I am an organisation"
 msgstr "Ik ben een organisatie"
