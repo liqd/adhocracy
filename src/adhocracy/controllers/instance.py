@@ -341,6 +341,19 @@ class InstanceController(BaseController):
                                   _('%s News' % c.page_instance.label),
                                   h.base_url(),
                                   _("News from %s") % c.page_instance.label)
+        elif format == 'ajax':
+            query_params = request.params.copy()
+            while True:
+                try:
+                    query_params.pop('count')
+                except KeyError:
+                    break
+
+            more_url = h.entity_url(c.page_instance,
+                                    member='activity',
+                                    query=query_params)
+            return render_def('/event/tiles.html', 'carousel',
+                              events=events, more_url=more_url)
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.events_pager = pager.events(events)
