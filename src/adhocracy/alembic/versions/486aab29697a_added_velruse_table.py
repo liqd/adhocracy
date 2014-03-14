@@ -1,14 +1,14 @@
 """Added velruse table
 
 Revision ID: 486aab29697a
-Revises: 27af318320bd
+Revises: 60dd2bc41b
 Create Date: 2014-03-11 10:58:58.788954
 
 """
 
 # revision identifiers, used by Alembic.
 revision = '486aab29697a'
-down_revision = '27af318320bd'
+down_revision = '60dd2bc41b'
 
 from alembic import op
 import sqlalchemy as sa
