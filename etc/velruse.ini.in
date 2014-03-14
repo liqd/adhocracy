@@ -10,12 +10,6 @@
 {% if parts.velruse.debug == 'True' %}debug = True{% end %}
 {% if parts.velruse.debug != 'True' %}debug = False{% end %}
 
-# Uncomment and replace with the address which should receive any error reports
-email_to = ${parts.velruse['email.to']}
-smtp_server = ${parts.velruse['smtp_server']}
-smtp_port = ${parts.velruse['smtp_port']}
-error_email_from = ${parts.velruse['email.from']}
-
 [server:main]
 use = egg:Paste#http
 host = ${parts.velruse.host}
