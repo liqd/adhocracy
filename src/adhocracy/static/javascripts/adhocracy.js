@@ -1248,7 +1248,15 @@ $(document).ready(function () {
         var self = $(e),
             j = 0,
             data = [],
-            drawIntervalID;
+            drawIntervalID,
+            src = self.data('src');
+
+        if (!src) {
+            src = '/event/all?event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create';
+        }
+        src = new Uri(src);
+        src.path(src.path().replace(/(\.[^.]*)?$/, '.ajax'))
+        src.replaceQueryParam('count', 5);
 
         var draw = function() {
             self.fadeOut('fast', function() {
@@ -1270,7 +1278,7 @@ $(document).ready(function () {
             // if the request fails the old data will be kept instead
 
             // FIXME this takes really long
-            $.ajax('/event/all.ajax?count=5&event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create', {
+            $.ajax(src.toString(), {
                 'success': function(d) {
                     data = $(d).children();
                     if (fn) {
