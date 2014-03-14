@@ -1,18 +1,56 @@
 Adhocracy Changelog
 ===================
 
-Unreleased
-----------
+2.2.0 (Unreleased)
+------------------
 
-- Added context variable "body_css_classes" to append context specific css
+Improvements:
+
+- You can send a message to supporters/opponents/creators of proposals. (#679)
+
+- All messages are now available in the dashboard. (#801)
+
+- Allow to display instance logo as background image instead. (#793)
+
+- Allow instance admins to choose from multiple themes. (#791)
+
+- Add a profiling middleware for simple debugging. (#792)
+
+- Allow to display tag facet filter as tag cloud. (#799)
+
+- Prepare for responsive design. (Not all widgets have been converted yet)
+  (#779, #780)
+
+- Add a event carousel widget. (#776, #794)
+
+- Allow to filter event stream by event type. (#776, #797)
+
+- Show abstract instead of truncate content in page tiles. (#777)
+
+- Add context variable "body_css_classes" to append context specific css
   classes to the body tag. The default classes are:
   * logged_in|not_logged_in,
   * instance_key_<key>,
   * global_nav_home|global_nav_instances,
   * added_static_content,
   * css_classes from the static pages backend.
-  * area-<controller_identifier>
-  [joka]
+  * controller-<controller_identifier>
+  * area-<area_identifier>
+  [joka] (#772)
+
+- Update proposal list design. (#773)
+
+- Update category page design to look more like the proposal list. (#774)
+
+Bug fixes:
+
+- Rewrite internal links in overlays to point to overlays. (#571)
+
+- Avoid generic 403 error pages and display useful information instead. (#786)
+
+- Fix unicode issues with urlquote. (#782)
+
+- Strip markdown syntax on truncated texts. (#775)
 
 
 2.1.3 (2014-02-21)
