@@ -53,6 +53,15 @@ Bug fixes:
 - Strip markdown syntax on truncated texts. (#775)
 
 
+Kotti branch (unreleased)
+-------------------------
+
+- extended KottStaticPages backend with: nav, sidebar, description, css_classes, redirect_url
+  [joka]
+
+- added varnish reverse proxy [joka]
+
+
 2.1.3 (2014-02-21)
 ------------------
 
