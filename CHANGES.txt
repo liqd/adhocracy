@@ -34,6 +34,7 @@ Improvements:
   * global_nav_home|global_nav_instances,
   * added_static_content,
   * css_classes from the static pages backend.
+  * instance-<instance_key>
   * controller-<controller_identifier>
   * area-<area_identifier>
   [joka] (#772)
