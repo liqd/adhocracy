@@ -27,6 +27,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import (render, render_json, render_logo,
                                       ret_abort, ret_success, render_def)
+from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib.user_import import user_import, get_user_import_state
 from adhocracy.lib.util import get_entity_or_abort
 
@@ -359,7 +360,8 @@ class InstanceController(BaseController):
         c.events_pager = pager.events(events)
 
         if format == 'overlay':
-            return render("/instance/activity.html", overlay=True)
+            return render("/instance/activity.html", overlay=True,
+                          overlay_size=OVERLAY_SMALL)
         else:
             return render("/instance/activity.html")
 

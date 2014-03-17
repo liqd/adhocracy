@@ -9,6 +9,7 @@ from adhocracy.lib import pager
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_def
+from adhocracy.lib.templating import OVERLAY_SMALL
 
 log = logging.getLogger(__name__)
 
@@ -48,10 +49,12 @@ class EventController(BaseController):
             c.event_pager = pager.events(events, count=50)
 
             if format == 'overlay':
-                return render('/event/all.html', overlay=True)
+                return render('/event/all.html', overlay=True,
+                              overlay_size=OVERLAY_SMALL)
             else:
                 return render('/event/all.html')
 
     @guard.perm('event.index_all')
     def carousel(self, format=u'html'):
-        return render('/event/carousel.html', overlay=format == u'overlay')
+        return render('/event/carousel.html', overlay=format == u'overlay',
+                      overlay_size=OVERLAY_SMALL)
