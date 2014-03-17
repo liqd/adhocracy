@@ -30,14 +30,14 @@ class EventType(NotificationType):
 
 
 T_USER_CREATE = EventType(
-    u"t_user_create", pri=2,
+    u"t_user_create", pri=5,
     subject=lambda: _(u"New user: %(user)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.user, absolute=absolute)),
     event_msg=lambda: _(u"signed up"))
 
 T_USER_EDIT = EventType(
-    u"t_user_edit", pri=1,
+    u"t_user_edit", pri=4,
     subject=lambda: _(u"%(user)s: profile updated"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.user, absolute=absolute)),
@@ -46,7 +46,7 @@ T_USER_EDIT = EventType(
     notify_self=True)
 
 T_USER_ADMIN_EDIT = EventType(
-    u"t_user_admin_edit", pri=2,
+    u"t_user_admin_edit", pri=4,
     subject=lambda: _(u"%(user)s: profile was edited by %(admin)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.user, absolute=absolute)),
@@ -55,7 +55,7 @@ T_USER_ADMIN_EDIT = EventType(
     notify_self=True)
 
 T_INSTANCE_CREATE = EventType(
-    u"t_instance_create", pri=3,
+    u"t_instance_create", pri=5,
     subject=lambda: _(u"New instance: %(instance)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.user, absolute=absolute)),
@@ -63,7 +63,7 @@ T_INSTANCE_CREATE = EventType(
     text=lambda e: e.instance.description)
 
 T_INSTANCE_EDIT = EventType(
-    u"t_instance_edit", pri=3,
+    u"t_instance_edit", pri=4,
     subject=lambda: _(u"%(instance)s: instance was updated"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.instance, absolute=absolute)),
@@ -71,7 +71,7 @@ T_INSTANCE_EDIT = EventType(
     text=lambda e: e.instance.description)
 
 T_INSTANCE_DELETE = EventType(
-    u"t_instance_delete", pri=3,
+    u"t_instance_delete", pri=4,
     subject=lambda: _(u"Deleted Adhocracy: %(instance)s"),
     link_path=lambda e, absolute=False: (
         h.base_url(instance=None, absolute=absolute)),
@@ -92,21 +92,21 @@ T_INSTANCE_LEAVE = EventType(
     event_msg=lambda: _(u"left %(instance)s"))
 
 T_INSTANCE_FORCE_LEAVE = EventType(
-    u"t_instance_force_leave", pri=3,
+    u"t_instance_force_leave", pri=1,
     subject=lambda: _(u"%(instance)s: %(user)s was forced to leave"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.user, absolute=absolute)),
     event_msg=lambda: _(u"was forced to leave %(instance)s by %(admin)s"))
 
 T_INSTANCE_MEMBERSHIP_UPDATE = EventType(
-    u"t_instance_membership_update", pri=3,
+    u"t_instance_membership_update", pri=1,
     subject=lambda: _(u"%(instance)s: %(user)s is now a %(group)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.user, absolute=absolute)),
     event_msg=lambda: _(u"now is a %(group)s within %(instance)s"))
 
 T_PROPOSAL_CREATE = EventType(
-    u"t_proposal_create", pri=4,
+    u"t_proposal_create", pri=5,
     subject=lambda: _(u"New proposal: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.proposal, absolute=absolute)),
@@ -114,7 +114,7 @@ T_PROPOSAL_CREATE = EventType(
     text=lambda e: e.rev.text if e.rev else None)
 
 T_PROPOSAL_EDIT = EventType(
-    u"t_proposal_edit", pri=3,
+    u"t_proposal_edit", pri=4,
     subject=lambda: _(u"Edit proposal: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.proposal, absolute=absolute)),
@@ -122,14 +122,14 @@ T_PROPOSAL_EDIT = EventType(
     event_msg=lambda: _(u"edited %(proposal)s"))
 
 T_PROPOSAL_BADGE = EventType(
-    u"t_proposal_badge", pri=3,
+    u"t_proposal_badge", pri=4,
     subject=lambda: _(u"Proposal badged: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.proposal, absolute=absolute)),
     event_msg=lambda: _(u"badged %(proposal)s"))
 
 T_PROPOSAL_STATE_REDRAFT = EventType(
-    u"t_proposal_state_draft", pri=3,
+    u"t_proposal_state_draft", pri=4,
     subject=lambda: _(u"Poll cancelled: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.proposal, absolute=absolute)),
@@ -150,7 +150,7 @@ T_PROPOSAL_DELETE = EventType(
     event_msg=lambda: _(u"deleted %(proposal)s"))
 
 T_AMENDMENT_CREATE = EventType(
-    u"t_amendment_create", pri=3,
+    u"t_amendment_create", pri=5,
     subject=lambda: _(u"New amendment to %(page)s: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.amendment, absolute=absolute)),
@@ -158,7 +158,7 @@ T_AMENDMENT_CREATE = EventType(
     text=lambda e: e.rev.text if e.rev else None)
 
 T_AMENDMENT_EDIT = EventType(
-    u"t_amendment_edit", pri=2,
+    u"t_amendment_edit", pri=4,
     subject=lambda: _(u"Edit amendment to %(page)s: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.amendment, absolute=absolute)),
@@ -166,14 +166,14 @@ T_AMENDMENT_EDIT = EventType(
     event_msg=lambda: _(u"edited amendment %(proposal)s to %(page)s"))
 
 T_AMENDMENT_DELETE = EventType(
-    u"t_amendment_delete", pri=3,
+    u"t_amendment_delete", pri=4,
     subject=lambda: _(u"Deleted amendment to %(page)s: %(proposal)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.instance, absolute=absolute)),
     event_msg=lambda: _(u"deleted amendment %(proposal)s to %(page)s"))
 
 T_PAGE_CREATE = EventType(
-    u"t_page_create", pri=4,
+    u"t_page_create", pri=5,
     subject=lambda: _(u"New page: %(page)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.page, absolute=absolute)),
@@ -181,7 +181,7 @@ T_PAGE_CREATE = EventType(
     text=lambda e: e.rev.text if e.rev else None)
 
 T_PAGE_EDIT = EventType(
-    u"t_page_edit", pri=1,
+    u"t_page_edit", pri=4,
     subject=lambda: _(u"Edit page: %(page)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.page, absolute=absolute)),
@@ -189,7 +189,7 @@ T_PAGE_EDIT = EventType(
     event_msg=lambda: _(u"edited %(page)s"))
 
 T_PAGE_DELETE = EventType(
-    u"t_page_delete", pri=2,
+    u"t_page_delete", pri=4,
     subject=lambda: _(u"Deleted page: %(page)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.instance, absolute=absolute)),
@@ -206,7 +206,7 @@ T_COMMENT_CREATE = EventType(
     text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_EDIT = EventType(
-    u"t_comment_edit", pri=3,
+    u"t_comment_edit", pri=4,
     subject=(lambda: _(u"Edited comment: in %(topic)s")
              if h.comment.wording() else _(u"Edited argument: in %(topic)s")),
     link_path=lambda e, absolute=False: (
@@ -217,7 +217,7 @@ T_COMMENT_EDIT = EventType(
     text=lambda e: e.rev.text if e.rev else None)
 
 T_COMMENT_DELETE = EventType(
-    u"t_comment_delete", pri=3,
+    u"t_comment_delete", pri=4,
     subject=(lambda: _(u"Deleted comment: in %(topic)s")
              if h.comment.wording() else _(u"Deleted argument: in %(topic)s")),
     link_path=lambda e, absolute=False: (
@@ -264,47 +264,47 @@ T_SELECT_VARIANT = EventType(
     event_msg=lambda: _(u"%(vote)s %(poll)s"))
 
 T_MESSAGE_SEND = EventType(
-    u"t_message_send", pri=3,
+    u"t_message_send", pri=1,
     subject=lambda: _(u"Message send: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)),
     event_msg=lambda: _(u"sent message: \"%(message)s\""))
 
 T_MASSMESSAGE_SEND = EventType(
-    u"t_massmessage_send", pri=3,
+    u"t_massmessage_send", pri=1,
     subject=lambda: _(u"Message send: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)),
     event_msg=lambda: _(u"sent message: \"%(message)s\""))
 
 T_TEST = EventType(
-    u"t_test", pri=5,
+    u"t_test", pri=6,
     subject=lambda: _(u"Adhocracy says hello: %(test)s"),
     link_path=lambda e: "/",
     event_msg=lambda: _(u"test %(test)s"))
 
 
 N_DELEGATION_RECEIVED = NotificationType(
-    "n_delegation_receive", pri=4,
+    "n_delegation_receive", pri=2,
     subject=lambda: _(u"You received %(user)ss delegation on %(scope)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.scope, absolute=absolute)))
 
 N_DELEGATION_LOST = NotificationType(
-    "n_delegation_lost", pri=4,
+    "n_delegation_lost", pri=2,
     subject=lambda: _(u"You lost %(user)ss delegation on %(scope)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.scope, absolute=absolute)))
 
 N_INSTANCE_FORCE_LEAVE = NotificationType(
-    "n_instance_force_leave", pri=5,
+    "n_instance_force_leave", pri=1,
     subject=lambda: _(u"Membership: You've been kicked from %(instance)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.instance, absolute=absolute)),
     notify_self=True)
 
 N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType(
-    "n_instance_membership_update", pri=4,
+    "n_instance_membership_update", pri=1,
     subject=lambda: _(u"Membership: you're now a %(group)s in %(instance)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.instance, absolute=absolute)),
@@ -325,14 +325,14 @@ N_DELEGATE_VOTED = NotificationType(
     notify_self=True)
 
 N_DELEGATE_CONFLICT = NotificationType(
-    "n_delegate_conflict", pri=5,
+    "n_delegate_conflict", pri=2,
     subject=lambda: _(u"Delegation conflict regarding %(poll)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.poll.subject, absolute=absolute)),
     notify_self=True)
 
 N_COMMENT_REPLY = NotificationType(
-    "n_comment_reply", pri=4,
+    "n_comment_reply", pri=3,
     subject=lambda: _(u"Comment Reply: %(topic)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.comment, absolute=absolute)),
@@ -346,7 +346,7 @@ N_COMMENT_EDIT = NotificationType(
     text=lambda e: e.rev.text if e.rev else None)
 
 N_MESSAGE_RECEIVE = NotificationType(
-    u"n_message_receive", pri=3,
+    u"n_message_receive", pri=1,
     subject=lambda: _(u"Message from %(sender)s: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)))
