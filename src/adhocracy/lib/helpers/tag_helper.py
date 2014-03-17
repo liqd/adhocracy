@@ -1,5 +1,4 @@
 import cgi
-import math
 from pylons import tmpl_context as c
 from pylons.i18n import _
 
@@ -98,13 +97,12 @@ def _tag_size(count, all_counts, steps=6):
 
     f = i / float(len(l1) - 1)
     f = int(round(steps * f)) / float(steps)
-    print count, f, int(90 + f*110)
     return int(90 + f * 110)
 
 
 def tag_cloud_normalize(tags, steps=6):
-    all_counts = [co for (t, co) in tags]
-    return [(t, co, _tag_size(co, all_counts, steps=steps)) for (t, co) in tags]
+    counts = [co for (t, co) in tags]
+    return [(t, co, _tag_size(co, counts, steps=steps)) for (t, co) in tags]
 
 
 def solr_tag_size(tag, all_tags, steps=6):
