@@ -137,5 +137,5 @@ def is_local_url(url):
 
 def velruse_url(path):
     return (aconfig.get('velruse.protocol') + '://' +
-            aconfig.get('velruse.host') + ':' +
+            aconfig.get('velruse.domain') + ':' +
             aconfig.get('velruse.port') + '/velruse/' + path.strip('/'))
