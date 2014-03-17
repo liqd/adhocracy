@@ -16,7 +16,11 @@ smtp_server = ${parts.adhocracy['smtp_server']}
 smtp_port = ${parts.adhocracy['smtp_port']}
 error_email_from = ${parts.adhocracy['email.from']}
 
-# this is where adhocracy goes to find the velruse service:
+# velruse.{host,port} is where adhocracy goes to find the velruse
+# service.  also, velruse puts this in the url that it uses to make
+# the browser connect to to the sso service.  if you get this wrong,
+# users may get an error message from the sso service in the browser
+# that your application domain is misconfigured.
 velruse.host = ${parts.velruse.host}
 velruse.port = ${parts.velruse.port}
 velruse.protocol = ${parts.velruse.protocol}
