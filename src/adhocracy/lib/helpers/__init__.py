@@ -49,9 +49,10 @@ from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
 from adhocracy.lib.helpers import feedback_helper as feedback
 from adhocracy.lib.helpers.url import build
-from adhocracy.lib.helpers.site_helper import base_url
+from adhocracy.lib.helpers.site_helper import base_url, velruse_url
 from adhocracy.lib.text import (render, markdown_to_plain_text,
                                 html_to_plain_text)
+from adhocracy.lib.helpers import velruse_helper as velruse
 from adhocracy.lib.watchlist import make_watch, find_watch
 from adhocracy import model, static
 from adhocracy.i18n import countdown_time, format_date
