@@ -80,6 +80,10 @@ def setup_entities(config, initial_setup):
     default_permission_groups = {
         u'abuse.report': [anonymous],
         u'badge.index': [anonymous],
+        u'badge.edit_global': [admins],
+        u'badge.manage_global': [admins],
+        u'badge.edit_instance': [supervisor],
+        u'badge.manage_instance': [supervisor],
         u'comment.create': [advisor],
         u'comment.delete': [moderator],
         u'comment.edit': [advisor],
