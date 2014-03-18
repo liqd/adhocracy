@@ -37,6 +37,7 @@ from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.pager import PROPOSAL_SORTS
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.templating import render
+from adhocracy.lib.templating import OVERLAY_SMALL
 
 
 log = logging.getLogger(__name__)
@@ -135,7 +136,8 @@ class BadgeController(BaseController):
     @guard.perm('badge.index')
     def index_type(self, badge_type, format='html'):
         data = self._get_badge_data(badge_type)
-        return render(self.index_template, data, overlay=format == u'overlay')
+        return render(self.index_template, data, overlay=format == u'overlay',
+                      overlay_size=OVERLAY_SMALL)
 
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
@@ -189,7 +191,8 @@ class BadgeController(BaseController):
 
         self._set_parent_categories()
 
-        html = render(self.form_template, data, overlay=format == u'overlay')
+        html = render(self.form_template, data, overlay=format == u'overlay',
+                      overlay_size=OVERLAY_SMALL)
         return htmlfill.render(html,
                                defaults=defaults,
                                errors=errors,
@@ -417,7 +420,8 @@ class BadgeController(BaseController):
                 badge.select_child_description
 
         return htmlfill.render(render(self.form_template, data,
-                                      overlay=format == u'overlay'),
+                                      overlay=format == u'overlay',
+                                      overlay_size=OVERLAY_SMALL),
                                errors=errors,
                                defaults=defaults,
                                force_defaults=False)

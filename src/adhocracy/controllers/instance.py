@@ -408,7 +408,8 @@ class InstanceController(BaseController):
             return render_json(json)
         else:
             return formencode.htmlfill.render(
-                render("/instance/badges.html", overlay=format == u'overlay'),
+                render("/instance/badges.html", overlay=format == u'overlay',
+                       overlay_size=OVERLAY_SMALL),
                 defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')
