@@ -23,7 +23,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "hg", "git", "adhocracy", "user", "openid", "auth", "watch",
                    "poll", "delegation", "event", "comment", "root", "search",
                    "tag", "svn", "trac", "lists", "list", "new", "update",
-                   "variant", "provision", "untag", "code"]
+                   "variant", "provision", "untag", "code", "sso", "velruse"]
 
 
 VALIDUSER = re.compile(r"^[a-zA-Z0-9_\-]{3,255}$")
