@@ -8,19 +8,25 @@ ${h.badge.breadcrumbs(None)|n}
 </%def>
 
 
-<%def name="edit_button(base_url, badge_id)">
+<%def name="edit_button(base_url, badge_id, is_global)">
+%if (is_global and can.badge.edit_global()) or (not is_global and can.badge.edit_instance()):
 <a href="${base_url}/edit/${badge_id}" target="_self">${_('Edit')}</a>
+%endif
 </%def>
 
 
-<%def name="delete_button(base_url, badge_id)">
+<%def name="delete_button(base_url, badge_id, is_global)">
+%if (is_global and can.badge.manage_global()) or (not is_global and can.badge.manage_instance()):
 <a href="${base_url}/delete/${badge_id}" target="_self">${_('Delete')}</a>
+%endif
 </%def>
 
 
 <%def name="new_button(base_url, type_, is_global)">
+%if (is_global and can.badge.manage_global()) or (not is_global and can.badge.manage_instance()):
 <a class="button_small plus"
     href="${'%s/%s/add?global=%s' % (base_url, type_, str(is_global))}" target="_self">${_("New")}</a>
+%endif
 </%def>
 
 
@@ -94,8 +100,8 @@ ${render_table(instance_badges, base_url, type_, not single_table, False)}
         <td>${tiles.badge(badge)}</td>
         <td>${badge.group and badge.group.group_name or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
-        <td>${edit_button(base_url, badge.id)}
-            ${delete_button(base_url, badge.id)}</td>
+        <td>${edit_button(base_url, badge.id, badge.instance is None)}
+            ${delete_button(base_url, badge.id, badge.instance is None)}</td>
     </tr>
     %endfor
 </table>
@@ -117,8 +123,8 @@ ${render_table(instance_badges, base_url, type_, not single_table, False)}
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
-        <td>${edit_button(base_url, badge.id)}
-            ${delete_button(base_url, badge.id)}</td>
+        <td>${edit_button(base_url, badge.id, badge.instance is None)}
+            ${delete_button(base_url, badge.id, badge.instance is None)}</td>
     </tr>
     %endfor
 </table>
@@ -138,8 +144,8 @@ ${render_table(instance_badges, base_url, type_, not single_table, False)}
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${tiles.badge(badge)}</td>
-        <td>${edit_button(base_url, badge.id)}
-            ${delete_button(base_url, badge.id)}</td>
+        <td>${edit_button(base_url, badge.id, badge.instance is None)}
+            ${delete_button(base_url, badge.id, badge.instance is None)}</td>
     </tr>
     %endfor
 </table>
@@ -163,8 +169,8 @@ ${render_table(instance_badges, base_url, type_, not single_table, False)}
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
         <td>${badge.parent.title if badge.parent else ""}</td>
-        <td>${edit_button(base_url, badge.id)}
-            ${delete_button(base_url, badge.id)}</td>
+        <td>${edit_button(base_url, badge.id, badge.instance is None)}
+            ${delete_button(base_url, badge.id, badge.instance is None)}</td>
     </tr>
     %endfor
 </table>
@@ -186,8 +192,8 @@ ${render_table(instance_badges, base_url, type_, not single_table, False)}
         <td>${(badge.description[:20] + u'...' if len(badge.description) > 20 else badge.description) if badge.description else u''}</td>
         <td>${tiles.badge(badge)}</td>
         <td>${badge.impact}</td>
-        <td>${edit_button(base_url, badge.id)}
-            ${delete_button(base_url, badge.id)}</td>
+        <td>${edit_button(base_url, badge.id, badge.instance is None)}
+            ${delete_button(base_url, badge.id, badge.instance is None)}</td>
     </tr>
     %endfor
 </table>

@@ -31,6 +31,7 @@ from adhocracy.model import UserBadge
 from adhocracy.lib import helpers as h, logo
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
+from adhocracy.lib.auth import require
 from adhocracy.lib.auth import guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.behavior import behavior_enabled
@@ -165,7 +166,6 @@ class BadgeController(BaseController):
                 [(b.id, b.get_key()) for b in global_categories],
                 key=lambda x: x[1])
 
-    @guard.instance.any_admin()
     def add(self, badge_type=None, errors=None, format=u'html'):
         data = {
             'form_type': 'add',
@@ -178,8 +178,10 @@ class BadgeController(BaseController):
 
         if (c.instance is not None
            and not asbool(request.GET.get('global', False))):
+            require.badge.manage_instance()
             instance = c.instance.key
         else:
+            require.badge.manage_global()
             instance = ''
 
         defaults = {'visible': True,
@@ -224,12 +226,10 @@ class BadgeController(BaseController):
         else:
             return method(format=format)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create(self, badge_type, format=u'html'):
         return self._dispatch('create', badge_type, format=format)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_instance_badge(self, format=u'html'):
         try:
@@ -238,13 +238,18 @@ class BadgeController(BaseController):
             return self.add('instance', i.unpack_errors())
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
+
+        if instance is None:
+            require.badge.manage_global()
+        else:
+            require.badge.manage_instance()
+
         InstanceBadge.create(title, color, visible, description, impact,
                              instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_user_badge(self, format=u'html'):
         try:
@@ -254,6 +259,12 @@ class BadgeController(BaseController):
 
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
+
+        if instance is None:
+            require.badge.manage_global()
+        else:
+            require.badge.manage_instance()
+
         group = self.form_result.get('group')
         display_group = self.form_result.get('display_group')
         UserBadge.create(title, color, visible, description, group,
@@ -262,7 +273,6 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_delegateable_badge(self, format=u'html'):
         try:
@@ -271,13 +281,18 @@ class BadgeController(BaseController):
             return self.add('delegateable', i.unpack_errors())
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
+
+        if instance is None:
+            require.badge.manage_global()
+        else:
+            require.badge.manage_instance()
+
         DelegateableBadge.create(title, color, visible, description, impact,
                                  instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_category_badge(self, format=u'html'):
         try:
@@ -287,6 +302,12 @@ class BadgeController(BaseController):
 
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
+
+        if instance is None:
+            require.badge.manage_global()
+        else:
+            require.badge.manage_instance()
+
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
         long_description = self.form_result.get("long_description")
@@ -315,7 +336,6 @@ class BadgeController(BaseController):
         meta.Session.commit()
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def create_thumbnail_badge(self, format=u'html'):
         try:
@@ -324,6 +344,12 @@ class BadgeController(BaseController):
             return self.add('thumbnail', i.unpack_errors())
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
+
+        if instance is None:
+            require.badge.manage_global()
+        else:
+            require.badge.manage_instance()
+
         thumbnail = self.form_result.get("thumbnail")
         if isinstance(thumbnail, FieldStorage):
             thumbnail = thumbnail.file.read()
@@ -383,9 +409,10 @@ class BadgeController(BaseController):
             self._redirect_not_found(id)
         return badge
 
-    @guard.instance.any_admin()
     def edit(self, id, errors=None, format=u'html'):
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
+
         data = {
             'badge_type': self._get_badge_type(badge),
             'form_type': 'update',
@@ -426,14 +453,13 @@ class BadgeController(BaseController):
                                defaults=defaults,
                                force_defaults=False)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
         c.badge_type = self._get_badge_type(badge)
         return self._dispatch('update', c.badge_type, id=id, format=format)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_user_badge(self, id, format=u'html'):
         try:
@@ -442,6 +468,7 @@ class BadgeController(BaseController):
             return self.edit(id, i.unpack_errors())
 
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
         group = self.form_result.get('group')
@@ -465,7 +492,6 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_delegateable_badge(self, id, format=u'html'):
         try:
@@ -473,6 +499,7 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
 
@@ -489,7 +516,6 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_instance_badge(self, id, format=u'html'):
         try:
@@ -497,6 +523,7 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
 
@@ -513,7 +540,6 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_category_badge(self, id, format=u'html'):
         try:
@@ -523,6 +549,7 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
 
         # delete the logo if the button was pressed and exit
         if 'delete_image' in self.form_result:
@@ -568,7 +595,6 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def update_thumbnail_badge(self, id, format=u'html'):
         try:
@@ -576,6 +602,7 @@ class BadgeController(BaseController):
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
         badge = self._get_badge_or_redirect(id)
+        require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
         thumbnail = self.form_result.get("thumbnail")
@@ -596,9 +623,9 @@ class BadgeController(BaseController):
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)
 
-    @guard.instance.any_admin()
     def ask_delete(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
+        require.badge.manage(badge)
 
         data = {
             'badge': badge,
@@ -610,10 +637,11 @@ class BadgeController(BaseController):
         return render('/badge/ask_delete.html', data,
                       overlay=format == u'overlay')
 
-    @guard.instance.any_admin()
     @RequireInternalRequest()
     def delete(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
+        require.badge.manage(badge)
+
         for badge_instance in badge.badges():
             meta.Session.delete(badge_instance)
             update_entity(badge_instance.badged_entity(), UPDATE)
