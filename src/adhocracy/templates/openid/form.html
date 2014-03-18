@@ -1,6 +1,15 @@
+<%namespace name="components" file="/components.html"/>
+<% login_types = h.allowed_login_types() %>
+
+
 <form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
    <div>${_('Alternative')}:</div>
    <div class="openid_btns">
+     %if 'facebook' in login_types:
+     <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
+       <img class="openid_large_btn" src="/velruse/facebook_login.png" alt=${_("Login with Facebook")}>
+     </a>
+     %endif
    </div>
 
    <div class="openid_input_area">
@@ -16,3 +25,9 @@
          Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
    </noscript>
 </form>
+
+%if 'facebook' in login_types:
+<form id="facebook_login_form" action="${h.velruse_url('/login/facebook')}"
+      method="post" style="display: none">
+</form>
+%endif
