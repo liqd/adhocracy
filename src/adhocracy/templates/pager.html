@@ -83,7 +83,7 @@
 </%def>
 
 <%def name="facets(pager, cls=None, exclude=[])">
-<% is_admin = can.instance.any_admin() %>
+<% is_admin = can.badge.edit_global() or can.badge.edit_instance() %>
 %if any(facet.available(is_admin) and facet.name not in exclude for facet in pager.facets):
 <div id="facets" ${'class=%s'%cls if cls is not None else ''}>
 <h3 id="facets-heading">${_("Filter list")}</h3>
@@ -108,7 +108,7 @@
        rel="nofollow">(${_("reset")})</a>
     %endif
 
-    %if facet.badge_type is not None and can.instance.any_admin():
+    %if facet.badge_type is not None and can.badge.manage_instance():
     <a class="button_small edit"
         href="${h.base_url('/badge/%s' % facet.badge_type)}"
         rel="#overlay-form">${_(u"Edit")}</a>
