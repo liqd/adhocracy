@@ -1,10 +1,18 @@
 Adhocracy Changelog
 ===================
 
-2.2.0 (Unreleased)
+2.2.0 (2014-03-19)
 ------------------
 
 Improvements:
+
+- Facebook login (#807)
+
+- Admins can give other users the permission to edit and manage badges;
+  moderators can edit and manage instances badges by default. (#805)
+
+- Clean up notification priorities and user interface for selecting a
+  priority over which users will receive an email. (#804)
 
 - You can send a message to supporters/opponents/creators of proposals. (#679)
 
