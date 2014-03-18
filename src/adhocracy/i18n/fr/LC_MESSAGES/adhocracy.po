@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-13 23:14+0100\n"
-"PO-Revision-Date: 2014-03-13 22:15+0000\n"
+"POT-Creation-Date: 2014-03-18 23:52+0100\n"
+"PO-Revision-Date: 2014-03-18 22:52+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -316,7 +316,7 @@ msgstr "Vous ne pouvez pas créer de nouveau thème "
 
 #, python-format
 msgid "errors while uploading image: %s"
-msgstr ""
+msgstr "Une erreur est survenue lors du téléchargement de l'image : %s"
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
@@ -608,7 +608,7 @@ msgid "All Events"
 msgstr "Tous les évenements"
 
 msgid "Messages"
-msgstr ""
+msgstr "Messages"
 
 msgid "Invalid login"
 msgstr "Login non valide "
@@ -700,6 +700,31 @@ msgstr "Vous avez déjà un mot de passe - utilisez-le pour vous connecter. "
 #, python-format
 msgid "The user can now log in via %s"
 msgstr "L'utilisateur peut s'enregistre via %s"
+
+msgid "Internal server error:velruse service not available."
+msgstr ""
+
+msgid "Login failed: "
+msgstr ""
+
+msgid ""
+"You have to give Adhocracy permission to connect to your Facebook account."
+msgstr ""
+
+#, python-format
+msgid "Logging in with %s is not allowed on this installation."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+#, python-format
+msgid "You successfully connected to %s."
+msgstr ""
+
+#, python-format
+msgid "Your %s account is already connected."
+msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Une souscription pour cette entité existe déjà ."
@@ -878,7 +903,7 @@ msgid "Entry name cannot be purely numeric: %s"
 msgstr "Le nom saisi ne peut être uniquement numérique :  %s "
 
 msgid "Please select at least one recipient group"
-msgstr ""
+msgstr "Veuillez sélectionner au moins un groupe de destinataires."
 
 #, python-format
 msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
@@ -1470,7 +1495,7 @@ msgstr ""
 
 #, python-format
 msgid "sent message: \"%(message)s\""
-msgstr ""
+msgstr "message envoyé : \"%(message)s\""
 
 #, python-format
 msgid "Adhocracy says hello: %(test)s"
@@ -1518,7 +1543,7 @@ msgstr "changement du commentaire: %(topic)s"
 
 #, python-format
 msgid "Message from %(sender)s: %(message)s"
-msgstr ""
+msgstr "message de: %(sender)s: %(message)s"
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Cette proposition est en court de vote et ne peut être modifié."
@@ -2079,7 +2104,7 @@ msgid "Static Pages"
 msgstr "Pages statiques"
 
 msgid "Send a message to users"
-msgstr ""
+msgstr "envoyer un message aux utilisateurs"
 
 msgid "Assign treatment badges"
 msgstr "Attribuer des treatment badges"
@@ -2197,7 +2222,7 @@ msgid "Preview:"
 msgstr "Aperçu :"
 
 msgid "Image upload does not work in your browser. Please update."
-msgstr ""
+msgstr "Veuillez mettre à jour votre navigateur afin de télécharger une image. "
 
 msgid "Image"
 msgstr "image"
@@ -2247,7 +2272,7 @@ msgid "Parent Category"
 msgstr "catégorie supérieure "
 
 msgid "Link this category to a superordinate category"
-msgstr ""
+msgstr "Relier cette catégorie à une catégorie principale"
 
 msgid "No Parent Category"
 msgstr "aucune catégorie supérieure "
@@ -2361,7 +2386,7 @@ msgstr "Normes dans cette catégorie "
 
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] ""
+msgstr[0] "commentaires"
 msgstr[1] ""
 
 msgid "Argument"
@@ -2674,13 +2699,13 @@ msgid "Show full comment"
 msgstr "Afficher tout le commentaire "
 
 msgid "Show full message"
-msgstr ""
+msgstr "afficher le message complet"
 
 msgid "created new proposal"
-msgstr ""
+msgstr "Nouvelle proposition effectuée"
 
-msgid "display all"
-msgstr ""
+msgid "display all events"
+msgstr "afficher tous les événements"
 
 msgid "Latest Events"
 msgstr "Les derniers évenements"
@@ -2706,17 +2731,17 @@ msgstr "Etes-vous sûr que vous vouliez effacer ce groupe?"
 
 #, python-format
 msgid "Join %s"
-msgstr ""
+msgstr "joindre %s"
 
 msgid "Join"
-msgstr ""
+msgstr "joindre"
 
 msgid "Join instance"
-msgstr ""
+msgstr "rejoindre l'instance "
 
 msgid ""
 "In order to perform the requested action, you need to join this instance."
-msgstr ""
+msgstr "Afin d'effectuer l'action demandée, nous vous prions de rejoindre l'instance. "
 
 msgid "Leave"
 msgstr "Quitter"
@@ -2892,21 +2917,21 @@ msgid "Display category pages"
 msgstr "afficher l'onglet \"catégories\""
 
 msgid "Themes"
-msgstr ""
+msgstr "Thème"
 
 msgid ""
 "You can select one of several themes to customize the appearance of this "
 "instance."
-msgstr ""
+msgstr "Vous pouvez sélectionner un ou plusieurs thèmes afin de personnaliser l'aspect de votre instance."
 
 msgid "default"
 msgstr ""
 
 msgid "preview"
-msgstr ""
+msgstr "aperçu"
 
 msgid "Delete this instance"
-msgstr ""
+msgstr "Supprimer cette instance "
 
 msgid "Require email validation"
 msgstr "Une validation de l'adresse mail est requise. "
@@ -2951,7 +2976,7 @@ msgid "Delete current logo"
 msgstr "Supprimer logo actuel"
 
 msgid "Use logo as background image"
-msgstr ""
+msgstr "Utiliser le logo comme image de fond"
 
 msgid "Show proposals navigation item"
 msgstr "Afficher l'élément de navigation \"propositions\" "
@@ -3050,7 +3075,7 @@ msgstr "Envoyer un message en masse"
 msgid ""
 "Please note that users may not necessarily receive this message by email. "
 "The message will however show up in their dashboards."
-msgstr ""
+msgstr "Veuillez noter que les utilisateurs ne recevront pas nécessairement ce message par mail. Toutefois, le message apparaîtra dans leur tableau de bord."
 
 msgid "Filter users ..."
 msgstr "Trier les utilisateurs ..."
@@ -3087,24 +3112,24 @@ msgid "Customize sender name: "
 msgstr "Personnaliser le nom de l'expéditeur: "
 
 msgid "Send to ..."
-msgstr ""
+msgstr "Envoyer à"
 
 msgid "Creators"
-msgstr ""
+msgstr "Auteurs"
 
 #, python-format
 msgid "Users who have participated in writing \"%s\""
-msgstr ""
+msgstr "Utilisateurs qui ont participé à la rédaction de \"%s\""
 
 msgid "Supporters"
-msgstr ""
+msgstr "Partisans"
 
 #, python-format
 msgid "Users who have voted in favour of \"%s\""
-msgstr ""
+msgstr "Utilisateurs qui ont voté en faveur de \"%s\""
 
 msgid "Opponents"
-msgstr ""
+msgstr "Opposants"
 
 msgid "Mass Message Preview"
 msgstr "aperçu de l'envoi de message en masse. "
@@ -3129,7 +3154,7 @@ msgid ""
 "You receive this message because you are signed in to the message service on"
 " %(site_name)s. You can change your subscription settings on the following "
 "page: %(url)s"
-msgstr ""
+msgstr "Vous recevez ce message parce que vous êtes connectés au service de messagerie sur %(site_name)s. Vous pouvez modifier vos paramètres d'abonnement sur la page suivante: %(url)s"
 
 #, python-format
 msgid "Message %s"
@@ -3140,25 +3165,25 @@ msgid "Dear %s, ..."
 msgstr "Cher %s, ..."
 
 msgid "Message sent"
-msgstr ""
+msgstr "Message envoyé"
 
 #, python-format
 msgid "by %(creator)s on %(datetime)s"
-msgstr ""
+msgstr "par %(creator)s le %(datetime)s"
 
 msgid "Recipient"
-msgstr ""
+msgstr "Destinataire"
 
 #, python-format
 msgid "%d recipients"
-msgstr ""
+msgstr "%d destinataires"
 
 msgid "Recipients"
-msgstr ""
+msgstr "Destinataires"
 
 #, python-format
 msgid "You and %d others"
-msgstr ""
+msgstr "Vous et %d les autres"
 
 #, python-format
 msgid "Delete: %s"
@@ -3273,11 +3298,8 @@ msgstr "s'inscrire"
 msgid "Alternative"
 msgstr "Alternative"
 
-msgid "Login with your OpenID to skip registration."
-msgstr "identifier vous avec une identité OpenID pour sauter l'enrengistrement."
-
-msgid "Login with your OpenID."
-msgstr "Login avec votre OpenID"
+msgid "Login with Facebook"
+msgstr ""
 
 msgid "Sign in"
 msgstr "Identification"
@@ -3349,7 +3371,7 @@ msgid "Text"
 msgstr "Texte"
 
 msgid "Abstract"
-msgstr ""
+msgstr "résumé"
 
 msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
@@ -3369,7 +3391,7 @@ msgstr "Utiliser le formatage markdown"
 msgid ""
 "Upload a logo for this page. Please note that the logo will only be "
 "displayed in the pages index."
-msgstr ""
+msgstr "Téléchargez un logo pour cette page. Veuillez noter que le logo sera uniquement affiché à l'index des pages. "
 
 msgid "Parent page:"
 msgstr "Site parental:"
@@ -3421,7 +3443,7 @@ msgid "Use as a container for other norms"
 msgstr ""
 
 msgid "Upload a logo for this page"
-msgstr ""
+msgstr "Télécharger un logo pour cette page"
 
 msgid "Tag and classify"
 msgstr "Mettre une balise et classifier"
@@ -3628,7 +3650,7 @@ msgid ""
 msgstr "Vos résultats ont été intégrés avec un bref délai. Après avoir voté, attendez un bref délai avant l'actualisation du compte."
 
 msgid "This is a record of all recent actions concerning this proposal."
-msgstr ""
+msgstr "Ceci est un relevé de l'ensemble des actions récentes concernant cette proposition. "
 
 msgid "Call a poll"
 msgstr "Appeler au vote"
@@ -3842,7 +3864,7 @@ msgid "%s:%s votes"
 msgstr "%s: %s votes"
 
 msgid "Join the discussion"
-msgstr ""
+msgstr "Participer à la discussion"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
@@ -4128,20 +4150,20 @@ msgid "A listing of all users in all instance an this adhocracy server."
 msgstr "Une liste de tous les membres dans tous les groupes sur ce serveur d'Adhocracy."
 
 msgid "Validate email address"
-msgstr ""
+msgstr "Confirmer l'adresse mail"
 
 msgid "You have not yet validated your email address."
-msgstr ""
+msgstr "Vous n'avez pas confirmé votre adresse mail"
 
 #, python-format
 msgid ""
 "An email with a validation link has been sent to your email address (%s) "
 "right after registration. Please follow that link in order to proceed."
-msgstr ""
+msgstr "Vous recevrez par mail un lien de confirmation de votre adresse mail  (%s) peu de temps après votre inscription. Veuillez cliquer sur le lien afin d'effectuer la procédure de confirmation. "
 
 msgid ""
 "If you click on the button below, the validation link will be resent to you."
-msgstr ""
+msgstr "Si vous cliquez sur le bouton ci-dessous, le lien de confirmation vous sera renvoyé. "
 
 msgid ""
 "Are you sure you want to delete your profile? This step cannot be reversed."
@@ -4240,12 +4262,12 @@ msgid "Yes, I do have a password:"
 msgstr "Oui, j'ai un mot de passe : "
 
 msgid "Validation email sent"
-msgstr ""
+msgstr "Email de confirmation envoyé"
 
 msgid ""
 "An email has been sent to you. Please click on the validation link in this "
 "email in order to proceed."
-msgstr ""
+msgstr "Un mail vous a été envoyé. Veuillez cliquer sur le lien de confirmation dans ce mail afin d'effectuer la procédure de confirmation. "
 
 msgid ""
 "Creating an account is easy; all you need is a user name, password and email"
@@ -4258,7 +4280,7 @@ msgid ""
 msgstr "Si vous possedez un compte mais avez oublié le mot de passe, <a href='/reset'> cliquez</a>."
 
 msgid "Can only contain letters and numbers. Spaces aren't allowed."
-msgstr ""
+msgstr "Peut seulement contenir des lettres et des chiffres. Les espaces ne sont pas autorisés. "
 
 msgid "You can choose which name other users see."
 msgstr "Vous pouvez choisir votre nom d'utilisateur"
@@ -4285,7 +4307,7 @@ msgstr "Modalités et Conditions"
 msgid ""
 "We'll occasionally inform you about important events such as the start of a "
 "new participation process via email."
-msgstr ""
+msgstr "Nous vous informerons par mail des événements importants, tels que le début d'un processus de participation. "
 
 msgid "leave empty"
 msgstr "laisser en blanc"
@@ -4325,7 +4347,7 @@ msgstr "En attente de confirmation"
 msgid ""
 "You have received an email containing a link. Please open that link in order"
 " to reset you password"
-msgstr ""
+msgstr "Vous avez reçu un email contenant un lien. Veuillez ouvrir le lien afin de réinitialiser votre mot de passe"
 
 msgid "User settings"
 msgstr "Paramètres d'utilisateurs"
@@ -4369,11 +4391,26 @@ msgstr "Choisissez comment vous voulez être notifié des évents dans l'avenir"
 msgid "Help."
 msgstr "aide."
 
-msgid "fewer"
-msgstr "moins"
+msgid "No notifications via email."
+msgstr ""
 
-msgid "more notifications"
-msgstr "plus de notifications"
+msgid "Send email for new proposals or norms in my watched instances"
+msgstr ""
+
+msgid "and when a watched object is edited or deleted"
+msgstr ""
+
+msgid "Send email when a watched object is edited or deleted"
+msgstr ""
+
+msgid "and when a watched object is commented on"
+msgstr ""
+
+msgid "and when a watched object is rated"
+msgstr ""
+
+msgid "and when new members join my watched instances"
+msgstr ""
 
 msgid "Not confirmed."
 msgstr "Pas encore confirmé."
@@ -4382,12 +4419,12 @@ msgid "Re-send activation link"
 msgstr "Reenvoyer le lien d'activation"
 
 msgid "Receive messages via email"
-msgstr ""
+msgstr "Recevoir les messages par mail"
 
 msgid ""
 "Receive messages from administrators and other users via email. (These "
 "messages are always available on your dashboard)"
-msgstr ""
+msgstr "Recevoir les messages des administrateurs et autres utilisateurs par mail. (Ces messages sont toujours affichés dans votre tableau de bord)"
 
 msgid "Optional attributes"
 msgstr "Attributs facultatifs "
@@ -4485,7 +4522,7 @@ msgid "Not a member in \"%s\""
 msgstr "pas membre dans \"%s\" "
 
 msgid "User group"
-msgstr ""
+msgstr "Groupe d'utilisateur"
 
 msgid "change group"
 msgstr "changer de groupe "

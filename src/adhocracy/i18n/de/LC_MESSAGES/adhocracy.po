@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-14 12:30+0100\n"
-"PO-Revision-Date: 2014-03-14 11:31+0000\n"
+"POT-Creation-Date: 2014-03-18 23:52+0100\n"
+"PO-Revision-Date: 2014-03-18 22:55+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -714,6 +714,31 @@ msgstr "Sie haben bereits ein Passwort - nutzen Sie dieses, um sich einzuloggen.
 #, python-format
 msgid "The user can now log in via %s"
 msgstr "Der Benutzer kann sich nun mit %s einloggen"
+
+msgid "Internal server error:velruse service not available."
+msgstr "Interner Serverfehler: Velruse nicht verfügbar."
+
+msgid "Login failed: "
+msgstr "Login fehlgeschlagen:"
+
+msgid ""
+"You have to give Adhocracy permission to connect to your Facebook account."
+msgstr "Sie müssen Adhocracy die Erlaubnis geben, Ihren Account mit Facebook zu verbinden."
+
+#, python-format
+msgid "Logging in with %s is not allowed on this installation."
+msgstr "Auf dieser Installation ist das Einloggen mit %s nicht erlaubt."
+
+msgid "Error"
+msgstr "Fehler"
+
+#, python-format
+msgid "You successfully connected to %s."
+msgstr "Erfolgreich mit %s verbunden."
+
+#, python-format
+msgid "Your %s account is already connected."
+msgstr "Ihr %s-Account ist bereits verbunden."
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Hierfür existiert bereits ein Eintrag auf der Beobachtungsliste."
@@ -2968,10 +2993,10 @@ msgid "Use logo as background image"
 msgstr "Logo als Hintergrundbild verwenden"
 
 msgid "Show proposals navigation item"
-msgstr "Sie können den \"Vorschlag\"-Reiter in der Gruppen Navigationsleiste verbergen, sodass Vorschläge nicht auf einer eigenen Seite angezeigt werden. Die Vorschlags-Funktion bleibt weiterhin aktiv."
+msgstr "Zeige \"Vorschlag\"-Reiter"
 
 msgid "Show proposals as an extra tab"
-msgstr "Zeige \"Vorschlag\"-Reiter"
+msgstr "Zeige \"Vorschlag\"-ReiterSie können den \"Vorschlag\"-Reiter in der Gruppen Navigationsleiste verbergen, sodass Vorschläge nicht auf einer eigenen Seite angezeigt werden. Die Vorschlags-Funktion bleibt weiterhin aktiv."
 
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"
@@ -3287,11 +3312,8 @@ msgstr "Anmelden"
 msgid "Alternative"
 msgstr "Alternative"
 
-msgid "Login with your OpenID to skip registration."
-msgstr "Nutzen Sie OpenID, um sich ohne Registrierung anzumelden."
-
-msgid "Login with your OpenID."
-msgstr "Melden Sie sich an mit Ihrer OpenID."
+msgid "Login with Facebook"
+msgstr "Mit Facebook einloggen"
 
 msgid "Sign in"
 msgstr "Anmelden"
@@ -4383,11 +4405,26 @@ msgstr "Wählen Sie hier aus, wie Sie über Ereignisse informiert werden wollen.
 msgid "Help."
 msgstr "Hilfe."
 
-msgid "fewer"
-msgstr "weniger"
+msgid "No notifications via email."
+msgstr "Keine Mitteilungen via E-Mail."
 
-msgid "more notifications"
-msgstr "mehr Benachrichtigungen"
+msgid "Send email for new proposals or norms in my watched instances"
+msgstr "E-Mail senden für neue Vorschläge und Beschlüsse in den Gruppen, die ich beobachte,"
+
+msgid "and when a watched object is edited or deleted"
+msgstr "und wenn ein beobachtetes Objekt bearbeitet oder gelöscht wird"
+
+msgid "Send email when a watched object is edited or deleted"
+msgstr "E-Mail senden wenn ein beobachtetes Objekt bearbeitet oder gelöscht wird"
+
+msgid "and when a watched object is commented on"
+msgstr "und wenn ein beobachtets Objekt kommentiert wird"
+
+msgid "and when a watched object is rated"
+msgstr "und wenn ein beobachtetes Objekt bewertet wird"
+
+msgid "and when new members join my watched instances"
+msgstr "und wenn neue Mitglieder den Gruppen, die ich beobachte, beitreten"
 
 msgid "Not confirmed."
 msgstr "Nicht bestätigt."

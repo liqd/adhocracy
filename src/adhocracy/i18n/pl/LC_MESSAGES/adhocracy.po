@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
+# kaiel <kaielblue@gmail.com>, 2014
 # Mateusz Batelt <mateusz@batelt.eu>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-13 23:14+0100\n"
-"PO-Revision-Date: 2014-03-13 22:15+0000\n"
+"POT-Creation-Date: 2014-03-18 23:52+0100\n"
+"PO-Revision-Date: 2014-03-18 22:52+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +42,7 @@ msgstr ""
 msgid ""
 "Requested generation of welcome codes, but welcome "
 "functionality(adhocracy.enable_welcome) is not enabled."
-msgstr ""
+msgstr "Wymagane wygenerowanie kodów powitalnych, ale funkcja powitania (adhocracy.enable_welcome) jest wyłączona"
 
 msgid "No such badge type"
 msgstr ""
@@ -86,7 +87,7 @@ msgstr ""
 
 #, python-format
 msgid "Comment topic has no variant %s"
-msgstr "Komentowany wątek nie posiada wersji %s"
+msgstr "Komentowany temat nie posiada wersji %s"
 
 msgid "The comment has been deleted."
 msgstr "Usunięto komentarz."
@@ -102,10 +103,10 @@ msgstr "Przywrócono poprzednią wersję komentarza."
 msgid ""
 "You're trying to purge a revision which is not part of this comment's "
 "history"
-msgstr ""
+msgstr "Próbujesz usunąć zmianę, która nie jest częścią historii tego komentarza"
 
 msgid "The comment revision has been deleted."
-msgstr ""
+msgstr "Zmiana komentarza została skasowana."
 
 msgid "Wrong topic"
 msgstr "Nieprawidłowy temat"
@@ -210,24 +211,24 @@ msgid "You cannot manipulate one instance from within another instance."
 msgstr "Nie możesz zmieniać ustawień jednej grupy, będąc w innej."
 
 msgid "Sorry, but you're not allowed to set these message options"
-msgstr ""
+msgstr "Przepraszamy, ale nie możesz zmieniać opcji tych wiadomości"
 
 msgid "Email isn't activated"
-msgstr ""
+msgstr "E-mail nie został aktywowany"
 
 msgid "Not permitted in system settings"
-msgstr ""
+msgstr "Nie dozwolone w ustawieniach systemu"
 
 msgid "adhocracy.registration_support_email not set"
 msgstr ""
 
 #, python-format
 msgid "Could not render message: %s"
-msgstr ""
+msgstr "Nie udało się utworzyć wiadomości: %s"
 
 #, python-format
 msgid "Message sent to %d users."
-msgstr ""
+msgstr "Wiadomość wysłana do %d użytkowników."
 
 msgid "Your message has been sent. Thanks."
 msgstr "Wiadomość została wysłana. Dziękujemy."
@@ -266,10 +267,10 @@ msgid "You're not authorized to change %s's settings."
 msgstr "Nie masz uprawnień, by dokonać zmiany ustawień %s."
 
 msgid "Successfully removed OpenID from account"
-msgstr ""
+msgstr "Usunięto OpenID z konta"
 
 msgid "OpenID login has been disabled on this installation"
-msgstr ""
+msgstr "Login OpenID został wyłączony w tej instalacji"
 
 msgid "OpenID login failed."
 msgstr "Logowanie przy użyciu OpenID nie powiodło się."
@@ -282,7 +283,7 @@ msgid "OpenID %s already belongs to %s."
 msgstr "OpenID %s należy już do %s."
 
 msgid "Successfully added OpenID to user account."
-msgstr ""
+msgstr "Dodano OpenID do konta użytkownika."
 
 #, python-format
 msgid ""
@@ -296,20 +297,20 @@ msgid ""
 "belongs to a different user account. Please login with that account or use "
 "the forgot password functionality, and add the OpenID in your user profile "
 "settings afterwards. Sorry for the inconvenience."
-msgstr ""
+msgstr "Adres e-mail %s wskazany przez dostawcę OpenID przypisany jest już do innego konta użytkownika. Proszę zalogować się za pomocą tego konta lub skorzystać z funkcji zapomniałem hasła, a następnie dodać OpenID do swojego profilu użytkownika. Przepraszamy za kłopot."
 
 #, python-format
 msgid "Successfully created new user account %s"
-msgstr ""
+msgstr "Utworzono nowe konto użytkownika %s"
 
 msgid "tutorial_norms_overview_tab"
-msgstr "Dokumenty grupy. Oprócz ich pełnej listy znajdziesz tu również informacje na temat powiązanych z nimi propozycji i komentarzy."
+msgstr "Regulacje grupy. Oprócz ich pełnej listy znajdziesz tu również informacje na temat powiązanych z nimi propozycji i komentarzy."
 
 msgid "No proposal has been specified"
 msgstr "Nie zgłoszono żadnej propozycji."
 
 msgid "You cannot create a new norm"
-msgstr "Nie możesz stworzyć nowego dokumentu."
+msgstr "Nie możesz stworzyć nowej regulacji."
 
 #, python-format
 msgid "errors while uploading image: %s"
@@ -317,7 +318,7 @@ msgstr ""
 
 #, python-format
 msgid "Variant %s is already present, cannot branch."
-msgstr "Istnieje już wersja %s. Działanie niemożliwe."
+msgstr "Istnieje już wariant %s. Rozdzielenie niemożliwe."
 
 msgid ""
 "You're trying to update to a text which is not part of this pages history"
@@ -337,7 +338,7 @@ msgstr "Wersja oryginalna"
 
 #, python-format
 msgid "Variant: \"%s\""
-msgstr "Wersja: \"%s\""
+msgstr "Wariant: \"%s\""
 
 msgid "Original Version"
 msgstr "Wersja oryginalna"
@@ -348,13 +349,13 @@ msgstr ""
 
 #, python-format
 msgid "Variant %s does not exist!"
-msgstr "Wersja %s nie istnieje."
+msgstr "Wariant %s nie istnieje."
 
 msgid "alphabetically"
 msgstr "alfabetycznie"
 
 msgid "tutorial_norm_show_tab"
-msgstr "Na tej stronie znajdziesz obowiązującą w tym momencie wersję dokumentu oraz wszystkie zgłoszone wersje alternatywne."
+msgstr "Na tej stronie znajdziesz obowiązującą w tym momencie wersję regulacji oraz wszystkie zgłoszone wersje alternatywne."
 
 msgid "No such text revision."
 msgstr "Wersja tekstu nie istnieje."
@@ -371,7 +372,7 @@ msgstr "Nie można porównać wersji różnych tekstów."
 
 #, python-format
 msgid "The variant %s has been deleted."
-msgstr "Usunięto wersję %s."
+msgstr "Usunięto wariant %s."
 
 msgid "Cannot delete, if there's only one version"
 msgstr "Nie można usunąć, jeśli jest tylko jedna wersja"
@@ -385,16 +386,16 @@ msgstr "Usunięto stronę %s."
 
 #, python-format
 msgid "Invalid text ID %s for this page/variant!"
-msgstr "Błędny numer %s tekstu dla strony albo wersji."
+msgstr "Błędny ID tekstu %s dla strony/wariantu."
 
 msgid "This is not an adoption poll."
 msgstr "To nie jest głosowanie mające na celu przyjęcie rozwiązania."
 
 msgid "This is not a rating poll."
-msgstr "To nie jest głosowanie mające na celu ocenę."
+msgstr "To nie jest głosowanie wartościujące."
 
 msgid "The poll has ended."
-msgstr "Głosowanie zakończyło się."
+msgstr "Głosowanie zakończone."
 
 msgid "The proposal is not undergoing a poll."
 msgstr "Ta propozycja nie jest przedmiotem głosowania."
@@ -403,7 +404,7 @@ msgid "tutorial_proposal_overview_tab"
 msgstr "Przegląd wszystkich zgłoszonych do tej pory propozycji. Można tu sformułować nową propozycję..."
 
 msgid "Please select norm and propose a change to it."
-msgstr "Wybierz dokument i zaproponuj jak go zmienić."
+msgstr "Wybierz regulację i zaproponuj zmiany."
 
 msgid "tutorial_proposal_show_tab"
 msgstr "Strona ta nie tylko zawiera najważniejsze informacje na temat danej propozycji, ale oferuje też możliwości zaangażowania się w prace grupy."
@@ -449,20 +450,20 @@ msgid "User %s has been undeleted"
 msgstr "Użytkownik %s został przywrócony."
 
 msgid "Page does already exist. Select another key or language."
-msgstr ""
+msgstr "Strona już istnieje. Wybierz inny klucz lub język."
 
 msgid "Page updated"
-msgstr ""
+msgstr "Strona zaktualizowana"
 
 msgid "Cannot find static page to edit"
-msgstr ""
+msgstr "Ni można odnaleźć statycznej strony do edycji"
 
 msgid "The requested page was not found"
 msgstr "Żądana strona nie została odnaleziona."
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
-msgstr ""
+msgstr "Tag \"%s\" został usunięty z %s \"%s\"."
 
 msgid "Treatment has been created."
 msgstr ""
@@ -530,7 +531,7 @@ msgid "No optional attributes defined."
 msgstr ""
 
 msgid "Password has been set. Have fun!"
-msgstr ""
+msgstr "Hasło zostało ustawione. Miłej zabawy!"
 
 msgid "There is no user registered with that email address."
 msgstr "Żaden użytkownik nie zarejestrował się przy użyciu tego adresu e-mail."
@@ -542,7 +543,7 @@ msgstr "Prosiłeś(aś) o zresetowanie hasła. Jeśli chcesz zakończyć ten pro
 
 #, python-format
 msgid "Login for %s"
-msgstr ""
+msgstr "Zaloguj się na %s"
 
 #, python-format
 msgid "Your user name to login is: %s"
@@ -611,13 +612,13 @@ msgid "Invalid login"
 msgstr "Nieprawidłowy login"
 
 msgid "Invalid email / user name or password"
-msgstr ""
+msgstr "Nieprawidłowy email / nazwa użytkownika lub hasło"
 
 msgid "Invalid user name or password"
 msgstr "Błędna nazwa użytkownika lub hasło."
 
 msgid "Invalid email or password"
-msgstr ""
+msgstr "Nieprawidłowy e-mail lub hasło"
 
 #, python-format
 msgid "You can finish that session <a href='%s'>here</a>."
@@ -639,7 +640,7 @@ msgid "Successfully logged out"
 msgstr ""
 
 msgid "Please use a valid email address."
-msgstr ""
+msgstr "Proszę podać poprawny adres e-mail."
 
 #, python-format
 msgid ""
@@ -649,7 +650,7 @@ msgstr ""
 
 #, python-format
 msgid "Registration attempt on %s"
-msgstr ""
+msgstr "Próba rejestracji na %s"
 
 msgid "The account has been suspended."
 msgstr "Użytkownik został zawieszony."
@@ -692,10 +693,35 @@ msgid "%s is banned from the system."
 msgstr "%s został pozbawiony dostępu do systemu."
 
 msgid "You already have a password - use that to log in."
-msgstr ""
+msgstr "Masz już hasło - użyj go, żeby się zalogować."
 
 #, python-format
 msgid "The user can now log in via %s"
+msgstr "Użytkownik może zalogować się przez %s"
+
+msgid "Internal server error:velruse service not available."
+msgstr ""
+
+msgid "Login failed: "
+msgstr ""
+
+msgid ""
+"You have to give Adhocracy permission to connect to your Facebook account."
+msgstr ""
+
+#, python-format
+msgid "Logging in with %s is not allowed on this installation."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+#, python-format
+msgid "You successfully connected to %s."
+msgstr ""
+
+#, python-format
+msgid "Your %s account is already connected."
 msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
@@ -721,7 +747,7 @@ msgid "That email is already registered"
 msgstr "Ten adres e-mail jest już zarejestrowany."
 
 msgid "That email is already used by another account"
-msgstr ""
+msgstr "Ten adres jest już przypisany do innego konta"
 
 msgid "Invalid locale choice"
 msgstr ""
@@ -744,10 +770,10 @@ msgid "An instance with that key already exists"
 msgstr "Grupa o takim oznaczeniu już istnieje."
 
 msgid "No static key is given"
-msgstr ""
+msgstr "Nie nadano statycznego klucza"
 
 msgid "The static key is invalid"
-msgstr ""
+msgstr "Statyczny klucz jest nieprawidłowy"
 
 #, python-format
 msgid "No entity with ID '%s' exists"
@@ -783,24 +809,24 @@ msgstr ""
 
 #, python-format
 msgid "Could not find badges %s"
-msgstr ""
+msgstr "Nie znaleziono etykiet %s"
 
 msgid "Duplicates in input set of user badge labels"
 msgstr ""
 
 #, python-format
 msgid "Cannot use global category %s in this instance"
-msgstr ""
+msgstr "Nie można wykorzystać globalnej kategorii %s w tej grupie"
 
 #, python-format
 msgid "Badge with ID '%s' not valid in this instance"
-msgstr ""
+msgstr "Etykieta o ID '%s' nie jest dostępna w tej grupie"
 
 msgid "Parent and child category instance have to match"
-msgstr ""
+msgstr "Grupa nadrzędnej i podrzędnej kategorii musi się zgadzać"
 
 msgid "You shall not create cycles!"
-msgstr ""
+msgstr "Nie stworzysz cykli!"
 
 #, python-format
 msgid "No revision with ID '%s' exists"
@@ -864,7 +890,7 @@ msgstr "Nieprawidłowa nazwa strony: %s"
 
 #, python-format
 msgid "Variant name cannot be purely numeric: %s"
-msgstr "Nazwa wersji nie może składać się z samych cyfr: %s."
+msgstr "Nazwa wariantu nie może składać się z samych cyfr: %s."
 
 #, python-format
 msgid "Invalid entry name: %s"
@@ -908,16 +934,16 @@ msgid ""
 msgstr "Musisz wstawić następujące znaki wieloznaczne do wiadomości e-mail: %s"
 
 msgid "This is not a valid image file"
-msgstr ""
+msgstr "Niepoprawny plik obrazu"
 
 msgid "The file is too big (>1MB)"
-msgstr ""
+msgstr "Plik jest zbyt duży (>1MB)"
 
 msgid "Please select at least one instance"
-msgstr ""
+msgstr "Proszę wybrać co najmniej jedną grupę"
 
 msgid "Disallowed instance selected"
-msgstr ""
+msgstr "Wybrano niedozwoloną grupę"
 
 msgid "Invalid value"
 msgstr ""
@@ -1011,13 +1037,13 @@ msgid "Confirm your email address"
 msgstr "Potwierdź adres e-mail."
 
 msgid "Dear Ms."
-msgstr ""
+msgstr "Szanowna Pani"
 
 msgid "Dear Mr."
-msgstr ""
+msgstr "Szanowny Panie"
 
 msgid "Dear"
-msgstr ""
+msgstr "Drogi"
 
 msgid "[{site_name}] Message from {sender_name}: {subject}"
 msgstr ""
@@ -1144,7 +1170,7 @@ msgid "Date"
 msgstr "Data"
 
 msgid "User behavior"
-msgstr ""
+msgstr "Zachowanie użytkowników"
 
 msgid "Other"
 msgstr "Inne"
@@ -1176,7 +1202,7 @@ msgstr "Wygląda na to, że popełniliśmy błąd (ostrzeżenie CSRF). Spróbuj 
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
-msgstr "Wersja %(variant)s strony %(page)s"
+msgstr "Wariant %(variant)s strony %(page)s"
 
 msgid "is for"
 msgstr "jest za"
@@ -1387,15 +1413,15 @@ msgstr "Nowy komentarz w: %(topic)s"
 
 #, python-format
 msgid "New argument: in %(topic)s"
-msgstr ""
+msgstr "Nowy argument: w %(topic)s"
 
 #, python-format
 msgid "commented on %(topic)s"
-msgstr ""
+msgstr "skomentowano %(topic)s"
 
 #, python-format
 msgid "discussed %(topic)s"
-msgstr ""
+msgstr "omawiano %(topic)s"
 
 #, python-format
 msgid "Edited comment: in %(topic)s"
@@ -1403,7 +1429,7 @@ msgstr "Edytowano komentarz w: %(topic)s"
 
 #, python-format
 msgid "Edited argument: in %(topic)s"
-msgstr ""
+msgstr "Edytowano komentarz: w %(topic)s"
 
 #, python-format
 msgid "edited comment on %(topic)s"
@@ -1459,7 +1485,7 @@ msgstr "Ocena: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Variants: %(user)s %(vote)s %(poll)s"
-msgstr "Wersja: %(user)s %(vote)s %(poll)s"
+msgstr "Warianty: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Message send: %(message)s"
@@ -1527,7 +1553,7 @@ msgid "Proposals"
 msgstr "Propozycje"
 
 msgid "Norms"
-msgstr "Dokumenty"
+msgstr "Regulacje"
 
 msgid "Members"
 msgstr "Członkowie"
@@ -1652,7 +1678,7 @@ msgid "Notify me of updates."
 msgstr "Poinformuj mnie o zmianach."
 
 msgid "Follow Norm"
-msgstr "Obserwuj dokument"
+msgstr "Obserwuj regulację"
 
 msgid "Follow Instance"
 msgstr "Obserwuj grupę"
@@ -1697,7 +1723,7 @@ msgid "Title"
 msgstr "Tytuł"
 
 msgid "One line summary"
-msgstr ""
+msgstr "Jeden wiersz podsumowania"
 
 msgid "Description"
 msgstr "Opis"
@@ -1709,7 +1735,7 @@ msgid "Submit"
 msgstr "Wyślij"
 
 msgid "List existing feedback"
-msgstr ""
+msgstr "Lista wszystkich komentarzy"
 
 msgid "Feedback"
 msgstr ""
@@ -1721,7 +1747,7 @@ msgid "No Category"
 msgstr "Bez kategorii"
 
 msgid "Others"
-msgstr ""
+msgstr "Inni"
 
 msgid "Default proposal sort order"
 msgstr ""
@@ -1733,7 +1759,7 @@ msgid "Get an account to participate in the discussion."
 msgstr "Zarejestruj się, by wziąć udział w dyskusji."
 
 msgid "Log in to participate in the discussion."
-msgstr ""
+msgstr "Zaloguj się, by uczestniczyć w dyskusji."
 
 msgid "join"
 msgstr "dołącz"
@@ -1747,21 +1773,21 @@ msgstr "Edytuj profil"
 msgid ""
 "You need to set an email in your profile in order to contribute to this "
 "instance."
-msgstr ""
+msgstr "Musisz ustawić e-mail w swoim profilu, żeby dodawać treści w tej grupie."
 
 #, python-format
 msgid "Resend validation email to %s"
-msgstr ""
+msgstr "Ponownie prześlij e-mail potwierdzający na %s"
 
 msgid "Send activation link"
 msgstr "Wyślij link aktywacyjny"
 
 msgid ""
 "Please validate your email address in order to contribute to this instance."
-msgstr ""
+msgstr "Proszę potwierdzić adres e-mail, żeby dodawać treści w tej grupie"
 
 msgid "Your registered email address is:"
-msgstr ""
+msgstr "Twój zarejestrowany adres e-mail to:"
 
 msgid "Provide information"
 msgstr ""
@@ -1848,7 +1874,7 @@ msgid "Filter list"
 msgstr "Filtruj listę"
 
 msgid "reset"
-msgstr ""
+msgstr "reset"
 
 msgid "Edit"
 msgstr "Edytuj"
@@ -1877,26 +1903,26 @@ msgid ""
 msgstr ""
 
 msgid "Welcome back!"
-msgstr ""
+msgstr "Witaj ponownie!"
 
 #, python-format
 msgid "Welcome to %s!"
 msgstr "Witamy w %s"
 
 msgid "Please choose a password:"
-msgstr ""
+msgstr "Proszę wybrać hasło:"
 
 msgid "Please pick a secure password"
-msgstr ""
+msgstr "Proszę wybrać bezpieczne hasło"
 
 msgid "Set Password"
-msgstr ""
+msgstr "Ustaw hasło"
 
 msgid "Validate email to start contributing."
-msgstr ""
+msgstr "Proszę potwierdzić adres e-mail, by się zaangażować."
 
 msgid "This instance has been frozen - you can not edit or post anything."
-msgstr ""
+msgstr "Ta grupa została zawieszona - nie możesz niczego edytować ani wysyłać."
 
 msgid "Next"
 msgstr "Dalej"
@@ -1924,7 +1950,7 @@ msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
 msgstr ""
 
 msgid "Votes by User Group"
-msgstr ""
+msgstr "Głosy po Grupie Użytkowników"
 
 msgid "Shortlink"
 msgstr "Krótki link"
@@ -1948,10 +1974,10 @@ msgid "Export users"
 msgstr "Eksport użytkownika"
 
 msgid "Include personal data"
-msgstr ""
+msgstr "Dołącz dane osobowe"
 
 msgid "Include password hashes"
-msgstr ""
+msgstr "Dołącz hashe hasła"
 
 msgid "Export badges"
 msgstr "Eksport etykiet"
@@ -1960,10 +1986,10 @@ msgid "Export content (instances)"
 msgstr "Eksport treści (grup)"
 
 msgid "Include proposals"
-msgstr ""
+msgstr "Dołącz propozycje"
 
 msgid "Include comments"
-msgstr ""
+msgstr "Dołącz komentarze"
 
 msgid "Include proposal creator badges"
 msgstr ""
@@ -2005,7 +2031,7 @@ msgid "Import users"
 msgstr "Import użytkowników"
 
 msgid "Generate welcome codes"
-msgstr ""
+msgstr "Wygeneruj kody powitania"
 
 msgid "Import badges"
 msgstr "Import etykiet"
@@ -2020,13 +2046,13 @@ msgid "Replacement strategy"
 msgstr ""
 
 msgid "Update duplicate entries"
-msgstr ""
+msgstr "Aktualizacja powtarzających się wpisów"
 
 msgid "Skip duplicate entries"
-msgstr ""
+msgstr "Pomiń powtarzające się wpisy"
 
 msgid "Detect"
-msgstr ""
+msgstr "Wykryj"
 
 msgid "ZIP"
 msgstr "ZIP"
@@ -2067,13 +2093,13 @@ msgid "Import Users"
 msgstr "Importuj użytkowników"
 
 msgid "Update Search Index"
-msgstr ""
+msgstr "Aktualizacja Indeksu Wyszukiwania"
 
 msgid "Fix autojoin"
 msgstr ""
 
 msgid "Static Pages"
-msgstr ""
+msgstr "Strony statyczne"
 
 msgid "Send a message to users"
 msgstr ""
@@ -2203,7 +2229,7 @@ msgid "Upload image. This is used instead of color to show the badge"
 msgstr ""
 
 msgid "Delete current thumbnail image"
-msgstr ""
+msgstr "Skasuj aktualną miniaturę"
 
 msgid "Upload category image"
 msgstr ""
@@ -2215,7 +2241,7 @@ msgid "Check to hide category in user interface"
 msgstr ""
 
 msgid "Check to hide badge in user interface"
-msgstr ""
+msgstr "Zaznacz, żeby ukryć etykietę w panelu użytkownika"
 
 msgid "Group"
 msgstr "Uprawnienia"
@@ -2250,10 +2276,10 @@ msgid "No Parent Category"
 msgstr ""
 
 msgid "Global categories"
-msgstr ""
+msgstr "Kategorie globalne"
 
 msgid "Local instance categories"
-msgstr ""
+msgstr "Lokalne kategorie grupy"
 
 msgid ""
 "Description to select children of this category (irrelevant if this category"
@@ -2318,7 +2344,7 @@ msgid "no"
 msgstr "nie"
 
 msgid "Parent"
-msgstr ""
+msgstr "Nadrzędna"
 
 msgid "Global badges"
 msgstr ""
@@ -2342,7 +2368,7 @@ msgid "Login to create a new proposal."
 msgstr "Zaloguj się, by stworzyć nową propozycję."
 
 msgid "Validate email in order to create a new proposal."
-msgstr ""
+msgstr "Potwierdź email by stworzyć nową propozycję."
 
 msgid "Find proposals"
 msgstr "Znajdź propozycję"
@@ -2354,7 +2380,7 @@ msgid "new proposal"
 msgstr "Nowa propozycja"
 
 msgid "Norms in this Category"
-msgstr ""
+msgstr "Normy w tej kategorii"
 
 msgid "Comment"
 msgid_plural "Comments"
@@ -2413,7 +2439,7 @@ msgid "revert here"
 msgstr "przywróć do tej wersji"
 
 msgid "delete version permanently"
-msgstr ""
+msgstr "Całkowicie usuń wersję"
 
 #, python-format
 msgid "on %s"
@@ -2442,7 +2468,7 @@ msgid "Login to discuss."
 msgstr ""
 
 msgid "Validate email in order to comment."
-msgstr ""
+msgstr "Potwierdź e-mail żeby dodawać komentarze."
 
 msgid "Validate email in order to discuss."
 msgstr ""
@@ -2501,7 +2527,7 @@ msgid "Login to argue"
 msgstr ""
 
 msgid "Validate email in order to reply"
-msgstr ""
+msgstr "Potwierdź e-mail, żeby dodawać odpowiedzi"
 
 msgid "Validate email in order to argue"
 msgstr ""
@@ -2677,7 +2703,7 @@ msgstr ""
 msgid "created new proposal"
 msgstr ""
 
-msgid "display all"
+msgid "display all events"
 msgstr ""
 
 msgid "Latest Events"
@@ -2808,21 +2834,21 @@ msgid "Reset"
 msgstr "Zresetuj"
 
 msgid "Allow editing of comments by default"
-msgstr ""
+msgstr "Domyślnie pozwól na edytowanie komentarzy"
 
 msgid "Allow editing of proposals by default"
 msgstr ""
 
 msgid "Require to propose a variant"
-msgstr "Propozycja musi wprowadzać co najmniej jedną zmianę w treści dokumentu."
+msgstr "Wymagaj proponowania wariantów"
 
 msgid ""
 "If norms are activated, this option will ensure that users change at least "
 "one norm with each proposal."
-msgstr ""
+msgstr "Jeżeli regulacje są aktywne, ta opcja sprawi, że użytkownicy będą zmieniali co najmniej jedną regulację każdą propozycją"
 
 msgid "Hide global categories"
-msgstr ""
+msgstr "Ukryj kategorie globalne"
 
 msgid "Members of your instance only see the catagories you created."
 msgstr ""
@@ -2845,10 +2871,10 @@ msgid ""
 msgstr ""
 
 msgid "Break down Voting Result by Badge"
-msgstr ""
+msgstr "Rozbij rezultat głosowania na etykiety"
 
 msgid "Display how the users with the selected badges feel about the issue."
-msgstr ""
+msgstr "Pokaż co myślą o tej kwestii użytkownicy z wybraną etykietą"
 
 msgid "Extra CSS"
 msgstr "Zewnętrzny CSS"
@@ -2907,10 +2933,10 @@ msgid "Delete this instance"
 msgstr ""
 
 msgid "Require email validation"
-msgstr ""
+msgstr "Wymagaj potwierdzenia adresu e-mail"
 
 msgid "Require instance members to validate their email address."
-msgstr ""
+msgstr "Wymagaj, by członkowie grupy potwierdzali adres e-mail."
 
 msgid "Default group for new members"
 msgstr ""
@@ -2958,27 +2984,27 @@ msgid "Show proposals as an extra tab"
 msgstr ""
 
 msgid "Enable norms"
-msgstr ""
+msgstr "Włącz regulacje"
 
 msgid ""
 "Unlike proposals, norms are documents that you introduce to be discussed on "
 "the platform."
-msgstr ""
+msgstr "Inaczej niż propozycje, regulacje są dokumentami, które poddajesz pod debatę na platformie."
 
 msgid "Allow members to propose norms"
-msgstr ""
+msgstr "Wszyscy członkowie mogę proponować regulacje"
 
 msgid "Allow members to change norms from within proposals"
-msgstr ""
+msgstr "Zezwól na zmianę regulacji poprzez propozycje"
 
 msgid "Members will be able to propose changes of the norms you introduce."
-msgstr ""
+msgstr "Członkowie będą mogli zaproponować zmiany wprowadzonej przez Ciebie regulacji."
 
 msgid "Show norms navigation item"
 msgstr ""
 
 msgid "Show norms as an extra tab"
-msgstr ""
+msgstr "Pokaż regulacje w dodatkowej zakładce"
 
 msgid "Home"
 msgstr "Strona grupy"
@@ -3040,12 +3066,12 @@ msgstr[2] "%s propozycji"
 #, python-format
 msgid "%s norm"
 msgid_plural "%s norms"
-msgstr[0] "%s dokument"
-msgstr[1] "%s dokumentów"
-msgstr[2] "%s dokumentów"
+msgstr[0] "%s regulacja"
+msgstr[1] "%s regulacji"
+msgstr[2] "%s regulacje"
 
 msgid "Send mass message"
-msgstr ""
+msgstr "Wyślij seryjną wiadomość"
 
 msgid ""
 "Please note that users may not necessarily receive this message by email. "
@@ -3053,35 +3079,35 @@ msgid ""
 msgstr ""
 
 msgid "Filter users ..."
-msgstr ""
+msgstr "Filtruj użytkowników ..."
 
 msgid "... by instance:"
-msgstr ""
+msgstr "... po grupie:"
 
 msgid "... by badge:"
-msgstr ""
+msgstr "... po etykiecie:"
 
 msgid "Subject"
 msgstr "Treść"
 
 msgid "Body"
-msgstr ""
+msgstr "Body"
 
 msgid "Use {name} and {salutation} to address the user directly."
 msgstr ""
 
 msgid ""
 "Add a note about why the user got this message, and how to unsubscribe."
-msgstr ""
+msgstr "Dodaj wyjaśnienie dlaczego użytkownik otrzymał tą wiadomość i jak może zrezygnować z subskrypcji."
 
 msgid "Uncheck if user management is centralized."
-msgstr ""
+msgstr "Odznacz, jeżeli zarządzanie użytkownikami jest scentralizowane."
 
 msgid "Include footer"
-msgstr ""
+msgstr "Dodaj stopkę"
 
 msgid "Sender identity"
-msgstr ""
+msgstr "Tożsamość nadawcy"
 
 msgid "Customize sender name: "
 msgstr ""
@@ -3107,14 +3133,14 @@ msgid "Opponents"
 msgstr ""
 
 msgid "Mass Message Preview"
-msgstr ""
+msgstr "Podgląd wiadomości seryjnej"
 
 #, python-format
 msgid "You're about to send the following message to %s recipients:"
-msgstr ""
+msgstr "Wiadomość do %s odbiorców zostanie wysłana"
 
 msgid "The message will go to the following users:"
-msgstr ""
+msgstr "Wiadomość trafi do następujących użytkowników:"
 
 #, python-format
 msgid "The following message was sent to you by %s:"
@@ -3273,10 +3299,7 @@ msgstr "Zaloguj się"
 msgid "Alternative"
 msgstr "Alternatywa"
 
-msgid "Login with your OpenID to skip registration."
-msgstr "Użyj OpenID, by ominąć proces rejestracji."
-
-msgid "Login with your OpenID."
+msgid "Login with Facebook"
 msgstr ""
 
 msgid "Sign in"
@@ -3296,7 +3319,7 @@ msgid ""
 "A unique user name is required for you complete sign up and login. The user "
 "name \"%s\" received from your OpenID provider is invalid or already used. "
 "Please provide a different, unique user name."
-msgstr ""
+msgstr "Unikalna nazwa użytkownika jest wymagana, żeby zakończyć rejestrację i się zalogować. Nazwa \"%s\" otrzymana od twojego dostawcy OpenID jest nieprawidłowa lub zajęta. Proszę podać inną, unikalną nazwę."
 
 msgid "Username:"
 msgstr "Nazwa użytkownika:"
@@ -3306,44 +3329,44 @@ msgstr "Czy na pewno chcesz usunąć tę stronę?"
 
 #, python-format
 msgid "Are you sure you want to purge variant %s?"
-msgstr "Czy na pewno chcesz usunąć wersję %s?"
+msgstr "Czy na pewno chcesz usunąć wariant %s?"
 
 msgid ""
 "WARNING: This will remove all revisions of the variant from any proposals "
 "that might support it."
-msgstr "UWAGA: Działanie to spowoduje usunięcie wszystkich zapisanych zmian w tej wersji z wszystkich powiązanych propozycji."
+msgstr "UWAGA: Działanie to usunie wszystkie korekty wariantu z każdej ze wspierających go propozycji."
 
 msgid "Are you sure you want to purge the following version:"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć następującą wersję:"
 
 #, python-format
 msgid "Variant: %s"
-msgstr "Wersja: %s"
+msgstr "Wariant: %s"
 
 msgid "This variant has no text."
-msgstr "Wersja ta pozbawiona jest tekstu."
+msgstr "Ten wariant jest pozbawiony tekstu."
 
 msgid "Related Proposals"
 msgstr "Podobne propozycje"
 
 msgid "(supports this variant)"
-msgstr "(popiera tę wersję)"
+msgstr "(popiera ten wariant)"
 
 msgid "Create a new proposal..."
 msgstr "Stwórz nową propozycję..."
 
 msgid "Edit variant"
-msgstr "Edytuj wersję"
+msgstr "Edytuj wariant"
 
 msgid "Edit section"
 msgstr ""
 
 #, python-format
 msgid "Norm: %s"
-msgstr "Dokument: %s"
+msgstr "Regulacja: %s"
 
 msgid "Variant Name"
-msgstr "Nazwa wersji"
+msgstr "Nazwa wariantu"
 
 msgid "Text"
 msgstr "Tekst"
@@ -3355,7 +3378,7 @@ msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
-msgstr ""
+msgstr "Wyświetl subregulacje jako sekcje"
 
 msgid "Allow Comments"
 msgstr ""
@@ -3381,19 +3404,19 @@ msgid "Popular tags"
 msgstr "Popularne tagi"
 
 msgid "Create new norm"
-msgstr ""
+msgstr "Stwórz nową regulację"
 
 msgid "Create a new norm."
-msgstr "Stwórz nowy dokument"
+msgstr "Stwórz nową regulację."
 
 msgid "new norm"
-msgstr "Nowy dokument"
+msgstr "nowa regulacja"
 
 msgid "tutorial_norms_overview_table"
-msgstr "Na liście znajdują się wszystkie opublikowane przez grupę dokumenty. Pod tytułami dokumentów znajdziesz ponadto liczbę związanych z nimi propozycji i komentarzy."
+msgstr "Na liście znajdują się wszystkie opublikowane przez grupę regulacje. Pod tytułami regulacji znajdziesz ponadto liczbę związanych z nimi propozycji i komentarzy."
 
 msgid "tutorial_norms_overview_facets"
-msgstr "Możesz przeszukiwać dokumenty po słowach kluczowych."
+msgstr "Możesz przeszukiwać regulacje po słowach kluczowych."
 
 msgid "New page"
 msgstr "Nowa strona"
@@ -3403,22 +3426,22 @@ msgid "Add section to %s"
 msgstr ""
 
 msgid "Create norm"
-msgstr "Stwórz dokument"
+msgstr "Stwórz regulację"
 
 msgid "Norm title"
-msgstr "Tytuł dokumentu"
+msgstr "Tytuł regulacji"
 
 msgid "New norm"
-msgstr "Nowy dokument"
+msgstr "Nowa regulacja"
 
 msgid "Section content"
 msgstr ""
 
 msgid "Norm content"
-msgstr "Zawartość dokumentu"
+msgstr "Zawartość regulacji"
 
 msgid "Use as a container for other norms"
-msgstr ""
+msgstr "Użyj kontenera dla innych regulacji"
 
 msgid "Upload a logo for this page"
 msgstr ""
@@ -3427,7 +3450,7 @@ msgid "Tag and classify"
 msgstr "Tagi i ustawienia"
 
 msgid "The new norm will be categorized under the specified parent theme."
-msgstr "Nowy dokument zostanie skategoryzowany pod wskazanym dokumentem nadrzędnym."
+msgstr "Nowa regulacja zostanie skategoryzowana pod wskazanym tematem nadrzędnym."
 
 msgid "Highlight Changes"
 msgstr "Pokaż zmiany"
@@ -3445,7 +3468,7 @@ msgid "New Proposal"
 msgstr ""
 
 msgid "Information about the norm"
-msgstr "Informacje o dokumencie"
+msgstr "Informacje o regulacji"
 
 msgid "Last Activity"
 msgstr "Ostatnia aktywność"
@@ -3455,7 +3478,7 @@ msgstr "Strona ta nie została przypisana do żadnej kategorii"
 
 #, python-format
 msgid "This norm relates to the milestone %s."
-msgstr "Ta propozycja odnosi się do terminu %s."
+msgstr "Ta regulacja odnosi się do etapu %s."
 
 msgid "Subnorms"
 msgstr "Dokumenty podrzędne"
@@ -3484,7 +3507,7 @@ msgid "Proposal"
 msgstr "Propozycja"
 
 msgid "tutorial_norm_show_vote"
-msgstr "Oceniaj oryginalną wersję dokumentu i wszystkie zgłoszone wersje alternatywne za pomocą strzałek. Strzałka w górę oznacza poparcie, strzałka w dół - sprzeciw. Możesz oddać głos na większą liczbę wersji tekstu."
+msgstr "Oceniaj oryginalną wersję regulacji i wszystkie zgłoszone wersje alternatywne za pomocą strzałek. Strzałka w górę oznacza poparcie, strzałka w dół - sprzeciw. Możesz oddać głos na większą liczbę wersji tekstu."
 
 msgid "tutorial_norm_show_diff"
 msgstr "Zdecyduj, czy zaznaczyć zmiany w stosunku do wersji oryginalnej."
@@ -3517,7 +3540,7 @@ msgid "Add section"
 msgstr ""
 
 msgid "This norm has been split into several sections."
-msgstr ""
+msgstr "Te norma została podzielona na kilka sekcji."
 
 msgid ""
 "You can propose amendments and comment each section individually by using "
@@ -3548,27 +3571,27 @@ msgid "Propose alternative language."
 msgstr "Zaproponuj alternatywny tekst."
 
 msgid "branch new variant"
-msgstr "Wyodrębnij nową wersję"
+msgstr "Wyodrębnij nowy wariant"
 
 msgid "Edit the status quo."
 msgstr "Drogi(a) %s, ..."
 
 msgid "Edit this variant."
-msgstr "Edytuj tę wersję."
+msgstr "Edytuj ten wariant."
 
 msgid "Delete this variant."
-msgstr "Usuń tę wersję."
+msgstr "Usuń ten wariant."
 
 msgid "purge variant"
-msgstr "Usuń wersję"
+msgstr "Usuń wariant"
 
 #, python-format
 msgid "Variant %s of %s"
-msgstr "Wersja %s z %s"
+msgstr "Wariant %s z %s"
 
 #, python-format
 msgid "Variant of %s"
-msgstr "Wersja z %s"
+msgstr "Wariant %s"
 
 msgid "End a poll"
 msgstr "Zakończ głosowanie"
@@ -3659,16 +3682,16 @@ msgid "Delegations: %s"
 msgstr "Delegacje: %s"
 
 msgid "Propose new Variant"
-msgstr "Zaproponuj nową wersję"
+msgstr "Zaproponuj nowy wariant"
 
 msgid "Join instance to propose a new variant."
-msgstr "Dołącz do grupy, by zaproponować nową wersję."
+msgstr "Dołącz do grupy, by zaproponować nowy wariant."
 
 msgid "Login to propose a new variant."
-msgstr "Zaloguj się, by zaproponować zmiany."
+msgstr "Zaloguj się, by zaproponować nowy wariant."
 
 msgid "Validate email in order to propose a new variant."
-msgstr ""
+msgstr "Potwierdź e-mail, żeby zaproponować nowy wariant."
 
 msgid "Get Involved"
 msgstr "Włącz się do prac"
@@ -3680,10 +3703,10 @@ msgid "Kein Text"
 msgstr "Brak tekstu"
 
 msgid "History of this variant"
-msgstr "Historia zmian wersji"
+msgstr "Historia zmian wariantu"
 
 msgid "Votes for this variant"
-msgstr "Głosy oddane na tę wersję"
+msgstr "Głosy oddane na ten wariant"
 
 #, python-format
 msgid "Edit &ldquo;%s&rdquo;"
@@ -3741,17 +3764,17 @@ msgid "Proposed changes"
 msgstr ""
 
 msgid "Change norms with this proposal"
-msgstr "Propozycja odnosi się do"
+msgstr "Zmień regulacje tą propozycją"
 
 msgid ""
 "Proposals are implemented by including changes towards new or existing norm."
 " Norms are fixed documents that represent the consensus of this instance and"
 " can only be changed through a vote. Amend the proposal to change or create "
 "a norm."
-msgstr "Propozycje zawierają zmiany odnoszące się do nowych lub istniejących dokumentów. Dokumenty to teksty, które odzwierciedlają konsensus w danej grupie i które mogą być zmieniane w drodze głosowania. "
+msgstr "Propozycje zawierają zmiany odnoszące się do nowych lub istniejących regulacji. Regulacje to dokumenty, które odzwierciedlają konsensus w danej grupie i które mogą być zmieniane wyłącznie w drodze głosowania. Zaproponuj poprawkę propozycji, by zmienić lub stworzyć regulację"
 
 msgid "Select a norm to change:"
-msgstr "Wybierz dokument, który chcesz zmienić:"
+msgstr "Wybierz regulację, którą chcesz zmienić:"
 
 msgid "Multiple tags can be separated by commas."
 msgstr "Tagi należy oddzielać przecinkami"
@@ -3774,16 +3797,16 @@ msgid "Proposed Implementations"
 msgstr "Wersje"
 
 msgid "Propose to change a norm"
-msgstr "Zgłoś propozycję zmian dokumentu"
+msgstr "Zaproponuj zmianę regulacji"
 
 msgid "Login to propose to change a norm"
-msgstr "Zaloguj się, by zgłosić propozycję zmian dokumentu."
+msgstr "Zaloguj się, by zaproponować zmianę regulacji"
 
 msgid "Join instance to propose to change a norm"
-msgstr "Dołącz do grupy, by zgłosić propozycję zmian dokumentu."
+msgstr "Dołącz do grupy, by zaproponować zmianę regulacji."
 
 msgid "Validate email in order to propose to change a norm"
-msgstr ""
+msgstr "Potwierdź email, żeby zaproponować zmianę normy"
 
 msgid "tutorial_proposal_show_vote"
 msgstr "Możesz wyrazić poparcie dla propozycji lub ją odrzucić."
@@ -3893,71 +3916,71 @@ msgstr "Usuń: implementacja %s"
 
 #, python-format
 msgid "Are you sure you want to delete the norm %s from this proposal?"
-msgstr "Czy na pewno chcesz usunąć dokument %s z tej propozycji?"
+msgstr "Czy na pewno chcesz usunąć regulację %s z tej propozycji?"
 
 #, python-format
 msgid "Implementation: %s"
 msgstr "Implementacja: %s"
 
 msgid "Change an existing norm"
-msgstr "Zmień istniejący dokument"
+msgstr "Zmień istniejącą regulację"
 
 msgid ""
 "Select a norm that you want to relate to. You can later propose a variant of"
 " this norm to effect a change."
-msgstr "Wybierz dokument, do którego chcesz się odnieść. Możesz następnie zaproponować nową wersję tego dokumentu."
+msgstr "Wybierz regulację, do której chcesz się odnieść. Możesz następnie zaproponować wariant tej regulacji, by wprowadzić zmianę."
 
 msgid "Include"
 msgstr "Przyjmij"
 
 msgid "Can't find an appropriate norm?"
-msgstr "Nie potrafisz odnaleźć odpowiedniego dokumentu?"
+msgstr "Nie możesz odnaleźć odpowiedniej regulacji?"
 
 msgid "Create a new norm instead"
-msgstr "Stwórz w zamian nowy dokument"
+msgstr "Stwórz w zamian nową regulację"
 
 msgid "Propose a new norm"
-msgstr "Stwórz nowy dokument"
+msgstr "Zaproponuj nową regulację"
 
 msgid ""
 "Create a new norm that you want to relate to. The norm will be created "
 "without any status quo. You can then add a text variant of that norm, "
 "specifying the change you want to implement."
-msgstr "Stwórz dokument, do którego chcesz się odnieść. Możesz potem dodać nową wersję tekstu, która będzie uwzględniała pożądane przez ciebie zmiany w dokumencie."
+msgstr "Stwórz nową regulację, do której chcesz się odnieść. Regulacja zostanie stworzona bez status quo. Następnie możesz dodać tekst wariantu regulacji, określający zmiany, które chcesz wprowadzić."
 
 msgid "New norm title"
-msgstr "Tytuł nowego dokumentu"
+msgstr "Nowy tytuł regulacji"
 
 msgid "The new norm will be categorized under the specified parent page."
-msgstr "Nowy dokument zostanie skategoryzowany pod wskazanym dokumentem nadrzędnym."
+msgstr "Nowa regulacja zostanie skategoryzowana pod wskazaną stroną nadrzędną."
 
 msgid "Have you checked for exisiting norms?"
-msgstr "Sprawdziłeś(aś), czy istnieje już taki dokument?"
+msgstr "Sprawdziłeś(aś), czy istnieje już taka regulacja?"
 
 msgid "Include an existing norm instead"
-msgstr "W zamian użyj istniejącego dokumentu"
+msgstr "W zamian dołącz istniejącą regulację"
 
 msgid "Show Norm"
-msgstr "Pokaż dokument"
+msgstr "Pokaż regulację"
 
 msgid "There is a tie between variants, thus none is included at the moment."
-msgstr "Więcej wersji cieszy się tym samym poparciem. Dlatego żadna w tym momencie nie jest uznawana za obowiązującą."
+msgstr "Więcej wariantów cieszy się tym samym poparciem. Dlatego żadna w tym momencie nie jest uznawana za obowiązującą."
 
 msgid ""
 "Status quo has the most votes, resulting in no proposed change to this norm."
-msgstr "Wersja oryginalna zdobyła najwięcej głosów. Dlatego dokument nie zostanie zmieniony."
+msgstr "Wersja oryginalna zdobyła najwięcej głosów. Dlatego regulacja nie zostanie zmieniona."
 
 msgid "Proposed by"
 msgstr "Proponowane przez"
 
 msgid "Support this variant"
-msgstr "Poprzyj tę wersję"
+msgstr "Poprzyj ten wariant"
 
 msgid "Oppose this variant"
-msgstr "Odrzuć tę wersję"
+msgstr "Sprzeciw wobec tego wariantu"
 
 msgid "(this proposal should not change this norm)"
-msgstr "(ta propozycja nie powinna zmieniać dokumentu)"
+msgstr "(ta propozycja nie powinna zmieniać tej regulacji)"
 
 msgid "Currently selected for inclusion in this proposal"
 msgstr "Wybrane do włączenia do propozycji"
@@ -3988,37 +4011,37 @@ msgstr "opcjonalne"
 
 #, python-format
 msgid "Edit %(key)s (%(langname)s)"
-msgstr ""
+msgstr "Edytuj %(key)s (%(langname)s)"
 
 msgid "Title:"
 msgstr "Tytuł:"
 
 msgid "Content of the page"
-msgstr ""
+msgstr "Zawartość strony"
 
 msgid "Change static page"
-msgstr ""
+msgstr "Zmień stronę statyczną"
 
 msgid "Back to the list"
-msgstr ""
+msgstr "Powrót do listy"
 
 msgid "Key"
-msgstr ""
+msgstr "Klucz"
 
 msgid "Create new page"
-msgstr ""
+msgstr "Utwórz nową stronę"
 
 msgid "New Static Page"
-msgstr ""
+msgstr "Nowa strona statyczna"
 
 msgid "New static page"
-msgstr ""
+msgstr "Nowa strona statyczna"
 
 msgid "Key:"
-msgstr ""
+msgstr "Klucz:"
 
 msgid "Add static page"
-msgstr ""
+msgstr "Dodaj stronę statyczną"
 
 msgid "Edit this page"
 msgstr "Edytuj tę stronę"
@@ -4068,14 +4091,14 @@ msgstr "Wersja ta nie zawiera tekstu."
 msgid ""
 "This norm has not yet been decided and is thus no official position of this "
 "group."
-msgstr "Dokument ten do tej pory nie został poddany głosowaniu i nie stanowi oficjalnego stanowiska tej grupy."
+msgstr "Ta regulacja do tej pory nie został poddana głosowaniu i nie stanowi oficjalnego stanowiska grupy."
 
 #, python-format
 msgid "discuss (%s comments) &raquo;"
 msgstr "dyskutuj (%s komentarzy) &raquo;"
 
 msgid "Variant:"
-msgstr "Wersja:"
+msgstr "Wariant:"
 
 msgid "see"
 msgstr "zobacz"
@@ -4206,7 +4229,7 @@ msgid "Login:"
 msgstr "Nazwa użytkownika:"
 
 msgid "Email:"
-msgstr ""
+msgstr "E-mail:"
 
 msgid "Login via Shibboleth"
 msgstr "Zaloguj przy pomocy Shibboleth"
@@ -4215,32 +4238,32 @@ msgid "Password:"
 msgstr "Hasło:"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Zapomniałeś hasła?"
 
 msgid "Register new account"
 msgstr "Załóż konto"
 
 msgid "What is your email address?"
-msgstr ""
+msgstr "Jaki jest twój adres e-mail?"
 
 msgid "My email:"
 msgstr "Mój e-mail:"
 
 msgid "What is your user name?"
-msgstr ""
+msgstr "Jaka jest twoja nazwa użytkownika?"
 
 msgid "My user name:"
-msgstr ""
+msgstr "Moja nazwa użytkownika:"
 
 #, python-format
 msgid "Do you have a password for %s?"
-msgstr ""
+msgstr "Czy masz hasło do %s?"
 
 msgid "No, I do not have a password, or I forgot it."
-msgstr ""
+msgstr "Nie, nie mam lub zapomniałem hasła."
 
 msgid "Yes, I do have a password:"
-msgstr ""
+msgstr "Tak, mam hasło:"
 
 msgid "Validation email sent"
 msgstr ""
@@ -4294,13 +4317,13 @@ msgid "leave empty"
 msgstr "pozostaw puste"
 
 msgid "Registration request sent"
-msgstr ""
+msgstr "Wysłano prośbę o rejestrację"
 
 #, python-format
 msgid ""
 "Our support team has been notified of your registration request for %s.We "
 "will verify your request and contact you as soon as possible."
-msgstr ""
+msgstr "Nasz zespół został powiadomiony o twojej prośbie o rejestrację na %s. Zweryfikujemy twoją prośbę i skontaktujemy najszybciej jak to możliwe."
 
 msgid "Password reset"
 msgstr "Zresetuj hasło"
@@ -4313,7 +4336,7 @@ msgstr "Wyślemy ci link aktywacyjny. Gdy go klikniesz, system wyśle ci nowe ha
 msgid ""
 "You will be sent an activation link that, when opened, will allow you pick a"
 " new password."
-msgstr ""
+msgstr "Otrzymasz link aktywacyjny, który, po otwarciu, pozwoli ci wybrać hasło."
 
 msgid ""
 "In order to retrieve your login, you will have to enter your email address."
@@ -4372,11 +4395,26 @@ msgstr "Wybierz, jak chcesz być informowany(a) o wydarzeniach."
 msgid "Help."
 msgstr "Pomoc"
 
-msgid "fewer"
-msgstr "mniej"
+msgid "No notifications via email."
+msgstr ""
 
-msgid "more notifications"
-msgstr "więcej powiadomień"
+msgid "Send email for new proposals or norms in my watched instances"
+msgstr ""
+
+msgid "and when a watched object is edited or deleted"
+msgstr ""
+
+msgid "Send email when a watched object is edited or deleted"
+msgstr ""
+
+msgid "and when a watched object is commented on"
+msgstr ""
+
+msgid "and when a watched object is rated"
+msgstr ""
+
+msgid "and when new members join my watched instances"
+msgstr ""
 
 msgid "Not confirmed."
 msgstr "Niepotwierdzone."
@@ -4514,7 +4552,7 @@ msgid "signed up %s"
 msgstr "zalogowano %s"
 
 msgid "Generate welcome link"
-msgstr ""
+msgstr "Wygeneruj link powitalny"
 
 #, python-format
 msgid "Watchlist: %s"
