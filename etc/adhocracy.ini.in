@@ -16,15 +16,6 @@ smtp_server = ${parts.adhocracy['smtp_server']}
 smtp_port = ${parts.adhocracy['smtp_port']}
 error_email_from = ${parts.adhocracy['email.from']}
 
-# velruse.{host,port} is where adhocracy goes to find the velruse
-# service.  also, velruse puts this in the url that it uses to make
-# the browser connect to to the sso service.  if you get this wrong,
-# users may get an error message from the sso service in the browser
-# that your application domain is misconfigured.
-velruse.host = ${parts.velruse.host}
-velruse.port = ${parts.velruse.port}
-velruse.protocol = ${parts.velruse.protocol}
-
 [server:main]
 use = egg:Paste#http
 host = ${parts.adhocracy.host}
@@ -472,6 +463,16 @@ adhocracy.static_index_path = index
 # adhocracy.user.optional_attributes.year_of_birth =
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
+
+# velruse.{host,port} is where adhocracy goes to find the velruse
+# service.  also, velruse puts this in the url that it uses to make
+# the browser connect to to the sso service.  if you get this wrong,
+# users may get an error message from the sso service in the browser
+# that your application domain is misconfigured.
+velruse.domain = ${parts.velruse.domain}
+velruse.port = ${parts.velruse.port}
+velruse.protocol = ${parts.velruse.protocol}
+
 
 [alembic]
 script_location = src/adhocracy/alembic
