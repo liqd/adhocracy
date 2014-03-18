@@ -25,3 +25,27 @@
         </Location>
 
 </VirtualHost>
+
+<VirtualHost ${domains:velruse}:${ports:velruse_proxy}>
+        ServerName ${domains:velruse}
+        ServerAlias *.${domains:velruse}
+        ErrorLog ${paths:apache_log}/${domains:main}-error.log
+        CustomLog ${paths:apache_log}/${domains:main} combined
+
+        ProxyRequests Off
+        ProxyPreserveHost On
+
+        <Proxy *>
+              Order deny,allow
+              Allow from all
+        </Proxy>
+
+        ProxyPass / http://${velruse:host}:${ports:velruse}/ retry=5
+        ProxyPassReverse / http://${velruse:host}:${ports:velruse}/
+
+        <Location />
+             Order allow,deny
+             Allow from all
+        </Location>
+
+</VirtualHost>
