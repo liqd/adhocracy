@@ -58,4 +58,14 @@ ${tiles.user.header(c.page_user)}
     ${components.savebox(cancel_url=None)}
 
 </form>
+
+%if 'facebook' in h.allowed_login_types() and not h.velruse.is_user_connected_to_facebook():
+  <form id="facebook_connect_form" action="${h.velruse_url('/login/facebook')}" method="post">
+    Connect with
+    <a href="javascript:{}" onclick="document.getElementById('facebook_connect_form').submit(); return false;">
+      <img src="/velruse/FB-f-Logo__blue_50.png" style="vertical-align: middle;margin-left: 3px;"></img>
+    </a>
+  </form>
+%endif
+
 </%block>

@@ -6,6 +6,7 @@ from pylons import request
 from pylons.i18n import _
 from paste.deploy.converters import asbool
 from adhocracy.model import instance_filter as ifilter
+from adhocracy import config as aconfig
 
 
 CURRENT_INSTANCE = object()
@@ -132,3 +133,9 @@ def is_local_url(url):
         # this allows only one subdomain below domain
         return (netloc.endswith(u'.' + domain) and
                 (netloc.count(u'.') - domain.count(u'.') == 1))
+
+
+def velruse_url(path):
+    return (aconfig.get('velruse.protocol') + '://' +
+            aconfig.get('velruse.domain') + ':' +
+            aconfig.get('velruse.port') + '/velruse/' + path.strip('/'))
