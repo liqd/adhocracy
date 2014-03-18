@@ -469,9 +469,9 @@ adhocracy.static_index_path = index
 # the browser connect to to the sso service.  if you get this wrong,
 # users may get an error message from the sso service in the browser
 # that your application domain is misconfigured.
-velruse.domain = ${parts.velruse.domain}
-velruse.port = ${parts.velruse.port}
-velruse.protocol = ${parts.velruse.protocol}
+velruse.domain = ${parts.domains.velruse}
+velruse.port = ${parts.ports.velruse_proxy}
+velruse.protocol = ${parts.velruse.proxy_protocol}
 
 
 [alembic]

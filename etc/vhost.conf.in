@@ -26,9 +26,9 @@
 
 </VirtualHost>
 
-<VirtualHost *:${ports:velruse_proxy}>
-        ServerName ${domains:main}
-        ServerAlias *.${domains:main}
+<VirtualHost ${domains:velruse}:${ports:velruse_proxy}>
+        ServerName ${domains:velruse}
+        ServerAlias *.${domains:velruse}
         ErrorLog ${paths:apache_log}/${domains:main}-error.log
         CustomLog ${paths:apache_log}/${domains:main} combined
 
