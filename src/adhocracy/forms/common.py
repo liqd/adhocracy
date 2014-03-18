@@ -214,7 +214,7 @@ class ValidBadgeInstance(formencode.FancyValidator):
                     raise AssertionError("Could not find instance %s" % value)
                 return instance
             return None
-        elif can.badge.manage_instance() or can.badge.edit_instancel():
+        elif can.badge.manage_instance() or can.badge.edit_instance():
             instance = Instance.find(value)
             if instance is not None and instance == c.instance:
                 return instance
