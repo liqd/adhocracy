@@ -21,6 +21,10 @@ import logo
 log = logging.getLogger(__name__)
 
 
+OVERLAY_BIG = u'big'
+OVERLAY_SMALL = u'small'
+
+
 def tpl_vars():
     vars = dict()
     import adhocracy.lib
@@ -37,13 +41,18 @@ def tpl_vars():
 _legacy = object()
 
 
-def render(template_name, data=_legacy, overlay=False):
+def render(template_name, data=_legacy, overlay=False,
+           overlay_size=OVERLAY_BIG):
     """ If overlay is True, the template will be rendered in a minimal template
-        containing only the main content markup of the site."""
+        containing only the main content markup of the site.
+        overlay_size will be included as a class on the html element."""
 
     if data is _legacy:
         # log.debug(u'Legacy call to render() - missing data')
         data = {}
+
+    if overlay:
+        data['overlay_size'] = overlay_size
 
     return render_mako(template_name, data, overlay=overlay)
 

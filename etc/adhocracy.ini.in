@@ -309,8 +309,8 @@ piwik.id =
 # adhocracy.registration_support_email = ${parts.adhocracy['email.to']}
 
 # INSTALL: How can users login?
-# Available options are openid, username+password, email+password, shibboleth
-# Note that shibboleth needs additional configuration
+# Available options are facebook, openid, username+password, email+password, shibboleth
+# Note that shibboleth and facebook need additional configuration
 #adhocracy.login_type = openid,username+password,email+password
 
 # Allow password change for shibboleth users (default: false)
@@ -484,6 +484,16 @@ adhocracy.static_index_path = index
 # adhocracy.user.optional_attributes.year_of_birth =
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
+
+# velruse.{host,port} is where adhocracy goes to find the velruse
+# service.  also, velruse puts this in the url that it uses to make
+# the browser connect to to the sso service.  if you get this wrong,
+# users may get an error message from the sso service in the browser
+# that your application domain is misconfigured.
+velruse.domain = ${parts.domains.velruse}
+velruse.port = ${parts.ports.velruse_proxy}
+velruse.protocol = ${parts.velruse.proxy_protocol}
+
 
 [alembic]
 script_location = src/adhocracy/alembic

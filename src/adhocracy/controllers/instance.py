@@ -33,6 +33,7 @@ from adhocracy.lib.templating import (render, render_json, render_logo,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.templating import render_geojson
 from adhocracy.lib.templating import set_json_response
+from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib.user_import import user_import, get_user_import_state
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.geo import add_instance_props
@@ -350,12 +351,26 @@ class InstanceController(BaseController):
                                   _('%s News' % c.page_instance.label),
                                   h.base_url(),
                                   _("News from %s") % c.page_instance.label)
+        elif format == 'ajax':
+            query_params = request.params.copy()
+            while True:
+                try:
+                    query_params.pop('count')
+                except KeyError:
+                    break
+
+            more_url = h.entity_url(c.page_instance,
+                                    member='activity',
+                                    query=query_params)
+            return render_def('/event/tiles.html', 'carousel',
+                              events=events, more_url=more_url)
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.events_pager = pager.events(events)
 
         if format == 'overlay':
-            return render("/instance/activity.html", overlay=True)
+            return render("/instance/activity.html", overlay=True,
+                          overlay_size=OVERLAY_SMALL)
         else:
             return render("/instance/activity.html")
 
@@ -402,7 +417,8 @@ class InstanceController(BaseController):
             return render_json(json)
         else:
             return formencode.htmlfill.render(
-                render("/instance/badges.html", overlay=format == u'overlay'),
+                render("/instance/badges.html", overlay=format == u'overlay',
+                       overlay_size=OVERLAY_SMALL),
                 defaults=defaults)
 
     @validate(schema=InstanceBadgesForm(), form='badges')

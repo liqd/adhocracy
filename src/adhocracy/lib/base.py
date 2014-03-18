@@ -36,6 +36,8 @@ class BaseController(WSGIController):
             c.body_css_classes.append('area-' + self.identifier)
 
         c.instance = model.instance_filter.get_instance()
+        if c.instance is not None:
+            c.body_css_classes.append(u'instance-%s' % c.instance.key)
         # setup a global variable to mark the current item in
         # the global navigation
         global_nav = 'instances' if c.instance is not None else 'home'

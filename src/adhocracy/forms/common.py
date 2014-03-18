@@ -12,7 +12,7 @@ from webhelpers.html import literal
 from sqlalchemy import func
 
 from adhocracy import config
-from adhocracy.lib.auth.authorization import has
+from adhocracy.lib.auth import can
 from adhocracy.lib.unicode import UnicodeDictReader
 
 
@@ -23,7 +23,7 @@ FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "hg", "git", "adhocracy", "user", "openid", "auth", "watch",
                    "poll", "delegation", "event", "comment", "root", "search",
                    "tag", "svn", "trac", "lists", "list", "new", "update",
-                   "variant", "provision", "untag", "code"]
+                   "variant", "provision", "untag", "code", "sso", "velruse"]
 
 
 VALIDUSER = re.compile(r"^[a-zA-Z0-9_\-]{3,255}$")
@@ -207,15 +207,17 @@ class ValidBadgeInstance(formencode.FancyValidator):
 
     def _to_python(self, value, state):
         from adhocracy.model import Instance
-        if has('global.admin'):
+        if can.badge.manage_global() or can.badge.edit_global():
             if value:
                 instance = Instance.find(value)
                 if instance is None:
                     raise AssertionError("Could not find instance %s" % value)
                 return instance
             return None
-        elif has('instance.admin') and c.instance:
-            return c.instance
+        elif can.badge.manage_instance() or can.badge.edit_instance():
+            instance = Instance.find(value)
+            if instance is not None and instance == c.instance:
+                return instance
         raise formencode.Invalid(
             _("You're not allowed to edit global badges"),
             value, state)

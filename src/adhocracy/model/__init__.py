@@ -7,6 +7,7 @@ import meta
 
 from adhocracy.model.user import User, user_table
 from adhocracy.model.openid import OpenID, openid_table
+from adhocracy.model.velruse import Velruse, velruse_table
 from adhocracy.model.shibboleth import Shibboleth, shibboleth_table
 from adhocracy.model.twitter import Twitter, twitter_table
 from adhocracy.model.badge import (
@@ -211,6 +212,12 @@ mapper(InstanceBadge, inherits=badge_mapper,
 
 
 # --[ /end Badges ]---------------------------------------------------------
+
+mapper(Velruse, velruse_table, properties={
+    'user': relation(User, lazy=False,
+                     primaryjoin=velruse_table.c.user_id == user_table.c.id,
+                     backref=backref('_velruse', cascade='delete'))
+})
 
 mapper(OpenID, openid_table, properties={
     'user': relation(User, lazy=False,

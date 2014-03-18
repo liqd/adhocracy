@@ -21,6 +21,7 @@ from adhocracy.lib.base import BaseController
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.templating import render, render_def, render_json, ret_abort
 from adhocracy.lib.templating import render_geojson
+from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
@@ -381,7 +382,8 @@ class ProposalController(BaseController):
             defaults['frozen'] = c.proposal.frozen
         defaults.update({"category": c.category.id if c.category else None})
         return htmlfill.render(render("/proposal/edit.html",
-                                      overlay=format == u'overlay'),
+                                      overlay=format == u'overlay',
+                                      overlay_size=OVERLAY_SMALL),
                                defaults=defaults,
                                errors=errors, force_defaults=force_defaults)
 
@@ -507,7 +509,8 @@ class ProposalController(BaseController):
                                      member='comments',
                                      in_overlay=False,
                                      format='overlay')
-            return render("/page/comments.html", overlay=True)
+            return render("/page/comments.html", overlay=True,
+                          overlay_size=OVERLAY_SMALL)
         else:
             return render("/page/comments.html")
 
@@ -527,7 +530,8 @@ class ProposalController(BaseController):
         if format == 'ajax':
             return render_def('/proposal/history.html', 'content')
         elif format == 'overlay':
-            return render('/proposal/history.html', overlay=True)
+            return render('/proposal/history.html', overlay=True,
+                          overlay_size=OVERLAY_SMALL)
         else:
             return render('/proposal/history.html')
 
@@ -697,7 +701,8 @@ class ProposalController(BaseController):
                     'thumbnailbadge': default_thumbnail,
                     }
         return formencode.htmlfill.render(
-            render("/proposal/badges.html", overlay=format == u'overlay'),
+            render("/proposal/badges.html", overlay=format == u'overlay',
+                   overlay_size=OVERLAY_SMALL),
             defaults=defaults)
 
     def _update_badges(self, badges, thumbnailbadges, proposal):

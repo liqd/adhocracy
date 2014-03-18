@@ -74,6 +74,7 @@ setup(
         "setuptools_git >= 0.3",
         "ipaddress>=1.0.3",
         "pytz",
+        "requests",
     ],
     setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
                     "PasteScript",

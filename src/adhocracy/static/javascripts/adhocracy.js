@@ -353,17 +353,21 @@ var adhocracy = adhocracy || {};
             target = '#overlay-big';
         }
 
-        var trigger = $('<a>');
-        trigger.attr('href', path);
-        trigger.attr('rel', type);
-        trigger.overlay({
-            fixed: false,
-            target: target,
-            mask: adhocracy.overlay.mask,
-            onBeforeLoad: adhocracy.overlay.iframeLoadContent,
-            onClose: adhocracy.overlay.URIStateClear,
-        });
-        trigger.click();
+        if ($(target).length === 1) {
+            var trigger = $('<a>');
+            trigger.attr('href', path);
+            trigger.attr('rel', type);
+            trigger.overlay({
+                fixed: false,
+                target: target,
+                mask: adhocracy.overlay.mask,
+                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
+            });
+            trigger.click();
+        } else {
+            console.log('Could not trigger overlay ' + type + ' with path ' + path);
+        }
     };
 
     adhocracy.overlay.rewriteDescription = function () {
@@ -387,7 +391,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.overlay.bindOverlays = function (element) {
         var wrapped = $(element);
-        if (window === top) {
+        if ($('#overlay-default').length === 1) {
             wrapped.find('#overlay-default').overlay({
                 // custom top position
                 fixed: false,
@@ -403,14 +407,6 @@ var adhocracy = adhocracy || {};
                 onClose: adhocracy.overlay.URIStateClear,
             });
 
-            wrapped.find("a[rel=#overlay-url-big]").overlay({
-                fixed: false,
-                mask: adhocracy.overlay.mask,
-                target: '#overlay-big',
-                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
-                onClose: adhocracy.overlay.URIStateClear,
-            });
-
             wrapped.find("a[rel=#overlay-form]").overlay({
                 fixed: false,
                 target: '#overlay-default',
@@ -418,7 +414,24 @@ var adhocracy = adhocracy || {};
                 onBeforeLoad: adhocracy.overlay.iframeLoadContent,
                 onClose: adhocracy.overlay.URIStateClear,
             });
+        } else {
+            wrapped.find("a[rel=#overlay-url]").attr('target', '_new');
+            wrapped.find("a[rel=#overlay-url-form]").attr('target', '_new');
+        }
 
+        if ($('#overlay-big').length === 1) {
+            wrapped.find("a[rel=#overlay-url-big]").overlay({
+                fixed: false,
+                mask: adhocracy.overlay.mask,
+                target: '#overlay-big',
+                onBeforeLoad: adhocracy.overlay.iframeLoadContent,
+                onClose: adhocracy.overlay.URIStateClear,
+            });
+        } else {
+            wrapped.find("a[rel=#overlay-url-big]").attr('target', '_new');
+        }
+
+        if ($('#overlay-login').length === 1) {
             wrapped.find("a[rel=#overlay-login-button]").overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
@@ -428,7 +441,9 @@ var adhocracy = adhocracy || {};
                     adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
+        }
 
+        if ($('#overlay-join').length === 1) {
             wrapped.find("a[rel=#overlay-join-button]").overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
@@ -438,15 +453,19 @@ var adhocracy = adhocracy || {};
                     adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
+        }
 
-            /*wrapped.find("a[rel=#overlay-ajax-map]").overlay({
+        /*if ($('#overlay-geo').length === 1) {
+            wrapped.find("a[rel=#overlay-ajax-map]").overlay({
                 fixed: false,
                 target: '#overlay-geo',
                 mask: adhocracy.overlay.mask,
                 onBeforeLoad: adhocracy.overlay.ajaxLoadContent
                 //onLoad: adhocracy.overlay.ajaxRebindLinks
-            });*/
+            });
+        }*/
 
+        if ($('#overlay-validate').length === 1) {
             wrapped.find("a[rel=#overlay-validate-button]").overlay({
                 fixed: false,
                 mask: adhocracy.overlay.mask,
@@ -456,14 +475,6 @@ var adhocracy = adhocracy || {};
                     adhocracy.overlay.rebindRetURL.call(this, event);
                 }
             });
-        } else {
-            // if we are in an iframe open overlays in new window instead
-            wrapped.find("a[rel=#overlay-url]").attr('target', '_new');
-            wrapped.find("a[rel=#overlay-url-big]").attr('target', '_new');
-            // FIXME these don't have a href
-            wrapped.find("a[rel=#overlay-login-button]").attr('target', '_new');
-            wrapped.find("a[rel=#overlay-join-button]").attr('target', '_new');
-            wrapped.find("a[rel=#overlay-validate-button]").attr('target', '_new');
         }
     };
 
@@ -1256,7 +1267,15 @@ $(document).ready(function () {
         var self = $(e),
             j = 0,
             data = [],
-            drawIntervalID;
+            drawIntervalID,
+            src = self.data('src');
+
+        if (!src) {
+            src = '/event/all?event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create';
+        }
+        src = new Uri(src);
+        src.path(src.path().replace(/(\.[^.]*)?$/, '.ajax'))
+        src.replaceQueryParam('count', 5);
 
         var draw = function() {
             self.fadeOut('fast', function() {
@@ -1278,7 +1297,7 @@ $(document).ready(function () {
             // if the request fails the old data will be kept instead
 
             // FIXME this takes really long
-            $.ajax('/event/all.ajax?count=5&event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create', {
+            $.ajax(src.toString(), {
                 'success': function(d) {
                     data = $(d).children();
                     if (fn) {

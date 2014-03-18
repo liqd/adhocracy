@@ -26,6 +26,7 @@ from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import (render, render_json, ret_abort,
                                       render_logo)
 from adhocracy.lib.templating import render_geojson
+from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib.text.diff import (norm_texts_inline_compare,
                                      page_titles_compare)
 from adhocracy.lib.text.render import render_line_based, render as render_text
@@ -162,10 +163,12 @@ class PageController(BaseController):
 
         if c.instance.page_index_as_tiles:
             return render("/page/index_tiles.html", data,
-                          overlay=format == u'overlay')
+                          overlay=format == u'overlay',
+                          overlay_size=OVERLAY_SMALL)
         else:
             return render("/page/index.html", data,
-                          overlay=format == u'overlay')
+                          overlay=format == u'overlay',
+                          overlay_size=OVERLAY_SMALL)
 
     @RequireInstance
     @guard.page.create()
@@ -334,7 +337,8 @@ class PageController(BaseController):
 
         c.text_rows = libtext.text_rows(c.text)
         c.left = c.page.head
-        html = render('/page/edit.html', overlay=format == u'overlay')
+        html = render('/page/edit.html', overlay=format == u'overlay',
+                      overlay_size=OVERLAY_SMALL)
         return htmlfill.render(html, defaults=defaults,
                                errors=errors, force_defaults=False)
 
@@ -753,7 +757,8 @@ class PageController(BaseController):
             return tiles.comment.list(c.page)
         elif format == 'overlay':
             c.came_from = h.entity_url(c.page, member='comments') + '.overlay'
-            return render('/page/comments.html', overlay=True)
+            return render('/page/comments.html', overlay=True,
+                          overlay_size=OVERLAY_SMALL)
         else:
             return render('/page/comments.html')
 

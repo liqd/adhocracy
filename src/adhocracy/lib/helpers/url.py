@@ -45,10 +45,8 @@ def build(instance, base, id, query=None, anchor=None, member=None,
     url = site.base_url(_path, instance, absolute=absolute)
     url = append_member_and_format(url, member, format)
     if query is not None:
-        for k, v in query.items():
-            key = unicode(k).encode('ascii', 'ignore')
-            query[key] = unicode(v).encode('utf-8')
-        url = url + u'?' + unicode(urllib.urlencode(query))
+        url += '&' if '?' in url else '?'
+        url += urllib.urlencode(query)
     if anchor is not None:
         url += "#" + anchor
     return url

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-13 23:14+0100\n"
-"PO-Revision-Date: 2014-03-13 22:15+0000\n"
+"POT-Creation-Date: 2014-03-18 23:52+0100\n"
+"PO-Revision-Date: 2014-03-18 22:52+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -699,6 +699,31 @@ msgstr "Possiedi già una password? Allora utilizzala per accedere al sito."
 #, python-format
 msgid "The user can now log in via %s"
 msgstr "L'utente può accedere ora via %s"
+
+msgid "Internal server error:velruse service not available."
+msgstr ""
+
+msgid "Login failed: "
+msgstr ""
+
+msgid ""
+"You have to give Adhocracy permission to connect to your Facebook account."
+msgstr ""
+
+#, python-format
+msgid "Logging in with %s is not allowed on this installation."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+#, python-format
+msgid "You successfully connected to %s."
+msgstr ""
+
+#, python-format
+msgid "Your %s account is already connected."
+msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Esiste giá una voce nella lista di riferimento per questa entità."
@@ -2678,7 +2703,7 @@ msgstr ""
 msgid "created new proposal"
 msgstr ""
 
-msgid "display all"
+msgid "display all events"
 msgstr ""
 
 msgid "Latest Events"
@@ -3272,11 +3297,8 @@ msgstr "Registrati"
 msgid "Alternative"
 msgstr "Alternativa"
 
-msgid "Login with your OpenID to skip registration."
-msgstr "Accedi con un OpenID e ignora la registrazione."
-
-msgid "Login with your OpenID."
-msgstr "Registrati con il tuo OpenID"
+msgid "Login with Facebook"
+msgstr ""
 
 msgid "Sign in"
 msgstr "Accedi"
@@ -4368,11 +4390,26 @@ msgstr "Seleziona come ricevere le notifiche degli eventi."
 msgid "Help."
 msgstr "Aiuto."
 
-msgid "fewer"
-msgstr "meno"
+msgid "No notifications via email."
+msgstr ""
 
-msgid "more notifications"
-msgstr "più notifiche"
+msgid "Send email for new proposals or norms in my watched instances"
+msgstr ""
+
+msgid "and when a watched object is edited or deleted"
+msgstr ""
+
+msgid "Send email when a watched object is edited or deleted"
+msgstr ""
+
+msgid "and when a watched object is commented on"
+msgstr ""
+
+msgid "and when a watched object is rated"
+msgstr ""
+
+msgid "and when new members join my watched instances"
+msgstr ""
 
 msgid "Not confirmed."
 msgstr "Non confermato."
