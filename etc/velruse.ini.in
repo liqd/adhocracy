@@ -24,7 +24,16 @@ use = egg:Paste#urlmap
 
 [app:velruse]
 use = egg:velruse
-endpoint = ${parts.adhocracy.protocol}://${parts.domains.main}:${parts.ports.main}/velruse/logged_in
+
+
+# FIXME: duplicated code with etc/adhocracy.ini.in
+{% python
+adhocracy_domain = parts['domains']['main']
+if parts['domains'].get('main.force_port', None):
+   adhocracy_domain += ':%s' % parts['ports']['main']
+%}
+adhocracy.domain = ${adhocracy_domain}
+endpoint = ${parts.adhocracy.protocol}://${adhocracy_domain}/velruse/logged_in
 
 #setup = velruse.app.make_app  (this is implicit -- do not uncomment!)
 
