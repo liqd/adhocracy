@@ -3,7 +3,8 @@
 
 
 <form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
-   <div>${_('Alternative')}:</div>
+   <div>${_('Alternatives: Log in with...')}:</div>
+
    <div class="openid_btns">
      %if 'facebook' in login_types:
      <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
