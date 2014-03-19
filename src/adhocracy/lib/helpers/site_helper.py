@@ -95,6 +95,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
     if query_params:
         result += '&' if '?' in result else '?'
+        u = lambda s: unicode(s).encode('utf-8')
+        query_params = [(u(k), u(v)) for (k, v) in query_params.iteritems()]
         result += urllib.urlencode(query_params)
     elif query_string:
         result += '&' if '?' in result else '?'
