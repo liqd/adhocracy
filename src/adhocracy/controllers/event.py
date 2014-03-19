@@ -6,7 +6,7 @@ from pylons.i18n import _
 from adhocracy import model
 from adhocracy.lib import event, helpers as h
 from adhocracy.lib import pager
-from adhocracy.lib.auth import guard
+from adhocracy.lib.auth import require
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_def
 from adhocracy.lib.templating import OVERLAY_SMALL
@@ -18,9 +18,12 @@ class EventController(BaseController):
 
     identifier = 'events'
 
-    @guard.perm('event.index_all')
     def all(self, format='html'):
+        if c.instance is None:
+            require.perm('event.index_all')
+
         events = model.Event.all_q(
+            instance=c.instance,
             include_hidden=False,
             event_filter=request.params.getall('event_filter'))\
             .order_by(model.Event.time.desc())\
@@ -40,7 +43,7 @@ class EventController(BaseController):
                 except KeyError:
                     break
 
-            more_url = h.base_url(instance=None,
+            more_url = h.base_url(instance=c.instance,
                                   member='event/all',
                                   query_params=query_params)
             return render_def('/event/tiles.html', 'carousel',
@@ -54,7 +57,14 @@ class EventController(BaseController):
             else:
                 return render('/event/all.html')
 
-    @guard.perm('event.index_all')
     def carousel(self, format=u'html'):
-        return render('/event/carousel.html', overlay=format == u'overlay',
+        if c.instance is None:
+            require.perm('event.index_all')
+
+        data = {
+            u'data_url': h.base_url('/event/all', query_params=request.params)
+        }
+
+        return render('/event/carousel.html', data,
+                      overlay=format == u'overlay',
                       overlay_size=OVERLAY_SMALL)
