@@ -3,28 +3,31 @@
 
 
 <form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
-   <div>${_('Alternatives: Log in with...')}:</div>
+  <div>${_('Alternatives: Log in with...')}:</div>
 
-   <div class="openid_btns">
-     %if 'facebook' in login_types:
-     <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
-       <img class="openid_large_btn" src="/velruse/facebook_login.png" alt=${_("Login with Facebook")}>
-     </a>
-     %endif
-   </div>
-
-   <div class="openid_input_area">
-      <input name="openid" type="text" value="http://" />
-    %if c.openid_scenario and c.openid_scenario == "login":
-        <input class="openid_submit" type="submit" value="${_('Sign in')}"/>
-    %else:
-        <input class="openid_submit" type="submit" value="${_('Continue')}"/>
+  <div class="openid_btns">
+    %if 'facebook' in login_types:
+    <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
+      <img class="openid_large_btn" src="/velruse/facebook_login.png" alt=${_("Login with Facebook")}>
+    </a>
     %endif
-   </div>
-   <noscript>
-      <p>OpenID is service that allows you to log-on to many different websites using a single indentity.
-         Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
-   </noscript>
+  </div>
+
+  <div class="openid_btns">
+    %if 'facebook' in login_types:
+    <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
+      <img class="openid_large_btn" src="/velruse/facebook_login.png" alt=${_("Login with Facebook")}>
+    </a>
+    %endif
+  </div>
+
+  <div class="openid_input_area">
+    <input name="openid" type="text" value="http://" />
+    <input class="openid_submit" type="submit" value="${_('Sign in') if c.openid_scenario and c.openid_scenario == "login" else _('Continue')}" />
+  </div>
+  <div class="only-no-js">
+    <p>${_('OpenID is service that allows you to log-on to many different websites using a single indentity. Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.')|n}</p>
+  </div>
 </form>
 
 %if 'facebook' in login_types:
