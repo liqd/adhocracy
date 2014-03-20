@@ -341,45 +341,10 @@ class InstanceController(BaseController):
 
     @RequireInstance
     def activity(self, id, format='html'):
-        c.page_instance = get_entity_or_abort(model.Instance, id)
-        require.instance.show(c.page_instance)
-
-        if format == 'sline':
-            ret_abort(u'Sparkline data is not available anymore.', code=410)
-
-        events = model.Event.all_q(
-            instance=c.page_instance,
-            event_filter=request.params.getall('event_filter'))\
-            .order_by(model.Event.time.desc())\
-            .limit(min(int(request.params.get('count', 50)), 100)).all()
-
-        if format == 'rss':
-            return event.rss_feed(events,
-                                  _('%s News' % c.page_instance.label),
-                                  h.base_url(),
-                                  _("News from %s") % c.page_instance.label)
-        elif format == 'ajax':
-            query_params = request.params.copy()
-            while True:
-                try:
-                    query_params.pop('count')
-                except KeyError:
-                    break
-
-            more_url = h.entity_url(c.page_instance,
-                                    member='activity',
-                                    query=query_params)
-            return render_def('/event/tiles.html', 'carousel',
-                              events=events, more_url=more_url)
-
-        c.tile = tiles.instance.InstanceTile(c.page_instance)
-        c.events_pager = pager.events(events)
-
-        if format == 'overlay':
-            return render("/instance/activity.html", overlay=True,
-                          overlay_size=OVERLAY_SMALL)
-        else:
-            return render("/instance/activity.html")
+        """ deprecated in favour of /event/all """
+        return redirect(h.base_url('/event/all.' + format,
+                                   query_params=request.params),
+                        code=301)
 
     @RequireInstance
     def edit(self, id):
