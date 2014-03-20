@@ -25,6 +25,8 @@ from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
+from adhocracy.lib.staticpage import get_static_page
+from adhocracy.lib.staticpage import render_body
 from adhocracy.lib.templating import (render, render_json, render_logo,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.templating import OVERLAY_SMALL
@@ -246,6 +248,20 @@ class InstanceController(BaseController):
 
         if c.page_instance != c.instance:
             redirect(h.entity_url(c.page_instance))
+
+        static_path = config.get(
+            'adhocracy.instance-%s.static_overview_path' % c.page_instance.key,
+            None)
+        if static_path is not None:
+            page = get_static_page(static_path)
+            if page is None:
+                return abort(404, _('The requested page was not found'))
+            data = {
+                'static': page,
+                'body_html': render_body(page.body),
+            }
+            return render("/static/show.html", data,
+                          overlay=format == 'overlay')
 
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.sidebar_delegations = (_('Delegations are enabled.') if

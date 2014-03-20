@@ -413,6 +413,11 @@ adhocracy.static_index_path = index
 # Below defines the area below the form, the title is ignored.
 # adhocracy.static_shibboleth_register_below_path = shibboleth_register
 
+# Static content path for individual instance overview pages (default: empty)
+# {key} should be replaced by the instance key.
+# A common value might be {key}-startpage.
+# adhocracy.instance-{key}.static_overview_path
+
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
 
