@@ -46,6 +46,8 @@ def build(instance, base, id, query=None, anchor=None, member=None,
     url = append_member_and_format(url, member, format)
     if query is not None:
         url += '&' if '?' in url else '?'
+        u = lambda s: unicode(s).encode('utf-8')
+        query = [(u(k), u(v)) for (k, v) in query.iteritems()]
         url += urllib.urlencode(query)
     if anchor is not None:
         url += "#" + anchor
