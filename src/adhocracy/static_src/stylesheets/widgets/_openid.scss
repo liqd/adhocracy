@@ -45,6 +45,11 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #90a3d0;
-    opacity: .9;
+    background: rgba($bg1, 0.8);
+    text-align: center;
+
+    p {
+        max-width: 34em;
+        margin: 1em auto;
+    }
 }
