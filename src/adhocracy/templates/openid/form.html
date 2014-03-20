@@ -4,9 +4,8 @@
 
 <div class="openid_all">
   <div class="openid_btns_inhibitor" onclick="$('.openid_btns_inhibitor').css('display', 'none');">
-    <p>Click on this surface to activate login via third-party
-    services like facebook, google, or OpenID.  Note that these
-     third-party services may steal your data!</p>
+    <p>${_(u'Alternatively you can log in using various external accounts. Please be aware that the login via external providers may cause security and privacy related risks.')}</p>
+    <a class="button highlight" href="#" onclick="$('.openid_btns_inhibitor').hide(); return false;">${_('I understand the risk')}</a>
   </div>
 
   <form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
