@@ -51,7 +51,7 @@ def edit(check, p):
 
 def edit_badges(check, p):
     check.readonly()
-    check.perm('instance.admin')
+    check.perm('instance.manage')
 
 
 def delete(check, p):

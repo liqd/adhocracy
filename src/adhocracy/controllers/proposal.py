@@ -647,9 +647,9 @@ class ProposalController(BaseController):
                                  key=lambda badge: badge.title)
         return thumbnailbadges
 
-    @guard.perm("instance.admin")
     def badges(self, id, errors=None, format='html'):
         c.proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit_badges(c.proposal)
         c.badges = self._editable_badges(c.proposal)
         c.thumbnailbadges = self._editable_thumbnailbadges(c.proposal)
         default_thumbnail = c.proposal.thumbnails and \
@@ -698,10 +698,10 @@ class ProposalController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=DelegateableBadgesForm(), form='badges')
-    @guard.perm("instance.admin")
     @csrf.RequireInternalRequest(methods=['POST'])
     def update_badges(self, id, format='html'):
         proposal = get_entity_or_abort(model.Proposal, id)
+        require.proposal.edit_badges(proposal)
         badges = self.form_result.get('badge')
         thumbnailbadges = self.form_result.get('thumbnailbadge')
         redirect_to_proposals = self.form_result.get('redirect_to_proposals')
