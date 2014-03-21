@@ -1,29 +1,29 @@
 <%namespace name="components" file="/components.html"/>
-<% login_types = h.allowed_login_types() %>
+<%
+login_types = h.allowed_login_types()
+if c.openid_scenario == 'login':
+    signin_text = _('Sign in')
+elif c.openid_scenario == 'register':
+    signin_text = _('Register')
+else:
+    signin_text = _('Continue')
+%>
 
+<form class="openid_form ${c.openid_scenario}" method="POST" action="/openid/init" data-i18n-signin-text="${signin_text}">
+ <div>${_("Single sign-on services allow you to use a single login on many web sites.")}</div>
+ <div class="openid_btns">
+   %if 'facebook' in login_types:
+   <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
+     <img class="openid_large_btn" src="/velruse/facebook_login.png" alt="${_('Login with Facebook')}" />
+   </a>
+   %endif
+ </div>
 
-<form class="openid_form" method="POST" action="/openid/init" data-i18n-signin-text="${_('Sign In')}">
-   <div>${_('Alternative')}:</div>
-   <div class="openid_btns">
-     %if 'facebook' in login_types:
-     <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
-       <img class="openid_large_btn" src="/velruse/facebook_login.png" alt=${_("Login with Facebook")}>
-     </a>
-     %endif
-   </div>
-
-   <div class="openid_input_area">
-      <input name="openid" type="text" value="http://" />
-    %if c.openid_scenario and c.openid_scenario == "login":
-        <input class="openid_submit" type="submit" value="${_('Sign in')}"/>
-    %else:
-        <input class="openid_submit" type="submit" value="${_('Continue')}"/>
-    %endif
-   </div>
-   <noscript>
-      <p>OpenID is service that allows you to log-on to many different websites using a single indentity.
-         Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
-   </noscript>
+  <div class="openid_input_area">
+    <%doc> This elements will be replaced by JavaScript </%doc>
+    <input name="openid" type="url" value="http://" />
+    <input class="openid_submit" type="submit" value="${signin_text}" />
+  </div>
 </form>
 
 %if 'facebook' in login_types:

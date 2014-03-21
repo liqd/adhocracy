@@ -1343,16 +1343,16 @@ $(document).ready(function () {
 
         // registering this event on parent element to also catch
         // events from generated elements
-        $('html').on('click', 'a[href]', function() {
-            if (this.href[0] != '#' && typeof(this.target) === 'undefined') {
-                this.target = '_top';
+        $('html').on('click', 'a[href]', function(e) {
+            if (e.target.href[0] != '#' && !e.target.target) {
+                e.target.target = '_top';
             }
-            if (this.target === '_self') {
-                this.href = overlay_url(this.href);
+            if (e.target.target === '_self') {
+                e.target.href = overlay_url(e.target.href);
             }
         });
-        $('html').on('submit', 'form', function() {
-            this.action = overlay_url(this.action);
+        $('html').on('submit', 'form', function(e) {
+            e.target.action = overlay_url(e.target.action);
         });
     }
 });

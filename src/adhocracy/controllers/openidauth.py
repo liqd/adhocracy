@@ -118,7 +118,7 @@ class OpenidauthController(BaseController):
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
             h.flash(message, 'error')
-            return redirect(h.entity_url(c.user, member='edit'))
+            return redirect(h.entity_url(c.user, member='settings/login'))
         else:
             loginhtml = render("/user/login_tile.html")
             form = formencode.htmlfill.render(loginhtml,
@@ -165,9 +165,10 @@ class OpenidauthController(BaseController):
             return self._failure(openid, str(e))
 
     def connect(self):
-        if not openid_login_allowed():
-            ret_abort(_("Connection not allowed, OpenID has been disabled on "
-                        "this installation"), code=403)
+        if (not openid_login_allowed()
+                and not 'facebook' in allowed_login_types()):
+            ret_abort(_("Connection not allowed, single sign-on has been "
+                        "disabled on this installation"), code=403)
         require.user.edit(c.user)
         if not c.user:
             h.flash(_("No OpenID was entered."), 'warning')
@@ -193,7 +194,7 @@ class OpenidauthController(BaseController):
         h.flash(_("Successfully removed OpenID from account"), 'success')
         log.info("User %s revoked OpenID '%s'" % (
             c.user.user_name, id))
-        redirect(h.entity_url(c.user, member='edit'))
+        redirect(h.entity_url(c.user, member='settings/login'))
 
     def verify(self):
         if not openid_login_allowed():
@@ -241,7 +242,7 @@ class OpenidauthController(BaseController):
                 else:
                     return self._failure(
                         info.identity_url,
-                        _("OpenID %s already belongs to %s.")
+                        _("OpenID %s is already connected to an account.")
                         % (info.identity_url, oid.user.name))
             else:
                 self._login(oid.user)
@@ -253,7 +254,7 @@ class OpenidauthController(BaseController):
                 model.meta.Session.commit()
                 h.flash(_("Successfully added OpenID to user account."),
                         'success')
-                redirect(h.entity_url(c.user, member='edit'))
+                redirect(h.entity_url(c.user, member='settings/login'))
             else:
 
                 if not h.allow_user_registration():

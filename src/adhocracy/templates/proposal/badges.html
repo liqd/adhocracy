@@ -1,7 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="badge_tiles" file="/badge/tiles.html"/>
-<%def name="title()">${_("Edit badges for %s") % c.proposal.title}</%def>
+<%def name="title()">${_("Edit badges for %s") % c.proposal.title|n}</%def>
 
 <%def name="breadcrumbs()">
 ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
@@ -15,52 +15,8 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
     ${h.field_token()|n}
     <h3>${_(u"Badges")}</h3>
 
-    <fieldset>
-        <legend>${_("Badges")}</legend>
-
-        %if c.badges:
-        <ul class="nobullet">
-            %for badge in c.badges:
-            <li>
-                <label>
-                    <input type="checkbox" value="${badge.id}"
-                           name="badge" />
-                    ${badge_tiles.badge(badge)}
-                </label>
-            </li>
-            %endfor
-        </ul>
-        %else:
-        <p>${_(u"No Badges")}</p>
-        %endif
-    </fieldset>
-
-    <fieldset>
-        <legend>${_("Status Badge")}</legend>
-
-        %if c.thumbnailbadges:
-        <ul class="nobullet">
-            <li>
-                <label>
-                    <input type="radio" value=""
-                           name="thumbnailbadge" />
-                    ${_('No Status Badge')}
-                </label>
-            </li>
-            %for badge in c.thumbnailbadges:
-            <li>
-                <label>
-                    <input type="radio" value="${badge.id}"
-                           name="thumbnailbadge" />
-                    ${badge_tiles.badge(badge)}
-                </label>
-            </li>
-            %endfor
-        </ul>
-        %else:
-        <p>${_(u"No Status Badges")}</p>
-        %endif
-    </fieldset>
+    ${badge_tiles.select_form(c.badges, _('Badges'), _('No badges'), 'badge')}
+    ${badge_tiles.select_form(c.thumbnailbadges, _('Status badges'), _('No status badges'), 'thumbnailbadge', input_type='radio')}
 
     ${components.savebox(h.base_url("/proposal/%s" % c.proposal.id))}
 </form>

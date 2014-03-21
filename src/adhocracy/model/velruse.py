@@ -66,8 +66,8 @@ class Velruse(object):
             if not include_deleted:
                 q = filter_deleted(q)
             return q.limit(1).first()
-        except Exception:
-            log.exception("by_id(%s)" % id)
+        except Exception as e:
+            log.exception("by_id(%s): %s" % (id, e))
             return None
 
     @classmethod
@@ -79,8 +79,8 @@ class Velruse(object):
             if not include_deleted:
                 q = filter_deleted(q)
             return q.all()
-        except Exception:
-            log.exception("by_user(%s)" % id)
+        except Exception as e:
+            log.exception("by_user_and_domain(%s, %s): %s" % (user, domain, e))
             return None
 
     @classmethod
@@ -92,8 +92,9 @@ class Velruse(object):
             if not include_deleted:
                 q = filter_deleted(q)
             return q.limit(1).first()
-        except Exception:
-            log.exception("by_user(%s)" % id)
+        except Exception as e:
+            log.exception("by_user_and_domain_first(%s, %s): %s"
+                          % (user, domain, e))
             return None
 
     def delete(self, delete_time=None):
@@ -107,6 +108,13 @@ class Velruse(object):
             at_time = datetime.utcnow()
         return (self.delete_time is not None) and \
             self.delete_time <= at_time
+
+    def delete_forever(self):
+        try:
+            meta.Session.delete(self)
+        except Exception as e:
+            log.exception("delete_forever: %s" % e)
+            return None
 
     @classmethod
     def connect(cls, adhocracy_user, domain, domain_user,

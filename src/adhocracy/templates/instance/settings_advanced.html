@@ -33,6 +33,12 @@
     </div>
     %endif
 
+    <fieldset>
+        <legend>${_('Embed latest events')}</legend>
+        <div class="help-block">${_('To display the latest events from your %(site_name)s instance you can add this embed code to your website.') % {'site_name': h.config.get('adhocracy.site.name')}}</div>
+        <textarea readonly="readonly" name="embed_code"></textarea>
+    </fieldset>
+
     %if h.has_permission('global.admin'):
     <%forms:textarea label="${_('Extra CSS')}" name="css" value=""
     help="${_('You can add css that will be used to style the instance.')}">

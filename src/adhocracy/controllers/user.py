@@ -1358,10 +1358,10 @@ class UserController(BaseController):
         allowed = self._allowed_badges()
         return set(allowed[0]).union(set(allowed[1]))
 
-    @guard.perm('instance.admin')
     def edit_badges(self, id, errors=None, format=u'html'):
         c.badges, c.instance_badges = self._allowed_badges()
         c.page_user = get_entity_or_abort(model.User, id)
+        require.user.supervise(c.page_user)
         defaults = {'badge': [str(badge.id) for badge in c.page_user.badges]}
         return formencode.htmlfill.render(
             render("/user/badges.html", overlay=format == u'overlay'),
@@ -1370,9 +1370,9 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='edit_badges')
-    @guard.perm('instance.admin')
     def update_badges(self, id):
         user = get_entity_or_abort(model.User, id)
+        require.user.supervise(user)
         want = set(self.form_result.get('badge'))
 
         allowed = self._all_allowed_badges()

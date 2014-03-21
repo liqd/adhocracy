@@ -3,6 +3,7 @@ import random
 from json import loads, dumps
 
 from pylons import request, response, session, tmpl_context as c
+from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 from sqlalchemy.exc import IntegrityError
@@ -12,6 +13,7 @@ from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.base import BaseController
 from adhocracy.lib import event
 from adhocracy.lib.auth import login_user
+from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.model.velruse import Velruse
 from adhocracy import model
 from adhocracy.model.user import User
@@ -20,7 +22,7 @@ from adhocracy.lib.exceptions import DatabaseInconsistent
 
 log = logging.getLogger(__name__)
 
-max_user_name_length = User.user_name.property.columns[0].type.length
+MAX_USER_NAME_LENGTH = User.user_name.property.columns[0].type.length
 
 
 def unused_user_name(preferred_user_name, recursion_depth=913):
@@ -32,7 +34,7 @@ def unused_user_name(preferred_user_name, recursion_depth=913):
     if (recursion_depth < 0):
         raise "internal error: could not find any unused user names!"
 
-    if (len(preferred_user_name) > max_user_name_length
+    if (len(preferred_user_name) > MAX_USER_NAME_LENGTH
             or preferred_user_name == ""):
         unused_user_name("user",
                          recursion_depth=recursion_depth - 1)
@@ -102,17 +104,25 @@ class VelruseController(BaseController):
 
             accounts = profile['accounts']
 
-            if c.user:
+            if c.user is not None:
                 adhocracy_user = c.user
                 velruse_user = Velruse.by_user_and_domain_first(
                     adhocracy_user,
                     accounts[0]['domain'])
+
+                if velruse_user is not None:
+                    self._failure(_("This %(provider)s account"
+                                    " is already connected.")
+                                  % {'provider': provider_name.capitalize()})
             else:
                 velruse_user = Velruse.find_any(accounts)
 
-                adhocracy_user = velruse_user.user if velruse_user else None
+                if velruse_user is not None:
+                    adhocracy_user = velruse_user.user
+                else:
+                    adhocracy_user = None
 
-            if velruse_user:
+            if velruse_user is not None:
                 domain = velruse_user.domain
                 domain_user = velruse_user.domain_user
             else:
@@ -121,37 +131,36 @@ class VelruseController(BaseController):
 
             try:
                 # login right away
-                if adhocracy_user and velruse_user:
+                if adhocracy_user is not None and velruse_user is not None:
                     update_email_trust(adhocracy_user, email)
                     self._login(adhocracy_user)
 
                 # create new user in both Velruse and User and login
-                elif not adhocracy_user and not velruse_user:
-                        new_user = self._create(user_name,
-                                                email,
-                                                domain,
-                                                domain_user,
-                                                email_verified=True,
-                                                display_name=display_name)
+                elif adhocracy_user is None and velruse_user is None:
+                    new_user = self._create(user_name,
+                                            email,
+                                            domain,
+                                            domain_user,
+                                            email_verified=True,
+                                            display_name=display_name)
 
-                        adhocracy_user, velruse_user = new_user
-                        self._login(adhocracy_user)
+                    adhocracy_user, velruse_user = new_user
+                    self._login(adhocracy_user)
 
                 # create new user in Velruse for a logged in user
-                elif adhocracy_user and not velruse_user:
+                elif adhocracy_user is not None and velruse_user is None:
                     self._connect(adhocracy_user, domain, domain_user,
                                   provider_name,
                                   email, email_verified=True)
 
                 # error case
-                elif not adhocracy_user and velruse_user:
+                else:
                     raise DatabaseInconsistent('velruse user is not associated'
                                                ' with any adhocracy user')
-                else:
-                    raise Exception
 
             # if users are deleted and we try to create them again
             # we get an IntegrityError
+            # FIXME: better error handling
             except IntegrityError:
                 self._failure(_("Error"))
 
@@ -181,7 +190,7 @@ class VelruseController(BaseController):
 
         h.flash(message, 'error')
         if c.user:
-            return redirect(h.entity_url(c.user, member='edit'))
+            return redirect(h.entity_url(c.user, member='settings/login'))
         else:
             redirect("/login")
 
@@ -243,3 +252,29 @@ class VelruseController(BaseController):
 
             redirect(h.user.post_login_url(adhocracy_user))
             return None
+
+    @RequireInternalRequest()
+    def revoke(self):
+        v_id = request.params.get('id', None)
+
+        if v_id is None:
+            abort(401, "id of velruse account not specified")
+
+        v = Velruse.by_id(v_id)
+        if v is None:
+            self._failure(_("You are trying to disconnect from a provider"
+                            " you are disconnected from already."))
+            return None
+
+        elif not (v.user == c.user or h.has_permission("user.manage")):
+            abort(403, _("You're not authorized to change %s's settings.")
+                  % c.user.id)
+        else:
+            v.delete_forever()
+            model.meta.Session.commit()
+
+            h.flash(_("You successfully disconnected from %(provider)s.")
+                    % {'provider': v.domain},
+                    'success')
+
+            redirect(h.entity_url(c.user, member='settings/login'))

@@ -28,7 +28,7 @@
         margin-left: -1em;
 
         .tile-row {
-            @include display(flex);
+            @include display-flex;
             @include justify-content(space-between);
             margin: 4em 0;
         }

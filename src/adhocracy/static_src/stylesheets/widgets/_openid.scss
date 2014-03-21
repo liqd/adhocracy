@@ -36,3 +36,22 @@
     float: left;
     cursor: pointer;
 }
+
+.sso_form {
+    position: relative;
+    min-height: 12em;
+    background-color: $bg1;
+}
+
+.sso_form_inhibitor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba($bg1, 0.8);
+    text-align: center;
+
+    p {
+        max-width: 34em;
+        margin: 1em auto;
+    }
+}

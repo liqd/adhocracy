@@ -120,7 +120,7 @@ class BadgeController(BaseController):
             'badge_header': self._get_badge_header(badge_type),
             'badge_base_url': self.base_url,
             'global_badges': (cls.all(instance=None)
-                              if has('global.admin')
+                              if has('badge.index')
                               else None),
             'instance_badges': (cls.all(instance=c.instance)
                                 if c.instance is not None

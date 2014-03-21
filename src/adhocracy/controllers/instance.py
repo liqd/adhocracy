@@ -1,6 +1,8 @@
 from collections import OrderedDict
 import logging
 
+from webob.multidict import MultiDict
+
 import formencode
 from formencode import htmlfill
 from formencode import validators
@@ -29,6 +31,8 @@ from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.auth import can, csrf, require, guard
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.queue import update_entity
+from adhocracy.lib.staticpage import get_static_page
+from adhocracy.lib.staticpage import render_body
 from adhocracy.lib.templating import (render, render_json, render_logo,
                                       ret_abort, ret_success, render_def)
 from adhocracy.lib.templating import render_geojson
@@ -256,6 +260,20 @@ class InstanceController(BaseController):
         if c.page_instance != c.instance:
             redirect(h.entity_url(c.page_instance))
 
+        static_path = config.get(
+            'adhocracy.instance-%s.static_overview_path' % c.page_instance.key,
+            None)
+        if static_path is not None:
+            page = get_static_page(static_path)
+            if page is None:
+                return abort(404, _('The requested page was not found'))
+            data = {
+                'static': page,
+                'body_html': render_body(page.body),
+            }
+            return render("/static/show.html", data,
+                          overlay=format == 'overlay')
+
         c.tile = tiles.instance.InstanceTile(c.page_instance)
         c.sidebar_delegations = (_('Delegations are enabled.') if
                                  c.page_instance.allow_delegate else
@@ -334,45 +352,10 @@ class InstanceController(BaseController):
 
     @RequireInstance
     def activity(self, id, format='html'):
-        c.page_instance = get_entity_or_abort(model.Instance, id)
-        require.instance.show(c.page_instance)
-
-        if format == 'sline':
-            ret_abort(u'Sparkline data is not available anymore.', code=410)
-
-        events = model.Event.all_q(
-            include_hidden=False,
-            event_filter=request.params.getall('event_filter'))\
-            .order_by(model.Event.time.desc())\
-            .limit(min(int(request.params.get('count', 50)), 100)).all()
-
-        if format == 'rss':
-            return event.rss_feed(events,
-                                  _('%s News' % c.page_instance.label),
-                                  h.base_url(),
-                                  _("News from %s") % c.page_instance.label)
-        elif format == 'ajax':
-            query_params = request.params.copy()
-            while True:
-                try:
-                    query_params.pop('count')
-                except KeyError:
-                    break
-
-            more_url = h.entity_url(c.page_instance,
-                                    member='activity',
-                                    query=query_params)
-            return render_def('/event/tiles.html', 'carousel',
-                              events=events, more_url=more_url)
-
-        c.tile = tiles.instance.InstanceTile(c.page_instance)
-        c.events_pager = pager.events(events)
-
-        if format == 'overlay':
-            return render("/instance/activity.html", overlay=True,
-                          overlay_size=OVERLAY_SMALL)
-        else:
-            return render("/instance/activity.html")
+        """ deprecated in favour of /event/all """
+        return redirect(h.base_url('/event/all.' + format,
+                                   query_params=request.params),
+                        code=301)
 
     @RequireInstance
     def edit(self, id):
@@ -509,7 +492,7 @@ class InstanceController(BaseController):
     @RequireInstance
     def settings_overview(self, id, format=u'html'):
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
+        require.instance.edit_overview(c.page_instance)
         form_content = self._settings_overview_form(id)
         return htmlfill.render(
             form_content,
@@ -527,7 +510,7 @@ class InstanceController(BaseController):
               post_only=True, auto_error_formatter=error_formatter)
     def settings_overview_update(self, id):
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
+        require.instance.edit_overview(c.page_instance)
 
         # delete the logo if the button was pressed and exit
         if 'delete_logo' in self.form_result:
@@ -735,6 +718,17 @@ class InstanceController(BaseController):
     def settings_advanced(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+
+        query_params = MultiDict([
+            ('event_filter', 't_proposal_create'),
+            ('event_filter', 't_page_create'),
+            ('event_filter', 't_comment_create'),
+        ])
+        embed_url = h.base_url('/event/carousel.overlay',
+                               query_params=query_params, absolute=True)
+        embed_code = ('<iframe src="%s" frameborder="0" width="320"'
+                      ' height="320"></iframe>' % embed_url)
+
         defaults = {
             '_method': 'PUT',
             'editable_comments_default':
@@ -752,6 +746,7 @@ class InstanceController(BaseController):
             'thumbnailbadges_height':
             c.page_instance.thumbnailbadges_height,
             'is_authenticated': c.page_instance.is_authenticated,
+            'embed_code': embed_code,
             '_tok': csrf.token_id()}
         if votedetail.is_enabled():
             defaults['votedetail_badges'] = [

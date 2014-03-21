@@ -16,7 +16,7 @@ ${h.category.breadcrumbs(None)|n}
     <h2>${_(c.heading_title)|n}</h2>
     %else:
     <h2>${_(u"Categories")}
-    %if can.instance.any_admin():
+    %if can.badge.manage_instance():
     <a class="button_small edit"
         href="${h.base_url('/badge/category')}"
         rel="#overlay-form">${_(u"Edit")}</a>

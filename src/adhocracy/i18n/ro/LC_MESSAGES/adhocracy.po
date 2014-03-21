@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-18 23:52+0100\n"
-"PO-Revision-Date: 2014-03-18 22:52+0000\n"
+"POT-Creation-Date: 2014-03-21 23:05+0100\n"
+"PO-Revision-Date: 2014-03-21 22:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -163,6 +163,9 @@ msgstr ""
 msgid "Please select at least one preset"
 msgstr ""
 
+msgid "The requested page was not found"
+msgstr "Pagina nu a fost gasita."
+
 msgid "Delegations are enabled."
 msgstr "Delegarile sunt permise."
 
@@ -251,7 +254,9 @@ msgstr "Date introduse nevalide."
 msgid "No OpenID given!"
 msgstr "Nu a fost furnizat OpenID!"
 
-msgid "Connection not allowed, OpenID has been disabled on this installation"
+msgid ""
+"Connection not allowed, single sign-on has been disabled on this "
+"installation"
 msgstr ""
 
 msgid "No OpenID was entered."
@@ -281,8 +286,8 @@ msgid "You have already claimed this OpenID."
 msgstr "Ai cerut deja acest OpenID."
 
 #, python-format
-msgid "OpenID %s already belongs to %s."
-msgstr "OpenID %s apartine lui %s."
+msgid "OpenID %s is already connected to an account."
+msgstr ""
 
 msgid "Successfully added OpenID to user account."
 msgstr "A fost adaugat OpenID-ul pentru acest cont"
@@ -459,9 +464,6 @@ msgstr "Pagina modificata"
 
 msgid "Cannot find static page to edit"
 msgstr "Nu a fost gasita pagina statica care trebuie modifcata"
-
-msgid "The requested page was not found"
-msgstr "Pagina nu a fost gasita."
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
@@ -715,6 +717,10 @@ msgstr ""
 msgid "Logging in with %s is not allowed on this installation."
 msgstr ""
 
+#, python-format
+msgid "This %(provider)s account is already connected."
+msgstr ""
+
 msgid "Error"
 msgstr ""
 
@@ -724,6 +730,15 @@ msgstr ""
 
 #, python-format
 msgid "Your %s account is already connected."
+msgstr ""
+
+msgid ""
+"You are trying to disconnect from a provider you are disconnected from "
+"already."
+msgstr ""
+
+#, python-format
+msgid "You successfully disconnected from %(provider)s."
 msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
@@ -1957,6 +1972,18 @@ msgstr ""
 msgid "Shortlink"
 msgstr "Link web scurt:"
 
+msgid ""
+"Alternatively you can log in using various external accounts. Please be "
+"aware that the login via external providers may cause security and privacy "
+"related risks."
+msgstr ""
+
+msgid "I understand the risk"
+msgstr ""
+
+msgid "Login with Facebook"
+msgstr ""
+
 msgid "Report abuse"
 msgstr "Raporteaza abuz"
 
@@ -2351,6 +2378,12 @@ msgstr ""
 msgid "Global badges"
 msgstr ""
 
+msgid "invisible"
+msgstr ""
+
+msgid "No Badges"
+msgstr ""
+
 msgid "View and discuss"
 msgstr ""
 
@@ -2708,22 +2741,6 @@ msgstr ""
 msgid "display all events"
 msgstr ""
 
-msgid "Latest Events"
-msgstr "Cele mai noi Evenimente"
-
-msgid "This is a record of all recent actions within this instance."
-msgstr "Lista celor mai recente evenimente in aceasta comunitate."
-
-msgid "You can also have notifications sent to you."
-msgstr "Poti avea si notificare trimise catre tine."
-
-msgid "Info..."
-msgstr "Info..."
-
-#, python-format
-msgid "Create a proposal to start debating in %(instance)s."
-msgstr "Creeaza o propunere pentru a incepe dezbaterea in comunitatea %(instance)s."
-
 msgid "Delete instance"
 msgstr "Sterge comunitatea"
 
@@ -2759,7 +2776,7 @@ msgstr "Modifica titlurile lui %s"
 msgid "Edit Badges"
 msgstr "Modifica Titlul"
 
-msgid "No Badges"
+msgid "No badges"
 msgstr ""
 
 msgid "Create new instance"
@@ -2876,6 +2893,15 @@ msgid "Break down Voting Result by Badge"
 msgstr ""
 
 msgid "Display how the users with the selected badges feel about the issue."
+msgstr ""
+
+msgid "Embed latest events"
+msgstr ""
+
+#, python-format
+msgid ""
+"To display the latest events from your %(site_name)s instance you can add "
+"this embed code to your website."
 msgstr ""
 
 msgid "Extra CSS"
@@ -3284,24 +3310,7 @@ msgstr ""
 msgid "On %s, %s wrote:"
 msgstr ""
 
-msgid "Add an OpenID"
-msgstr "Adauga un OpenID"
-
-msgid "Add OpenID"
-msgstr "Adauga OpenID"
-
-msgid ""
-"Enter the URL of your OpenID to connect the ID to your account. This will "
-"allow you to login using this OpenID in the future."
-msgstr "Introdu URL-ul OpenID-ului tau pentru a conecta ID-ul la contul tau. Aceasta iti va permite sa te loghezi cu OpenID-ul in viitor."
-
-msgid "Sign In"
-msgstr ""
-
-msgid "Alternative"
-msgstr "Alternativa"
-
-msgid "Login with Facebook"
+msgid "Add a single sign-on service"
 msgstr ""
 
 msgid "Sign in"
@@ -3309,6 +3318,10 @@ msgstr "Logheaza-te"
 
 msgid "Continue"
 msgstr "Continua"
+
+msgid ""
+"Single sign-on services allow you to use a single login on many web sites."
+msgstr ""
 
 msgid "Select a user name"
 msgstr "Selecteaza un nume de utilizator"
@@ -3655,6 +3668,9 @@ msgid ""
 " a short delay before the tally updates."
 msgstr "Rezultatele votului sunt actualizate cu o mica pauza. Dupa ce ai votat, asteapta-te la o pauza scurta a actualizarii calculelor."
 
+msgid "Latest Events"
+msgstr "Cele mai noi Evenimente"
+
 msgid "This is a record of all recent actions concerning this proposal."
 msgstr ""
 
@@ -3670,13 +3686,10 @@ msgstr "Urmeaza sa pornesti votul. Cand faci asta, nu vei mai putea sa <strong>m
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Confirmi stergerea propunerii?"
 
-msgid "Status Badge"
+msgid "Status badges"
 msgstr ""
 
-msgid "No Status Badge"
-msgstr ""
-
-msgid "No Status Badges"
+msgid "No status badges"
 msgstr ""
 
 #, python-format
@@ -3740,6 +3753,15 @@ msgstr ""
 
 msgid "The proposal would..."
 msgstr "Propunerea urmareste..."
+
+msgid "Status Badge"
+msgstr ""
+
+msgid "No Status Badge"
+msgstr ""
+
+msgid "No Status Badges"
+msgstr ""
 
 msgid "Collaboration and Notification"
 msgstr "Setari pentru colaborare si notificari"
@@ -4183,10 +4205,11 @@ msgstr "Modifica Titlul pentru %s"
 msgid "Badges for %s"
 msgstr "Titlul pentru %s"
 
-msgid "Example:"
-msgstr "Exemplu:"
+msgid "Global Badges"
+msgstr ""
 
-msgid "Badges in instance"
+#, python-format
+msgid "Badges in instance %s"
 msgstr ""
 
 msgid "Topic"
@@ -4376,17 +4399,20 @@ msgstr ""
 msgid "Select a new password or leave the fields blank to keep your old one."
 msgstr "Introduceti o parola noua sau lasati campurile goale pentru a pastra parola existenta."
 
-msgid "OpenID"
-msgstr "OpenID"
+msgid "Single sign-on services"
+msgstr ""
 
-msgid "OpenID allows you to use a single login on many web sites."
-msgstr "OpenID va permite sa utilizati acelasi utilizator pentru a va loga pe mai multe site-uri web."
+msgid "There are no associated single sign-on services."
+msgstr ""
 
-msgid "There are no associated OpenIDs."
-msgstr "Nu exista asociere la nici un cont OpenID."
+msgid "OpenID:"
+msgstr ""
 
 msgid "remove"
 msgstr "elimina"
+
+msgid "Connect to single sign-on service"
+msgstr ""
 
 msgid "Notification settings"
 msgstr ""
@@ -4394,8 +4420,11 @@ msgstr ""
 msgid "Select how you would like to be notified of events."
 msgstr "Alege adresa pe care vrei sa primesti notificarile."
 
-msgid "Help."
-msgstr "Ajutor."
+msgid ""
+"Please select on which occasions you would like to receive an email. The "
+"options further down this list will allow you to receive email notifications"
+" for all the above points too."
+msgstr ""
 
 msgid "No notifications via email."
 msgstr ""

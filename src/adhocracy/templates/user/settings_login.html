@@ -31,41 +31,38 @@ ${tiles.user.header(c.page_user)}
     %endif
 
 
-    %if 'openid' in h.allowed_login_types():
+    %if 'openid' in h.allowed_login_types() or 'facebook' in h.allowed_login_types():
     <fieldset>
-      <legend><img src="/img/icons/openid_20.png" class="cd" /> ${_("OpenID")}</legend>
-      <p class="info">${_("OpenID allows you to use a single login on many web sites.")}</p>
-      %if not len(c.page_user.openids):
+      <legend>${_("Single sign-on services")}</legend>
+      <p class="info">${_("Single sign-on services allow you to use a single login on many web sites.")}</p>
+      %if not len(c.page_user.openids) and not h.velruse.is_user_connected_to_facebook():
         <div class="infobox">
-            ${_("There are no associated OpenIDs.")}
+            ${_("There are no associated single sign-on services.")}
         </div>
       %else:
         <div class="input_wrapper">
           <table border="0" width="100%">
               %for openid in c.page_user.openids:
               <tr>
-                  <td><code>${openid.identifier}</code></td>
-                  <td><a href="/openid/revoke?id=${openid.id}&amp;${h.url_token()}">${_("remove")}</a></td>
+                  <td>${_("OpenID:")} <code>${openid.identifier}</code></td>
+                  <td><a href="${h.base_url('/openid/revoke', query_params={'id': openid.id})}&amp;${h.url_token()}">${_("remove")}</a></td>
               </tr>
               %endfor
+              <tr>
+                  %if 'facebook' in h.allowed_login_types() and h.velruse.is_user_connected_to_facebook():
+                  <td>Facebook</td>
+                  <td><a href="${h.base_url('/velruse/revoke', query_params={'id': h.velruse.facebook_account().id})}&amp;${h.url_token()}">${_("remove")}</a></td>
+                  %endif
+              </tr>
           </table>
         </div>
       %endif
-      <a class="add" href="/openid/connect">${_("Add OpenID")}</a>
+      <a class="add" href="/openid/connect">${_("Connect to single sign-on service")}</a>
     </fieldset>
     %endif
 
     ${components.savebox(cancel_url=None)}
 
 </form>
-
-%if 'facebook' in h.allowed_login_types() and not h.velruse.is_user_connected_to_facebook():
-  <form id="facebook_connect_form" action="${h.velruse_url('/login/facebook')}" method="post">
-    Connect with
-    <a href="javascript:{}" onclick="document.getElementById('facebook_connect_form').submit(); return false;">
-      <img src="/velruse/FB-f-Logo__blue_50.png" style="vertical-align: middle;margin-left: 3px;"></img>
-    </a>
-  </form>
-%endif
 
 </%block>

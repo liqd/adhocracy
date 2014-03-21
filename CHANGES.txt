@@ -1,6 +1,32 @@
 Adhocracy Changelog
 ===================
 
+2.2.1 (2014-03-21)
+------------------
+
+Improvements:
+
+- Moderators can change the instance description and some other things by
+  default.
+
+- Instance overview now displays a button to the form where it can be edited
+  for anyone with sufficient authorization.
+
+- Instance Settings now contain an embed code for the event carousel.
+
+- Several improvements concerning Facebook Login. (#813, #810)
+
+- Compass and SASS are updated to the latest versions. (#812)
+
+- Instance overview can be replaced by static pages. (#814)
+
+Bug fixes:
+
+- Fix URL query parameter encoding. (#808)
+
+- Fix avatar for usernames with underscores. (#811)
+
+
 2.2.0 (2014-03-19)
 ------------------
 

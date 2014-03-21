@@ -1,17 +1,12 @@
 <%inherit file="/template.html" />
-<%def name="title()">${_("Add an OpenID")}</%def>
+<%namespace name="sso" file="/sso.html"/>
+<%def name="title()">${_("Add a single sign-on service")}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.instance.breadcrumbs(c.instance)|n} ${_("Add OpenID")}
+    ${h.instance.breadcrumbs(c.instance)|n} ${_("Add a single sign-on service")}
 </%def>
 
 <%block name="headline">
-%if 'openid' in h.allowed_login_types():
-    <h1>${_("Add an OpenID")}</h1>
-        <div class="infobox">
-            ${_("Enter the URL of your OpenID to connect the ID to your "
-                + "account. This will allow you to login using this OpenID in the future.")}
-        </div>
-        <%include file="/openid/form.html"/>
-%endif
+<h1>${_("Add a single sign-on service")}</h1>
+<%sso:form scenario="connect" />
 </%block>
