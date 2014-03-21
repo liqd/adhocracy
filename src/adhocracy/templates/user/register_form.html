@@ -1,3 +1,5 @@
+<%namespace name="sso" file="/sso.html"/>
+
 <div class="form_wrapper">
   <form name="create_user" method="POST" action="${h.get_redirect_url(u'user')}">
     ${h.field_token()|n}
@@ -67,4 +69,15 @@
   <script>
       $('input[name=user_name]').focus();
   </script>
+
+  %if 'openid' in login_types:
+  <% c.openid_scenario = "login" %>
+  <%include file="/openid/form.html"/>
+  %elif 'facebook' in login_types:
+  <form id="facebook_login_form" action="${h.velruse_url('/login/facebook')}" method="post">
+    <input type="image" src="/velruse/active_404.png" value="${_('Login with Facebook')}" />
+  </form>
+  %endif
+
+  <%sso:form scenario="register" />
 </div>
