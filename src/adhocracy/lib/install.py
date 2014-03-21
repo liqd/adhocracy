@@ -100,6 +100,7 @@ def setup_entities(config, initial_setup):
         u'global.organization': [organization],
         u'global.staticpage': [admins],
         u'instance.admin': [supervisor],
+        u'instance.manage': [moderator],
         u'instance.create': [admins],
         u'instance.delete': [admins],
         u'instance.index': [anonymous],

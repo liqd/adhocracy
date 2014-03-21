@@ -20,9 +20,16 @@ def create(check):
     check.perm('instance.create')
 
 
+def edit_overview(check, i):
+    check.readonly()
+    check.perm('instance.manage')
+    show(check, i)
+
+
 def edit(check, i):
     check.readonly()
     check.perm('instance.admin')
+    edit_overview(check, i)
     show(check, i)
 
 admin = edit

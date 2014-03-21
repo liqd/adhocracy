@@ -483,7 +483,7 @@ class InstanceController(BaseController):
     @RequireInstance
     def settings_overview(self, id, format=u'html'):
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
+        require.instance.edit_overview(c.page_instance)
         form_content = self._settings_overview_form(id)
         return htmlfill.render(
             form_content,
@@ -501,7 +501,7 @@ class InstanceController(BaseController):
               post_only=True, auto_error_formatter=error_formatter)
     def settings_overview_update(self, id):
         c.page_instance = self._get_current_instance(id)
-        require.instance.edit(c.page_instance)
+        require.instance.edit_overview(c.page_instance)
 
         # delete the logo if the button was pressed and exit
         if 'delete_logo' in self.form_result:
