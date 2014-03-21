@@ -24,6 +24,7 @@ ${tiles.user.header(c.page_user)}
     %if c.page_user.email is not None:
     %if c.page_user.is_email_activated():
     <fieldset>
+        <p class="help-block">${_('Please select on which occasions you would like to receive an email. The options further down this list will allow you to receive email notifications for all the above points too.')}</p>
         <ul class="nobullet">
             <li><label>
                 <input type="radio" name="email_priority" value="6"
