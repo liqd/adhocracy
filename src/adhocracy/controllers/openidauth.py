@@ -241,7 +241,7 @@ class OpenidauthController(BaseController):
                 else:
                     return self._failure(
                         info.identity_url,
-                        _("OpenID %s already belongs to %s.")
+                        _("OpenID %s is already connected to an account.")
                         % (info.identity_url, oid.user.name))
             else:
                 self._login(oid.user)
