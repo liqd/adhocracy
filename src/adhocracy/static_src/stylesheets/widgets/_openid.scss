@@ -37,11 +37,13 @@
     cursor: pointer;
 }
 
-.openid_all {
+.sso_form {
     position: relative;
+    min-height: 12em;
+    background-color: $bg1;
 }
 
-.openid_btns_inhibitor {
+.sso_form_inhibitor {
     position: absolute;
     width: 100%;
     height: 100%;

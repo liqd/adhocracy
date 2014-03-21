@@ -1,0 +1,19 @@
+<%def name="form(scenario='login')">
+<% login_types = h.allowed_login_types() %>
+
+<div class="sso_form">
+    <div class="sso_form_inhibitor">
+        <p>${_(u'Alternatively you can log in using various external accounts. Please be aware that the login via external providers may cause security and privacy related risks.')}</p>
+        <a class="button highlight" href="#" onclick="$('.sso_form_inhibitor').hide(); return false;">${_('I understand the risk')}</a>
+    </div>
+
+    %if 'openid' in login_types:
+    <% c.openid_scenario = scenario %>
+    <%include file="/openid/form.html" />
+    %elif 'facebook' in login_types:
+    <form id="facebook_login_form" action="${h.velruse_url('/login/facebook')}" method="post">
+        <input type="image" src="/velruse/active_404.png" value="${_('Login with Facebook')}" />
+    </form>
+    %endif
+</div>
+</%def>
