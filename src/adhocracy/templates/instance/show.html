@@ -10,6 +10,12 @@
 
 <%block name="main_content">
 
+<div class="top_actions">
+    %if can.instance.edit(c.page_instance):
+    <a class="button" href="${h.entity_url(c.page_instance, member='/settings/overview')}">${_('edit')}</a>
+    %endif
+</div>
+
 <div class="instance_description">
     ${c.tile.description|n}
 </div>
