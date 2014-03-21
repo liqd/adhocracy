@@ -1,6 +1,8 @@
 from collections import OrderedDict
 import logging
 
+from webob.multidict import MultiDict
+
 import formencode
 from formencode import htmlfill
 from formencode import validators
@@ -706,6 +708,17 @@ class InstanceController(BaseController):
     def settings_advanced(self, id):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
+
+        query_params = MultiDict([
+            ('event_filter', 't_proposal_create'),
+            ('event_filter', 't_page_create'),
+            ('event_filter', 't_comment_create'),
+        ])
+        embed_url = h.base_url('/event/carousel.overlay',
+                               query_params=query_params, absolute=True)
+        embed_code = ('<iframe src="%s" frameborder="0" width="320"'
+                      ' height="320"></iframe>' % embed_url)
+
         defaults = {
             '_method': 'PUT',
             'editable_comments_default':
@@ -723,6 +736,7 @@ class InstanceController(BaseController):
             'thumbnailbadges_height':
             c.page_instance.thumbnailbadges_height,
             'is_authenticated': c.page_instance.is_authenticated,
+            'embed_code': embed_code,
             '_tok': csrf.token_id()}
         if votedetail.is_enabled():
             defaults['votedetail_badges'] = [
