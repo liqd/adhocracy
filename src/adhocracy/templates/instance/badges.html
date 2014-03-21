@@ -32,7 +32,7 @@
     <p>${_(u"No Badges")}</p>
     %endif
 
-    ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
+    ${components.savebox(h.entity_url(c.page_instance))}
 </form>
 
 </%block>

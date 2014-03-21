@@ -1,10 +1,10 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="badge_tiles" file="/badge/tiles.html"/>
-<%def name="title()">${_("Edit Badges for %s") % c.page_user.name}</%def>
+<%def name="title()">${_("Edit Badges for %s") % c.page_user.name|n}</%def>
 
 <%def name="breadcrumbs()">
-    ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Edit Badges")}
+${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Edit Badges")}
 </%def>
 
 
