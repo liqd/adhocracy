@@ -63,6 +63,10 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
                     hide_discussion=c.instance.use_norms and len(c.proposal.selections))}
         </div>
 
+        %if c.image_src and c.allow_mediafiles:
+        <img src="${c.image_src}/middle" />
+        %endif
+
         ${components.social_share_buttons(c.proposal.title)}
 
         <div class="meta">
@@ -100,7 +104,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
         ## :class:`adhocracy.model.Page`
         ## proposal descriptions have no other variant than head.
         ${tiles.comment.list(c.proposal.description,
-                             variant=c.proposal.description.head.variant)}
+                             variant=c.proposal.description.head.variant, allow_mediafiles=c.allow_mediafiles)}
     </div>
 </section>
 

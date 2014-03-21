@@ -13,8 +13,8 @@
 
 <%block name="main_content">
 <div class="form_wrapper">
-    <form name="create_proposal" class="inplace" method="POST"
-        action="${h.entity_url(c.page, member='amendment') if c.amendment else h.base_url('/proposal')}">
+    <form name="create_proposal" class="inplace" method="POST" accept-charset="utf-8" enctype="multipart/form-data"
+          action="${h.entity_url(c.page, member='amendment') if c.amendment else h.base_url('/proposal')}">
         ${h.field_token()|n}
 
         %if c.amendment:
@@ -137,6 +137,13 @@
                 <input type="text" name="tags" id="tags" class="long" placeholder="${_('Tags')}" data-instance-baseurl="${h.base_url(append_slash=True)}" />
                 <p class="info">${_("Multiple tags can be separated by commas.")}</p>
             </div>
+        </fieldset>
+        %endif
+
+        %if c.allow_mediafiles:
+        <fieldset>
+            <label for="image">${_('Upload image. The image is displayed below the proposal description.')}</label>
+            <input id="image" name="image" type="file" accept="image/*">
         </fieldset>
         %endif
 
