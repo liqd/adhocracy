@@ -190,7 +190,7 @@ class VelruseController(BaseController):
 
         h.flash(message, 'error')
         if c.user:
-            return redirect(h.entity_url(c.user, member='edit'))
+            return redirect(h.entity_url(c.user, member='settings/login'))
         else:
             redirect("/login")
 
@@ -277,4 +277,4 @@ class VelruseController(BaseController):
                     % {'provider': v.domain},
                     'success')
 
-            redirect(h.entity_url(c.user, member='edit'))
+            redirect(h.entity_url(c.user, member='settings/login'))

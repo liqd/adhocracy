@@ -118,7 +118,7 @@ class OpenidauthController(BaseController):
         log.info("OpenID: %s - Error: %s" % (openid, message))
         if c.user:
             h.flash(message, 'error')
-            return redirect(h.entity_url(c.user, member='edit'))
+            return redirect(h.entity_url(c.user, member='settings/login'))
         else:
             loginhtml = render("/user/login_tile.html")
             form = formencode.htmlfill.render(loginhtml,
@@ -194,7 +194,7 @@ class OpenidauthController(BaseController):
         h.flash(_("Successfully removed OpenID from account"), 'success')
         log.info("User %s revoked OpenID '%s'" % (
             c.user.user_name, id))
-        redirect(h.entity_url(c.user, member='edit'))
+        redirect(h.entity_url(c.user, member='settings/login'))
 
     def verify(self):
         if not openid_login_allowed():
@@ -254,7 +254,7 @@ class OpenidauthController(BaseController):
                 model.meta.Session.commit()
                 h.flash(_("Successfully added OpenID to user account."),
                         'success')
-                redirect(h.entity_url(c.user, member='edit'))
+                redirect(h.entity_url(c.user, member='settings/login'))
             else:
 
                 if not h.allow_user_registration():
