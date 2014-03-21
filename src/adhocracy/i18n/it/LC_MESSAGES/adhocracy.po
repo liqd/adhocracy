@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-18 23:52+0100\n"
-"PO-Revision-Date: 2014-03-18 22:52+0000\n"
+"POT-Creation-Date: 2014-03-21 23:05+0100\n"
+"PO-Revision-Date: 2014-03-21 22:05+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -162,6 +162,9 @@ msgstr ""
 msgid "Please select at least one preset"
 msgstr ""
 
+msgid "The requested page was not found"
+msgstr "La pagina richiesta non è stata trovata"
+
 msgid "Delegations are enabled."
 msgstr "Le delegazioni sono attive"
 
@@ -250,8 +253,10 @@ msgstr "Input non valido."
 msgid "No OpenID given!"
 msgstr "Non è stato digitato nessun OpenID!"
 
-msgid "Connection not allowed, OpenID has been disabled on this installation"
-msgstr "Connessione non valida, l'OpenID é stato disattivato su questa installazione."
+msgid ""
+"Connection not allowed, single sign-on has been disabled on this "
+"installation"
+msgstr ""
 
 msgid "No OpenID was entered."
 msgstr "Non è stato inserito alcun OpenID."
@@ -280,8 +285,8 @@ msgid "You have already claimed this OpenID."
 msgstr "Hai già richiesto questo OpenID."
 
 #, python-format
-msgid "OpenID %s already belongs to %s."
-msgstr "L'OpenID %s appartiene già a %s."
+msgid "OpenID %s is already connected to an account."
+msgstr ""
 
 msgid "Successfully added OpenID to user account."
 msgstr "OpenID aggiunto all'account utente con successo"
@@ -458,9 +463,6 @@ msgstr "Pagina aggiornata"
 
 msgid "Cannot find static page to edit"
 msgstr "Impossibile trovare la pagina statica da modificare"
-
-msgid "The requested page was not found"
-msgstr "La pagina richiesta non è stata trovata"
 
 #, python-format
 msgid "Tag \"%s\" has been removed from %s \"%s\"."
@@ -714,6 +716,10 @@ msgstr ""
 msgid "Logging in with %s is not allowed on this installation."
 msgstr ""
 
+#, python-format
+msgid "This %(provider)s account is already connected."
+msgstr ""
+
 msgid "Error"
 msgstr ""
 
@@ -723,6 +729,15 @@ msgstr ""
 
 #, python-format
 msgid "Your %s account is already connected."
+msgstr ""
+
+msgid ""
+"You are trying to disconnect from a provider you are disconnected from "
+"already."
+msgstr ""
+
+#, python-format
+msgid "You successfully disconnected from %(provider)s."
 msgstr ""
 
 msgid "A watchlist entry for this entity already exists."
@@ -1956,6 +1971,18 @@ msgstr "Voti del gruppo utenti"
 msgid "Shortlink"
 msgstr "Breve collegamento"
 
+msgid ""
+"Alternatively you can log in using various external accounts. Please be "
+"aware that the login via external providers may cause security and privacy "
+"related risks."
+msgstr ""
+
+msgid "I understand the risk"
+msgstr ""
+
+msgid "Login with Facebook"
+msgstr ""
+
 msgid "Report abuse"
 msgstr "Report di abuso"
 
@@ -2350,6 +2377,12 @@ msgstr "Principale"
 msgid "Global badges"
 msgstr "Badge generali"
 
+msgid "invisible"
+msgstr ""
+
+msgid "No Badges"
+msgstr "Nessun badge\n "
+
 msgid "View and discuss"
 msgstr ""
 
@@ -2706,22 +2739,6 @@ msgstr ""
 msgid "display all events"
 msgstr ""
 
-msgid "Latest Events"
-msgstr "Ultimi eventi"
-
-msgid "This is a record of all recent actions within this instance."
-msgstr "Questo è un sommario di tutte le azioni recenti che hanno avuto luogo in questo gruppo."
-
-msgid "You can also have notifications sent to you."
-msgstr "Hai la possibilità di ricevere delle notifiche."
-
-msgid "Info..."
-msgstr "Informazioni..."
-
-#, python-format
-msgid "Create a proposal to start debating in %(instance)s."
-msgstr "Suggerisci una proposta per poter iniziare un dibattito nel %(instance)s."
-
 msgid "Delete instance"
 msgstr "Elimina gruppo"
 
@@ -2757,8 +2774,8 @@ msgstr "Modifica badges per %s"
 msgid "Edit Badges"
 msgstr "modifica Badges"
 
-msgid "No Badges"
-msgstr "Nessun badge\n "
+msgid "No badges"
+msgstr ""
 
 msgid "Create new instance"
 msgstr "Crea un nuovo gruppo"
@@ -2875,6 +2892,15 @@ msgstr "Frazionare il risultato della votazione in base al Badge"
 
 msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Visualizza l'opinione degli utenti che sono in possesso dei badges prescelti riguardo alla tematica."
+
+msgid "Embed latest events"
+msgstr ""
+
+#, python-format
+msgid ""
+"To display the latest events from your %(site_name)s instance you can add "
+"this embed code to your website."
+msgstr ""
 
 msgid "Extra CSS"
 msgstr "Extra CSS"
@@ -3280,24 +3306,7 @@ msgstr "con l'astensione da"
 msgid "On %s, %s wrote:"
 msgstr "Su %s, %s ha scritto:"
 
-msgid "Add an OpenID"
-msgstr "Aggiungi un OpenID"
-
-msgid "Add OpenID"
-msgstr "Aggiungi OpenID"
-
-msgid ""
-"Enter the URL of your OpenID to connect the ID to your account. This will "
-"allow you to login using this OpenID in the future."
-msgstr "Inserisci l'indirizzo del tuo account OpenID. Questo ti permetterá di connetterti in futuro utilizzando questo OpenID."
-
-msgid "Sign In"
-msgstr "Registrati"
-
-msgid "Alternative"
-msgstr "Alternativa"
-
-msgid "Login with Facebook"
+msgid "Add a single sign-on service"
 msgstr ""
 
 msgid "Sign in"
@@ -3305,6 +3314,10 @@ msgstr "Accedi"
 
 msgid "Continue"
 msgstr "Avanti"
+
+msgid ""
+"Single sign-on services allow you to use a single login on many web sites."
+msgstr ""
 
 msgid "Select a user name"
 msgstr "Seleziona un nome utente"
@@ -3648,6 +3661,9 @@ msgid ""
 " a short delay before the tally updates."
 msgstr "I tuoi risultati verranno aggiornati a breve. "
 
+msgid "Latest Events"
+msgstr "Ultimi eventi"
+
 msgid "This is a record of all recent actions concerning this proposal."
 msgstr ""
 
@@ -3663,13 +3679,10 @@ msgstr "Stai per esprimere il tuo voto. Una volta fatto, perderai la possibilit�
 msgid "Are you sure you want to delete this proposal?"
 msgstr "Sei sicuro di voler eliminare questa proposta?"
 
-msgid "Status Badge"
+msgid "Status badges"
 msgstr ""
 
-msgid "No Status Badge"
-msgstr ""
-
-msgid "No Status Badges"
+msgid "No status badges"
 msgstr ""
 
 #, python-format
@@ -3733,6 +3746,15 @@ msgstr "La correzione è..."
 
 msgid "The proposal would..."
 msgstr "La proposta intende..."
+
+msgid "Status Badge"
+msgstr ""
+
+msgid "No Status Badge"
+msgstr ""
+
+msgid "No Status Badges"
+msgstr ""
 
 msgid "Collaboration and Notification"
 msgstr "Collaborazione e Informazione"
@@ -4176,11 +4198,12 @@ msgstr "Elabora Badges per %s"
 msgid "Badges for %s"
 msgstr "Badges per %s"
 
-msgid "Example:"
-msgstr "Esempio:"
+msgid "Global Badges"
+msgstr ""
 
-msgid "Badges in instance"
-msgstr "Badge nelle istanze"
+#, python-format
+msgid "Badges in instance %s"
+msgstr ""
 
 msgid "Topic"
 msgstr "Argomento"
@@ -4369,17 +4392,20 @@ msgstr "Impostazioni d'accesso"
 msgid "Select a new password or leave the fields blank to keep your old one."
 msgstr "Seleziona una nuova password o lascia gli spazi bianchi per mantenere la tua vecchia password."
 
-msgid "OpenID"
-msgstr "OpenID"
+msgid "Single sign-on services"
+msgstr ""
 
-msgid "OpenID allows you to use a single login on many web sites."
-msgstr "OpenID ti permette di utilizzare un'unica chiave d'accesso per molti altri siti web."
+msgid "There are no associated single sign-on services."
+msgstr ""
 
-msgid "There are no associated OpenIDs."
-msgstr "Non esistono OpenID associati."
+msgid "OpenID:"
+msgstr ""
 
 msgid "remove"
 msgstr "elimina"
+
+msgid "Connect to single sign-on service"
+msgstr ""
 
 msgid "Notification settings"
 msgstr "Impostazioni notifiche"
@@ -4387,8 +4413,11 @@ msgstr "Impostazioni notifiche"
 msgid "Select how you would like to be notified of events."
 msgstr "Seleziona come ricevere le notifiche degli eventi."
 
-msgid "Help."
-msgstr "Aiuto."
+msgid ""
+"Please select on which occasions you would like to receive an email. The "
+"options further down this list will allow you to receive email notifications"
+" for all the above points too."
+msgstr ""
 
 msgid "No notifications via email."
 msgstr ""
