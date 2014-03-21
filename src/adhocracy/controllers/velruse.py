@@ -252,3 +252,29 @@ class VelruseController(BaseController):
 
             redirect(h.user.post_login_url(adhocracy_user))
             return None
+
+    @RequireInternalRequest()
+    def revoke(self):
+        v_id = request.params.get('id', None)
+
+        if v_id is None:
+            abort(401, "id of velruse account not specified")
+
+        v = Velruse.by_id(v_id)
+        if v is None:
+            self._failure(_("You are trying to disconnect from a provider"
+                            " you are disconnected from already."))
+            return None
+
+        elif not (v.user == c.user or h.has_permission("user.manage")):
+            abort(403, _("You're not authorized to change %s's settings.")
+                  % c.user.id)
+        else:
+            v.delete_forever()
+            model.meta.Session.commit()
+
+            h.flash(_("You successfully disconnected from %(provider)s.")
+                    % {'provider': v.domain},
+                    'success')
+
+            redirect(h.entity_url(c.user, member='edit'))
