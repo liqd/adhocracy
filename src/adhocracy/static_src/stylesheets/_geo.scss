@@ -306,11 +306,6 @@ div.search_result_title {
 }
 
 
-div.marker {
-    float: right;
-}
-
-
 li.content_box { 
     position: relative;
 }
@@ -324,14 +319,16 @@ div.row_body {
 }
 
 /* used in normal listings */
+.proposals_pager .main_row > .marker {
+    width: 40px;
+    vertical-align: middle;
+    text-align: center;
+}
 div.marker img {
   background-image: url('/images/map_markers_pink_a_j.png');
-  position: absolute;
-  right: 5px;
-  top: 15px;
   width: 24px;
   height: 31px;
-  margin: 0 !important;
+  cursor: pointer;
 }
 
   /* !important used as dirty hack */

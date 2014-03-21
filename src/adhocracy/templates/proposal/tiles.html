@@ -39,14 +39,14 @@
             %endif
         </div>
     </div>
+    <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
+         data-id="${proposal.id}">
+        ${tiles.badge.badges(proposal.thumbnails)}
+    </div>
     <div class="marker">
         %if proposal.has_geotag():
             <img class="result_list_marker" id="result_list_marker_${proposal.id}" src="/images/transparent.png" />
         %endif
-    </div>
-    <div id="thumbnailbadges_${proposal.id}" class="thumbnailbadges"
-         data-id="${proposal.id}">
-        ${tiles.badge.badges(proposal.thumbnails)}
     </div>
 </%def>
 
