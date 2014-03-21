@@ -58,3 +58,27 @@ else:
 %endfor
 </%def>
 
+<%def name="select_form(badges, title, none_text, input_name, input_type='checkbox')">
+<fieldset>
+    <legend>${title}</legend>
+
+    %if badges:
+    <ul class="nobullet">
+        %for b in badges:
+        <li>
+            <label>
+                <input type="${input_type}" value="${b.id}"
+                       name="${input_name}" />
+                ${badge(b, force_visible=True)}
+                %if not b.visible:
+                <em>(${_('invisible')})</em>
+                %endif
+            </label>
+        </li>
+        %endfor
+    </ul>
+    %else:
+    <p>${_(u"No Badges")}</p>
+    %endif
+</fieldset>
+</%def>

@@ -23,13 +23,16 @@
             <label>
                 <input type="checkbox" value="${badge.id}"
                        name="badge" />
-                ${badge_tiles.badge(badge)}
+                ${badge_tiles.badge(badge, force_visible=True)}
+                %if not b.visible:
+                <em>(${_('invisible')})</em>
+                %endif
             </label>
         </li>
         %endfor
     </ul>
     %else:
-    <p>${_(u"No Badges")}</p>
+    <p>${_(u"No badges")}</p>
     %endif
 
     ${components.savebox(h.entity_url(c.page_instance))}
