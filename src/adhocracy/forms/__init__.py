@@ -14,6 +14,7 @@ from common import ExistingUserName, VariantName, UnusedTitle,\
 from common import FORBIDDEN_NAMES
 from common import ValidLocale
 from common import ValidDate
+from common import ValidRegion
 from common import MessageableInstances
 from common import ProposalSortOrder
 from common import ProposalMessageNoRecipientGroup

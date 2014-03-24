@@ -135,6 +135,8 @@ class InstanceProcessEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     use_norms = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    region_id = forms.ValidRegion(not_empty=False, if_empty=None,
+                                  if_missing=None)
 
 
 class InstanceMembersEditForm(formencode.Schema):
@@ -606,6 +608,16 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'process')
 
+        c.regions = [{
+            'value': u'',
+            'label': _(u'None'),
+            'selected': c.page_instance.region is None,
+        }]
+        for region in model.meta.Session.query(model.Region).all():
+            c.regions.append({'value': str(region.id),
+                              'label': region.name,
+                              'selected': region == c.page_instance.region})
+
         return render("/instance/settings_process.html")
 
     @RequireInstance
@@ -632,6 +644,7 @@ class InstanceController(BaseController):
                 'show_proposals_navigation':
                 c.page_instance.show_proposals_navigation,
                 'use_maps': c.page_instance.use_maps,
+                'region_id': c.page_instance.region_id,
                 'use_norms': c.page_instance.use_norms,
                 '_tok': csrf.token_id()})
 
@@ -647,7 +660,8 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['allow_propose', 'allow_propose_changes', 'use_norms',
-             'show_norms_navigation', 'show_proposals_navigation', 'use_maps'])
+             'show_norms_navigation', 'show_proposals_navigation', 'use_maps',
+             'region_id'])
 
         return self._settings_result(updated, c.page_instance, 'process')
 
