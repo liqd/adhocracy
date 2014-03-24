@@ -1,3 +1,5 @@
+import os
+
 from fanstatic import Library, Group, Resource
 # external libraries
 from js.jquery import jquery
@@ -7,6 +9,8 @@ from adhocracy.i18n import LOCALES
 
 
 js_i18n = dict()
+
+static_path = os.path.dirname(os.path.abspath(__file__))
 
 
 # --[ twitter bootstrap ]---------------------------------------------------
@@ -74,9 +78,14 @@ moment_library = Library('moment', 'javascripts/moment', version="2.5.1")
 moment = Resource(moment_library, 'moment.js',
                   minified='moment.min.js')
 js_i18n['moment'] = dict()
-for locale in LOCALES:
-    js_i18n['moment'][locale.language] = Resource(
-        moment_library, '%s.js' % locale.language, depends=[moment])
+for _locale in LOCALES:
+    moment_path = os.path.join(static_path, 'javascripts', 'moment')
+    for locale in (str(_locale), _locale.language):
+        filename = locale.lower().replace('_', '-') + '.js'
+        if locale not in js_i18n['moment']:
+            if os.path.exists(os.path.join(moment_path, filename)):
+                js_i18n['moment'][locale] = Resource(
+                    moment_library, filename, depends=[moment])
 
 
 # --[ misc javascripts ]----------------------------------------------------
