@@ -23,6 +23,7 @@ LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('it', 'IT'),
            babel.Locale('nl', 'NL'),
            babel.Locale('pl', 'PL'),
+           babel.Locale('pt', 'BR'),
            babel.Locale('ro', 'RO'),
            babel.Locale('ru', 'RU')]
 
