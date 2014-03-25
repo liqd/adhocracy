@@ -2,11 +2,11 @@
 
 
 <VirtualHost *:80>
-        ServerName ${domains:main}
-        ServerAlias *.${domains:main}
-        DocumentRoot ${buildout:directory}
-        ErrorLog ${paths:apache_log}/${domains:main}-error.log
-        CustomLog ${paths:apache_log}/${domains:main} combined
+        ServerName ${parts.domains.main}
+        ServerAlias *.${parts.domains.main}
+        DocumentRoot ${parts.buildout.directory}
+        ErrorLog ${parts.paths.apache_log}/${parts.domains.main}-error.log
+        CustomLog ${parts.paths.apache_log}/${parts.domains.main} combined
 
         ProxyRequests Off
         ProxyPreserveHost On
@@ -16,8 +16,8 @@
               Allow from all
         </Proxy>
 
-        ProxyPass / http://127.0.0.1:${:port}/ retry=5
-        ProxyPassReverse / http://127.0.0.1:${:port}/
+        ProxyPass / http://127.0.0.1:${parts.ports.main}/ retry=5
+        ProxyPassReverse / http://127.0.0.1:${parts.ports.main}/
 
         <Location />
              Order allow,deny
@@ -26,11 +26,17 @@
 
 </VirtualHost>
 
-<VirtualHost ${domains:velruse}:${ports:velruse_proxy}>
-        ServerName ${domains:velruse}
-        ServerAlias *.${domains:velruse}
-        ErrorLog ${paths:apache_log}/${domains:main}-error.log
-        CustomLog ${paths:apache_log}/${domains:main} combined
+{% python
+velruse_enabled = 'False'
+if parts['domains'].get('velruse', None):
+   velruse_enabled = 'True'
+%}
+{% if velruse_enabled == 'True' %}
+<VirtualHost ${parts.domains.velruse}:${parts.ports.velruse_proxy}>
+        ServerName ${parts.domains.velruse}
+        ServerAlias *.${parts.domains.velruse}
+        ErrorLog ${parts.paths.apache_log}/${parts.domains.main}-error.log
+        CustomLog ${parts.paths.apache_log}/${parts.domains.main} combined
 
         ProxyRequests Off
         ProxyPreserveHost On
@@ -40,8 +46,8 @@
               Allow from all
         </Proxy>
 
-        ProxyPass / http://${velruse:host}:${ports:velruse}/ retry=5
-        ProxyPassReverse / http://${velruse:host}:${ports:velruse}/
+        ProxyPass / http://${parts.velruse.host}:${parts.ports.velruse}/ retry=5
+        ProxyPassReverse / http://${parts.velruse.host}:${parts.ports.velruse}/
 
         <Location />
              Order allow,deny
@@ -49,3 +55,4 @@
         </Location>
 
 </VirtualHost>
+{% end %}
