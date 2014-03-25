@@ -22,7 +22,9 @@
         %endif
     </div>
 
+    %if not c.full_width:
     <div id="col1">
+    %endif
         <h2 class="page_title">${c.static.title}</h2>
 
         %if c.static.description:
@@ -32,6 +34,7 @@
         <div class="doc mainbar">
             ${c.body_html|n}
         </div>
+    %if not c.full_width:
     </div>
 
     <aside id="col3">
@@ -41,5 +44,6 @@
             %endif
         </div>
     </aside>
+    %endif
 </div>
 </%block>
