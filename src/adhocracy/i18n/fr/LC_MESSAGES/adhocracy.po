@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-21 23:05+0100\n"
-"PO-Revision-Date: 2014-03-21 22:05+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-03-25 16:59+0100\n"
+"PO-Revision-Date: 2014-03-25 16:00+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -257,7 +257,7 @@ msgstr "Aucune OpenID renseigné !"
 msgid ""
 "Connection not allowed, single sign-on has been disabled on this "
 "installation"
-msgstr ""
+msgstr "Connexion non-autorisée, l'authentification unique a été désactivée sur cette installation."
 
 msgid "No OpenID was entered."
 msgstr "Aucune OpenID n'a été donné."
@@ -287,7 +287,7 @@ msgstr "Vous utilisez déjà cet OpenID."
 
 #, python-format
 msgid "OpenID %s is already connected to an account."
-msgstr ""
+msgstr "OpendID %s est déjà connecté à votre compte."
 
 msgid "Successfully added OpenID to user account."
 msgstr "OpenID ajoutée avec succès à votre compte d'utilisateur. "
@@ -704,42 +704,42 @@ msgid "The user can now log in via %s"
 msgstr "L'utilisateur peut s'enregistre via %s"
 
 msgid "Internal server error:velruse service not available."
-msgstr ""
+msgstr "Erreur du serveur interne: service velruse n'est pas disponible."
 
 msgid "Login failed: "
-msgstr ""
+msgstr "Échec de connexion:"
 
 msgid ""
 "You have to give Adhocracy permission to connect to your Facebook account."
-msgstr ""
+msgstr "Vous devez donner à Adhocracy la permission de vous connecter à votre compte Facebook."
 
 #, python-format
 msgid "Logging in with %s is not allowed on this installation."
-msgstr ""
+msgstr "Se connecter avec %s n'est pas autorisé sur cette installation. "
+
+msgid "Error"
+msgstr "Erreur"
 
 #, python-format
 msgid "This %(provider)s account is already connected."
-msgstr ""
-
-msgid "Error"
-msgstr ""
+msgstr "Ce %(provider)s  compte est déjà connecté."
 
 #, python-format
 msgid "You successfully connected to %s."
-msgstr ""
+msgstr "Vous vous êtes connectés avec succès à %s."
 
 #, python-format
 msgid "Your %s account is already connected."
-msgstr ""
+msgstr "Votre compte %s est déjà connecté."
 
 msgid ""
 "You are trying to disconnect from a provider you are disconnected from "
 "already."
-msgstr ""
+msgstr "Vous essayer de vous déconnecter d'un serveur duquel vous vous êtes déjà déconnectés. "
 
 #, python-format
 msgid "You successfully disconnected from %(provider)s."
-msgstr ""
+msgstr "Vous vous êtes déconnectés avec succès de %(provider)s."
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Une souscription pour cette entité existe déjà ."
@@ -1016,9 +1016,6 @@ msgstr "Requête invalide. Veuillez recommencer."
 msgid "The method you used is not implemented."
 msgstr "La méthode utilisée n'est pas appliquée."
 
-msgid "Start"
-msgstr "Accueil"
-
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Signaler une violation: %s"
@@ -1063,7 +1060,7 @@ msgid "Dear"
 msgstr "Cher "
 
 msgid "[{site_name}] Message from {sender_name}: {subject}"
-msgstr ""
+msgstr "[{site_name}] Message de {sender_name}: {subject}"
 
 msgid "Oldest"
 msgstr "Plus ancienne"
@@ -1840,6 +1837,9 @@ msgstr "<b>%s</b> commentaires"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
 
+msgid "Start"
+msgstr "Accueil"
+
 msgid "Instances"
 msgstr "Groupes"
 
@@ -1976,13 +1976,13 @@ msgid ""
 "Alternatively you can log in using various external accounts. Please be "
 "aware that the login via external providers may cause security and privacy "
 "related risks."
-msgstr ""
+msgstr "Par ailleurs, vous pouvez vous connecter via différents comptes externes. Toutefois, nous vous prions de prendre conscience des risques potentiels en matière de sécurité et de protection de votre vie privée. "
 
 msgid "I understand the risk"
-msgstr ""
+msgstr "Je comprends le risque"
 
 msgid "Login with Facebook"
-msgstr ""
+msgstr "Login avec Facebook"
 
 msgid "Report abuse"
 msgstr "Signaler une violation"
@@ -2139,14 +2139,14 @@ msgstr "Attribuer des treatment badges"
 msgid "Admin: Import Users"
 msgstr "Admin: Importer des utilisateurs"
 
-msgid "Users CSV"
-msgstr "CSV des utilisateurs"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Coller le contenu d'un CSV file, e.g. exporté d'Excel, avec les 4 colonnes nom d'utilisateur, nom d'affichage, email et badges (les badges sont facultatifs et doivent être mis entre guillemets et séparés par des virgules) "
+
+msgid "Users CSV"
+msgstr "CSV des utilisateurs"
 
 msgid "Email Subject"
 msgstr "Sujet du message"
@@ -2229,12 +2229,12 @@ msgstr "description de catégorie "
 msgid "Badge description"
 msgstr "Description du Badge"
 
-msgid "Long category description"
-msgstr "description détaillée de catégorie"
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Ici, vous pouvez ajouter une description détaillée de votre catégorie avec markdown. "
+
+msgid "Long category description"
+msgstr "description détaillée de catégorie"
 
 msgid "The color that is used to show the category"
 msgstr "La couleur utilisée afin d'indiquer la catégorie "
@@ -2379,7 +2379,7 @@ msgid "Global badges"
 msgstr "étiquettes  globales "
 
 msgid "invisible"
-msgstr ""
+msgstr "invisible"
 
 msgid "No Badges"
 msgstr "Pas d'étiquettes"
@@ -2776,7 +2776,7 @@ msgid "Edit Badges"
 msgstr "Editer les badges"
 
 msgid "No badges"
-msgstr ""
+msgstr "pas de badges"
 
 msgid "Create new instance"
 msgstr "Créer un nouveau groupe"
@@ -2836,14 +2836,22 @@ msgid ""
 "ideas and goals."
 msgstr "Les participants peuvent faire des propositions et les discuter. Cette option permet de passer du dialogue ouvert à la formulation et organisation concrète des idées et des objectifs. "
 
+msgid "Planning Ideas"
+msgstr ""
+
+msgid ""
+"The participants can make, discuss and plan proposals in connection to "
+"concrete dates through a calendar function."
+msgstr ""
+
 msgid "Collaboratively drafting texts"
 msgstr "écrire conjointement des textes "
 
 msgid ""
-" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"Whether you want to draft statutes, strategic papers or a manifesto – with "
 "this option the participants will have the chance to discuss, and "
 "collaboratively work on the texts you introduce to the platform."
-msgstr "Qu'il s'agisse de l'écriture conjointe de statuts, documents stratégiques ou de manifeste, cette option permet aux participants de discuter et de travailler conjointement à l'édition de textes que vous mettez en ligne sur la plateforme. "
+msgstr ""
 
 msgid "Configure"
 msgstr "Configurer "
@@ -2872,7 +2880,7 @@ msgid "Members of your instance only see the catagories you created."
 msgstr "Les membres de votre instance voient uniquement les catégories que vous avez créées. "
 
 msgid "Display page index as tiles"
-msgstr ""
+msgstr "afficher l'index de page en mosaïque."
 
 msgid "Hide this instance"
 msgstr "Cacher ce groupe"
@@ -2895,19 +2903,19 @@ msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Afficher les réactions des utilisateurs portant cette étiquette à propos de cette problématique. "
 
 msgid "Embed latest events"
-msgstr ""
+msgstr "intégrer les derniers événements"
 
 #, python-format
 msgid ""
 "To display the latest events from your %(site_name)s instance you can add "
 "this embed code to your website."
-msgstr ""
-
-msgid "Extra CSS"
-msgstr "Extra CSS"
+msgstr "Afin d'afficher les derniers événements de votre  %(site_name)s instance, vous pouvez ajouter ce code d'insertion sur votre site web."
 
 msgid "You can add css that will be used to style the instance."
 msgstr "Vous pouvez aussi ajouter css en stylisant le groupe."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Status badge image width"
 msgstr "Largeur de l'image du Badge du statut"
@@ -2951,7 +2959,7 @@ msgid ""
 msgstr "Vous pouvez sélectionner un ou plusieurs thèmes afin de personnaliser l'aspect de votre instance."
 
 msgid "default"
-msgstr ""
+msgstr "défaut"
 
 msgid "preview"
 msgstr "aperçu"
@@ -2980,20 +2988,20 @@ msgstr "nom de l'instance "
 msgid "Give your instance a name."
 msgstr "Donner un nom à votre instance. "
 
-msgid "Description of the instance"
-msgstr "description de l'instance "
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Ceci s'affiche sur la page principale de votre instance. Décrivez votre processus de participation. Indiquez clairement les objectifs de ce groupe et la façon dont les membres peuvent y participer pour atteindre ces objectifs. "
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr "description de l'instance "
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Sélectionnez le logo que vous souhaitez comme en-tête de votre groupe. "
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Logo actuel"
@@ -3119,7 +3127,7 @@ msgid "Body"
 msgstr "Corps"
 
 msgid "Use {name} and {salutation} to address the user directly."
-msgstr ""
+msgstr "Utiliser {nom} et {salutation} afin de s'adresser directement à l'utilisateur."
 
 msgid ""
 "Add a note about why the user got this message, and how to unsubscribe."
@@ -3308,7 +3316,7 @@ msgid "On %s, %s wrote:"
 msgstr "%s a écrit sur %s : "
 
 msgid "Add a single sign-on service"
-msgstr ""
+msgstr "Ajouter un service d'authentification unique."
 
 msgid "Sign in"
 msgstr "Identification"
@@ -3318,7 +3326,7 @@ msgstr "continuez"
 
 msgid ""
 "Single sign-on services allow you to use a single login on many web sites."
-msgstr ""
+msgstr "Les services d'authentification unique vous permettent d'utiliser un seul login sur différents sites web."
 
 msgid "Select a user name"
 msgstr "Choisissez un nom d'utilisateur"
@@ -3383,11 +3391,11 @@ msgstr "Nom de la motion"
 msgid "Text"
 msgstr "Texte"
 
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "Résumé. Ceci n'est utilisé que si le contenu de la page s'affiche en mosaïque."
+
 msgid "Abstract"
 msgstr "résumé"
-
-msgid "Page abstract. This is only used if a page is displayed as a tile."
-msgstr ""
 
 msgid "Display subnorms as sections"
 msgstr "Afficher les sous-sujets en tant que sections. "
@@ -3681,10 +3689,10 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "àtes vous sur d'éffacer cette proposition?"
 
 msgid "Status badges"
-msgstr ""
+msgstr "Badge pour statut"
 
 msgid "No status badges"
-msgstr ""
+msgstr "Pas de badge pour statut"
 
 #, python-format
 msgid "Delegations: %s"
@@ -4200,11 +4208,11 @@ msgid "Badges for %s"
 msgstr "Badges pour %s"
 
 msgid "Global Badges"
-msgstr ""
+msgstr "badges globaux "
 
 #, python-format
 msgid "Badges in instance %s"
-msgstr ""
+msgstr "Badges dans l'instance %s"
 
 msgid "Topic"
 msgstr "Contenu"
@@ -4394,19 +4402,19 @@ msgid "Select a new password or leave the fields blank to keep your old one."
 msgstr "Choisissez un nouveau mot de passe ou laissez les domaines en blanc pour conserver l'ancien."
 
 msgid "Single sign-on services"
-msgstr ""
+msgstr "services d'authentification unique"
 
 msgid "There are no associated single sign-on services."
-msgstr ""
+msgstr "Il n'y a pas de services d'authentification unique associé."
 
 msgid "OpenID:"
-msgstr ""
+msgstr "OpenID:"
 
 msgid "remove"
 msgstr "supprimer"
 
 msgid "Connect to single sign-on service"
-msgstr ""
+msgstr "Connecter au service d'authentification unique"
 
 msgid "Notification settings"
 msgstr "Les paramètres de notification "
@@ -4418,28 +4426,28 @@ msgid ""
 "Please select on which occasions you would like to receive an email. The "
 "options further down this list will allow you to receive email notifications"
 " for all the above points too."
-msgstr ""
+msgstr "Vous êtes priés de sélectionner l'occasion à laquelle vous voulez recevoir un email. Les options dans la liste ci-dessous vous permettront de recevoir des notifications par mail pour l'ensemble des éléments énoncés. "
 
 msgid "No notifications via email."
-msgstr ""
+msgstr "pas de notifications par mail."
 
 msgid "Send email for new proposals or norms in my watched instances"
-msgstr ""
+msgstr "envoyer un email pour les nouvelles propositions ou thèmes des instances auxquelles je suis abonné."
 
 msgid "and when a watched object is edited or deleted"
-msgstr ""
+msgstr "et quand un objet suivi est modifié ou supprimé."
 
 msgid "Send email when a watched object is edited or deleted"
-msgstr ""
+msgstr "Envoyer un email lorsqu'un objet est modifié ou supprimé."
 
 msgid "and when a watched object is commented on"
-msgstr ""
+msgstr "et quand un objet suivi est commenté."
 
 msgid "and when a watched object is rated"
-msgstr ""
+msgstr "et quand un objet suivi est évalué."
 
 msgid "and when new members join my watched instances"
-msgstr ""
+msgstr "et quand de nouveaux membres ont rejoint les instances auxquelles je suis abonné. "
 
 msgid "Not confirmed."
 msgstr "Pas encore confirmé."
@@ -4478,13 +4486,13 @@ msgstr "salutation"
 msgid "Select your prefered gender"
 msgstr "sélectionner votre genre favori. "
 
-msgid "Avatar"
-msgstr "Avatar "
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Sélectionner la photo du profil. L'image doit être carrée. Si tel n'est pas le cas, il se peut que les dimensions seront modifiées. "
+
+msgid "Avatar"
+msgstr "Avatar "
 
 msgid "Current avatar"
 msgstr "Avatar actuel "
@@ -4492,13 +4500,13 @@ msgstr "Avatar actuel "
 msgid "Delete current avatar"
 msgstr "Supprimer l'avatar actuel "
 
-msgid "Short biography"
-msgstr "Brève biographie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "L'avantage d'une biographie est de vous faire connaître et de recevoir par ce biais éventuellement des délégations. "
+
+msgid "Short biography"
+msgstr "Brève biographie"
 
 msgid "I am an organisation"
 msgstr "Je suis une organisation "
