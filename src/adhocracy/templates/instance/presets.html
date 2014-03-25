@@ -24,7 +24,9 @@
     %endif
 
     ${forms.checkbox(_(u'Collecting ideas'), u'agenda_setting', help=_(u"The participants can make proposals and discuss these. This option enables everything from an open dialogue to formulating and organizing concrete ideas and goals."), autofocus=True)}
+    ${forms.checkbox(_(u'Locating ideas'), u'locating_ideas', help=_(u"The participants can make, discuss and locate or geo-tag proposals on an interactive map."))}
     ${forms.checkbox(_(u'Collaboratively drafting texts'), u'consultation', help=_(u" Whether you want to draft statutes, strategic papers or a manifesto – with this option the participants will have the chance to discuss, and collaboratively work on the texts you introduce to the platform."))}
+    ${forms.checkbox(_(u'Land-use planning'), u'land_use', help=_(u"Participants can comment on construction and land-use projects and norms by geo-tagging their proposals on an interactive map."))}
 
     <div class="submit">
         <input type="submit" value="${_('Configure') if first_time else _('Reset')}" />
