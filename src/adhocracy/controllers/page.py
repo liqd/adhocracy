@@ -297,7 +297,7 @@ class PageController(BaseController):
         c.variant = request.params.get("variant", c.variant)
         c.proposal = request.params.get("proposal")
         c.formatting = request.params.get("formatting", False)
-        c.sectionpage = request.params.get("sectionpage", False)
+        c.sectionpage = request.params.get("sectionpage", True)
         c.allow_comment = request.params.get("allow_comment", False)
         c.allow_selection = request.params.get("allow_selection", False)
         c.always_show_original = request.params.get("always_show_original",
