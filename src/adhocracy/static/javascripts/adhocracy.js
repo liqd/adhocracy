@@ -75,6 +75,11 @@ var adhocracy = adhocracy || {};
             + ' > ' + tag + ':nth-child(' + (el.index()+1) + ')';
     };
 
+    adhocracy.base_url = function(path) {
+        var url = new Uri($('body').data('baseurl') + '/' + path);
+        return url.toString();
+    }
+
     adhocracy.ajax_submit = function(form, success) {
         // submits using ajax
         // will magically insert error messages
