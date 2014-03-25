@@ -136,7 +136,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.fetchSingleDelegateable = function (objectType, delegateableId, edit, callback) {
         if (delegateableId) {
-            var url = '/' + objectType + '/' + delegateableId + '/get_geotag';
+            var url = adhocracy.baseUrl(objectType + '/' + delegateableId + '/get_geotag');
             $.ajax({
                 url: url,
                 success: function (data) {
@@ -287,7 +287,7 @@ var adhocracy = adhocracy || {};
             return false;
         };
 
-        var url = '/instance/' + instanceKey + '/get_proposal_geotags';
+        var url = adhocracy.baseUrl('instance/' + instanceKey + '/get_proposal_geotags');
 
         var styleMap = new OpenLayers.StyleMap({
                 'default': new OpenLayers.Style(adhocracy.geo.styleProps, {
@@ -308,7 +308,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.createRegionPagesLayer = function (instanceKey, initialPages, featuresAddedCallback) {
 
-        var url = '/instance/' + instanceKey + '/get_page_geotags';
+        var url = adhocracy.baseUrl('instance/' + instanceKey + '/get_page_geotags');
 
         var layer = adhocracy.geo.createAjaxFeatureLayer('Pages', url,
                                                         adhocracy.geo.pagePolygonStyleMap,
@@ -346,7 +346,7 @@ var adhocracy = adhocracy || {};
         var rules = [rule, new OpenLayers.Rule({ elseFilter: true })];
         */
 
-        var url = '/page/' + pageId + '/proposal_geotags';
+        var url = adhocracy.baseUrl('page/' + pageId + '/proposal_geotags');
         var layer = adhocracy.geo.createAjaxFeatureLayer('proposal', url,
                                                          adhocracy.geo.proposalStyleMap,
                                                          featuresAddedCallback);
@@ -529,7 +529,7 @@ var adhocracy = adhocracy || {};
 
         var townHallLayer = adhocracy.geo.createTownHallLayer();
 
-        var url = '/instance/' + instanceKey + '/get_region';
+        var url = adhocracy.baseUrl('instance/' + instanceKey + '/get_region');
         $.ajax({
             url: url,
             success: function (data) {
@@ -1289,8 +1289,10 @@ var adhocracy = adhocracy || {};
             title = title.substring(0, maxPopupTitleLength) + " ...";
         }
 
+        var url = adhocracy.baseUrl('proposal/' + attributes.regionId)
+
         var result = "<div class='proposal_popup_title'>";
-        result = result + "<a href='/proposal/" + attributes.regionId + "'>" + title + "</a>";
+        result = result + "<a href='" + url + "'>" + title + "</a>";
         result = result + "<div class='meta'>";
         result = result + attributes.num_for + ":" + attributes.num_against + " " + $.i18n._('votes');
         result = result + "</div>";
@@ -1321,7 +1323,8 @@ var adhocracy = adhocracy || {};
 
         var instance_options = adhocracy.geo.map.instance_options;
         if (!instance_options || instance_options.allow_propose_changes) {
-            result = result + "<a href='/proposal/new?page=" + attributes.id + "'> " + $.i18n._('new_proposal') + "</a>";
+            var url = adhocracy.baseUrl('proposal/new?page=' + attributes.id);
+            result = result + "<a href='" + url + "'> " + $.i18n._('new_proposal') + "</a>";
         }
         return result;
     };
