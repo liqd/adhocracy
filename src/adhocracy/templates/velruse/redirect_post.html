@@ -1,0 +1,18 @@
+<%inherit file="/template.html" />
+<%def name="title()">${_("Logging in") |n}</%def>
+
+<%block name="main">
+    <div>
+        ${_("You are being logged in.")}
+    </div>
+</%block>
+
+<form id="facebook_login_form" action="${h.velruse_url('/login/facebook')}"
+      method="post" style="display: none">
+</form>
+
+<script type="text/javascript">
+    $(document).ready( function() {
+        $("#facebook_login_form").submit()
+    })
+</script>
