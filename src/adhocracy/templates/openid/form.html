@@ -13,7 +13,7 @@ else:
  <div>${_("Single sign-on services allow you to use a single login on many web sites.")}</div>
  <div class="openid_btns">
    %if 'facebook' in login_types:
-   <a href="javascript:{}" onclick="document.getElementById('facebook_login_form').submit();">
+   <a href="${h.get_redirect_url('velruse/login_with_velruse')}" class="${components.add_patch_camefrom_class()}">
      <img class="openid_large_btn" src="/velruse/facebook_login.png" alt="${_('Login with Facebook')}" />
    </a>
    %endif
@@ -25,9 +25,3 @@ else:
     <input class="openid_submit" type="submit" value="${signin_text}" />
   </div>
 </form>
-
-%if 'facebook' in login_types:
-<form id="facebook_login_form" action="${h.velruse_url('/login/facebook')}"
-      method="post" style="display: none">
-</form>
-%endif
