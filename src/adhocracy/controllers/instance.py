@@ -286,7 +286,9 @@ class InstanceController(BaseController):
             data = {
                 'static': page,
                 'body_html': render_body(page.body),
+                'full_width': True,
             }
+            c.body_css_classes += page.css_classes
             return render("/static/show.html", data,
                           overlay=format == 'overlay')
 

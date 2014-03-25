@@ -1344,15 +1344,15 @@ $(document).ready(function () {
         // registering this event on parent element to also catch
         // events from generated elements
         $('html').on('click', 'a[href]', function(e) {
-            if (e.target.href[0] != '#' && !e.target.target) {
-                e.target.target = '_top';
+            if (this.href[0] != '#' && !this.target) {
+                this.target = '_top';
             }
-            if (e.target.target === '_self') {
-                e.target.href = overlay_url(e.target.href);
+            if (this.target === '_self') {
+                this.href = overlay_url(this.href);
             }
         });
         $('html').on('submit', 'form', function(e) {
-            e.target.action = overlay_url(e.target.action);
+            this.action = overlay_url(this.action);
         });
     }
 });

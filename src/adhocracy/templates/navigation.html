@@ -123,10 +123,10 @@
                                  search_button_text=None, url=None, background=None)">
 
   <div id="subheader" class="${'logo' if logo else ''}">
+      %if background is not None:
+      <div style="background-image: url('${background}')" class="background-image"></div>
+      %endif
       <div class="page_wrapper">
-        %if background is not None:
-        <div style="background-image: url('${background}')" class="background-image"></div>
-        %endif
         <div id="logo_row">
             <div id="organisation_logo">
                 %if url:

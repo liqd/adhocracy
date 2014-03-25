@@ -80,7 +80,6 @@ ${c.events_pager.here()}
 </%block>
 
 <%block name="sidebar">
-${components.message_button(c.instance)}
 %if h.has_permission("watch.instance"):
 ${components.watch(c.instance)}
 %endif
