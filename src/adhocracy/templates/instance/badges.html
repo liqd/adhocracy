@@ -18,12 +18,12 @@
 
     %if c.badges:
     <ul class="nobullet">
-        %for badge in c.badges:
+        %for b in c.badges:
         <li>
             <label>
-                <input type="checkbox" value="${badge.id}"
+                <input type="checkbox" value="${b.id}"
                        name="badge" />
-                ${badge_tiles.badge(badge, force_visible=True)}
+                ${badge_tiles.badge(b, force_visible=True)}
                 %if not b.visible:
                 <em>(${_('invisible')})</em>
                 %endif
