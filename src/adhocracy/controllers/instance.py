@@ -973,11 +973,16 @@ class InstanceController(BaseController):
 
         self._presets_update(c.page_instance, self.form_result)
 
+        if config.get_bool('adhocracy.instance.show_settings_after_create'):
+            member='settings/overview'
+        else:
+            member=None
+
         return ret_success(
             message=_(u'Instance created successfully. You can now configure '
                       u'it in greater detail if you wish.'),
             category='success', entity=c.page_instance,
-            member='settings/overview')
+            member=member)
 
     @RequireInstance
     def style(self, id):
