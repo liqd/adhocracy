@@ -48,10 +48,13 @@ PRESETS = {
         'use_norms',
         'show_norms_navigation',
     )),
+    'planning_ideas': set((
+        'allow_delegate',
+        'milestones',
+    )),
     # Only settings which are part of at least one preset will be changed.
     # Add settings to this pseudo-preset to disable it on every reset
     'always_off': set((
-        'milestones',
         'hide_global_categories',
         'display_category_pages',
         'allow_propose',
@@ -182,7 +185,7 @@ class InstancePresetsForm(formencode.Schema):
     consultation = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     chained_validators = [
-        forms.common.NotAllFalse(['agenda_setting', 'consultation'],
+        forms.common.NotAllFalse(PRESETS.keys(),
                                  _(u"Please select at least one preset")),
     ]
 
