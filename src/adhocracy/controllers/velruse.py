@@ -19,6 +19,7 @@ from adhocracy import model
 from adhocracy.model.user import User
 from adhocracy.lib import helpers as h
 from adhocracy.lib.exceptions import DatabaseInconsistent
+from adhocracy.lib.templating import render
 
 log = logging.getLogger(__name__)
 
@@ -54,6 +55,11 @@ def update_email_trust(adhocracy_user, velruse_email):
 
 class VelruseController(BaseController):
 
+    def login_with_velruse(self):
+        session['came_from'] = request.params['came_from']
+        session.save()
+        return render("/velruse/redirect_post.html")
+
     def logged_in(self):
         """
         Recieves authentication messages from the velruse service.
@@ -64,6 +70,8 @@ class VelruseController(BaseController):
         If none is provided, this function will crash.
         """
 
+        redirect_url = session['came_from']
+
         token = request.params['token']
         payload = {'format': 'json', 'token': token}
         rsp = get(h.velruse_url('/auth_info'),
@@ -71,7 +79,8 @@ class VelruseController(BaseController):
                   timeout=1)
         if rsp.status_code >= 400:
             return self._failure(_('Internal server error:'
-                                 'velruse service not available.'))
+                                 'velruse service not available.'),
+                                 redirect_url=redirect_url)
 
         auth_info = loads(rsp.content)
         log.debug('received auth_info from velruse:\n' +
@@ -83,10 +92,11 @@ class VelruseController(BaseController):
                 return self._failure(_('Login failed: ') +
                                      _('You have to give Adhocracy permission '
                                        'to connect to your Facebook account.'),
-                                     auth_info)
+                                     auth_info,
+                                     redirect_url=redirect_url)
             else:
                 return self._failure(_('Login failed: ') + auth_info['error'],
-                                     auth_info)
+                                     auth_info, redirect_url=redirect_url)
 
         provider_name = auth_info['provider_name']
 
@@ -94,7 +104,7 @@ class VelruseController(BaseController):
             self._failure(_("Logging in with %s "
                           "is not allowed on this installation.")
                           % provider_name.capitalize(),
-                          auth_info)
+                          auth_info, redirect_url=redirect_url)
         else:
             try:
                 profile = auth_info['profile']
@@ -117,7 +127,8 @@ class VelruseController(BaseController):
                 if velruse_user is not None:
                     self._failure(_("This %(provider)s account"
                                     " is already connected.")
-                                  % {'provider': provider_name.capitalize()})
+                                  % {'provider': provider_name.capitalize()},
+                                  redirect_url=redirect_url)
             else:
                 velruse_user = Velruse.find_any(accounts)
 
@@ -139,13 +150,13 @@ class VelruseController(BaseController):
                           str(domain, domain_user) + '\n' +
                           dumps(auth_info, indent=4) + '\n' +
                           '</pre>')
-                self._failure(_("Error"))
+                self._failure(_("Error"), redirect_url=redirect_url)
 
             try:
                 # login right away
                 if adhocracy_user is not None and velruse_user is not None:
                     update_email_trust(adhocracy_user, email)
-                    self._login(adhocracy_user)
+                    self._login(adhocracy_user, redirect_url=redirect_url)
 
                 # create new user in both Velruse and User and login
                 elif adhocracy_user is None and velruse_user is None:
@@ -154,16 +165,18 @@ class VelruseController(BaseController):
                                             domain,
                                             domain_user,
                                             email_verified=True,
-                                            display_name=display_name)
+                                            display_name=display_name,
+                                            redirect_url=redirect_url)
 
                     adhocracy_user, velruse_user = new_user
-                    self._login(adhocracy_user)
+                    self._login(adhocracy_user, redirect_url=redirect_url)
 
                 # create new user in Velruse for a logged in user
                 elif adhocracy_user is not None and velruse_user is None:
                     self._connect(adhocracy_user, domain, domain_user,
                                   provider_name,
-                                  email, email_verified=True)
+                                  email, email_verified=True,
+                                  redirect_url=redirect_url)
 
                 # error case
                 else:
@@ -176,7 +189,7 @@ class VelruseController(BaseController):
             except IntegrityError:
                 self._failure(_("Error"))
 
-    def _login(self, adhocracy_user):
+    def _login(self, adhocracy_user, redirect_url=None):
         """
         Log the user in and redirect him to a sane place.
         """
@@ -185,12 +198,18 @@ class VelruseController(BaseController):
 
         login_user(adhocracy_user, request, response)
         session['login_type'] = 'velruse'
-        if c.instance and not adhocracy_user.is_member(c.instance):
-            redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
-                                                          h.url_token())))
-        redirect(h.user.post_login_url(adhocracy_user))
 
-    def _failure(self, message, auth_info=None):
+        if redirect_url is None:
+            if c.instance and not adhocracy_user.is_member(c.instance):
+                redirect(h.base_url("/instance/join/%s?%s" % (c.instance.key,
+                                                              h.url_token())))
+            else:
+                redirect(h.user.post_login_url(adhocracy_user))
+        else:
+            redirect(redirect_url)
+
+    def _failure(self, message, auth_info=None,
+                 redirect_url=None):
         """
         Abort a velruse authenication attempt and return to login page,
         giving an error message at the openid / velruse area.
@@ -201,13 +220,18 @@ class VelruseController(BaseController):
             log.debug('<pre>' + dumps(auth_info, indent=4) + '</pre>')
 
         h.flash(message, 'error')
-        if c.user:
-            return redirect(h.entity_url(c.user, member='settings/login'))
+
+        if redirect_url is None:
+            if c.user:
+                return redirect(h.entity_url(c.user, member='settings/login'))
+            else:
+                redirect("/login")
         else:
-            redirect("/login")
+            redirect(redirect_url)
 
     def _create(self, user_name, email, domain, domain_user,
-                email_verified=False, display_name=None):
+                email_verified=False, display_name=None,
+                redirect_url=None):
         """
         Create a user based on data gathered from velruse.
         """
@@ -239,7 +263,8 @@ class VelruseController(BaseController):
 
     def _connect(self, adhocracy_user, domain, domain_user,
                  provider_name,
-                 velruse_email, email_verified=False):
+                 velruse_email, email_verified=False,
+                 redirect_url=None):
         """
         Connect existing adhocracy user to velruse.
         """
@@ -254,7 +279,10 @@ class VelruseController(BaseController):
                       % provider_name.capitalize()),
                     'success')
 
-            redirect(h.user.post_login_url(adhocracy_user))
+            if redirect_url is None:
+                redirect(h.user.post_login_url(adhocracy_user))
+            else:
+                redirect(redirect_url)
             return velruse_user
 
         else:
@@ -266,7 +294,7 @@ class VelruseController(BaseController):
             return None
 
     @RequireInternalRequest()
-    def revoke(self):
+    def revoke(self, redirect_url=None):
         v_id = request.params.get('id', None)
 
         if v_id is None:
@@ -289,4 +317,7 @@ class VelruseController(BaseController):
                     % {'provider': v.domain},
                     'success')
 
-            redirect(h.entity_url(c.user, member='settings/login'))
+            if redirect_url is None:
+                redirect(h.entity_url(c.user, member='settings/login'))
+            else:
+                redirect(redirect_url)
