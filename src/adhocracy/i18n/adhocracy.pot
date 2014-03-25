@@ -4499,3 +4499,9 @@ msgstr ""
 msgid "This is your watchlist. You will receive notifications for events concerning each of these items."
 msgstr ""
 
+msgid "Logging in"
+msgstr ""
+
+msgid "You are being logged in."
+msgstr ""
+
