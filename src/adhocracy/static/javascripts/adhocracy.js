@@ -75,7 +75,7 @@ var adhocracy = adhocracy || {};
             + ' > ' + tag + ':nth-child(' + (el.index()+1) + ')';
     };
 
-    adhocracy.base_url = function(path) {
+    adhocracy.baseUrl = function(path) {
         var url = new Uri($('body').data('baseurl') + '/' + path);
         return url.toString();
     }
