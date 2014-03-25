@@ -3,6 +3,7 @@
     @include background-image(linear-gradient(to bottom, white, $bg2));
     @include box-shadow(0 -1em 0.5em -1em rgba(0,0,0,0.1) inset);
     display: block;
+    position: relative;
     overflow: hidden;
     margin-bottom: 3em;
     overflow: hidden;
@@ -12,10 +13,10 @@
     }
     .background-image {
         position: absolute;
-        width: 120%;
+        width: 100%;
         height: 100%;
         top: 0;
-        left: -10%;
+        left: 0;
         background-size: cover;
         background-position: 50%;
         opacity: 0.2;
