@@ -18,7 +18,7 @@ page_table = Table(
     Column('id', Integer, ForeignKey('delegateable.id'), primary_key=True),
     Column('function', Unicode(20)),
     Column('formatting', Boolean, default=False),
-    Column('sectionpage', Boolean, default=False),
+    Column('sectionpage', Boolean, default=True),
     Column('allow_comment', Boolean, default=True),
     Column('allow_selection', Boolean, default=True),
     Column('always_show_original', Boolean, default=True),
