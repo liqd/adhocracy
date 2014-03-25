@@ -76,7 +76,15 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.baseUrl = function(path) {
-        var url = new Uri($('body').data('baseurl') + '/' + path);
+        var url = new Uri($('body').data('baseurl'));
+
+        // FIXME: Update jsUri and use addTrailingSlash instead
+        var url_path = url.path();
+        if (url_path.substr(-1) !== '/') {
+            url.path(url_path + '/');
+        }
+
+        url.path(url.path() + path);
         return url.toString();
     }
 
