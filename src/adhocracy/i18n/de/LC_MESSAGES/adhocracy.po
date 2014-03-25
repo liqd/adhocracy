@@ -2956,6 +2956,12 @@ msgid ""
 "ideas and goals."
 msgstr "Die Teilnehmer*innen können Vorschläge erstellen, diskutieren und so beispielsweise vom offenen Dialogverfahren bis zur offenen Ideensammlung ihre gemeinsamen Absichten formulieren und organisieren."
 
+msgid "Locating ideas"
+msgstr "Ideen verorten"
+
+msgid "The participants can make, discuss and locate or geo-tag proposals on an interactive map."
+msgstr "Die Teilnehmer*innen können Vorschläge erstellen, diskutieren und konkret auf einer interaktiven Karte verorten."
+
 msgid "Planning Ideas"
 msgstr "Ideen planen"
 
@@ -2966,6 +2972,12 @@ msgstr "Alle Teilnehmer*innen können Vorschläge erstellen, diskutieren und Tag
 
 msgid "Collaboratively drafting texts"
 msgstr "Texte gemeinsam bearbeiten"
+
+msgid "Land-use planning"
+msgstr "Bebauungsplanung"
+
+msgid "Participants can comment on construction and land-use projects and norms by geo-tagging their proposals on an interactive map."
+msgstr "Hier haben die Teilnehmer*innen die Möglichkeit konkrete Baupläne und Bauvorhaben auf einer interaktiven Karte zu erstellen und zu diskutieren."
 
 msgid ""
 "Whether you want to draft statutes, strategic papers or a manifesto – with "

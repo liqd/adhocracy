@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.2.1-9-g06d0305\n"
+"Project-Id-Version: adhocracy 2.2.1-geo-14-g7980a42\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-25 16:59+0100\n"
+"POT-Creation-Date: 2014-03-25 17:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,6 +171,9 @@ msgid "This instance is not active for use and is archived. It isn't possible to
 msgstr ""
 
 msgid "The logo has been deleted."
+msgstr ""
+
+msgid "None"
 msgstr ""
 
 msgid "Instance created successfully. You can now configure it in greater detail if you wish."
@@ -850,6 +853,10 @@ msgstr ""
 
 #, python-format
 msgid "Name cannot be purely numeric: %s"
+msgstr ""
+
+#, python-format
+msgid "Invalid region: %s"
 msgstr ""
 
 msgid "An entry with this title already exists"
@@ -1887,9 +1894,6 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-msgid "None"
-msgstr ""
-
 msgid "Sort:"
 msgstr ""
 
@@ -2688,31 +2692,12 @@ msgstr ""
 msgid "display all events"
 msgstr ""
 
-<<<<<<< HEAD
 msgid "License"
 msgstr ""
 
 msgid "Add geographic location"
 msgstr ""
 
-msgid "Latest Events"
-msgstr ""
-
-msgid "This is a record of all recent actions within this instance."
-msgstr ""
-
-msgid "You can also have notifications sent to you."
-msgstr ""
-
-msgid "Info..."
-msgstr ""
-
-#, python-format
-msgid "Create a proposal to start debating in %(instance)s."
-msgstr ""
-
-=======
->>>>>>> 2.2.1
 msgid "Delete instance"
 msgstr ""
 
@@ -2800,10 +2785,22 @@ msgstr ""
 msgid "The participants can make, discuss and plan proposals in connection to concrete dates through a calendar function."
 msgstr ""
 
+msgid "Locating ideas"
+msgstr ""
+
+msgid "The participants can make, discuss and locate or geo-tag proposals on an interactive map."
+msgstr ""
+
 msgid "Collaboratively drafting texts"
 msgstr ""
 
 msgid "Whether you want to draft statutes, strategic papers or a manifesto – with this option the participants will have the chance to discuss, and collaboratively work on the texts you introduce to the platform."
+msgstr ""
+
+msgid "Land-use planning"
+msgstr ""
+
+msgid "Participants can comment on construction and land-use projects and norms by geo-tagging their proposals on an interactive map."
 msgstr ""
 
 msgid "Configure"
@@ -2955,6 +2952,12 @@ msgid "Show proposals as an extra tab"
 msgstr ""
 
 msgid "Enable maps"
+msgstr ""
+
+msgid "Region"
+msgstr ""
+
+msgid "Assign a geographical region to this instance."
 msgstr ""
 
 msgid "Enable norms"
