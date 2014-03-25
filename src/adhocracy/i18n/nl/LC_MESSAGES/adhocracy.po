@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-21 23:05+0100\n"
-"PO-Revision-Date: 2014-03-21 22:05+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-03-25 16:59+0100\n"
+"PO-Revision-Date: 2014-03-25 16:00+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -257,7 +257,7 @@ msgstr "Er is geen OpenID opgegeven!"
 msgid ""
 "Connection not allowed, single sign-on has been disabled on this "
 "installation"
-msgstr ""
+msgstr "Verbinding niet toegestaan, single sign-on is uitgeschakeld op deze installatie"
 
 msgid "No OpenID was entered."
 msgstr "Er is geen OpenID ingevuld."
@@ -287,7 +287,7 @@ msgstr "U heeft deze OpenID al geclaimd."
 
 #, python-format
 msgid "OpenID %s is already connected to an account."
-msgstr ""
+msgstr "OpenID %s is al verbonden met een account."
 
 msgid "Successfully added OpenID to user account."
 msgstr "De OpenID is toegevoegd aan de gebruikersaccount."
@@ -717,12 +717,12 @@ msgstr "U moet Adhocracy toestemming geven om te verbinden met uw Facebook-profi
 msgid "Logging in with %s is not allowed on this installation."
 msgstr "Inloggen met %s is niet toegestaan op deze installatie."
 
-#, python-format
-msgid "This %(provider)s account is already connected."
-msgstr ""
-
 msgid "Error"
 msgstr "Fout"
+
+#, python-format
+msgid "This %(provider)s account is already connected."
+msgstr "Deze %(provider)s account is al verbonden."
 
 #, python-format
 msgid "You successfully connected to %s."
@@ -735,11 +735,11 @@ msgstr "Uw %s profiel is al verbonden."
 msgid ""
 "You are trying to disconnect from a provider you are disconnected from "
 "already."
-msgstr ""
+msgstr "U probeert zich los te koppelen van een provider waar u al van losgekoppeld bent."
 
 #, python-format
 msgid "You successfully disconnected from %(provider)s."
-msgstr ""
+msgstr "U bent losgekoppeld van %(provider)s."
 
 msgid "A watchlist entry for this entity already exists."
 msgstr "Dit staat al in uw volglijst."
@@ -1015,9 +1015,6 @@ msgstr "Ongeldig verzoek. Ga terug en probeer het opnieuw."
 
 msgid "The method you used is not implemented."
 msgstr "De methode die u heeft gebruikt, is niet geïmplementeerd."
-
-msgid "Start"
-msgstr "Start"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1840,6 +1837,9 @@ msgstr "<b>%s</b> reacties"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> stemmen"
 
+msgid "Start"
+msgstr "Start"
+
 msgid "Instances"
 msgstr "Groepen"
 
@@ -2139,14 +2139,14 @@ msgstr "Wijs behandeling badge toe"
 msgid "Admin: Import Users"
 msgstr "Admin: Importeer Gebruikers"
 
-msgid "Users CSV"
-msgstr "Gebruikers CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Plak de inhoud van een CSV bestand, bv. geëxporteerd vanuit Excel of LibreOffice Calc, met de volgende vier kolommen: gebruikersnaam, weergavenaam, e-mail en badges (badges zijn optioneel, gescheiden door komma's en met aanhalingstekens rondom de lijst)"
+
+msgid "Users CSV"
+msgstr "Gebruikers CSV"
 
 msgid "Email Subject"
 msgstr "E-mail Onderwerp"
@@ -2229,12 +2229,12 @@ msgstr "Categorie beschrijving"
 msgid "Badge description"
 msgstr "Badge beschrijving"
 
-msgid "Long category description"
-msgstr "Lange categorie beschrijving"
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Hier kunt u een meer gedetailleerde beschrijving van uw categorie toevoegen met markdown."
+
+msgid "Long category description"
+msgstr "Lange categorie beschrijving"
 
 msgid "The color that is used to show the category"
 msgstr "De kleur die gebruikt wordt om de categorie te tonen"
@@ -2376,10 +2376,10 @@ msgid "Parent"
 msgstr "Parent"
 
 msgid "Global badges"
-msgstr "Globale badges"
+msgstr "Algemene badges"
 
 msgid "invisible"
-msgstr ""
+msgstr "onzichtbaar"
 
 msgid "No Badges"
 msgstr "Geen Badges"
@@ -2776,7 +2776,7 @@ msgid "Edit Badges"
 msgstr "Bewerk Badges"
 
 msgid "No badges"
-msgstr ""
+msgstr "Geen badges"
 
 msgid "Create new instance"
 msgstr "Maak een nieuwe groep"
@@ -2836,14 +2836,22 @@ msgid ""
 "ideas and goals."
 msgstr "De deelnemers kunnen voorstellen indienen en deze bediscussiëren. Deze optie schakelt alles in van een open dialoog tot het formuleren en organiseren van concrete ideeen en doelen."
 
+msgid "Planning Ideas"
+msgstr ""
+
+msgid ""
+"The participants can make, discuss and plan proposals in connection to "
+"concrete dates through a calendar function."
+msgstr ""
+
 msgid "Collaboratively drafting texts"
 msgstr "Gezamenlijk teksten opstellen"
 
 msgid ""
-" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"Whether you want to draft statutes, strategic papers or a manifesto – with "
 "this option the participants will have the chance to discuss, and "
 "collaboratively work on the texts you introduce to the platform."
-msgstr "Of u nu statuten, strategische documenten of een manifest wilt opstellen – met deze instelling hebben de deelnemers de kans om te discussiëren, en gezamenlijk te werken aan teksten die u op het platform plaatst."
+msgstr ""
 
 msgid "Configure"
 msgstr "Configureren"
@@ -2895,19 +2903,19 @@ msgid "Display how the users with the selected badges feel about the issue."
 msgstr "Toon wat gebruikers met de geselecteerde badge van dit onderwerp vinden."
 
 msgid "Embed latest events"
-msgstr ""
+msgstr "Embed recente gebeurtenissen"
 
 #, python-format
 msgid ""
 "To display the latest events from your %(site_name)s instance you can add "
 "this embed code to your website."
-msgstr ""
-
-msgid "Extra CSS"
-msgstr "Extra CSS"
+msgstr "U kunt deze embed code toevoegen op uw website om de meest recente gebeurtenissen van uw %(site_name)s groep te tonen."
 
 msgid "You can add css that will be used to style the instance."
 msgstr "U kunt CSS toevoegen om de opmaak van deze groep aan te passen."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Status badge image width"
 msgstr "Status badge afbeeldingbreedte"
@@ -2980,20 +2988,20 @@ msgstr "Naam van de groep"
 msgid "Give your instance a name."
 msgstr "Geef uw groep een naam."
 
-msgid "Description of the instance"
-msgstr "Beschrijving van de groep"
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Dit verschijnt er op de overzichtspagina van uw groep. Beschrijf het participatieproces dat u in gedachten heeft. Vermeld duidelijk het doel van deze groep en hoe de deelnemers kunnen helpen om dit te bereiken."
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr "Beschrijving van de groep"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Selecteer het logo dat u wilt gebruiken als header van uw groep."
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Huidig logo"
@@ -3308,7 +3316,7 @@ msgid "On %s, %s wrote:"
 msgstr "Op %s, schreef %s:"
 
 msgid "Add a single sign-on service"
-msgstr ""
+msgstr "Voeg een single sign-on dienst toe"
 
 msgid "Sign in"
 msgstr "Aanmelden"
@@ -3318,7 +3326,7 @@ msgstr "Ga verder"
 
 msgid ""
 "Single sign-on services allow you to use a single login on many web sites."
-msgstr ""
+msgstr "Met single sign-on diensten kunt een enkele login gebruiken op vele websites."
 
 msgid "Select a user name"
 msgstr "Selecteer een gebruikersnaam"
@@ -3383,11 +3391,11 @@ msgstr "Variant Naam"
 msgid "Text"
 msgstr "Tekst"
 
-msgid "Abstract"
-msgstr "Samenvatting"
-
 msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr "Pagina samenvatting. Dit wordt enkel getoond als een page wordt weergegeven als een tegel."
+
+msgid "Abstract"
+msgstr "Samenvatting"
 
 msgid "Display subnorms as sections"
 msgstr "Toon subvoorstellen als secties"
@@ -3681,10 +3689,10 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "Weet u zeker dat u dit voorstel wilt verwijderen?"
 
 msgid "Status badges"
-msgstr ""
+msgstr "Status badges"
 
 msgid "No status badges"
-msgstr ""
+msgstr "Geen status badges"
 
 #, python-format
 msgid "Delegations: %s"
@@ -4200,11 +4208,11 @@ msgid "Badges for %s"
 msgstr "Badges voor %s"
 
 msgid "Global Badges"
-msgstr ""
+msgstr "Algemene Badges"
 
 #, python-format
 msgid "Badges in instance %s"
-msgstr ""
+msgstr "Badges in groep %s"
 
 msgid "Topic"
 msgstr "Onderwerp"
@@ -4394,19 +4402,19 @@ msgid "Select a new password or leave the fields blank to keep your old one."
 msgstr "Kies een nieuw wachtwoord of laat alle velden leeg om uw huidige wachtwoord te behouden."
 
 msgid "Single sign-on services"
-msgstr ""
+msgstr "Single sign-on dienst"
 
 msgid "There are no associated single sign-on services."
-msgstr ""
+msgstr "Er zijn geen bijbehorende single sign-on diensten."
 
 msgid "OpenID:"
-msgstr ""
+msgstr "OpenID:"
 
 msgid "remove"
 msgstr "verwijder"
 
 msgid "Connect to single sign-on service"
-msgstr ""
+msgstr "Maak verbinding met single sign-on dienst"
 
 msgid "Notification settings"
 msgstr "Notificatie-instellingen"
@@ -4418,7 +4426,7 @@ msgid ""
 "Please select on which occasions you would like to receive an email. The "
 "options further down this list will allow you to receive email notifications"
 " for all the above points too."
-msgstr ""
+msgstr "Selecteer wanneer u een e-mail wilt ontvangen. Met opties verderop in deze lijst kunt u aangeven e-mailberichten te willen ontvangen voor alle bovenstaande punten."
 
 msgid "No notifications via email."
 msgstr "Geen meldingen via e-mail."
@@ -4478,13 +4486,13 @@ msgstr "Begroeting"
 msgid "Select your prefered gender"
 msgstr "Selecteer uw gewenste geslacht"
 
-msgid "Avatar"
-msgstr "Avatar"
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Selecteer een vierkante profielafbeelding. Als deze niet vierkant is dan kan de afbeelding vervormen."
+
+msgid "Avatar"
+msgstr "Avatar"
 
 msgid "Current avatar"
 msgstr "Huidige avatar"
@@ -4492,13 +4500,13 @@ msgstr "Huidige avatar"
 msgid "Delete current avatar"
 msgstr "Verwijder huidige avatar"
 
-msgid "Short biography"
-msgstr "Korte biografie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Door middel van een biografie kunnen anderen wat over u te weten komen en misschien krijgt u er wel een aantal machtigingen door."
+
+msgid "Short biography"
+msgstr "Korte biografie"
 
 msgid "I am an organisation"
 msgstr "Ik ben een organisatie"

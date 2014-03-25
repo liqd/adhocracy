@@ -96,13 +96,17 @@ class VelruseController(BaseController):
                           % provider_name.capitalize(),
                           auth_info)
         else:
-            profile = auth_info['profile']
-            email = profile['verifiedEmail']
-            display_name = profile['displayName']
-            preferred_name = profile['preferredUsername'].replace('.', '_')
-            user_name = unused_user_name(preferred_name)
-
-            accounts = profile['accounts']
+            try:
+                profile = auth_info['profile']
+                email = profile['verifiedEmail']  # FIXME: this is not always available.  we should catch that earlier above.
+                display_name = profile['displayName']
+                preferred_name = profile['preferredUsername'].replace('.', '_')
+                user_name = unused_user_name(preferred_name)
+                accounts = profile['accounts']
+            except KeyError:
+                log.error('could not parse velruse response:\n' +
+                          '<pre>' + dumps(auth_info, indent=4) + '</pre>')
+                self._failure(_("Error"))
 
             if c.user is not None:
                 adhocracy_user = c.user
@@ -127,7 +131,15 @@ class VelruseController(BaseController):
                 domain_user = velruse_user.domain_user
             else:
                 domain = accounts[0]['domain']
-                domain_user = accounts[0]['userid']
+                domain_user = accounts[0]['userid']  # FIXME: this is not always available.  we should catch that earlier above.
+
+            if not domain or not domain_user:
+                log.error('domain and/or domain_user not found:\n' +
+                          '<pre>\n' +
+                          str(domain, domain_user) + '\n' +
+                          dumps(auth_info, indent=4) + '\n' +
+                          '</pre>')
+                self._failure(_("Error"))
 
             try:
                 # login right away

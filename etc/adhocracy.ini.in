@@ -490,6 +490,13 @@ adhocracy.static_index_path = index
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
 
+
+{% python
+velruse_enabled = 'False'
+if parts['domains'].get('velruse', None):
+   velruse_enabled = 'True'
+%}
+{% if velruse_enabled == 'True' %}
 # velruse.{host,port} is where adhocracy goes to find the velruse
 # service.  also, velruse puts this in the url that it uses to make
 # the browser connect to to the sso service.  if you get this wrong,
@@ -498,7 +505,7 @@ adhocracy.static_index_path = index
 velruse.domain = ${parts.domains.velruse}
 velruse.port = ${parts.ports.velruse_proxy}
 velruse.protocol = ${parts.velruse.proxy_protocol}
-
+{% end %}
 
 [alembic]
 script_location = src/adhocracy/alembic

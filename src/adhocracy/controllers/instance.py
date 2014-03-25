@@ -55,6 +55,10 @@ PRESETS = {
         'use_norms',
         'show_norms_navigation',
     )),
+    'planning_ideas': set((
+        'allow_delegate',
+        'milestones',
+    )),
     'locating_ideas': set((
         'allow_delegate',
         'use_maps',
@@ -66,7 +70,6 @@ PRESETS = {
     # Only settings which are part of at least one preset will be changed.
     # Add settings to this pseudo-preset to disable it on every reset
     'always_off': set((
-        'milestones',
         'hide_global_categories',
         'display_category_pages',
         'allow_propose',
@@ -175,9 +178,12 @@ class InstanceAdvancedEditForm(formencode.Schema):
     #     not_empty=False, if_empty=False, if_missing=False)
     frozen = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
-    css = validators.String(max=100000, if_empty=None, not_empty=False)
-    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None)
-    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None)
+    css = validators.String(max=100000, if_empty=None, not_empty=False,
+                            if_missing=None)
+    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None,
+                                           if_missing=None)
+    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None,
+                                            if_missing=None)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
                                              if_missing=False)
 
