@@ -135,27 +135,31 @@ var adhocracy = adhocracy || {};
     };
 
     adhocracy.geo.fetchSingleDelegateable = function (objectType, delegateableId, edit, callback) {
-        var url = '/' + objectType + '/' + delegateableId + '/get_geotag';
-        $.ajax({
-            url: url,
-            success: function (data) {
-                var features = new OpenLayers.Format.GeoJSON({}).read(data);
-                if (features) {
-                    // assert(features.length==1);
-                    var feature = features[0];
-                    if (edit) {
-                        $('#' + objectType + '_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
+        if (delegateableId) {
+            var url = '/' + objectType + '/' + delegateableId + '/get_geotag';
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    var features = new OpenLayers.Format.GeoJSON({}).read(data);
+                    if (features) {
+                        // assert(features.length==1);
+                        var feature = features[0];
+                        if (edit) {
+                            $('#' + objectType + '_geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(feature));
+                        }
+                        callback(feature);
+                    } else {
+                        callback(null);
                     }
-                    callback(feature);
-                } else {
-                    callback(null);
+                },
+                error: function (xhr, err) {
+                //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
+                    //alert('No response from server, sorry. Error: '+err);
                 }
-            },
-            error: function (xhr, err) {
-            //console.log('No response from server, sorry. url: ' + url + ', Error: '+err);
-                //alert('No response from server, sorry. Error: '+err);
-            }
-        });
+            });
+        } else {
+            callback(null);
+        }
     };
 
     adhocracy.geo.balloonSymbolizer = {
@@ -1348,7 +1352,9 @@ var adhocracy = adhocracy || {};
             'inline': false,
         }, p);
 
-        if (p.inline) {
+        if (!p.pageId) {
+            p.formId = 'create_page';
+        } else if (p.inline) {
             p.formId = 'edit_page';
         } else {
             p.formId = 'edit_geotag';

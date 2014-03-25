@@ -70,6 +70,7 @@ class PageCreateForm(formencode.Schema):
                                                  if_missing=False)
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    geotag = validators.String(not_empty=False, if_empty=None, if_missing=None)
     if config.get_bool('adhocracy.page.allow_abstracts'):
         abstract = validators.String(max=255, not_empty=False, if_empty=None,
                                      if_missing=None)
@@ -110,7 +111,7 @@ class PageUpdateForm(formencode.Schema):
     if config.get_bool('adhocracy.page.allow_abstracts'):
         abstract = validators.String(max=255, not_empty=False, if_empty=None,
                                      if_missing=None)
-    geotag = validators.String(not_empty=False)
+    geotag = validators.String(not_empty=False, if_empty=None, if_missing=None)
 
 
 class PageFilterForm(formencode.Schema):
@@ -264,6 +265,10 @@ class PageController(BaseController):
         categories = self.form_result.get('category')
         category = categories[0] if categories else None
         page.set_category(category, c.user)
+
+        if h.geo.use_page_geotags():
+            geotag = self.form_result.get('geotag')
+            page.geotag = format_json_feature_to_geotag(geotag)
 
         model.meta.Session.commit()
 
