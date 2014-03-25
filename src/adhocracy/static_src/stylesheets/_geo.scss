@@ -373,6 +373,7 @@ div.marker img {
 }
 
 #central_block {
+    position: relative;
     height: 100%;
     width: 70%;
     float: left;
@@ -411,6 +412,13 @@ div.marker img {
     background:url('/images/open-arrow-right.png');
     z-index: 1000;
     display: none;
+}
+
+#create_map_page {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    z-index: 1000;
 }
 
 #left_block .list_form {
