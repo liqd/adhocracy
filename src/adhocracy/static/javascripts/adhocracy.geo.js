@@ -591,7 +591,7 @@ var adhocracy = adhocracy || {};
 
     adhocracy.geo.buildInstancePopup = function (attributes) {
         // attributes are the feature attributes
-        
+
         var imageUrl, authLabel, numProposalsLabel, numMembersLabel;
 
         if (attributes.iconUrl) {
@@ -1975,7 +1975,7 @@ var adhocracy = adhocracy || {};
 
                 adhocracy.geo.searchResultList.removeAll();
                 adhocracy.geo.instanceSearch.visiblePage(0);
-                
+
                 var total_bbox = new OpenLayers.Bounds();
                 ko.utils.arrayForEach(data.instances, function (raw) {
                     var item = new adhocracy.geo.searchItemModel(raw);
