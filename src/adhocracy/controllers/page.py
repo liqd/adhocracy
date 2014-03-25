@@ -110,6 +110,7 @@ class PageUpdateForm(formencode.Schema):
     if config.get_bool('adhocracy.page.allow_abstracts'):
         abstract = validators.String(max=255, not_empty=False, if_empty=None,
                                      if_missing=None)
+    geotag = validators.String(not_empty=False)
 
 
 class PageFilterForm(formencode.Schema):
@@ -444,6 +445,10 @@ class PageController(BaseController):
                 and c.instance.page_index_as_tiles
                 and not c.page.is_section()):
             c.page.abstract = self.form_result.get('abstract')
+
+        if h.geo.use_page_geotags():
+            geotag = self.form_result.get('geotag')
+            c.page.geotag = format_json_feature_to_geotag(geotag)
 
         model.meta.Session.commit()
         if can.watch.create():

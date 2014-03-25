@@ -1345,10 +1345,24 @@ var adhocracy = adhocracy || {};
     adhocracy.geo.loadPageMap = function (p) {
         var p = $.extend({
             'edit': false,
+            'inline': false,
         }, p);
+
+        if (p.inline) {
+            p.formId = 'edit_page';
+        } else {
+            p.formId = 'edit_geotag';
+        }
         var map = adhocracy.geo.createMap(p);
 
-        var waiter = adhocracy.geo.createWaiter(3, function (bounds) {
+        var numFetches;
+        if (p.edit) {
+            numFetches = 2;
+        } else {
+            numFetches = 3;
+        }
+
+        var waiter = adhocracy.geo.createWaiter(numFetches, function (bounds) {
             map.zoomToExtent(bounds);
         });
 
@@ -1360,11 +1374,13 @@ var adhocracy = adhocracy || {};
         map.addLayers(regionBoundaryLayers);
         //adhocracy.geo.createPopupControl(map, regionBoundaryLayers[1], adhocracy.geo.buildInstancePopup);
 
-        var proposalLayer = adhocracy.geo.createPageProposalsLayer(p.instanceKey, p.pageId, function (features) {
-            waiter(features, true);
-        });
-        map.addLayer(proposalLayer);
-        adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+        if (!p.edit) {
+            var proposalLayer = adhocracy.geo.createPageProposalsLayer(p.instanceKey, p.pageId, function (features) {
+                waiter(features, true);
+            });
+            map.addLayer(proposalLayer);
+            adhocracy.geo.createPopupControl(map, proposalLayer, adhocracy.geo.buildProposalPopup);
+        }
 
 
         adhocracy.geo.fetchSingleDelegateable('page', p.pageId, p.edit, function (feature) {
@@ -1373,7 +1389,7 @@ var adhocracy = adhocracy || {};
                 if (feature) {
                     editor.loadFeatures([feature]);
                 }
-                $('form#edit_geotag').on('submit', function (event) {
+                $('form#' + p.formId).on('submit', function (event) {
                     //$('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.toMultiPolygon(editor.editLayer.features)));
                     if (editor.editLayer.features.length > 0) {
                         $('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.editLayer.features[0]));
@@ -2057,7 +2073,7 @@ var adhocracy = adhocracy || {};
 
             $('<div />', {
                 id: 'map',
-                'class': 'proposal_create_map'
+                'class': 'create_map'
             }).appendTo('#map_div');
 
             adhocracy.geo.loadSingleProposalMap(
