@@ -25,7 +25,7 @@ page_table = Table(
     Column('allow_selection', Boolean, default=True),
     Column('always_show_original', Boolean, default=True),
     Column('abstract', Unicode(255), default=u'', nullable=True),
-    Column('geotag', Geometry(dimension=2, srid=900913), nullable=True),
+    Column('geotag', Geometry, nullable=True),
 )
 
 

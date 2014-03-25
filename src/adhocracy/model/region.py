@@ -52,7 +52,7 @@ region_table = Table(
     Column('name', Unicode(255), nullable=False, index=True),
     Column('admin_level', Integer, nullable=False, index=True),
     Column('admin_type', Unicode(64), nullable=False),
-    Column('boundary', Geometry(dimension=2, srid=900913), nullable=False),
+    Column('boundary', Geometry, nullable=False),
     # potentially to be done:
     # de:regionalschluessel (12 stellen, numerisch)
 )
