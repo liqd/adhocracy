@@ -16,7 +16,7 @@ ${h.proposal.breadcrumbs(c.proposal)|n} &raquo; ${_("Edit Badges")}
     <h3>${_(u"Badges")}</h3>
 
     ${badge_tiles.select_form(c.badges, _('Badges'), _('No badges'), 'badge')}
-    ${badge_tiles.select_form(c.thumbnailbadges, _('Status badges'), _('No status badges'), 'thumbnailbadge', input_type='radio')}
+    ${badge_tiles.select_form(c.thumbnailbadges, _('Status badges'), _('No status badges'), 'thumbnailbadge', input_type='radio', no_text=_('No Status Badge'))}
 
     ${components.savebox(h.base_url("/proposal/%s" % c.proposal.id))}
 </form>
