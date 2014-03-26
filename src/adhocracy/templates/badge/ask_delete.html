@@ -15,6 +15,7 @@ ${components.flashmessages()}
 
     <h3>Delete ${_(c.badge.get_badge_type())} "${c.badge.title}"</h3>
     ${h.field_token()|n}
+    <input type="hidden" name="came_from" value="${c.came_from}" />
     %if c.badged_entities:
     ${_(u'Note that the following entities will be unbadged if this badge is deleted:')}
     <ul>
