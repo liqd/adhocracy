@@ -1,7 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 
-<%def name="title()">${_("Home")}</%def>
+<%def name="title()">${_(u'Intro') if h.config.get_bool('adhocracy.wording.intro_for_overview') else _(u'Overview')}</%def>
 
 <%def name="breadcrumbs()">
     ${h.instance.breadcrumbs(c.page_instance)|n} ${h.url.link(h.instance.area_title('overview'), h.entity_url(c.page_instance))|n}
