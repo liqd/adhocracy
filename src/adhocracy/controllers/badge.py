@@ -137,6 +137,7 @@ class BadgeController(BaseController):
     @guard.perm('badge.index')
     def index_type(self, badge_type, format='html'):
         data = self._get_badge_data(badge_type)
+        data['came_from'] = self.base_url + '/' + badge_type
         return render(self.index_template, data, overlay=format == u'overlay',
                       overlay_size=OVERLAY_SMALL)
 
