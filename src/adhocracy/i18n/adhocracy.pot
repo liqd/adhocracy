@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.2.1-35-g594cd58\n"
+"Project-Id-Version: adhocracy 2.2.1-49-g7280dd8\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+"POT-Creation-Date: 2014-03-26 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -683,6 +683,10 @@ msgstr ""
 
 #, python-format
 msgid "This %(provider)s account is already connected."
+msgstr ""
+
+#, python-format
+msgid "Your %(provider)s account is locked."
 msgstr ""
 
 #, python-format
@@ -2294,6 +2298,9 @@ msgstr ""
 msgid "Global badges"
 msgstr ""
 
+msgid "No Badge"
+msgstr ""
+
 msgid "invisible"
 msgstr ""
 
@@ -3040,6 +3047,10 @@ msgstr ""
 msgid "Opponents"
 msgstr ""
 
+#, python-format
+msgid "Users who have voted against \"%s\""
+msgstr ""
+
 msgid "Mass Message Preview"
 msgstr ""
 
@@ -3548,6 +3559,9 @@ msgstr ""
 msgid "No status badges"
 msgstr ""
 
+msgid "No Status Badge"
+msgstr ""
+
 #, python-format
 msgid "Delegations: %s"
 msgstr ""
@@ -3611,9 +3625,6 @@ msgid "The proposal would..."
 msgstr ""
 
 msgid "Status Badge"
-msgstr ""
-
-msgid "No Status Badge"
 msgstr ""
 
 msgid "No Status Badges"

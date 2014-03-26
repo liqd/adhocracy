@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 02:37+0100\n"
-"PO-Revision-Date: 2014-03-26 01:38+0000\n"
+"POT-Creation-Date: 2014-03-26 15:19+0100\n"
+"PO-Revision-Date: 2014-03-26 14:20+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -737,6 +737,10 @@ msgstr "Fehler"
 #, python-format
 msgid "This %(provider)s account is already connected."
 msgstr "Dieses %(provider)s-Konto ist bereits vergeben."
+
+#, python-format
+msgid "Your %(provider)s account is locked."
+msgstr "Ihr %(provider)s-Account ist gesperrt."
 
 #, python-format
 msgid "You successfully connected to %s."
@@ -2400,6 +2404,9 @@ msgstr "Eltern"
 msgid "Global badges"
 msgstr "Globale Badges"
 
+msgid "No Badge"
+msgstr "Kein Badge"
+
 msgid "invisible"
 msgstr "unsichtbar"
 
@@ -3199,6 +3206,10 @@ msgstr "Nutzer*innen, die für \"%s\" gestimmt haben"
 msgid "Opponents"
 msgstr "Gegner*innen"
 
+#, python-format
+msgid "Users who have voted against \"%s\""
+msgstr "Nutzer*innen, die gegen \"%s\" gestimmt haben"
+
 msgid "Mass Message Preview"
 msgstr "Benachrichtigung versenden: Vorschau"
 
@@ -3728,6 +3739,9 @@ msgstr "Statusbadges"
 msgid "No status badges"
 msgstr "Keine Statusbadges"
 
+msgid "No Status Badge"
+msgstr "Keine Status Badge"
+
 #, python-format
 msgid "Delegations: %s"
 msgstr "Delegationen: %s"
@@ -3792,9 +3806,6 @@ msgstr "Bitte geben Sie hier die Beschreibung Ihres Vorschlags ein und benennen 
 
 msgid "Status Badge"
 msgstr "Status Badge"
-
-msgid "No Status Badge"
-msgstr "Keine Status Badge"
 
 msgid "No Status Badges"
 msgstr "Keine Status Badges"
