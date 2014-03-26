@@ -100,7 +100,7 @@ ${self.form()}
     <select name="group">
         <option value="">${_("No Group")}</option>
         %for group in c.groups:
-        <option value="${group.code}">${group.group_name}</option>
+        <option value="${group.code}">${_(group.group_name)}</option>
         %endfor
     </select>
     %if h.has_permission('global.admin'):
