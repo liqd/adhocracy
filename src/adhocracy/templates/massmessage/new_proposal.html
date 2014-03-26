@@ -18,7 +18,7 @@
         <ul class="nobullet">
             <li>${forms.checkbox(_('Creators'), 'creators', help=_('Users who have participated in writing "%s"') % c.proposal.title)}</li>
             <li>${forms.checkbox(_('Supporters'), 'supporters', help=_('Users who have voted in favour of "%s"') % c.proposal.title)}</li>
-            <li>${forms.checkbox(_('Opponents'), 'opponents', help=_('Users who have voted in favour of "%s"') % c.proposal.title)}</li>
+            <li>${forms.checkbox(_('Opponents'), 'opponents', help=_('Users who have voted against "%s"') % c.proposal.title)}</li>
         </ul>
       </fieldset>
 
