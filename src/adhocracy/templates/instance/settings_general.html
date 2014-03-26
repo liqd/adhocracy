@@ -16,6 +16,9 @@
     ${forms.checkbox(_("Enable delegated voting"), 'allow_delegate')}
     ${forms.checkbox(_("Enable milestones"), 'milestones', help=_("Milestones link the online discussions with offline events through a calendar function."))}
     ${forms.checkbox(_("Display category pages"), 'display_category_pages')}
+    <div style="padding-left: 2em">
+        ${components.hidden_badge_table(c.category_badge_tables, 'category', _(u'categories'))}
+    </div>
 
     <% instance_stylesheets = h.config.get_list('adhocracy.instance_stylesheets') %>
     <% instance_themes = h.config.get_list('adhocracy.instance_themes') %>
@@ -40,10 +43,10 @@
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
 
-    ${c.category_badge_tables}
-
     %if can.instance.delete(c.page_instance):
-    <a class="button" href="${h.entity_url(c.page_instance, member='ask_delete')}">${_("Delete this instance")}</a>
+    <div>
+        <a class="button" href="${h.entity_url(c.page_instance, member='ask_delete')}">${_("Delete this instance")}</a>
+    </div>
     %endif
 
 </form>

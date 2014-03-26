@@ -6,9 +6,15 @@
 #, fuzzy
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: adhocracy 2.2.1-geo-14-g7980a42\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-03-25 17:08+0100\n"
+=======
+"Project-Id-Version: adhocracy 2.2.1-35-g594cd58\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+>>>>>>> develop
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1756,6 +1762,14 @@ msgstr ""
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
+#, python-format
+msgid "Hide %s"
+msgstr ""
+
+#, python-format
+msgid "Show %s"
+msgstr ""
+
 msgid "code of conduct"
 msgstr ""
 
@@ -2891,6 +2905,9 @@ msgstr ""
 msgid "Display category pages"
 msgstr ""
 
+msgid "categories"
+msgstr ""
+
 msgid "Themes"
 msgstr ""
 
@@ -2916,6 +2933,9 @@ msgid "Default group for new members"
 msgstr ""
 
 msgid "This will initially decide whether new members can actively participate in or simply read the discussions on your instance. You can change user groups of individual members later."
+msgstr ""
+
+msgid "user badges"
 msgstr ""
 
 msgid "Name of the instance"
@@ -2958,6 +2978,12 @@ msgid "Region"
 msgstr ""
 
 msgid "Assign a geographical region to this instance."
+msgstr ""
+
+msgid "proposal badges"
+msgstr ""
+
+msgid "status badges"
 msgstr ""
 
 msgid "Enable norms"
