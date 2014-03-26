@@ -171,9 +171,10 @@ class BadgeController(BaseController):
         data = {
             'form_type': 'add',
             'groups': Group.all_instance(),
-            'return_url': self.base_url,
             'sorting_orders': PROPOSAL_SORTS,
         }
+        if not c.came_from:
+            c.came_from = self.base_url
         if badge_type is not None:
             data['badge_type'] = badge_type
 
@@ -632,8 +633,9 @@ class BadgeController(BaseController):
             'badge': badge,
             'badge_type': self._get_badge_type(badge),
             'badged_entities': badge.badged_entities(),
-            'return_url': self.base_url,
         }
+        if not c.came_from:
+            c.came_from = self.base_url
 
         return render('/badge/ask_delete.html', data,
                       overlay=format == u'overlay')
