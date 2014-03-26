@@ -20,6 +20,7 @@ ${self.form()}
     ${components.flashmessages()}
 
     ${h.field_token()|n}
+    <input type="hidden" name="came_from" value="${c.came_from}" />
 
     <label for="badge_form_title" class="">${_("Category title") if c.badge_type == 'category' else _("Badge title")}</label>
     <input name="title" id="badge_form_title" class="" style="width:20em"
@@ -99,7 +100,7 @@ ${self.form()}
     <select name="group">
         <option value="">${_("No Group")}</option>
         %for group in c.groups:
-        <option value="${group.code}">${group.group_name}</option>
+        <option value="${group.code}">${_(group.group_name)}</option>
         %endfor
     </select>
     %if h.has_permission('global.admin'):
@@ -170,7 +171,7 @@ ${self.form()}
     %endif
 
     <div class="mainbar">
-      ${components.savebox(c.return_url, _('Save'))}
+      ${components.savebox(c.came_from, _('Save'))}
     </div>
   </form>
 

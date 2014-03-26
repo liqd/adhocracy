@@ -120,12 +120,18 @@ class BadgeController(BaseController):
             'badge_header': self._get_badge_header(badge_type),
             'badge_base_url': self.base_url,
             'global_badges': (cls.all(instance=None)
-                              if has('badge.index')
+                              if has('global.admin')
                               else None),
             'instance_badges': (cls.all(instance=c.instance)
                                 if c.instance is not None
                                 else None),
         }
+
+    def _redirect(self):
+        if c.came_from:
+            redirect(c.came_from)
+        else:
+            redirect(self.base_url)
 
     @guard.perm('badge.index')
     def index(self, format='html'):
@@ -137,13 +143,14 @@ class BadgeController(BaseController):
     @guard.perm('badge.index')
     def index_type(self, badge_type, format='html'):
         data = self._get_badge_data(badge_type)
+        data['came_from'] = self.base_url + '/' + badge_type
         return render(self.index_template, data, overlay=format == u'overlay',
                       overlay_size=OVERLAY_SMALL)
 
     def _redirect_not_found(self, id):
         h.flash(_("We cannot find the badge with the id %s") % str(id),
                 'error')
-        redirect(self.base_url)
+        self._redirect()
 
     def _set_parent_categories(self, exclude=None):
         local_categories = CategoryBadge.all_q(instance=c.instance)
@@ -170,9 +177,10 @@ class BadgeController(BaseController):
         data = {
             'form_type': 'add',
             'groups': Group.all_instance(),
-            'return_url': self.base_url,
             'sorting_orders': PROPOSAL_SORTS,
         }
+        if not c.came_from:
+            c.came_from = self.base_url
         if badge_type is not None:
             data['badge_type'] = badge_type
 
@@ -248,7 +256,7 @@ class BadgeController(BaseController):
                              instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def create_user_badge(self, format=u'html'):
@@ -271,7 +279,7 @@ class BadgeController(BaseController):
                          display_group, impact, instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def create_delegateable_badge(self, format=u'html'):
@@ -291,7 +299,7 @@ class BadgeController(BaseController):
                                  instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def create_category_badge(self, format=u'html'):
@@ -334,7 +342,7 @@ class BadgeController(BaseController):
 
         # commit cause redirect() raises an exception
         meta.Session.commit()
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def create_thumbnail_badge(self, format=u'html'):
@@ -359,7 +367,7 @@ class BadgeController(BaseController):
                               impact, instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
-        redirect(self.base_url)
+        self._redirect()
 
     def _get_common_fields(self, form_result):
         '''
@@ -490,7 +498,7 @@ class BadgeController(BaseController):
                 'behavior_proposal_sort_order')
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def update_delegateable_badge(self, id, format=u'html'):
@@ -514,7 +522,7 @@ class BadgeController(BaseController):
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def update_instance_badge(self, id, format=u'html'):
@@ -538,7 +546,7 @@ class BadgeController(BaseController):
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def update_category_badge(self, id, format=u'html'):
@@ -556,7 +564,7 @@ class BadgeController(BaseController):
             updated = logo.delete(badge)
             if updated:
                 h.flash(_(u'The image has been deleted.'), 'success')
-            redirect(self.base_url)
+            self._redirect()
 
         try:
             # fixme: show image errors in the form
@@ -593,7 +601,7 @@ class BadgeController(BaseController):
         badge.parent = parent
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
-        redirect(self.base_url)
+        self._redirect()
 
     @RequireInternalRequest()
     def update_thumbnail_badge(self, id, format=u'html'):
@@ -621,7 +629,7 @@ class BadgeController(BaseController):
         badge.instance = instance
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
-        redirect(self.base_url)
+        self._redirect()
 
     def ask_delete(self, id, format=u'html'):
         badge = self._get_badge_or_redirect(id)
@@ -631,8 +639,9 @@ class BadgeController(BaseController):
             'badge': badge,
             'badge_type': self._get_badge_type(badge),
             'badged_entities': badge.badged_entities(),
-            'return_url': self.base_url,
         }
+        if not c.came_from:
+            c.came_from = self.base_url
 
         return render('/badge/ask_delete.html', data,
                       overlay=format == u'overlay')
@@ -648,4 +657,4 @@ class BadgeController(BaseController):
         meta.Session.delete(badge)
         meta.Session.commit()
         h.flash(_(u"Badge deleted successfully"), 'success')
-        redirect(self.base_url)
+        self._redirect()

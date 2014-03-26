@@ -704,9 +704,8 @@ class ProposalController(BaseController):
         user.
         '''
         badges = []
-        if can.badge.edit_instance():
+        if can.proposal.edit_badges(proposal):
             badges.extend(model.DelegateableBadge.all(instance=c.instance))
-        if can.badge.edit_global():
             badges.extend(model.DelegateableBadge.all(instance=None))
         badges = sorted(badges, key=lambda badge: badge.title)
         return badges
@@ -718,12 +717,10 @@ class ProposalController(BaseController):
         user.
         '''
         thumbnailbadges = []
-        if can.badge.edit_instance():
+        if can.proposal.edit_badges(proposal):
             thumbnailbadges.extend(model.ThumbnailBadge.all(instance=
                                                             c.instance))
-        if can.badge.edit_global():
-            thumbnailbadges.extend(model.ThumbnailBadge.all(instance=
-                                                            None))
+            thumbnailbadges.extend(model.ThumbnailBadge.all(instance=None))
         thumbnailbadges = sorted(thumbnailbadges,
                                  key=lambda badge: badge.title)
         return thumbnailbadges

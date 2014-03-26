@@ -1,6 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
-<%def name="title()">${_("Whazza")}</%def>
+<%def name="title()">${_("Latest events")|n}</%def>
 
 <%def name="breadcrumbs()">
     ${_("All current events.")}
@@ -8,7 +8,7 @@
 
 
 <%block name="headline">
-<h1>${_("Whazza")}</h1>
+<h1>${self.title()}</h1>
 </%block>
 
 <%block name="main_content">

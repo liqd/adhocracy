@@ -28,7 +28,7 @@
 <%block name="sidebar">
     ${components.message_button(c.instance)}
     %if c.instance is not None and (h.has_permission('global.admin') or can.instance.authenticated_edit(c.instance)):
-    <a class="button_round" href="${h.entity_url(c.instance, member='members_import')}">Import Members</a>
+    <a class="button_round" href="${h.entity_url(c.instance, member='members_import')}">${_('Import Members')}</a>
     %endif
     ${c.users_pager.render_facets(cls='sidebar_box')}
 </%block>
