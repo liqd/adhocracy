@@ -42,7 +42,7 @@ table_def = {
     }.get(type_)
 %>
 %if show_header:
-<h4>${_(u'In all instances') if is_global else _(u'In instance "%s"') % c.instance.label}${new_button(c.badge_base_url, type_, is_global)}</h4>
+<h5>${_(u'In all instances') if is_global else _(u'In instance "%s"') % c.instance.label}${new_button(c.badge_base_url, type_, is_global)}</h5>
 %endif
 %if badges:
 ${table_def(base_url, badges)}
@@ -60,7 +60,7 @@ ${render_tables(c.global_badges, c.instance_badges, c.badge_base_url, c.badge_he
 
 <%def name="render_tables(global_badges, instance_badges, base_url, title, type_)">
 <% single_table = global_badges is None or instance_badges is None %>
-<h3>${title}
+<h4>${title}
   %if single_table:
   %if global_badges is not None:
   ${new_button(base_url, type_, True)}
@@ -68,7 +68,7 @@ ${render_tables(c.global_badges, c.instance_badges, c.badge_base_url, c.badge_he
   ${new_button(base_url, type_, False)}
   %endif
   %endif
-</h3>
+</h4>
 %if type_ == 'user':
 <p>${_("User badges allow you to organize your members according to certain groups.")}</p>
 %elif type_ == 'delegateable':

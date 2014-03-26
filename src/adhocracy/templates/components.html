@@ -476,3 +476,18 @@ ${caller.body()}
 </div>
 %endif
 </%def>
+
+<%def name="hidden_badge_table(tables, badge_type, badge_label)">
+    <% badge_id = '%s_badge_tables' % badge_type %>
+    <div class="more only-js">
+        <a href="#" class="showhide_button"
+           data-target="#${badge_id}"
+           data-toggle-class="less"
+           data-target-speed="fast"
+           data-toggle-text="${_(u'Hide %s') % badge_label}">
+        ${_(u'Show %s') % badge_label}</a>
+    </div>
+    <div id="${badge_id}" style="display:none">
+        ${tables}
+    </div>
+</%def>
