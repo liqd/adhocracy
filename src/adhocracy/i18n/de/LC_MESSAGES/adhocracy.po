@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-25 22:34+0100\n"
-"PO-Revision-Date: 2014-03-25 21:35+0000\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+"PO-Revision-Date: 2014-03-26 01:38+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1823,6 +1823,14 @@ msgstr "Informationen angeben"
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
 
+#, python-format
+msgid "Hide %s"
+msgstr "Verberge %s"
+
+#, python-format
+msgid "Show %s"
+msgstr "Zeige %s"
+
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
 
@@ -2964,6 +2972,9 @@ msgstr "Mit der Termin Funktion können die online Diskussionen mit offline Even
 msgid "Display category pages"
 msgstr "Kategorienseiten anzeigen"
 
+msgid "categories"
+msgstr "Kategorien"
+
 msgid "Themes"
 msgstr "Designs"
 
@@ -2995,6 +3006,9 @@ msgid ""
 "or simply read the discussions on your instance. You can change user groups "
 "of individual members later."
 msgstr "Die zugewiesene Benutzergruppe entscheidet vorläufig über die Art wie sich neu registrierte Teilnehmer*innen beteiligen können. Sie können beispielsweise vorgeben, dass neu registrierte Teilnehmer*innen vorerst Diskussionsbeiträge nur lesen aber nicht verändern dürfen. Die Benutzergruppe kann jederzeit verändert werden."
+
+msgid "user badges"
+msgstr "Nutzerbadges"
 
 msgid "Name of the instance"
 msgstr "Name der Gruppe"
@@ -3031,6 +3045,12 @@ msgstr "Zeige \"Vorschlag\"-Reiter"
 
 msgid "Show proposals as an extra tab"
 msgstr "Zeige \"Vorschlag\"-ReiterSie können den \"Vorschlag\"-Reiter in der Gruppen Navigationsleiste verbergen, sodass Vorschläge nicht auf einer eigenen Seite angezeigt werden. Die Vorschlags-Funktion bleibt weiterhin aktiv."
+
+msgid "proposal badges"
+msgstr "Vorschlagsbadges"
+
+msgid "status badges"
+msgstr "Statusbadges"
 
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"

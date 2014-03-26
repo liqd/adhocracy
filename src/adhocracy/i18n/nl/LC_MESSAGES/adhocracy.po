@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-25 22:34+0100\n"
-"PO-Revision-Date: 2014-03-25 21:34+0000\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+"PO-Revision-Date: 2014-03-26 01:37+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -1809,6 +1809,14 @@ msgstr "Verstrek informatie"
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr "Verstrek alstublieft statistische informatie ten behoeve van wetenschappelijke evaluatie!"
 
+#, python-format
+msgid "Hide %s"
+msgstr ""
+
+#, python-format
+msgid "Show %s"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "gedragscode"
 
@@ -2950,6 +2958,9 @@ msgstr "Mijlpalen verbinden de online discussies met offline gebeurtenissen via 
 msgid "Display category pages"
 msgstr "Toon categorie pagina's"
 
+msgid "categories"
+msgstr ""
+
 msgid "Themes"
 msgstr "Themas"
 
@@ -2981,6 +2992,9 @@ msgid ""
 "or simply read the discussions on your instance. You can change user groups "
 "of individual members later."
 msgstr "Dit bepaalt of nieuwe deelnemers actief mogen participeren in de discussies van uw groep of deze enkel mogen lezen. U kunt de instellingen van gebruikersgroepen of individuele deelnemers later nog aanpassen."
+
+msgid "user badges"
+msgstr ""
 
 msgid "Name of the instance"
 msgstr "Naam van de groep"
@@ -3017,6 +3031,12 @@ msgstr "Toon voorstel navigatie item"
 
 msgid "Show proposals as an extra tab"
 msgstr "Toon voorstellen als een extra tab"
+
+msgid "proposal badges"
+msgstr ""
+
+msgid "status badges"
+msgstr ""
 
 msgid "Enable norms"
 msgstr "Reglementen inschakelen"

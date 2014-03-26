@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.2.1-27-g65a2b1b\n"
+"Project-Id-Version: adhocracy 2.2.1-35-g594cd58\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-25 22:34+0100\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1749,6 +1749,14 @@ msgstr ""
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
+#, python-format
+msgid "Hide %s"
+msgstr ""
+
+#, python-format
+msgid "Show %s"
+msgstr ""
+
 msgid "code of conduct"
 msgstr ""
 
@@ -2818,6 +2826,9 @@ msgstr ""
 msgid "Display category pages"
 msgstr ""
 
+msgid "categories"
+msgstr ""
+
 msgid "Themes"
 msgstr ""
 
@@ -2843,6 +2854,9 @@ msgid "Default group for new members"
 msgstr ""
 
 msgid "This will initially decide whether new members can actively participate in or simply read the discussions on your instance. You can change user groups of individual members later."
+msgstr ""
+
+msgid "user badges"
 msgstr ""
 
 msgid "Name of the instance"
@@ -2876,6 +2890,12 @@ msgid "Show proposals navigation item"
 msgstr ""
 
 msgid "Show proposals as an extra tab"
+msgstr ""
+
+msgid "proposal badges"
+msgstr ""
+
+msgid "status badges"
 msgstr ""
 
 msgid "Enable norms"

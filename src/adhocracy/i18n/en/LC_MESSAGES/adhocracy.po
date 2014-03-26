@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-25 22:34+0100\n"
-"PO-Revision-Date: 2014-03-25 21:34+0000\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+"PO-Revision-Date: 2014-03-26 01:37+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1809,6 +1809,14 @@ msgstr "Provide information"
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr "Please provide statistical information to help scientific evaluation!"
 
+#, python-format
+msgid "Hide %s"
+msgstr ""
+
+#, python-format
+msgid "Show %s"
+msgstr ""
+
 msgid "code of conduct"
 msgstr "code of conduct"
 
@@ -2950,6 +2958,9 @@ msgstr ""
 msgid "Display category pages"
 msgstr ""
 
+msgid "categories"
+msgstr ""
+
 msgid "Themes"
 msgstr ""
 
@@ -2980,6 +2991,9 @@ msgid ""
 "This will initially decide whether new members can actively participate in "
 "or simply read the discussions on your instance. You can change user groups "
 "of individual members later."
+msgstr ""
+
+msgid "user badges"
 msgstr ""
 
 msgid "Name of the instance"
@@ -3017,6 +3031,12 @@ msgstr ""
 
 msgid "Show proposals as an extra tab"
 msgstr "Show proposals as an extra tab."
+
+msgid "proposal badges"
+msgstr ""
+
+msgid "status badges"
+msgstr ""
 
 msgid "Enable norms"
 msgstr ""
