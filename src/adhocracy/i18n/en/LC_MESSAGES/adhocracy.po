@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:19+0100\n"
-"PO-Revision-Date: 2014-03-26 14:19+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-03-26 15:42+0100\n"
+"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1020,6 +1020,9 @@ msgstr "Invalid request. Please go back and try again."
 msgid "The method you used is not implemented."
 msgstr "The method you used is not implemented."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Abuse report: %s"
@@ -1849,9 +1852,6 @@ msgstr "<b>%s</b> comments"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Instances"
 
@@ -2151,14 +2151,14 @@ msgstr "Assign treatment badges"
 msgid "Admin: Import Users"
 msgstr "Admin: Import users"
 
+msgid "Users CSV"
+msgstr "Users CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
-
-msgid "Users CSV"
-msgstr "Users CSV"
 
 msgid "Email Subject"
 msgstr "Email subject"
@@ -2241,12 +2241,12 @@ msgstr ""
 msgid "Badge description"
 msgstr "Badge description"
 
+msgid "Long category description"
+msgstr ""
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Here you can add a more detailed description of your category with markdown. You can add pictures and links."
-
-msgid "Long category description"
-msgstr ""
 
 msgid "The color that is used to show the category"
 msgstr ""
@@ -2731,8 +2731,8 @@ msgid ""
 "developers."
 msgstr "An automated email message describing the situation has been sent to our developers."
 
-msgid "Whazza"
-msgstr "Whazza"
+msgid "Latest events"
+msgstr ""
 
 msgid "All current events."
 msgstr "All current events."
@@ -2926,11 +2926,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
-msgstr "You can add css that will be used to style the instance."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "You can add css that will be used to style the instance."
 
 msgid "Status badge image width"
 msgstr ""
@@ -3009,20 +3009,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
+msgid "Description of the instance"
+msgstr ""
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Current logo"
@@ -3422,10 +3422,10 @@ msgstr "Variant name"
 msgid "Text"
 msgstr "Text"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4257,6 +4257,9 @@ msgstr "Received"
 msgid "There are no delegations."
 msgstr "There are no delegations."
 
+msgid "Import Members"
+msgstr ""
+
 msgid "Find users"
 msgstr "Find users"
 
@@ -4517,12 +4520,12 @@ msgstr "Salutation"
 msgid "Select your prefered gender"
 msgstr "Select your prefered gender"
 
+msgid "Avatar"
+msgstr ""
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
-
-msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4531,13 +4534,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
+msgid "Short biography"
+msgstr "Short biography"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "A bio will allow others to learn about you and perhaps even get you a few delegations."
-
-msgid "Short biography"
-msgstr "Short biography"
 
 msgid "I am an organisation"
 msgstr ""

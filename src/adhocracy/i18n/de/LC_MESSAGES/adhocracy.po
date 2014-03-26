@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:19+0100\n"
-"PO-Revision-Date: 2014-03-26 14:20+0000\n"
+"POT-Creation-Date: 2014-03-26 15:42+0100\n"
+"PO-Revision-Date: 2014-03-26 14:49+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgid "Instance Badges"
 msgstr "Gruppen-Badges"
 
 msgid "Status Badges"
-msgstr "Status Badges"
+msgstr "Status-Badges"
 
 msgid "Badge changed successfully"
 msgstr "Badge erfolgreich geändert"
@@ -1034,6 +1034,9 @@ msgstr "Ungültige Anfrage. Bitte gehen Sie zurück und versuchen es erneut."
 msgid "The method you used is not implemented."
 msgstr "Was Sie versuchten ist nicht implementiert."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Missbrauch-Report: %s"
@@ -1863,9 +1866,6 @@ msgstr "<b>%s</b> Kommentare"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> Stimmen"
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Gruppen"
 
@@ -2165,14 +2165,14 @@ msgstr "Treatment-Badges zuweisen"
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
 
+msgid "Users CSV"
+msgstr "Benutzer CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, E-mail und Badges (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
-
-msgid "Users CSV"
-msgstr "Benutzer CSV"
 
 msgid "Email Subject"
 msgstr "E-Mail-Betreff"
@@ -2255,12 +2255,12 @@ msgstr "Beschreibung der Kategorie"
 msgid "Badge description"
 msgstr "Beschreibung des Badges"
 
+msgid "Long category description"
+msgstr "Ausführliche Beschreibung der Kategorie"
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Hier können Sie eine detaillierte Beschreibung der Kategorie mit markdown Formatierung vornehmen. Sie können auch Bilder und Links einbetten."
-
-msgid "Long category description"
-msgstr "Ausführliche Beschreibung der Kategorie"
 
 msgid "The color that is used to show the category"
 msgstr "Die Farbe dieser Kategorie."
@@ -2378,7 +2378,7 @@ msgid ""
 "Status badges may be used to indicate different statuses of proposals in "
 "your participation process (e.g. accepted, rejected, in discussion, etc.) "
 "with an image."
-msgstr "Mit Hilfe von Status Badges kann mit einem Bild beispielsweise der Stand verschiedener Vorschläge im Beteiligungsprozess angegeben werden (z.B. akzeptiert, abgelehnt, wird diskutiert, etc.)."
+msgstr "Mit Hilfe von Status-Badges kann mit einem Bild beispielsweise der Stand verschiedener Vorschläge im Beteiligungsprozess angegeben werden (z.B. akzeptiert, abgelehnt, wird diskutiert, etc.)."
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -2745,8 +2745,8 @@ msgid ""
 "developers."
 msgstr "Es wurde eine automatische Nachricht mit einer Fehlerbeschreibung an die Entwickler gesendet."
 
-msgid "Whazza"
-msgstr "Was ist der Stand der Dinge?"
+msgid "Latest events"
+msgstr "Neueste Ereignisse"
 
 msgid "All current events."
 msgstr "Alle aktuellen Ereignisse."
@@ -2940,11 +2940,11 @@ msgid ""
 "this embed code to your website."
 msgstr "Um die neusten Ereignisse von Ihrer %(site_name)s-Gruppe anzuzeigen können sie diesen Einbett-Code auf ihrer Webseite hinzufügen."
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
 
 msgid "Status badge image width"
 msgstr "Verändern Sie die Breite des Status-Badge Bildes."
@@ -3023,20 +3023,20 @@ msgstr "Name der Gruppe"
 msgid "Give your instance a name."
 msgstr "Geben Sie der Instanz einen Namen."
 
+msgid "Description of the instance"
+msgstr "Beschreibung der Gruppe"
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Geben Sie hier den Text ein, der auf der Übersichtsseite Ihrer Instanz angezeigt werden soll. Beschreiben Sie Ihren Beteiligungsprozess, durch Angabe konkreter Ziele der Beteiligung und wie die Mitglieder diese durch ihre Mitarbeit erreichen können."
 
-msgid "Description of the instance"
-msgstr "Beschreibung der Gruppe"
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Wählen Sie ein Logo für Ihre Instanz."
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Aktuelles Logo"
@@ -3057,7 +3057,7 @@ msgid "proposal badges"
 msgstr "Vorschlagsbadges"
 
 msgid "status badges"
-msgstr "Statusbadges"
+msgstr "Status-Badges"
 
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"
@@ -3436,11 +3436,11 @@ msgstr "Name der Version"
 msgid "Text"
 msgstr "Text"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
-msgstr "Abriss des Beschlusses. Wird nur verwendet, wenn der Beschluss als Kachel angezeigt wird."
-
 msgid "Abstract"
 msgstr "Abriss"
+
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "Abriss des Beschlusses. Wird nur verwendet, wenn der Beschluss als Kachel angezeigt wird."
 
 msgid "Display subnorms as sections"
 msgstr "Stelle Unterbeschlüsse als Abschnitte dar"
@@ -3734,10 +3734,10 @@ msgid "Are you sure you want to delete this proposal?"
 msgstr "Sind Sie sicher, dass Sie diesen Vorschlag entfernen möchten?"
 
 msgid "Status badges"
-msgstr "Statusbadges"
+msgstr "Status-Badges"
 
 msgid "No status badges"
-msgstr "Keine Statusbadges"
+msgstr "Keine Status-Badges"
 
 msgid "No Status Badge"
 msgstr "Keine Status Badge"
@@ -3808,7 +3808,7 @@ msgid "Status Badge"
 msgstr "Status Badge"
 
 msgid "No Status Badges"
-msgstr "Keine Status Badges"
+msgstr "Keine Status-Badges"
 
 msgid "Collaboration and Notification"
 msgstr "Zusammenarbeit und Benachrichtigung"
@@ -4271,6 +4271,9 @@ msgstr "Erhalten"
 msgid "There are no delegations."
 msgstr "Wer erhält welche Delegationen?"
 
+msgid "Import Members"
+msgstr "Mitglieder importieren"
+
 msgid "Find users"
 msgstr "Benutzer suchen"
 
@@ -4531,13 +4534,13 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
+msgid "Avatar"
+msgstr "Profilbild"
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Wählen Sie ein Profilbild. Das Bild sollte quadratisch sein. Andernfalls wird es entsprechend verzerrt."
-
-msgid "Avatar"
-msgstr "Profilbild"
 
 msgid "Current avatar"
 msgstr "Aktuelles Profilbild"
@@ -4545,13 +4548,13 @@ msgstr "Aktuelles Profilbild"
 msgid "Delete current avatar"
 msgstr "Aktuelles Profilbild löschen"
 
+msgid "Short biography"
+msgstr "Kurzbiographie"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
-
-msgid "Short biography"
-msgstr "Kurzbiographie"
 
 msgid "I am an organisation"
 msgstr "Ich vertrete eine Organisation"
