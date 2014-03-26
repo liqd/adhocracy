@@ -75,6 +75,19 @@ var adhocracy = adhocracy || {};
             + ' > ' + tag + ':nth-child(' + (el.index()+1) + ')';
     };
 
+    adhocracy.baseUrl = function(path) {
+        var url = new Uri($('body').data('baseurl'));
+
+        // FIXME: Update jsUri and use addTrailingSlash instead
+        var url_path = url.path();
+        if (url_path.substr(-1) !== '/') {
+            url.path(url_path + '/');
+        }
+
+        url.path(url.path() + path);
+        return url.toString();
+    }
+
     adhocracy.ajax_submit = function(form, success) {
         // submits using ajax
         // will magically insert error messages
@@ -1344,15 +1357,15 @@ $(document).ready(function () {
         // registering this event on parent element to also catch
         // events from generated elements
         $('html').on('click', 'a[href]', function(e) {
-            if (e.target.href[0] != '#' && !e.target.target) {
-                e.target.target = '_top';
+            if (this.href[0] != '#' && !this.target) {
+                this.target = '_top';
             }
-            if (e.target.target === '_self') {
-                e.target.href = overlay_url(e.target.href);
+            if (this.target === '_self') {
+                this.href = overlay_url(this.href);
             }
         });
         $('html').on('submit', 'form', function(e) {
-            e.target.action = overlay_url(e.target.action);
+            this.action = overlay_url(this.action);
         });
     }
 });

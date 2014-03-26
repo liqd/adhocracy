@@ -6,9 +6,15 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.2.0-48-g2781640\n"
+<<<<<<< HEAD
+"Project-Id-Version: adhocracy 2.2.1-geo-14-g7980a42\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-21 23:05+0100\n"
+"POT-Creation-Date: 2014-03-25 17:08+0100\n"
+=======
+"Project-Id-Version: adhocracy 2.2.1-35-g594cd58\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+>>>>>>> develop
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,6 +177,9 @@ msgid "This instance is not active for use and is archived. It isn't possible to
 msgstr ""
 
 msgid "The logo has been deleted."
+msgstr ""
+
+msgid "None"
 msgstr ""
 
 msgid "Instance created successfully. You can now configure it in greater detail if you wish."
@@ -678,11 +687,11 @@ msgstr ""
 msgid "Logging in with %s is not allowed on this installation."
 msgstr ""
 
-#, python-format
-msgid "This %(provider)s account is already connected."
+msgid "Error"
 msgstr ""
 
-msgid "Error"
+#, python-format
+msgid "This %(provider)s account is already connected."
 msgstr ""
 
 #, python-format
@@ -852,6 +861,10 @@ msgstr ""
 msgid "Name cannot be purely numeric: %s"
 msgstr ""
 
+#, python-format
+msgid "Invalid region: %s"
+msgstr ""
+
 msgid "An entry with this title already exists"
 msgstr ""
 
@@ -964,9 +977,6 @@ msgid "Invalid request. Please go back and try again."
 msgstr ""
 
 msgid "The method you used is not implemented."
-msgstr ""
-
-msgid "Start"
 msgstr ""
 
 #, python-format
@@ -1752,6 +1762,14 @@ msgstr ""
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr ""
 
+#, python-format
+msgid "Hide %s"
+msgstr ""
+
+#, python-format
+msgid "Show %s"
+msgstr ""
+
 msgid "code of conduct"
 msgstr ""
 
@@ -1831,6 +1849,9 @@ msgstr ""
 msgid "<b>%s</b> votes"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 msgid "Instances"
 msgstr ""
 
@@ -1885,9 +1906,6 @@ msgid "reset"
 msgstr ""
 
 msgid "Edit"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "Sort:"
@@ -2119,10 +2137,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
+msgid "Users CSV"
 msgstr ""
 
 msgid "Email Subject"
@@ -2201,10 +2219,10 @@ msgstr ""
 msgid "Badge description"
 msgstr ""
 
-msgid "Long category description"
+msgid "Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
-msgid "Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2688,31 +2706,12 @@ msgstr ""
 msgid "display all events"
 msgstr ""
 
-<<<<<<< HEAD
 msgid "License"
 msgstr ""
 
 msgid "Add geographic location"
 msgstr ""
 
-msgid "Latest Events"
-msgstr ""
-
-msgid "This is a record of all recent actions within this instance."
-msgstr ""
-
-msgid "You can also have notifications sent to you."
-msgstr ""
-
-msgid "Info..."
-msgstr ""
-
-#, python-format
-msgid "Create a proposal to start debating in %(instance)s."
-msgstr ""
-
-=======
->>>>>>> 2.2.1
 msgid "Delete instance"
 msgstr ""
 
@@ -2794,10 +2793,28 @@ msgstr ""
 msgid "The participants can make proposals and discuss these. This option enables everything from an open dialogue to formulating and organizing concrete ideas and goals."
 msgstr ""
 
+msgid "Planning Ideas"
+msgstr ""
+
+msgid "The participants can make, discuss and plan proposals in connection to concrete dates through a calendar function."
+msgstr ""
+
+msgid "Locating ideas"
+msgstr ""
+
+msgid "The participants can make, discuss and locate or geo-tag proposals on an interactive map."
+msgstr ""
+
 msgid "Collaboratively drafting texts"
 msgstr ""
 
-msgid " Whether you want to draft statutes, strategic papers or a manifesto – with this option the participants will have the chance to discuss, and collaboratively work on the texts you introduce to the platform."
+msgid "Whether you want to draft statutes, strategic papers or a manifesto – with this option the participants will have the chance to discuss, and collaboratively work on the texts you introduce to the platform."
+msgstr ""
+
+msgid "Land-use planning"
+msgstr ""
+
+msgid "Participants can comment on construction and land-use projects and norms by geo-tagging their proposals on an interactive map."
 msgstr ""
 
 msgid "Configure"
@@ -2852,10 +2869,10 @@ msgstr ""
 msgid "To display the latest events from your %(site_name)s instance you can add this embed code to your website."
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
 msgid "Status badge image width"
@@ -2888,6 +2905,9 @@ msgstr ""
 msgid "Display category pages"
 msgstr ""
 
+msgid "categories"
+msgstr ""
+
 msgid "Themes"
 msgstr ""
 
@@ -2915,22 +2935,25 @@ msgstr ""
 msgid "This will initially decide whether new members can actively participate in or simply read the discussions on your instance. You can change user groups of individual members later."
 msgstr ""
 
+msgid "user badges"
+msgstr ""
+
 msgid "Name of the instance"
 msgstr ""
 
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
+msgid "Description of the instance"
 msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
+msgstr ""
+
+msgid "Logo"
 msgstr ""
 
 msgid "Current logo"
@@ -2949,6 +2972,18 @@ msgid "Show proposals as an extra tab"
 msgstr ""
 
 msgid "Enable maps"
+msgstr ""
+
+msgid "Region"
+msgstr ""
+
+msgid "Assign a geographical region to this instance."
+msgstr ""
+
+msgid "proposal badges"
+msgstr ""
+
+msgid "status badges"
 msgstr ""
 
 msgid "Enable norms"
@@ -3313,10 +3348,10 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4388,10 +4423,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
+msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
 msgstr ""
 
-msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4400,10 +4435,10 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
 msgid "I am an organisation"
@@ -4488,5 +4523,11 @@ msgid "Watchlist: %s"
 msgstr ""
 
 msgid "This is your watchlist. You will receive notifications for events concerning each of these items."
+msgstr ""
+
+msgid "Logging in"
+msgstr ""
+
+msgid "You are being logged in."
 msgstr ""
 

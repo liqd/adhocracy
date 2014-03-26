@@ -16,6 +16,13 @@
     ${forms.checkbox(_("Show proposals navigation item"), 'show_proposals_navigation', help=_("Show proposals as an extra tab"), autofocus=True)}
     ${forms.checkbox(_("Enable maps"), 'use_maps')}
 
+    <div style="padding-left: 2em">
+        ${forms.select(_("Region"), 'region_id', c.regions, help=_(u"Assign a geographical region to this instance."))}
+    </div>
+
+    ${components.hidden_badge_table(c.delegateable_badge_tables, 'proposal', _(u'proposal badges'))}
+    ${components.hidden_badge_table(c.thumbnail_badge_tables, 'status', _(u'status badges'))}
+
     <h3>${_('Collaboratively drafting texts')}</h3>
 
     ${forms.checkbox(_("Enable norms"), 'use_norms', help=_("Unlike proposals, norms are documents that you introduce to be discussed on the platform."))}
@@ -26,8 +33,6 @@
     </div>
 
     ${components.savebox(h.base_url("/instance/%s" % c.page_instance.key))}
-    ${c.delegateable_badge_tables}
-    ${c.thumbnail_badge_tables}
 
 </form>
 </%block>

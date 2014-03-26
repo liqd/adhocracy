@@ -44,7 +44,7 @@ class Velruse(object):
                 q = filter_deleted(q)
             return q.one()
         except Exception as e:
-            log.warn("find(%s, %s): %s" % (domain, domain_user, e))
+            log.debug("find(%s, %s): %s" % (domain, domain_user, e))
             return None
 
     @classmethod

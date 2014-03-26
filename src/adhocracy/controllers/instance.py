@@ -55,10 +55,21 @@ PRESETS = {
         'use_norms',
         'show_norms_navigation',
     )),
+    'planning_ideas': set((
+        'allow_delegate',
+        'milestones',
+    )),
+    'locating_ideas': set((
+        'allow_delegate',
+        'use_maps',
+    )),
+    'land_use': set((
+        'use_norms',
+        'use_maps',
+    )),
     # Only settings which are part of at least one preset will be changed.
     # Add settings to this pseudo-preset to disable it on every reset
     'always_off': set((
-        'milestones',
         'hide_global_categories',
         'display_category_pages',
         'allow_propose',
@@ -135,6 +146,8 @@ class InstanceProcessEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     use_norms = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    region_id = forms.ValidRegion(not_empty=False, if_empty=None,
+                                  if_missing=None)
 
 
 class InstanceMembersEditForm(formencode.Schema):
@@ -165,9 +178,12 @@ class InstanceAdvancedEditForm(formencode.Schema):
     #     not_empty=False, if_empty=False, if_missing=False)
     frozen = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
-    css = validators.String(max=100000, if_empty=None, not_empty=False)
-    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None)
-    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None)
+    css = validators.String(max=100000, if_empty=None, not_empty=False,
+                            if_missing=None)
+    thumbnailbadges_width = validators.Int(not_empty=False, if_empty=None,
+                                           if_missing=None)
+    thumbnailbadges_height = validators.Int(not_empty=False, if_empty=None,
+                                            if_missing=None)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
                                              if_missing=False)
 
@@ -188,7 +204,7 @@ class InstancePresetsForm(formencode.Schema):
     consultation = validators.StringBool(not_empty=False, if_empty=False,
                                          if_missing=False)
     chained_validators = [
-        forms.common.NotAllFalse(['agenda_setting', 'consultation'],
+        forms.common.NotAllFalse(PRESETS.keys(),
                                  _(u"Please select at least one preset")),
     ]
 
@@ -270,7 +286,9 @@ class InstanceController(BaseController):
             data = {
                 'static': page,
                 'body_html': render_body(page.body),
+                'full_width': True,
             }
+            c.body_css_classes += page.css_classes
             return render("/static/show.html", data,
                           overlay=format == 'overlay')
 
@@ -606,6 +624,16 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         c.settings_menu = settings_menu(c.page_instance, 'process')
 
+        c.regions = [{
+            'value': u'',
+            'label': _(u'None'),
+            'selected': c.page_instance.region is None,
+        }]
+        for region in model.meta.Session.query(model.Region).all():
+            c.regions.append({'value': str(region.id),
+                              'label': region.name,
+                              'selected': region == c.page_instance.region})
+
         return render("/instance/settings_process.html")
 
     @RequireInstance
@@ -632,6 +660,7 @@ class InstanceController(BaseController):
                 'show_proposals_navigation':
                 c.page_instance.show_proposals_navigation,
                 'use_maps': c.page_instance.use_maps,
+                'region_id': c.page_instance.region_id,
                 'use_norms': c.page_instance.use_norms,
                 '_tok': csrf.token_id()})
 
@@ -647,7 +676,8 @@ class InstanceController(BaseController):
         updated = update_attributes(
             c.page_instance, self.form_result,
             ['allow_propose', 'allow_propose_changes', 'use_norms',
-             'show_norms_navigation', 'show_proposals_navigation', 'use_maps'])
+             'show_norms_navigation', 'show_proposals_navigation', 'use_maps',
+             'region_id'])
 
         return self._settings_result(updated, c.page_instance, 'process')
 
@@ -975,11 +1005,16 @@ class InstanceController(BaseController):
 
         self._presets_update(c.page_instance, self.form_result)
 
+        if config.get_bool('adhocracy.instance.show_settings_after_create'):
+            member='settings/overview'
+        else:
+            member=None
+
         return ret_success(
             message=_(u'Instance created successfully. You can now configure '
                       u'it in greater detail if you wish.'),
             category='success', entity=c.page_instance,
-            member='settings/overview')
+            member=member)
 
     @RequireInstance
     def style(self, id):

@@ -52,7 +52,7 @@
 
 
 <%def name="row(tile, proposal)">
-    <li class="content_box ${'fresh' if tile.fresh else ''}">
+    <li class="content_box ${'fresh' if tile.fresh else ''} proposal-row">
         <div class="main_row">
             ${_row(tile, proposal)}
         </div>
@@ -83,7 +83,7 @@ FIXME - stupid code duplication, see lib.pager.proposals_small
 
 
 <%def name="row_inline(tile, proposal)">
-    <li class="content_box ${'fresh' if tile.fresh else ''}">
+    <li class="content_box ${'fresh' if tile.fresh else ''} proposal-row-inline">
         <div class="main_row">
             <div class="row_button">
                 <a class="button_small showhide_button"

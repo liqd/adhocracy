@@ -23,7 +23,7 @@ proposal_table = Table(
     Column('rate_poll_id', Integer, ForeignKey('poll.id'), nullable=True),
     Column('adopted', Boolean, default=False),
     Column('is_amendment', Boolean, default=False),
-    Column('geotag', Geometry(dimension=2, srid=900913), nullable=True),
+    Column('geotag', Geometry, nullable=True),
 )
 
 

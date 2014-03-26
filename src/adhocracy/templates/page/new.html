@@ -1,6 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="forms" file="/forms.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("New page")}</%def>
 
 <%def name="breadcrumbs()">
@@ -65,7 +66,7 @@
             %if not c.section:
             <div class="input_wrapper">
                 <label>
-                    <input name="sectionpage" type="checkbox" value="1" />
+                    <input name="sectionpage" type="checkbox" checked="checked" value="1" />
                     ${_('Display subnorms as sections')}
                 </label>
             </div>
@@ -136,6 +137,10 @@
         %endif
         %endif
     </div>
+
+    %if h.geo.use_page_geotags():
+    ${map.show_page_edit_map(None, inline=True)}
+    %endif
 
     <div style="clear:both;"></div>
     <div class="mainbar">

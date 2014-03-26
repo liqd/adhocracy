@@ -55,7 +55,7 @@ Install required system packages (Debian Squeeze example):
     $ sudo apt-get install python python-setuptools
     $ sudo apt-get install libsqlite3-dev postgresql-server-dev-9.1
     $ sudo apt-get install openjdk-6-jre
-    $ sudo apt-get install ruby rubygems
+    $ sudo apt-get install ruby rubygems ruby-dev
 
 To make the apache vhost config work run:
 

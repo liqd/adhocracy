@@ -31,24 +31,29 @@ ${attribution()}</div>
 }</script>
 </%def>
 
-<%def name="show_page_edit_map(page_id)">
+<%def name="show_page_edit_map(page_id=None, inline=False)">
 <% h.need.openlayers %>
 <% h.need.ole %>
 <% h.need_adhocracy_geo_i18n() %>
 <% h.need.adhocracy_geo_js %>
-<div id="map" class="map midsize_map">
+<div id="map" class="map ${'create_map' if inline else 'midsize_map'}">
 ${attribution()}</div>
-<div id="edit_map_buttons" />
+<div id="edit_map_buttons"></div>
+
+%if not inline:
 <form id="edit_geotag" method='post' action='${h.entity_url(c.page, member="update_geotag")}'>
+%endif
     <input id='geotag_field' name='geotag' type='hidden' />
+%if not inline:
     <div>
       <div class="input_wrapper submit">
-        ${components.savebox("/page/%s" % c.page.id)}
+        ${components.savebox("/page/%s" % page_id)}
       </div>
     </div>
 </form>
+%endif
 <script type="text/javascript">window.onload=function() {
-    adhocracy.geo.loadPageMap(${h.geo.map_config(instanceKey=c.instance.key, pageId=page_id, edit=True)|n});
+    adhocracy.geo.loadPageMap(${h.geo.map_config(instanceKey=c.instance.key, pageId=page_id, inline=inline, edit=True)|n});
 }</script>
 </%def>
 

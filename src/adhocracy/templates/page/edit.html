@@ -1,6 +1,7 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
 <%namespace name="forms" file="/forms.html"/>
+<%namespace name="map" file="/geo/map.html"/>
 
 <%def name="title()">${_("Variant: %s") % c.text.title|n}</%def>
 
@@ -137,6 +138,10 @@
     %if c.instance.milestones and can.page.manage(c.page) and not c.section:
     <label for="milestone">${_("Relates to a milestone")}</label>
     ${tiles.milestone.select(c.page.milestone)}
+    %endif
+
+    %if h.geo.use_page_geotags():
+    ${map.show_page_edit_map(c.page.id, inline=True)}
     %endif
 
     ${components.savebox(c.came_from)}

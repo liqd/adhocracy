@@ -39,6 +39,7 @@ DEFAULTS = {
 
     'adhocracy.hide_locallogin': False,
     'adhocracy.instance.allow_logo_as_background': False,
+    'adhocracy.instance.show_settings_after_create': True,
     'adhocracy.instance_footers': [],
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,

@@ -111,7 +111,7 @@
     %if facet.badge_type is not None and can.badge.manage_instance():
     <a class="button_small edit"
         href="${h.base_url('/badge/%s' % facet.badge_type)}"
-        rel="#overlay-form">${_(u"Edit")}</a>
+        rel="#overlay-url">${_(u"Edit")}</a>
     %endif
 </h4>
 %if facet.description:

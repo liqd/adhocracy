@@ -562,6 +562,16 @@ class VariantName(formencode.FancyValidator):
             return var
 
 
+class ValidRegion(formencode.FancyValidator):
+    def _to_python(self, value, state):
+        from adhocracy.model import meta, Region
+        r = meta.Session.query(Region).filter(Region.id == value).first()
+        if r is None:
+            raise formencode.Invalid(_(u'Invalid region: %s') % value,
+                                     value, state)
+        return value
+
+
 class UnusedTitle(formencode.validators.String):
     def __init__(self):
         super(UnusedTitle, self).__init__(min=3, max=254, not_empty=True)

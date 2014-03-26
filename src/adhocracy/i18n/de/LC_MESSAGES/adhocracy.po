@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-21 23:05+0100\n"
-"PO-Revision-Date: 2014-03-21 22:05+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-03-26 02:37+0100\n"
+"PO-Revision-Date: 2014-03-26 01:38+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -752,12 +752,12 @@ msgstr "Sie müssen Adhocracy die Erlaubnis geben, Ihren Account mit Facebook zu
 msgid "Logging in with %s is not allowed on this installation."
 msgstr "Auf dieser Installation ist das Einloggen mit %s nicht erlaubt."
 
+msgid "Error"
+msgstr "Fehler"
+
 #, python-format
 msgid "This %(provider)s account is already connected."
 msgstr "Dieses %(provider)s-Konto ist bereits vergeben."
-
-msgid "Error"
-msgstr "Fehler"
 
 #, python-format
 msgid "You successfully connected to %s."
@@ -1058,9 +1058,6 @@ msgstr "Ungültige Anfrage. Bitte gehen Sie zurück und versuchen es erneut."
 
 msgid "The method you used is not implemented."
 msgstr "Was Sie versuchten ist nicht implementiert."
-
-msgid "Start"
-msgstr "Start"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1866,6 +1863,14 @@ msgstr "Informationen angeben"
 msgid "Please provide statistical information to help scientific evaluation!"
 msgstr "Zur wissenschaftlichen Auswertung des Beteiligungsprozesses bitten wir Sie, statistische Angaben zu machen."
 
+#, python-format
+msgid "Hide %s"
+msgstr "Verberge %s"
+
+#, python-format
+msgid "Show %s"
+msgstr "Zeige %s"
+
 msgid "code of conduct"
 msgstr "Verhaltenscodex"
 
@@ -1932,6 +1937,9 @@ msgstr "zurück"
 
 msgid "next"
 msgstr "nächste"
+
+msgid "Start"
+msgstr "Start"
 
 msgid "Instances"
 msgstr "Gruppen"
@@ -2235,14 +2243,14 @@ msgstr "Treatment-Badges zuweisen"
 msgid "Admin: Import Users"
 msgstr "Admin: Benutzer importieren"
 
-msgid "Users CSV"
-msgstr "Benutzer CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Fügen Sie den Inhalt einer CSV- Datei ein, z.B. exportiert aus Excel, mit den 4 Spalten Benutzername, Anzeigename, E-mail und Badges (Badges sind optional, komma-separiert und mit Anführungszeichen um die Badgeliste)"
+
+msgid "Users CSV"
+msgstr "Benutzer CSV"
 
 msgid "Email Subject"
 msgstr "E-Mail-Betreff"
@@ -2327,12 +2335,12 @@ msgstr "Beschreibung der Kategorie"
 msgid "Badge description"
 msgstr "Beschreibung des Badges"
 
-msgid "Long category description"
-msgstr "Ausführliche Beschreibung der Kategorie"
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Hier können Sie eine detaillierte Beschreibung der Kategorie mit markdown Formatierung vornehmen. Sie können auch Bilder und Links einbetten."
+
+msgid "Long category description"
+msgstr "Ausführliche Beschreibung der Kategorie"
 
 msgid "The color that is used to show the category"
 msgstr "Die Farbe dieser Kategorie."
@@ -2956,14 +2964,34 @@ msgid ""
 "ideas and goals."
 msgstr "Die Teilnehmer*innen können Vorschläge erstellen, diskutieren und so beispielsweise vom offenen Dialogverfahren bis zur offenen Ideensammlung ihre gemeinsamen Absichten formulieren und organisieren."
 
+msgid "Locating ideas"
+msgstr "Ideen verorten"
+
+msgid "The participants can make, discuss and locate or geo-tag proposals on an interactive map."
+msgstr "Die Teilnehmer*innen können Vorschläge erstellen, diskutieren und konkret auf einer interaktiven Karte verorten."
+
+msgid "Planning Ideas"
+msgstr "Ideen planen"
+
+msgid ""
+"The participants can make, discuss and plan proposals in connection to "
+"concrete dates through a calendar function."
+msgstr "Alle Teilnehmer*innen können Vorschläge erstellen, diskutieren und Tagesordnungen/Themenprogramm konkret mit Terminen verbinden."
+
 msgid "Collaboratively drafting texts"
 msgstr "Texte gemeinsam bearbeiten"
 
+msgid "Land-use planning"
+msgstr "Bebauungsplanung"
+
+msgid "Participants can comment on construction and land-use projects and norms by geo-tagging their proposals on an interactive map."
+msgstr "Hier haben die Teilnehmer*innen die Möglichkeit konkrete Baupläne und Bauvorhaben auf einer interaktiven Karte zu erstellen und zu diskutieren."
+
 msgid ""
-" Whether you want to draft statutes, strategic papers or a manifesto – with "
+"Whether you want to draft statutes, strategic papers or a manifesto – with "
 "this option the participants will have the chance to discuss, and "
 "collaboratively work on the texts you introduce to the platform."
-msgstr "Ob Satzung, Strategiepapier oder Jahresprogramm: Die Teilnehmer*innen können vorhandene Texte diskutieren und gemeinsam weiterentwickeln."
+msgstr "Ob Satzung, Strategiepapier oder Jahresprogramm: Die Teilnehmer*innen können vorhandene Text diskutieren und gemeinsam weiterentwickeln."
 
 msgid "Configure"
 msgstr "Einstellen"
@@ -3023,11 +3051,11 @@ msgid ""
 "this embed code to your website."
 msgstr "Um die neusten Ereignisse von Ihrer %(site_name)s-Gruppe anzuzeigen können sie diesen Einbett-Code auf ihrer Webseite hinzufügen."
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "Sie können CSS-Regeln angeben, um das Aussehen der Gruppe zu verändern."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Status badge image width"
 msgstr "Verändern Sie die Breite des Status-Badge Bildes."
@@ -3062,6 +3090,9 @@ msgstr "Mit der Termin Funktion können die online Diskussionen mit offline Even
 msgid "Display category pages"
 msgstr "Kategorienseiten anzeigen"
 
+msgid "categories"
+msgstr "Kategorien"
+
 msgid "Themes"
 msgstr "Designs"
 
@@ -3094,6 +3125,9 @@ msgid ""
 "of individual members later."
 msgstr "Die zugewiesene Benutzergruppe entscheidet vorläufig über die Art wie sich neu registrierte Teilnehmer*innen beteiligen können. Sie können beispielsweise vorgeben, dass neu registrierte Teilnehmer*innen vorerst Diskussionsbeiträge nur lesen aber nicht verändern dürfen. Die Benutzergruppe kann jederzeit verändert werden."
 
+msgid "user badges"
+msgstr "Nutzerbadges"
+
 msgid "Name of the instance"
 msgstr "Name der Gruppe"
 
@@ -3107,20 +3141,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr "Geben Sie der Instanz einen Namen."
 
-msgid "Description of the instance"
-msgstr "Beschreibung der Gruppe"
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Geben Sie hier den Text ein, der auf der Übersichtsseite Ihrer Instanz angezeigt werden soll. Beschreiben Sie Ihren Beteiligungsprozess, durch Angabe konkreter Ziele der Beteiligung und wie die Mitglieder diese durch ihre Mitarbeit erreichen können."
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr "Beschreibung der Gruppe"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Wählen Sie ein Logo für Ihre Instanz."
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Aktuelles Logo"
@@ -3139,6 +3173,12 @@ msgstr "Zeige \"Vorschlag\"-ReiterSie können den \"Vorschlag\"-Reiter in der Gr
 
 msgid "Enable maps"
 msgstr "Kartenfunktionen aktivieren"
+
+msgid "proposal badges"
+msgstr "Vorschlagsbadges"
+
+msgid "status badges"
+msgstr "Statusbadges"
 
 msgid "Enable norms"
 msgstr "Beschlüsse aktivieren"
@@ -3542,11 +3582,11 @@ msgstr "Name der Version"
 msgid "Text"
 msgstr "Text"
 
-msgid "Abstract"
-msgstr "Abriss"
-
 msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr "Abriss des Beschlusses. Wird nur verwendet, wenn der Beschluss als Kachel angezeigt wird."
+
+msgid "Abstract"
+msgstr "Abriss"
 
 msgid "Display subnorms as sections"
 msgstr "Stelle Unterbeschlüsse als Abschnitte dar"
@@ -4708,13 +4748,13 @@ msgstr "Anrede"
 msgid "Select your prefered gender"
 msgstr "Wählen Sie Ihr Geschlecht"
 
-msgid "Avatar"
-msgstr "Profilbild"
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Wählen Sie ein Profilbild. Das Bild sollte quadratisch sein. Andernfalls wird es entsprechend verzerrt."
+
+msgid "Avatar"
+msgstr "Profilbild"
 
 msgid "Current avatar"
 msgstr "Aktuelles Profilbild"
@@ -4722,13 +4762,13 @@ msgstr "Aktuelles Profilbild"
 msgid "Delete current avatar"
 msgstr "Aktuelles Profilbild löschen"
 
-msgid "Short biography"
-msgstr "Kurzbiographie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Wenn Sie eine kurze Selbstbeschreibung eingeben, können andere mehr über Sie erfahren und werden vielleicht Entscheidungen an Sie delegieren."
+
+msgid "Short biography"
+msgstr "Kurzbiographie"
 
 msgid "I am an organisation"
 msgstr "Ich vertrete eine Organisation"
@@ -4814,9 +4854,12 @@ msgid "Watchlist: %s"
 msgstr "Beobachtungsliste: %s"
 
 msgid ""
-"This is your watchlist. You will receive notifications for events "
-"concerning each of these items."
-msgstr ""
-"Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei "
-"Ereignissen in diesen Gruppen."
+"This is your watchlist. You will receive notifications for events concerning"
+" each of these items."
+msgstr "Dies ist Ihre Beobachtungsliste. Sie erhalten eine Benachrichtigung bei Ereignissen in diesen Gruppen."
 
+msgid "Logging in"
+msgstr "Einloggen"
+
+msgid "You are being logged in."
+msgstr "Sie werden eingeloggt."
