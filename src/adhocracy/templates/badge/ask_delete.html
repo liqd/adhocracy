@@ -15,6 +15,7 @@ ${components.flashmessages()}
 
     <h3>Delete ${_(c.badge.get_badge_type())} "${c.badge.title}"</h3>
     ${h.field_token()|n}
+    <input type="hidden" name="came_from" value="${c.came_from}" />
     %if c.badged_entities:
     ${_(u'Note that the following entities will be unbadged if this badge is deleted:')}
     <ul>
@@ -31,7 +32,7 @@ ${components.flashmessages()}
         ${_(u'Are you sure you want to delete this badge?')}
     </div>
     <div class="input_wrapper submit">
-          ${components.savebox(c.return_url, save_text=_(u'Confirm'))}
+          ${components.savebox(c.came_from, save_text=_(u'Confirm'))}
     </div>
 </form>
 

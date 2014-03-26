@@ -20,6 +20,7 @@ ${self.form()}
     ${components.flashmessages()}
 
     ${h.field_token()|n}
+    <input type="hidden" name="came_from" value="${c.came_from}" />
 
     <label for="badge_form_title" class="">${_("Category title") if c.badge_type == 'category' else _("Badge title")}</label>
     <input name="title" id="badge_form_title" class="" style="width:20em"
@@ -170,7 +171,7 @@ ${self.form()}
     %endif
 
     <div class="mainbar">
-      ${components.savebox(c.return_url, _('Save'))}
+      ${components.savebox(c.came_from, _('Save'))}
     </div>
   </form>
 
