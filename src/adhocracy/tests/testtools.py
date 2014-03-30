@@ -93,8 +93,8 @@ def tt_make_user(name=None, instance_group=None):
         memberships.append(group_membership)
     user.memberships = memberships
     model.meta.Session.add(user)
-    model.meta.Session.flush()  # write to db and updated db
-                                # generated attributes
+    # write to db and updated db generated attributes
+    model.meta.Session.flush()
     return user
 
 

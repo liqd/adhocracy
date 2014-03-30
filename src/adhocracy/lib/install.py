@@ -36,7 +36,7 @@ def mk_perm(name):
 
 
 def setup_entities(config, initial_setup):
-    #model.meta.Session.begin()
+    # model.meta.Session.begin()
     model.meta.Session.commit()
 
     # administrate installation wide

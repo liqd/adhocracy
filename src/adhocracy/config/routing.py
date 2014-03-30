@@ -148,10 +148,10 @@ def make_map(config):
     map.connect('/reset', controller='user', action='reset_request',
                 conditions=dict(method=['POST']))
 
-    #map.connect('/proposal/{id}/badges', controller='proposal',
-                #action='badges', conditions=dict(method=['GET']))
-    #map.connect('/proposal/{id}/badges', controller='proposal',
-                #action='update_badges', conditions=dict(method=['POST']))
+    # map.connect('/proposal/{id}/badges', controller='proposal',
+    #             action='badges', conditions=dict(method=['GET']))
+    # map.connect('/proposal/{id}/badges', controller='proposal',
+    #             action='update_badges', conditions=dict(method=['POST']))
 
     map.resource('proposal', 'proposal', member={'delegations': 'GET',
                                                  'activity': 'GET',
@@ -303,7 +303,7 @@ def make_map(config):
 
     map.resource('page', 'page', member={'ask_delete': 'GET'})
 
-    #map.connect('/adopted', controller='proposal', action='adopted')
+    # map.connect('/adopted', controller='proposal', action='adopted')
 
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET',
@@ -375,7 +375,7 @@ def make_map(config):
     map.connect('/tag/{id}', controller='tag', action='show')
 
     map.resource('delegation', 'delegation')
-    #map.resource('delegations', 'delegation')
+    # map.resource('delegations', 'delegation')
 
     map.connect('/d/{id}', controller='root', action='dispatch_delegateable')
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')

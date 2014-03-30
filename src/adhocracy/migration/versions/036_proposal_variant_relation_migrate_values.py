@@ -150,10 +150,8 @@ def handle_page(migrate_engine, page_id, selections_, polls):
             selections_to_variants[winning_selection].append(variant)
             migrate_engine.execute(
                 new_selection_table.update().values(
-                    variants=dumps(
-                        selections_to_variants[winning_selection]))
-                        .where(
-                            new_selection_table.c.id == winning_selection))
+                    variants=dumps(selections_to_variants[winning_selection]))
+                .where(new_selection_table.c.id == winning_selection))
         except KeyError, E:
             msg = (
                 'KeyError: %s\n' % E +

@@ -98,8 +98,8 @@ DEFAULTS = {
     'adhocracy.wording.intro_for_overview': False,
     'debug': False,
 
-    #comma separated list of instance keys (slugs) or 'ALL'
-    #'adhocracy.instances.autojoin':
+    # comma separated list of instance keys (slugs) or 'ALL'
+    # 'adhocracy.instances.autojoin':
 }
 
 

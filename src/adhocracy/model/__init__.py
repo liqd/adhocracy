@@ -145,7 +145,7 @@ mapper(CategoryBadge, inherits=badge_mapper,
                lazy=False),
            'children': relation(
                CategoryBadge,
-               #remote_side=badge_table.c.id,
+               # remote_side=badge_table.c.id,
                backref=backref('parent', lazy='joined',
                                remote_side=badge_table.c.id),
            )})
@@ -556,7 +556,7 @@ def post_update(entity, operation):
     from adhocracy.lib import queue
     queue.update_entity(entity, operation)
 
-    ## Do subsequent updates to reindex related content
+    # Do subsequent updates to reindex related content
     # NOTE: This may post duplicate update tasks if an entity
     # is part of the session, and also updated depending on
     # another entity. Ignored for now cause the real work

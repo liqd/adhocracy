@@ -119,7 +119,7 @@ class CommentController(BaseController):
             require.comment.create_on(topic)
 
         variant = self.form_result.get('variant')
-        if hasattr(topic, 'variants') and not variant in topic.variants:
+        if hasattr(topic, 'variants') and variant not in topic.variants:
             return ret_abort(_("Comment topic has no variant %s") % variant,
                              code=400)
 
@@ -289,7 +289,7 @@ class CommentController(BaseController):
             return ret_abort(_('Wrong topic'))  # FIXME: better msg
         require.comment.create_on(topic)
         variant = request.params.get('variant', None)
-        if hasattr(topic, 'variants') and not variant in topic.variants:
+        if hasattr(topic, 'variants') and variant not in topic.variants:
             return ret_abort(_("Comment topic has no variant %s") % variant,
                              code=400)
         return self._render_ajax_create_form(None, topic, variant)
@@ -310,7 +310,7 @@ class CommentController(BaseController):
         template_args = dict(parent=parent,
                              topic=topic,
                              variant=variant,
-                             #format="ajax",
+                             # format="ajax",
                              came_from=came_from,
                              )
         return render_def('/comment/tiles.html', 'create_form',

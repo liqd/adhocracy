@@ -87,7 +87,7 @@ class Proposal(Delegateable):
             selected = selection.selected
             if selected is None or selected == Text.HEAD:
                 continue
-            if not selected in selection.page.variants:
+            if selected not in selection.page.variants:
                 continue
             source_text = selection.page.variant_at(selected,
                                                     self.adopt_poll.begin_time)
@@ -232,7 +232,7 @@ class Proposal(Delegateable):
             return 0
         if not c.proposal_pos:
             c.proposal_pos = {}
-            if not self.id in c.proposal_pos:
+            if self.id not in c.proposal_pos:
                 c.proposal_pos[self.id] = c.user.any_position_on_proposal(self)
             return c.proposal_pos[self.id]
 

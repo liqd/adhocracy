@@ -135,7 +135,7 @@ class Instance(meta.Indexable):
 
     def _get_activation_timedelta(self):
         return timedelta(days=self.activation_delay)
-        #return timedelta(minutes=self.activation_delay)
+        # return timedelta(minutes=self.activation_delay)
 
     activation_timedelta = property(_get_activation_timedelta)
 
@@ -160,7 +160,7 @@ class Instance(meta.Indexable):
     num_members = property(_get_num_members)
 
     @classmethod
-    #@meta.session_cached
+    # @meta.session_cached
     def find(cls, key, instance_filter=True, include_deleted=False):
         key = unicode(key).lower()
         try:

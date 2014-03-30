@@ -304,7 +304,7 @@ class User(meta.Indexable):
         return completions
 
     @classmethod
-    #@meta.session_cached
+    # @meta.session_cached
     def find(cls, user_name, instance_filter=True, include_deleted=False):
         from membership import Membership
         try:
@@ -357,8 +357,8 @@ class User(meta.Indexable):
             q = q.filter(or_(Membership.expire_time == None,  # noqa
                              Membership.expire_time > datetime.utcnow()))
             q = q.filter(Membership.instance == ifilter.get_instance())
-        #log.debug("QueryAll: %s" % q)
-        #log.debug("LEN: %s" % len(q.all()))
+        # log.debug("QueryAll: %s" % q)
+        # log.debug("LEN: %s" % len(q.all()))
         return q.all()
 
     _index_id_attr = 'user_name'
@@ -402,8 +402,8 @@ class User(meta.Indexable):
         for watch in Watch.all_by_user(self):
             watch.delete(delete_time=delete_time)
 
-        #for vote in self.votes:
-        #    vote.delete(delete_time=delete_time)
+        # for vote in self.votes:
+        #     vote.delete(delete_time=delete_time)
         self.delete_time = delete_time
 
     def undelete(self):
@@ -559,8 +559,8 @@ class User(meta.Indexable):
             d['display_name'] = self.display_name
         if self.bio:
             d['bio'] = self.bio
-        #d['memberships'] = map(lambda m: m.instance.key,
-        #                       self.memberships)
+        # d['memberships'] = map(lambda m: m.instance.key,
+        #                        self.memberships)
         return d
 
     def to_index(self):

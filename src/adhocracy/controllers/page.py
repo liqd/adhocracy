@@ -313,7 +313,7 @@ class PageController(BaseController):
             c.logo = '<img src="%s" />' % h.logo_url(c.page, 48)
 
         defaults = dict(request.params)
-        if not 'watch' in defaults:
+        if 'watch' not in defaults:
             defaults['watch'] = h.find_watch(c.page)
 
         if branch and c.text is None:
@@ -792,8 +792,8 @@ class PageController(BaseController):
         require.variant.delete(c.page, c.variant)
         c.page.purge_variant(c.variant)
         model.meta.Session.commit()
-        #event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance,
-        #           topics=[c.page], page=c.page)
+        # event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance,
+        #            topics=[c.page], page=c.page)
         h.flash(_("The variant %s has been deleted.") % c.variant,
                 'success')
         redirect(h.entity_url(c.page))

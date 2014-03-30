@@ -56,7 +56,7 @@ def RequireInternalRequest(methods=ALL_METHODS):
 
 
 def token_id():
-    if not KEY in session:
+    if KEY not in session:
         session[KEY] = str(uuid.uuid4()).split("-")[-1]
         session.save()
     return session[KEY]

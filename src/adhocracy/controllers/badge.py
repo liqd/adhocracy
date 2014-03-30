@@ -583,7 +583,7 @@ class BadgeController(BaseController):
         child_descr = self.form_result.get("select_child_description")
         child_descr = child_descr.replace("$badge_title", title)
         long_description = self.form_result.get("long_description", u'')
-        #TODO global badges must have only global badges children, joka
+        # TODO global badges must have only global badges children, joka
         parent = self.form_result.get("parent")
         if parent and parent.id == id:
             parent = None

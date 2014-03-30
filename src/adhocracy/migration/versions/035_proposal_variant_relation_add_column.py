@@ -26,7 +26,7 @@ def upgrade(migrate_engine):
     metadata.bind = migrate_engine
     page_table = Table('page', metadata, autoload=True)
     proposal_table = Table('proposal', metadata, autoload=True)
-    #delegateable_table = Table('delegateable', metadata, autoload=True)
+    # delegateable_table = Table('delegateable', metadata, autoload=True)
 
     new_column = Column('variants', PickleType(comparator=are_elements_equal),
                         nullable=True)

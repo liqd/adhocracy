@@ -157,7 +157,7 @@ def to_entity(ref, instance_filter=False, include_deleted=True):
             entity = cls.find(match.group(2),
                               instance_filter=instance_filter,
                               include_deleted=include_deleted)
-            #log.debug("entityref reloaded: %s" % repr(entity))
+            # log.debug("entityref reloaded: %s" % repr(entity))
             return entity
     log.warn("No typeformatter for: %s" % ref)
     return ref

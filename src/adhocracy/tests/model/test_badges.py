@@ -22,12 +22,12 @@ class TestBadgeController(TestController):
         """
         from sqlalchemy.exc import IntegrityError
         from adhocracy.model import Badge
-        #add badge
+        # add badge
         self.assertRaises(IntegrityError, Badge.create, u'badge ü',
                           u'#ccc', True, u'description ü')
 
     def test_get_all_badges(self):
-        #setup
+        # setup
         from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, \
             InstanceBadge, ThumbnailBadge
         from adhocracy.model import UserBadge, Instance
@@ -136,7 +136,7 @@ class TestDelegateableController(TestController):
         return creator, delegateable, badge
 
     def test_delegateablebadges_created(self):
-        #setup
+        # setup
         from adhocracy.model import DelegateableBadges, meta
         creator, delegateable, badge = self._make_content()
         # create the delegateable badge
@@ -153,22 +153,22 @@ class TestDelegateableController(TestController):
                          [delegateable])
 
     def test_remove_badge_from_delegateable(self):
-        #setup
+        # setup
         from adhocracy.model import DelegateableBadges, meta
         creator, delegateable, badge = self._make_content()
         badge.assign(delegateable, creator)
-        #remove badge from delegateable
+        # remove badge from delegateable
         delegateable.badges.remove(badge)
         self.assertEqual(delegateable.badges, [])
         self.assertEqual(badge.delegateables, [])
         self.assertEqual(meta.Session.query(DelegateableBadges).count(), 0)
 
     def test_remove_delegateable_from_badge(self):
-        #setup
+        # setup
         from adhocracy.model import DelegateableBadges, meta
         creator, delegateable, badge = self._make_content()
         badge.assign(delegateable, creator)
-        #remove delegateable from badge
+        # remove delegateable from badge
         badge.delegateables.remove(delegateable)
         self.assertEqual(badge.delegateables, [])
         self.assertEqual(delegateable.badges, [])
@@ -190,7 +190,7 @@ class TestCategoryController(TestController):
         return creator, delegateable, badge
 
     def test_categorybadges_created(self):
-        #setup
+        # setup
         from adhocracy.model import DelegateableBadges, meta
         creator, delegateable, badge = self._make_content()
         # create the delegateable badge
@@ -201,7 +201,7 @@ class TestCategoryController(TestController):
         self.assertTrue(delegateablebadges.badge is badge)
 
     def test_categorybadges_hierarchy(self):
-        #setup
+        # setup
         from adhocracy.model import CategoryBadge
         creator, delegateable, badge = self._make_content()
         badge_parent = CategoryBadge.create(u'badge parent', u'#ccc', True,
@@ -218,7 +218,7 @@ class TestCategoryController(TestController):
         self.assertTrue(badge_parent.parent is None)
 
     def test_to_dict_category(self):
-        #setup
+        # setup
         creator, delegateable, badge = self._make_content()
         # create the delegateable badge
         badge.assign(delegateable, creator)
@@ -263,7 +263,7 @@ class TestThumbnailController(TestController):
         self.assertEqual(with_thumb, badge.__repr__())
 
     def test_thumbnailbadges_created(self):
-        #setup
+        # setup
         from adhocracy.model import DelegateableBadges, meta
         creator, delegateable, badge = self._make_content()
         # create the delegateable badge
@@ -280,7 +280,7 @@ class TestThumbnailController(TestController):
                          [delegateable])
 
     def test_to_dict_thumbnail(self):
-        #setup
+        # setup
         creator, delegateable, badge = self._make_content()
         # create the delegateable badge
         badge.assign(delegateable, creator)
@@ -313,7 +313,7 @@ class TestInstanceController(TestController):
         return creator, instance, badge
 
     def test_instancebadges_created(self):
-        #setup
+        # setup
         from adhocracy.model import InstanceBadges, meta
         creator, instance, badge = self._make_content()
         # create the instance badge
@@ -330,22 +330,22 @@ class TestInstanceController(TestController):
                         == [instance])
 
     def test_remove_badge_from_instance(self):
-        #setup
+        # setup
         from adhocracy.model import InstanceBadges, meta
         creator, instance, badge = self._make_content()
         badge.assign(instance, creator)
-        #remove badge from instance
+        # remove badge from instance
         instance.badges.remove(badge)
         self.assertEqual(instance.badges, [])
         self.assertEqual(badge.instances, [])
         self.assertEqual(meta.Session.query(InstanceBadges).count(), 0)
 
     def test_remove_instance_from_badge(self):
-        #setup
+        # setup
         from adhocracy.model import InstanceBadges, meta
         creator, instance, badge = self._make_content()
         badge.assign(instance, creator)
-        #remove instance from badge
+        # remove instance from badge
         badge.instances.remove(instance)
         self.assertEqual(badge.instances, [])
         self.assertEqual(instance.badges, [])

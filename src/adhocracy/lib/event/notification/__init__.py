@@ -39,7 +39,7 @@ def notify(event, database_only=False):
                                    delegation_source(event),
                                    comment_source(event)])
     pipeline = chain(*sources)
-    #pipeline = echo(pipeline)
+    # pipeline = echo(pipeline)
 
     pipeline = comment_filter(pipeline)
     pipeline = self_filter(pipeline)

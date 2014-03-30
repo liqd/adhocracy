@@ -47,7 +47,7 @@ class Vote(object):
             return vote
         except Exception, e:
             log.exception(e)
-            #log.warn("find(%s): %s" % (id, e))
+            # log.warn("find(%s): %s" % (id, e))
             return None
 
     @classmethod

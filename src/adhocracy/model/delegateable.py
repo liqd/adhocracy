@@ -261,7 +261,7 @@ class Delegateable(meta.Indexable):
                     tags=dict([(k.name, v) for k, v in self.tags]),
                     url=h.entity_url(self),
                     instance=self.instance.key,
-                    #comment=self.comment.id,
+                    # comment=self.comment.id,
                     creator=self.creator.user_name,
                     create_time=self.create_time)
 

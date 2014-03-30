@@ -128,8 +128,8 @@ class MilestoneController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(milestone, self.form_result.get('watch'))
-        #event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-        #           topics=[proposal], proposal=proposal, rev=description.head)
+        # event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
+        #            topics=[proposal], proposal=proposal, rev=description.head)
         redirect(h.entity_url(milestone, format=format))
 
     @RequireInstance
@@ -170,8 +170,8 @@ class MilestoneController(BaseController):
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(c.milestone, self.form_result.get('watch'))
-        #event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
-        #           topics=[c.proposal], proposal=c.proposal, rev=_text)
+        # event.emit(event.T_PROPOSAL_EDIT, c.user, instance=c.instance,
+        #            topics=[c.proposal], proposal=c.proposal, rev=_text)
         redirect(h.entity_url(c.milestone))
 
     @RequireInstance
@@ -232,8 +232,8 @@ class MilestoneController(BaseController):
     def delete(self, id):
         c.milestone = get_entity_or_abort(model.Milestone, id)
         require.milestone.delete(c.milestone)
-        #event.emit(event.T_milestone_DELETE, c.user, instance=c.instance,
-        #           topics=[c.milestone], milestone=c.milestone)
+        # event.emit(event.T_milestone_DELETE, c.user, instance=c.instance,
+        #            topics=[c.milestone], milestone=c.milestone)
         c.milestone.delete()
         model.meta.Session.commit()
         h.flash(_("The milestone %s has been deleted.") % c.milestone.title,

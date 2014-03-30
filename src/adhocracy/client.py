@@ -212,27 +212,27 @@ class AdhocracyClient(object):
         self.open_url(url, method='DELETE')
         return self.last_message
 
-    #def package_register_get(self):
-    #    self.reset()
-    #    url = self.get_location('Package Register')
-    #    self.open_url(url)
-    #    return self.last_message
+    # def package_register_get(self):
+    #     self.reset()
+    #     url = self.get_location('Package Register')
+    #     self.open_url(url)
+    #     return self.last_message
     #
-    #def package_register_post(self, package_dict):
-    #    self.reset()
-    #    url = self.get_location('Package Register')
-    #    data = self.__dumpstr(package_dict)
-    #    headers = {'Authorization': self.api_key}
-    #    self.open_url(url, data, headers)
+    # def package_register_post(self, package_dict):
+    #     self.reset()
+    #     url = self.get_location('Package Register')
+    #     data = self.__dumpstr(package_dict)
+    #     headers = {'Authorization': self.api_key}
+    #     self.open_url(url, data, headers)
     #
-    #def package_search(self, q, search_options={}):
-    #    self.reset()
-    #    url = self.get_location('Package Search')
-    #    search_options['q'] = q
-    #    data = self.__dumpstr(search_options)
-    #    headers = {'Authorization': self.api_key}
-    #    self.open_url(url, data, headers)
-    #    return self.last_message
+    # def package_search(self, q, search_options={}):
+    #     self.reset()
+    #     url = self.get_location('Package Search')
+    #     search_options['q'] = q
+    #     data = self.__dumpstr(search_options)
+    #     headers = {'Authorization': self.api_key}
+    #     self.open_url(url, data, headers)
+    #     return self.last_message
 
     def __dumpstr(self, data):
         return json.dumps(data)
@@ -241,12 +241,12 @@ class AdhocracyClient(object):
         return json.loads(string)
 
 
-#test_prop = {
-#    "label": "foo schnasel",
-#    "text": "this is an API test foo schnasel",
-#    "tags": "tag, tag2, tag3"
-#}
+# test_prop = {
+#     "label": "foo schnasel",
+#     "text": "this is an API test foo schnasel",
+#     "tags": "tag, tag2, tag3"
+# }
 
 
-#test = AdhocracyClient('http://adhocracy.lan:5000', user='admin',
-#                        password='password', instance='schnasel')
+# test = AdhocracyClient('http://adhocracy.lan:5000', user='admin',
+#                         password='password', instance='schnasel')

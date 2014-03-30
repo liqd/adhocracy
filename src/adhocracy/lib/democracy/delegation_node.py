@@ -127,8 +127,8 @@ class DelegationNode(object):
                 is_counting_delegations=is_counting_delegations)
             for additional_delegation in additional_delegations:
                 if additional_delegation.principal in _path:
-                    continue  # this is a delegation from  a node we
-                              # already visited
+                    # this is a delegation from a node we already visited
+                    continue
                 else:
                     delegations.append(additional_delegation)
         # _path is used as a stack in the recursion - so we need to remove
@@ -262,8 +262,8 @@ class DelegationNode(object):
             if not hasattr(delegation.scope, 'poll'):
                 return True  # scope doesn't have polls -> can't self decide
             if delegation.scope.poll is None:
-                return True  # currently no poll in this cope -> can't
-                             # self decide
+                # currently no poll in this cope -> can't self decide
+                return True
             decision = Decision(delegation.principal, delegation.scope.poll)
             return not decision.is_self_decided()
 

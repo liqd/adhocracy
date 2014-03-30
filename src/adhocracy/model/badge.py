@@ -19,7 +19,7 @@ MARKER = object()
 
 badge_table = Table(
     'badge', meta.data,
-    #common attributes
+    # common attributes
     Column('id', Integer, primary_key=True),
     Column('type', String(40), nullable=False),
     Column('create_time', DateTime, default=datetime.utcnow),

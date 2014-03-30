@@ -182,8 +182,8 @@ class UserController(BaseController):
             'adhocracy.listings.instance_user.sorting', 'ACTIVITY')
         c.users_pager = solr_instance_users_pager(c.instance, default_sorting)
 
-        #if format == 'json':
-        ##    return render_json(c.users_pager)
+        # if format == 'json':
+        #     return render_json(c.users_pager)
 
         c.tutorial_intro = _('tutorial_user_index_intro')
         c.tutorial = 'user_index'
@@ -246,7 +246,7 @@ class UserController(BaseController):
         if input_css or input_js:
             redirect("/")
 
-        #create user
+        # create user
         if config.get_bool('adhocracy.force_randomized_user_names'):
             user_name = None
         else:
@@ -509,10 +509,10 @@ class UserController(BaseController):
             libmail.send_activation_link(c.page_user)
         c.page_user.email = email
         c.page_user.email_priority = self.form_result.get("email_priority")
-        #if c.page_user.twitter:
-        #    c.page_user.twitter.priority = \
-        #        self.form_result.get("twitter_priority")
-        #    model.meta.Session.add(c.page_user.twitter)
+        # if c.page_user.twitter:
+        #     c.page_user.twitter.priority = \
+        #         self.form_result.get("twitter_priority")
+        #     model.meta.Session.add(c.page_user.twitter)
         return self._settings_result(updated, c.page_user, 'notifications')
 
     def _settings_advanced_form(self, id, format=u'html'):
@@ -1057,7 +1057,7 @@ class UserController(BaseController):
         data = {}
         data['hide_locallogin'] = (
             config.get_bool('adhocracy.hide_locallogin')
-            and not 'locallogin' in request.GET)
+            and 'locallogin' not in request.GET)
         add_static_content(data, u'adhocracy.static_login_path')
         form = render('/user/login_tile.html', data,
                       overlay=format == u'overlay')

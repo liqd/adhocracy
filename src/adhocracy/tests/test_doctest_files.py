@@ -50,7 +50,7 @@ def test_doctests():
     def perform_doctest(path):
         test = DocFileTest(
             path,
-            #add here aditional testfiles
+            # add here aditional testfiles
             setUp=ADHOCRACY_LAYER.setUp,
             tearDown=ADHOCRACY_LAYER.tearDown,
             globs=globs,
