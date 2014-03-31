@@ -141,6 +141,7 @@ def setup_entities(config, initial_setup):
         u'user.message': [advisor],
         u'user.show': [anonymous],
         u'user.view': [anonymous],
+        u'user.badge': [moderator],
         u'vote.cast': [voter],
         u'vote.prohibit': [organization],
         u'watch.create': [observer, default],
