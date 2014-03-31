@@ -19,6 +19,8 @@
 # sicco <sicco@ddo.nl>, 2012
 # tobib <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
+# veryrandomname <seriousemailadress@googlemail.com>, 2014
+# xanderbattaglia <xanderbattaglia@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"

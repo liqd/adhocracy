@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"PO-Revision-Date: 2014-03-31 08:52+0000\n"
+"Last-Translator: Debetancourt <idebetancourt@googlemail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -726,7 +726,7 @@ msgstr "Ce %(provider)s  compte est déjà connecté."
 
 #, python-format
 msgid "Your %(provider)s account is locked."
-msgstr ""
+msgstr "Votre %(provider)s compte est verrouillé."
 
 #, python-format
 msgid "You successfully connected to %s."
@@ -1818,11 +1818,11 @@ msgstr "Nous vous prions de fournir des informations statistiques afin de contri
 
 #, python-format
 msgid "Hide %s"
-msgstr ""
+msgstr "Masquer %s"
 
 #, python-format
 msgid "Show %s"
-msgstr ""
+msgstr "Afficher %s"
 
 msgid "code of conduct"
 msgstr "Code de conduite"
@@ -2391,7 +2391,7 @@ msgid "Global badges"
 msgstr "étiquettes  globales "
 
 msgid "No Badge"
-msgstr ""
+msgstr "Aucun badge"
 
 msgid "invisible"
 msgstr "invisible"
@@ -2732,7 +2732,7 @@ msgid ""
 msgstr "Un e-mail automatisé décrivant la situation a été envoyé à nos développeurs."
 
 msgid "Latest events"
-msgstr ""
+msgstr "Derniers événements"
 
 msgid "All current events."
 msgstr "Tout les évenement actuel."
@@ -2852,12 +2852,12 @@ msgid ""
 msgstr "Les participants peuvent faire des propositions et les discuter. Cette option permet de passer du dialogue ouvert à la formulation et organisation concrète des idées et des objectifs. "
 
 msgid "Planning Ideas"
-msgstr ""
+msgstr "Planifier"
 
 msgid ""
 "The participants can make, discuss and plan proposals in connection to "
 "concrete dates through a calendar function."
-msgstr ""
+msgstr "Les participants peuvent faire des propositions, les discuter et les relier à des dates concrètes à l'aide de la fonction de calendrier."
 
 msgid "Collaboratively drafting texts"
 msgstr "écrire conjointement des textes "
@@ -2866,7 +2866,7 @@ msgid ""
 "Whether you want to draft statutes, strategic papers or a manifesto – with "
 "this option the participants will have the chance to discuss, and "
 "collaboratively work on the texts you introduce to the platform."
-msgstr ""
+msgstr "Qu'il s'agisse d'élaborer des projets de statuts, des documents de stratégie ou un manifeste - avec cette option les participants ont l'opportunité de discuter et travailler conjointement à l'édition des textes insérés sur la plate-forme."
 
 msgid "Configure"
 msgstr "Configurer "
@@ -2966,7 +2966,7 @@ msgid "Display category pages"
 msgstr "afficher l'onglet \"catégories\""
 
 msgid "categories"
-msgstr ""
+msgstr "catégories"
 
 msgid "Themes"
 msgstr "Thème"
@@ -3001,7 +3001,7 @@ msgid ""
 msgstr "Cette option permet d'autoriser les membres à participer activement ou par exemple réduire leurs droits de participation à la simple lecture des discussions de votre instance. Vous pouvez modifier le rôles des utilisateurs pour chaque membre individuel plus tard.  "
 
 msgid "user badges"
-msgstr ""
+msgstr "Badges d'utilisateur"
 
 msgid "Name of the instance"
 msgstr "nom de l'instance "
@@ -3040,10 +3040,10 @@ msgid "Show proposals as an extra tab"
 msgstr "Indiquer les propositions comme un onglet supplémentaire. "
 
 msgid "proposal badges"
-msgstr ""
+msgstr "Badge de proposition"
 
 msgid "status badges"
-msgstr ""
+msgstr "Badge de statut"
 
 msgid "Enable norms"
 msgstr "activer les thèmes"
@@ -3194,7 +3194,7 @@ msgstr "Opposants"
 
 #, python-format
 msgid "Users who have voted against \"%s\""
-msgstr ""
+msgstr "Utilisateurs ayant voté contre \"%s\""
 
 msgid "Mass Message Preview"
 msgstr "aperçu de l'envoi de message en masse. "
@@ -4258,7 +4258,7 @@ msgid "There are no delegations."
 msgstr "Il n'ya pas des délégations."
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importer des membres"
 
 msgid "Find users"
 msgstr "Trouver des utilisateurs"
@@ -4634,4 +4634,4 @@ msgid "Logging in"
 msgstr ""
 
 msgid "You are being logged in."
-msgstr ""
+msgstr "Vous êtes en train de vous connecter."
