@@ -19,7 +19,7 @@ class OembedController(BaseController):
     identifier = 'oembed'
 
     def oembed(self, format=u'json'):
-        if not 'url' in request.params:
+        if 'url' not in request.params:
             return ret_abort(u"Required parameter 'url' is missing", code=400)
 
         u = urlparse.urlparse(request.params.get('url'))
