@@ -18,7 +18,7 @@
         %endif
 
         %if h.staticpage.can_edit():
-        <a class="button staticpage_edit" href="${h.entity_url(c.static)}_${c.static.lang}">${_('Edit this page')}</a>
+        <a class="button staticpage_edit" href="/static/edit/${c.static.lang}/${c.static.key}">${_('Edit this page')}</a>
         %endif
     </div>
 

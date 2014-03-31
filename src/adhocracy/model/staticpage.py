@@ -12,6 +12,13 @@ staticpage_table = Table(
 
 
 class StaticPage(object):
+
+    # Attributes only used in ExternalStaticPage
+    nav = u''
+    redirect_url = u''
+    description = u''
+    column_right = u''
+
     def __init__(self, key, lang, title, body):
         self.key = key
         self.lang = lang
@@ -54,3 +61,6 @@ class StaticPage(object):
         """ Persist changes to this object (interface for disk + database) """
         meta.Session.add(self)
         meta.Session.commit()
+
+    def require_permission(self):
+        return False
