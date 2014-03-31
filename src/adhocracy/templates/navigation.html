@@ -51,7 +51,7 @@
                 %endif
 
                 %if h.staticpage.use_external_navigation():
-                ${h.staticpage.render_external_navigation() | n}
+                ${h.staticpage.render_external_navigation(active) | n}
                 %else:
 
                 ${nav_link(href=h.base_url('/static/about.html', None),
