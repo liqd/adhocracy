@@ -396,8 +396,11 @@ adhocracy.startpage.proposals.list_length = 0
 # enable displaying of proposal descriptions in the pager
 # adhocracy.proposal_pager_inline = True
 
-# Source for imprint, details etc. ("database" or "filesystem" (default))
+# Source for imprint, details etc. ("database", "external" or "filesystem" (default))
 #adhocracy.staticpage_backend = database
+
+# Use external staticpages API call to render navigation
+# adhocracy.use_external_navigation = true
 
 # Configure paths to static content which is inserted
 

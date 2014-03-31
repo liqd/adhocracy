@@ -87,6 +87,7 @@ DEFAULTS = {
     'adhocracy.tagcloud_facet': False,
     'adhocracy.themed': False,
     'adhocracy.use_avatars': True,
+    'adhocracy.use_external_navigation': False,
     'adhocracy.use_feedback_instance': False,
     'adhocracy.use_test_instance': True,
     'adhocracy.user.display_name.allow_change': True,

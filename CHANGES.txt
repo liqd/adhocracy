@@ -1,6 +1,14 @@
 Adhocracy Changelog
 ===================
 
+2.3.0 (unreleased)
+------------------
+
+- Add external StaticPage backend which can be used with the adhocracy.kotti
+  or the adhocracy.plone backend.
+
+
+
 2.2.1 (2014-03-21)
 ------------------
 

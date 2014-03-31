@@ -1,0 +1,17 @@
+<%def name="navigation_item(href='', title='', current=False, children=[])">
+<li ${'class="current"' if current else ''}>
+    <a href="${href}">${title}</a>
+    %if len(children):
+    ${navigation_list(children, cls="children")}
+    %endif
+</li>
+</%def>
+
+
+<%def name="navigation_list(items, cls='')">
+<ul class="${cls}">
+    %for item in items:
+    ${item |n}
+    %endfor
+</ul>
+</%def>

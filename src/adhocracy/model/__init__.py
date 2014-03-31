@@ -51,6 +51,7 @@ from adhocracy.model.treatment import (Treatment, treatment_table,
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
 from adhocracy.model.staticpage import StaticPage, staticpage_table
+from adhocracy.model.staticpage import StaticPageBase
 from adhocracy.model.requestlog import RequestLog, requestlog_table
 from adhocracy.model.message import Message, message_table
 from adhocracy.model.message import MessageRecipient, message_recipient_table
