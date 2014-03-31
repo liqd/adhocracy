@@ -35,16 +35,21 @@ class OembedController(BaseController):
                                        u.params, u.query, u.fragment)
         new_url = urlparse.urlunparse(new_url)
 
+        width = min(640, int(request.params.get('maxwidth', 640)))
+        height = int(request.params.get('maxheight', 750))
+
+        html = ('<iframe src="%s" width="%i "height="%i"'
+                ' frameborder="0"></iframe>' % (new_url, width, height))
+
         data = {
             'type': 'rich',
             'version': '1.0',
-            'width': min(640, int(request.params.get('maxwidth', 640))),
-            'height': int(request.params.get('maxheight', 750)),
+            'width': width,
+            'height': height,
+            'html': html,
             'provider_name': config.get('adhocracy.site.name'),
             'provider_url': h.base_url(instance=None, absolute=True),
         }
-
-        data['html'] = '<iframe src="%s" frameborder="0"></iframe>' % new_url
 
         if format == u'json':
             return render_json(data)
