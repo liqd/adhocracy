@@ -219,14 +219,14 @@ class PageController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         variant = self.form_result.get("title")
+        container = self.form_result.get('container')
         page = model.Page.create(
             c.instance, variant, _text, c.user,
-            function=(model.Page.CONTAINER
-                      if self.form_result.get("container")
-                      else model.Page.NORM),
+            function=(model.Page.CONTAINER if container else model.Page.NORM),
             formatting=(self.form_result.get("formatting")
                         or self.form_result.get("container")),
-            sectionpage=self.form_result.get("sectionpage"),
+            sectionpage=(False if container
+                         else self.form_result.get("sectionpage")),
             allow_comment=self.form_result.get("allow_comment"),
             allow_selection=self.form_result.get("allow_selection"),
             always_show_original=self.form_result.get("always_show_original"),
