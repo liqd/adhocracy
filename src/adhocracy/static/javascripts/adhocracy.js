@@ -1360,6 +1360,7 @@ $(document).ready(function () {
     }
 
     $('#mobile-main-menu-button')
+        .addClass('only-mobile')
         .addClass('showhide_button')
         .data('target', '.menu')
         .data('toggle-class', 'less')
@@ -1367,9 +1368,11 @@ $(document).ready(function () {
         .data('conflict', '#mobile-user-menu-button')
     $('#mobile-menu-box').append($('#nav_login > a').clone()
         .attr('id', 'mobile-login-button')
+        .addClass('only-mobile')
     );
     $('#mobile-menu-box').append($('#user_menu > a').clone()
         .attr('id', 'mobile-user-menu-button')
+        .addClass('only-mobile')
         .addClass('showhide_button')
         .data('target', '#mobile-user-menu')
         .data('toggle-class', 'less')
@@ -1378,6 +1381,7 @@ $(document).ready(function () {
     );
     $('#nav').append($('#user_menu > ul').clone()
         .attr('id', 'mobile-user-menu')
+        .addClass('only-mobile')
         .css('display', 'none')
     );
 });
