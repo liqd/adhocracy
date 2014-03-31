@@ -77,8 +77,8 @@ class StaticController(BaseController):
 
         backend.create(key,
                        lang,
-                       form_result.get('title'),
-                       form_result.get('body'))
+                       form_result.get('body'),
+                       form_result.get('title'))
         helpers.flash(_('Page updated'), 'notice')
         return redirect(helpers.base_url('/static'))
 

@@ -1,82 +1,19 @@
 import logging
-import os.path
 import re
 
-import adhocracy.model
 from adhocracy import i18n
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
 from adhocracy.lib import util
-from adhocracy.lib.auth import require
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.outgoing_link import rewrite_urls
+from adhocracy.model import StaticPage
+from adhocracy.model import StaticPageBase
 
 
 from lxml.html import parse, tostring
 from pylons import config
 
 log = logging.getLogger(__name__)
-
-
-class StaticPageBase(object):
-
-    def __init__(self, key, lang, body, title, private=False,
-                 nav=u'', description=u'', column_right=u'', css_classes=[],
-                 redirect_url=u''):
-        self.key = key
-        self.lang = lang
-        self.title = title
-        self.body = body
-        self.private = private
-        self.nav = nav
-        self.description = description
-        self.column_right = column_right
-        self.css_classes = css_classes
-        self.redirect_url = redirect_url
-
-    @staticmethod
-    def get(key, lang):
-        fn = os.path.basename(key) + '.' + lang + '.html'
-        filename = util.get_path('page', fn)
-        if filename is None:
-            return None
-        try:
-            root = parse(filename)
-        except IOError:
-            return None
-        try:
-            body = root.find('.//body')
-            title = root.find('.//title').text
-        except AttributeError:
-            log.debug(u'Failed to parse static document ' + filename)
-            return None
-        body.tag = 'span'
-        return FileStaticPage(key, lang, tostring(body), title)
-
-    def commit(self):
-        """ Persist changes to this object. """
-        raise NotImplementedError()
-
-    @staticmethod
-    def all():
-        raise NotImplementedError()
-
-    def save(self):
-        raise NotImplementedError()
-
-    @staticmethod
-    def create(key, lang, title, body):
-        raise NotImplementedError()
-
-    @staticmethod
-    def is_editable():
-        return False
-
-    def require_permission(self):
-        """
-        Backends can add additional permission checks.
-        """
-        if self.private:
-            require.perm('static.show_private')
 
 
 class FileStaticPage(StaticPageBase):
@@ -128,7 +65,7 @@ class ExternalStaticPage(StaticPageBase):
 
 _BACKENDS = {
     'filesystem': FileStaticPage,
-    'database': adhocracy.model.StaticPage,
+    'database': StaticPage,
     'external': ExternalStaticPage,
 }
 

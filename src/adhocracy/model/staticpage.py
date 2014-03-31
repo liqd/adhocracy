@@ -1,6 +1,12 @@
+import logging
+
 from sqlalchemy import Table, Column
 from sqlalchemy import Unicode, UnicodeText
+
 from adhocracy.model import meta
+
+log = logging.getLogger(__name__)
+
 
 staticpage_table = Table(
     'staticpage', meta.data,
@@ -11,19 +17,62 @@ staticpage_table = Table(
 )
 
 
-class StaticPage(object):
+class StaticPageBase(object):
 
-    # Attributes only used in ExternalStaticPage
+    private = False
     nav = u''
-    redirect_url = u''
     description = u''
     column_right = u''
+    css_classes = []
+    redirect_url = u''
 
-    def __init__(self, key, lang, title, body):
+    def __init__(self, key, lang, body, title, private=False,
+                 nav=u'', description=u'', column_right=u'', css_classes=[],
+                 redirect_url=u''):
         self.key = key
         self.lang = lang
         self.title = title
         self.body = body
+        self.private = private
+        self.nav = nav
+        self.description = description
+        self.column_right = column_right
+        self.css_classes = css_classes
+        self.redirect_url = redirect_url
+
+    @staticmethod
+    def get(key, lang):
+        raise NotImplementedError()
+
+    def commit(self):
+        """ Persist changes to this object. """
+        raise NotImplementedError()
+
+    @staticmethod
+    def all():
+        raise NotImplementedError()
+
+    def save(self):
+        raise NotImplementedError()
+
+    @staticmethod
+    def create(key, lang, title, body):
+        raise NotImplementedError()
+
+    @staticmethod
+    def is_editable():
+        return False
+
+    def require_permission(self):
+        """
+        Backends can add additional permission checks.
+        """
+        if self.private:
+            from adhocracy.lib.auth import require
+            require.perm('static.show_private')
+
+
+class StaticPage(StaticPageBase):
 
     @classmethod
     def get(cls, key, languages):
@@ -43,7 +92,7 @@ class StaticPage(object):
 
     @classmethod
     def create(cls, key, lang, title, body):
-        s = StaticPage(key, lang, title, body)
+        s = StaticPage(key, lang, body, title)
         meta.Session.add(s)
         meta.Session.commit()
         return s
