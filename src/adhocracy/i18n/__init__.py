@@ -92,7 +92,7 @@ def user_language(user, fallbacks=[]):
                            'pylons.package': config.get('pylons.package')}
 
     # set language and fallback
-    set_lang(locale.language, pylons_config=translations_config)
+    set_lang(str(locale), pylons_config=translations_config)
     add_fallback(get_default_locale().language,
                  pylons_config=translations_config)
     formencode.api.set_stdtranslation(domain="FormEncode",
