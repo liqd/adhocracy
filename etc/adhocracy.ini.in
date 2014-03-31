@@ -400,7 +400,7 @@ adhocracy.startpage.proposals.list_length = 0
 #adhocracy.staticpage_backend = database
 
 # Use external staticpages API call to render navigation
-adhocracy.use_external_navigation = false
+# adhocracy.use_external_navigation = true
 
 # Configure paths to static content which is inserted
 
