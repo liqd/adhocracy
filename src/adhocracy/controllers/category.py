@@ -20,7 +20,7 @@ class CategoryController(BaseController):
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
-    def show(self, id):
+    def show(self, id, format=u'html'):
         if not c.instance.display_category_pages:
             abort(404)
         require.proposal.index()
@@ -52,7 +52,7 @@ class CategoryController(BaseController):
                       overlay=format == u'overlay')
 
     @RequireInstance
-    def index(self):
+    def index(self, format=u'html'):
         if not c.instance.display_category_pages:
             abort(404)
         categories = model.CategoryBadge.all(instance=c.instance,
