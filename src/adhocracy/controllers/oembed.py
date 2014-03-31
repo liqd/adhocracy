@@ -6,6 +6,7 @@ import re
 from pylons import request
 
 from adhocracy import config
+from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render_json, ret_abort
 
@@ -39,7 +40,8 @@ class OembedController(BaseController):
             'version': '1.0',
             'width': min(640, int(request.params.get('maxwidth', 640))),
             'height': int(request.params.get('maxheight', 750)),
-            'provider_name': config.get('adhocracy.site.name')
+            'provider_name': config.get('adhocracy.site.name'),
+            'provider_url': h.base_url(instance=None, absolute=True),
         }
 
         data['html'] = '<iframe src="%s" frameborder="0"></iframe>' % new_url
