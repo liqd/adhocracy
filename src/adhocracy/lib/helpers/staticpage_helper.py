@@ -64,6 +64,7 @@ def render_external_navigation(current_key):
         return ''
 
     def render_navigation_item(item, path='', toplevel=False):
+        from adhocracy.lib.templating import render_def
 
         if path != '':
             path = '%s/%s' % (path, item['name'])
@@ -72,23 +73,21 @@ def render_external_navigation(current_key):
 
         url = '/static/%s.html' % path
 
-        self_html = u'<a href="%s">%s</a>' % (url, item['title'])
-
         contains_current = (path == current_key)
         if item['children']:
-            html_list, contained_list = izip(
+            children, contained_list = izip(
                 *map(lambda child: render_navigation_item(child, path),
                      item['children']))
-            children_html = u'\n<ul class="children">\n%s\n</ul>\n' % (
-                '\n'.join(html_list))
             contains_current = contains_current or any(contained_list)
         else:
-            children_html = ''
+            children = []
 
-        html = '<li%s>%s%s</li>' % (
-            ' class="current"' if toplevel and contains_current else '',
-            self_html,
-            children_html)
+        html = render_def('static/tiles.html', 'navigation_item',
+                          href=url,
+                          title=item['title'],
+                          current=toplevel and contains_current,
+                          children=children)
+
         return (html, contains_current)
 
     html_list, _ = izip(
