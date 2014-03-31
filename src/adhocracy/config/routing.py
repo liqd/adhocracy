@@ -24,6 +24,9 @@ def make_map(config):
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
 
+    map.connect('/oembed{.format}', controller='oembed', action='oembed',
+                conditions=dict(method=['GET']))
+
     map.connect('/user/all', controller='user',
                 action='all', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges{.format}', controller='user',
