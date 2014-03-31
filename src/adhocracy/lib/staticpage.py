@@ -107,7 +107,8 @@ class ExternalStaticPage(StaticPageBase):
         page = result.json()
         if page is None or 'errors' in page:
             return None
-        return ExternalStaticPage(key, page['lang'], page['body'], page['title'])
+        return ExternalStaticPage(key, page['lang'], page['body'],
+                                  page['title'], page.get('private', False))
 
 _BACKENDS = {
     'filesystem': FileStaticPage,
