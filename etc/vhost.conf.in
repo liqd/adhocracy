@@ -39,6 +39,13 @@ if parts['domains'].get('velruse', None):
         CustomLog ${parts.paths.apache_log}/${parts.domains.main} combined
 
         ProxyRequests Off
+
+        # if you deactivate / remove this line, very bad things will happen.
+        # to be more precise: if you get error messages from, e.g., facebook
+        # about your domain not being registered with the application key, and
+        # you look at the url and find redirect_uri=...localhost..., then you
+        # probably did deactivate / remove this line
+        # http://stackoverflow.com/questions/760283/apache-proxypass-how-to-preserve-original-ip-address
         ProxyPreserveHost On
 
         <Proxy *>
