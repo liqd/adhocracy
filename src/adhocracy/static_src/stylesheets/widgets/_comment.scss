@@ -62,23 +62,6 @@ html.no-touch .comment {
 a.new_comment {
     @include button-small($primary-color, $primary-color);
     color: #fff;
-
-    // copied from showhide_button
-    &:after {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        border-top: 0.3em solid;
-        border-right: 0.3em solid transparent;
-        border-left: 0.3em solid transparent;
-        content: "";
-        vertical-align: middle;
-        margin-left: 0.2em;
-    }
-    &.less:after {
-        border-top: 0;
-        border-bottom: 0.3em solid;
-    }
 }
 // FIXME not accessible
 .comment:not(:hover) a.new_comment {

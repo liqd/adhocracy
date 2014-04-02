@@ -108,7 +108,7 @@ a.button.delegate {
     margin: 1em 0;
 }
 
-.showhide_button {
+.showhide_button.control {
     &:after {
         display: inline-block;
         width: 0;
@@ -123,6 +123,16 @@ a.button.delegate {
     &.less:after {
         border-top: 0;
         border-bottom: 0.3em solid;
+    }
+}
+.showhide_button.content {
+    &:after {
+        content: "+";
+        margin: 0 0.2em;
+    }
+    &.less:after {
+        border: none;
+        content: "\2212";  // real minus (not "-")
     }
 }
 
