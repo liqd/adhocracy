@@ -351,7 +351,7 @@ def make_map(config):
     map.connect('/badge/delete/{id}{.format}',
                 controller='badge', action="ask_delete",
                 conditions=dict(method=['GET']))
-    map.connect('/badge/delete/{id}',
+    map.connect('/badge/delete/{id}{.format}',
                 controller='badge', action="delete",
                 conditions=dict(method=['POST']))
 
