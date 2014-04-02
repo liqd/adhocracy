@@ -376,8 +376,7 @@ class Page(Delegateable):
             delete_time = datetime.utcnow()
         for selection in self.selections:
             selection.delete(delete_time=delete_time)
-        if self.delete_time is None:
-            self.delete_time = delete_time
+        super(Page, self).delete(delete_time=delete_time)
 
     def is_deleted(self, at_time=None):
         if at_time is None:
