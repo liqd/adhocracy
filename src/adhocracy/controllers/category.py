@@ -5,6 +5,7 @@ from pylons.controllers.util import abort
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_logo
 from adhocracy.lib import pager
+from adhocracy.lib import tiles
 from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.auth import require
 from adhocracy.lib.staticpage import add_static_content
@@ -34,9 +35,8 @@ class CategoryController(BaseController):
             .filter(model.DelegateableBadges.badge_id == category.id) \
             .all()
         pages = filter(lambda p: p.parent is None, pages)
-        pages_pager = pager.pages(pages,
-                                  enable_pages=False,
-                                  enable_sorts=False)
+        pages_pager = pager.NamedPager('pages', pages, tiles.page.smallrow,
+                                       enable_pages=False, enable_sorts=False)
 
         proposals_pager = pager.solr_proposal_pager(
             c.instance,
