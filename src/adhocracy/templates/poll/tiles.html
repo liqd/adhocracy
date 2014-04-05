@@ -20,7 +20,7 @@ con = tile.widget_action_attrs(model.Vote.NO)
         <span class="vote_count ${tile.count_class}"
           >${tile.display_score}</span
     %endif
-    %if tile.can_vote or tile.can_show:
+    %if tile.can_vote:
     ><a href="${pro['url']}"
         class="${pro['class']} ttip ${'do_vote' if tile.can_vote else ''}"
         title="${pro['title']}"

@@ -8,7 +8,6 @@ def index(check):
 
 
 def show(check, p):
-    check.readonly()
     check.perm('poll.show')
     check.other('poll_has_ended', p.has_ended())
     hide_cfg = asbool(config.get('adhocracy.hide_individual_votes', 'false'))
@@ -36,6 +35,7 @@ def delete(check, p):
 
 
 def vote(check, p):
+    check.readonly()
     check.valid_email()
     check.other('poll_has_ended', p.has_ended())
     check.other('scope_frozen', p.scope.is_frozen())
