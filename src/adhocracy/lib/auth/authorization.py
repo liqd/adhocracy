@@ -73,7 +73,7 @@ class has_permission(what_has_permission):
                 anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
                 environ['anonymous_permissions'] = [p.permission_name for p in
                                                     anon_group.permissions]
-            if not self.permission_name in environ['anonymous_permissions']:
+            if self.permission_name not in environ['anonymous_permissions']:
                 self.unmet()
 
 
@@ -92,13 +92,13 @@ class has_default_permission(what_has_permission):
                 default_group = model.Group.by_code(default)
             environ['default_permissions'] = [p.permission_name for p in
                                               default_group.permissions]
-        if not self.permission_name in environ['default_permissions']:
+        if self.permission_name not in environ['default_permissions']:
             self.unmet()
 
 
 def has(permission):
-    #return permission in request.environ.get('repoze.what.credentials',
-    #{}).get('permissions', [])
+    # return permission in request.environ.get('repoze.what.credentials',
+    #                                          {}).get('permissions', [])
     p = has_permission(permission)
     return p.is_met(request.environ)
 

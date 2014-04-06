@@ -43,4 +43,4 @@ def dispatch_row(entity):
         return tag.row(entity)
     else:
         pass
-        #log.warn("WARNING: Cannot render %s!" % repr(entity))
+        # log.warn("WARNING: Cannot render %s!" % repr(entity))

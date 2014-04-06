@@ -112,8 +112,8 @@ class SelectionController(BaseController):
         require.selection.delete(c.selection)
 
         # TODO implement
-        #event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
-        #           topics=[c.proposal], proposal=c.proposal)
+        # event.emit(event.T_PROPOSAL_DELETE, c.user, instance=c.instance,
+        #            topics=[c.proposal], proposal=c.proposal)
         c.selection.delete()
         model.meta.Session.commit()
         h.flash(_("The inclusion of %s has been deleted.") %

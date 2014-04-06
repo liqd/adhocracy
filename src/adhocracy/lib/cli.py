@@ -132,7 +132,7 @@ class AdhocracyTimer(object):
                                                    type(current_value)))
         if int(current_value) == pid:
             redis.expire(key, duration)
-            #log.debug('extended')
+            # log.debug('extended')
             return True
 
         log.debug('nope')

@@ -98,7 +98,7 @@ class AdhocracyAppLayer(zope.testbrowser.wsgi.Layer):
         # the patcher in tearDown.
         self.patcher = patch('adhocracy.lib.mail.send')
         self.mocked_mail_send = self.patcher.start()
-        #TODO start solr and co
+        # TODO start solr and co
 
     def tearDown(self, test):
         self.trans.rollback()

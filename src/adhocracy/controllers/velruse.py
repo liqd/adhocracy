@@ -185,9 +185,9 @@ class VelruseController(BaseController):
 
             # if users are deleted and we try to create them again
             # we get an IntegrityError
-            # FIXME: better error handling
             except IntegrityError:
-                self._failure(_("Error"))
+                self._failure(_("Your %(provider)s account is locked.")
+                              % {'provider': provider_name.capitalize()})
 
     def _login(self, adhocracy_user, redirect_url=None):
         """

@@ -1,5 +1,3 @@
-body.compact #header .page_wrapper {
-}
 #logo {
     height: 4.7em;
     overflow: hidden;
@@ -42,7 +40,7 @@ body.compact #logo {
     padding: 0 0.7em;
 }
 
-/* navigation */
+// navigation
 #nav {
     clear: none;
     font-size: $large;
@@ -55,80 +53,42 @@ body.compact #logo {
         padding-top: 0.2em;
         font-weight: normal;
 
-        .hlist > ul > li {
+        .hlist > ul > li > a {
             height: 2em;
             padding-top: 0.2em;
-            > a {
-                height: 2em;
-            }
-        }
-    }
-
-    .hlist > ul {
-        display: block;
-        margin: 0;
-    }
-
-    .hlist > ul > li {
-        height: 3.5em;
-        padding-top: 1em;
-        margin: 0 0 0 1px;
-        position: relative;
-
-        a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-        }
-
-        > a {
-            padding: 0 0.9em 0 0.7em;
-            height: 3.5em;
-        }
-
-        &.current {
-            background-color: $header-color2;
-            @include background-image(linear-gradient(to bottom, darken($header-color2, 1%), lighten($header-color2, 4%)));
-
-            > a {
-                color: #c1c4c9;
-            }
-        }
-        // FIXME not accessible
-        &:hover {
-            background-color: lighten($header-color2, 4%);
-            @include background-image(linear-gradient(to bottom, lighten($header-color2, 5%), $header-color2));
         }
     }
 }
 
 #nav_dummy {
-    display: none;
+    display: none !important;
 }
 #user_menu {
     display: inline-block;
     border-left: 1px solid $header-color2;
 }
 
-// FIXME not accessible
-#nav li:hover ul.children {
+@mixin header-list {
     display: block;
-}
-#nav ul.children {
-    display: none;
-    position: absolute;
     font-size: $large;
     background-color: $header-color2;
     margin: 0;
-    min-width: 13em;
-    text-align: left;
-    padding: 1.3em;
-    right: 0;
+    padding: 0.2em 0;
     /* raised, so map is below */ 
     z-index: 1008;
-    font-size: 14px;
 
     li {
+        a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 0;
+        }
+        a:hover, a:focus, &.current a {
+            color: #c1c4c9;
+        }
+    }
+    > li {
         padding: 0.2em 0.1em 0.1em;
         font-size: $large;
         line-height: 1.7;
@@ -144,21 +104,19 @@ body.compact #logo {
         &:last-child {
             border-bottom: none;
         }
-        a {
-            color: #fff;
+        > a {
             font-weight: bold;
-            text-decoration: none;
-            height: auto;
-            padding: 0;
-        }
-        a:hover, a:focus, &.current a {
-            color: #c1c4c9;
         }
     }
+    .children {
+        margin: 0.5em 0 0.5em 0.8em;
+        padding: 0;
+        display: block;
+        font-weight: normal;
 
-    ul.children {
-        position: initial;
-        padding: 0 0 0 1.3em;
+        li {
+            display: block;
+        }
     }
 }
 
@@ -173,5 +131,141 @@ a.show_me {
         background-position: right -348px;
         padding: 0 1.5em 0 1.2em !important;
         line-height: 1.5;
+    }
+}
+
+#mobile-menu-box {
+    #mobile-main-menu-button {
+        &:after {
+            // reset
+            border: none;
+            width: auto;
+            height: auto;
+
+            content: "\f102";
+            font-family: "adhocracy_icons";
+            display: inline-block;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+        }
+    }
+    #mobile-user-menu-button {
+        // reset
+        background: none;
+        padding-right: 0;
+    }
+    #mobile-main-menu-button,
+    #mobile-login-button,
+    #mobile-user-menu-button {
+        display: inline-block;
+        color: white;
+        text-decoration: none;
+        padding: 1em 0.8em 0 0.8em;
+        height: 3.5em;
+        line-height: 1.5;
+
+        body.logged_in & {
+            height: 2em;
+            padding-top: 0.2em;
+        }
+
+        &:hover, &:focus, &.less {
+            background-color: $header-color2;
+            text-decoration: none;
+        }
+    }
+}
+
+@include mobile {
+    #nav #nav_login,
+    #nav #user_menu,
+    #nav .menu {
+        display: none;
+    }
+    #nav .menu,
+    #nav #mobile-user-menu {
+        clear: both;
+    }
+    #nav .menu > ul,
+    #nav > #mobile-user-menu {
+        @include header-list;
+        text-align: left;
+
+        > li {
+            line-height: 2;
+            padding: 0 0.5em;
+        }
+    }
+    #mobile-menu-box {
+        line-height: 3.5em;
+
+        body.logged_in & {
+            line-height: 2em;
+            padding-top: 0;
+        }
+    }
+}
+@include desktop {
+    #nav {
+        .hlist {
+            display: block !important;  // may be overwritten by javascript
+        }
+        .hlist > ul {
+            display: block;
+            margin: 0;
+        }
+
+        .hlist > ul > li {
+            margin: 0 0 0 1px;
+            position: relative;
+
+            a {
+                color: #fff;
+                text-decoration: none;
+                display: block;
+            }
+
+            > a {
+                padding: 1em 0.8em 0 0.8em;
+                height: 3.5em;
+            }
+
+            &.current {
+                background-color: $header-color2;
+                @include background-image(linear-gradient(to bottom, darken($header-color2, 1%), lighten($header-color2, 4%)));
+
+                > a {
+                    color: #c1c4c9;
+                }
+            }
+            // FIXME not accessible
+            &:hover {
+                background-color: lighten($header-color2, 4%);
+                @include background-image(linear-gradient(to bottom, lighten($header-color2, 5%), $header-color2));
+            }
+        }
+        .hlist > ul > li > ul.children {
+            @include header-list;
+            display: none;
+            position: absolute;
+            min-width: 13em;
+            text-align: left;
+            right: 0;
+            z-index: 100;
+            padding: 1.3em;
+        }
+        #mobile-user-menu,
+        #mobile-menu-box {
+            display: none;
+        }
+    }
+    // FIXME not accessible
+    #nav .hlist > ul > li:hover > ul.children {
+        display: block;
     }
 }

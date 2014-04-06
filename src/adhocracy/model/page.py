@@ -86,7 +86,7 @@ class Page(Delegateable):
                 id = int(id)
                 q = q.filter(Page.id == id)
             except ValueError:
-                #from adhocracy.lib.text import title2alias
+                # from adhocracy.lib.text import title2alias
                 q = q.filter(Page.label == id)
             if not include_deleted:
                 q = q.filter(or_(Page.delete_time == None,  # noqa

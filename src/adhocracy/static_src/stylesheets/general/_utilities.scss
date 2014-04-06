@@ -31,11 +31,11 @@ body.compact .only-anon {
 
 @include desktop {
     .only-mobile {
-        display: none;
+        display: none !important;
     }
 }
 @include mobile {
     .only-desktop {
-        display: none;
+        display: none !important;
     }
 }

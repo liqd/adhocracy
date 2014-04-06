@@ -58,12 +58,21 @@ else:
 %endfor
 </%def>
 
-<%def name="select_form(badges, title, none_text, input_name, input_type='checkbox')">
+<%def name="select_form(badges, title, none_text, input_name, input_type='checkbox', no_text='')">
 <fieldset>
     <legend>${title}</legend>
 
     %if badges:
     <ul class="nobullet">
+        %if input_type == 'radio':
+        <li>
+            <label>
+                <input type="${input_type}" value=""
+                       name="${input_name}" />
+                ${no_text if no_text else _('No Badge')}
+            </label>
+        </li>
+        %endif
         %for b in badges:
         <li>
             <label>

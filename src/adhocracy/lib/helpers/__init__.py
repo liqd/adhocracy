@@ -8,6 +8,7 @@ from datetime import datetime
 import hashlib
 import json
 import urllib
+import logging
 
 from pylons import tmpl_context as c, request
 from pylons.i18n import _, get_lang
@@ -61,6 +62,9 @@ from adhocracy.i18n import countdown_time, format_date
 from adhocracy.i18n import date_tag
 from adhocracy.i18n import datetime_tag
 from adhocracy.model.text import Text
+
+
+log = logging.getLogger(__name__)
 
 
 flash = _Flash()
@@ -326,11 +330,13 @@ def overlay_link():
 
 def need_js_i18n(resource):
     from adhocracy.static import js_i18n
-    lang = get_lang()[0]
-    res = js_i18n[resource][lang]
-    return res.need()
-
-
-def need_adhocracy_geo_i18n():
-    from adhocracy.static import adhocracy_geo_i18n
-    return adhocracy_geo_i18n[get_lang()[0]].need()
+    if str(c.locale) in js_i18n[resource]:
+        locale = str(c.locale)
+    else:
+        locale = c.locale.language
+    if locale in js_i18n[resource]:
+        res = js_i18n[resource][locale]
+        return res.need()
+    else:
+        log.warn('no js localization for resource %s and locale %s'
+            % (resource, c.locale))

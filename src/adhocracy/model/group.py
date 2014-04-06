@@ -54,7 +54,7 @@ class Group(object):
         return [cls.by_code(g) for g in cls.INSTANCE_GROUPS]
 
     @classmethod
-    #@meta.session_cached
+    # @meta.session_cached
     def find(cls, group_name, instance_filter=True, include_deleted=False):
         try:
             q = meta.Session.query(Group)
@@ -67,7 +67,7 @@ class Group(object):
     _index_id_attr = 'group_name'
 
     @classmethod
-    #@meta.session_cached
+    # @meta.session_cached
     def by_id(cls, id):
         q = meta.Session.query(Group)
         q = q.filter(Group.id == id)

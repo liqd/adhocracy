@@ -20,9 +20,9 @@ def variant_normalize(variant, remove_space=False):
 
 
 def title2alias(title, pseudo=u'page_'):
-    #title = urllib.unquote(title)
+    # title = urllib.unquote(title)
     title = escape(title)
-    #title = INVALID_CHARS.sub(u"", title)
+    # title = INVALID_CHARS.sub(u"", title)
     if (not len(title)) or (title.lower() in FORBIDDEN_NAMES):
         return pseudo
     try:

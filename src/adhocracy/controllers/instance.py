@@ -263,7 +263,7 @@ class InstanceController(BaseController):
         event.emit(event.T_INSTANCE_CREATE, c.user, instance=instance)
         return redirect(h.entity_url(instance, member='presets'))
 
-    #@RequireInstance
+    # @RequireInstance
     def show(self, id, format='html'):
         c.page_instance = get_entity_or_abort(model.Instance, id)
         require.instance.show(c.page_instance)
@@ -429,14 +429,14 @@ class InstanceController(BaseController):
         instance = get_entity_or_abort(model.Instance, id)
         editable_badges = self._editable_badges(instance)
         badges = self.form_result.get('badge')
-        #remove badges
+        # remove badges
         for badge in instance.badges:
             if badge not in editable_badges:
                 # the user can not edit the badge, so we don't remove it
                 continue
             if badge not in badges:
                 instance.badges.remove(badge)
-        #add badges
+        # add badges
         for badge in badges:
             if badge not in instance.badges:
                 badge.assign(instance, c.user)
@@ -1006,9 +1006,9 @@ class InstanceController(BaseController):
         self._presets_update(c.page_instance, self.form_result)
 
         if config.get_bool('adhocracy.instance.show_settings_after_create'):
-            member='settings/overview'
+            member = 'settings/overview'
         else:
-            member=None
+            member = None
 
         return ret_success(
             message=_(u'Instance created successfully. You can now configure '
@@ -1082,7 +1082,7 @@ class InstanceController(BaseController):
     @csrf.RequireInternalRequest(methods=['POST'])
     def leave(self, id, format='html'):
         c.page_instance = self._get_current_instance(id)
-        if not c.page_instance in c.user.instances:
+        if c.page_instance not in c.user.instances:
             return ret_abort(
                 entity=c.page_instance, format=format,
                 message=_("You're not a member of %(instance)s.") % {

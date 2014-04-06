@@ -61,7 +61,7 @@ class TreatmentTest(TestController):
         # The following assert is disabled as it fails non-deterministically
         # (see #601). It can be reenabled once this issue is fixed.
 
-        #assert len(ass1) == len(ass2)
+        # assert len(ass1) == len(ass2)
 
         assert len(unassigned) == 0
 

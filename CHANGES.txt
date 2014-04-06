@@ -1,6 +1,55 @@
 Adhocracy Changelog
 ===================
 
+
+2.3.0 (2014-03-31)
+------------------
+
+Improvements:
+
+- Add external StaticPage backend which can be used with the adhocracy.kotti
+  or the adhocracy.plone backend.
+
+- Add Brazilian Portuguese translation, thanks to Fabiano Rocha. (#817)
+
+- The permission for user badge management is now separated from user group
+  management. (#837)
+
+- More work on responsive design. (#798)
+
+- Enable sectionpages by default.
+
+- Add script which allows to merge instances. (#806)
+
+- Move mass message button to members list. (#822)
+
+- Add preset "planning ideas". (#828)
+
+- Allow to not show instance settings after instance create.
+
+- Preview of a simple oEmbed API. (#795)
+
+Bug fixes:
+
+- Fix wrong redirect after badge management. (#831)
+
+- Don't close overlay after badge management.
+
+- Fix redirect after Velruse (Facebook) login. (#830)
+
+- Fix warning if OpenID and Velruse login is disabled.
+
+- Full width instance background. (#820)
+
+- Fix certain links in overlays. (#816)
+
+- Fix advanced settings for instance admins. (#821)
+
+- Fix missing dependency in installation documentation.
+
+- Fix register page.
+
+
 2.2.1 (2014-03-21)
 ------------------
 

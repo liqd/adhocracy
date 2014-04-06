@@ -52,8 +52,8 @@ class Event(object):
     def __getattr__(self, attr):
         if attr in ['_ref_data', '_deref_data']:
             raise AttributeError()
-        if not attr in self._deref_data:
-            if not attr in self._ref_data:
+        if attr not in self._deref_data:
+            if attr not in self._ref_data:
                 raise AttributeError()
             val = self._ref_data.get(attr)
             self._deref_data[attr] = refs.complex_to_entities(val)

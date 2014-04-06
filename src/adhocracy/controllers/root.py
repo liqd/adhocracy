@@ -89,7 +89,7 @@ class RootController(BaseController):
         else:
             return render('index.html', data)
 
-    #@RequireInstance
+    # @RequireInstance
     def dispatch_delegateable(self, id):
         dgb = get_entity_or_abort(model.Delegateable, id,
                                   instance_filter=False)

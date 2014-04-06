@@ -23,6 +23,7 @@ LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('it', 'IT'),
            babel.Locale('nl', 'NL'),
            babel.Locale('pl', 'PL'),
+           babel.Locale('pt', 'BR'),
            babel.Locale('ro', 'RO'),
            babel.Locale('ru', 'RU')]
 
@@ -53,6 +54,34 @@ def get_default_locale():
         return babel.Locale.parse(locale)
     except TypeError:
         return babel.Locale.parse('en_US')
+
+
+def all_locales(include_preferences=False):
+
+    def all_locales_mult():
+        if include_preferences:
+            yield c.locale
+            yield get_default_locale()
+        for l in LOCALES:
+            yield l
+
+    done = set()
+
+    for value in all_locales_mult():
+        if value in done:
+            continue
+        else:
+            done.add(value)
+            yield value
+
+
+def all_languages(include_preferences=False):
+    return (l.language for l in all_locales(include_preferences))
+
+
+def all_language_infos(include_preferences=False):
+    return ({'id': l.language, 'name': l.language_name}
+            for l in all_locales(include_preferences))
 
 
 def handle_request():
@@ -91,7 +120,7 @@ def user_language(user, fallbacks=[]):
                            'pylons.package': config.get('pylons.package')}
 
     # set language and fallback
-    set_lang(locale.language, pylons_config=translations_config)
+    set_lang(str(locale), pylons_config=translations_config)
     add_fallback(get_default_locale().language,
                  pylons_config=translations_config)
     formencode.api.set_stdtranslation(domain="FormEncode",

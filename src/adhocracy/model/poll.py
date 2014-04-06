@@ -38,7 +38,7 @@ class Poll(object):
     def __init__(self, scope, user, action, subject=None):
         self.scope = scope
         self.user = user
-        if not action in self.ACTIONS:
+        if action not in self.ACTIONS:
             raise ValueError("Invalid action!")
         self.action = action
         if subject is None:
@@ -140,7 +140,7 @@ class Poll(object):
         return True
 
     def is_stable(self, at_time=None):
-        if not at_time in self._stable:
+        if at_time not in self._stable:
             self._stable[at_time] = self.check_stable(at_time)
         return self._stable[at_time]
 

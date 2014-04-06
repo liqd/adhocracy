@@ -14,7 +14,7 @@
 %for sp in c.static_pages:
 	<tr>
 	<td><a href="${h.entity_url(sp)}">${sp.key}</a></td>
-	<td><a href="${h.entity_url(sp)}">${h.staticpage.get_lang_info(sp.lang)['name']}</a></td>
+	<td><a href="${h.base_url('/static/edit/%s/%s' % (sp.lang, sp.key))}">${h.staticpage.get_lang_info(sp.lang)['name']}</a></td>
 	</tr>
 %endfor
 </tbody>

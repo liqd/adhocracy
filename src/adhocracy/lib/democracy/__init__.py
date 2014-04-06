@@ -25,7 +25,7 @@ def init_democracy():
 
 
 def handle_vote(vote):
-    #log.debug("Post-processing vote: %s" % vote)
+    # log.debug("Post-processing vote: %s" % vote)
     if Tally.find_by_vote(vote) is None:
         tally = Tally.create_from_vote(vote)
         log.debug("Tallied %s: %s" % (vote.poll, tally))

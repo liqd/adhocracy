@@ -11,7 +11,7 @@
 
 <%def name="show_single_proposal_map(proposal_id, map_class='small_boxed_map')">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map ${map_class}">
 ${attribution()}</div>
@@ -22,7 +22,7 @@ ${attribution()}</div>
 
 <%def name="show_page_map(page_id)">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map small_boxed_map">
 ${attribution()}</div>
@@ -34,7 +34,7 @@ ${attribution()}</div>
 <%def name="show_page_edit_map(page_id=None, inline=False)">
 <% h.need.openlayers %>
 <% h.need.ole %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map ${'create_map' if inline else 'midsize_map'}">
 ${attribution()}</div>
@@ -59,7 +59,7 @@ ${attribution()}</div>
 
 <%def name="show_single_proposal_edit_map(proposal_id)">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map midsize_map">
 ${attribution()}</div>
@@ -79,7 +79,7 @@ ${attribution()}</div>
 
 <%def name="show_single_proposal_edit_map_on_creation()">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div class="input_wrapper">
   <input id='geotag_field' name='geotag' type='hidden' value='' />
@@ -96,7 +96,7 @@ ${attribution()}</div>
 
 <%def name="show_region_map(initial_proposals=[], full_region=True, map_class='small_boxed_map')">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map ${map_class}">
 ${attribution(long=False)}</div>
@@ -107,7 +107,7 @@ ${attribution(long=False)}</div>
 
 <%def name="show_region_map_large(initial_proposals=[], initial_pages=None, full_region=True)">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map large_map">
 ${attribution(long=True)}</div>
@@ -118,7 +118,7 @@ ${attribution(long=True)}</div>
 
 <%def name="show_overview_map(initial_instances=None)">
 <% h.need.openlayers %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map small_boxed_map">
 ${attribution(long=False)}</div>
@@ -130,7 +130,7 @@ ${attribution(long=False)}</div>
 <%def name="show_select_instance()">
 <% h.need.openlayers %>
 <% h.need.jquery_ui %>
-<% h.need_adhocracy_geo_i18n() %>
+<% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 ${attribution(long=True)}
 <script type="text/javascript">window.onload=function() {

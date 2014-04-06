@@ -14,7 +14,7 @@ badge_table = Table(
     Column('description', Unicode(255), default=u'', nullable=False),
     Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
     Column('display_group', Boolean, default=False),
-    #Column('badge_delegateable', Boolean, default=False)
+    # Column('badge_delegateable', Boolean, default=False)
     )
 
 delegateable_badge_table = Table(

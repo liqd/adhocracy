@@ -47,7 +47,7 @@ class ShibbolethController(BaseController):
     """
 
     def request_auth(self):
-        if not 'shibboleth' in allowed_login_types():
+        if 'shibboleth' not in allowed_login_types():
             ret_abort(_("Shibboleth authentication not enabled"), code=403)
 
         came_from = request.GET.get('came_from', '/')
@@ -77,7 +77,7 @@ class ShibbolethController(BaseController):
         If a user logs in into a deleted account, this account is undeleted
         on the fly.
         """
-        if not 'shibboleth' in allowed_login_types():
+        if 'shibboleth' not in allowed_login_types():
             ret_abort(_("Shibboleth authentication not enabled"), code=403)
 
         persistent_id = self._get_persistent_id()

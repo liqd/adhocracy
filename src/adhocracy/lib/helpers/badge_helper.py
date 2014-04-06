@@ -30,8 +30,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     """Returns string with the badge thumbnail img tag
        The image is resized and converted to PNG.
     """
-    #NOTE Generated image is not Working with IE < 8, joka
-    #TODO use real image links instead of URI:data
+    # NOTE Generated image is not Working with IE < 8, joka
+    # TODO use real image links instead of URI:data
 
     size = (width and height) and (width, height)\
         or get_default_thumbnailsize(badge)
@@ -40,18 +40,18 @@ def generate_thumbnail_tag(badge, width=0, height=0):
     imagefile = BytesIO(badge.thumbnail)
     mimetype = "image/png"
     try:
-        #resize image
+        # resize image
         im = Image.open(imagefile)
         mimetype = "image/" + im.format.lower()
         im.thumbnail(size, Image.ANTIALIAS)
-        #optimize image but preserve transparency
+        # optimize image but preserve transparency
         im.load()
         im_opti = Image.new("RGB", im.size, (255, 255, 255))
         if len(im.split()) > 3:
             im_opti.paste(im, mask=im.split()[3])
         else:
             im_opti.paste(im)
-        #save image
+        # save image
         f = BytesIO()
         im_opti.save(f, 'PNG')
         del im, im_opti, imagefile

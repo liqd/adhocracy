@@ -49,6 +49,11 @@ def message(check, u):
         check.other('no_member_in_instance', not u.is_member(c.instance))
 
 
+def badge(check, u):
+    check.readonly()
+    check.perm('user.badge')
+
+
 def supervise(check, u):
     check.readonly()
     check.other('not_in_instance', not c.instance)

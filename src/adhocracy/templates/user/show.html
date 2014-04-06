@@ -170,11 +170,11 @@
         </form>
         %endif
 
-        %if c.visible_badges or not c.dashboard and can.user.supervise(c.page_user):
+        %if c.visible_badges or not c.dashboard and can.user.badge(c.page_user):
         <h6>
             ${_('User badges')}
 
-            %if not c.dashboard and can.user.supervise(c.page_user):
+            %if not c.dashboard and can.user.badge(c.page_user):
             <div class="utility">
                 <a href="${h.entity_url(c.page_user, member='badges')}" class="button_small" rel="#overlay-form">
                     ${_("edit")}

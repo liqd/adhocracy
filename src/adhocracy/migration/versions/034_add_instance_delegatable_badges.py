@@ -19,7 +19,7 @@ badge_table = Table(
     # badges for delegateables
     Column('badge_delegateable', Boolean, default=False),
     # badges only for delegateables inside an instance (aka "category")
-    #Column('badge_delegateable_category', Boolean, default=False),
+    # Column('badge_delegateable_category', Boolean, default=False),
     # Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True))
     )
 

@@ -102,11 +102,11 @@ class AlternateLoginFriendlyFormPlugin(FriendlyFormPlugin):
 
 def setup_auth(app, config):
     groupadapter = InstanceGroupSourceAdapter()
-    #groupadapter.translations.update({'sections': 'groups'})
+    # groupadapter.translations.update({'sections': 'groups'})
     permissionadapter = SqlPermissionsAdapter(model.Permission,
                                               model.Group,
                                               model.meta.Session)
-    #permissionadapter.translations.update(permission_translations)
+    # permissionadapter.translations.update(permission_translations)
 
     group_adapters = {'sql_auth': groupadapter}
     permission_adapters = {'sql_auth': permissionadapter}
@@ -152,7 +152,7 @@ def setup_auth(app, config):
     welcome.setup_auth(config, identifiers, authenticators)
 
     log_stream = None
-    #log_stream = sys.stdout
+    # log_stream = sys.stdout
 
     # If a webserver already sets a HTTP_REMOTE_USER environment variable,
     # repoze.who merely acts as a pass through and doesn't set up the proper

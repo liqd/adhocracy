@@ -24,6 +24,9 @@ def make_map(config):
     map.connect('/openid/{action}', controller='openidauth')
     map.connect('/twitter/{action}', controller='twitteroauth')
 
+    map.connect('/oembed{.format}', controller='oembed', action='oembed',
+                conditions=dict(method=['GET']))
+
     map.connect('/user/all', controller='user',
                 action='all', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges{.format}', controller='user',
@@ -148,10 +151,10 @@ def make_map(config):
     map.connect('/reset', controller='user', action='reset_request',
                 conditions=dict(method=['POST']))
 
-    #map.connect('/proposal/{id}/badges', controller='proposal',
-                #action='badges', conditions=dict(method=['GET']))
-    #map.connect('/proposal/{id}/badges', controller='proposal',
-                #action='update_badges', conditions=dict(method=['POST']))
+    # map.connect('/proposal/{id}/badges', controller='proposal',
+    #             action='badges', conditions=dict(method=['GET']))
+    # map.connect('/proposal/{id}/badges', controller='proposal',
+    #             action='update_badges', conditions=dict(method=['POST']))
 
     map.resource('proposal', 'proposal', member={'delegations': 'GET',
                                                  'activity': 'GET',
@@ -323,7 +326,7 @@ def make_map(config):
 
     map.resource('page', 'page', member={'ask_delete': 'GET'})
 
-    #map.connect('/adopted', controller='proposal', action='adopted')
+    # map.connect('/adopted', controller='proposal', action='adopted')
 
     map.resource('comment', 'comment', member={'history': 'GET',
                                                'revert': 'GET',
@@ -395,7 +398,7 @@ def make_map(config):
     map.connect('/tag/{id}', controller='tag', action='show')
 
     map.resource('delegation', 'delegation')
-    #map.resource('delegations', 'delegation')
+    # map.resource('delegations', 'delegation')
 
     map.connect('/d/{id}', controller='root', action='dispatch_delegateable')
     map.connect('/sitemap.xml', controller='root', action='sitemap_xml')
@@ -553,13 +556,13 @@ def make_map(config):
     map.connect('/static{.format}', controller='static', action='make_new',
                 conditions=dict(method=['POST']))
     map.connect('/static/new{.format}', controller='static', action='new')
-    map.connect('/static/{key}_{lang}',
+    map.connect('/static/edit/{lang}/*key',
                 controller='static', action='edit',
                 conditions=dict(method=['GET', 'HEAD']))
-    map.connect('/static/{key}_{lang}{.format}',
+    map.connect('/static/edit/{lang}/*(key){.format}',
                 controller='static', action='update',
                 conditions=dict(method=['POST']))
-    map.connect('/static/{key}{.format}', controller='static',
+    map.connect('/static/*(key){.format}', controller='static',
                 action='serve')
     map.connect('/outgoing_link/{url_enc}', controller='redirect',
                 action='outgoing_link',

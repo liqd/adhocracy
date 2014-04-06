@@ -17,7 +17,7 @@ def url(comment, member=None, format=None, comment_page=False,
                 return (proposal.url(comment.topic.proposal,
                                      anchor=u'c%i' % comment.id, **kwargs))
             if comment.topic.is_sectionpage():
-                if not u'anchor' in kwargs:
+                if u'anchor' not in kwargs:
                     kwargs[u'anchor'] = u'c%i' % comment.id
                 if in_overlay:
                     kwargs[u'format'] = u'overlay'

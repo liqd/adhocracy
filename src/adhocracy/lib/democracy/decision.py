@@ -145,7 +145,7 @@ class Decision(object):
         Determine if a given decision was made by the user, i.e. if the user
         or one of his/her agents has voted on the proposal.
         """
-        return not self.result is None
+        return self.result is not None
 
     def is_self_decided(self):
         """
@@ -164,7 +164,7 @@ class Decision(object):
         Return the same decision given that a certain vote had not been
         cast.
         """
-        if not vote in self.relevant_votes:
+        if vote not in self.relevant_votes:
             return self
         else:
             votes = [v for v in self.votes if v != vote]

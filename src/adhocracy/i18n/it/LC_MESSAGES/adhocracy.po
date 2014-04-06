@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 02:37+0100\n"
-"PO-Revision-Date: 2014-03-26 01:37+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-03-26 15:42+0100\n"
+"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -724,6 +724,10 @@ msgid "This %(provider)s account is already connected."
 msgstr ""
 
 #, python-format
+msgid "Your %(provider)s account is locked."
+msgstr ""
+
+#, python-format
 msgid "You successfully connected to %s."
 msgstr ""
 
@@ -1014,6 +1018,9 @@ msgstr "Richiesta non valida. Ti preghiamo di tornare indietro e di riprovare."
 
 msgid "The method you used is not implemented."
 msgstr "Il metodo utilizzato non è implementato."
+
+msgid "Start"
+msgstr "Home"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1844,9 +1851,6 @@ msgstr "<b>%s</b> commenti"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> voti"
 
-msgid "Start"
-msgstr "Home"
-
 msgid "Instances"
 msgstr "Gruppi"
 
@@ -2146,14 +2150,14 @@ msgstr "Assegna i treatment badges."
 msgid "Admin: Import Users"
 msgstr "Amministratore: importa utenti"
 
+msgid "Users CSV"
+msgstr "Utenti CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Incolla il contenuto del documento CDV, per esempio esporta da Excel con 4 colonne, il nome utente, il nome visualizzato, l'indirizzo email e i badge (badge è optionale, separato da una virgola e con la lista tra virgolette)"
-
-msgid "Users CSV"
-msgstr "Utenti CSV"
 
 msgid "Email Subject"
 msgstr "Oggetto della email"
@@ -2236,11 +2240,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Descrizione del Badge"
 
-msgid ""
-"Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
-msgid "Long category description"
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2384,6 +2388,9 @@ msgstr "Principale"
 
 msgid "Global badges"
 msgstr "Badge generali"
+
+msgid "No Badge"
+msgstr ""
 
 msgid "invisible"
 msgstr ""
@@ -2723,8 +2730,8 @@ msgid ""
 "developers."
 msgstr "É stato inviato un messaggio di posta elettronica con una descrizione dell'errore agli sviluppatori del software."
 
-msgid "Whazza"
-msgstr "Come va?"
+msgid "Latest events"
+msgstr ""
 
 msgid "All current events."
 msgstr "Tutti gli eventi del momento."
@@ -2918,11 +2925,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Puoi aggiungere i CSS che verranno utilizzati per modificare il gruppo."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Puoi aggiungere i CSS che verranno utilizzati per modificare il gruppo."
 
 msgid "Status badge image width"
 msgstr ""
@@ -3001,20 +3008,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
+msgid "Description of the instance"
+msgstr ""
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Logo attuale"
@@ -3182,6 +3189,10 @@ msgid "Users who have voted in favour of \"%s\""
 msgstr ""
 
 msgid "Opponents"
+msgstr ""
+
+#, python-format
+msgid "Users who have voted against \"%s\""
 msgstr ""
 
 msgid "Mass Message Preview"
@@ -3410,10 +3421,10 @@ msgstr "Nome della versione"
 msgid "Text"
 msgstr "Testo"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -3713,6 +3724,9 @@ msgstr ""
 msgid "No status badges"
 msgstr ""
 
+msgid "No Status Badge"
+msgstr ""
+
 #, python-format
 msgid "Delegations: %s"
 msgstr "Deleghe: %s"
@@ -3776,9 +3790,6 @@ msgid "The proposal would..."
 msgstr "La proposta intende..."
 
 msgid "Status Badge"
-msgstr ""
-
-msgid "No Status Badge"
 msgstr ""
 
 msgid "No Status Badges"
@@ -4245,6 +4256,9 @@ msgstr "Ricevuto"
 msgid "There are no delegations."
 msgstr "Non esistono delegazioni."
 
+msgid "Import Members"
+msgstr ""
+
 msgid "Find users"
 msgstr "Cerca utenti"
 
@@ -4505,12 +4519,12 @@ msgstr "Saluto"
 msgid "Select your prefered gender"
 msgstr "Selezione il tuo genere preferito"
 
+msgid "Avatar"
+msgstr ""
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
-
-msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4519,13 +4533,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
+msgid "Short biography"
+msgstr "Breve biografia"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Scrivendo una breve biografia su di te, gli altri utenti ti potranno conoscere meglio e potranno eventualmente delegarti determinate scelte."
-
-msgid "Short biography"
-msgstr "Breve biografia"
 
 msgid "I am an organisation"
 msgstr ""

@@ -229,14 +229,14 @@ class PageController(BaseController):
             return self.new(errors=i.unpack_errors())
 
         variant = self.form_result.get("title")
+        container = self.form_result.get('container')
         page = model.Page.create(
             c.instance, variant, _text, c.user,
-            function=(model.Page.CONTAINER
-                      if self.form_result.get("container")
-                      else model.Page.NORM),
+            function=(model.Page.CONTAINER if container else model.Page.NORM),
             formatting=(self.form_result.get("formatting")
                         or self.form_result.get("container")),
-            sectionpage=self.form_result.get("sectionpage"),
+            sectionpage=(False if container
+                         else self.form_result.get("sectionpage")),
             allow_comment=self.form_result.get("allow_comment"),
             allow_selection=self.form_result.get("allow_selection"),
             always_show_original=self.form_result.get("always_show_original"),
@@ -327,7 +327,7 @@ class PageController(BaseController):
             c.logo = '<img src="%s" />' % h.logo_url(c.page, 48)
 
         defaults = dict(request.params)
-        if not 'watch' in defaults:
+        if 'watch' not in defaults:
             defaults['watch'] = h.find_watch(c.page)
 
         if branch and c.text is None:
@@ -810,8 +810,8 @@ class PageController(BaseController):
         require.variant.delete(c.page, c.variant)
         c.page.purge_variant(c.variant)
         model.meta.Session.commit()
-        #event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance,
-        #           topics=[c.page], page=c.page)
+        # event.emit(event.T_PAGE_DELETE, c.user, instance=c.instance,
+        #            topics=[c.page], page=c.page)
         h.flash(_("The variant %s has been deleted.") % c.variant,
                 'success')
         redirect(h.entity_url(c.page))

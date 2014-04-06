@@ -27,11 +27,11 @@ def upgrade(migrate_engine):
         )
     page_table.c.has_variants.drop()
     page_table.c.freeze.drop()
-    #function = Column('function', Unicode)
+    # function = Column('function', Unicode)
     # function.create(page_table)
     # u = page_table.update(values={
-    #    'function': 'document'
-    #    })
+    #     'function': 'document'
+    #     })
     print "WARNING ---- THERE IS A NON-WORKING MIGRATION PART ---- "
     print "CREATE A NEW function COLUMN ON THE page TABLE "
     # migrate_engine.execute(u)

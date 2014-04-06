@@ -166,7 +166,7 @@ class OpenidauthController(BaseController):
 
     def connect(self):
         if (not openid_login_allowed()
-                and not 'facebook' in allowed_login_types()):
+                and 'facebook' not in allowed_login_types()):
             ret_abort(_("Connection not allowed, single sign-on has been "
                         "disabled on this installation"), code=403)
         require.user.edit(c.user)

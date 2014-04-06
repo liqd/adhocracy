@@ -36,7 +36,7 @@ def mk_perm(name):
 
 
 def setup_entities(config, initial_setup):
-    #model.meta.Session.begin()
+    # model.meta.Session.begin()
     model.meta.Session.commit()
 
     # administrate installation wide
@@ -131,6 +131,7 @@ def setup_entities(config, initial_setup):
         u'proposal.view': [anonymous],
         u'proposal.message': [moderator],
         u'static.show': [anonymous],
+        u'static.show_private': [admins],
         u'tag.create': [advisor],
         u'tag.delete': [advisor],
         u'tag.show': [anonymous],
@@ -141,6 +142,7 @@ def setup_entities(config, initial_setup):
         u'user.message': [advisor],
         u'user.show': [anonymous],
         u'user.view': [anonymous],
+        u'user.badge': [moderator],
         u'vote.cast': [voter],
         u'vote.prohibit': [organization],
         u'watch.create': [observer, default],

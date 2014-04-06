@@ -62,13 +62,14 @@ def visible_pages(selected_page, pages):
     are lists.
     '''
 
-    ### If we have < 11 pages we show all page links
-    ### X X X O X X X X X X X
+    # If we have < 11 pages we show all page links
+    # X X X O X X X X X X X
     if pages <= 11:
         return [range(1, pages + 1), []]
 
-    ### if we have > 11 pages, we select which boxes and
-    ### which seperators to show
+    # if we have > 11 pages, we select which boxes and
+    # which seperators to show
+    #
     # Case: near the start. Show the pages up to 9, a seperator
     # and the last 1
     # X X X X O X X X X ... X
@@ -1291,7 +1292,7 @@ class SolrPager(PagerMixin):
 
         self.page = self._get_page()
 
-        ## build the query
+        # build the query
         query = sunburnt_query(entity_type)
         if self.extra_filter:
             query = query.filter(**self.extra_filter)

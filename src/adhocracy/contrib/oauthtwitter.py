@@ -67,7 +67,7 @@ class OAuthApi(Api):
           extra_params.update(parameters)
 
         # Add key/value parameters to the query string of the url
-        #url = self._BuildUrl(url, extra_params=extra_params)
+        # url = self._BuildUrl(url, extra_params=extra_params)
 
         if post_data:
             http_method = "POST"
@@ -82,7 +82,7 @@ class OAuthApi(Api):
         # Get a url opener that can handle Oauth basic auth
         opener = self._GetOpener()
 
-        #encoded_post_data = self._EncodePostData(post_data)
+        # encoded_post_data = self._EncodePostData(post_data)
 
         if post_data:
             encoded_post_data = req.to_postdata()
