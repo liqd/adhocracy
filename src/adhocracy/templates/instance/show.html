@@ -108,7 +108,7 @@ ${components.watch(c.instance)}
         <h6>${_('By the numbers')}</h6>
         <ul class="nobullet">
             <li>${_("<b>%s</b> community members") % c.stats.get('members')|n}</li>
-            %if c.instance.show_proposals_navigation:
+            %if c.instance.show_proposals_navigation or c.instance.display_category_pages:
             <li>${_("<b>%s</b> proposals") % c.stats.get('proposals')|n}</li>
             %endif
             <li>${_("<b>%s</b> comments") % c.stats.get('comments')|n}</li>
