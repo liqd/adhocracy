@@ -637,8 +637,8 @@ class ProposalController(BaseController):
         '''
         thumbnailbadges = []
         if can.proposal.edit_badges(proposal):
-            thumbnailbadges.extend(model.ThumbnailBadge.all(instance=
-                                                            c.instance))
+            thumbnailbadges.extend(
+                model.ThumbnailBadge.all(instance=c.instance))
             thumbnailbadges.extend(model.ThumbnailBadge.all(instance=None))
         thumbnailbadges = sorted(thumbnailbadges,
                                  key=lambda badge: badge.title)
@@ -712,10 +712,9 @@ class ProposalController(BaseController):
         if format == 'ajax':
             obj = {'badges_html': render_def('/badge/tiles.html', 'badges',
                                              badges=proposal.badges),
-                   'thumbnailbadges_html': render_def('/badge/tiles.html',
-                                                      'badges',
-                                                      badges=
-                                                      proposal.thumbnails),
+                   'thumbnailbadges_html': render_def(
+                       '/badge/tiles.html', 'badges',
+                       badges=proposal.thumbnails),
                    }
             return render_json(obj)
         elif redirect_to_proposals:
