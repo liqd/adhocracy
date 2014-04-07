@@ -254,6 +254,9 @@ def entity_url(entity, **kwargs):
         return treatment.url(entity, **kwargs)
     elif isinstance(entity, model.Message):
         return message.url(entity, **kwargs)
+    elif (isinstance(entity, model.CategoryBadge) and c.instance is not None
+          and c.instance.display_category_pages):
+        return category.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

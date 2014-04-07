@@ -491,3 +491,12 @@ ${caller.body()}
         ${tables}
     </div>
 </%def>
+
+
+<%def name="category_link(category)">
+    %if c.instance is not None and c.instance.display_category_pages:
+    <a href="${h.entity_url(category)}">${category}</a>
+    %else:
+    ${category}
+    %endif
+</%def>
