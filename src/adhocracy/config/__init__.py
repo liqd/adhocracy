@@ -19,6 +19,7 @@ DEFAULTS = {
     'adhocracy.demo_users': [],
     'adhocracy.enable_gender': False,
     'adhocracy.export_personal_email': False,
+    'adhocracy.external_navigation_base': None,
     'adhocracy.feedback_check_instance': True,
     'adhocracy.feedback_instance_key': u'feedback',
     'adhocracy.feedback_use_categories': True,

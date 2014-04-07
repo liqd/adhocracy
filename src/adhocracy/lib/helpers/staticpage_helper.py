@@ -56,7 +56,7 @@ def use_external_navigation():
 
 def render_external_navigation(current_key):
     api = RESTAPI()
-    base = config.get('adhocracy.kotti_navigation_base', None)
+    base = config.get('adhocracy.external_navigation_base')
     result = api.staticpages_get(base=base)
     nav = result.json()
     if nav is None or not nav.get('children'):
