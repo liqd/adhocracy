@@ -1,6 +1,7 @@
 from itertools import izip
 import logging
 import babel.core
+from requests import ConnectionError
 
 from pylons import tmpl_context as c
 
@@ -60,14 +61,20 @@ def use_external_navigation():
 
 
 def render_external_navigation(current_key):
+    if not use_external_navigation():
+        return None
     api = RESTAPI()
     base = config.get('adhocracy.external_navigation_base')
-    result = api.staticpages_get(base=base)
+    try:
+        result = api.staticpages_get(base=base)
+    except ConnectionError as e:
+        log.error('Error while connecting to static pages backend: %s' % e)
+        return None
     nav = result.json()
     instance = c.instance if instance_staticpages_api_address() else None
     if nav is None or not nav.get('children'):
         log.error('External navigation not found for configured languages')
-        return ''
+        return None
 
     def render_navigation_item(item, path='', toplevel=False):
         from adhocracy.lib.templating import render_def
