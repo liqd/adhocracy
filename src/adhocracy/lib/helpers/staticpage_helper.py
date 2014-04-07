@@ -2,18 +2,23 @@ from itertools import izip
 import logging
 import babel.core
 
+from pylons import tmpl_context as c
+
 from adhocracy import config
 from adhocracy.lib import cache, staticpage
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
+from adhocracy.lib.helpers.adhocracy_service import \
+    instance_staticpages_api_address
 
 log = logging.getLogger(__name__)
 
 
 @cache.memoize('staticpage_url')
 def url(staticpage, **kwargs):
+    instance = c.instance if instance_staticpages_api_address() else None
     pid = staticpage.key
-    return _url.build(None, 'static', pid, **kwargs)
+    return _url.build(instance, 'static', pid, **kwargs)
 
 
 def get_lang_info(lang):
@@ -59,6 +64,7 @@ def render_external_navigation(current_key):
     base = config.get('adhocracy.external_navigation_base')
     result = api.staticpages_get(base=base)
     nav = result.json()
+    instance = c.instance if instance_staticpages_api_address() else None
     if nav is None or not nav.get('children'):
         log.error('External navigation not found for configured languages')
         return ''
@@ -71,7 +77,7 @@ def render_external_navigation(current_key):
         else:
             path = item['name']
 
-        url = '/static/%s.html' % path
+        url = _url.build(instance, 'static', path, format='html')
 
         contains_current = (path == current_key)
         if item['children']:
