@@ -1,8 +1,10 @@
 @mixin desktop {
-    @content;
+    html {
+        @content;
+    }
 }
 @mixin mobile {
-    #no-not-show-this-hack {
+    #no-not-show-this-hack html {
         @content;
     }
 }

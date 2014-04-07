@@ -1,6 +1,6 @@
 @include desktop {
     // responsive: multi-column
-    html.no-flexbox .tile-table {
+    &.no-flexbox .tile-table {
         display: table;
         table-layout: fixed;
 
@@ -23,7 +23,7 @@
             }
         }
     }
-    html.flexbox .tile-table {
+    &.flexbox .tile-table {
         width: calc(100% + 2em);
         margin-left: -1em;
 
