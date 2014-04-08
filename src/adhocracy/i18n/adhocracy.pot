@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.2.1-52-gc7713ad\n"
+"Project-Id-Version: adhocracy 2.3.0-36-g2e5bcd9\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
+"POT-Creation-Date: 2014-04-08 21:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1792,6 +1792,9 @@ msgstr ""
 msgid "<b>%s</b> votes"
 msgstr ""
 
+msgid "Menu"
+msgstr ""
+
 msgid "Instances"
 msgstr ""
 
@@ -2622,7 +2625,8 @@ msgstr ""
 msgid "You hold %s additional votes."
 msgstr ""
 
-msgid "If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do."
+#, python-format
+msgid "If this error continues to occur, please %snotify the developers%s with a description of what you were trying to do."
 msgstr ""
 
 msgid "An automated email message describing the situation has been sent to our developers."
@@ -2924,9 +2928,6 @@ msgid "Show norms navigation item"
 msgstr ""
 
 msgid "Show norms as an extra tab"
-msgstr ""
-
-msgid "Home"
 msgstr ""
 
 msgid "show a list of proposals"
@@ -4026,7 +4027,7 @@ msgstr ""
 msgid "All Members on this Adhocracy Server"
 msgstr ""
 
-msgid "A listing of all users in all instance an this adhocracy server."
+msgid "A listing of all users in all instances on this Adhocracy server."
 msgstr ""
 
 msgid "Validate email address"

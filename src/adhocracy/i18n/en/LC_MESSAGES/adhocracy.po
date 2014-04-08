@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"POT-Creation-Date: 2014-04-08 21:51+0200\n"
+"PO-Revision-Date: 2014-04-08 19:51+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1852,6 +1852,9 @@ msgstr "<b>%s</b> comments"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
 
+msgid "Menu"
+msgstr ""
+
 msgid "Instances"
 msgstr "Instances"
 
@@ -2720,11 +2723,11 @@ msgstr "You hold an additional vote."
 msgid "You hold %s additional votes."
 msgstr "You hold %s additional votes."
 
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3067,9 +3070,6 @@ msgstr "Show norms navigation item"
 
 msgid "Show norms as an extra tab"
 msgstr "Show norms as an extra tab."
-
-msgid "Home"
-msgstr "Home"
 
 msgid "show a list of proposals"
 msgstr "show a list of proposals"
@@ -4207,8 +4207,8 @@ msgstr "Create treatment"
 msgid "All Members on this Adhocracy Server"
 msgstr "All members on this Adhocracy Server"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "A listing of all users in all instance an this adhocracy server."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr ""

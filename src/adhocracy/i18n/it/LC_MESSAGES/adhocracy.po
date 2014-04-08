@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"POT-Creation-Date: 2014-04-08 21:51+0200\n"
+"PO-Revision-Date: 2014-04-08 19:51+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -1851,6 +1851,9 @@ msgstr "<b>%s</b> commenti"
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> voti"
 
+msgid "Menu"
+msgstr ""
+
 msgid "Instances"
 msgstr "Gruppi"
 
@@ -2719,11 +2722,11 @@ msgstr "Disponi di un'altra possibilità di voto."
 msgid "You hold %s additional votes."
 msgstr "Disponi di %s ulteriori possiblità di voto."
 
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "Se l'errore si dovesse verificare nuovamente, ti preghiamo <a class='staticlink_imprint' href='/static/imprint.html'> di contattare gli sviluppatori </a> notificandogli una descrizione di ciò che stavi tentando di fare quando si è verificato l'errore."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3066,9 +3069,6 @@ msgstr "Mostra l'elemento di navigazione \"delibere\""
 
 msgid "Show norms as an extra tab"
 msgstr ""
-
-msgid "Home"
-msgstr "Home"
 
 msgid "show a list of proposals"
 msgstr "mostra una lista di proposte"
@@ -4206,8 +4206,8 @@ msgstr "Crea treatment"
 msgid "All Members on this Adhocracy Server"
 msgstr "Tutti i membri di questo Server Adhocracy"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "Una lista di tutti gli utenti di questo gruppo e del Server di Adhocracy."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr ""

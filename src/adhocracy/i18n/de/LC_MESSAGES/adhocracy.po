@@ -4,30 +4,41 @@
 # 
 # Translators:
 # alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
+# alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
+# alexobi <alex-obi@hotmail.de>, 2013
 # alexobi <alex-obi@hotmail.de>, 2013
 # xanderbattaglia <xanderbattaglia@gmail.com>, 2013
+# cs <schroeder_carsten@gmx.de>, 2013
 # Daniel Reichert <daniel.reichert@liqd.de>, 2012
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009
+# Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
+# Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
 # Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
 # Mateusz Batelt <mateusz@batelt.eu>, 2012
 # Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2014
 # oskarb <o.brabanski@gmail.com>, 2013
+# oskarb <o.brabanski@gmail.com>, 2013
+# phihag <phihag@phihag.de>, 2013
 # phihag <phihag@phihag.de>, 2013
 # rosangela <rosangelabochicchio@gmail.com>, 2013
+# Rouven.B <rouven.brues@liqd.de>, 2014
 # Rouven.B <rouven.brues@liqd.de>, 2014
 # cs <schroeder_carsten@gmx.de>, 2013
 # veryrandomname <seriousemailadress@googlemail.com>, 2014
 # sicco <sicco@ddo.nl>, 2012
+# sicco <sicco@ddo.nl>, 2012
 # tobib <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
 # veryrandomname <seriousemailadress@googlemail.com>, 2014
+# Wawe <transifex.com@jroene.de>, 2013
 # xanderbattaglia <xanderbattaglia@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 17:07+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-04-08 21:51+0200\n"
+"PO-Revision-Date: 2014-04-08 19:54+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1066,7 +1077,7 @@ msgstr "%s <%s>"
 msgid ""
 "this email is to check the email address you have provided. In order to "
 "confirm this email address, please open the link below in your browser:"
-msgstr "Diese E-Mail hat den Zweck, die von Ihnen angegebene E-Mail-Adresse zu überprüfen. Um diese E-Mail-Adresse zu bestätigen klicken Sie bitte auf den darunter genannten Link."
+msgstr "Diese E-Mail hat den Zweck, die von Ihnen angegebene E-Mail-Adresse zu überprüfen. Um diese E-Mail-Adresse zu bestätigen, klicken Sie bitte auf den folgenden Link."
 
 msgid "Confirm your email address"
 msgstr "Bestätigen Sie Ihre E-Mail-Adresse."
@@ -1865,6 +1876,9 @@ msgstr "<b>%s</b> Kommentare"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> Stimmen"
+
+msgid "Menu"
+msgstr "Menü"
 
 msgid "Instances"
 msgstr "Gruppen"
@@ -2734,11 +2748,11 @@ msgstr "Sie verfügen über eine zusätzliche Stimme."
 msgid "You hold %s additional votes."
 msgstr "Sie verfügen über %s zusätzliche Stimmen."
 
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "Falls dieser Fehler erneut auftritt, <a class='staticlink_imprint' href='/static/imprint.html'>informieren Sie bitte die Entwickler</a> mit einer Beschreibung Ihres Vorhabens."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr "Wenn dieser Fehler weiterhin auftritt, informieren sie bitte %sdie Entwickler*innen%s mit einer Beschreibung dessen, was sie tun wollten."
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3081,9 +3095,6 @@ msgstr "Zeige \"Beschluss\"-Reiter"
 
 msgid "Show norms as an extra tab"
 msgstr "Sie können den \"Beschlüsse\"-Reiter in der Gruppen Navigationsleiste verbergen, sodass Beschlüsse nicht auf einer eigenen Seite angezeigt werden. Die Beschluss-Funktion bleibt weiterhin aktiv."
-
-msgid "Home"
-msgstr "Gruppe"
 
 msgid "show a list of proposals"
 msgstr "Eine Liste mit Vorschlägen anzeigen"
@@ -4221,8 +4232,8 @@ msgstr "Treatment erstellen"
 msgid "All Members on this Adhocracy Server"
 msgstr "Alle Benutzer*innen auf diesem Adhocracy-Server"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "Eine Liste aller Benutzer*innen in dieser Gruppe und auf diesem Adhocracy-Server."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr "Eine Auflistung aller Nutzer*innen aus allen Gruppen auf diesem Adhocracy-Server."
 
 msgid "Validate email address"
 msgstr "Email-Adresse verifizieren"

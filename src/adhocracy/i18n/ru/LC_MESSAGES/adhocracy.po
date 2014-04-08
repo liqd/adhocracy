@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"POT-Creation-Date: 2014-04-08 21:51+0200\n"
+"PO-Revision-Date: 2014-04-08 19:51+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1854,6 +1854,9 @@ msgstr "<b>%s</b> комент. "
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> голоса"
 
+msgid "Menu"
+msgstr ""
+
 msgid "Instances"
 msgstr "Организации"
 
@@ -2723,11 +2726,11 @@ msgstr "У вас есть дополнительный голос"
 msgid "You hold %s additional votes."
 msgstr "У вас есть %s дополнительные голоса"
 
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "Если эта ошибка повториться <a class='staticlink_imprint' href='/static/imprint.html'>свяжитесь с разработчиками</a> с описанием ваших действий"
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3070,9 +3073,6 @@ msgstr ""
 
 msgid "Show norms as an extra tab"
 msgstr ""
-
-msgid "Home"
-msgstr "На главную"
 
 msgid "show a list of proposals"
 msgstr "Показать список предложений"
@@ -4215,8 +4215,8 @@ msgstr ""
 msgid "All Members on this Adhocracy Server"
 msgstr "Все пользователи этого сервера Adhocracy "
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "Список всех пользователей всех организаций групп на этом сервере Adhocracy."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr ""
