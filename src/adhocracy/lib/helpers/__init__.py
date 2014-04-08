@@ -45,6 +45,7 @@ from adhocracy.lib.helpers import badge_helper as badge
 from adhocracy.lib.helpers import treatment_helper as treatment
 from adhocracy.lib.helpers import category_helper as category
 from adhocracy.lib.helpers import message_helper as message
+from adhocracy.lib.helpers import adhocracy_service as adhocracy_service
 
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
@@ -178,13 +179,19 @@ def add_rss(title, link):
                        type='application/rss+xml')
 
 
-def help_link(text, page, anchor=None):
-    url = base_url('/static/%s.%s', None)
+def help_url(page, anchor=None):
+    if adhocracy_service.instance_staticpages_api_address():
+        url = base_url('/static/%s.%s')
+    else:
+        url = base_url('/static/%s.%s', None)
     if anchor is not None:
         url += "#" + anchor
-    full_url = url % (page, 'html')
-    return (u"<a target='_new' class='staticlink_%s' href='%s' "
-            u">%s</a>") % (page, full_url, text)
+    return url % (page, 'html')
+
+
+def help_link(text, page, anchor=None):
+    url = help_url(page, anchor=anchor)
+    return (u"<a class='staticlink_%s' href='%s' >%s</a>") % (page, url, text)
 
 
 def get_redirect_url(target=u'login', entity=None, **kwargs):
