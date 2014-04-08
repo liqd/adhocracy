@@ -463,10 +463,10 @@ class ProposalController(BaseController):
         c.page = c.proposal.description
 
         if format == u'overlay':
-            c.ret_url = h.entity_url(c.proposal,
-                                     member='comments',
-                                     in_overlay=False,
-                                     format='overlay')
+            c.came_from = h.entity_url(c.proposal,
+                                       member='comments',
+                                       in_overlay=False,
+                                       format='overlay')
             return render("/page/comments.html", overlay=True,
                           overlay_size=OVERLAY_SMALL)
         else:
