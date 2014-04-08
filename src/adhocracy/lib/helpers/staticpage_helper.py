@@ -2,6 +2,7 @@ from itertools import izip
 import logging
 import babel.core
 from requests import ConnectionError
+from simplejson.scanner import JSONDecodeError
 
 from pylons import tmpl_context as c
 
@@ -70,7 +71,11 @@ def render_external_navigation(current_key):
     except ConnectionError as e:
         log.error('Error while connecting to static pages backend: %s' % e)
         return None
-    nav = result.json()
+    try:
+        nav = result.json()
+    except JSONDecodeError as e:
+        log.error('Error while fetching external navigation: %s' % e)
+        return None
     instance = c.instance if instance_staticpages_api_address() else None
     if nav is None or not nav.get('children'):
         log.error('External navigation not found for configured languages')
