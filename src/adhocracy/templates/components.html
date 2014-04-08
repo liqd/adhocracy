@@ -494,7 +494,7 @@ ${caller.body()}
 
 
 <%def name="category_link(category)">
-    %if c.instance is not None and c.instance.display_category_pages:
+    %if category.instance is not None and category.instance.display_category_pages:
     <a href="${h.entity_url(category)}">${category}</a>
     %else:
     ${category}
