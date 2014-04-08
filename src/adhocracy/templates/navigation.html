@@ -50,8 +50,9 @@
                            id_="nav_watchlist")}
                 %endif
 
-                %if h.staticpage.use_external_navigation():
-                ${h.staticpage.render_external_navigation(active) | n}
+                <% external_navigation = h.staticpage.render_external_navigation(active) %>
+                % if external_navigation is not None:
+                ${ external_navigation | n}
                 %else:
 
                 ${nav_link(href=h.help_url('about'),
