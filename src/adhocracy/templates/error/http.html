@@ -17,6 +17,7 @@
 %endif
 
 %if not c.hide_notify:
-<p>${_("If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do.")|n} ${_("An automated email message describing the situation has been sent to our developers.")}</p>
+<p>${_("If this error continues to occur, please %snotify the developers%s with a description of what you were trying to do.") % tuple(h.help_link('&&', 'imprint').split('&&'))|n}
+${_("An automated email message describing the situation has been sent to our developers.")}</p>
 %endif
 </%block>

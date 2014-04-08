@@ -54,14 +54,14 @@
                 ${h.staticpage.render_external_navigation(active) | n}
                 %else:
 
-                ${nav_link(href=h.base_url('/static/about.html', None),
+                ${nav_link(href=h.help_url('about'),
                            text=_('About'),
                            a_class='staticlink_about',
                            li_class=_class('about'),
                            id_="nav_about")}
                 <!--TODO: remove dummy link to merge in new links with diazo themeing-->
                 <li id="nav_dummy" style="display: none;"></li>
-                ${nav_link(href=h.base_url('/static/help.html', None),
+                ${nav_link(href=h.help_url('help'),
                            text=_("Help"),
                            a_class='staticlink_help',
                            li_class=_class('help'),
