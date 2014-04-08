@@ -120,8 +120,10 @@ class Page(Delegateable):
     @classmethod
     def unusedTitle(cls, title, instance_filter=True, functions=None,
                     include_deleted=False, selection=None):
+        from adhocracy.lib.text import title2alias
+        label = title2alias(title)
         q = meta.Session.query(Page)\
-            .filter(Page.label == title)
+            .filter(Page.label == label)
         if not include_deleted:
             q = q.filter(or_(Page.delete_time == None,  # noqa
                              Page.delete_time > datetime.utcnow()))
