@@ -1,5 +1,6 @@
 import logging
 import re
+from simplejson.scanner import JSONDecodeError
 
 from adhocracy import i18n
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
@@ -47,7 +48,15 @@ class ExternalStaticPage(StaticPageBase):
     def get(key, languages):
         api = RESTAPI()
         result = api.staticpage_get(key)
-        page = result.json()
+        if not result.ok:
+            log.warn('Error while fetching static page "%s": %s %s'
+                     % (key, result.status_code, result.reason))
+            return None
+        try:
+            page = result.json()
+        except JSONDecodeError as e:
+            log.warn('Error while decoding static page "%s": %s' % (key, e))
+            return None
         if page is None or 'errors' in page:
             return None
         data = {'lang': u'',

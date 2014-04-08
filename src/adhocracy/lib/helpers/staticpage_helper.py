@@ -71,10 +71,14 @@ def render_external_navigation(current_key):
     except ConnectionError as e:
         log.error('Error while connecting to static pages backend: %s' % e)
         return None
+    if not result.ok:
+        log.error('Error while fetching static pages: %s %s'
+                  % (result.status_code, result.reason))
+        return None
     try:
         nav = result.json()
     except JSONDecodeError as e:
-        log.error('Error while fetching external navigation: %s' % e)
+        log.error('Error while decoding static pages: %s' % e)
         return None
     instance = c.instance if instance_staticpages_api_address() else None
     if nav is None or not nav.get('children'):
