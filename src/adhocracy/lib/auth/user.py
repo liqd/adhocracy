@@ -37,6 +37,7 @@ def edit(check, u):
 
 
 def manage(check, u):
+    """ Manage users on installation level """
     check.readonly()
     check.perm('user.manage')
 
@@ -55,6 +56,7 @@ def badge(check, u):
 
 
 def supervise(check, u):
+    """ Supervise users on instance level """
     check.readonly()
     check.other('not_in_instance', not c.instance)
     check.other('no_member_in_instance', not u.is_member(c.instance))
