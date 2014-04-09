@@ -402,6 +402,11 @@ adhocracy.startpage.proposals.list_length = 0
 # Use external staticpages API call to render navigation
 # adhocracy.use_external_navigation = true
 
+# If adhocracy.use_external_navigation is enabled, get the substructure of
+# this basepath.
+# adhocracy.external_navigation_base =
+
+
 # Configure paths to static content which is inserted
 
 # Static content path for start page (default: index)
@@ -420,6 +425,15 @@ adhocracy.static_index_path = index
 # {key} should be replaced by the instance key.
 # A common value might be {key}-startpage.
 # adhocracy.instance-{key}.static_overview_path
+
+# Use the static pages "footer_1", "footer_2" and "footer_3" instead of the
+# default footer.
+# adhocracy.customize_footer = True
+
+# If adhocracy.custom_footer is enabled, use the staticpages "footer_*_{key}"
+# for the following instances.
+# adhocracy.instance_footers =
+
 
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
@@ -499,15 +513,12 @@ velruse.protocol = ${parts.velruse.proxy_protocol}
 # adhocracy.allow_password_change
 # adhocracy.comment_wording
 # adhocracy.create_initial_instance_page
-# adhocracy.customize_footer
 # adhocracy.debug.sql
 # adhocracy.enable_gender
 # adhocracy.enable_votedetail
 # adhocracy.export_personal_email
-# adhocracy.external_navigation_base
 # adhocracy.force_no_http_proxy
 # adhocracy.hide_final_adoption_votings
-# adhocracy.instance_footers
 # adhocracy.instance_key_length_max
 # adhocracy.instance_key_length_min
 # adhocracy.instance.show_settings_after_create
