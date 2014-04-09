@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 <%def name="title()">${_(u"Proposals")}</%def>
 
 <%def name="breadcrumbs()">
@@ -39,13 +40,7 @@ ${h.proposal.breadcrumbs(None)|n}
 <hr />
 
 <div class="list_filter" id="proposals-search">
-    <form class="list_form" action="?" method="GET" autocomplete="off">
-        <input class="search_text" placeholder="${_(u"Find proposals")}"
-               id="proposals_q" class="live_search" name="proposals_q"
-               type="text" value="${request.params.get('proposals_q', '')}" />
-        <input type="submit" value="${_(u'Go')}"
-               class="search_button" />
-    </form>
+    ${forms.search(name='proposals_q', placeholder=_(u'Find proposals'), value=request.params.get('proposals_q', ''))}
 </div>
 
 <div id="proposals_table" class="table">
