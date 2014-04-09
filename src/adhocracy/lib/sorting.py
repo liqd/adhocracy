@@ -133,6 +133,25 @@ def proposal_mixed(entities):
                   reverse=True)
 
 
+def proposal_open_key(proposal):
+    max_age = 172800  # 2 days
+    scorer = score_and_freshness_sorter(max_age)
+    score = proposal.rate_poll.tally.score
+
+    # the badge with the highest absolute impact value wins
+    impact = reduce(lambda a, b: b if abs(b) > abs(a) else a,
+                    map(lambda d: d.badge.impact, proposal.delegateablebadges),
+                    0)
+
+    return scorer(score, proposal.create_time, impact)
+
+
+def proposal_open(entities):
+    return sorted(entities,
+                  key=lambda x: float(proposal_open_key(x)),
+                  reverse=True)
+
+
 def proposal_controversy_calculate(num_for, num_against):
     '''
     Measure how disputed an issue is - 50 pro 50 contra should be way more
