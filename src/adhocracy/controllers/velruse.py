@@ -56,7 +56,8 @@ def update_email_trust(adhocracy_user, velruse_email):
 class VelruseController(BaseController):
 
     def login_with_velruse(self):
-        session['came_from'] = request.params['came_from']
+        session['came_from'] = request.params.get('came_from',
+                                                  h.base_url('/login'))
         session.save()
         return render("/velruse/redirect_post.html")
 
@@ -70,7 +71,7 @@ class VelruseController(BaseController):
         If none is provided, this function will crash.
         """
 
-        redirect_url = session['came_from']
+        redirect_url = session.get('came_from', h.base_url('/login'))
 
         token = request.params['token']
         payload = {'format': 'json', 'token': token}
