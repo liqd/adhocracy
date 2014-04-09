@@ -87,9 +87,12 @@ class CategoryBadgeUpdateForm(CategoryBadgeForm):
 
 
 class UserBadgeForm(BadgeForm):
-    if can.user.supervise():
-        group = Any(validators.Empty, ValidInstanceGroup())
-        display_group = validators.StringBoolean(if_missing=False)
+    pass
+
+
+class UserBadgeFormSupervise(UserBadgeForm):
+    group = Any(validators.Empty, ValidInstanceGroup())
+    display_group = validators.StringBoolean(if_missing=False)
 
 
 class ThumbnailBadgeForm(BadgeForm):
@@ -263,7 +266,11 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def create_user_badge(self, format=u'html'):
         try:
-            self.form_result = UserBadgeForm().to_python(request.params)
+            if can.user.supervise():
+                form = UserBadgeFormSupervise()
+            else:
+                form = UserBadgeForm()
+            self.form_result = form.to_python(request.params)
         except Invalid as i:
             return self.add('user', i.unpack_errors())
 
@@ -483,7 +490,11 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def update_user_badge(self, id, format=u'html'):
         try:
-            self.form_result = UserBadgeForm().to_python(request.params)
+            if can.user.supervise():
+                form = UserBadgeFormSupervise()
+            else:
+                form = UserBadgeForm()
+            self.form_result = form.to_python(request.params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
 
