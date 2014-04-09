@@ -97,3 +97,12 @@ ${caller.body()}
 ${caller.body()}
 </div>
 </%def>
+
+
+<%def name="search(action='', name='serp_q', value='', placeholder='', autofocus=False)">
+<form action="${action}" class="searchform" method="GET">
+    <input name="${name}" type="text" placeholder="${placeholder}" value="${value}"
+           ${'autofocus="autofocus"' if autofocus else ''} />
+    <button type="submit" title="${_('Search')}"><span class="icon-search"></span></button>
+</form>
+</%def>

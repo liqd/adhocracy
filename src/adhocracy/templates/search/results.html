@@ -1,4 +1,5 @@
 <%inherit file="/template.html" />
+<%namespace name="forms" file="/forms.html"/>
 <%def name="title()">${_("Search") if not c.query else "'%s'" % c.query | n}</%def>
 
 <%def name="breadcrumbs()">
@@ -13,17 +14,12 @@
         ${_("Search")}
     %endif
 </h2>
-<p>${_("Search includes issues and proposals.")}</p>
 </%block>
 
 
 <%block name="main_content">
     <div class="list_filter">
-        <form action="?" class="list_form" method="GET" autocomplete="off">
-            <input id="serp_q" name="serp_q" class="live_search search_text"
-                   type="text" autofocus="autofocus" />
-            <input type="submit" value="${_('Search')}" class="search_button" />
-        </form>
+        ${forms.search(placeholder=_("Search proposals and norms..."), autofocus=True)}
     </div>
     <div id="serp_table" class="table">
         %if c.query:
