@@ -36,7 +36,7 @@ def edit(check, u):
     is_not_demo(check, c.user)
 
 
-def manage(check, u):
+def manage(check, u=None):
     """ Manage users on installation level """
     check.readonly()
     check.perm('user.manage')

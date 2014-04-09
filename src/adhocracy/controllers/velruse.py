@@ -12,6 +12,7 @@ from requests import get
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.base import BaseController
 from adhocracy.lib import event
+from adhocracy.lib.auth import can
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.model.velruse import Velruse
@@ -307,7 +308,7 @@ class VelruseController(BaseController):
                             " you are disconnected from already."))
             return None
 
-        elif not (v.user == c.user or h.has_permission("user.manage")):
+        elif not (v.user == c.user or can.user.manage()):
             abort(403, _("You're not authorized to change %s's settings.")
                   % c.user.id)
         else:
