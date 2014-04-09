@@ -57,3 +57,4 @@ src/adhocracy/static/stylesheets/adhocracy*.css
 src/adhocracy/tests/loadtests/data
 src/adhocracy/static/stylesheets/min/
 src/js.socialshareprivacy/
+src/adhocracy/i18n/*/LC_MESSAGES/*.mo
