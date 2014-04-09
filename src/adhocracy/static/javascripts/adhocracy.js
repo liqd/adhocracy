@@ -210,6 +210,17 @@ var adhocracy = adhocracy || {};
                 // iframe.contents().height does not shrink for some reason
                 height = $('body', iframe.contents()).height()+20;
             if (Math.abs(old_height - height) > 2) {
+                // scroll into view if needed
+                var position_top = overlay.offset().top - 20,
+                    scrollable = $('body');
+                if ($('html').scrollTop() > scrollable.scrollTop()) {
+                    // it is not consistent across browsers which element scrolls
+                    scrollable = $('html');
+                }
+                if (scrollable.scrollTop() > position_top + height) {
+                    scrollable.animate({'scrollTop': position_top}, speed);
+                }
+
                 iframe.animate({'height': height}, speed);
             }
         };
