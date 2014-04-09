@@ -1,6 +1,4 @@
-from paste.deploy.converters import asbool
-from pylons import config
-
+from adhocracy import config
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import url as _url
 from adhocracy.lib.text.truncate import truncate
@@ -36,7 +34,7 @@ def breadcrumbs(text):
 def getconf_allow_user_html(_testing_override=None):
     if _testing_override is not None:
         return _testing_override
-    return asbool(config.get('adhocracy.allow_user_html', 'true'))
+    return config.get_bool('adhocracy.allow_user_html', True)
 
 
 def truncate_html(html, target_len, ellipsis='...'):

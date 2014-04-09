@@ -3,11 +3,11 @@
 import collections
 
 from paste.deploy.converters import asbool
-import pylons
+from pylons import config
 from pylons.i18n import _
 
 
-def behavior_enabled(config=pylons.config):
+def behavior_enabled(config=config):
     return asbool(config.get('adhocracy.enable_behavior', 'False'))
 
 

@@ -1,5 +1,4 @@
-from paste.deploy.converters import asbool
-from pylons import config
+from adhocracy import config
 import user
 
 
@@ -10,7 +9,7 @@ def index(check):
 def show(check, p):
     check.perm('poll.show')
     check.other('poll_has_ended', p.has_ended())
-    hide_cfg = asbool(config.get('adhocracy.hide_individual_votes', 'false'))
+    hide_cfg = config.get_bool('adhocracy.hide_individual_votes', False)
     check.other('hide_individual_votes', hide_cfg)
 
 

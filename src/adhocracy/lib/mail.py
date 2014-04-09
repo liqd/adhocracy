@@ -7,8 +7,8 @@ from time import time
 import textwrap
 
 from pylons.i18n import _
-from pylons import config
 
+from adhocracy import config
 from adhocracy.lib import helpers as h, version
 
 log = logging.getLogger(__name__)

@@ -1,6 +1,6 @@
-from paste.deploy.converters import asbool
-from pylons import config, request, tmpl_context as c
+from pylons import request, tmpl_context as c
 
+from adhocracy import config
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.helpers import json_loads
 from adhocracy.lib.templating import render
@@ -40,7 +40,7 @@ class DebugController(BaseController):
         return render('/debug/explain.html')
 
     def components(self):
-        if not asbool(config.get('debug')):
+        if not config.get_bool('debug'):
             raise ValueError('Not in debugging mode')
         else:
             return render('/debug/components.html')

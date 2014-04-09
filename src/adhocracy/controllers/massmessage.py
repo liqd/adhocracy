@@ -1,17 +1,16 @@
 import logging
 import textwrap
 
-from pylons import config
 from pylons import request
 from pylons import tmpl_context as c
 from pylons.decorators import validate
 from pylons.controllers.util import redirect
 from pylons.i18n import _
-from paste.deploy.converters import asbool
 
 import formencode
 from formencode import validators, htmlfill
 
+from adhocracy import config
 from adhocracy import forms
 from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
@@ -149,8 +148,8 @@ class MassmessageController(BaseController):
             'system': {
                 'email': config.get('adhocracy.email.from'),
                 'checked': False,
-                'enabled': asbool(config.get(
-                    'allow_system_email_in_mass_messages', 'true')),
+                'enabled': config.get_bool(
+                    'allow_system_email_in_mass_messages', True),
                 'reason': _("Not permitted in system settings"),
             },
             'support': {

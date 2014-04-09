@@ -9,8 +9,9 @@ import babel.dates
 import formencode
 from pylons.i18n import _
 from pylons.i18n import add_fallback, set_lang
-from pylons import config, tmpl_context as c
+from pylons import tmpl_context as c
 
+from adhocracy import config
 from adhocracy.lib import cache
 
 

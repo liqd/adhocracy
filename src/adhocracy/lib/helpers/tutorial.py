@@ -1,7 +1,6 @@
-from paste.deploy.converters import asbool
-from pylons import config
 from pylons import session
 
+from adhocracy import config
 from adhocracy.model import meta
 
 ALLKEY = 'disable_tutorials'
@@ -9,7 +8,7 @@ ONEKEY = 'disable_tutorial_%s'
 
 
 def show(name, user):
-    if not asbool(config.get('adhocracy.show_tutorials', 'true')):
+    if not config.get_bool('adhocracy.show_tutorials', True):
         return False
 
     if user is not None and user.no_help:

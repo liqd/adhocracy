@@ -11,7 +11,7 @@ from . import render
 from . import transforms
 
 from adhocracy import model
-from pylons import config
+from adhocracy import config
 
 
 def export_data(opts):

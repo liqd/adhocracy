@@ -2,6 +2,7 @@ import logging
 import re
 from simplejson.scanner import JSONDecodeError
 
+from adhocracy import config
 from adhocracy import i18n
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
 from adhocracy.lib import util
@@ -12,7 +13,6 @@ from adhocracy.model import StaticPageBase
 
 
 from lxml.html import parse, tostring
-from pylons import config
 
 log = logging.getLogger(__name__)
 
