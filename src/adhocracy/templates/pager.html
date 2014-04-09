@@ -140,6 +140,7 @@
         <a class="tag_link ${'selected' if item['selected'] else ''}"
            style="font-size: ${h.tag.solr_tag_size(item, items)}%;"
            href="${item['url']|n}"
+           title="${ungettext(u'%i item', u'%i items', item['current_count']) % item['current_count']}"
            rel="nofollow">
             ${item['link_text']}</a>
         %endif
