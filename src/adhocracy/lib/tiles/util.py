@@ -1,6 +1,7 @@
 import logging
 from time import time
 
+from paste.deploy.converters import asbool
 from pylons import tmpl_context as c, config
 
 from adhocracy.lib.cache import memoize
@@ -22,7 +23,7 @@ def render_tile(template_name, def_name, tile, cached=False, **kwargs):
         return templating.render_def(template_name, def_name,
                                      tile=tile, **kwargs)
     rendered = ""
-    if cached and config.get('adhocracy.cache_tiles', True):
+    if cached and asbool(config.get('adhocracy.cache_tiles', 'true')):
         @memoize('tile_cache' + template_name + def_name, 86400 / 4)
         def _cached(**kwargs):
             return render()

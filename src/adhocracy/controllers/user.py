@@ -1106,7 +1106,7 @@ class UserController(BaseController):
         # and not with beaker sessions due to the way session deletion is
         # handled in beaker.
         if login_type == 'shibboleth':
-            logout_url = config.get('adhocracy.shibboleth_logout_url', None)
+            logout_url = config.get('adhocracy.shibboleth_logout_url')
             if logout_url is None:
                 target_msg = u''
             else:
@@ -1434,7 +1434,7 @@ class UserController(BaseController):
     def email_is_blacklisted(self, email):
         if email is None:
             return False
-        listed = config.get('adhocracy.registration.email.blacklist', '')
+        listed = config.get('adhocracy.registration.email.blacklist')
         listed = listed.replace(',', ' ').replace('.', '').split()
         email = email.replace('.', '')
         if email in listed:

@@ -74,7 +74,7 @@ show_watchlist = show_dashboard
 
 def delete(check, u):
     edit(check, u)
-    allowed = config.get_bool('adhocracy.self_deletion_allowed', True)
+    allowed = config.get_bool('adhocracy.self_deletion_allowed')
     check.other('self_deletion_allowed', not allowed)
 
 

@@ -10,7 +10,7 @@
         ${components.head(self.title)}
         </%block>
 
-        %if h.config.get('adhocracy.debug.sql'):
+        %if h.config.get_bool('adhocracy.debug.sql'):
         ${debug.styles()}
         %endif
     </head>
@@ -51,7 +51,7 @@
     <!-- Dummy tag to merge in wordpress scripts -->
     <div id="external_scripts"></div>
 
-    %if h.config.get('adhocracy.debug.sql'):
+    %if h.config.get_bool('adhocracy.debug.sql'):
     ${debug.queries()}
     %endif
 

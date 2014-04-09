@@ -29,7 +29,7 @@ def export_data(opts):
 
 def export(opts):
     timeStr = time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime())
-    title = config.get('adhocracy.site.name', 'adhocracy') + '-' + timeStr
+    title = config.get('adhocracy.site.name') + '-' + timeStr
     format = opts.get('format', 'json')
     return render.render(export_data(opts), format, title)
 

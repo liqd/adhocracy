@@ -122,7 +122,7 @@ def post_register_url(user):
 
 def can_change_password(user):
     if user._shibboleths:
-        return config.get_bool('adhocracy.allow_password_change', False)
+        return config.get_bool('adhocracy.allow_password_change')
     else:
         return True
 

@@ -9,7 +9,7 @@ def index(check):
 def show(check, p):
     check.perm('poll.show')
     check.other('poll_has_ended', p.has_ended())
-    hide_cfg = config.get_bool('adhocracy.hide_individual_votes', False)
+    hide_cfg = config.get_bool('adhocracy.hide_individual_votes')
     check.other('hide_individual_votes', hide_cfg)
 
 

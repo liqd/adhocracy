@@ -55,7 +55,7 @@ class ErrorController(BaseController):
         if not c.error_message:
             c.error_message = _("Error %s") % c.error_code
 
-        if config.get_bool('adhocracy.interactive_debugging', False):
+        if config.get_bool('adhocracy.interactive_debugging'):
             c.trace_url = request.environ['pylons.original_response']\
                 .headers.get('X-Debug-URL', None)
 

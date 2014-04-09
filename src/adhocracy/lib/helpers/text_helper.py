@@ -34,7 +34,7 @@ def breadcrumbs(text):
 def getconf_allow_user_html(_testing_override=None):
     if _testing_override is not None:
         return _testing_override
-    return config.get_bool('adhocracy.allow_user_html', True)
+    return config.get_bool('adhocracy.allow_user_html')
 
 
 def truncate_html(html, target_len, ellipsis='...'):

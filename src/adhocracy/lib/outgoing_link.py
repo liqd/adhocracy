@@ -14,7 +14,7 @@ REDIRECT_SALT = b'static link'
 
 def rewrite_urls(body):
     from adhocracy.lib.helpers import base_url
-    if not config.get_bool('adhocracy.track_outgoing_links', False):
+    if not config.get_bool('adhocracy.track_outgoing_links'):
         return body
 
     doc = lxml.etree.fromstring('<body>' + body + '</body>')

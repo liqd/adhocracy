@@ -8,7 +8,7 @@ ONEKEY = 'disable_tutorial_%s'
 
 
 def show(name, user):
-    if not config.get_bool('adhocracy.show_tutorials', True):
+    if not config.get_bool('adhocracy.show_tutorials'):
         return False
 
     if user is not None and user.no_help:

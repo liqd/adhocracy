@@ -82,7 +82,7 @@ STATICPAGE_KEY = re.compile(r'^[a-z0-9_\-/]+$')
 
 
 def get_backend():
-    backend_id = config.get('adhocracy.staticpage_backend', 'filesystem')
+    backend_id = config.get('adhocracy.staticpage_backend')
     return _BACKENDS[backend_id]
 
 

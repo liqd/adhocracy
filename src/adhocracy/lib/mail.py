@@ -16,8 +16,8 @@ ENCODING = 'utf-8'
 
 
 def send(email_from, to_email, message):
-    server = smtplib.SMTP(config.get('smtp_server', 'localhost'),
-                          config.get('smtp_port', 25))
+    server = smtplib.SMTP(config.get('smtp_server'),
+                          config.get('smtp_port'))
     # server.set_debuglevel(1)
     server.sendmail(email_from, [to_email], message)
     server.quit()

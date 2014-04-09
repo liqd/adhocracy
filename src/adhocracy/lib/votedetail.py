@@ -21,4 +21,4 @@ def calc_votedetail_dict(instance, poll, badge_title_only=False):
 
 
 def is_enabled():
-    return config.get_bool('adhocracy.enable_votedetail', False)
+    return config.get_bool('adhocracy.enable_votedetail')

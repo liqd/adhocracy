@@ -10,7 +10,7 @@ from adhocracy.model.meta import engine
 class DebugController(BaseController):
 
     def explain(self):
-        if not config.get('adhocracy.debug.sql'):
+        if not config.get_bool('adhocracy.debug.sql'):
             raise ValueError('Not in debugging mode')
         statement = request.params.get('statement')
         if not statement.lower().startswith('select'):

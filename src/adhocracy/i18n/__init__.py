@@ -35,7 +35,7 @@ FALLBACK_TZ = 'Europe/Berlin'
 
 @cache.memoize('_translations_root')
 def _get_translations_root():
-    translations_module = config.get('adhocracy.translations', 'adhocracy')
+    translations_module = config.get('adhocracy.translations')
     translations_module_loader = pkgutil.get_loader(translations_module)
     if translations_module_loader is None:
         raise ValueError(('Cannot import the module "%s" configured for '
@@ -51,7 +51,7 @@ def get_default_locale():
     try:
         if c.instance and c.instance.locale:
             return c.instance.locale
-        locale = config.get('adhocracy.language', 'en_US')
+        locale = config.get('adhocracy.language')
         return babel.Locale.parse(locale)
     except TypeError:
         return babel.Locale.parse('en_US')
