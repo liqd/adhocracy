@@ -21,7 +21,7 @@
         <fieldset>
             <legend>${_("Amendment title") if c.proposal.is_amendment else _("Proposal title")}</legend>
             <div class="input_wrapper">
-                <input type="text" class="title" name="label" autofocus value="${c.proposal.title}"
+                <input type="text" class="title" name="title" autofocus value="${c.proposal.title}"
                        placeholder="${_("New amendment") if c.proposal.is_amendment else _("New proposal")}" />
             </div>
         </fieldset>

@@ -562,18 +562,18 @@ class VariantName(formencode.FancyValidator):
             return var
 
 
-class UnusedTitle(formencode.validators.String):
-    def __init__(self):
-        super(UnusedTitle, self).__init__(min=3, max=254, not_empty=True)
+class ValidTitle(formencode.validators.String):
+
+    def __init__(self, unused_label=False):
+        super(ValidTitle, self).__init__(min=3, max=254, not_empty=True)
+        self.unused_label = unused_label
 
     def _to_python(self, value, state):
         from adhocracy.model import Page
-        value = super(UnusedTitle, self)._to_python(value, state)
+        from adhocracy.lib.text import title2alias
+        value = super(ValidTitle, self)._to_python(value, state)
 
-        if hasattr(state, 'page') and state.page.label == value:
-            return value
-
-        if not Page.unusedTitle(value):
+        if self.unused_label and not Page.unused_label(title2alias(value)):
             raise formencode.Invalid(
                 _("An entry with this title already exists"), value, state)
 
@@ -593,63 +593,19 @@ class UnusedTitle(formencode.validators.String):
             return value
 
 
-class UnusedProposalTitle(formencode.validators.FormValidator):
+class ValidProposalTitle(ValidTitle):
 
-    def validate_python(self, field_dict, state):
-        from adhocracy.model import Page
+    def validate_python(self, value, state):
+        value = super(ValidProposalTitle, self)._to_python(value, state)
 
-        value = field_dict['label']
-
-        if hasattr(state, 'page') and state.page.label == value:
-            return value
-
-        if hasattr(state, 'page'):  # edit
-            proposal = state.page.proposal
-            is_amendment = proposal.is_amendment
-            page = proposal.selection if is_amendment else None
-        else:  # new
-            is_amendment = field_dict['amendment']
-            page = field_dict['page'][0]['id'] if is_amendment else None
-        if not Page.unusedTitle(value, selection=page):
-            msg = _("An entry with this title already exists")
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-
-        if not value or len(value) < 2:
-            msg = _("No page name is given.")
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-
-        if value.lower() in FORBIDDEN_NAMES:
-            msg = _("Invalid entry name: %s") % value
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-
-        # every proposal title must be a valid variant name
+        # must be a valid variant name
         try:
             variant_name_validator = VariantName()
             variant_name_validator._to_python(value, state)
         except formencode.Invalid as e:
-            raise formencode.Invalid(
-                e.msg, field_dict, state,
-                error_dict={'label': e.msg}
-            )
+            raise formencode.Invalid(e.msg, value, state)
 
-        try:
-            int(value)
-            msg = _("Entry name cannot be purely numeric: %s") % value
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-        except ValueError:
-            return field_dict
+        return value
 
 
 class ProposalMessageNoRecipientGroup(formencode.validators.FormValidator):
