@@ -55,11 +55,12 @@ def badge(check, u):
     check.perm('user.badge')
 
 
-def supervise(check, u):
+def supervise(check, u=None):
     """ Supervise users on instance level """
     check.readonly()
     check.other('not_in_instance', not c.instance)
-    check.other('no_member_in_instance', not u.is_member(c.instance))
+    if u is not None:
+        check.other('no_member_in_instance', not u.is_member(c.instance))
     check.other('not_user.manage_or_instance.admin',
                 not (has('user.manage') or has('instance.admin')))
 
