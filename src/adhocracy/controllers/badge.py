@@ -33,6 +33,7 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth import guard
+from adhocracy.lib.auth import can
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.pager import PROPOSAL_SORTS
@@ -86,6 +87,10 @@ class CategoryBadgeUpdateForm(CategoryBadgeForm):
 
 
 class UserBadgeForm(BadgeForm):
+    pass
+
+
+class UserBadgeFormSupervise(UserBadgeForm):
     group = Any(validators.Empty, ValidInstanceGroup())
     display_group = validators.StringBoolean(if_missing=False)
 
@@ -261,7 +266,11 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def create_user_badge(self, format=u'html'):
         try:
-            self.form_result = UserBadgeForm().to_python(request.params)
+            if can.user.supervise():
+                form = UserBadgeFormSupervise()
+            else:
+                form = UserBadgeForm()
+            self.form_result = form.to_python(request.params)
         except Invalid as i:
             return self.add('user', i.unpack_errors())
 
@@ -273,10 +282,20 @@ class BadgeController(BaseController):
         else:
             require.badge.manage_instance()
 
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
-        UserBadge.create(title, color, visible, description, group,
-                         display_group, impact, instance)
+        if can.user.supervise():
+            group = self.form_result.get('group')
+            display_group = self.form_result.get('display_group')
+
+            UserBadge.create(title, color, visible, description,
+                             group=group,
+                             display_group=display_group,
+                             impact=impact,
+                             instance=instance)
+        else:
+            UserBadge.create(title, color, visible, description,
+                             impact=impact,
+                             instance=instance)
+
         # commit cause redirect() raises an exception
         meta.Session.commit()
         self._redirect()
@@ -471,7 +490,11 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def update_user_badge(self, id, format=u'html'):
         try:
-            self.form_result = UserBadgeForm().to_python(request.params)
+            if can.user.supervise():
+                form = UserBadgeFormSupervise()
+            else:
+                form = UserBadgeForm()
+            self.form_result = form.to_python(request.params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
 
@@ -479,10 +502,7 @@ class BadgeController(BaseController):
         require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
 
-        badge.group = group
         badge.title = title
         badge.color = color
         badge.visible = visible
@@ -492,7 +512,9 @@ class BadgeController(BaseController):
             for user in badge.users:
                 update_entity(user, UPDATE)
         badge.instance = instance
-        badge.display_group = display_group
+        if can.user.supervise():
+            badge.group = self.form_result.get('group')
+            badge.display_group = self.form_result.get('display_group')
         if behavior_enabled():
             badge.behavior_proposal_sort_order = self.form_result.get(
                 'behavior_proposal_sort_order')

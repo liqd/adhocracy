@@ -36,7 +36,8 @@ def edit(check, u):
     is_not_demo(check, c.user)
 
 
-def manage(check, u):
+def manage(check, u=None):
+    """ Manage users on installation level """
     check.readonly()
     check.perm('user.manage')
 
@@ -54,10 +55,12 @@ def badge(check, u):
     check.perm('user.badge')
 
 
-def supervise(check, u):
+def supervise(check, u=None):
+    """ Supervise users on instance level """
     check.readonly()
     check.other('not_in_instance', not c.instance)
-    check.other('no_member_in_instance', not u.is_member(c.instance))
+    if u is not None:
+        check.other('no_member_in_instance', not u.is_member(c.instance))
     check.other('not_user.manage_or_instance.admin',
                 not (has('user.manage') or has('instance.admin')))
 

@@ -16,7 +16,7 @@ from openid.extensions import sreg, ax
 from adhocracy import config
 from adhocracy import forms, model
 from adhocracy.lib import event, helpers as h
-from adhocracy.lib.auth import login_user, require
+from adhocracy.lib.auth import login_user, require, can
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.openidstore import create_consumer
@@ -186,7 +186,7 @@ class OpenidauthController(BaseController):
         if not openid:
             abort(404, _("No OpenID with ID '%s' exists.") % id)
         page_user = openid.user
-        if not (page_user == c.user or h.has_permission("user.manage")):
+        if not (page_user == c.user or can.user.manage()):
             abort(403,
                   _("You're not authorized to change %s's settings.") % id)
         openid.delete()

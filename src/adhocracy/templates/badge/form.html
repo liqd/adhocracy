@@ -92,7 +92,7 @@ ${self.form()}
     <input type="checkbox" name="visible" id="badge_form_visible" />
     <label for="badge_form_visible" style="display: inline;" title="${_("Check to hide category in user interface") if c.badge_type == 'category' else _('Check to hide badge in user interface')}">${_("visible")}</label>
 
-    %if c.badge_type == 'user':
+    %if c.badge_type == 'user' and can.user.supervise():
     <label for="group" class="">
         ${_("Group")}
     </label>
