@@ -50,6 +50,7 @@ DEFAULTS = {
 
     'adhocracy.instance_stylesheets': [],
     'adhocracy.instance_themes': [],
+    'adhocracy.listings.instance_proposal.sorting': None,
     'adhocracy.milestone.allow_show_all_proposals': False,
     'adhocracy.monitor_comment_behavior': False,
     'adhocracy.number_instance_overview_milestones': 3,
