@@ -133,7 +133,7 @@ def proposal_mixed(entities):
                   reverse=True)
 
 
-def proposal_open_key(proposal):
+def proposal_support_impact_key(proposal):
     max_age = 172800  # 2 days
     scorer = score_and_freshness_sorter(max_age)
     score = proposal.rate_poll.tally.score
@@ -146,9 +146,9 @@ def proposal_open_key(proposal):
     return scorer(score, proposal.create_time, impact)
 
 
-def proposal_open(entities):
+def proposal_support_impact(entities):
     return sorted(entities,
-                  key=lambda x: float(proposal_open_key(x)),
+                  key=lambda x: float(proposal_support_impact_key(x)),
                   reverse=True)
 
 
