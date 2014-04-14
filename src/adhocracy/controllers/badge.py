@@ -473,6 +473,9 @@ class BadgeController(BaseController):
             defaults['select_child_description'] =\
                 badge.select_child_description
 
+        if not c.came_from:
+            c.came_from = self.base_url
+
         return htmlfill.render(render(self.form_template, data,
                                       overlay=format == u'overlay',
                                       overlay_size=OVERLAY_SMALL),
