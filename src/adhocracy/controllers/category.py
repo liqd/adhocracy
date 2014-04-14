@@ -10,6 +10,8 @@ from adhocracy.lib.instance import RequireInstance
 from adhocracy.lib.auth import require
 from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.util import get_entity_or_abort
+
+from adhocracy import config
 from adhocracy import model
 
 from proposal import ProposalFilterForm
@@ -38,9 +40,12 @@ class CategoryController(BaseController):
         pages_pager = pager.NamedPager('pages', pages, tiles.page.smallrow,
                                        enable_pages=False, enable_sorts=False)
 
+        default_sorting = config.get(
+            'adhocracy.listings.instance_proposal.sorting')
         proposals_pager = pager.solr_proposal_pager(
             c.instance,
             {'text': query},
+            default_sorting=default_sorting,
             extra_filter={'facet.delegateable.badgecategory': category.id})
 
         data = {

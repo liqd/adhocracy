@@ -456,6 +456,11 @@ adhocracy.static_index_path = index
 # Allow to set instance logo as subheader background
 # adhocracy.instance.allow_logo_as_background = True
 
+# Might be something like '-order.proposal.support'.  See the definition
+# of PROPOSAL_SORTS in src/adhocracy/lib/pager.py for all available options.
+# adhocracy.listings.instance_proposal.sorting = None
+
+
 ## Performance options
 
 # Check whether feedback instance exists before rendering a feedback button
