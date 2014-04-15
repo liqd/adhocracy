@@ -23,6 +23,8 @@ from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
+from adhocracy.lib.text import title2alias
+from adhocracy.lib.text import variant_normalize
 
 import adhocracy.lib.text as text
 
@@ -41,7 +43,7 @@ class PageInclusionForm(formencode.Schema):
 
 class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
-    label = validators.String(min=3, max=254, not_empty=True)
+    title = forms.ValidProposalTitle(unused_label=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False, if_missing=None)
     amendment = validators.StringBool(not_empty=False, if_empty=False,
@@ -54,9 +56,6 @@ class ProposalCreateForm(ProposalNewForm):
                                   if_missing=False)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
-    chained_validators = [
-        forms.UnusedProposalTitle(),
-    ]
 
 
 class ProposalEditForm(formencode.Schema):
@@ -64,7 +63,7 @@ class ProposalEditForm(formencode.Schema):
 
 
 class ProposalUpdateForm(ProposalEditForm):
-    label = validators.String(min=3, max=254, not_empty=True)
+    title = forms.ValidProposalTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
@@ -77,9 +76,6 @@ class ProposalUpdateForm(ProposalEditForm):
                                   if_missing=False)
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
     thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
-    chained_validators = [
-        forms.UnusedProposalTitle(),
-    ]
 
 
 class ProposalFilterForm(formencode.Schema):
@@ -243,6 +239,10 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors(), page=page,
                             amendment=amendment)
 
+        title = self.form_result.get('title')
+        label = title2alias(title)
+        variant = variant_normalize(title)
+
         pages = self.form_result.get('page', [])
         is_amendment = self.form_result.get('amendment', False)
 
@@ -260,14 +260,14 @@ class ProposalController(BaseController):
                 'error')
             return self.new()
         proposal = model.Proposal.create(c.instance,
-                                         self.form_result.get("label"),
+                                         label,
                                          c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"),
                                          is_amendment=is_amendment)
         proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
-                                        self.form_result.get("label"),
+                                        title,
                                         self.form_result.get('text'),
                                         c.user,
                                         function=model.Page.DESCRIPTION,
@@ -286,8 +286,6 @@ class ProposalController(BaseController):
             page = page.get('id')
             if page is None or page.function != model.Page.NORM:
                 continue
-            var_val = forms.VariantName()
-            variant = var_val.to_python(self.form_result.get('label'))
             if not can.norm.edit(page, variant) or \
                not can.selection.create(proposal):
                 continue
@@ -367,7 +365,6 @@ class ProposalController(BaseController):
 
         require.proposal.edit(c.proposal)
 
-        c.proposal.label = self.form_result.get('label')
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
@@ -392,7 +389,7 @@ class ProposalController(BaseController):
 
         _text = model.Text.create(c.proposal.description, model.Text.HEAD,
                                   c.user,
-                                  self.form_result.get('label'),
+                                  self.form_result.get('title'),
                                   self.form_result.get('text'),
                                   parent=c.proposal.description.head,
                                   wiki=wiki)

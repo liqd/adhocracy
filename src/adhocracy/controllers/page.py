@@ -42,7 +42,7 @@ NoPage = NoneObject()
 
 class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
-    title = forms.UnusedTitle()
+    title = forms.ValidTitle(unused_label=True)
     text = validators.String(max=20000, min=0, not_empty=False,
                              if_empty=None, if_missing=None)
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
@@ -77,7 +77,7 @@ class PageEditForm(formencode.Schema):
 
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
-    title = forms.UnusedTitle()
+    title = forms.ValidTitle()
     variant = forms.VariantName(not_empty=True)
     text = validators.String(max=20000, min=0, not_empty=False,
                              if_empty=None, if_missing=None)
