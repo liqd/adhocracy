@@ -1,8 +1,8 @@
 import logging
 
-from pylons import config
 from webhelpers import text
 
+from adhocracy import config
 from adhocracy.lib import mail, microblog
 from adhocracy.model import meta, Notification
 

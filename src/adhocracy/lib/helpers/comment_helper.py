@@ -1,11 +1,12 @@
+from paste.deploy.converters import asbool
+from pylons import config
+
 from adhocracy import model
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import proposal_helper as proposal
 from adhocracy.lib.helpers import page_helper as page
 from adhocracy.lib.helpers import text_helper as text
 from adhocracy.lib.helpers import url as _url
-from paste.deploy.converters import asbool
-from pylons import config
 
 
 @cache.memoize('comment_url')

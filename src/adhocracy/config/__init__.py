@@ -10,14 +10,27 @@ log = logging.getLogger(__name__)
 
 
 DEFAULTS = {
-    'adhocracy.allow_registration': True,
     'adhocracy.allow_organization': False,
+    'adhocracy.allow_password_change': False,
+    'adhocracy.allow_registration': True,
+    'adhocracy.allow_user_html': True,
+    'adhocracy.autoassign_permissions': True,
+    'adhocracy.background_processing': True,
     'adhocracy.behind_proxy': False,
+    'adhocracy.cache_tiles': True,
+    'adhocracy.comment_wording': False,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
+    'adhocracy.debug.sql': False,
     'adhocracy.delay_update_queue_seconds': 1,
     'adhocracy.demo_users': [],
+    'adhocracy.domain': '',
+    'adhocracy.domains': None,  # deprecated
+    'adhocracy.email.from': '',
+    'adhocracy.enable_behavior': False,
     'adhocracy.enable_gender': False,
+    'adhocracy.enable_votedetail': False,
+    'adhocracy.enable_welcome': False,
     'adhocracy.export_personal_email': False,
     'adhocracy.external_navigation_base': None,
     'adhocracy.feedback_check_instance': True,
@@ -32,11 +45,11 @@ DEFAULTS = {
     # Much of the functionality is still in the code, but as long as it's not
     # in the UI, it makes sense to also hide it from the settings UI.
     'adhocracy.hide_final_adoption_votings': False,
+    'adhocracy.hide_individual_votes': False,
     'adhocracy.hide_instance_list_in_navigation': False,
-
     'adhocracy.hide_locallogin': False,
+    'adhocracy.include_machine_name_in_header': False,
     'adhocracy.instance.allow_logo_as_background': False,
-    'adhocracy.instance.show_settings_after_create': True,
     'adhocracy.instance_footers': [],
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
@@ -48,61 +61,126 @@ DEFAULTS = {
     # an arbitrary list of u'events'
     'adhocracy.instance_overview_sidebar_contents': [u'events'],
 
+    # comma separated list of instance keys (slugs) or 'ALL'
+    'adhocracy.instances.autojoin': '',
+    'adhocracy.instance.show_settings_after_create': True,
     'adhocracy.instance_stylesheets': [],
     'adhocracy.instance_themes': [],
+    'adhocracy.interactive_debugging': False,
+    'adhocracy.language': 'en_US',
+
+    # one of 'OLDEST', 'NEWEST', 'ACTIVITY', 'ALPHA'
+    'adhocracy.listings.instance.sorting': 'ACTIVITY',
     'adhocracy.listings.instance_proposal.sorting': None,
+
+    # 'default' or 'alternate'
+    'adhocracy.login_style': 'default',
     'adhocracy.milestone.allow_show_all_proposals': False,
+    'adhocracy.monitor_browser_values': False,
     'adhocracy.monitor_comment_behavior': False,
+    'adhocracy.monitor_extended': False,
+    'adhocracy.monitor_external_links': False,
+    'adhocracy.monitor_page_performance': False,
+    'adhocracy.monitor_pager_clicks': False,
     'adhocracy.number_instance_overview_milestones': 3,
     'adhocracy.page.allow_abstracts': False,
+    'adhocracy.post_login_instance': None,
+    'adhocracy.post_login_url': None,
+    'adhocracy.post_register_instance': None,
+    'adhocracy.post_register_url': None,
     'adhocracy.proposal_pager_inline': False,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
+    'adhocracy.protocol': u'http',
     'adhocracy.put_watchlist_in_user_menu': False,
     'adhocracy.readonly': False,
     'adhocracy.readonly.global_admin_exception': True,
     'adhocracy.readonly.message': u'__default__',
-    'adhocracy.protocol': u'http',
     'adhocracy.redirect_startpage_to_instance': u'',
+    'adhocracy.registration.email.blacklist': '',
+    'adhocracy.registration_support_email': None,
     'adhocracy.relative_urls': False,
+    'adhocracy.requestlog_active': False,
     'adhocracy.require_email': True,
+    'adhocracy.self_deletion_allowed': True,
+    'adhocracy_service.rest_api_address': '',
+    'adhocracy_service.rest_api_token': '',
+    'adhocracy_service.staticpages.rest_api_address': '',
+    'adhocracy_service.verify_ssl': True,
     'adhocracy.session.implementation': 'beaker',
     'adhocracy.set_display_name_on_register': False,
+    'adhocracy.setup.drop': "OH_NOES",
+    'adhocracy.show_abuse_button': True,
+    'adhocracy.show_instance_creators': False,
+    'adhocracy.show_instance_fallback_icons': False,
+    'adhocracy.show_instance_overview_proposals_all': False,
+    'adhocracy.show_instance_overview_stats': True,
+    'adhocracy.show_social_buttons': True,
+    'adhocracy.show_stats_on_frontpage': True,
+    'adhocracy.show_tutorials': True,
+    'adhocracy.site.name': 'Adhocracy',
+    'adhocracy.startpage.instances.list_length': 0,
+    'adhocracy.startpage.proposals.list_length': 0,
+    'adhocracy.static.age': 7200,
+    'adhocracy.static_agree_text': None,
+    'adhocracy.static.category_index_heading': None,
+
+    # On of 'filesystem', 'database', 'external'
+    'adhocracy.staticpage_backend': 'filesystem',
+    'adhocracy.static.page_index_heading': None,
+    'adhocracy.store_notification_events': True,
+    'adhocracy.tagcloud_facet': False,
+    'adhocracy.themed': False,
+    'adhocracy.timezone': 'Europe/Berlin',
+    'adhocracy.track_outgoing_links': False,
+    'adhocracy.translations': 'adhocracy',
+    'adhocracy.use_avatars': True,
+    'adhocracy.use_external_navigation': False,
+    'adhocracy.use_feedback_instance': False,
+    'adhocracy.user.bio.max_length': 1000,
+    'adhocracy.user.bio.no_max_length': False,
+    'adhocracy.user.display_name.allow_change': True,
+    'adhocracy.user.optional_attributes': [],
+    'adhocracy.use_test_instance': True,
+    'adhocracy.wording.intro_for_overview': False,
+    # 'beaker.session.secret':
+    'debug': False,
+    'run_integrationtests': False,
+    # 'skip_authentication':
+    'smtp_server': 'localhost',
+    'smtp_port': 25,
+    'sqlalchemy.url': 'sqlite:///production.db',
+    # 'memcached.server':
+
+    'adhocracy.redis.host': '127.0.0.1',
+    'adhocracy.redis.port': 5006,
+    'adhocracy.redis.queue': 'adhocracy.queue',
+
     'adhocracy.shibboleth.display_name.force_update': False,
     'adhocracy.shibboleth.display_name.function': None,
     'adhocracy.shibboleth.locale.attribute': None,
+    'adhocracy.shibboleth_logout_url': None,
     'adhocracy.shibboleth.register_form': True,
 
     # Configures how to map shibboleth attributes to badges.
     # See lib.auth.shibboleth.
     'adhocracy.shibboleth.userbadge_mapping': [],
 
-    'adhocracy.show_abuse_button': True,
-    'adhocracy.show_instance_overview_proposals_all': False,
-    'adhocracy.show_instance_overview_stats': True,
-    'adhocracy.show_social_buttons': True,
-    'adhocracy.show_stats_on_frontpage': True,
-    'adhocracy.startpage.instances.list_length': 0,
-    'adhocracy.startpage.proposals.list_length': 0,
-    'adhocracy.static_agree_text': None,
-    'adhocracy.store_notification_events': True,
-    'adhocracy.tagcloud_facet': False,
-    'adhocracy.themed': False,
-    'adhocracy.use_avatars': True,
-    'adhocracy.use_external_navigation': False,
-    'adhocracy.use_feedback_instance': False,
-    'adhocracy.use_test_instance': True,
-    'adhocracy.user.display_name.allow_change': True,
-    'adhocracy.user.optional_attributes': [],
-    'adhocracy.static.category_index_heading': None,
-    'adhocracy.static.page_index_heading': None,
-    'adhocracy.user.bio.max_length': 1000,
-    'adhocracy.user.bio.no_max_length': False,
-    'adhocracy.wording.intro_for_overview': False,
-    'debug': False,
+    'velruse.domain': 'localhost',
+    'velruse.port': 5028,
+    'velruse.protocol': 'http',
 
-    # comma separated list of instance keys (slugs) or 'ALL'
-    # 'adhocracy.instances.autojoin':
+    # 'adhocracy.twitter.consumer_key':
+    # 'adhocracy.twitter.key':
+    # 'adhocracy.twitter.profile_url':
+    # 'adhocracy.twitter.secret':
+    # 'adhocracy.twitter.username':
+
+    # 'recaptcha.private_key':
+    # 'recaptcha.public_key':
+
+    # 'piwik.id':
+    # 'piwik.site':
 }
 
 

@@ -1,9 +1,11 @@
-from pylons import config, request
+from pylons import request
 from webhelpers.html import literal
 
 from recaptcha.client.captcha import displayhtml
 from recaptcha.client.captcha import submit
 from recaptcha.client.captcha import RecaptchaResponse
+
+from adhocracy import config
 
 
 class Recaptcha(object):

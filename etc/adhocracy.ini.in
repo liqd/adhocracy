@@ -402,6 +402,11 @@ adhocracy.startpage.proposals.list_length = 0
 # Use external staticpages API call to render navigation
 # adhocracy.use_external_navigation = true
 
+# If adhocracy.use_external_navigation is enabled, get the substructure of
+# this basepath.
+# adhocracy.external_navigation_base =
+
+
 # Configure paths to static content which is inserted
 
 # Static content path for start page (default: index)
@@ -420,6 +425,15 @@ adhocracy.static_index_path = index
 # {key} should be replaced by the instance key.
 # A common value might be {key}-startpage.
 # adhocracy.instance-{key}.static_overview_path
+
+# Use the static pages "footer_1", "footer_2" and "footer_3" instead of the
+# default footer.
+# adhocracy.customize_footer = True
+
+# If adhocracy.custom_footer is enabled, use the staticpages "footer_*_{key}"
+# for the following instances.
+# adhocracy.instance_footers =
+
 
 # Ask the user for email and then password, instead of form + links
 # adhocracy.login_style = alternate
@@ -477,7 +491,6 @@ adhocracy.static_index_path = index
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
 
-
 {% python
 velruse_enabled = 'False'
 if parts['domains'].get('velruse', None):
@@ -493,6 +506,63 @@ velruse.domain = ${parts.domains.velruse}
 velruse.port = ${parts.ports.velruse_proxy}
 velruse.protocol = ${parts.velruse.proxy_protocol}
 {% end %}
+
+
+# The following settings lack documentation
+
+# adhocracy.allow_password_change
+# adhocracy.comment_wording
+# adhocracy.create_initial_instance_page
+# adhocracy.debug.sql
+# adhocracy.enable_gender
+# adhocracy.enable_votedetail
+# adhocracy.export_personal_email
+# adhocracy.force_no_http_proxy
+# adhocracy.hide_final_adoption_votings
+# adhocracy.instance_key_length_max
+# adhocracy.instance_key_length_min
+# adhocracy.instance.show_settings_after_create
+# adhocracy.listings.instance.sorting
+# adhocracy.milestone.allow_show_all_proposals
+# adhocracy.monitor_browser_values
+# adhocracy.monitor_comment_behavior
+# adhocracy.monitor_extended
+# adhocracy.monitor_external_links
+# adhocracy.monitor_page_performance
+# adhocracy.monitor_pager_clicks
+# adhocracy.page.allow_abstracts
+# adhocracy.proposal.split_badge_edit
+# adhocracy.propose_optional_attributes
+# adhocracy.redirect_startpage_to_instance
+# adhocracy.registration.email.blacklist
+# adhocracy_service.rest_api_address
+# adhocracy_service.rest_api_token
+# adhocracy_service.staticpages.rest_api_address
+# adhocracy_service.verify_ssl
+# adhocracy.show_abuse_button
+# adhocracy.show_instance_overview_proposals_all
+# adhocracy.show_instance_overview_stats
+# adhocracy.startpage.instances.list_length
+# adhocracy.static.age
+# adhocracy.static_agree_text
+# adhocracy.static.category_index_heading
+# adhocracy.static.page_index_heading
+# adhocracy.store_notification_events
+# adhocracy.translations
+# adhocracy.user.bio.max_length
+# adhocracy.user.bio.no_max_length
+# adhocracy.user.display_name.allow_change
+# adhocracy.use_test_instance
+# adhocracy.wording.intro_for_overview
+# run_integrationtests
+# skip_authentication
+# adhocracy.shibboleth.display_name.force_update
+# adhocracy.shibboleth.display_name.function
+# adhocracy.shibboleth.locale.attribute
+# adhocracy.shibboleth_logout_url
+# adhocracy.shibboleth.register_form
+# adhocracy.shibboleth.userbadge_mapping
+
 
 [alembic]
 script_location = src/adhocracy/alembic

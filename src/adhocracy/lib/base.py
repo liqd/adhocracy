@@ -69,17 +69,17 @@ class BaseController(WSGIController):
         if monitor_page_time_interval > 0:
             c.monitor_page_time_interval = monitor_page_time_interval
 
-        if config.get_bool('adhocracy.monitor_external_links', False):
+        if config.get_bool('adhocracy.monitor_external_links'):
             c.monitor_external_links_url = h.base_url('/stats/record_external')
 
-        if config.get_bool('adhocracy.monitor_browser_values', False):
+        if config.get_bool('adhocracy.monitor_browser_values'):
             c.monitor_browser_values = "enabled"
-        if config.get_bool('adhocracy.monitor_extended', False):
+        if config.get_bool('adhocracy.monitor_extended'):
             c.monitor_extended = "enabled"
-        if config.get_bool('adhocracy.monitor_page_performance', False):
+        if config.get_bool('adhocracy.monitor_page_performance'):
             c.monitor_page_performance = "enabled"
 
-        if config.get_bool('adhocracy.monitor_pager_clicks', False):
+        if config.get_bool('adhocracy.monitor_pager_clicks'):
             c.monitor_pager_clicks = "enabled"
 
         h.add_rss("%s News" % h.site.name(),

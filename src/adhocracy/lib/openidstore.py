@@ -2,8 +2,8 @@ import logging
 
 from openid.consumer.consumer import Consumer
 from openid.store.sqlstore import MySQLStore, PostgreSQLStore, SQLiteStore
-from pylons import config
 
+from adhocracy import config
 from adhocracy.model import meta
 
 SQL_STORES = {'sqlite': SQLiteStore,

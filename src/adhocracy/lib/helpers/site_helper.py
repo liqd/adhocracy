@@ -21,7 +21,7 @@ def domain():
 
 
 def name():
-    return config.get('adhocracy.site.name', _("Adhocracy"))
+    return config.get('adhocracy.site.name')
 
 
 def relative_urls(config=config):

@@ -3,21 +3,20 @@ from hashlib import sha1
 from io import BytesIO
 from PIL import Image, ImageDraw
 
-from pylons import config
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy.lib import cache
 from adhocracy.lib.helpers import url as _url
 
 
 def make_key(iden, args, kwargs):
-    conf = config.get
     instance = args[0].instance
     instance_w = instance and instance.thumbnailbadges_width or ""
     instance_h = instance and instance.thumbnailbadges_height or ""
     sig = iden[:200]\
-        + cache.util.make_tag(conf("adhocracy.thumbnailbadges.width"))\
-        + cache.util.make_tag(conf("adhocracy.thumbnailbadges.height"))\
+        + cache.util.make_tag(config.get("adhocracy.thumbnailbadges.width"))\
+        + cache.util.make_tag(config.get("adhocracy.thumbnailbadges.height"))\
         + cache.util.make_tag(instance_w)\
         + cache.util.make_tag(instance_h)\
         + cache.util.make_tag(args) \
@@ -75,8 +74,8 @@ def generate_thumbnail_tag(badge, width=0, height=0):
 
 def get_default_thumbnailsize(badge):
     instance = badge.instance
-    global_w = int(config.get("adhocracy.thumbnailbadges.width", "48"))
-    global_h = int(config.get("adhocracy.thumbnailbadges.height", "48"))
+    global_w = config.get_int("adhocracy.thumbnailbadges.width", 48)
+    global_h = config.get_int("adhocracy.thumbnailbadges.height", 48)
     ins_w = instance and instance.thumbnailbadges_width
     ins_h = instance and instance.thumbnailbadges_height
     return (ins_w or global_w, ins_h or global_h)

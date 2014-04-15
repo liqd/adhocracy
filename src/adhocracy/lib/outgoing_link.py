@@ -4,18 +4,17 @@
 
 import base64
 import re
-from adhocracy.lib.crypto import sign, verify
-
 import lxml.etree
-from paste.deploy.converters import asbool
-from pylons import config
+
+from adhocracy import config
+from adhocracy.lib.crypto import sign, verify
 
 REDIRECT_SALT = b'static link'
 
 
 def rewrite_urls(body):
     from adhocracy.lib.helpers import base_url
-    if not asbool(config.get('adhocracy.track_outgoing_links', 'False')):
+    if not config.get_bool('adhocracy.track_outgoing_links'):
         return body
 
     doc = lxml.etree.fromstring('<body>' + body + '</body>')

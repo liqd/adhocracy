@@ -1,4 +1,3 @@
-from paste.deploy.converters import asbool
 from pylons import tmpl_context as c
 
 from adhocracy import config
@@ -75,7 +74,7 @@ show_watchlist = show_dashboard
 
 def delete(check, u):
     edit(check, u)
-    allowed = config.get_bool('adhocracy.self_deletion_allowed', 'true')
+    allowed = config.get_bool('adhocracy.self_deletion_allowed')
     check.other('self_deletion_allowed', not allowed)
 
 
