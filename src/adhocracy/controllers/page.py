@@ -383,7 +383,8 @@ class PageController(BaseController):
                               error_dict={'variant': msg})
         except Invalid, i:
             return self.edit(id, variant=c.variant, text=c.text.id,
-                             branch=branch, errors=i.unpack_errors())
+                             branch=branch, errors=i.unpack_errors(),
+                             format=format)
 
         c.variant = self.form_result.get("variant")
         require.norm.edit(c.page, c.variant)

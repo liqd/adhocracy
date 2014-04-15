@@ -88,7 +88,7 @@ var adhocracy = adhocracy || {};
         return url.toString();
     }
 
-    adhocracy.ajax_submit = function(form, success) {
+    adhocracy.ajax_submit = function(form, success, patch_overlay) {
         // submits using ajax
         // will magically insert error messages
         // will call success() on success
@@ -101,9 +101,14 @@ var adhocracy = adhocracy || {};
             // ajax submit takes a while. Show some feedback
             form.find('*[type="submit"]').addClass('loading');
 
+            var u = new Uri(form.attr('action'));
+            if (patch_overlay) {
+                u.path(u.path().replace(/(\..*)?$/, '.overlay'));
+            }
+
             var settings = {
                 type: form.attr('method'),
-                url: form.attr('action'),
+                url: u.toString(),
                 success: function(data) {
                     // read the returned html document
                     data = $(data);
@@ -304,7 +309,7 @@ var adhocracy = adhocracy || {};
                     uri.deleteQueryParam('overlay_path');
                     uri.deleteQueryParam('overlay_type');
                     window.location = uri.toString();
-                });
+                }, true);
             }
 
             /* update history */
