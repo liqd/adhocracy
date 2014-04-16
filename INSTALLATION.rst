@@ -27,6 +27,15 @@ There are two supported ways of installing Adhocracy:
 
 Both are described in the following.
 
+In any case you will need the following MIME types in ``/etc/mime.types``::
+
+    # webfonts
+    application/x-font-woff woff
+    application/font-truetype ttf
+
+    # socialshareprivacy 1.5 language files
+    application/json lang
+
 Automatic installation on debian, Ubuntu or Arch Linux with build.sh
 --------------------------------------------------------------------
 
