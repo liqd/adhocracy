@@ -62,7 +62,7 @@ def delegateable_latest_comment(entities):
                   reverse=True)
 
 
-def score_and_freshness_sorter(max_age):
+def score_and_freshness_sorter(max_age=0):
     '''
     Factory. Returns a function that calculates a sortable 60 character
     string from a combination of *max_age* and the parameters of the
@@ -74,6 +74,8 @@ def score_and_freshness_sorter(max_age):
        Maximal age in seconds (*int*). This configures the returned
        function to increase the returned value if the passed *time*
        is less than *max_age* seconds in the past (compared to now).
+
+       If max_age is 0 (default) the freshness isn't taken into account.
 
     Returns: A function
 
@@ -130,6 +132,24 @@ def proposal_mixed_key(proposal):
 def proposal_mixed(entities):
     return sorted(entities,
                   key=lambda x: float(proposal_mixed_key(x)),
+                  reverse=True)
+
+
+def proposal_support_impact_key(proposal):
+    scorer = score_and_freshness_sorter()
+    score = proposal.rate_poll.tally.score
+
+    # the badge with the highest absolute impact value wins
+    impact = reduce(lambda a, b: b if abs(b) > abs(a) else a,
+                    map(lambda d: d.badge.impact, proposal.delegateablebadges),
+                    0)
+
+    return scorer(score, proposal.create_time, impact)
+
+
+def proposal_support_impact(entities):
+    return sorted(entities,
+                  key=lambda x: float(proposal_support_impact_key(x)),
                   reverse=True)
 
 

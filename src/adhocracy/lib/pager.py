@@ -1170,6 +1170,16 @@ class ProposalMixedIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_mixed_key(entity)
 
 
+class ProposalSupportImpactIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.support_impact'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            data[cls.solr_field] = sorting.proposal_support_impact_key(entity)
+
+
 class ProposalControversyIndexer(SolrIndexer):
 
     solr_field = 'order.proposal.controversy'
@@ -1512,6 +1522,8 @@ PROPOSAL_VOTES = SortOption('-order.proposal.votes', L_("Most Votes"),
                             description=L_('Yays + nays'))
 PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
 PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
+PROPOSAL_SUPPORT_IMPACT = SortOption('-order.proposal.support_impact',
+                                     L_("Support with impact"))
 PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
                             description=L_('Age and Support'),
                             func=sorting.proposal_mixed)
@@ -1566,6 +1578,7 @@ PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
                                              PROPOSAL_YES_VOTES,
                                              PROPOSAL_NO_VOTES,
+                                             PROPOSAL_SUPPORT_IMPACT,
                                              PROPOSAL_CONTROVERSY)],
                             [L_('Date'), (NEWEST(old=1,
                                                  label=L_('Newest Proposals')),
