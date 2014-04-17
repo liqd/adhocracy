@@ -1177,7 +1177,7 @@ class ProposalSupportImpactIndexer(SolrIndexer):
     @classmethod
     def add_data_to_index(cls, entity, data):
         if isinstance(entity, model.Proposal):
-            data[cls.solr_field] = sorting.proposal_support_impact(entity)
+            data[cls.solr_field] = sorting.proposal_support_impact_key(entity)
 
 
 class ProposalControversyIndexer(SolrIndexer):
