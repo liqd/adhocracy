@@ -406,6 +406,9 @@ adhocracy.startpage.proposals.list_length = 0
 # this basepath.
 # adhocracy.external_navigation_base =
 
+# Maximum length of category long description (default: 20000)
+# adhocracy.category.long_description.max_length = 20000
+
 
 # Configure paths to static content which is inserted
 
