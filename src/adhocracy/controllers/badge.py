@@ -9,6 +9,7 @@ from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor
 from adhocracy.forms.common import ContainsChar
@@ -69,7 +70,8 @@ class BadgeForm(formencode.Schema):
 class CategoryBadgeForm(BadgeForm):
     select_child_description = validators.String(max=255)
     parent = ValidCategoryBadge(not_empty=False)
-    long_description = validators.String(max=20000)
+    long_description = validators.String(
+        max=config.get_int('adhocracy.category.long_description.max_length'))
     chained_validators = [
         # make sure parent has same instance as we
         ValidParentCategory()

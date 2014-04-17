@@ -18,6 +18,7 @@ DEFAULTS = {
     'adhocracy.background_processing': True,
     'adhocracy.behind_proxy': False,
     'adhocracy.cache_tiles': True,
+    'adhocracy.category.long_description.max_length': 20000,
     'adhocracy.comment_wording': False,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
