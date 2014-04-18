@@ -1052,6 +1052,16 @@ class DelegateableMilestoneFacet(SolrFacet):
             return []
 
 
+class DelegateableFrozenIndexer(SolrIndexer):
+
+    solr_field = 'facet.delegateable.frozen'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Delegateable):
+            data[cls.solr_field] = entity.frozen
+
+
 class CommentOrderIndexer(SolrIndexer):
 
     solr_field = 'order.comment.order'

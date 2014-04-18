@@ -117,6 +117,9 @@
    <field name="facet.delegateable.badgecategory" type="text_path"
           indexed="true" stored="true" multiValued="true"  />
 
+   <field name="facet.delegateable.frozen" type="boolean"
+          indexed="true" stored="true" />
+
    <!-- order -->
    <dynamicField name="activity*" type="triefloat" indexed="true"
                  stored="true" />
