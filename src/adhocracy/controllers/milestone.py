@@ -129,7 +129,8 @@ class MilestoneController(BaseController):
         if can.watch.create():
             watchlist.set_watch(milestone, self.form_result.get('watch'))
         # event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-        #            topics=[proposal], proposal=proposal, rev=description.head)
+        #            topics=[proposal], proposal=proposal,
+        #            rev=description.head)
         redirect(h.entity_url(milestone, format=format))
 
     @RequireInstance
