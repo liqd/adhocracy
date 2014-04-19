@@ -61,7 +61,8 @@ def all_locales(include_preferences=False):
 
     def all_locales_mult():
         if include_preferences:
-            yield c.locale
+            if c.locale:
+                yield c.locale
             yield get_default_locale()
         for l in LOCALES:
             yield l
