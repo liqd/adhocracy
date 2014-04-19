@@ -69,10 +69,8 @@ def all_locales(include_preferences=False):
     done = set()
 
     for value in all_locales_mult():
-        if value in done:
-            continue
-        else:
-            done.add(value)
+        if str(value) not in done:
+            done.add(str(value))
             yield value
 
 
