@@ -149,7 +149,7 @@ class MassmessageController(BaseController):
                 'email': config.get('adhocracy.email.from'),
                 'checked': False,
                 'enabled': config.get_bool(
-                    'allow_system_email_in_mass_messages', True),
+                    'allow_system_email_in_mass_messages'),
                 'reason': _("Not permitted in system settings"),
             },
             'support': {
