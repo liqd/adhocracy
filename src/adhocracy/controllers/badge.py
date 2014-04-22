@@ -512,10 +512,6 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
-        if badge.impact != impact:
-            badge.impact = impact
-            for user in badge.users:
-                update_entity(user, UPDATE)
         badge.instance = instance
         if can.user.supervise():
             badge.group = self.form_result.get('group')
@@ -523,7 +519,13 @@ class BadgeController(BaseController):
         if behavior_enabled():
             badge.behavior_proposal_sort_order = self.form_result.get(
                 'behavior_proposal_sort_order')
-        meta.Session.commit()
+        if badge.impact != impact:
+            badge.impact = impact
+            meta.Session.commit()
+            for user in badge.users:
+                update_entity(user, UPDATE)
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -542,12 +544,14 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        badge.instance = instance
         if badge.impact != impact:
             badge.impact = impact
+            meta.Session.commit()
             for delegateable in badge.delegateables:
                 update_entity(delegateable, UPDATE)
-        badge.instance = instance
-        meta.Session.commit()
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -566,12 +570,14 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        badge.instance = instance
         if badge.impact != impact:
             badge.impact = impact
+            meta.Session.commit()
             for instance in badge.instances:
                 update_entity(instance, UPDATE)
-        badge.instance = instance
-        meta.Session.commit()
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -618,15 +624,17 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
-        if badge.impact != impact:
-            badge.impact = impact
-            for delegateable in badge.delegateables:
-                update_entity(delegateable, UPDATE)
         badge.instance = instance
         badge.select_child_description = child_descr
         badge.long_description = long_description
         badge.parent = parent
-        meta.Session.commit()
+        if badge.impact != impact:
+            badge.impact = impact
+            meta.Session.commit()
+            for delegateable in badge.delegateables:
+                update_entity(delegateable, UPDATE)
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -649,12 +657,14 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        badge.instance = instance
         if badge.impact != impact:
             badge.impact = impact
+            meta.Session.commit()
             for delegateable in badge.delegateables:
                 update_entity(delegateable, UPDATE)
-        badge.instance = instance
-        meta.Session.commit()
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
