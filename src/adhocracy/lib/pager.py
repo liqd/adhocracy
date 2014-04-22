@@ -283,8 +283,6 @@ def proposals(proposals, default_sort=None, **kwargs):
         if def_sort_id is not None:
             default_sort = PROPOSAL_SORTS.by_value[def_sort_id].func
 
-    if default_sort is None:
-        default_sort = sorting.proposal_mixed
     sorts = {_("Newest"): sorting.entity_newest,
              _("Newest Comment"): sorting.delegateable_latest_comment,
              _("Most Support"): sorting.proposal_support,
@@ -1684,10 +1682,15 @@ def get_def_proposal_sort_order():
     default_sorting = None
     if c.user and c.user.proposal_sort_order:
         default_sorting = c.user.proposal_sort_order
-    else:
+    if default_sorting is None:
         bso = get_behavior(c.user, 'proposal_sort_order')
         if bso:
             default_sorting = bso
+    if default_sorting is None:
+        default_sorting = config.get(
+            'adhocracy.listings.instance_proposal.sorting')
+    if default_sorting is None:
+        default_sorting = '-order.proposal.mixed'
     return default_sorting
 
 
