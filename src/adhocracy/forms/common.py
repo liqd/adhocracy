@@ -801,15 +801,21 @@ class MessageableInstances(formencode.FancyValidator):
         return value
 
 
-def ProposalSortOrder():
-    from adhocracy.lib.pager import PROPOSAL_SORTS
-    return formencode.validators.OneOf(
-        [''] +
-        [
-            v.value
-            for g in PROPOSAL_SORTS.by_group.values()
-            for v in g
-        ])
+class ProposalSortOrder(formencode.validators.OneOf):
+
+    def __init__(self, **kwargs):
+        from adhocracy.lib.pager import PROPOSAL_SORTS
+        super(ProposalSortOrder, self).__init__(
+            [''] +
+            [
+                v.value
+                for g in PROPOSAL_SORTS.by_group.values()
+                for v in g
+            ])
+
+    def _to_python(self, *args, **kwargs):
+        v = super(ProposalSortOrder, self)._to_python(*args, **kwargs)
+        return v if v else None
 
 
 class OptionalAttributes(formencode.validators.FormValidator):
