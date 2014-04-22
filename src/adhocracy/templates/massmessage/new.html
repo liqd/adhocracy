@@ -66,7 +66,7 @@
 
         %if lib.auth.authorization.has('global.message'):
           <label>
-            ${_('Customize sender name: ')} <input type="text" name="sender_name" />
+            ${_('Customize sender name: ')} <input type="text" name="sender_name" value="${c.user.name}" />
           </label>
         %endif
       </fieldset>

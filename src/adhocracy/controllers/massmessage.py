@@ -80,6 +80,8 @@ def _get_options(func):
         sender_name = None
         if has('global.message'):
             sender_name = self.form_result.get('sender_name')
+        if not sender_name:
+            sender_name = c.user.name
 
         recipients = User.all_q()
         filter_instances = self.form_result.get('filter_instances')
@@ -149,7 +151,7 @@ class MassmessageController(BaseController):
                 'email': config.get('adhocracy.email.from'),
                 'checked': False,
                 'enabled': config.get_bool(
-                    'allow_system_email_in_mass_messages', True),
+                    'allow_system_email_in_mass_messages'),
                 'reason': _("Not permitted in system settings"),
             },
             'support': {

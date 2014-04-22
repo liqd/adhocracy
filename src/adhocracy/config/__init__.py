@@ -144,6 +144,7 @@ DEFAULTS = {
     'adhocracy.user.optional_attributes': [],
     'adhocracy.use_test_instance': True,
     'adhocracy.wording.intro_for_overview': False,
+    'allow_system_email_in_mass_messages': True,
     # 'beaker.session.secret':
     'debug': False,
     'run_integrationtests': False,
