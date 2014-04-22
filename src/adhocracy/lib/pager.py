@@ -1336,6 +1336,7 @@ class SolrPager(PagerMixin):
         if self.alternatives_filter:
             si = get_sunburnt_connection()
 
+            # build OR-filter using sunburnt optional query terms
             q = reduce(lambda acc, (k, v): acc | si.Q(**{k: v}),
                        self.alternatives_filter.items(), si.Q())
 
