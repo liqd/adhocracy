@@ -658,7 +658,6 @@ class BadgeController(BaseController):
         badge.visible = visible
         badge.description = description
         badge.instance = instance
-        meta.Session.commit()
         if badge.impact != impact:
             badge.impact = impact
             meta.Session.commit()
