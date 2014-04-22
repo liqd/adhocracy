@@ -3,10 +3,10 @@ ${_("The following message was sent to you by %s:") % c.message.name_from}
 ${c.body|n}
 
 --
-%if c.message.email_from is not None:
+%if c.message.email_from is not None and c.message.email_from != h.config.get('adhocracy.email.from'):
 ${_("You can reply to %s by sending mail to: %s") % (c.message.name_from, c.message.email_from)}
-%endif
 
+%endif
 %if c.massmessage and c.message.include_footer:
 ${_("You receive this message because you are signed in to the message service on %(site_name)s. You can change your subscription settings on the following page: %(url)s") % {'site_name': h.config.get('adhocracy.site.name'), 'url': h.entity_url(c.recipient, member="settings/notifications", absolute=True)} | n}
 %endif
