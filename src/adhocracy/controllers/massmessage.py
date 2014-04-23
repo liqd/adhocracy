@@ -129,7 +129,7 @@ class MassmessageController(BaseController):
         message to all users
         """
         if has('global.message'):
-            return Instance.all()
+            return Instance.all(include_hidden=True)
         else:
             perm = Permission.find('instance.message')
             instances = [m.instance for m in user.memberships
