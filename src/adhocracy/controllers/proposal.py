@@ -107,12 +107,9 @@ class ProposalController(BaseController):
 
         # FIXME: Add tag filtering again (now solr based)
         # FIXME: Live filtering ignores selected facets.
-        default_sorting = config.get(
-            'adhocracy.listings.instance_proposal.sorting')
         c.proposals_pager = pager.solr_proposal_pager(
             c.instance,
-            {'text': query},
-            default_sorting=default_sorting)
+            {'text': query})
 
         if format == 'json':
             return render_json(c.proposals_pager)
