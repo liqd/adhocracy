@@ -2,7 +2,75 @@ Adhocracy Changelog
 ===================
 
 
-- The translation files are now built automatically when running buildout.
+2.4.0 (unreleased)
+------------------
+
+This update requires some manual adjustments:
+
+- The translation files (.mo) are no longer included in the repository.
+  Please run `bin/buildout install translations` to create them automatically.
+
+- A Solr reindexing is necessary: `bin/paster index etc/adhocracy.ini`
+
+- Due to a bug, some notifications failed to be created in the past. Please
+  run `bin/adhocpy scripts/replay_notifications.py etc/adhocracy.ini` to
+  create the missing notifications.
+
+Improvements:
+
+- Scroll into view if needed after overlay resize. (#870)
+
+- Solr-based milestone proposal pager (#865)
+
+- Make maximum category long description length configurable. (#863)
+
+- Add a new proposal sorting which is a combination of support and impact.
+  (#858)
+
+- Document adhocracy's mime type requirements. (#862)
+
+- Document all settings in adhocracy.ini. (#857)
+
+- Allow to configure default proposal sorting. (#860, #868)
+
+- Responsive Search widget (#854)
+
+- The translation files (.mo) are now built automatically when running
+  buildout. (#741)
+
+- Show item count in a tooltip in tagcloud facet. (#851)
+
+- Better handling of connection erros with the external navigation. (#848)
+
+- Instance specific static pages (#845)
+
+- Link to category pages from proposal and page sidebars. (#847, #850)
+
+- Gitignore generated CSS. (#839)
+
+- Distinct styling for different kinds of show-hide buttons. (#841)
+
+- Hide old dates on event carousel. (#838)
+
+Bug fixes:
+
+- Fix multiple bugs in traverse_watchlist. (#871)
+
+- Fix multiple small issues with mass messages. (#869)
+
+- Make sure badge impact is commited before proposal update. (#866)
+
+- Fix some wrong redirects in badge management. (#831)
+
+- Prevent moderators to elevate their permissions. (#840)
+
+- Provide a fallback if `came_from` is missing in the velruse controller. (#853)
+
+- Fix page/proposal title validation. (#849, #852)
+
+- Various syntax fixes in INSTALL.rst, thanks to Rowan Thorpe (#843)
+
+- Fix some issues with entity deletion. (#842, #846)
 
 
 2.3.0 (2014-03-31)
