@@ -22,6 +22,7 @@
 #
 #---------------------------------------------------------------------
 
+import errno
 import os
 import md5
 import random
