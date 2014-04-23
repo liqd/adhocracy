@@ -50,7 +50,7 @@ def traverse_watchlist(entity):
     the most closely matching watchlist entries.
     """
 
-    def merge(outer, inner):
+    def merge(inner, outer):
         return inner + [w for w in outer if
                         w.user not in [w.user for w in inner]]
 
