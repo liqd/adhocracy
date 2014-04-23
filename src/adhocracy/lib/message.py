@@ -24,13 +24,12 @@ def render_body(body, recipient, is_preview=False):
     else:
         welcome_url = welcome_url(recipient, recipient.welcome_code)
 
-    return body.format(**{
-        'uid': u'%d' % recipient.id,
-        'name': recipient.name,
-        'email': recipient.email,
-        'welcome_url': welcome_url,
-        'salutation': salutation,
-    })
+    body = body.replace(u'{uid}', u'%d' % recipient.id)
+    body = body.replace(u'{name}', recipient.name)
+    body = body.replace(u'{email}', recipient.email)
+    body = body.replace(u'{welcome_url}', welcome_url)
+    body = body.replace(u'{salutation}', salutation)
+    return body
 
 
 def email_subject(message, recipient, _format=None):
