@@ -813,9 +813,8 @@ class ProposalSortOrder(formencode.validators.OneOf):
                 for v in g
             ])
 
-    def _to_python(self, *args, **kwargs):
-        v = super(ProposalSortOrder, self)._to_python(*args, **kwargs)
-        return v if v else None
+    def _to_python(self, value, state):
+        return value if value else None
 
 
 class OptionalAttributes(formencode.validators.FormValidator):
