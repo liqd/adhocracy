@@ -307,7 +307,7 @@ var adhocracy = adhocracy || {};
             });
 
             resize(300);
-            autoResize('fast', 200);
+            autoResize(200, 500);
 
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
