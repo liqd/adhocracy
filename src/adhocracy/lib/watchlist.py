@@ -52,7 +52,7 @@ def traverse_watchlist(entity):
 
     def merge(inner, outer):
         return inner + [w for w in outer if
-                        w.user not in [w.user for w in inner]]
+                        w.user not in [ww.user for ww in inner]]
 
     watches = Watch.all_by_entity(entity)
 
