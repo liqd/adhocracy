@@ -28,15 +28,16 @@ import md5
 import random
 import time
 
+
 class CaptchasDotNet:
-    def __init__ (self, client, secret,
-                  alphabet = 'abcdefghkmnopqrstuvwxyz',
-                  letters = 6,
-                  width = 240,
-                  height = 80,
-                  random_repository = '/tmp/captchasnet-random-strings',
-                  cleanup_time = 3600
-                  ):
+    def __init__(self, client, secret,
+                 alphabet='abcdefghkmnopqrstuvwxyz',
+                 letters=6,
+                 width=240,
+                 height=80,
+                 random_repository='/tmp/captchasnet-random-strings',
+                 cleanup_time=3600
+                 ):
         self.__client = client
         self.__secret = secret
         self.__alphabet = alphabet
@@ -45,54 +46,54 @@ class CaptchasDotNet:
         self.__height = height
         self.__random_repository = random_repository
         self.__cleanup_time = cleanup_time
-        self.__time_stamp_file = os.path.join (random_repository,
-                                               '__time_stamp__')
+        self.__time_stamp_file = os.path.join(random_repository,
+                                              '__time_stamp__')
 
     # Return a random string
-    def __random_string (self):
+    def __random_string(self):
         # The random string shall consist of small letters, big letters
         # and digits.
         letters = "abcdefghijklmnopqrstuvwxyz"
-        letters += letters.upper () + "0123456789"
+        letters += letters.upper() + "0123456789"
 
         # The random starts out empty, then 40 random possible characters
         # are appended.
         random_string = ''
-        for i in range (40):
-            random_string += random.choice (letters)
+        for i in range(40):
+            random_string += random.choice(letters)
 
         # Return the random string.
         return random_string
 
     # Create a new random string and register it.
-    def random (self):
+    def random(self):
         # If the repository directory is does not yet exist, create it.
-        if not os.path.isdir (self.__random_repository):
-            os.makedirs (self.__random_repository)
+        if not os.path.isdir(self.__random_repository):
+            os.makedirs(self.__random_repository)
 
         # If the time stamp file does not yet exist, create it.
-        if not os.path.isfile (self.__time_stamp_file):
-            os.close (os.open (self.__time_stamp_file, os.O_CREAT, 0700))
+        if not os.path.isfile(self.__time_stamp_file):
+            os.close(os.open(self.__time_stamp_file, os.O_CREAT, 0700))
 
         # Get the current time.
-        now = time.time ()
+        now = time.time()
 
         # Determine the time, before which to remove random strings.
         cleanup_time = now - self.__cleanup_time
 
         # If the last cleanup is older than specified, cleanup the
         # directory.
-        if os.stat (self.__time_stamp_file).st_mtime < cleanup_time:
-            os.utime (self.__time_stamp_file, (now, now))
-            for file_name in os.listdir (self.__random_repository):
-                file_name = os.path.join (self.__random_repository, file_name)
-                if os.stat (file_name).st_mtime < cleanup_time:
-                    os.unlink (file_name)
+        if os.stat(self.__time_stamp_file).st_mtime < cleanup_time:
+            os.utime(self.__time_stamp_file, (now, now))
+            for file_name in os.listdir(self.__random_repository):
+                file_name = os.path.join(self.__random_repository, file_name)
+                if os.stat(file_name).st_mtime < cleanup_time:
+                    os.unlink(file_name)
 
         # loop until a valid random string has been found and registered.
         while True:
             # generate a new random string.
-            random = self.__random_string ()
+            random = self.__random_string()
 
             # open a file with the corresponding name in the repository
             # directory in such a way, that the creation fails, when the
@@ -100,9 +101,9 @@ class CaptchasDotNet:
             # good seeding of the random number generator, but it's better
             # to play safe.
             try:
-                os.close (os.open (os.path.join (self.__random_repository,
-                                                 random),
-                                   os.O_EXCL | os.O_CREAT, 0700))
+                os.close(os.open(os.path.join(self.__random_repository,
+                                              random),
+                                 os.O_EXCL | os.O_CREAT, 0700))
             except EnvironmentError, error:
                 # if the file already existed, rerun the loop to try the
                 # next string.
@@ -117,7 +118,7 @@ class CaptchasDotNet:
             self.__random = random
             return random
 
-    def image_url (self, random = None, base = 'http://image.captchas.net/'):
+    def image_url(self, random=None, base='http://image.captchas.net/'):
         if not random:
             random = self.__random
         url = base
@@ -132,7 +133,7 @@ class CaptchasDotNet:
             url += '&amp;height=%s' % self.__height
         return url
 
-    def audio_url (self, random = None, base = 'http://audio.captchas.net/'):
+    def audio_url(self, random=None, base='http://audio.captchas.net/'):
         if not random:
             random = self.__random
         url = base
@@ -143,7 +144,7 @@ class CaptchasDotNet:
             url += '&amp;letters=%s' % self.__letters
         return url
 
-    def image (self, random = None, id = 'captchas.net'):
+    def image(self, random=None, id='captchas.net'):
         return '''
         <a href="http://captchas.net"><img
             style="border: none; vertical-align: bottom"
@@ -176,15 +177,16 @@ class CaptchasDotNet:
                10000);
           image.src = image.src;
           //-->
-        </script>''' % (id, self.image_url (random), self.__width, self.__height, id, id)
+        </script>''' % (id, self.image_url(random), self.__width,
+                        self.__height, id, id)
 
-    def validate (self, random):
+    def validate(self, random):
         self.__random = random
 
-        file_name = os.path.join (self.__random_repository, random)
+        file_name = os.path.join(self.__random_repository, random)
 
         # Find out, whether the file exists
-        result = os.path.isfile (file_name)
+        result = os.path.isfile(file_name)
 
         # if the file exists, remember it.
         if result:
@@ -194,7 +196,7 @@ class CaptchasDotNet:
         # corresponding file existed.
         return result
 
-    def verify (self, input, random = None):
+    def verify(self, input, random=None):
         if not random:
             random = self.__random
 
@@ -203,20 +205,22 @@ class CaptchasDotNet:
         password_length = self.__letters
 
         # If the user input has the wrong lenght, it can't be correct.
-        if len (input) != password_length:
+        if len(input) != password_length:
             return False
 
         # Calculate the MD5 digest of the concatenation of secret key and
         # random string.
         encryption_base = self.__secret + random
-        if (password_alphabet != "abcdefghijklmnopqrstuvwxyz") or (password_length != 6):
-            encryption_base += ":" + password_alphabet + ":" + str(password_length)
-        digest = md5.new (encryption_base).digest ()
+        if (password_alphabet != "abcdefghijklmnopqrstuvwxyz") \
+                or (password_length != 6):
+            encryption_base += ":" + password_alphabet + ":" \
+                + str(password_length)
+        digest = md5.new(encryption_base).digest()
 
         # Compute password
         correct_password = ''
-        for pos in range (password_length):
-            letter_num = ord (digest[pos]) % len (password_alphabet)
+        for pos in range(password_length):
+            letter_num = ord(digest[pos]) % len(password_alphabet)
             correct_password += password_alphabet[letter_num]
 
         # Check password
@@ -225,12 +229,10 @@ class CaptchasDotNet:
 
         # Remove the correspondig random file, if it exists.
         try:
-            os.unlink (self.__random_file)
+            os.unlink(self.__random_file)
             del self.__random_file
         except:
             pass
 
         # The user input was correct.
         return True
-
-
