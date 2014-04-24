@@ -42,11 +42,11 @@
       </div>
     </fieldset>
 
-    %if c.recaptcha:
+    %if c.captcha:
     <fieldset>
       <legend>${_("Security query")}</legend>
       <p class="info">${_("Please enter the letters in the following image in the field below.")}</p>
-      ${c.recaptcha|n}
+      ${c.captcha|n}
     </fieldset>
     %endif
 

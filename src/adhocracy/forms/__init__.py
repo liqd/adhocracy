@@ -17,3 +17,4 @@ from common import ValidDate
 from common import MessageableInstances
 from common import ProposalSortOrder
 from common import ProposalMessageNoRecipientGroup
+from common import CaptchasDotNetCaptcha

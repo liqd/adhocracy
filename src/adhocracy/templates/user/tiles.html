@@ -62,3 +62,15 @@
 </%doc>
 
 </%def>
+
+
+<%def name="captchasdotnet(cap, random)">
+    <div>
+        ${cap.image(random)|n}
+    </div>
+    <a href="${cap.audio_url(random)|n}">${_(u'Phonetic spelling')}</a>
+    <input type="hidden" name="captchasdotnet_random" value="${random|n}" />
+    <div class="input_wrapper">
+        <input type="text" name="captchasdotnet_captcha" />
+    </div>
+</%def>

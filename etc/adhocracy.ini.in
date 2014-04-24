@@ -246,6 +246,15 @@ adhocracy.redis.queue = ${parts.adhocracy.queue}
 # Background processing can be disabled entirely
 adhocracy.background_processing = true
 
+# INSTALL: If you want to use a captcha verification, use one
+# captchasdotnet or recaptcha here and fill in the expected values below.
+#adhocracy.captcha_type = captchasdotnet
+
+# INSTALL: If you want to use captchasdotnet register at captchas.net and
+# add user_name and secret in the following lines
+#captchasdotnet.user_name =
+#captchasdotnet.secret =
+
 # INSTALL: If you want to use recaptcha register at recaptcha.net and add your
 # public and private key below
 #recaptcha.public_key =

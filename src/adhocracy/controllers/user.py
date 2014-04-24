@@ -38,6 +38,7 @@ from adhocracy.lib.settings import settings_url
 from adhocracy.lib.settings import update_attributes
 from adhocracy.lib.staticpage import add_static_content
 from adhocracy.lib.templating import render, render_json, ret_abort
+from adhocracy.lib.templating import render_def
 from adhocracy.lib.templating import ret_success, render_logo
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort, random_token
@@ -77,6 +78,9 @@ class UserCreateForm(formencode.Schema):
         forms.UniqueOtherEmail())
     password = validators.String(not_empty=True)
     password_confirm = validators.String(not_empty=True)
+    if h.get_captcha_type() == 'captchasdotnet':
+        captchasdotnet_captcha = forms.CaptchasDotNetCaptcha(session,
+                                                             h.captchasdotnet)
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
 
@@ -203,12 +207,21 @@ class UserController(BaseController):
             redirect('/')
         else:
             data = {}
-            captcha_enabled = config.get('recaptcha.public_key', "")
-            data['recaptcha'] = captcha_enabled and h.recaptcha.displayhtml(
-                use_ssl=True)
+            captcha_type = h.get_captcha_type()
             if defaults is None:
                 defaults = {}
             defaults['_tok'] = token_id()
+            if captcha_type == 'captchasdotnet':
+                cap = h.captchasdotnet.get_captchasdotnet()
+                random = session.get('captchasdotnet_random')
+                if random is None:
+                    random = cap.random()
+                    session['captchasdotnet_random'] = random
+                data['captcha'] = render_def(
+                    '/user/tiles.html', 'captchasdotnet', cap=cap,
+                    random=random)
+            elif captcha_type == 'recaptcha':
+                data['captcha'] = h.recaptcha.displayhtml(use_ssl=True)
             add_static_content(data, u'adhocracy.static_agree_text',
                                body_key=u'agree_text', title_key='_ignored')
             return htmlfill.render(render("/user/register.html", data,
@@ -229,15 +242,22 @@ class UserController(BaseController):
                                "this email address."), category='error',
                              code=403)
 
-        # SPAM protection recaptcha
-        captcha_enabled = config.get('recaptcha.public_key', "")
-        if captcha_enabled:
+        # SPAM protection captcha
+        captcha_type = h.get_captcha_type()
+        if captcha_type == 'captchasdotnet':
+            # validation is done in forms.CaptchasDotNetCaptcha, this is only
+            # cleanup
+            del session['captchasdotnet_random']
+
+        elif captcha_type == 'recaptcha':
+            # FIXME: use FormEncode to validate, as all input is lost like that
             recaptcha_response = h.recaptcha.submit()
             if not recaptcha_response.is_valid:
                 c.recaptcha = h.recaptcha.displayhtml(
                     use_ssl=True,
                     error=recaptcha_response.error_code)
                 redirect("/register")
+
         # SPAM protection hidden input
         input_css = self.form_result.get("input_css")
         input_js = self.form_result.get("input_js")
