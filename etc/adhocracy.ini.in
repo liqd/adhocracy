@@ -255,6 +255,15 @@ adhocracy.background_processing = true
 #captchasdotnet.user_name =
 #captchasdotnet.secret =
 
+# Allowed letters (only "english" letters and digits)
+#captchasdotnet.alphabet = abcdefghkmnopqrstuvwxyz
+# Captcha length
+#captchasdotnet.letters = 6
+# Path to random string files (basically unused, but nevertheless created)
+#captchasdotnet.random_repository = /tmp/captchasnet-random-strings
+# Cleanup interval for stale random files
+#captchasdotnet.cleanup_time = 3600
+
 # INSTALL: If you want to use recaptcha register at recaptcha.net and add your
 # public and private key below
 #recaptcha.public_key =
