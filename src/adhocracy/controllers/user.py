@@ -5,8 +5,6 @@ import re
 import formencode
 from formencode import ForEach, htmlfill, validators
 
-from sqlalchemy.sql.expression import not_
-
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort
 from pylons.controllers.util import redirect

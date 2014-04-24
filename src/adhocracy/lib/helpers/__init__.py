@@ -343,4 +343,4 @@ def need_js_i18n(resource):
         return res.need()
     else:
         log.warn('no js localization for resource %s and locale %s'
-            % (resource, c.locale))
+                 % (resource, c.locale))
