@@ -71,15 +71,11 @@ if which apt-get >/dev/null 2>&1 ; then
     distro='debian'
     PYTHON_CMD='python'
     PKG_INSTALL_CMD='apt-get install -yqq'
-fi
-
-if which pacman >/dev/null 2>&1 ; then
+elif which pacman >/dev/null 2>&1 ; then
     distro='arch'
     PYTHON_CMD='python2'
     PKG_INSTALL_CMD='pacman -S --needed --noconfirm'
-fi
-
-if which yum >/dev/null 2>&1 ; then
+elif which yum >/dev/null 2>&1 ; then
     distro='fedora'
     PYTHON_CMD='python'
     PKG_INSTALL_CMD='yum install --assumeyes --quiet'
