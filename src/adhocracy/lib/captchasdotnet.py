@@ -146,10 +146,9 @@ class CaptchasDotNet:
 
     def image(self, random=None, id='captchas.net'):
         return '''
-        <a href="http://captchas.net"><img
-            style="border: none; vertical-align: bottom"
+        <img style="border: none; vertical-align: bottom"
             id="%s" src="%s" width="%d" height="%d"
-            alt="The CAPTCHA image" /></a>
+            alt="The CAPTCHA image" />
         <script type="text/javascript">
           <!--
           function captchas_image_error (image)
