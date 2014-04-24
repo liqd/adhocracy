@@ -18,6 +18,13 @@ This update requires some manual adjustments:
 
 Improvements:
 
+- Add upgrading documentation. (#879)
+
+- Add captchas.net captcha verification. (#878)
+
+- Avoid uneccessary delegateable invalidation. This significantly improves the
+  performance of cretion and update of proposals and norms. (#876)
+
 - Scroll into view if needed after overlay resize. (#870)
 
 - Solr-based milestone proposal pager (#865)
@@ -54,9 +61,17 @@ Improvements:
 
 Bug fixes:
 
-- Fix multiple bugs in traverse_watchlist. (#871)
+- Replace only specific message variables in mass messages. This avoids errors
+  when using {}. (#875)
+
+- Allow global admins to send mass messages in hidden instances as well.
+
+- Fix multiple bugs in traverse_watchlist, which resulted in missing
+  notifications. (#871)
 
 - Fix multiple small issues with mass messages. (#869)
+
+- Don't query static pages in the same locale multiple times.
 
 - Make sure badge impact is commited before proposal update. (#866)
 
