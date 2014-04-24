@@ -178,8 +178,17 @@ DEFAULTS = {
     # 'adhocracy.twitter.secret':
     # 'adhocracy.twitter.username':
 
-    # 'recaptcha.private_key':
-    # 'recaptcha.public_key':
+    # One of None, 'captchasdotnet' and 'recaptcha'.
+    'adhocracy.captcha_type': None,
+
+    'captchasdotnet.user_name': None,
+    'captchasdotnet.secret': None,
+    'captchasdotnet.alphabet': 'abcdefghkmnopqrstuvwxyz',
+    'captchasdotnet.letters': 6,
+    'captchasdotnet.random_repository': '/tmp/captchasnet-random-strings',
+    'captchasdotnet.cleanup_time': 3600,
+    'recaptcha.private_key': None,
+    'recaptcha.public_key': None,
 
     # 'piwik.id':
     # 'piwik.site':

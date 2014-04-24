@@ -865,3 +865,18 @@ class NotAllFalse(formencode.validators.FormValidator):
                 self.msg, field_dict, state,
                 error_dict={self.keys[0]: self.msg}
             )
+
+
+class CaptchasDotNetCaptcha(formencode.FancyValidator):
+
+    def __init__(self, session, captchasdotnet):
+        super(formencode.FancyValidator, self).__init__(not_empty=True)
+        self.session = session
+        self.captchasdotnet = captchasdotnet
+
+    def _to_python(self, value, state):
+        random = self.session.get('captchasdotnet_random')
+        cap = self.captchasdotnet.get_captchasdotnet()
+        if not cap.verify(value, random):
+            raise formencode.Invalid(_(u'Invalid. Try again.'),
+                                     value, state)

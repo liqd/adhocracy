@@ -42,6 +42,14 @@
       </div>
     </fieldset>
 
+    %if c.captcha:
+    <fieldset>
+      <legend>${_("Security query")}</legend>
+      <p class="info">${_("Please enter the letters in the following image in the field below.")}</p>
+      ${c.captcha|n}
+    </fieldset>
+    %endif
+
     <p>
       %if c.agree_text is None:
         ${_("By registering, you agree with the %s.") % h.help_link(_("Terms and Conditions"), 'terms') |n}
@@ -60,7 +68,6 @@
       <label for="input_css">CSS ${_('leave empty')}</label>
       <input name="input_css" />
     </div>
-    ${c.recaptcha}
 
     <div class="input_wrapper submit">
       <input type="submit" value="${_('Register')}" />
