@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.3.0-148-gb3913b9\n"
+"Project-Id-Version: adhocracy 2.3.0-150-g7381d9c\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-25 16:38+0200\n"
+"POT-Creation-Date: 2014-04-25 16:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -922,7 +922,7 @@ msgstr ""
 msgid "Invalid choice"
 msgstr ""
 
-msgid "Invalid. Try again."
+msgid "Incorrect. Try again."
 msgstr ""
 
 #, python-format
