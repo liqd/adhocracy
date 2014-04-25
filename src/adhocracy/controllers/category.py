@@ -1,3 +1,5 @@
+from paste.deploy.converters import asbool
+
 from pylons import tmpl_context as c
 from pylons import request
 from pylons.decorators import validate
@@ -116,8 +118,13 @@ class CategoryController(BaseController):
             .order_by(model.Event.time.desc())\
             .limit(min(int(request.params.get('count', 50)), 100)).all()
 
+        enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
+        enable_pages = asbool(request.params.get('enable_pages', 'true'))
+
         data = {
-            'event_pager': pager.events(events),
+            'event_pager': pager.events(events,
+                enable_sorts=enable_sorts,
+                enable_pages=enable_pages),
         }
         return render('/category/events.html', data,
                       overlay=format == 'overlay')
@@ -132,8 +139,13 @@ class CategoryController(BaseController):
             .filter(model.Milestone.category_id == category.id)\
             .limit(int(request.params.get('count', 50))).all()
 
+        enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
+        enable_pages = asbool(request.params.get('enable_pages', 'true'))
+
         data = {
-            'milestone_pager': pager.milestones(milestones),
+            'milestone_pager': pager.milestones(milestones,
+                enable_sorts=enable_sorts,
+                enable_pages=enable_pages),
         }
         return render('/category/milestones.html', data,
                       overlay=format == 'overlay')
