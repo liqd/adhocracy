@@ -78,7 +78,7 @@ class ErrorController(BaseController):
             'hide_code': 'hide_code' in request.GET,
             'hide_notify': 'hide_notify' in request.GET,
             'error_code': int(status),
-            'error_message': ERROR_MESSAGES.get(int(status)),
+            'error_message': ERROR_MESSAGES.get(int(status), ''),
         }
         return render("/error/http.html", data)
 
