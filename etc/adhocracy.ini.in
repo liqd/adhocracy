@@ -71,7 +71,7 @@ pipeline = theme
 [filter:theme]
 use = egg:diazo
 read_network = True
-rules = ${parts.adhocracy_code.absolute_theme_dir}/rules.xml
+rules = file:/${parts.adhocracy_code.absolute_theme_dir}/rules.xml
 prefix = /static_theme
 doctype = <!DOCTYPE html>
 {% if parts.adhocracy.debug == 'True' %}debug = true  {% end %}
