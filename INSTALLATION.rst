@@ -96,6 +96,14 @@ Compile python and PIL with the included python buildout::
     $ bin/buildout
     $ cd ..
 
+Configure Adhocracy as desired
+``````````````````````````````
+
+Create a custom buildout file and customize it as desired::
+
+    $ cp buildout buildout-my.cfg
+    $ vi buildout-my.cfg
+
 Install and start Adhocracy
 ```````````````````````````
 
@@ -104,7 +112,7 @@ Run buildout:
 ::
 
     $ bin/python bootstrap.py
-    $ bin/buildout
+    $ bin/buildout -c buildout-my.cfg
 
 Start Adhocracy and dependent servers:
 
