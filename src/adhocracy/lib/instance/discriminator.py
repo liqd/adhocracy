@@ -54,7 +54,7 @@ class InstanceDiscriminatorMiddleware(object):
                     # otherwise we end up here again after being internally
                     # redirected from StatusCodeRedirect and produce a white
                     # page.
-                    environ['HTTP_HOST'] = environ['adhocracy.domain']
+                    environ['HTTP_HOST'] = self.domain
                     # Fair handling of users prefixing everything with www.
                     if instance_key == 'www':
                         response.status_int = 301
