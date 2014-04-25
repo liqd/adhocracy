@@ -146,7 +146,7 @@
         %endif
 
         %if not c.dashboard and can.user.supervise(c.page_user):
-        <a href="#" class="showhide_button action button_small" id="groups-button" data-target="#groups-form">
+        <a href="#" class="showhide_button action button_small" id="groups-button" data-target="#groups-form" aria-controls="groups-form">
             ${_(u'change group')}</a>
 
         <form action="${h.entity_url(c.page_user, member='groupmod')}" method="GET" style="display: none" id="groups-form" data-cancel=".cancel">

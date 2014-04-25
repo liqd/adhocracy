@@ -49,6 +49,7 @@
             <a class="button highlight showhide_button action"
                href="${h.base_url('/comment/new', topic.instance, query_params={'topic': topic.id, 'wiki': 1})}"
                data-target="#${target}"
+               aria-controls="${target}"
                id="start-discussion-button">
                 ${_('Add comment') if h.comment.wording() else _('Start new discussion')}
             </a>
