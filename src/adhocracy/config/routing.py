@@ -365,6 +365,12 @@ def make_map(config):
                 conditions=dict(method=['GET']))
     map.connect('/category/{id}{.format}', controller='category',
                 action='show', conditions=dict(method=['GET']))
+    map.connect('/category/{id}/description{.format}', controller='category',
+                action='description', conditions=dict(method=['GET']))
+    map.connect('/category/{id}/events{.format}', controller='category',
+                action='events', conditions=dict(method=['GET']))
+    map.connect('/category/{id}/milestones{.format}', controller='category',
+                action='milestones', conditions=dict(method=['GET']))
 
     # not using REST since tags may contain dots, thus failing format
     # detection.
