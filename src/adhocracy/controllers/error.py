@@ -19,6 +19,15 @@ ERROR_MESSAGES = {
     503: _(u"The system is currently down for maintenance. Please check back "
            u"soon!"),
 }
+ERROR_NAMES = {
+    400: _('Bad Request'),
+    401: _('Unauthorized'),
+    403: _('Forbidden'),
+    404: _('Not Found'),
+    418: _('I\'m a teapot'),
+    500: _('Internal Server Error'),
+    503: _('Service Unavailable'),
+}
 
 
 class ErrorController(BaseController):
@@ -51,9 +60,10 @@ class ErrorController(BaseController):
 
         c.error_code = cgi.escape(request.GET.get('code',
                                                   str(resp.status_int)))
+        c.error_name = ERROR_NAMES.get(int(c.error_code), '')
 
         if not c.error_message:
-            c.error_message = _("Error %s") % c.error_code
+            c.error_message = ERROR_MESSAGES.get(int(c.error_code), '')
 
         if config.get_bool('adhocracy.interactive_debugging'):
             c.trace_url = request.environ['pylons.original_response']\
@@ -68,8 +78,9 @@ class ErrorController(BaseController):
         return render("/error/http.html")
 
     def show(self):
-        """
-        Force an error message.
+        """Force an error message.
+
+        Always return status 200, but render the HTML error message.
         """
         if not config.get_bool('debug'):
             raise abort(404)
@@ -80,6 +91,7 @@ class ErrorController(BaseController):
             'hide_code': 'hide_code' in request.GET,
             'hide_notify': 'hide_notify' in request.GET,
             'error_code': int(status),
+            'error_name': ERROR_NAMES.get(int(status), ''),
             'error_message': ERROR_MESSAGES.get(int(status), ''),
         }
         return render("/error/http.html", data)
