@@ -1,6 +1,7 @@
 import logging
 
 from adhocracy import model
+from adhocracy.lib.helpers.site_helper import base_url
 from paste.deploy.converters import asbool
 from webob import Response
 
@@ -48,12 +49,22 @@ class InstanceDiscriminatorMiddleware(object):
         if instance_key:  # instance key is set (neither None nor "")
             instance = model.Instance.find(instance_key)
             if instance is None:
-                if (not relative_urls) and instance_key == 'www':
-                    log.debug("No such instance: www, defaulting to global!")
-                else:
-                    response = Response()
-                    response.status_int = 404
-                    return response(environ, start_response)
+                response = Response()
+                if not relative_urls:
+                    # HTTP_HOST needs to be set to an existing domain,
+                    # otherwise we end up here again after being internally
+                    # redirected from StatusCodeRedirect and produce a white
+                    # page.
+                    environ['HTTP_HOST'] = self.domain
+                    # Fair handling of users prefixing everything with www.
+                    if instance_key == 'www':
+                        response.status_int = 301
+                        response.headers['location'] = \
+                            base_url(environ.get('PATH_INFO', '/'),
+                                     absolute=True, config=self.config)
+                        return response(environ, start_response)
+                response.status_int = 404
+                return response(environ, start_response)
             else:
                 model.instance_filter.setup_thread(instance)
         try:
