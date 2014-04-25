@@ -37,7 +37,7 @@
 <% messages = h.sorted_flash_messages() %>
 %if messages:
     %for message in messages:
-    <div class="alert alert-${message.category}">
+    <div class="alert alert-${message.category}" role="${'alert' if message.category == 'error' else 'status'}">
         <a class="close only-js" data-dismiss="alert" href="#">x</a>
         ${message.message|n}
     </div>
