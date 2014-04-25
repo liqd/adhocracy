@@ -133,7 +133,7 @@
     %if item['visible']:
     <li>
         %if item['disabled']:
-        <span class="tag_link disabled"
+        <span class="tag_link disabled" role="link" aria-disabled="true"
               style="font-size: ${h.tag.solr_tag_size(item, items)}%;">
             ${item['link_text']}</span>
         %else:
@@ -296,6 +296,7 @@ param = sorts.pager.sort_param
             <a id="${param}_btn"
                class="button_round showhide_button control"
                data-target="#${param}_options"
+               aria-controls="${param}_options"
                data-target-speed="fast"
                data-toggle-class="less"
                href="#">

@@ -41,13 +41,13 @@
     <!--[if lte IE 7]>
       <strong><a href="http://www.browser-update.org/update.html" class="ie-message">${_('You are using an outdated web browser. Click here to update.')}</a></strong>
     <![endif]-->
-    <noscript>
+    <div class="only-no-js">
       <strong class="ie-message">${_('Adhocracy works best with JavaScript enabled.')}</strong>
-    </noscript>
+    </div>
     %if h.overlay_link():
-    <noscript>
+    <div class="only-no-js">
         <strong class="ie-message">${_('We could not display an overlay. See <a href="%s">here</a> what it would have displayed.') % h.overlay_link()|n}</strong>
-    </noscript>
+    </div>
     %endif
     %if h.config.get_bool(u'adhocracy.readonly'):
     <%
@@ -189,7 +189,7 @@
   </div>
 
   </%block>
-  <div id="main" class="default_content">
+  <div id="main" class="default_content" role="main">
     <div class="page_wrapper">
       <%block name="main" />
     </div>

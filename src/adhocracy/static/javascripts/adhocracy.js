@@ -1289,6 +1289,8 @@ $(document).ready(function () {
             drawIntervalID,
             src = self.data('src');
 
+        self.attr('role', 'marquee');
+
         if (!src) {
             src = '/event/all?event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create';
         }
