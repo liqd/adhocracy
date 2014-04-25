@@ -133,7 +133,7 @@
     %if item['visible']:
     <li>
         %if item['disabled']:
-        <span class="tag_link disabled"
+        <span class="tag_link disabled" role="link" aria-disabled="true"
               style="font-size: ${h.tag.solr_tag_size(item, items)}%;">
             ${item['link_text']}</span>
         %else:
