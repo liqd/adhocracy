@@ -1,6 +1,7 @@
 import logging
 
 from adhocracy import model
+from adhocracy.lib.helpers.site_helper import base_url
 from paste.deploy.converters import asbool
 from webob import Response
 
@@ -58,8 +59,9 @@ class InstanceDiscriminatorMiddleware(object):
                     # Fair handling of users prefixing everything with www.
                     if instance_key == 'www':
                         response.status_int = 301
-                        response.headers['location'] = environ.get('PATH_INFO',
-                                                                   '')
+                        response.headers['location'] = \
+                            base_url(environ.get('PATH_INFO', '/'),
+                                     absolute=True, config=self.config)
                         return response(environ, start_response)
                 response.status_int = 404
                 return response(environ, start_response)
