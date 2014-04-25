@@ -71,6 +71,8 @@ class ErrorController(BaseController):
         """
         Force an error message.
         """
+        if not config.get_bool('debug'):
+            raise abort(404)
         status = request.GET.get('force_status')
         if status is None:
             raise abort(404)
