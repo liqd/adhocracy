@@ -878,5 +878,5 @@ class CaptchasDotNetCaptcha(formencode.FancyValidator):
         random = self.session.get('captchasdotnet_random')
         cap = self.captchasdotnet.get_captchasdotnet()
         if not cap.verify(value, random):
-            raise formencode.Invalid(_(u'Invalid. Try again.'),
+            raise formencode.Invalid(_(u'Incorrect. Try again.'),
                                      value, state)
