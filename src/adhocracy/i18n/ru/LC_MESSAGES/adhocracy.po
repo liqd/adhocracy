@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-08 21:51+0200\n"
-"PO-Revision-Date: 2014-04-08 19:51+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-04-25 16:44+0200\n"
+"PO-Revision-Date: 2014-04-25 14:44+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,6 +167,9 @@ msgstr ""
 
 msgid "The requested page was not found"
 msgstr "Искомая страница не найдена. "
+
+msgid "Intro"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr ""
@@ -915,14 +918,6 @@ msgstr "Недействительное название страницы: %s."
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Вариант имени не может содержать только цифры: %s."
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr ""
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
-
 msgid "Please select at least one recipient group"
 msgstr ""
 
@@ -974,6 +969,9 @@ msgstr ""
 msgid "Invalid choice"
 msgstr ""
 
+msgid "Incorrect. Try again."
+msgstr ""
+
 #, python-format
 msgid "%d days"
 msgstr "%d дней"
@@ -1021,9 +1019,6 @@ msgstr "Недействительный запрос. Вернитесь наз
 
 msgid "The method you used is not implemented."
 msgstr "Примененный Вами метод не реализован. "
-
-msgid "Start"
-msgstr "Старт"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1181,6 +1176,9 @@ msgid "Most Ayes"
 msgstr ""
 
 msgid "Most Nays"
+msgstr ""
+
+msgid "Support with impact"
 msgstr ""
 
 msgid "Age and Support"
@@ -1581,17 +1579,11 @@ msgstr "Нормативные документы"
 msgid "Members"
 msgstr "Участники"
 
-msgid "Intro"
-msgstr ""
-
 msgid "(Unknown)"
 msgstr "(неизвестно)"
 
 msgid "Implementation"
 msgstr "Реализация"
-
-msgid "Adhocracy"
-msgstr "Adhocracy"
 
 msgid "delete"
 msgstr "удалить"
@@ -1838,6 +1830,9 @@ msgstr "конфиденциальность"
 msgid "imprint"
 msgstr "выходные данные"
 
+msgid "Search"
+msgstr "Поиск"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> участн."
@@ -1856,6 +1851,9 @@ msgstr "<b>%s</b> голоса"
 
 msgid "Menu"
 msgstr ""
+
+msgid "Start"
+msgstr "Старт"
 
 msgid "Instances"
 msgstr "Организации"
@@ -1881,12 +1879,9 @@ msgstr "Администрация Сайта"
 msgid "Logout"
 msgstr "Выйти"
 
-msgid "Search"
-msgstr "Поиск"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Поиск в  &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1912,6 +1907,13 @@ msgstr ""
 
 msgid "Edit"
 msgstr "Редактировать"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "None"
 msgstr ""
@@ -1956,6 +1958,12 @@ msgid "Validate email to start contributing."
 msgstr ""
 
 msgid "This instance has been frozen - you can not edit or post anything."
+msgstr ""
+
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
 msgstr ""
 
 msgid "Next"
@@ -2156,14 +2164,14 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr "Администратор: ипмортировать список пользователей"
 
-msgid "Users CSV"
-msgstr "Пользователи CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
+
+msgid "Users CSV"
+msgstr "Пользователи CSV"
 
 msgid "Email Subject"
 msgstr "Тема письма"
@@ -2246,11 +2254,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Описание ярлыка. "
 
-msgid "Long category description"
-msgstr ""
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
+msgstr ""
+
+msgid "Long category description"
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2427,9 +2435,6 @@ msgstr ""
 
 msgid "Find proposals"
 msgstr "найти предложения"
-
-msgid "Go"
-msgstr "перейти"
 
 msgid "new proposal"
 msgstr "новое предложение"
@@ -2932,11 +2937,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "Extra CSS"
-msgstr "Дополнительные CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr ""
+
+msgid "Extra CSS"
+msgstr "Дополнительные CSS"
 
 msgid "Status badge image width"
 msgstr ""
@@ -3015,20 +3020,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
-msgstr "Лого"
+msgid "Description of the instance"
+msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
+
+msgid "Logo"
+msgstr "Лого"
 
 msgid "Current logo"
 msgstr "Действующий логотип"
@@ -3175,6 +3180,11 @@ msgid "Sender identity"
 msgstr ""
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
 msgstr ""
 
 msgid "Send to ..."
@@ -3427,10 +3437,10 @@ msgstr "Название варианта"
 msgid "Text"
 msgstr "Текст"
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -3969,8 +3979,8 @@ msgstr "постоянное большинство в течение %s дне�
 msgid "Search in %s"
 msgstr "Искать в %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Поиск включает вопросы и предложения."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "Вы не предоставили поискового запроса."
@@ -4370,6 +4380,12 @@ msgstr "Введите пароль:"
 msgid "Password (confirm):"
 msgstr "Пароль : (подтвердить)"
 
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
+
 #, python-format
 msgid "By registering, you agree with the %s."
 msgstr "Регистрируясь, Вы соглашаетесь с %s."
@@ -4528,12 +4544,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4542,13 +4558,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Краткая биография"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
+
+msgid "Short biography"
+msgstr "Краткая биография"
 
 msgid "I am an organisation"
 msgstr ""
@@ -4627,6 +4643,9 @@ msgid "signed up %s"
 msgstr "%s в системе"
 
 msgid "Generate welcome link"
+msgstr ""
+
+msgid "Phonetic spelling"
 msgstr ""
 
 #, python-format

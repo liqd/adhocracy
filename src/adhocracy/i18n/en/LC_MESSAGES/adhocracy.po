@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-08 21:51+0200\n"
-"PO-Revision-Date: 2014-04-08 19:51+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-04-25 16:44+0200\n"
+"PO-Revision-Date: 2014-04-25 14:44+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,6 +165,9 @@ msgstr ""
 
 msgid "The requested page was not found"
 msgstr "The requested page was not found"
+
+msgid "Intro"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegations are enabled."
@@ -913,14 +916,6 @@ msgstr "Invalid page name: %s"
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Variant name cannot be purely numeric: %s"
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr ""
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
-
 msgid "Please select at least one recipient group"
 msgstr ""
 
@@ -972,6 +967,9 @@ msgstr "Invalid value"
 msgid "Invalid choice"
 msgstr "Invalid choice"
 
+msgid "Incorrect. Try again."
+msgstr ""
+
 #, python-format
 msgid "%d days"
 msgstr "%d days"
@@ -1019,9 +1017,6 @@ msgstr "Invalid request. Please go back and try again."
 
 msgid "The method you used is not implemented."
 msgstr "The method you used is not implemented."
-
-msgid "Start"
-msgstr "Start"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1180,6 +1175,9 @@ msgstr "Most Ayes"
 
 msgid "Most Nays"
 msgstr "Most Nays"
+
+msgid "Support with impact"
+msgstr ""
 
 msgid "Age and Support"
 msgstr "Age and support"
@@ -1579,17 +1577,11 @@ msgstr "Norms"
 msgid "Members"
 msgstr "Members"
 
-msgid "Intro"
-msgstr ""
-
 msgid "(Unknown)"
 msgstr "(Unknown)"
 
 msgid "Implementation"
 msgstr "Implementation"
-
-msgid "Adhocracy"
-msgstr "Adhocracy"
 
 msgid "delete"
 msgstr "delete"
@@ -1836,6 +1828,9 @@ msgstr "privacy"
 msgid "imprint"
 msgstr "imprint"
 
+msgid "Search"
+msgstr "Search"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> members"
@@ -1854,6 +1849,9 @@ msgstr "<b>%s</b> votes"
 
 msgid "Menu"
 msgstr ""
+
+msgid "Start"
+msgstr "Start"
 
 msgid "Instances"
 msgstr "Instances"
@@ -1879,12 +1877,9 @@ msgstr "Administrate site"
 msgid "Logout"
 msgstr "Logout"
 
-msgid "Search"
-msgstr "Search"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Search in &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1910,6 +1905,12 @@ msgstr "reset"
 
 msgid "Edit"
 msgstr "Edit"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "None"
 msgstr ""
@@ -1955,6 +1956,12 @@ msgstr "Validate email to start contributing."
 
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "This instance has been frozen - you can not edit or post anything."
+
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
+msgstr ""
 
 msgid "Next"
 msgstr "Next"
@@ -2154,14 +2161,14 @@ msgstr "Assign treatment badges"
 msgid "Admin: Import Users"
 msgstr "Admin: Import users"
 
-msgid "Users CSV"
-msgstr "Users CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
+
+msgid "Users CSV"
+msgstr "Users CSV"
 
 msgid "Email Subject"
 msgstr "Email subject"
@@ -2244,12 +2251,12 @@ msgstr ""
 msgid "Badge description"
 msgstr "Badge description"
 
-msgid "Long category description"
-msgstr ""
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Here you can add a more detailed description of your category with markdown. You can add pictures and links."
+
+msgid "Long category description"
+msgstr ""
 
 msgid "The color that is used to show the category"
 msgstr ""
@@ -2425,9 +2432,6 @@ msgstr "Validate email in order to create a new proposal."
 
 msgid "Find proposals"
 msgstr "Find proposals"
-
-msgid "Go"
-msgstr "Go"
 
 msgid "new proposal"
 msgstr "new proposal"
@@ -2929,11 +2933,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "You can add css that will be used to style the instance."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Status badge image width"
 msgstr ""
@@ -3012,20 +3016,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Current logo"
@@ -3170,6 +3174,11 @@ msgid "Sender identity"
 msgstr "Sender identity"
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
 msgstr ""
 
 msgid "Send to ..."
@@ -3422,10 +3431,10 @@ msgstr "Variant name"
 msgid "Text"
 msgstr "Text"
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -3961,8 +3970,8 @@ msgstr "stable majority for %s days"
 msgid "Search in %s"
 msgstr "Search in %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Search includes issues and proposals."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "You did not provide a search query."
@@ -4362,6 +4371,12 @@ msgstr "Enter password:"
 msgid "Password (confirm):"
 msgstr "Password (confirm):"
 
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
+
 #, python-format
 msgid "By registering, you agree with the %s."
 msgstr "By registering, you agree with the %s."
@@ -4520,12 +4535,12 @@ msgstr "Salutation"
 msgid "Select your prefered gender"
 msgstr "Select your prefered gender"
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4534,13 +4549,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Short biography"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "A bio will allow others to learn about you and perhaps even get you a few delegations."
+
+msgid "Short biography"
+msgstr "Short biography"
 
 msgid "I am an organisation"
 msgstr ""
@@ -4620,6 +4635,9 @@ msgstr "signed up %s"
 
 msgid "Generate welcome link"
 msgstr "Generate welcome link"
+
+msgid "Phonetic spelling"
+msgstr ""
 
 #, python-format
 msgid "Watchlist: %s"

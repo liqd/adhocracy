@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-08 21:51+0200\n"
-"PO-Revision-Date: 2014-04-08 19:51+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-04-25 16:44+0200\n"
+"PO-Revision-Date: 2014-04-25 14:44+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,6 +165,9 @@ msgstr ""
 
 msgid "The requested page was not found"
 msgstr "Pagina nu a fost gasita."
+
+msgid "Intro"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegarile sunt permise."
@@ -913,14 +916,6 @@ msgstr "Nume de pagina '%s'  inexistent"
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Numele variantei nu poate fi doar numeric: %s"
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr ""
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
-
 msgid "Please select at least one recipient group"
 msgstr ""
 
@@ -972,6 +967,9 @@ msgstr ""
 msgid "Invalid choice"
 msgstr ""
 
+msgid "Incorrect. Try again."
+msgstr ""
+
 #, python-format
 msgid "%d days"
 msgstr "%d zile"
@@ -1019,9 +1017,6 @@ msgstr "Cerere invalida. Te rugam sa te intorci si sa incerci din nou."
 
 msgid "The method you used is not implemented."
 msgstr "Metoda folosita nu este implementata."
-
-msgid "Start"
-msgstr "Start"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1180,6 +1175,9 @@ msgstr "Cele mai multe Pro"
 
 msgid "Most Nays"
 msgstr "Cele mai multe Contra"
+
+msgid "Support with impact"
+msgstr ""
 
 msgid "Age and Support"
 msgstr "Vechime si sustinere"
@@ -1579,17 +1577,11 @@ msgstr "Documente"
 msgid "Members"
 msgstr "Membri"
 
-msgid "Intro"
-msgstr ""
-
 msgid "(Unknown)"
 msgstr "(Necunoscut)"
 
 msgid "Implementation"
 msgstr "Implementare"
-
-msgid "Adhocracy"
-msgstr "Adhocracy"
 
 msgid "delete"
 msgstr "sterge"
@@ -1836,6 +1828,9 @@ msgstr "confidentialitate"
 msgid "imprint"
 msgstr "imprima"
 
+msgid "Search"
+msgstr "Cauta"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> membri"
@@ -1854,6 +1849,9 @@ msgstr "<b>%s</b> voturi"
 
 msgid "Menu"
 msgstr ""
+
+msgid "Start"
+msgstr "Start"
 
 msgid "Instances"
 msgstr "Comunitati"
@@ -1879,12 +1877,9 @@ msgstr "Administreaza site"
 msgid "Logout"
 msgstr "Iesire"
 
-msgid "Search"
-msgstr "Cauta"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1910,6 +1905,13 @@ msgstr "reseteaza"
 
 msgid "Edit"
 msgstr "Modifica"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "None"
 msgstr ""
@@ -1954,6 +1956,12 @@ msgid "Validate email to start contributing."
 msgstr "Valideaza emailul pentru a putea incepe sa contribui."
 
 msgid "This instance has been frozen - you can not edit or post anything."
+msgstr ""
+
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
 msgstr ""
 
 msgid "Next"
@@ -2154,14 +2162,14 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
 
-msgid "Users CSV"
-msgstr "Lista utilizatori CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
+
+msgid "Users CSV"
+msgstr "Lista utilizatori CSV"
 
 msgid "Email Subject"
 msgstr "Subiect Email"
@@ -2244,11 +2252,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Descriere titlu"
 
-msgid "Long category description"
-msgstr ""
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
+msgstr ""
+
+msgid "Long category description"
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2425,9 +2433,6 @@ msgstr "Valideaza adresa de email pentru a putea crea o propunere."
 
 msgid "Find proposals"
 msgstr "Cauta propuneri"
-
-msgid "Go"
-msgstr "Cauta"
 
 msgid "new proposal"
 msgstr "propunere noua"
@@ -2930,11 +2935,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "Extra CSS"
-msgstr "Still CSS aditional"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
+
+msgid "Extra CSS"
+msgstr "Still CSS aditional"
 
 msgid "Status badge image width"
 msgstr ""
@@ -3013,20 +3018,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Logo curent"
@@ -3173,6 +3178,11 @@ msgid "Sender identity"
 msgstr ""
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
 msgstr ""
 
 msgid "Send to ..."
@@ -3425,10 +3435,10 @@ msgstr "Numele Variantei"
 msgid "Text"
 msgstr "Text"
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -3967,8 +3977,8 @@ msgstr "majoritate stabila in %s zile"
 msgid "Search in %s"
 msgstr "Cauta in %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Cautarea include probleme si propuneri."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "Nu ai introdus termeni de cautare."
@@ -4368,6 +4378,12 @@ msgstr "Introduceti parola:"
 msgid "Password (confirm):"
 msgstr "Parola (confirma):"
 
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
+
 #, python-format
 msgid "By registering, you agree with the %s."
 msgstr "Prin inregistrare, iti dai acordul pentru %s."
@@ -4526,12 +4542,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4540,13 +4556,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Scurta biografie"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tine si iti maresc sansele sa obtii mai multe delegari de vot."
+
+msgid "Short biography"
+msgstr "Scurta biografie"
 
 msgid "I am an organisation"
 msgstr ""
@@ -4625,6 +4641,9 @@ msgid "signed up %s"
 msgstr "inregistrat pentru %s"
 
 msgid "Generate welcome link"
+msgstr ""
+
+msgid "Phonetic spelling"
 msgstr ""
 
 #, python-format
