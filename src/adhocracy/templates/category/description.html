@@ -1,0 +1,9 @@
+<%inherit file="/template.html" />
+
+
+<%block name="main_content">
+<div class="category_body">
+    ${c.description|n}
+    <a class="more_link" href="${h.entity_url(c.category)}">${_('more')}</a>
+</div>
+</%block>

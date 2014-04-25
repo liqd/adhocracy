@@ -1,7 +1,11 @@
+from paste.deploy.converters import asbool
+
 from pylons import tmpl_context as c
+from pylons import request
 from pylons.decorators import validate
 from pylons.controllers.util import abort
 
+from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_logo
 from adhocracy.lib import pager
@@ -78,3 +82,70 @@ class CategoryController(BaseController):
         category = get_entity_or_abort(model.CategoryBadge, id,
                                        instance_filter=False)
         return render_logo(category, y, x=x)
+
+    @RequireInstance
+    def description(self, id, format=u'html'):
+        if not c.instance.display_category_pages:
+            abort(404)
+        category = get_entity_or_abort(model.CategoryBadge, id)
+
+        description = category.long_description
+        description = h.render(description)
+        description = h.text.truncate_html(description, 200, u'&hellip;')
+
+        data = {
+            'category': category,
+            'description': description,
+        }
+        return render('/category/description.html', data,
+                      overlay=format == 'overlay')
+
+    @RequireInstance
+    def events(self, id, format=u'html'):
+        if not c.instance.display_category_pages:
+            abort(404)
+        category = get_entity_or_abort(model.CategoryBadge, id)
+
+        # This is probably somewhere between "not exactly what we want" and
+        # "very slow".
+        events = model.Event.all_q(
+            instance=c.instance,
+            include_hidden=False,
+            event_filter=request.params.getall('event_filter'))\
+            .join(model.Event.topics)\
+            .join(model.Delegateable.categories)\
+            .filter(model.CategoryBadge.id == category.id)\
+            .order_by(model.Event.time.desc())\
+            .limit(min(int(request.params.get('count', 50)), 100)).all()
+
+        enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
+        enable_pages = asbool(request.params.get('enable_pages', 'true'))
+
+        data = {
+            'event_pager': pager.events(events,
+                enable_sorts=enable_sorts,
+                enable_pages=enable_pages),
+        }
+        return render('/category/events.html', data,
+                      overlay=format == 'overlay')
+
+    @RequireInstance
+    def milestones(self, id, format=u'html'):
+        if not c.instance.display_category_pages:
+            abort(404)
+        category = get_entity_or_abort(model.CategoryBadge, id)
+
+        milestones = model.Milestone.all_future_q(instance=c.instance)\
+            .filter(model.Milestone.category_id == category.id)\
+            .limit(int(request.params.get('count', 50))).all()
+
+        enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
+        enable_pages = asbool(request.params.get('enable_pages', 'true'))
+
+        data = {
+            'milestone_pager': pager.milestones(milestones,
+                enable_sorts=enable_sorts,
+                enable_pages=enable_pages),
+        }
+        return render('/category/milestones.html', data,
+                      overlay=format == 'overlay')
