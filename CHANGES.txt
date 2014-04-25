@@ -18,12 +18,10 @@ This update requires some manual adjustments:
 
 Improvements:
 
-- Add upgrading documentation. (#879)
+- Add description, events and milestones views for categories. They are mostly
+  useful for embedding. (#883)
 
 - Add captchas.net captcha verification. (#878)
-
-- Avoid uneccessary delegateable invalidation. This significantly improves the
-  performance of cretion and update of proposals and norms. (#876)
 
 - Scroll into view if needed after overlay resize. (#870)
 
@@ -61,10 +59,23 @@ Improvements:
 
 Bug fixes:
 
+- Show 404 errors instead of blank pages on nonexistent instance subdomains.
+  (#881)
+
+- Avoid unnecessary requests on startup. (#882)
+
+- Add missing documentation for upgrading an existing adhocracy installation
+  in UPGRADING.rst . (#879)
+
+- Avoid uneccessary delegateable invalidation. This significantly improves the
+  performance of creation and update of proposals, norms and instances. (#876)
+
 - Replace only specific message variables in mass messages. This avoids errors
   when using {}. (#875)
 
 - Allow global admins to send mass messages in hidden instances as well.
+
+- Warn user about exposing her email address when creating a message. (#873)
 
 - Fix multiple bugs in traverse_watchlist, which resulted in missing
   notifications. (#871)
