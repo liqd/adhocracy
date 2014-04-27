@@ -58,12 +58,12 @@ class ErrorController(BaseController):
         for match in BODY_RE.finditer(resp.body):
             c.error_message = match.group(1)
 
-        c.error_code = cgi.escape(request.GET.get('code',
-                                                  str(resp.status_int)))
-        c.error_name = ERROR_NAMES.get(int(c.error_code), '')
+        c.error_code = resp.status_int
+
+        c.error_name = ERROR_NAMES.get(c.error_code, '')
 
         if not c.error_message:
-            c.error_message = ERROR_MESSAGES.get(int(c.error_code), '')
+            c.error_message = ERROR_MESSAGES.get(c.error_code, '')
 
         if config.get_bool('adhocracy.interactive_debugging'):
             c.trace_url = request.environ['pylons.original_response']\
