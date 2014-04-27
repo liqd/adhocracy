@@ -16,6 +16,7 @@ BODY_RE = re.compile("<br \/><br \/>(.*)<\/body", re.S)
 
 
 ERROR_MESSAGES = {
+    404: _(u"The requested page could not be found."),
     503: _(u"The system is currently down for maintenance. Please check back "
            u"soon!"),
 }
