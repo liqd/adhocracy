@@ -53,17 +53,22 @@ class ErrorController(BaseController):
             response.content_type == resp.content_type
             return resp.body
 
-        # YOU DO NOT SEE THIS. IF YOU DO, ITS NOT WHAT IT LOOKS LIKE
-        # I DID NOT HAVE REGEX RELATIONS WITH THAT HTML PAGE
-        for match in BODY_RE.finditer(resp.body):
-            c.error_message = match.group(1)
-
         c.error_code = resp.status_int
 
-        c.error_name = ERROR_NAMES.get(c.error_code, '')
+        # Try to extract error message from environment, e.g.
+        # adhocracy.lib.templating.ret_status sets this.
+        c.error_message = request.environ.get('adhocracy.error_message')
 
         if not c.error_message:
+            # Try to extract error message from stub response
+            for match in BODY_RE.finditer(resp.body):
+                c.error_message = match.group(1)
+
+        if not c.error_message:
+            # Fallback to default empty message
             c.error_message = ERROR_MESSAGES.get(c.error_code, '')
+
+        c.error_name = ERROR_NAMES.get(c.error_code, '')
 
         if config.get_bool('adhocracy.interactive_debugging'):
             c.trace_url = request.environ['pylons.original_response']\
