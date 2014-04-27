@@ -64,7 +64,7 @@ class ErrorController(BaseController):
         if not c.error_message:
             # Try to extract error message from stub response
             for match in BODY_RE.finditer(resp.body):
-                c.error_message = match.group(1)
+                c.error_message = match.group(1).strip()
 
         if not c.error_message:
             # Fallback to default empty message
