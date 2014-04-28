@@ -51,6 +51,8 @@ DEFAULTS = {
     'adhocracy.hide_locallogin': False,
     'adhocracy.include_machine_name_in_header': False,
     'adhocracy.instance.allow_logo_as_background': False,
+    'adhocracy.instance_domains': {},
+    'adhocracy.instance_domains.enabled': True,
     'adhocracy.instance_footers': [],
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,

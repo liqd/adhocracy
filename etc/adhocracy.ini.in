@@ -191,6 +191,14 @@ adhocracy.protocol = ${parts.adhocracy.protocol}
 
 {% if parts.adhocracy.protocol == 'https' %}beaker.session.secure = true {% end %}
 
+# INSTALL: Allow custom domains per instance
+# adhocracy.instance_domains.enabled = True
+# Define custom domains in JSON syntax:
+# adhocracy.instance_domains = {
+#     "aalen": "aalen.adhocracy.lan:5001",
+#     "beelen": "beelen.adhocracy.lan:5001"
+#     }
+
 # INSTALL: Set a site name for all instances. This will be used as a part of
 # the html <title>, notification E-Mails etc.
 adhocracy.site.name = ${parts.adhocracy['site.name']}

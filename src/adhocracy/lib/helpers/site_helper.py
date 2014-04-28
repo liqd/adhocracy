@@ -60,7 +60,17 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
         else:
             instance_key = instance.key
 
-    if relative_urls(config):
+    domain = None
+
+    if instance and aconfig.get_bool('adhocracy.instance_domains.enabled'):
+        domain = aconfig.get_json('adhocracy.instance_domains', {})\
+            .get(instance_key)
+
+    if domain is not None:
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        result = '%s://%s%s' % (protocol, domain, path)
+
+    elif relative_urls(config):
 
         if instance is None:
             prefix = ''
