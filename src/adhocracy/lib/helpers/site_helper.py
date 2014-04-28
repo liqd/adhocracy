@@ -52,14 +52,20 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     if instance == CURRENT_INSTANCE:
         instance = ifilter.get_instance()
 
+    if instance is None:
+        instance_key = None
+    else:
+        if isinstance(instance, (str, unicode)):
+            instance_key = instance
+        else:
+            instance_key = instance.key
+
     if relative_urls(config):
 
         if instance is None:
             prefix = ''
-        elif isinstance(instance, (str, unicode)):
-            prefix = '/i/' + instance
         else:
-            prefix = '/i/' + instance.key
+            prefix = '/i/' + instance_key
 
         if absolute:
             protocol = config.get('adhocracy.protocol', 'http').strip()
@@ -77,10 +83,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
         if instance is None or g.single_instance:
             subdomain = ''
-        elif isinstance(instance, (str, unicode)):
-            subdomain = '%s.' % instance
         else:
-            subdomain = '%s.' % instance.key
+            subdomain = '%s.' % instance_key
 
         result = '%s://%s%s%s' % (protocol, subdomain, domain, path)
 
