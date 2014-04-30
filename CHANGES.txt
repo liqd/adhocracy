@@ -10,7 +10,7 @@ This update requires some manual adjustments:
 - The translation files (.mo) are no longer included in the repository.
   Please run `bin/buildout install translations` to create them automatically.
 
-- A Solr reindexing is necessary: `bin/paster index etc/adhocracy.ini`
+- A Solr reindexing is necessary: `bin/paster index -c etc/adhocracy.ini`
 
 - Due to a bug, some notifications failed to be created in the past. Please
   run `bin/adhocpy scripts/replay_notifications.py etc/adhocracy.ini` to
