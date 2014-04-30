@@ -3,6 +3,7 @@ import re
 
 from pylons import request, response, tmpl_context as c
 from pylons.i18n import _
+from pylons.i18n import lazy_ugettext
 from pylons.controllers.util import abort
 
 from paste.urlparser import PkgResourcesParser
@@ -16,18 +17,18 @@ BODY_RE = re.compile("<br \/><br \/>(.*)<\/body", re.S)
 
 
 ERROR_MESSAGES = {
-    404: _(u"The requested page could not be found."),
-    503: _(u"The system is currently down for maintenance. Please check back "
-           u"soon!"),
+    404: lazy_ugettext(u"The requested page could not be found."),
+    503: lazy_ugettext(u"The system is currently down for maintenance. "
+                       u"Pleasecheck back soon!"),
 }
 ERROR_NAMES = {
-    400: _('Bad Request'),
-    401: _('Unauthorized'),
-    403: _('Forbidden'),
-    404: _('Not Found'),
-    418: _('I\'m a teapot'),
-    500: _('Internal Server Error'),
-    503: _('Service Unavailable'),
+    400: lazy_ugettext('Bad Request'),
+    401: lazy_ugettext('Unauthorized'),
+    403: lazy_ugettext('Forbidden'),
+    404: lazy_ugettext('Not Found'),
+    418: lazy_ugettext('I\'m a teapot'),
+    500: lazy_ugettext('Internal Server Error'),
+    503: lazy_ugettext('Service Unavailable'),
 }
 
 
