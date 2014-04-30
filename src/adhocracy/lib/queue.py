@@ -108,6 +108,7 @@ class RQConfig(object):
     in_worker = False
 
     def __init__(self, async, host, port, queue_name):
+        self._queue = None
         if host and port and queue_name:
             self.host = host
             self.port = int(port)
@@ -132,9 +133,12 @@ class RQConfig(object):
 
     @property
     def queue(self):
+        if self._queue is not None:
+            return self._queue
         if not self.use_redis or (not self.in_worker and self.force_sync):
             return None
-        return Queue(self.queue_name, connection=self.connection)
+        self._queue = Queue(self.queue_name, connection=self.connection)
+        return self._queue
 
     @classmethod
     def setup_from_config(cls, config):
