@@ -192,6 +192,8 @@ adhocracy.protocol = ${parts.adhocracy.protocol}
 {% if parts.adhocracy.protocol == 'https' %}beaker.session.secure = true {% end %}
 
 # INSTALL: Allow custom domains per instance
+# Note that users will not keep their session when changing domains.
+#
 # adhocracy.instance_domains.enabled = True
 # Define custom domains in JSON syntax:
 # adhocracy.instance_domains = {
