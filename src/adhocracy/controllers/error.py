@@ -56,7 +56,7 @@ class ErrorController(BaseController):
 
         c.error_code = resp.status_int
 
-        c.hide_notify = (c.error_code != 500)
+        c.hide_notify = (c.error_code not in [400, 500])
 
         # Try to extract error message from environment, e.g.
         # adhocracy.lib.templating.ret_status sets this.
