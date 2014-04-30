@@ -1,5 +1,6 @@
 import logging
 
+from adhocracy import config as aconfig
 from adhocracy import model
 from adhocracy.lib.helpers.site_helper import base_url
 from paste.deploy.converters import asbool
@@ -15,12 +16,24 @@ class InstanceDiscriminatorMiddleware(object):
         self.domain = domain
         self.config = config
         log.debug("Host name: %s." % domain)
+        if aconfig.get_bool('adhocracy.instance_domains.enabled',
+                            config=config):
+            instances_domains = aconfig.get_json('adhocracy.instance_domains',
+                                                 {}, config=config)
+            self.domains_instances = dict((v, k) for k, v
+                                          in instances_domains.items())
+        else:
+            self.domains_instances = {}
 
     def __call__(self, environ, start_response):
         relative_urls = asbool(self.config.get('adhocracy.relative_urls',
                                                'false'))
         environ['adhocracy.domain'] = self.domain
         instance_key = self.config.get('adhocracy.instance')
+
+        if instance_key is None:
+            instance_key = self.domains_instances.get(environ.get('HTTP_HOST'))
+
         if instance_key is None:
             if relative_urls:
                 path = environ.get('PATH_INFO', '')
