@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.3.0-150-g7381d9c\n"
+"Project-Id-Version: adhocracy 2.3.0-192-g3e10934\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-25 16:44+0200\n"
+"POT-Creation-Date: 2014-04-30 16:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,11 +116,31 @@ msgstr ""
 msgid "The delegation is now revoked."
 msgstr ""
 
+msgid "The requested page could not be found."
+msgstr ""
+
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr ""
 
-#, python-format
-msgid "Error %s"
+msgid "Bad Request"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "I'm a teapot"
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Service Unavailable"
 msgstr ""
 
 #, python-format
@@ -968,6 +988,9 @@ msgstr ""
 msgid "The method you used is not implemented."
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr ""
@@ -1159,7 +1182,10 @@ msgstr ""
 msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr ""
 
-msgid "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
+msgid "The requested action could not be performed, because the session which was active when you visited the previous page has expired."
+msgstr ""
+
+msgid "Back to your current session"
 msgstr ""
 
 #, python-format
@@ -1790,9 +1816,6 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
@@ -1928,10 +1951,7 @@ msgstr ""
 msgid "Shortlink"
 msgstr ""
 
-msgid "Alternatively you can log in using various external accounts. Please be aware that the login via external providers may cause security and privacy related risks."
-msgstr ""
-
-msgid "I understand the risk"
+msgid "You can log in using various external user accounts. Please be aware that the login via external providers may cause security and privacy related risks."
 msgstr ""
 
 msgid "Login with Facebook"
@@ -2090,10 +2110,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
+msgid "Users CSV"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
 msgid "Email Subject"
@@ -2172,10 +2192,10 @@ msgstr ""
 msgid "Badge description"
 msgstr ""
 
-msgid "Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
-msgid "Long category description"
+msgid "Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2315,6 +2335,9 @@ msgid "invisible"
 msgstr ""
 
 msgid "No Badges"
+msgstr ""
+
+msgid "more"
 msgstr ""
 
 msgid "View and discuss"
@@ -2630,6 +2653,10 @@ msgid "You hold %s additional votes."
 msgstr ""
 
 #, python-format
+msgid "Error %d"
+msgstr ""
+
+#, python-format
 msgid "If this error continues to occur, please %snotify the developers%s with a description of what you were trying to do."
 msgstr ""
 
@@ -2805,10 +2832,10 @@ msgstr ""
 msgid "To display the latest events from your %(site_name)s instance you can add this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
 msgid "Status badge image width"
@@ -2880,16 +2907,16 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
-msgstr ""
-
 msgid "Description of the instance"
 msgstr ""
 
-msgid "Select the logo you would like to have as header of your group."
+msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
 msgstr ""
 
 msgid "Logo"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
 msgstr ""
 
 msgid "Current logo"
@@ -3276,10 +3303,10 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4325,10 +4352,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
+msgid "Avatar"
 msgstr ""
 
-msgid "Avatar"
+msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
 msgstr ""
 
 msgid "Current avatar"
@@ -4337,10 +4364,10 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
 msgid "I am an organisation"

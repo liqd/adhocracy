@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-25 16:44+0200\n"
-"PO-Revision-Date: 2014-04-25 14:44+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-04-30 16:03+0200\n"
+"PO-Revision-Date: 2014-04-30 14:04+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,12 +127,32 @@ msgstr "Cannot access delegation %(id)s"
 msgid "The delegation is now revoked."
 msgstr "The delegation is now revoked."
 
+msgid "The requested page could not be found."
+msgstr ""
+
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr "The system is currently down for maintenance. Please check back soon!"
 
-#, python-format
-msgid "Error %s"
-msgstr "Error %s"
+msgid "Bad Request"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "I'm a teapot"
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Service Unavailable"
+msgstr ""
 
 #, python-format
 msgid "%s News"
@@ -1018,6 +1038,9 @@ msgstr "Invalid request. Please go back and try again."
 msgid "The method you used is not implemented."
 msgstr "The method you used is not implemented."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Abuse report: %s"
@@ -1216,8 +1239,12 @@ msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "We're sorry, but it seems that you lack the permissions to continue."
 
 msgid ""
-"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
+"The requested action could not be performed, because the session which was "
+"active when you visited the previous page has expired."
+msgstr ""
+
+msgid "Back to your current session"
+msgstr ""
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1850,9 +1877,6 @@ msgstr "<b>%s</b> votes"
 msgid "Menu"
 msgstr ""
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Instances"
 
@@ -1995,12 +2019,9 @@ msgid "Shortlink"
 msgstr "Shortlink"
 
 msgid ""
-"Alternatively you can log in using various external accounts. Please be "
-"aware that the login via external providers may cause security and privacy "
-"related risks."
-msgstr ""
-
-msgid "I understand the risk"
+"You can log in using various external user accounts. Please be aware that "
+"the login via external providers may cause security and privacy related "
+"risks."
 msgstr ""
 
 msgid "Login with Facebook"
@@ -2161,14 +2182,14 @@ msgstr "Assign treatment badges"
 msgid "Admin: Import Users"
 msgstr "Admin: Import users"
 
+msgid "Users CSV"
+msgstr "Users CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
-
-msgid "Users CSV"
-msgstr "Users CSV"
 
 msgid "Email Subject"
 msgstr "Email subject"
@@ -2251,12 +2272,12 @@ msgstr ""
 msgid "Badge description"
 msgstr "Badge description"
 
+msgid "Long category description"
+msgstr ""
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Here you can add a more detailed description of your category with markdown. You can add pictures and links."
-
-msgid "Long category description"
-msgstr ""
 
 msgid "The color that is used to show the category"
 msgstr ""
@@ -2407,6 +2428,9 @@ msgid "invisible"
 msgstr ""
 
 msgid "No Badges"
+msgstr ""
+
+msgid "more"
 msgstr ""
 
 msgid "View and discuss"
@@ -2728,6 +2752,10 @@ msgid "You hold %s additional votes."
 msgstr "You hold %s additional votes."
 
 #, python-format
+msgid "Error %d"
+msgstr ""
+
+#, python-format
 msgid ""
 "If this error continues to occur, please %snotify the developers%s with a "
 "description of what you were trying to do."
@@ -2933,11 +2961,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
-msgstr "You can add css that will be used to style the instance."
-
 msgid "Extra CSS"
 msgstr "Extra CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "You can add css that will be used to style the instance."
 
 msgid "Status badge image width"
 msgstr ""
@@ -3016,20 +3044,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
+msgid "Description of the instance"
+msgstr ""
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Current logo"
@@ -3431,10 +3459,10 @@ msgstr "Variant name"
 msgid "Text"
 msgstr "Text"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4535,12 +4563,12 @@ msgstr "Salutation"
 msgid "Select your prefered gender"
 msgstr "Select your prefered gender"
 
+msgid "Avatar"
+msgstr ""
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
-
-msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4549,13 +4577,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
+msgid "Short biography"
+msgstr "Short biography"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "A bio will allow others to learn about you and perhaps even get you a few delegations."
-
-msgid "Short biography"
-msgstr "Short biography"
 
 msgid "I am an organisation"
 msgstr ""
