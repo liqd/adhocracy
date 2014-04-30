@@ -134,6 +134,7 @@ def ret_status(type_, message, category=None, entity=None, member=None,
     if code != 200:
         if format == 'json':
             return ret_json_status(type_, message, code)
+        request.environ['adhocracy.error_message'] = message
         abort(code, message)
     if message:
         if format == 'json':
