@@ -41,7 +41,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     either an instance, an instance key, or None has to be passed.
 
     If absolute is True, an absolute URL including the protocol part is
-    returned. Otherwise this is avoided, if relative_urls is set to True.
+    returned. Otherwise this is avoided, if relative_urls is set to True and
+    instance_domains isn't enabled.
 
     query_params is a dictionary of parameters for the query string of the URL.
 
@@ -62,7 +63,9 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
     domain = None
 
-    if instance and aconfig.get_bool('adhocracy.instance_domains.enabled'):
+    instance_domains = aconfig.get_bool('adhocracy.instance_domains.enabled')
+
+    if instance and instance_domains:
         domain = aconfig.get_json('adhocracy.instance_domains', {})\
             .get(instance_key)
 
@@ -77,7 +80,7 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
         else:
             prefix = '/i/' + instance_key
 
-        if absolute:
+        if absolute or instance_domains:
             protocol = config.get('adhocracy.protocol', 'http').strip()
             domain = config.get('adhocracy.domain').strip()
 
