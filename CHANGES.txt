@@ -18,6 +18,9 @@ This update requires some manual adjustments:
 
 Improvements:
 
+- Allow to configure separate domains per instance. This does not yet invlove
+  single-sign-on between different domains. (#886)
+
 - Improve error pages. (#884)
 
 - Add description, events and milestones views for categories. They are mostly
@@ -60,6 +63,9 @@ Improvements:
 - Hide old dates on event carousel. (#838)
 
 Bug fixes:
+
+- Add a workaround for a caching issue with proposal lists if the description
+  is displayed inline.
 
 - Show 404 errors instead of blank pages on nonexistent instance subdomains.
   (#881)
