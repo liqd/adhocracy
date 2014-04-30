@@ -40,11 +40,13 @@ from adhocracy.lib.helpers import instance_helper as instance
 from adhocracy.lib.helpers import abuse_helper as abuse, tutorial
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
+from adhocracy.lib.helpers import captchasdotnet_helper as captchasdotnet
 from adhocracy.lib.helpers import staticpage_helper as staticpage
 from adhocracy.lib.helpers import badge_helper as badge
 from adhocracy.lib.helpers import treatment_helper as treatment
 from adhocracy.lib.helpers import category_helper as category
 from adhocracy.lib.helpers import message_helper as message
+from adhocracy.lib.helpers import adhocracy_service as adhocracy_service
 
 from adhocracy.lib.helpers.fanstatic_helper import (FanstaticNeedHelper,
                                                     get_socialshareprivacy_url)
@@ -180,13 +182,19 @@ def add_rss(title, link):
                        type='application/rss+xml')
 
 
-def help_link(text, page, anchor=None):
-    url = base_url('/static/%s.%s', None)
+def help_url(page, anchor=None):
+    if adhocracy_service.instance_staticpages_api_address():
+        url = base_url('/static/%s.%s')
+    else:
+        url = base_url('/static/%s.%s', None)
     if anchor is not None:
         url += "#" + anchor
-    full_url = url % (page, 'html')
-    return (u"<a target='_new' class='staticlink_%s' href='%s' "
-            u">%s</a>") % (page, full_url, text)
+    return url % (page, 'html')
+
+
+def help_link(text, page, anchor=None):
+    url = help_url(page, anchor=anchor)
+    return (u"<a class='staticlink_%s' href='%s' >%s</a>") % (page, url, text)
 
 
 def get_redirect_url(target=u'login', entity=None, **kwargs):
@@ -256,6 +264,9 @@ def entity_url(entity, **kwargs):
         return treatment.url(entity, **kwargs)
     elif isinstance(entity, model.Message):
         return message.url(entity, **kwargs)
+    elif (isinstance(entity, model.CategoryBadge) and c.instance is not None
+          and c.instance.display_category_pages):
+        return category.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 
@@ -339,4 +350,19 @@ def need_js_i18n(resource):
         return res.need()
     else:
         log.warn('no js localization for resource %s and locale %s'
-            % (resource, c.locale))
+                 % (resource, c.locale))
+
+
+def get_captcha_type():
+    captcha_type = config.get('adhocracy.captcha_type')
+
+    if ((captcha_type == 'captchasdotnet'
+         and config.get('captchasdotnet.user_name')
+         and config.get('captchasdotnet.secret'))
+        or
+        (captcha_type == 'recaptcha'
+         and config.get('recaptcha.public_key')
+         and config.get('recaptcha.private_key'))):
+        return captcha_type
+    else:
+        return None

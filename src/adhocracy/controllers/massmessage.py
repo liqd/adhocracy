@@ -1,17 +1,16 @@
 import logging
 import textwrap
 
-from pylons import config
 from pylons import request
 from pylons import tmpl_context as c
 from pylons.decorators import validate
 from pylons.controllers.util import redirect
 from pylons.i18n import _
-from paste.deploy.converters import asbool
 
 import formencode
 from formencode import validators, htmlfill
 
+from adhocracy import config
 from adhocracy import forms
 from adhocracy.controllers.instance import InstanceController
 from adhocracy.lib.auth import require
@@ -81,6 +80,8 @@ def _get_options(func):
         sender_name = None
         if has('global.message'):
             sender_name = self.form_result.get('sender_name')
+        if not sender_name:
+            sender_name = c.user.name
 
         recipients = User.all_q()
         filter_instances = self.form_result.get('filter_instances')
@@ -128,7 +129,7 @@ class MassmessageController(BaseController):
         message to all users
         """
         if has('global.message'):
-            return Instance.all()
+            return Instance.all(include_hidden=True)
         else:
             perm = Permission.find('instance.message')
             instances = [m.instance for m in user.memberships
@@ -149,8 +150,8 @@ class MassmessageController(BaseController):
             'system': {
                 'email': config.get('adhocracy.email.from'),
                 'checked': False,
-                'enabled': asbool(config.get(
-                    'allow_system_email_in_mass_messages', 'true')),
+                'enabled': config.get_bool(
+                    'allow_system_email_in_mass_messages'),
                 'reason': _("Not permitted in system settings"),
             },
             'support': {

@@ -1,8 +1,27 @@
 import requests
 from collections import OrderedDict
 
+from pylons import tmpl_context as c
+
 from adhocracy import config
 from adhocracy import i18n
+
+
+def instance_staticpages_api_address():
+    if c.instance is not None:
+        key = 'adhocracy.instance-%s.staticpages.rest_api_address'
+        return config.get(key % c.instance.key, '')
+    else:
+        return ''
+
+
+def staticpages_api_address():
+    ret = instance_staticpages_api_address()
+    if ret == '':
+        ret = config.get('adhocracy_service.staticpages.rest_api_address')
+    if ret == '':
+        ret = config.get('adhocracy_service.rest_api_address')
+    return ret
 
 
 class RESTAPI(object):
@@ -15,10 +34,8 @@ class RESTAPI(object):
     def __init__(self):
         self.staticpages_api_token = config.get(
             'adhocracy_service.staticpages.rest_api_token',
-            config.get('adhocracy_service.rest_api_token', ''))
-        self.staticpages_api_address = config.get(
-            'adhocracy_service.staticpages.rest_api_address',
-            config.get('adhocracy_service.rest_api_address', ''))
+            config.get('adhocracy_service.rest_api_token'))
+        self.staticpages_api_address = staticpages_api_address()
         self.staticpages_verify = config.get_bool(
             'adhocracy_service.staticpages.verify_ssl',
             config.get_bool('adhocracy_service.verify_ssl', True))

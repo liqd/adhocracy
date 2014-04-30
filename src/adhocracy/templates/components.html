@@ -37,7 +37,7 @@
 <% messages = h.sorted_flash_messages() %>
 %if messages:
     %for message in messages:
-    <div class="alert alert-${message.category}">
+    <div class="alert alert-${message.category}" role="${'alert' if message.category == 'error' else 'status'}">
         <a class="close only-js" data-dismiss="alert" href="#">x</a>
         ${message.message|n}
     </div>
@@ -235,8 +235,6 @@ $(document).ready(function () {
 
     <meta http-equiv="X-XRDS-Location"
           content="${h.base_url('/openid/xrds', absolute=True)}" />
-
-    <meta name="viewport" content="width=device-width">
 
     %for key, value in c.html_meta.items():
     <meta name="${key}" content="${value}" />
@@ -482,8 +480,9 @@ ${caller.body()}
 <%def name="hidden_badge_table(tables, badge_type, badge_label)">
     <% badge_id = '%s_badge_tables' % badge_type %>
     <div class="more only-js">
-        <a href="#" class="showhide_button"
+        <a href="#" class="showhide_button content"
            data-target="#${badge_id}"
+           aria-controls="${badge_id}"
            data-toggle-class="less"
            data-target-speed="fast"
            data-toggle-text="${_(u'Hide %s') % badge_label}">
@@ -492,4 +491,13 @@ ${caller.body()}
     <div id="${badge_id}" style="display:none">
         ${tables}
     </div>
+</%def>
+
+
+<%def name="category_link(category)">
+    %if category.instance is not None and category.instance.display_category_pages:
+    <a href="${h.entity_url(category)}">${category}</a>
+    %else:
+    ${category}
+    %endif
 </%def>

@@ -7,7 +7,7 @@ import adhocracy.model as model
 from adhocracy.lib.auth.authorization import has
 
 from paste.deploy.converters import asbool
-import pylons
+from pylons import config
 from repoze.who.interfaces import IAuthenticator, IIdentifier
 from webob.exc import HTTPFound
 from zope.interface import implements
@@ -19,8 +19,8 @@ def welcome_url(user, code):
                     absolute=True)
 
 
-def welcome_enabled(config=pylons.config):
-    return asbool(config.get('adhocracy.enable_welcome', 'False'))
+def welcome_enabled(config=config):
+    return asbool(config.get('adhocracy.enable_welcome', 'false'))
 
 
 def can_welcome():

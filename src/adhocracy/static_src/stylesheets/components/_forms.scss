@@ -90,66 +90,52 @@ form .error {
 }
 
 /* searchform */
-#searchbox,
-.list_filter {
-    overflow: hidden;
-    padding-top: 1.2em;
-}
-#searchbox {
-    float: right;
-}
-.list_filter {
-    display: block;
-}
-
-#subheader.logo #searchbox {
+#subheader #searchbox {
     padding-top: 2em;
+    float: right;
+
+    input[type="text"] {
+        max-width: 17em;
+    }
+}
+.list_filter .searchform {
+    margin: 1.5em 0;
 }
 
-.list_filter {
-    padding: 0.4em 0 1.2em 1.5em;
-}
-
-#searchform,
-.list_form {
+.searchform {
+    // reset
     padding: 0;
     background: none;
     margin-bottom: 0;
-    float: right;
-}
 
-.list_form label {
-    display: inline;
-}
+    // avoid wrapping button to the next line
+    white-space: nowrap;
 
-input[type="text"].search_text {
-    padding: 0 0.3em;
-    vertical-align: top;
-}
+    button[type="submit"] {
+        @include button-background($button-color);
 
-#searchform input[type="text"].search_text {
-    width: 15em;
-}
-
-.list_form input[type="text"].search_text {
-    width: 25em;
-}
-
-.search_button {
-    @include button($button-color);
-    margin-left: -0.5em;
-    min-width: 0;
-    font-weight: normal;
-    text-transform: uppercase;
-}
-
-input[type="text"].search_text,
-.search_button {
-    line-height: 1;  // firefox will ignore this
-    height: 1.8em;
-    @include box-sizing(border-box);
-    padding-top: 0.4em;
-    padding-bottom: 0.4em;
+        min-width: 3em;
+        max-width: 3em;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: -3em;
+        margin-right: 0;
+    }
+    input[type="text"] {
+        padding-right: 3.5em;
+        width: 100%;
+    }
+    input[type="text"],
+    button[type="submit"] {
+        // same height
+        font-size: $large;
+        line-height: 1;  // firefox will ignore this
+        height: 1.8em;
+        @include box-sizing(border-box);
+        padding-top: 0.4em;
+        padding-bottom: 0.4em;
+        margin-bottom: 0;
+    }
 }
 
 form#user_welcome {

@@ -129,7 +129,8 @@ class MilestoneController(BaseController):
         if can.watch.create():
             watchlist.set_watch(milestone, self.form_result.get('watch'))
         # event.emit(event.T_PROPOSAL_CREATE, c.user, instance=c.instance,
-        #            topics=[proposal], proposal=proposal, rev=description.head)
+        #            topics=[proposal], proposal=proposal,
+        #            rev=description.head)
         redirect(h.entity_url(milestone, format=format))
 
     @RequireInstance
@@ -184,27 +185,29 @@ class MilestoneController(BaseController):
 
         c.tile = tiles.milestone.MilestoneTile(c.milestone)
 
+        extra_filter = {}
+        alternatives_filter = {}
+
         if (config.get_bool('adhocracy.milestone.allow_show_all_proposals')
            and c.milestone.show_all_proposals
            and not c.milestone.over):
-            proposals = model.Proposal.all_q(instance=c.instance)\
-                .filter(model.Proposal.frozen == False).all()  # noqa
+            extra_filter['facet.delegateable.frozen'] = False
         else:
 
             # proposals .. directly assigned
-            by_milestone = model.Proposal.by_milestone(c.milestone,
-                                                       instance=c.instance)
-            # proposals .. with the same category
-            by_category = []
-            if c.milestone.category:
-                by_category = [d for d in c.milestone.category.delegateables
-                               if isinstance(d, model.Proposal)
-                               and not d.is_deleted()]
-            proposals = list(set(by_milestone + by_category))
+            alternatives_filter['facet.delegateable.milestones']\
+                = c.milestone.id
 
-        c.proposals_pager = pager.proposals(proposals, size=20,
-                                            enable_sorts=False)
-        c.show_proposals_pager = len(proposals)
+            # proposals .. with the same category
+            if c.milestone.category:
+                alternatives_filter['facet.delegateable.badgecategory']\
+                    = c.milestone.category.id
+
+        c.proposals_pager = pager.solr_proposal_pager(
+            c.instance, extra_filter=extra_filter,
+            alternatives_filter=alternatives_filter)
+
+        c.show_proposals_pager = bool(c.proposals_pager.total_num_items())
 
         # pages
         pages = model.Page.by_milestone(c.milestone,

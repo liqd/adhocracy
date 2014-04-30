@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"POT-Creation-Date: 2014-04-30 16:03+0200\n"
+"PO-Revision-Date: 2014-04-30 14:04+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/adhocracy/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -127,12 +127,32 @@ msgstr "Cannot access delegation %(id)s"
 msgid "The delegation is now revoked."
 msgstr "The delegation is now revoked."
 
+msgid "The requested page could not be found."
+msgstr ""
+
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr "The system is currently down for maintenance. Please check back soon!"
 
-#, python-format
-msgid "Error %s"
-msgstr "Error %s"
+msgid "Bad Request"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "I'm a teapot"
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Service Unavailable"
+msgstr ""
 
 #, python-format
 msgid "%s News"
@@ -165,6 +185,9 @@ msgstr ""
 
 msgid "The requested page was not found"
 msgstr "The requested page was not found"
+
+msgid "Intro"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegations are enabled."
@@ -913,14 +936,6 @@ msgstr "Invalid page name: %s"
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Variant name cannot be purely numeric: %s"
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr ""
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
-
 msgid "Please select at least one recipient group"
 msgstr ""
 
@@ -971,6 +986,9 @@ msgstr "Invalid value"
 
 msgid "Invalid choice"
 msgstr "Invalid choice"
+
+msgid "Incorrect. Try again."
+msgstr ""
 
 #, python-format
 msgid "%d days"
@@ -1181,6 +1199,9 @@ msgstr "Most Ayes"
 msgid "Most Nays"
 msgstr "Most Nays"
 
+msgid "Support with impact"
+msgstr ""
+
 msgid "Age and Support"
 msgstr "Age and support"
 
@@ -1218,8 +1239,12 @@ msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "We're sorry, but it seems that you lack the permissions to continue."
 
 msgid ""
-"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
+"The requested action could not be performed, because the session which was "
+"active when you visited the previous page has expired."
+msgstr ""
+
+msgid "Back to your current session"
+msgstr ""
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1579,17 +1604,11 @@ msgstr "Norms"
 msgid "Members"
 msgstr "Members"
 
-msgid "Intro"
-msgstr ""
-
 msgid "(Unknown)"
 msgstr "(Unknown)"
 
 msgid "Implementation"
 msgstr "Implementation"
-
-msgid "Adhocracy"
-msgstr "Adhocracy"
 
 msgid "delete"
 msgstr "delete"
@@ -1836,6 +1855,9 @@ msgstr "privacy"
 msgid "imprint"
 msgstr "imprint"
 
+msgid "Search"
+msgstr "Search"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> members"
@@ -1851,6 +1873,9 @@ msgstr "<b>%s</b> comments"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
+
+msgid "Menu"
+msgstr ""
 
 msgid "Instances"
 msgstr "Instances"
@@ -1876,12 +1901,9 @@ msgstr "Administrate site"
 msgid "Logout"
 msgstr "Logout"
 
-msgid "Search"
-msgstr "Search"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Search in &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1907,6 +1929,12 @@ msgstr "reset"
 
 msgid "Edit"
 msgstr "Edit"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "None"
 msgstr ""
@@ -1953,6 +1981,12 @@ msgstr "Validate email to start contributing."
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "This instance has been frozen - you can not edit or post anything."
 
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
+msgstr ""
+
 msgid "Next"
 msgstr "Next"
 
@@ -1985,12 +2019,9 @@ msgid "Shortlink"
 msgstr "Shortlink"
 
 msgid ""
-"Alternatively you can log in using various external accounts. Please be "
-"aware that the login via external providers may cause security and privacy "
-"related risks."
-msgstr ""
-
-msgid "I understand the risk"
+"You can log in using various external user accounts. Please be aware that "
+"the login via external providers may cause security and privacy related "
+"risks."
 msgstr ""
 
 msgid "Login with Facebook"
@@ -2399,6 +2430,9 @@ msgstr ""
 msgid "No Badges"
 msgstr ""
 
+msgid "more"
+msgstr ""
+
 msgid "View and discuss"
 msgstr ""
 
@@ -2422,9 +2456,6 @@ msgstr "Validate email in order to create a new proposal."
 
 msgid "Find proposals"
 msgstr "Find proposals"
-
-msgid "Go"
-msgstr "Go"
 
 msgid "new proposal"
 msgstr "new proposal"
@@ -2720,11 +2751,15 @@ msgstr "You hold an additional vote."
 msgid "You hold %s additional votes."
 msgstr "You hold %s additional votes."
 
+#, python-format
+msgid "Error %d"
+msgstr ""
+
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "If this error continues to occur, please <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> with a description of what you were trying to do."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3068,9 +3103,6 @@ msgstr "Show norms navigation item"
 msgid "Show norms as an extra tab"
 msgstr "Show norms as an extra tab."
 
-msgid "Home"
-msgstr "Home"
-
 msgid "show a list of proposals"
 msgstr "show a list of proposals"
 
@@ -3170,6 +3202,11 @@ msgid "Sender identity"
 msgstr "Sender identity"
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
 msgstr ""
 
 msgid "Send to ..."
@@ -3961,8 +3998,8 @@ msgstr "stable majority for %s days"
 msgid "Search in %s"
 msgstr "Search in %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Search includes issues and proposals."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "You did not provide a search query."
@@ -4207,8 +4244,8 @@ msgstr "Create treatment"
 msgid "All Members on this Adhocracy Server"
 msgstr "All members on this Adhocracy Server"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "A listing of all users in all instance an this adhocracy server."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr ""
@@ -4361,6 +4398,12 @@ msgstr "Enter password:"
 
 msgid "Password (confirm):"
 msgstr "Password (confirm):"
+
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -4620,6 +4663,9 @@ msgstr "signed up %s"
 
 msgid "Generate welcome link"
 msgstr "Generate welcome link"
+
+msgid "Phonetic spelling"
+msgstr ""
 
 #, python-format
 msgid "Watchlist: %s"

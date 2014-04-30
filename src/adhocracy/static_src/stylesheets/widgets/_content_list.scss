@@ -81,8 +81,9 @@
 
                 .button_small {
                     padding: 0;
-                    width: 1.6em;
-                    line-height: 1.6;
+                    width: 1.8em;
+                    line-height: 1.8 !important;
+                    text-align: center;
                 }
             }
             .row_title {
@@ -257,7 +258,7 @@
     padding: 0 !important;
     font-size: small !important;
     background: none !important;
-    font-variant: none !important;
+    font-variant: normal !important;
 }
 
 a.view_all {

@@ -572,18 +572,18 @@ class ValidRegion(formencode.FancyValidator):
         return value
 
 
-class UnusedTitle(formencode.validators.String):
-    def __init__(self):
-        super(UnusedTitle, self).__init__(min=3, max=254, not_empty=True)
+class ValidTitle(formencode.validators.String):
+
+    def __init__(self, unused_label=False):
+        super(ValidTitle, self).__init__(min=3, max=254, not_empty=True)
+        self.unused_label = unused_label
 
     def _to_python(self, value, state):
         from adhocracy.model import Page
-        value = super(UnusedTitle, self)._to_python(value, state)
+        from adhocracy.lib.text import title2alias
+        value = super(ValidTitle, self)._to_python(value, state)
 
-        if hasattr(state, 'page') and state.page.label == value:
-            return value
-
-        if not Page.unusedTitle(value):
+        if self.unused_label and not Page.unused_label(title2alias(value)):
             raise formencode.Invalid(
                 _("An entry with this title already exists"), value, state)
 
@@ -603,63 +603,19 @@ class UnusedTitle(formencode.validators.String):
             return value
 
 
-class UnusedProposalTitle(formencode.validators.FormValidator):
+class ValidProposalTitle(ValidTitle):
 
-    def validate_python(self, field_dict, state):
-        from adhocracy.model import Page
+    def validate_python(self, value, state):
+        value = super(ValidProposalTitle, self)._to_python(value, state)
 
-        value = field_dict['label']
-
-        if hasattr(state, 'page') and state.page.label == value:
-            return value
-
-        if hasattr(state, 'page'):  # edit
-            proposal = state.page.proposal
-            is_amendment = proposal.is_amendment
-            page = proposal.selection if is_amendment else None
-        else:  # new
-            is_amendment = field_dict['amendment']
-            page = field_dict['page'][0]['id'] if is_amendment else None
-        if not Page.unusedTitle(value, selection=page):
-            msg = _("An entry with this title already exists")
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-
-        if not value or len(value) < 2:
-            msg = _("No page name is given.")
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-
-        if value.lower() in FORBIDDEN_NAMES:
-            msg = _("Invalid entry name: %s") % value
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-
-        # every proposal title must be a valid variant name
+        # must be a valid variant name
         try:
             variant_name_validator = VariantName()
             variant_name_validator._to_python(value, state)
         except formencode.Invalid as e:
-            raise formencode.Invalid(
-                e.msg, field_dict, state,
-                error_dict={'label': e.msg}
-            )
+            raise formencode.Invalid(e.msg, value, state)
 
-        try:
-            int(value)
-            msg = _("Entry name cannot be purely numeric: %s") % value
-            raise formencode.Invalid(
-                msg, field_dict, state,
-                error_dict={'label': msg}
-            )
-        except ValueError:
-            return field_dict
+        return value
 
 
 class ProposalMessageNoRecipientGroup(formencode.validators.FormValidator):
@@ -855,15 +811,20 @@ class MessageableInstances(formencode.FancyValidator):
         return value
 
 
-def ProposalSortOrder():
-    from adhocracy.lib.pager import PROPOSAL_SORTS
-    return formencode.validators.OneOf(
-        [''] +
-        [
-            v.value
-            for g in PROPOSAL_SORTS.by_group.values()
-            for v in g
-        ])
+class ProposalSortOrder(formencode.validators.OneOf):
+
+    def __init__(self, **kwargs):
+        from adhocracy.lib.pager import PROPOSAL_SORTS
+        super(ProposalSortOrder, self).__init__(
+            [''] +
+            [
+                v.value
+                for g in PROPOSAL_SORTS.by_group.values()
+                for v in g
+            ])
+
+    def _to_python(self, value, state):
+        return value if value else None
 
 
 class OptionalAttributes(formencode.validators.FormValidator):
@@ -914,3 +875,18 @@ class NotAllFalse(formencode.validators.FormValidator):
                 self.msg, field_dict, state,
                 error_dict={self.keys[0]: self.msg}
             )
+
+
+class CaptchasDotNetCaptcha(formencode.FancyValidator):
+
+    def __init__(self, session, captchasdotnet):
+        super(formencode.FancyValidator, self).__init__(not_empty=True)
+        self.session = session
+        self.captchasdotnet = captchasdotnet
+
+    def _to_python(self, value, state):
+        random = self.session.get('captchasdotnet_random')
+        cap = self.captchasdotnet.get_captchasdotnet()
+        if not cap.verify(value, random):
+            raise formencode.Invalid(_(u'Incorrect. Try again.'),
+                                     value, state)

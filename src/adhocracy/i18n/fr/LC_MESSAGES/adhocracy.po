@@ -6,14 +6,15 @@
 # Skl8em <ben@skl8em.com>, 2010
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009
 # Debetancourt <idebetancourt@googlemail.com>, 2013-2014
+# leacharlet <lea.charlet@aegee.org>, 2014
 # Viola <post@violalebro.de>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-31 08:52+0000\n"
-"Last-Translator: Debetancourt <idebetancourt@googlemail.com>\n"
+"POT-Creation-Date: 2014-04-30 16:03+0200\n"
+"PO-Revision-Date: 2014-04-30 14:04+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,12 +128,32 @@ msgstr "Ne peut pas accéder aux délégations %(id)s"
 msgid "The delegation is now revoked."
 msgstr "La délégation a été révoquée."
 
+msgid "The requested page could not be found."
+msgstr ""
+
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr "Le système est actuellement hors service pour des raisons de maintenance. Réessayez plus tard!"
 
-#, python-format
-msgid "Error %s"
-msgstr "Erreur %s"
+msgid "Bad Request"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "I'm a teapot"
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Service Unavailable"
+msgstr ""
 
 #, python-format
 msgid "%s News"
@@ -165,6 +186,9 @@ msgstr "Vous êtes priés de sélectionner au moins un préréglage "
 
 msgid "The requested page was not found"
 msgstr "La page demandée n'as pas été trouvée. "
+
+msgid "Intro"
+msgstr "Intro"
 
 msgid "Delegations are enabled."
 msgstr "les délégations sont actives."
@@ -913,14 +937,6 @@ msgstr "Nom du site invalide: %s"
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Un nom de motion ne peut-être purement numérique: %s"
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr "Nom saisi non valide :  %s "
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr "Le nom saisi ne peut être uniquement numérique :  %s "
-
 msgid "Please select at least one recipient group"
 msgstr "Veuillez sélectionner au moins un groupe de destinataires."
 
@@ -971,6 +987,9 @@ msgstr "valeur non valide "
 
 msgid "Invalid choice"
 msgstr "choix non valide"
+
+msgid "Incorrect. Try again."
+msgstr ""
 
 #, python-format
 msgid "%d days"
@@ -1181,6 +1200,9 @@ msgstr "Plus des Ayes"
 msgid "Most Nays"
 msgstr "Plus des Nays"
 
+msgid "Support with impact"
+msgstr ""
+
 msgid "Age and Support"
 msgstr "l'âge et le support"
 
@@ -1218,8 +1240,12 @@ msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Nous somme désolés, il semble que vous n'ayez pas les droits requis pour continuer."
 
 msgid ""
-"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "Nous sommes désolés, il semble que nous ayons commis une erreur (Alerte CSRF). Veuillez réessayer."
+"The requested action could not be performed, because the session which was "
+"active when you visited the previous page has expired."
+msgstr ""
+
+msgid "Back to your current session"
+msgstr ""
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1579,17 +1605,11 @@ msgstr "voir les règles"
 msgid "Members"
 msgstr "Membres"
 
-msgid "Intro"
-msgstr "Intro"
-
 msgid "(Unknown)"
 msgstr "(inconnu)"
 
 msgid "Implementation"
 msgstr "Mise en oeuvre"
-
-msgid "Adhocracy"
-msgstr "Adhocracie"
 
 msgid "delete"
 msgstr "effacer"
@@ -1836,6 +1856,9 @@ msgstr "Protection des données personnelles"
 msgid "imprint"
 msgstr "Logo"
 
+msgid "Search"
+msgstr "recherche"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> membres"
@@ -1851,6 +1874,9 @@ msgstr "<b>%s</b> commentaires"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
+
+msgid "Menu"
+msgstr ""
 
 msgid "Instances"
 msgstr "Groupes"
@@ -1876,12 +1902,9 @@ msgstr "Administrez le site"
 msgid "Logout"
 msgstr "Déconnexion"
 
-msgid "Search"
-msgstr "recherche"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Cherchez dans &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1907,6 +1930,12 @@ msgstr "réinitialiser"
 
 msgid "Edit"
 msgstr "Éditez"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "None"
 msgstr "Aucun"
@@ -1953,6 +1982,12 @@ msgstr "Valider l'adresse mail pour commencer à participer. "
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Cette instance a été gelée - vous ne pouvez éditer ou poster aucun contenu. "
 
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
+msgstr ""
+
 msgid "Next"
 msgstr "Prochain"
 
@@ -1985,13 +2020,10 @@ msgid "Shortlink"
 msgstr "Shortlink"
 
 msgid ""
-"Alternatively you can log in using various external accounts. Please be "
-"aware that the login via external providers may cause security and privacy "
-"related risks."
-msgstr "Par ailleurs, vous pouvez vous connecter via différents comptes externes. Toutefois, nous vous prions de prendre conscience des risques potentiels en matière de sécurité et de protection de votre vie privée. "
-
-msgid "I understand the risk"
-msgstr "Je comprends le risque"
+"You can log in using various external user accounts. Please be aware that "
+"the login via external providers may cause security and privacy related "
+"risks."
+msgstr ""
 
 msgid "Login with Facebook"
 msgstr "Login avec Facebook"
@@ -2399,6 +2431,9 @@ msgstr "invisible"
 msgid "No Badges"
 msgstr "Pas d'étiquettes"
 
+msgid "more"
+msgstr ""
+
 msgid "View and discuss"
 msgstr "voir et discuter "
 
@@ -2422,9 +2457,6 @@ msgstr "Validez l'adresse mail afin de faire une nouvelle proposition. "
 
 msgid "Find proposals"
 msgstr "Trouver des propositions."
-
-msgid "Go"
-msgstr "Commencer"
 
 msgid "new proposal"
 msgstr "nouvelle proposition"
@@ -2720,11 +2752,15 @@ msgstr "Vous avez une voix supplémentaire."
 msgid "You hold %s additional votes."
 msgstr "vous avez %s voix supplémentaires."
 
+#, python-format
+msgid "Error %d"
+msgstr ""
+
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "En cas que cette erreur continue de se produire, cliquez <a class='staticlink_imprint' href='/static/imprint.html'>notify the developers</a> avec une description de votre action précédente."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3068,9 +3104,6 @@ msgstr "Afficher l'élément de navigation \"thème\" "
 msgid "Show norms as an extra tab"
 msgstr "Indiquer les thèmes comme un onglet supplémentaire. "
 
-msgid "Home"
-msgstr "Acceuil"
-
 msgid "show a list of proposals"
 msgstr "montrer une liste des propositions"
 
@@ -3171,6 +3204,11 @@ msgstr "identité de l'expéditeur"
 
 msgid "Customize sender name: "
 msgstr "Personnaliser le nom de l'expéditeur: "
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
+msgstr ""
 
 msgid "Send to ..."
 msgstr "Envoyer à"
@@ -3961,8 +3999,8 @@ msgstr "majorité stable pour %s jours"
 msgid "Search in %s"
 msgstr "Rechercher dans %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Recherche inclue des thèmes et des propositions."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "Vous n'avez pas inclu une demande de recherche."
@@ -4207,8 +4245,8 @@ msgstr "créer un traitement "
 msgid "All Members on this Adhocracy Server"
 msgstr "Tous les membres sur ce serveur d'Adhocracy"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "Une liste de tous les membres dans tous les groupes sur ce serveur d'Adhocracy."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr "Confirmer l'adresse mail"
@@ -4361,6 +4399,12 @@ msgstr "Entrez mot de passe:"
 
 msgid "Password (confirm):"
 msgstr "Mot de passe : (confirmation)"
+
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -4620,6 +4664,9 @@ msgstr "inscrit depuis le %s"
 
 msgid "Generate welcome link"
 msgstr "générer le welcome link. "
+
+msgid "Phonetic spelling"
+msgstr ""
 
 #, python-format
 msgid "Watchlist: %s"

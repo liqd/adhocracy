@@ -115,11 +115,14 @@ class Comment(meta.Indexable):
         meta.Session.flush()
         return rev
 
-    def delete(self, delete_time=None):
+    def delete(self, delete_time=None, recursive=True):
         if delete_time is None:
             delete_time = datetime.utcnow()
         if not self.is_deleted(delete_time):
             self.delete_time = delete_time
+            if recursive:
+                for reply in self.replies:
+                    reply.delete(delete_time=delete_time, recursive=recursive)
             if self.poll is not None:
                 self.poll.end()
 

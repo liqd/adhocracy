@@ -46,7 +46,7 @@ NoPage = NoneObject()
 
 class PageCreateForm(formencode.Schema):
     allow_extra_fields = True
-    title = forms.UnusedTitle()
+    title = forms.ValidTitle(unused_label=True)
     text = validators.String(max=20000, min=0, not_empty=False,
                              if_empty=None, if_missing=None)
     parent = forms.ValidPage(if_missing=None, if_empty=None, not_empty=False)
@@ -59,8 +59,8 @@ class PageCreateForm(formencode.Schema):
                                        if_missing=False)
     container = validators.StringBool(not_empty=False, if_empty=False,
                                       if_missing=False)
-    section_page = validators.StringBool(not_empty=False, if_empty=False,
-                                         if_missing=False)
+    sectionpage = validators.StringBool(not_empty=False, if_empty=False,
+                                        if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
                                           if_missing=False)
     allow_selection = validators.StringBool(not_empty=False, if_empty=False,
@@ -82,7 +82,7 @@ class PageEditForm(formencode.Schema):
 
 class PageUpdateForm(formencode.Schema):
     allow_extra_fields = True
-    title = forms.UnusedTitle()
+    title = forms.ValidTitle()
     variant = forms.VariantName(not_empty=True)
     text = validators.String(max=20000, min=0, not_empty=False,
                              if_empty=None, if_missing=None)
@@ -97,8 +97,8 @@ class PageUpdateForm(formencode.Schema):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     formatting = validators.StringBool(not_empty=False, if_empty=False,
                                        if_missing=False)
-    section_page = validators.StringBool(not_empty=False, if_empty=False,
-                                         if_missing=False)
+    sectionpage = validators.StringBool(not_empty=False, if_empty=False,
+                                        if_missing=False)
     allow_comment = validators.StringBool(not_empty=False, if_empty=False,
                                           if_missing=False)
     allow_selection = validators.StringBool(not_empty=False, if_empty=False,
@@ -397,7 +397,8 @@ class PageController(BaseController):
                               error_dict={'variant': msg})
         except Invalid, i:
             return self.edit(id, variant=c.variant, text=c.text.id,
-                             branch=branch, errors=i.unpack_errors())
+                             branch=branch, errors=i.unpack_errors(),
+                             format=format)
 
         c.variant = self.form_result.get("variant")
         require.norm.edit(c.page, c.variant)

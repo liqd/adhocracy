@@ -27,6 +27,15 @@ There are two supported ways of installing Adhocracy:
 
 Both are described in the following.
 
+In any case you will need the following MIME types in ``/etc/mime.types``::
+
+    # webfonts
+    application/x-font-woff woff
+    application/font-truetype ttf
+
+    # socialshareprivacy 1.5 language files
+    application/json lang
+
 Automatic installation on debian, Ubuntu or Arch Linux with build.sh
 --------------------------------------------------------------------
 
@@ -45,7 +54,8 @@ Add ``-c hhu`` to install with the preconfiguration for HHU Düsseldorf.
 Manual installation
 -------------------
 
-## Preparations
+Preparations
+````````````
 
 Install required system packages (Debian Squeeze example):
 
@@ -74,8 +84,8 @@ Check out Adhocracy:
     $ git submodule init
     $ git submodule update
 
-## Setup an isolated python environment to run Adhocracy
-
+Setup an isolated python environment to run Adhocracy
+`````````````````````````````````````````````````````
 To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but
 no other system-packages.
 
@@ -86,14 +96,23 @@ Compile python and PIL with the included python buildout::
     $ bin/buildout
     $ cd ..
 
-## Install and start Adhocracy
+Configure Adhocracy as desired
+``````````````````````````````
+
+Create a custom buildout file and customize it as desired::
+
+    $ cp buildout buildout-my.cfg
+    $ vi buildout-my.cfg
+
+Install and start Adhocracy
+```````````````````````````
 
 Run buildout:
 
 ::
 
     $ bin/python bootstrap.py
-    $ bin/buildout
+    $ bin/buildout -c buildout-my.cfg
 
 Start Adhocracy and dependent servers:
 
@@ -155,14 +174,16 @@ Buildout configuration
 -  Use your custom buildout file to remove the included files you do not
    need:
 
-   [buildout] extends = buildout\_development.cfg parts -= postgresql
+::
+
+    [buildout] extends = buildout\_development.cfg parts -= postgresql
 
 Developer instructions
 ----------------------
 
 To use your own `fork <https://help.github.com/articles/fork-a-repo>`_
 instead of the regular("upstream") adhocracy, use
-```git remote`` <http://www.kernel.org/pub/software/scm/git/docs/git-remote.html>`_:
+`git remote <http://www.kernel.org/pub/software/scm/git/docs/git-remote.html>`_:
 
 ::
 
@@ -174,9 +195,9 @@ instead of the regular("upstream") adhocracy, use
 
 You can now execute ``git pull origin`` to update your local copy with
 new upstream changes. Use
-```commit`` <http://www.kernel.org/pub/software/scm/git/docs/git-commit.html>`_
+`commit <http://www.kernel.org/pub/software/scm/git/docs/git-commit.html>`_
 and
-```push`` <http://www.kernel.org/pub/software/scm/git/docs/git-push.html>`_
+`push <http://www.kernel.org/pub/software/scm/git/docs/git-push.html>`_
 to record and publish your changes. As soon as you are confident that
 you have implemented a feature or corrected a bug, create a `pull
 request <https://help.github.com/articles/using-pull-requests>`_ to ask

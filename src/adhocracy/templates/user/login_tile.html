@@ -3,7 +3,7 @@
 ${c.body|n}
 %endif
 
-%if config.get('adhocracy.login_style', 'default') == 'alternate':
+%if h.config.get('adhocracy.login_style') == 'alternate':
   <%include file="/user/login_form_alternate.html"/>
 %else:
   <%include file="/user/login_form.html"/>

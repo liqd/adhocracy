@@ -288,6 +288,11 @@ class InstanceController(BaseController):
                 'body_html': render_body(page.body),
                 'full_width': True,
             }
+            if not data['static'].title:
+                if h.config.get_bool('adhocracy.wording.intro_for_overview'):
+                    data['static'].title = _(u'Intro')
+                else:
+                    data['static'].title = _(u'Overview')
             c.body_css_classes += page.css_classes
             return render("/static/show.html", data,
                           overlay=format == 'overlay')

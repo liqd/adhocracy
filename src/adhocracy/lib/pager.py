@@ -23,6 +23,7 @@ from adhocracy.lib.helpers import base_url
 from adhocracy.lib.helpers.badge_helper import generate_thumbnail_tag
 from adhocracy.lib.helpers.badge_helper import get_parent_badges
 from adhocracy.lib.event.stats import user_activity, user_rating
+from adhocracy.lib.search.index import get_sunburnt_connection
 from adhocracy.lib.search.query import sunburnt_query, add_wildcard_query
 from adhocracy.lib.templating import render_def
 from adhocracy.lib.util import generate_sequence
@@ -283,8 +284,6 @@ def proposals(proposals, default_sort=None, **kwargs):
         if def_sort_id is not None:
             default_sort = PROPOSAL_SORTS.by_value[def_sort_id].func
 
-    if default_sort is None:
-        default_sort = sorting.proposal_mixed
     sorts = {_("Newest"): sorting.entity_newest,
              _("Newest Comment"): sorting.delegateable_latest_comment,
              _("Most Support"): sorting.proposal_support,
@@ -1052,6 +1051,16 @@ class DelegateableMilestoneFacet(SolrFacet):
             return []
 
 
+class DelegateableFrozenIndexer(SolrIndexer):
+
+    solr_field = 'facet.delegateable.frozen'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Delegateable):
+            data[cls.solr_field] = entity.frozen
+
+
 class CommentOrderIndexer(SolrIndexer):
 
     solr_field = 'order.comment.order'
@@ -1170,6 +1179,16 @@ class ProposalMixedIndexer(SolrIndexer):
             data[cls.solr_field] = sorting.proposal_mixed_key(entity)
 
 
+class ProposalSupportImpactIndexer(SolrIndexer):
+
+    solr_field = 'order.proposal.support_impact'
+
+    @classmethod
+    def add_data_to_index(cls, entity, data):
+        if isinstance(entity, model.Proposal):
+            data[cls.solr_field] = sorting.proposal_support_impact_key(entity)
+
+
 class ProposalControversyIndexer(SolrIndexer):
 
     solr_field = 'order.proposal.controversy'
@@ -1260,18 +1279,31 @@ class InstanceUserRatingIndexer(SolrIndexer):
 
 
 class SolrPager(PagerMixin):
-    '''
-    A pager currently compatible to :class:`adhocracy.lib.pager.NamedPager`.
-    '''
+    """
+    A pager which is compatible to :class:`adhocracy.lib.pager.NamedPager` but
+    uses Solr as backend and adds Solr specific functionality.
+
+    * If `extra_filter` is set, the key-value pairs of this dict are added
+    as filters to this pager.
+    * If `alternatives_filter` is set, another filter is added to the pager,
+    which filters the pager items by either of the specified
+    alternative_filters (OR).
+
+    If both is specified, the combined filter is (extra_filter_1 AND
+    extra_filter_2 AND ... AND (alternative_filter_1 OR alternative_filter_2
+    OR ...).
+
+    """
 
     def __init__(self, name, itemfunc, entity_type=None, extra_filter=None,
                  initial_size=20, size=None, sorts=None,
                  enable_sorts=True, enable_pages=True, facets=tuple(),
-                 wildcard_queries=None):
+                 wildcard_queries=None, alternatives_filter=None):
         self.name = name
         self.itemfunc = itemfunc
         self.enable_pages = enable_pages
         self.extra_filter = extra_filter
+        self.alternatives_filter = alternatives_filter
         self.facets = [Facet(self.name, request, **kwargs)
                        for Facet, kwargs in facets]
         self.wildcard_queries = wildcard_queries or {}
@@ -1298,6 +1330,15 @@ class SolrPager(PagerMixin):
             query = query.filter(**self.extra_filter)
         for field, string in self.wildcard_queries.items():
             query = add_wildcard_query(query, field, string)
+
+        if self.alternatives_filter:
+            si = get_sunburnt_connection()
+
+            # build OR-filter using sunburnt optional query terms
+            q = reduce(lambda acc, (k, v): acc | si.Q(**{k: v}),
+                       self.alternatives_filter.items(), si.Q())
+
+            query = query.filter(q)
 
         # Add facets
         counts_query = query
@@ -1512,6 +1553,8 @@ PROPOSAL_VOTES = SortOption('-order.proposal.votes', L_("Most Votes"),
                             description=L_('Yays + nays'))
 PROPOSAL_YES_VOTES = SortOption('-order.proposal.yesvotes', L_("Most Ayes"))
 PROPOSAL_NO_VOTES = SortOption('-order.proposal.novotes', L_("Most Nays"))
+PROPOSAL_SUPPORT_IMPACT = SortOption('-order.proposal.support_impact',
+                                     L_("Support with impact"))
 PROPOSAL_MIXED = SortOption('-order.proposal.mixed', L_('Mixed'),
                             description=L_('Age and Support'),
                             func=sorting.proposal_mixed)
@@ -1566,6 +1609,7 @@ PROPOSAL_SORTS = NamedSort([[L_('Support'), (PROPOSAL_SUPPORT(old=2),
                                              PROPOSAL_VOTES,
                                              PROPOSAL_YES_VOTES,
                                              PROPOSAL_NO_VOTES,
+                                             PROPOSAL_SUPPORT_IMPACT,
                                              PROPOSAL_CONTROVERSY)],
                             [L_('Date'), (NEWEST(old=1,
                                                  label=L_('Newest Proposals')),
@@ -1626,7 +1670,7 @@ def solr_instance_pager(include_hidden=False):
 
 
 def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
-                        extra_filter={}):
+                        extra_filter={}, alternatives_filter={}):
     extra_filter.update({'instance': instance.key})
     sorts = copy.deepcopy(PROPOSAL_SORTS)
     if default_sorting is None:
@@ -1663,7 +1707,8 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
                       sorts=sorts,
                       extra_filter=extra_filter,
                       facets=facets,
-                      wildcard_queries=wildcard_queries)
+                      wildcard_queries=wildcard_queries,
+                      alternatives_filter=alternatives_filter)
     return pager
 
 
@@ -1671,10 +1716,15 @@ def get_def_proposal_sort_order():
     default_sorting = None
     if c.user and c.user.proposal_sort_order:
         default_sorting = c.user.proposal_sort_order
-    else:
+    if default_sorting is None:
         bso = get_behavior(c.user, 'proposal_sort_order')
         if bso:
             default_sorting = bso
+    if default_sorting is None:
+        default_sorting = config.get(
+            'adhocracy.listings.instance_proposal.sorting')
+    if default_sorting is None:
+        default_sorting = '-order.proposal.mixed'
     return default_sorting
 
 

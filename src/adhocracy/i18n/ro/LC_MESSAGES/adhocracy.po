@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"POT-Creation-Date: 2014-04-30 16:03+0200\n"
+"PO-Revision-Date: 2014-04-30 14:04+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -127,12 +127,32 @@ msgstr "Nu se poate accesa delegarea %(id)s"
 msgid "The delegation is now revoked."
 msgstr "Delegarea a fost retrasa."
 
+msgid "The requested page could not be found."
+msgstr ""
+
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr ""
 
-#, python-format
-msgid "Error %s"
-msgstr "Eroare %s"
+msgid "Bad Request"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "I'm a teapot"
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Service Unavailable"
+msgstr ""
 
 #, python-format
 msgid "%s News"
@@ -165,6 +185,9 @@ msgstr ""
 
 msgid "The requested page was not found"
 msgstr "Pagina nu a fost gasita."
+
+msgid "Intro"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegarile sunt permise."
@@ -913,14 +936,6 @@ msgstr "Nume de pagina '%s'  inexistent"
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Numele variantei nu poate fi doar numeric: %s"
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr ""
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
-
 msgid "Please select at least one recipient group"
 msgstr ""
 
@@ -970,6 +985,9 @@ msgid "Invalid value"
 msgstr ""
 
 msgid "Invalid choice"
+msgstr ""
+
+msgid "Incorrect. Try again."
 msgstr ""
 
 #, python-format
@@ -1181,6 +1199,9 @@ msgstr "Cele mai multe Pro"
 msgid "Most Nays"
 msgstr "Cele mai multe Contra"
 
+msgid "Support with impact"
+msgstr ""
+
 msgid "Age and Support"
 msgstr "Vechime si sustinere"
 
@@ -1218,8 +1239,12 @@ msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Ne pare rau, dar se pare ca nu ai drepturi pentru a continua."
 
 msgid ""
-"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "Ne pare rau, dar se pare ca exista o greseala (alerta CSRF). Te rugam incearca din nou."
+"The requested action could not be performed, because the session which was "
+"active when you visited the previous page has expired."
+msgstr ""
+
+msgid "Back to your current session"
+msgstr ""
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1579,17 +1604,11 @@ msgstr "Documente"
 msgid "Members"
 msgstr "Membri"
 
-msgid "Intro"
-msgstr ""
-
 msgid "(Unknown)"
 msgstr "(Necunoscut)"
 
 msgid "Implementation"
 msgstr "Implementare"
-
-msgid "Adhocracy"
-msgstr "Adhocracy"
 
 msgid "delete"
 msgstr "sterge"
@@ -1836,6 +1855,9 @@ msgstr "confidentialitate"
 msgid "imprint"
 msgstr "imprima"
 
+msgid "Search"
+msgstr "Cauta"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> membri"
@@ -1851,6 +1873,9 @@ msgstr "<b>%s</b> comentarii"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> voturi"
+
+msgid "Menu"
+msgstr ""
 
 msgid "Instances"
 msgstr "Comunitati"
@@ -1876,12 +1901,9 @@ msgstr "Administreaza site"
 msgid "Logout"
 msgstr "Iesire"
 
-msgid "Search"
-msgstr "Cauta"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Cauta in &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1907,6 +1929,13 @@ msgstr "reseteaza"
 
 msgid "Edit"
 msgstr "Modifica"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "None"
 msgstr ""
@@ -1953,6 +1982,12 @@ msgstr "Valideaza emailul pentru a putea incepe sa contribui."
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr ""
 
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
+msgstr ""
+
 msgid "Next"
 msgstr "Urmatorul"
 
@@ -1985,12 +2020,9 @@ msgid "Shortlink"
 msgstr "Link web scurt:"
 
 msgid ""
-"Alternatively you can log in using various external accounts. Please be "
-"aware that the login via external providers may cause security and privacy "
-"related risks."
-msgstr ""
-
-msgid "I understand the risk"
+"You can log in using various external user accounts. Please be aware that "
+"the login via external providers may cause security and privacy related "
+"risks."
 msgstr ""
 
 msgid "Login with Facebook"
@@ -2399,6 +2431,9 @@ msgstr ""
 msgid "No Badges"
 msgstr ""
 
+msgid "more"
+msgstr ""
+
 msgid "View and discuss"
 msgstr ""
 
@@ -2422,9 +2457,6 @@ msgstr "Valideaza adresa de email pentru a putea crea o propunere."
 
 msgid "Find proposals"
 msgstr "Cauta propuneri"
-
-msgid "Go"
-msgstr "Cauta"
 
 msgid "new proposal"
 msgstr "propunere noua"
@@ -2721,11 +2753,15 @@ msgstr "Mai detii inca un vot."
 msgid "You hold %s additional votes."
 msgstr "Mai detii %s voturi aditionale."
 
+#, python-format
+msgid "Error %d"
+msgstr ""
+
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "Daca aceasta eroare continua sa apara, te rugam <a class='staticlink_imprint' href='/static/imprint.html'> anunta dezvoltatorii</a> printrun mesaj in care descrii ce incerci sa faci."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3069,9 +3105,6 @@ msgstr ""
 msgid "Show norms as an extra tab"
 msgstr ""
 
-msgid "Home"
-msgstr "Acasa"
-
 msgid "show a list of proposals"
 msgstr "afiseaza lista de propuneri"
 
@@ -3173,6 +3206,11 @@ msgid "Sender identity"
 msgstr ""
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
 msgstr ""
 
 msgid "Send to ..."
@@ -3967,8 +4005,8 @@ msgstr "majoritate stabila in %s zile"
 msgid "Search in %s"
 msgstr "Cauta in %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Cautarea include probleme si propuneri."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "Nu ai introdus termeni de cautare."
@@ -4213,8 +4251,8 @@ msgstr ""
 msgid "All Members on this Adhocracy Server"
 msgstr "Toti membrii acestui Server Adhocracy"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "O listare a tuturor utilizatorilor din toate comunitatile din acest server adhocracy."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr ""
@@ -4367,6 +4405,12 @@ msgstr "Introduceti parola:"
 
 msgid "Password (confirm):"
 msgstr "Parola (confirma):"
+
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -4625,6 +4669,9 @@ msgid "signed up %s"
 msgstr "inregistrat pentru %s"
 
 msgid "Generate welcome link"
+msgstr ""
+
+msgid "Phonetic spelling"
 msgstr ""
 
 #, python-format

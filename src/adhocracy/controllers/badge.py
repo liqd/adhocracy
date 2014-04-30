@@ -9,6 +9,7 @@ from pylons.controllers.util import abort
 from pylons.controllers.util import redirect
 from pylons.i18n import _
 
+from adhocracy import config
 from adhocracy.forms.common import ValidInstanceGroup
 from adhocracy.forms.common import ValidHTMLColor
 from adhocracy.forms.common import ContainsChar
@@ -33,6 +34,7 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.lib.auth import require
 from adhocracy.lib.auth import guard
+from adhocracy.lib.auth import can
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.behavior import behavior_enabled
 from adhocracy.lib.pager import PROPOSAL_SORTS
@@ -68,7 +70,8 @@ class BadgeForm(formencode.Schema):
 class CategoryBadgeForm(BadgeForm):
     select_child_description = validators.String(max=255)
     parent = ValidCategoryBadge(not_empty=False)
-    long_description = validators.String(max=20000)
+    long_description = validators.String(
+        max=config.get_int('adhocracy.category.long_description.max_length'))
     chained_validators = [
         # make sure parent has same instance as we
         ValidParentCategory()
@@ -86,6 +89,10 @@ class CategoryBadgeUpdateForm(CategoryBadgeForm):
 
 
 class UserBadgeForm(BadgeForm):
+    pass
+
+
+class UserBadgeFormSupervise(UserBadgeForm):
     group = Any(validators.Empty, ValidInstanceGroup())
     display_group = validators.StringBoolean(if_missing=False)
 
@@ -261,7 +268,11 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def create_user_badge(self, format=u'html'):
         try:
-            self.form_result = UserBadgeForm().to_python(request.params)
+            if can.user.supervise():
+                form = UserBadgeFormSupervise()
+            else:
+                form = UserBadgeForm()
+            self.form_result = form.to_python(request.params)
         except Invalid as i:
             return self.add('user', i.unpack_errors())
 
@@ -273,10 +284,20 @@ class BadgeController(BaseController):
         else:
             require.badge.manage_instance()
 
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
-        UserBadge.create(title, color, visible, description, group,
-                         display_group, impact, instance)
+        if can.user.supervise():
+            group = self.form_result.get('group')
+            display_group = self.form_result.get('display_group')
+
+            UserBadge.create(title, color, visible, description,
+                             group=group,
+                             display_group=display_group,
+                             impact=impact,
+                             instance=instance)
+        else:
+            UserBadge.create(title, color, visible, description,
+                             impact=impact,
+                             instance=instance)
+
         # commit cause redirect() raises an exception
         meta.Session.commit()
         self._redirect()
@@ -454,6 +475,9 @@ class BadgeController(BaseController):
             defaults['select_child_description'] =\
                 badge.select_child_description
 
+        if not c.came_from:
+            c.came_from = self.base_url
+
         return htmlfill.render(render(self.form_template, data,
                                       overlay=format == u'overlay',
                                       overlay_size=OVERLAY_SMALL),
@@ -471,7 +495,11 @@ class BadgeController(BaseController):
     @RequireInternalRequest()
     def update_user_badge(self, id, format=u'html'):
         try:
-            self.form_result = UserBadgeForm().to_python(request.params)
+            if can.user.supervise():
+                form = UserBadgeFormSupervise()
+            else:
+                form = UserBadgeForm()
+            self.form_result = form.to_python(request.params)
         except Invalid as i:
             return self.edit(id, i.unpack_errors())
 
@@ -479,24 +507,25 @@ class BadgeController(BaseController):
         require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
 
-        badge.group = group
         badge.title = title
         badge.color = color
         badge.visible = visible
         badge.description = description
-        if badge.impact != impact:
-            badge.impact = impact
-            for user in badge.users:
-                update_entity(user, UPDATE)
         badge.instance = instance
-        badge.display_group = display_group
+        if can.user.supervise():
+            badge.group = self.form_result.get('group')
+            badge.display_group = self.form_result.get('display_group')
         if behavior_enabled():
             badge.behavior_proposal_sort_order = self.form_result.get(
                 'behavior_proposal_sort_order')
-        meta.Session.commit()
+        if badge.impact != impact:
+            badge.impact = impact
+            meta.Session.commit()
+            for user in badge.users:
+                update_entity(user, UPDATE)
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -515,12 +544,14 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        badge.instance = instance
         if badge.impact != impact:
             badge.impact = impact
+            meta.Session.commit()
             for delegateable in badge.delegateables:
                 update_entity(delegateable, UPDATE)
-        badge.instance = instance
-        meta.Session.commit()
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -539,12 +570,14 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        badge.instance = instance
         if badge.impact != impact:
             badge.impact = impact
+            meta.Session.commit()
             for instance in badge.instances:
                 update_entity(instance, UPDATE)
-        badge.instance = instance
-        meta.Session.commit()
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -591,15 +624,17 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
-        if badge.impact != impact:
-            badge.impact = impact
-            for delegateable in badge.delegateables:
-                update_entity(delegateable, UPDATE)
         badge.instance = instance
         badge.select_child_description = child_descr
         badge.long_description = long_description
         badge.parent = parent
-        meta.Session.commit()
+        if badge.impact != impact:
+            badge.impact = impact
+            meta.Session.commit()
+            for delegateable in badge.delegateables:
+                update_entity(delegateable, UPDATE)
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 
@@ -622,12 +657,14 @@ class BadgeController(BaseController):
         badge.color = color
         badge.visible = visible
         badge.description = description
+        badge.instance = instance
         if badge.impact != impact:
             badge.impact = impact
+            meta.Session.commit()
             for delegateable in badge.delegateables:
                 update_entity(delegateable, UPDATE)
-        badge.instance = instance
-        meta.Session.commit()
+        else:
+            meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         self._redirect()
 

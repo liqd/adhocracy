@@ -198,8 +198,8 @@ def upgrade(migrate_engine):
             migrate_engine.execute(revision_table.delete(revision_table.c.comment_id == comment_id))
             migrate_engine.execute(comment_table.delete(comment_table.c.id == comment_id))
 
-
     # proposal_table.c.comment_id.drop()
+
 
 def downgrade(migrate_engine):
     raise NotImplementedError()

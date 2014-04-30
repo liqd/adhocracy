@@ -14,8 +14,9 @@
         <div class="level-${str(level)}">
             %if c.is_hierarchical and level == 0 and len(page.subpages) > 0 and not page.is_sectionpage():
             <div class="more only-js">
-                <a href="#" class="showhide_button"
+                <a href="#" class="showhide_button content"
                    data-target="#${page.id}-sub"
+                   aria-controls="${page.id}-sub"
                    data-toggle-class="less"
                    data-target-speed="fast"
                    data-toggle-text="${_('hide sub-topics')}">

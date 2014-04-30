@@ -37,8 +37,13 @@ def check_csrf(methods=ALL_METHODS):
             return
 
     from adhocracy.lib.templating import ret_abort
-    ret_abort(_("I'm sorry, it looks like we made a mistake "
-                "(CSRF alert). Please try again."), code=403)
+    from adhocracy.lib import helpers as h
+    msg = '<p>%s</p><a href="%s">%s</a>' % (
+        _(u'The requested action could not be performed, because the session '
+          'which was active when you visited the previous page has expired.'),
+        h.site.current_url(),
+        _(u'Back to your current session'))
+    ret_abort(msg, code=403)
 
 
 def RequireInternalRequest(methods=ALL_METHODS):

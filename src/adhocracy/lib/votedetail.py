@@ -1,5 +1,4 @@
-from paste.deploy.converters import asbool
-
+from adhocracy import config
 from adhocracy.lib.cache.util import memoize
 
 
@@ -22,5 +21,4 @@ def calc_votedetail_dict(instance, poll, badge_title_only=False):
 
 
 def is_enabled():
-    from pylons import config
-    return asbool(config.get('adhocracy.enable_votedetail', 'false'))
+    return config.get_bool('adhocracy.enable_votedetail')

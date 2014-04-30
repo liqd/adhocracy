@@ -57,6 +57,8 @@
 
 <%def name="carousel(events, more_url=None)">
     <%
+    from datetime import datetime
+    from datetime import timedelta
     from adhocracy.i18n import datetime_tag
     from adhocracy.lib.event import formatting
     %>
@@ -72,7 +74,9 @@
         %>
         <li>
             <div class="event ${event.event.code}">
+                %if datetime.now() - event.time < timedelta(1):
                 ${datetime_tag(event.time)|n}
+                %endif
                 <a class="icon" href=${event.link()}>${formatting.as_icon(event)|n}</a>
                 <div class="summary">
                     <a href="${h.entity_url(event.user)}">${event.user.name}</a>

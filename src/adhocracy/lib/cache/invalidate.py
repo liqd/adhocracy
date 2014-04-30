@@ -33,12 +33,13 @@ def invalidate_page(page):
     invalidate_delegateable(page)
 
 
-def invalidate_delegateable(d):
+def invalidate_delegateable(d, include_parents=True):
     clear_tag(d)
-    for p in d.parents:
-        invalidate_delegateable(p)
-    if not len(d.parents):
-        clear_tag(d.instance)
+    if include_parents:
+        for p in d.parents:
+            invalidate_delegateable(p)
+        if not len(d.parents):
+            clear_tag(d.instance)
 
 
 def invalidate_revision(rev):
@@ -87,7 +88,7 @@ def invalidate_instance(instance):
     # muharhar cache epic fail
     clear_tag(instance)
     for d in instance.delegateables:
-        invalidate_delegateable(d)
+        invalidate_delegateable(d, include_parents=False)
 
 
 def invalidate_tagging(tagging):

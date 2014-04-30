@@ -1,5 +1,6 @@
 <%inherit file="/template.html" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 <%namespace name="sidebar_defs" file="/sidebar.html"/>
 
 <%def name="title()">${c.category.title}</%def>
@@ -55,13 +56,7 @@ ${h.category.breadcrumbs(c.category)|n}
 
 <%block name="main_content">
 <div class="list_filter" id="proposals-search">
-    <form class="list_form" action="?" method="GET" autocomplete="off">
-        <input class="search_text" placeholder="${_(u"Find proposals")}"
-               id="proposals_q" class="live_search" name="proposals_q"
-               type="text" value="${request.params.get('proposals_q', '')}" />
-        <input type="submit" value="${_(u'Go')}"
-               class="search_button" />
-    </form>
+    ${forms.search(name='proposals_q', placeholder=_(u'Find proposals'), value=request.params.get('proposals_q', ''))}
 </div>
 
 ${c.proposals_pager.render_pager()}

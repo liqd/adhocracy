@@ -125,7 +125,7 @@ def setup_entities(config, initial_setup):
         u'poll.show': [anonymous],
         u'proposal.create': [advisor],
         u'proposal.delete': [moderator],
-        u'proposal.edit': [advisor],
+        u'proposal.edit': [moderator],
         u'proposal.freeze': [supervisor],
         u'proposal.show': [anonymous],
         u'proposal.view': [anonymous],

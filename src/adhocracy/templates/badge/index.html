@@ -98,7 +98,7 @@ ${render_table(instance_badges, base_url, type_, not single_table, False)}
         <td>${badge.title}</td>
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${tiles.badge(badge)}</td>
-        <td>${badge.group and badge.group.group_name or ""}</td>
+        <td>${badge.group and _(badge.group.group_name) or ""}</td>
         <td>${badge.display_group and _("yes") or _("no")}</td>
         <td>${edit_button(base_url, badge.id, badge.instance is None)}
             ${delete_button(base_url, badge.id, badge.instance is None)}</td>

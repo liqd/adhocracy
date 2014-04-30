@@ -121,30 +121,17 @@ class Page(Delegateable):
         return pages
 
     @classmethod
-    def unusedTitle(cls, title, instance_filter=True, functions=None,
-                    include_deleted=False, selection=None):
+    def unused_label(cls, label, instance_filter=True, functions=None,
+                    include_deleted=False):
         q = meta.Session.query(Page)\
-            .filter(Page.label == title)
+            .filter(Page.label == label)
         if not include_deleted:
             q = q.filter(or_(Page.delete_time == None,  # noqa
                              Page.delete_time > datetime.utcnow()))
         if ifilter.has_instance() and instance_filter:
             q = q.filter(Page.instance == ifilter.get_instance())
 
-        matches = q.all()
-
-        if selection is not None:
-            def same_selection(page):
-                try:
-                    return (page.function == Page.DESCRIPTION and
-                            page.proposal.is_amendment and
-                            page.proposal.selection.page == selection)
-                except Exception as e:
-                    log.warn(e)
-                    return False
-            matches = filter(same_selection, matches)
-
-        return not bool(matches)
+        return not q.count()
 
     @classmethod
     def count(cls, **kwargs):
@@ -379,8 +366,7 @@ class Page(Delegateable):
             delete_time = datetime.utcnow()
         for selection in self.selections:
             selection.delete(delete_time=delete_time)
-        if self.delete_time is None:
-            self.delete_time = delete_time
+        super(Page, self).delete(delete_time=delete_time)
 
     def is_deleted(self, at_time=None):
         if at_time is None:

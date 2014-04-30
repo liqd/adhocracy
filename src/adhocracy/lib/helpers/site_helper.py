@@ -21,7 +21,7 @@ def domain():
 
 
 def name():
-    return config.get('adhocracy.site.name', _("Adhocracy"))
+    return config.get('adhocracy.site.name')
 
 
 def relative_urls(config=config):
@@ -41,7 +41,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     either an instance, an instance key, or None has to be passed.
 
     If absolute is True, an absolute URL including the protocol part is
-    returned. Otherwise this is avoided, if relative_urls is set to True.
+    returned. Otherwise this is avoided, if relative_urls is set to True and
+    instance_domains isn't enabled.
 
     query_params is a dictionary of parameters for the query string of the URL.
 
@@ -52,16 +53,34 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
     if instance == CURRENT_INSTANCE:
         instance = ifilter.get_instance()
 
-    if relative_urls(config):
+    if instance is None:
+        instance_key = None
+    else:
+        if isinstance(instance, (str, unicode)):
+            instance_key = instance
+        else:
+            instance_key = instance.key
+
+    domain = None
+
+    instance_domains = aconfig.get_bool('adhocracy.instance_domains.enabled')
+
+    if instance and instance_domains:
+        domain = aconfig.get_json('adhocracy.instance_domains', {})\
+            .get(instance_key)
+
+    if domain is not None:
+        protocol = config.get('adhocracy.protocol', 'http').strip()
+        result = '%s://%s%s' % (protocol, domain, path)
+
+    elif relative_urls(config):
 
         if instance is None:
             prefix = ''
-        elif isinstance(instance, (str, unicode)):
-            prefix = '/i/' + instance
         else:
-            prefix = '/i/' + instance.key
+            prefix = '/i/' + instance_key
 
-        if absolute:
+        if absolute or instance_domains:
             protocol = config.get('adhocracy.protocol', 'http').strip()
             domain = config.get('adhocracy.domain').strip()
 
@@ -77,10 +96,8 @@ def base_url(path='', instance=CURRENT_INSTANCE, absolute=False,
 
         if instance is None or g.single_instance:
             subdomain = ''
-        elif isinstance(instance, (str, unicode)):
-            subdomain = '%s.' % instance
         else:
-            subdomain = '%s.' % instance.key
+            subdomain = '%s.' % instance_key
 
         result = '%s://%s%s%s' % (protocol, subdomain, domain, path)
 

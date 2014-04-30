@@ -268,7 +268,7 @@ ${components.watch(c.proposal, id='follow_proposal')}
         <h6>${_('Category')}</h6>
         <p>
           %if c.proposal.category:
-          ${c.proposal.category}
+          ${components.category_link(c.proposal.category)}
           %else:
           ${_("This proposal is not assigned to any category")}
           %endif

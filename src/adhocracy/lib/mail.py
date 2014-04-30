@@ -7,8 +7,8 @@ from time import time
 import textwrap
 
 from pylons.i18n import _
-from pylons import config
 
+from adhocracy import config
 from adhocracy.lib import helpers as h, version
 
 log = logging.getLogger(__name__)
@@ -16,8 +16,8 @@ ENCODING = 'utf-8'
 
 
 def send(email_from, to_email, message):
-    server = smtplib.SMTP(config.get('smtp_server', 'localhost'),
-                          config.get('smtp_port', 25))
+    server = smtplib.SMTP(config.get('smtp_server'),
+                          config.get_int('smtp_port'))
     # server.set_debuglevel(1)
     server.sendmail(email_from, [to_email], message)
     server.quit()

@@ -3,8 +3,8 @@ from urllib2 import urlopen
 from urllib import urlencode
 
 from oauth import oauth
-from pylons import config
 
+from adhocracy import config
 from adhocracy.contrib.oauthtwitter import OAuthApi
 from adhocracy.lib.cache import memoize
 

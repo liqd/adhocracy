@@ -12,6 +12,7 @@ from requests import get
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.base import BaseController
 from adhocracy.lib import event
+from adhocracy.lib.auth import can
 from adhocracy.lib.auth import login_user
 from adhocracy.lib.auth.csrf import RequireInternalRequest
 from adhocracy.model.velruse import Velruse
@@ -56,7 +57,8 @@ def update_email_trust(adhocracy_user, velruse_email):
 class VelruseController(BaseController):
 
     def login_with_velruse(self):
-        session['came_from'] = request.params['came_from']
+        session['came_from'] = request.params.get('came_from',
+                                                  h.base_url('/login'))
         session.save()
         return render("/velruse/redirect_post.html")
 
@@ -70,7 +72,7 @@ class VelruseController(BaseController):
         If none is provided, this function will crash.
         """
 
-        redirect_url = session['came_from']
+        redirect_url = session.get('came_from', h.base_url('/login'))
 
         token = request.params['token']
         payload = {'format': 'json', 'token': token}
@@ -306,7 +308,7 @@ class VelruseController(BaseController):
                             " you are disconnected from already."))
             return None
 
-        elif not (v.user == c.user or h.has_permission("user.manage")):
+        elif not (v.user == c.user or can.user.manage()):
             abort(403, _("You're not authorized to change %s's settings.")
                   % c.user.id)
         else:

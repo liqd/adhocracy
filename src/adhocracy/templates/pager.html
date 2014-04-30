@@ -133,13 +133,14 @@
     %if item['visible']:
     <li>
         %if item['disabled']:
-        <span class="tag_link disabled"
+        <span class="tag_link disabled" role="link" aria-disabled="true"
               style="font-size: ${h.tag.solr_tag_size(item, items)}%;">
             ${item['link_text']}</span>
         %else:
         <a class="tag_link ${'selected' if item['selected'] else ''}"
            style="font-size: ${h.tag.solr_tag_size(item, items)}%;"
            href="${item['url']|n}"
+           title="${ungettext(u'%i item', u'%i items', item['current_count']) % item['current_count']}"
            rel="nofollow">
             ${item['link_text']}</a>
         %endif
@@ -293,8 +294,9 @@ param = sorts.pager.sort_param
         <span class="btn-group"
              id="${param}_btn_group">
             <a id="${param}_btn"
-               class="button_round showhide_button"
+               class="button_round showhide_button control"
                data-target="#${param}_options"
+               aria-controls="${param}_options"
                data-target-speed="fast"
                data-toggle-class="less"
                href="#">

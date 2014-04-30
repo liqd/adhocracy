@@ -217,6 +217,9 @@ class Proposal(Delegateable):
         Delegateable.delete(self, delete_time=delete_time,
                             delete_children=False)
 
+        if self.description:
+            self.description.delete(delete_time=delete_time)
+
         for selection in self.selections:
             selection.delete(delete_time=delete_time)
 

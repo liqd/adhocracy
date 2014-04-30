@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-26 15:42+0100\n"
-"PO-Revision-Date: 2014-03-26 14:47+0000\n"
+"POT-Creation-Date: 2014-04-30 16:03+0200\n"
+"PO-Revision-Date: 2014-04-30 14:04+0000\n"
 "Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -125,12 +125,32 @@ msgstr "Delegacja %(id)s nie jest dostępna"
 msgid "The delegation is now revoked."
 msgstr "Wycofano delegację"
 
+msgid "The requested page could not be found."
+msgstr ""
+
 msgid "The system is currently down for maintenance. Please check back soon!"
 msgstr ""
 
-#, python-format
-msgid "Error %s"
-msgstr "Błąd %s"
+msgid "Bad Request"
+msgstr ""
+
+msgid "Unauthorized"
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "I'm a teapot"
+msgstr ""
+
+msgid "Internal Server Error"
+msgstr ""
+
+msgid "Service Unavailable"
+msgstr ""
 
 #, python-format
 msgid "%s News"
@@ -163,6 +183,9 @@ msgstr ""
 
 msgid "The requested page was not found"
 msgstr "Żądana strona nie została odnaleziona."
+
+msgid "Intro"
+msgstr ""
 
 msgid "Delegations are enabled."
 msgstr "Delegacje głosów są włączone."
@@ -911,14 +934,6 @@ msgstr "Nieprawidłowa nazwa strony: %s"
 msgid "Variant name cannot be purely numeric: %s"
 msgstr "Nazwa wariantu nie może składać się z samych cyfr: %s."
 
-#, python-format
-msgid "Invalid entry name: %s"
-msgstr ""
-
-#, python-format
-msgid "Entry name cannot be purely numeric: %s"
-msgstr ""
-
 msgid "Please select at least one recipient group"
 msgstr ""
 
@@ -968,6 +983,9 @@ msgid "Invalid value"
 msgstr ""
 
 msgid "Invalid choice"
+msgstr ""
+
+msgid "Incorrect. Try again."
 msgstr ""
 
 #, python-format
@@ -1179,6 +1197,9 @@ msgstr "Najwięcej głosów za"
 msgid "Most Nays"
 msgstr "Najwięcej głosów przeciw"
 
+msgid "Support with impact"
+msgstr ""
+
 msgid "Age and Support"
 msgstr "Wiek i poparcie"
 
@@ -1216,8 +1237,12 @@ msgid "We're sorry, but it seems that you lack the permissions to continue."
 msgstr "Nie masz uprawnień, by kontynuować."
 
 msgid ""
-"I'm sorry, it looks like we made a mistake (CSRF alert). Please try again."
-msgstr "Wygląda na to, że popełniliśmy błąd (ostrzeżenie CSRF). Spróbuj ponownie."
+"The requested action could not be performed, because the session which was "
+"active when you visited the previous page has expired."
+msgstr ""
+
+msgid "Back to your current session"
+msgstr ""
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1577,17 +1602,11 @@ msgstr "Regulacje"
 msgid "Members"
 msgstr "Członkowie"
 
-msgid "Intro"
-msgstr ""
-
 msgid "(Unknown)"
 msgstr "(nieznany)"
 
 msgid "Implementation"
 msgstr "Wdrożenie"
-
-msgid "Adhocracy"
-msgstr "Adhocracy"
 
 msgid "delete"
 msgstr "usuń"
@@ -1834,6 +1853,9 @@ msgstr "Prywatność"
 msgid "imprint"
 msgstr "Nota prawna"
 
+msgid "Search"
+msgstr "Szukaj"
+
 #, python-format
 msgid "<b>%s</b> members"
 msgstr "<b>%s</b> członków"
@@ -1849,6 +1871,9 @@ msgstr "<b>%s</b> komentarzy"
 #, python-format
 msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> głosów"
+
+msgid "Menu"
+msgstr ""
 
 msgid "Instances"
 msgstr "Grupy"
@@ -1874,12 +1899,9 @@ msgstr "Zarządzaj stroną"
 msgid "Logout"
 msgstr "Wyloguj się"
 
-msgid "Search"
-msgstr "Szukaj"
-
 #, python-format
-msgid "Search in &ldquo;%s&rdquo;&hellip;"
-msgstr "Szukaj w &ldquo;%s&rdquo;&hellip;"
+msgid "Search in \"%s\""
+msgstr ""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -1905,6 +1927,13 @@ msgstr "reset"
 
 msgid "Edit"
 msgstr "Edytuj"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 msgid "None"
 msgstr ""
@@ -1951,6 +1980,12 @@ msgstr "Proszę potwierdzić adres e-mail, by się zaangażować."
 msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Ta grupa została zawieszona - nie możesz niczego edytować ani wysyłać."
 
+msgid "Skip to the navigation"
+msgstr ""
+
+msgid "Skip to the content"
+msgstr ""
+
 msgid "Next"
 msgstr "Dalej"
 
@@ -1983,12 +2018,9 @@ msgid "Shortlink"
 msgstr "Krótki link"
 
 msgid ""
-"Alternatively you can log in using various external accounts. Please be "
-"aware that the login via external providers may cause security and privacy "
-"related risks."
-msgstr ""
-
-msgid "I understand the risk"
+"You can log in using various external user accounts. Please be aware that "
+"the login via external providers may cause security and privacy related "
+"risks."
 msgstr ""
 
 msgid "Login with Facebook"
@@ -2397,6 +2429,9 @@ msgstr ""
 msgid "No Badges"
 msgstr ""
 
+msgid "more"
+msgstr ""
+
 msgid "View and discuss"
 msgstr ""
 
@@ -2420,9 +2455,6 @@ msgstr "Potwierdź email by stworzyć nową propozycję."
 
 msgid "Find proposals"
 msgstr "Znajdź propozycję"
-
-msgid "Go"
-msgstr "Start"
 
 msgid "new proposal"
 msgstr "Nowa propozycja"
@@ -2719,11 +2751,15 @@ msgstr "Dysponujesz dodatkowym głosem."
 msgid "You hold %s additional votes."
 msgstr "Dysponujesz %s dodatkowymi głosami."
 
+#, python-format
+msgid "Error %d"
+msgstr ""
+
+#, python-format
 msgid ""
-"If this error continues to occur, please <a class='staticlink_imprint' "
-"href='/static/imprint.html'>notify the developers</a> with a description of "
-"what you were trying to do."
-msgstr "Jeśli błąd będzie się powtarzał, <a class='staticlink_imprint' href='/static/imprint.html'>poinformuj o tym twórców</a> z opisem okoliczności jego wystąpienia."
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr ""
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -3067,9 +3103,6 @@ msgstr ""
 msgid "Show norms as an extra tab"
 msgstr "Pokaż regulacje w dodatkowej zakładce"
 
-msgid "Home"
-msgstr "Strona grupy"
-
 msgid "show a list of proposals"
 msgstr "Pokaż listę propozycji"
 
@@ -3171,6 +3204,11 @@ msgid "Sender identity"
 msgstr "Tożsamość nadawcy"
 
 msgid "Customize sender name: "
+msgstr ""
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
 msgstr ""
 
 msgid "Send to ..."
@@ -3965,8 +4003,8 @@ msgstr "Stabilna większość przez %s dni"
 msgid "Search in %s"
 msgstr "Szukaj w %s"
 
-msgid "Search includes issues and proposals."
-msgstr "Wyszukiwanie obejmuje tematy i propozycje."
+msgid "Search proposals and norms..."
+msgstr ""
 
 msgid "You did not provide a search query."
 msgstr "Wpisz, co chcesz wyszukać."
@@ -4211,8 +4249,8 @@ msgstr ""
 msgid "All Members on this Adhocracy Server"
 msgstr "Wszyscy użytkownicy tego serwera Adhocracy"
 
-msgid "A listing of all users in all instance an this adhocracy server."
-msgstr "Lista wszystkich użytkowników we wszystkich grupach i na tym serwerze."
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr ""
 
 msgid "Validate email address"
 msgstr ""
@@ -4365,6 +4403,12 @@ msgstr "Podaj hasło:"
 
 msgid "Password (confirm):"
 msgstr "Hasło (powtórz):"
+
+msgid "Security query"
+msgstr ""
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr ""
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -4624,6 +4668,9 @@ msgstr "zalogowano %s"
 
 msgid "Generate welcome link"
 msgstr "Wygeneruj link powitalny"
+
+msgid "Phonetic spelling"
+msgstr ""
 
 #, python-format
 msgid "Watchlist: %s"

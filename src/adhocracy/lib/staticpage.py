@@ -1,6 +1,8 @@
 import logging
 import re
+from simplejson.scanner import JSONDecodeError
 
+from adhocracy import config
 from adhocracy import i18n
 from adhocracy.lib.helpers.adhocracy_service import RESTAPI
 from adhocracy.lib import util
@@ -11,7 +13,6 @@ from adhocracy.model import StaticPageBase
 
 
 from lxml.html import parse, tostring
-from pylons import config
 
 log = logging.getLogger(__name__)
 
@@ -47,7 +48,15 @@ class ExternalStaticPage(StaticPageBase):
     def get(key, languages):
         api = RESTAPI()
         result = api.staticpage_get(key)
-        page = result.json()
+        if not result.ok:
+            log.warn('Error while fetching static page "%s": %s %s'
+                     % (key, result.status_code, result.reason))
+            return None
+        try:
+            page = result.json()
+        except JSONDecodeError as e:
+            log.warn('Error while decoding static page "%s": %s' % (key, e))
+            return None
         if page is None or 'errors' in page:
             return None
         data = {'lang': u'',
@@ -73,7 +82,7 @@ STATICPAGE_KEY = re.compile(r'^[a-z0-9_\-/]+$')
 
 
 def get_backend():
-    backend_id = config.get('adhocracy.staticpage_backend', 'filesystem')
+    backend_id = config.get('adhocracy.staticpage_backend')
     return _BACKENDS[backend_id]
 
 

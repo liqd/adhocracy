@@ -25,6 +25,8 @@ from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib.queue import update_entity
 from adhocracy.lib.util import get_entity_or_abort
 from adhocracy.lib.util import split_filter
+from adhocracy.lib.text import title2alias
+from adhocracy.lib.text import variant_normalize
 from adhocracy.lib.geo import format_json_feature_to_geotag
 
 import adhocracy.lib.text as text
@@ -44,7 +46,7 @@ class PageInclusionForm(formencode.Schema):
 
 class ProposalCreateForm(ProposalNewForm):
     pre_validators = [formencode.variabledecode.NestedVariables()]
-    label = validators.String(min=3, max=254, not_empty=True)
+    title = forms.ValidProposalTitle(unused_label=True)
     text = validators.String(max=20000, min=4, not_empty=True)
     tags = validators.String(max=20000, not_empty=False, if_missing=None)
     amendment = validators.StringBool(not_empty=False, if_empty=False,
@@ -58,9 +60,6 @@ class ProposalCreateForm(ProposalNewForm):
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
     geotag = validators.String(if_empty=None, if_missing=None)
-    chained_validators = [
-        forms.UnusedProposalTitle(),
-    ]
 
 
 class ProposalEditForm(formencode.Schema):
@@ -68,7 +67,7 @@ class ProposalEditForm(formencode.Schema):
 
 
 class ProposalUpdateForm(ProposalEditForm):
-    label = validators.String(min=3, max=254, not_empty=True)
+    title = forms.ValidProposalTitle()
     text = validators.String(max=20000, min=4, not_empty=True)
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
@@ -81,9 +80,6 @@ class ProposalUpdateForm(ProposalEditForm):
                                   if_missing=False)
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
     thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
-    chained_validators = [
-        forms.UnusedProposalTitle(),
-    ]
 
 
 class ProposalGeotagUpdateForm(formencode.Schema):
@@ -279,6 +275,10 @@ class ProposalController(BaseController):
             return self.new(errors=i.unpack_errors(), page=page,
                             amendment=amendment)
 
+        title = self.form_result.get('title')
+        label = title2alias(title)
+        variant = variant_normalize(title)
+
         pages = self.form_result.get('page', [])
         is_amendment = self.form_result.get('amendment', False)
 
@@ -296,14 +296,14 @@ class ProposalController(BaseController):
                 'error')
             return self.new()
         proposal = model.Proposal.create(c.instance,
-                                         self.form_result.get("label"),
+                                         label,
                                          c.user, with_vote=can.user.vote(),
                                          tags=self.form_result.get("tags"),
                                          is_amendment=is_amendment)
         proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.flush()
         description = model.Page.create(c.instance,
-                                        self.form_result.get("label"),
+                                        title,
                                         self.form_result.get('text'),
                                         c.user,
                                         function=model.Page.DESCRIPTION,
@@ -322,8 +322,6 @@ class ProposalController(BaseController):
             page = page.get('id')
             if page is None or page.function != model.Page.NORM:
                 continue
-            var_val = forms.VariantName()
-            variant = var_val.to_python(self.form_result.get('label'))
             if not can.norm.edit(page, variant) or \
                not can.selection.create(proposal):
                 continue
@@ -406,7 +404,6 @@ class ProposalController(BaseController):
 
         require.proposal.edit(c.proposal)
 
-        c.proposal.label = self.form_result.get('label')
         c.proposal.milestone = self.form_result.get('milestone')
         model.meta.Session.add(c.proposal)
 
@@ -431,7 +428,7 @@ class ProposalController(BaseController):
 
         _text = model.Text.create(c.proposal.description, model.Text.HEAD,
                                   c.user,
-                                  self.form_result.get('label'),
+                                  self.form_result.get('title'),
                                   self.form_result.get('text'),
                                   parent=c.proposal.description.head,
                                   wiki=wiki)
@@ -505,10 +502,10 @@ class ProposalController(BaseController):
         c.page = c.proposal.description
 
         if format == u'overlay':
-            c.ret_url = h.entity_url(c.proposal,
-                                     member='comments',
-                                     in_overlay=False,
-                                     format='overlay')
+            c.came_from = h.entity_url(c.proposal,
+                                       member='comments',
+                                       in_overlay=False,
+                                       format='overlay')
             return render("/page/comments.html", overlay=True,
                           overlay_size=OVERLAY_SMALL)
         else:
@@ -679,8 +676,8 @@ class ProposalController(BaseController):
         '''
         thumbnailbadges = []
         if can.proposal.edit_badges(proposal):
-            thumbnailbadges.extend(model.ThumbnailBadge.all(instance=
-                                                            c.instance))
+            thumbnailbadges.extend(
+                model.ThumbnailBadge.all(instance=c.instance))
             thumbnailbadges.extend(model.ThumbnailBadge.all(instance=None))
         thumbnailbadges = sorted(thumbnailbadges,
                                  key=lambda badge: badge.title)
@@ -754,10 +751,9 @@ class ProposalController(BaseController):
         if format == 'ajax':
             obj = {'badges_html': render_def('/badge/tiles.html', 'badges',
                                              badges=proposal.badges),
-                   'thumbnailbadges_html': render_def('/badge/tiles.html',
-                                                      'badges',
-                                                      badges=
-                                                      proposal.thumbnails),
+                   'thumbnailbadges_html': render_def(
+                       '/badge/tiles.html', 'badges',
+                       badges=proposal.thumbnails),
                    }
             return render_json(obj)
         elif redirect_to_proposals:

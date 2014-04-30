@@ -75,7 +75,7 @@ def row_inline(proposal):
         return ""
     return render_tile('/proposal/tiles.html', 'row_inline',
                        ProposalTile(proposal),
-                       proposal=proposal, cached=True,
+                       proposal=proposal, cached=False,
                        badgesglobal_admin=global_admin)
 
 

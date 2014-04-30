@@ -88,7 +88,7 @@ var adhocracy = adhocracy || {};
         return url.toString();
     }
 
-    adhocracy.ajax_submit = function(form, success) {
+    adhocracy.ajax_submit = function(form, success, patch_overlay) {
         // submits using ajax
         // will magically insert error messages
         // will call success() on success
@@ -101,9 +101,14 @@ var adhocracy = adhocracy || {};
             // ajax submit takes a while. Show some feedback
             form.find('*[type="submit"]').addClass('loading');
 
+            var u = new Uri(form.attr('action'));
+            if (patch_overlay) {
+                u.path(u.path().replace(/(\..*)?$/, '.overlay'));
+            }
+
             var settings = {
                 type: form.attr('method'),
-                url: form.attr('action'),
+                url: u.toString(),
                 success: function(data) {
                     // read the returned html document
                     data = $(data);
@@ -205,6 +210,17 @@ var adhocracy = adhocracy || {};
                 // iframe.contents().height does not shrink for some reason
                 height = $('body', iframe.contents()).height()+20;
             if (Math.abs(old_height - height) > 2) {
+                // scroll into view if needed
+                var position_top = overlay.offset().top - 20,
+                    scrollable = $('body');
+                if ($('html').scrollTop() > scrollable.scrollTop()) {
+                    // it is not consistent across browsers which element scrolls
+                    scrollable = $('html');
+                }
+                if (scrollable.scrollTop() > position_top + height) {
+                    scrollable.animate({'scrollTop': position_top}, speed);
+                }
+
                 iframe.animate({'height': height}, speed);
             }
         };
@@ -291,7 +307,7 @@ var adhocracy = adhocracy || {};
             });
 
             resize(300);
-            autoResize('fast', 200);
+            autoResize(200, 500);
 
             if (trigger.attr('rel') === '#overlay-form') {
                 $('.savebox .cancel', iframe.contents()).click(function(e) {
@@ -304,7 +320,7 @@ var adhocracy = adhocracy || {};
                     uri.deleteQueryParam('overlay_path');
                     uri.deleteQueryParam('overlay_type');
                     window.location = uri.toString();
-                });
+                }, true);
             }
 
             /* update history */
@@ -1282,6 +1298,8 @@ $(document).ready(function () {
             data = [],
             drawIntervalID,
             src = self.data('src');
+
+        self.attr('role', 'marquee');
 
         if (!src) {
             src = '/event/all?event_filter=t_proposal_create&event_filter=t_comment_create&event_filter=t_amendment_create&event_filter=t_page_create';
