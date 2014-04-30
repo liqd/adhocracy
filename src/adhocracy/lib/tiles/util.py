@@ -24,7 +24,7 @@ def render_tile(template_name, def_name, tile, cached=False, **kwargs):
                                      tile=tile, **kwargs)
     rendered = ""
     if cached and config.get_bool('adhocracy.cache_tiles'):
-        @memoize('tile_cache' + template_name + def_name, 86400 / 4)
+        @memoize('tile_cache' + template_name + def_name, 7 * 86400)
         def _cached(**kwargs):
             return render()
         rendered = _cached(locale=c.locale, **kwargs)
