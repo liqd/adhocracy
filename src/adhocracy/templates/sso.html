@@ -3,10 +3,8 @@
 
 %if 'openid' in login_types or 'facebook' in login_types:
 <div class="sso_form">
-    <div class="sso_form_inhibitor">
-        <p>${_(u'Alternatively you can log in using various external accounts. Please be aware that the login via external providers may cause security and privacy related risks.')}</p>
-        <a class="button" href="#" onclick="$('.sso_form_inhibitor').hide(); return false;">${_('I understand the risk')}</a>
-    </div>
+
+    <p class="sso_warning">${_(u'Alternatively you can log in using various external accounts. Please be aware that the login via external providers may cause security and privacy related risks.')}</p>
 
     %if 'openid' in login_types:
     <% c.openid_scenario = scenario %>
