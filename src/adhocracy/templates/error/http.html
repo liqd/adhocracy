@@ -10,7 +10,7 @@
 <h2>${_("Error %d") % c.error_code}${' - ' + unicode(c.error_name) if c.error_name else ''}</h2>
 %endif
 
-<strong>${c.error_message|n}</strong>
+<strong>${unicode(c.error_message)|n}</strong>
 
 %if c.trace_url:
 <a href="${c.trace_url}">trace me</a>
