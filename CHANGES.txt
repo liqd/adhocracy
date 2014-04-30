@@ -2,7 +2,7 @@ Adhocracy Changelog
 ===================
 
 
-2.4.0 (unreleased)
+2.4.0 (2014-04-30)
 ------------------
 
 This update requires some manual adjustments:
@@ -17,6 +17,8 @@ This update requires some manual adjustments:
   create the missing notifications.
 
 Improvements:
+
+- Improve error pages. (#884)
 
 - Add description, events and milestones views for categories. They are mostly
   useful for embedding. (#883)
