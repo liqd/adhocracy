@@ -19,7 +19,7 @@ BODY_RE = re.compile("<br \/><br \/>(.*)<\/body", re.S)
 ERROR_MESSAGES = {
     404: lazy_ugettext(u"The requested page could not be found."),
     503: lazy_ugettext(u"The system is currently down for maintenance. "
-                       u"Pleasecheck back soon!"),
+                       u"Please check back soon!"),
 }
 ERROR_NAMES = {
     400: lazy_ugettext('Bad Request'),
