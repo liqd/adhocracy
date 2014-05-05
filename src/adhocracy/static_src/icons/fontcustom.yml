@@ -8,7 +8,7 @@ font_name: adhocracy_icons
 css_selector: .icon-{{glyph}}
 font-face-path: "../fonts"
 preprocessor_path: ""
-autowidth: false
+autowidth: true
 no_hash: true
 force: false
 debug: false
