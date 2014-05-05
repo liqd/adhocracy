@@ -3,7 +3,7 @@
     from adhocracy.lib.event import formatting
     event_html = formatting.as_html(event)
     %>
-    <li class="${event.event.code}">
+    <li class="row ${event.event.code}">
         %if avatars and h.config.get_bool('adhocracy.use_avatars'):
         %if event.user.is_deleted():
         <img class="avatar" src="/img/icons/user.png"/>
@@ -44,6 +44,29 @@
 
 <%def name="sidebar_row(tile, event)">
     ${row(tile, event, avatars=False, preview=False)}
+</%def>
+
+
+<%def name="tiny_row(tile, event)">
+    <%
+    from adhocracy.lib.event.types import TOPIC_TYPES
+    from adhocracy.lib.event.types import VERBS
+    from adhocracy.lib.event.formatting import as_icon
+    if event.event.code == 't_proposal_create':
+        body = event.proposal.title
+    else:
+        body = h.html_to_plain_text(event.text())
+    %>
+    <li class="tiny_row ${event.event.code}">
+        <div class="meta">
+            ${as_icon(event, 'event_icon')|n}
+            <span class="topic_type">${TOPIC_TYPES[event.event.code]}</span>
+            ${VERBS[event.event.code]}
+            ${h.datetime_tag(event.time, relative=True)|n}&nbsp;
+            <a href="${event.link()}" class="more_simple">${_('more')}</a>
+        </div>
+        <h3>${body}</h3>
+    </li>
 </%def>
 
 
