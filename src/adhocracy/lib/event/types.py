@@ -267,14 +267,14 @@ T_SELECT_VARIANT = EventType(
 
 T_MESSAGE_SEND = EventType(
     u"t_message_send", pri=1,
-    subject=lambda: _(u"Message send: %(message)s"),
+    subject=lambda: _(u"Message sent: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)),
     event_msg=lambda: _(u"sent message: \"%(message)s\""))
 
 T_MASSMESSAGE_SEND = EventType(
     u"t_massmessage_send", pri=1,
-    subject=lambda: _(u"Message send: %(message)s"),
+    subject=lambda: _(u"Message sent: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)),
     event_msg=lambda: _(u"sent message: \"%(message)s\""))
@@ -473,7 +473,7 @@ TOPIC_TYPES = {
 	"n_delegate_conflict": L_('Vote'),
 	"n_comment_reply": L_('Comment'),
 	"n_comment_edit": L_('Comment'),
-	"n_message_receive": L_('Comment'),
+	"n_message_receive": L_('Message'),
 }
 VERBS = {
 	"t_user_create": L_('created'),
@@ -482,7 +482,7 @@ VERBS = {
 	"t_instance_create": L_('created'),
 	"t_instance_edit": L_('edited'),
 	"t_instance_delete": L_('delete'),
-	"t_instance_join": L_('joind'),
+	"t_instance_join": L_('joined'),
 	"t_instance_leave": L_('left'),
 	"t_instance_force_leave": L_('left'),
 	"t_instance_membership_update": L_('updated'),
@@ -506,8 +506,8 @@ VERBS = {
 	"t_vote_cast": L_('casted'),
 	"t_rating_cast": L_('casted'),
 	"t_select_variant": L_('selected'),
-	"t_message_send": L_('send'),
-	"t_massmessage_send": L_('send'),
+	"t_message_send": L_('sent'),
+	"t_massmessage_send": L_('sent'),
 	"t_test": L_('tested'),
 	"n_delegation_receive": L_('received'),
 	"n_delegation_lost": L_('lost'),
