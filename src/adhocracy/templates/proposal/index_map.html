@@ -1,5 +1,6 @@
 <%inherit file="${context.get('root_template', '/root.html')}" />
 <%namespace name="components" file="/components.html"/>
+<%namespace name="forms" file="/forms.html"/>
 <%namespace name="map" file="/geo/map.html"/>
 <%def name="title()">${_("Map")}</%def>
 
@@ -20,15 +21,7 @@ ${components.head(self.title)}
     <div id="left_block">
         <div id="hide_list_icon"></div>
         <div class="list_filter" id="proposals-search">
-            <form class="list_form" action="?" method="GET" autocomplete="off">
-                <label class="floating" for="proposals_q"></label>
-                <input class="search_text q" placeholder="${_('Find proposals')}"
-                       id="proposals_q" class="live_search" name="proposals_q" 
-                       type="text" value="${request.params.get('proposals_q', '')}" 
-                       tabindex="1" />
-                <input type="submit" value="${_('Go')}" 
-                       class="search_button go" />
-            </form>
+            ${forms.search(name='proposals_q', placeholder=_(u'Find proposals'), value=request.params.get('proposals_q', ''))}
         </div>
         <div id="proposals_table" class="table">
             ${c.proposals_pager.render_pager()}
