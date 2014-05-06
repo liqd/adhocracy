@@ -1,10 +1,10 @@
 @font-face {
   font-family: "adhocracy_icons";
-  src: url("../fonts/adhocracy_icons.eot");
-  src: url("../fonts/adhocracy_icons.eot?#iefix") format("embedded-opentype"),
-       url("../fonts/adhocracy_icons.woff") format("woff"),
-       url("../fonts/adhocracy_icons.ttf") format("truetype"),
-       url("../fonts/adhocracy_icons.svg#adhocracy_icons") format("svg");
+  src: url("../fonts/adhocracy_icons.eot?v=1");
+  src: url("../fonts/adhocracy_icons.eot?v=1#iefix") format("embedded-opentype"),
+       url("../fonts/adhocracy_icons.woff?v=1") format("woff"),
+       url("../fonts/adhocracy_icons.ttf?v=1") format("truetype"),
+       url("../fonts/adhocracy_icons.svg?v=1#adhocracy_icons") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -12,7 +12,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "adhocracy_icons";
-    src: url("../fonts/adhocracy_icons.svg#adhocracy_icons") format("svg");
+    src: url("../fonts/adhocracy_icons.svg?v=1#adhocracy_icons") format("svg");
   }
 }
 
