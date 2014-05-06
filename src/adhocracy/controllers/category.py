@@ -92,7 +92,7 @@ class CategoryController(BaseController):
 
         description = category.long_description
         description = h.render(description)
-        description = h.text.truncate_html(description, 200, u'&hellip;')
+        description = h.text.truncate_html(description, 65, u'&hellip;')
 
         data = {
             'category': category,
