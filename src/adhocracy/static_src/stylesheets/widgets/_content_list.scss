@@ -129,7 +129,7 @@
         clear: both;
     }
 
-    > li {
+    > li.row {
         position: relative;
         padding-right: 2em;
 
@@ -248,6 +248,41 @@
 
         &.t_massmessage_send:before {
             background-image: url("/images/event-massmessage.png");
+        }
+    }
+    > li.tiny_row {
+        color: $fg1;
+        .more_simple,
+        .topic_type {
+            font-size: $small;
+        }
+        .meta {
+            position: relative;
+            font-size: $x-small;
+            padding-left: 2.5em;
+
+            .event_icon {
+                position: absolute;
+                left: 0;
+                top: -25%;
+
+                font-size: 250%;
+                line-height: 1;
+            }
+        }
+        h3 {
+            // reset
+            font-size: inherit;
+            line-height: inherit;
+            margin: 0;
+            color: inherit;
+
+            margin-top: 0.3em;
+
+            // single truncated line
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 }

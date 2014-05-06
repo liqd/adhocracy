@@ -1,4 +1,6 @@
 from pylons.i18n import _
+from pylons.i18n import lazy_ugettext as L_
+
 from adhocracy.lib import helpers as h
 
 no_text = lambda e: None
@@ -265,14 +267,14 @@ T_SELECT_VARIANT = EventType(
 
 T_MESSAGE_SEND = EventType(
     u"t_message_send", pri=1,
-    subject=lambda: _(u"Message send: %(message)s"),
+    subject=lambda: _(u"Message sent: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)),
     event_msg=lambda: _(u"sent message: \"%(message)s\""))
 
 T_MASSMESSAGE_SEND = EventType(
     u"t_massmessage_send", pri=1,
-    subject=lambda: _(u"Message send: %(message)s"),
+    subject=lambda: _(u"Message sent: %(message)s"),
     link_path=lambda e, absolute=False: (
         h.entity_url(e.message, absolute=absolute)),
     event_msg=lambda: _(u"sent message: \"%(message)s\""))
@@ -427,3 +429,94 @@ S_CONTRIBUTION = S_PROPOSAL + S_AMENDMENT + S_COMMENT + S_PAGE
 TYPE_MAPPINGS = dict([(v.code, v) for v in locals().values()
                       if isinstance(v, NotificationType)])
 TYPES = TYPE_MAPPINGS.values()
+
+TOPIC_TYPES = {
+	"t_user_create": L_('User'),
+	"t_user_edit": L_('User'),
+	"t_user_admin_edit": L_('User'),
+	"t_instance_create": L_('Instance'),
+	"t_instance_edit": L_('Instance'),
+	"t_instance_delete": L_('Instance'),
+	"t_instance_join": L_('Instance'),
+	"t_instance_leave": L_('Instance'),
+	"t_instance_force_leave": L_('Instance'),
+	"t_instance_membership_update": L_('Membership'),
+	"t_proposal_create": L_('Proposal'),
+	"t_proposal_edit": L_('Proposal'),
+	"t_proposal_badge": L_('Proposal'),
+	"t_proposal_state_draft": L_('Proposal'),
+	"t_proposal_state_voting": L_('Proposal'),
+	"t_proposal_delete": L_('Proposal'),
+	"t_amendment_create": L_('Amendment'),
+	"t_amendment_edit": L_('Amendment'),
+	"t_amendment_delete": L_('Amendment'),
+	"t_page_create": L_('Page'),
+	"t_page_edit": L_('Page'),
+	"t_page_delete": L_('Page'),
+	"t_comment_create": L_('Comment'),
+	"t_comment_edit": L_('Comment'),
+	"t_comment_delete": L_('Comment'),
+	"t_delegation_create": L_('Delegation'),
+	"t_delegation_revoke": L_('Delegation'),
+	"t_vote_cast": L_('Vote'),
+	"t_rating_cast": L_('Rating'),
+	"t_select_variant": L_('Variant'),
+	"t_message_send": L_('Message'),
+	"t_massmessage_send": L_('Massmessage'),
+	"t_test": L_('Test'),
+	"n_delegation_receive": L_('Delegation'),
+	"n_delegation_lost": L_('Delegation'),
+	"n_instance_force_leave": L_('Membership'),
+	"n_instance_membership_update": L_('Membership'),
+	"n_self_voted": L_('Vote'),
+	"n_delegate_voted": L_('Vote'),
+	"n_delegate_conflict": L_('Vote'),
+	"n_comment_reply": L_('Comment'),
+	"n_comment_edit": L_('Comment'),
+	"n_message_receive": L_('Message'),
+}
+VERBS = {
+	"t_user_create": L_('created'),
+	"t_user_edit": L_('edited'),
+	"t_user_admin_edit": L_('edited'),
+	"t_instance_create": L_('created'),
+	"t_instance_edit": L_('edited'),
+	"t_instance_delete": L_('delete'),
+	"t_instance_join": L_('joined'),
+	"t_instance_leave": L_('left'),
+	"t_instance_force_leave": L_('left'),
+	"t_instance_membership_update": L_('updated'),
+	"t_proposal_create": L_('created'),
+	"t_proposal_edit": L_('edited'),
+	"t_proposal_badge": L_('badged'),
+	"t_proposal_state_draft": L_('changed state'),
+	"t_proposal_state_voting": L_('changed state'),
+	"t_proposal_delete": L_('deleted'),
+	"t_amendment_create": L_('created'),
+	"t_amendment_edit": L_('edited'),
+	"t_amendment_delete": L_('deleted'),
+	"t_page_create": L_('created'),
+	"t_page_edit": L_('edited'),
+	"t_page_delete": L_('deleted'),
+	"t_comment_create": L_('created'),
+	"t_comment_edit": L_('edited'),
+	"t_comment_delete": L_('deleted'),
+	"t_delegation_create": L_('created'),
+	"t_delegation_revoke": L_('revoked'),
+	"t_vote_cast": L_('casted'),
+	"t_rating_cast": L_('casted'),
+	"t_select_variant": L_('selected'),
+	"t_message_send": L_('sent'),
+	"t_massmessage_send": L_('sent'),
+	"t_test": L_('tested'),
+	"n_delegation_receive": L_('received'),
+	"n_delegation_lost": L_('lost'),
+	"n_instance_force_leave": L_('left'),
+	"n_instance_membership_update": L_('updated'),
+	"n_self_voted": L_('casted'),
+	"n_delegate_voted": L_('casted'),
+	"n_delegate_conflict": L_('conflicted'),
+	"n_comment_reply": L_('replied'),
+	"n_comment_edit": L_('edited'),
+	"n_message_receive": L_('received'),
+}

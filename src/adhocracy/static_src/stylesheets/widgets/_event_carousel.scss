@@ -25,5 +25,17 @@
     }
     .icon {
         margin: 0.5em 0;
+
+        // reset
+        color: $fg1;
+
+        font-size: 260%;
+        line-height: 1;
+        width: 1em;
+        text-align: center;
+
+        // circle
+        @include border-radius(50%);
+        border: 2px solid;
     }
 }

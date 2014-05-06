@@ -122,11 +122,16 @@ class CategoryController(BaseController):
 
         enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
         enable_pages = asbool(request.params.get('enable_pages', 'true'))
+        row_type = request.params.get('row_type', 'row')
+
+        if not row_type in ['row', 'profile_row', 'sidebar_row', 'tiny_row']:
+            abort(400)
 
         data = {
             'event_pager': pager.events(events,
                 enable_sorts=enable_sorts,
-                enable_pages=enable_pages),
+                enable_pages=enable_pages,
+                row_type=row_type),
         }
         return render('/category/events.html', data,
                       overlay=format == 'overlay',

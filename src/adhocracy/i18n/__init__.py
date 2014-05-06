@@ -190,13 +190,18 @@ def date_tag(dt, format=None):
     return fmt % dict(iso=dt.isoformat(), formatted=formatted)
 
 
-def datetime_tag(dt):
+def datetime_tag(dt, relative=False):
     """
     Display a <time> html tag for the given datetime ``dt``.
     """
-    fmt = "<time class='ts' datetime='%(iso)s'>%(formatted)s</time>"
+    fmt = "<time class='%(cls)s' datetime='%(iso)s'>%(formatted)s</time>"
     dt = dt.replace(microsecond=0)
     tz_dt = local_datetime(dt)
 
+    cls = [u'ts']
+    if relative:
+        cls.append(u'relative')
+
     formatted = "%s %s" % (format_date(dt), format_time(dt))
-    return fmt % dict(iso=tz_dt.isoformat(), formatted=formatted)
+    return fmt % dict(iso=tz_dt.isoformat(), formatted=formatted,
+        cls=u' '.join(cls))
