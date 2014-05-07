@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.3.0-192-g3e10934\n"
+"Project-Id-Version: adhocracy 2.4.1-20-g6b47d77\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-30 16:08+0200\n"
+"POT-Creation-Date: 2014-05-07 13:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1476,7 +1476,7 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr ""
 
 #, python-format
-msgid "Message send: %(message)s"
+msgid "Message sent: %(message)s"
 msgstr ""
 
 #, python-format
@@ -1531,6 +1531,100 @@ msgstr ""
 msgid "Message from %(sender)s: %(message)s"
 msgstr ""
 
+msgid "User"
+msgstr ""
+
+msgid "Membership"
+msgstr ""
+
+msgid "Proposal"
+msgstr ""
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Delegation"
+msgstr ""
+
+msgid "Vote"
+msgstr ""
+
+msgid "Variant"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Massmessage"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "edited"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "joined"
+msgstr ""
+
+msgid "left"
+msgstr ""
+
+msgid "updated"
+msgstr ""
+
+msgid "badged"
+msgstr ""
+
+msgid "changed state"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "revoked"
+msgstr ""
+
+msgid "casted"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "sent"
+msgstr ""
+
+msgid "tested"
+msgstr ""
+
+msgid "received"
+msgstr ""
+
+msgid "lost"
+msgstr ""
+
+msgid "conflicted"
+msgstr ""
+
+msgid "replied"
+msgstr ""
+
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr ""
 
@@ -1550,9 +1644,6 @@ msgid "(Unknown)"
 msgstr ""
 
 msgid "Implementation"
-msgstr ""
-
-msgid "delete"
 msgstr ""
 
 #, python-format
@@ -1693,9 +1784,6 @@ msgid "Receive email notifications if changes occur."
 msgstr ""
 
 msgid "Message to Members"
-msgstr ""
-
-msgid "Message"
 msgstr ""
 
 msgid "Send us your feedback"
@@ -2370,11 +2458,6 @@ msgstr ""
 msgid "Norms in this Category"
 msgstr ""
 
-msgid "Comment"
-msgid_plural "Comments"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "Argument"
 msgstr ""
 
@@ -2577,9 +2660,6 @@ msgstr ""
 
 #, python-format
 msgid "Delegate: %s"
-msgstr ""
-
-msgid "Delegation"
 msgstr ""
 
 msgid "These people might be a good match for your delegation. Either select one of the listed delegates, or enter another user name."
@@ -3223,9 +3303,6 @@ msgstr ""
 msgid "tutorial_milestone_details_listing"
 msgstr ""
 
-msgid "See more"
-msgstr ""
-
 msgid "with an abstention on"
 msgstr ""
 
@@ -3433,9 +3510,6 @@ msgstr ""
 msgid "Reasoning"
 msgstr ""
 
-msgid "Proposal"
-msgstr ""
-
 msgid "tutorial_norm_show_vote"
 msgstr ""
 
@@ -3458,11 +3532,6 @@ msgstr[1] ""
 
 msgid "Amendments"
 msgstr ""
-
-msgid "Amendment"
-msgid_plural "Amendments"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Add section"
 msgstr ""
@@ -3614,9 +3683,6 @@ msgid "Validate email in order to propose a new variant."
 msgstr ""
 
 msgid "Get Involved"
-msgstr ""
-
-msgid "Vote"
 msgstr ""
 
 msgid "Kein Text"
