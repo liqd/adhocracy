@@ -16,7 +16,7 @@
           </a>
         </h3>
         <div class="milestone_row_content">
-          ${h.truncate(h.markdown_to_plain_text(milestone.text), 280, whole_word=True)}
+          ${h.truncate(h.html_to_plain_text(tile.text), 280, whole_word=True)}
           <a href="${h.entity_url(milestone)}" class="more_link">
             ${_(u'more')}
           </a>
