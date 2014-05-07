@@ -61,7 +61,6 @@ html.no-touch .comment {
 }
 a.new_comment {
     @include button-small($primary-color, $primary-color);
-    color: #fff;
 }
 // FIXME not accessible
 .comment:not(:hover) a.new_comment {
