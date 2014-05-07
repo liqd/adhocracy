@@ -9,9 +9,13 @@
     }
 }
 
-@mixin button-background($color) {
+@mixin button-background($color, $dark: $black, $light: white) {
+    // Set a background gradient based on $color and $dark or $light as text
+    // color (depending on contrast).
+
     background-color: $color;
     @include background-image(linear-gradient(170deg, lighten($color, 14%), $color));
+    color: contrast-color($color, $dark, $light);
 
     &:hover, &:focus {
         background-color: darken($color, 7%);
@@ -22,9 +26,12 @@
 @mixin button-round-background() {
     background-color: #dedede;
     @include background-image(linear-gradient(top, #eaeaea, #dedede));
+    color: contrast-color(#dedede, $black, white);
+
     &:hover, &:focus {
         background-color: #d1d1d1;
         @include background-image(linear-gradient(top, #ececec, #d1d1d1));
+        color: contrast-color(#d1d1d1, $black, white);
     }
 }
 
@@ -54,11 +61,10 @@
     font-weight: bold;
     padding: 0 1em;
 
-    color: #fff;
     @include button-background($color);
 }
 
-@mixin button-small($color1, $color2) {
+@mixin button-small($color1, $color2, $dark: $black, $light: white) {
     font-size: $small;
     line-height: 1.3;
     @include button-base;
@@ -67,15 +73,18 @@
 
     background-color: lighten($color1, 14%);
     @include background-image(linear-gradient(top, lighten($color1, 23%), lighten($color1, 14%)));
+    color: contrast-color($color1, $dark, $light);
+
     &:hover, &:focus {
-        color: #fff;
         background-color: $color2;
         @include background-image(linear-gradient(top, lighten($color2, 7%), $color2));
+        color: contrast-color($color2, $dark, $light);
     }
     &:active, &.active {
         background-color: $color2;
         @include background-image(linear-gradient(bottom, lighten($color2, 7%), $color2));
         @include box-shadow(1px 1px 1px #333 inset);
+        color: contrast-color($color2, $dark, $light);
     }
     .inactive & {
         background: $bg2 !important;
@@ -94,7 +103,6 @@
     font-weight: bold;
     border: 1px solid $border;
 
-    color: $black;
     @include button-round-background();
 
     &:hover, &:focus {
