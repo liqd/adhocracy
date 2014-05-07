@@ -58,12 +58,12 @@
         body = h.html_to_plain_text(event.text())
     %>
     <li class="tiny_row ${event.event.code}">
-        <div class="meta">
+        <div class="event_meta">
             ${as_icon(event, 'event_icon')|n}
             <span class="topic_type">${TOPIC_TYPES[event.event.code]}</span>
             ${VERBS[event.event.code]}
             ${h.datetime_tag(event.time, relative=True)|n}&nbsp;
-            <a href="${event.link()}" class="more_simple">${_('more')}</a>
+            <a href="${event.link()}" class="more">${_('more')}</a>
         </div>
         <h3>${body}</h3>
     </li>

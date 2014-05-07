@@ -15,10 +15,10 @@
             ${milestone.title}
           </a>
         </h3>
-        <div class="milestone_row_content meta">
+        <div class="milestone_row_content">
           ${h.truncate(h.markdown_to_plain_text(milestone.text), 280, whole_word=True)}
           <a href="${h.entity_url(milestone)}" class="more_link">
-            ${_(u'See more')}
+            ${_(u'more')}
           </a>
         </div>
       </div>

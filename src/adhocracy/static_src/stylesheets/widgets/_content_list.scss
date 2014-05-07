@@ -251,12 +251,11 @@
         }
     }
     > li.tiny_row {
-        color: $fg1;
-        .more_simple,
+        .more,
         .topic_type {
             font-size: $small;
         }
-        .meta {
+        .event_meta {
             position: relative;
             font-size: $x-small;
             padding-left: 2.5em;
