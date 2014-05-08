@@ -21,6 +21,15 @@
         background-position: 50%;
         opacity: 0.2;
     }
+
+    #searchbox {
+        padding-top: 2em;
+        float: right;
+
+        input[type="text"] {
+            max-width: 17em;
+        }
+    }
 }
 
 #logo_row {
