@@ -7,9 +7,18 @@
 </%def>
 
 
-<%block name="sidebar">
-    ${c.instance_pager.render_facets(cls='sidebar_box')}
-</%block>
+<%def name="header()">
+<div class="morelink_header">
+    <h1 class="page_title">${_("Instances")}</h1>
+
+    %if can.instance.create():
+    <a class="more_link"
+       href="${h.base_url('/instance/new')}">${_("Create new instance")}</a>
+    %endif
+</div>
+
+<p>${_("Instances are little democracies that are ran by their community.")}</p>
+</%def>
 
 
 <%def name="as_tiles(instances, columns=2)">
@@ -48,22 +57,33 @@
 </%def>
 
 
-<%block name="main_content">
-<div class="morelink_header">
-    <h1 class="page_title">${_("Instances")}</h1>
-
+<%def name="list_button()">
+<div class="list_button">
     %if can.instance.create():
-    <a class="more_link"
-       href="${h.base_url('/instance/new')}">${_("Create new instance")}</a>
+    <a class="button title add" href="/instance/new">${_("new instance")}</a>
     %endif
 </div>
+</%def>
 
-<p>${_("Instances are little democracies that are ran by their community.")}</p>
 
+<%block name="sidebar">
+%if h.config.get_bool('adhocracy.instance_index_sidebar'):
+    ${c.instance_pager.render_facets(cls='sidebar_box')}
+%endif
+</%block>
+
+
+<%block name="main_content">
 %if h.config.get_bool('adhocracy.instance_index_as_tiles'):
-    ${as_tiles(c.instance_pager.items, columns=2)}
-    ${c.instance_pager.render_pages_nav()}
+    %if h.config.get_bool('adhocracy.instance_index_sidebar'):
+        ${header()}
+        ${as_tiles(c.instance_pager.items, columns=2)}
+        ${c.instance_pager.render_pages_nav()}
+        ${list_button()}
+    %endif
 %else:
+${header()}
+
 <div class="table" id="instance_table">
 
     ${c.instance_pager.render_pager()}
@@ -92,11 +112,17 @@
     %endif
 
 </div>
-%endif
 
-<div class="list_button">
-    %if can.instance.create():
-    <a class="button title add" href="/instance/new">${_("new instance")}</a>
-    %endif
-</div>
+${list_button()}
+%endif
+</%block>
+
+
+<%block name="headline">
+%if not h.config.get_bool('adhocracy.instance_index_sidebar') and h.config.get_bool('adhocracy.instance_index_as_tiles'):
+    ${header()}
+    ${as_tiles(c.instance_pager.items, columns=3)}
+    ${c.instance_pager.render_pages_nav()}
+    ${list_button()}
+%endif
 </%block>

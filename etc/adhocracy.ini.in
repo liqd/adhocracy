@@ -509,6 +509,9 @@ adhocracy.static_index_path = index
 # Display instance index as tiles instead of list
 # adhocracy.instance_index_as_tiles = true
 
+# Display hide sidebar on instance index
+# adhocracy.instance_index_sidebar = false
+
 ## Performance options
 
 # Check whether feedback instance exists before rendering a feedback button
