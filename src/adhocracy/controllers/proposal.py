@@ -1,8 +1,9 @@
+from cgi import FieldStorage
 import logging
 import urllib
 
 import formencode
-from formencode import htmlfill, Invalid, validators
+from formencode import htmlfill, Invalid, validators, All
 
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
@@ -12,6 +13,8 @@ from pylons.i18n import _
 
 from adhocracy import config
 from adhocracy import forms, model
+from adhocracy.forms.common import ValidImageFileUpload
+from adhocracy.forms.common import ValidFileUpload
 from adhocracy.lib import democracy, event, helpers as h, pager
 from adhocracy.lib import sorting, tiles, watchlist
 from adhocracy.lib import votedetail
@@ -60,6 +63,8 @@ class ProposalCreateForm(ProposalNewForm):
     wiki = validators.StringBool(not_empty=False, if_empty=False,
                                  if_missing=False)
     geotag = validators.String(if_empty=None, if_missing=None)
+    image = All(ValidImageFileUpload(not_empty=False, if_missing=None),
+                ValidFileUpload(not_empty=False),)
 
 
 class ProposalEditForm(formencode.Schema):
@@ -78,6 +83,8 @@ class ProposalUpdateForm(ProposalEditForm):
     category = formencode.foreach.ForEach(forms.ValidCategoryBadge())
     watch = validators.StringBool(not_empty=False, if_empty=False,
                                   if_missing=False)
+    image = All(ValidImageFileUpload(not_empty=False),
+                                     ValidFileUpload(not_empty=False),)
     badge = formencode.foreach.ForEach(forms.ValidDelegateableBadge())
     thumbnailbadge = formencode.foreach.ForEach(forms.ValidThumbnailBadge())
 
@@ -106,6 +113,9 @@ class ProposalController(BaseController):
 
     def __init__(self):
         super(ProposalController, self).__init__()
+        c.api = h.adhocracy_service.RESTAPI()
+        c.allow_mediafiles = config.get_bool(
+            'adhocracy.delegateable_mediafiles', False)
 
     @RequireInstance
     @validate(schema=ProposalFilterForm(), post_only=False, on_get=True)
@@ -317,6 +327,13 @@ class ProposalController(BaseController):
         category = categories[0] if categories else None
         proposal.set_category(category, c.user)
 
+        image = self.form_result.get('image')
+        if isinstance(image, FieldStorage):
+            response = c.api.add_image(image.filename, image.file.read())
+            name = response.json()["name"]
+            mediafile = model.MediaFile.create(name)
+            mediafile.assignDelegateable(proposal, c.user)
+
         for page in pages:
             page_text = page.get('text', '')
             page = page.get('id')
@@ -369,6 +386,9 @@ class ProposalController(BaseController):
         # categories for this proposal
         # (single category not assured in db model)
         c.category = c.proposal.category
+
+        image = c.proposal.mediafiles[0].name if c.proposal.mediafiles else u""
+        c.image_src = u"%s/%s" % (c.api.images_get.url, image) if image else u""
 
         force_defaults = False
         if errors:
@@ -432,6 +452,22 @@ class ProposalController(BaseController):
                                   self.form_result.get('text'),
                                   parent=c.proposal.description.head,
                                   wiki=wiki)
+
+        if 'delete_image' in self.form_result:
+            del(c.proposal.mediafiles[0])
+        image = self.form_result.get('image')
+        if isinstance(image, FieldStorage):
+            #TODO check mimetype
+            #TODO handle exeptions
+            # delete old image (assume there is only one)
+            if c.proposal.mediafiles:
+                del(c.proposal.mediafiles[0])
+            #add new image
+            response = c.api.add_image(image.filename, image.file.read())
+            name = response.json()["name"]
+            mediafile = model.MediaFile.create(name)
+            mediafile.assignDelegateable(c.proposal, c.user)
+
         model.meta.Session.commit()
         if can.watch.create():
             watchlist.set_watch(c.proposal, self.form_result.get('watch'))
@@ -468,6 +504,9 @@ class ProposalController(BaseController):
             return self.activity(id, format)
         elif format == 'json':
             return render_json(c.proposal)
+
+        image = c.proposal.mediafiles[0].name if c.proposal.mediafiles else u""
+        c.image_src = u"%s/%s" % (c.api.images_get.url, image) if image else u""
 
         c.tile = tiles.proposal.ProposalTile(c.proposal)
         used_pages = [selection.page for selection in c.proposal.selections]
