@@ -11,6 +11,43 @@
     ${c.instance_pager.render_facets(cls='sidebar_box')}
 </%block>
 
+
+<%def name="as_tiles(instances, columns=2)">
+    <div class="tile-table">
+        <% counter = 0 %>
+
+        %for instance in instances:
+
+        %if counter % columns == 0:
+        <div class="tile-row">
+        %endif
+
+            <a class="tile" href="${h.entity_url(instance)}">
+                <img class="tile-image" src="${h.logo_url(instance, 160, 320)}" alt="" />
+                <h3>${instance.title}</h3>
+                <p>${h.truncate(h.markdown_to_plain_text(instance.description, safe_mode='adhocracy_config'), 200, whole_word=True)}</p>
+                <span class="tile-button button">${_('participate')}</span>
+            </a>
+
+        <% counter += 1 %>
+        %if counter % columns == 0:
+        </div>
+        %endif
+
+        %endfor
+
+        %if counter % columns != 0:
+
+        %for i in range(counter % columns, columns):
+            <span class="tile"></span>
+        %endfor
+
+        </div>
+        %endif
+    </div>
+</%def>
+
+
 <%block name="main_content">
 <div class="morelink_header">
     <h1 class="page_title">${_("Instances")}</h1>
@@ -23,6 +60,10 @@
 
 <p>${_("Instances are little democracies that are ran by their community.")}</p>
 
+%if h.config.get_bool('adhocracy.instance_index_as_tiles'):
+    ${as_tiles(c.instance_pager.items, columns=2)}
+    ${c.instance_pager.render_pages_nav()}
+%else:
 <div class="table" id="instance_table">
 
     ${c.instance_pager.render_pager()}
@@ -51,6 +92,7 @@
     %endif
 
 </div>
+%endif
 
 <div class="list_button">
     %if can.instance.create():
@@ -58,5 +100,3 @@
     %endif
 </div>
 </%block>
-
-

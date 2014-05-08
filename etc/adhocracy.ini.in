@@ -506,6 +506,8 @@ adhocracy.static_index_path = index
 # of PROPOSAL_SORTS in src/adhocracy/lib/pager.py for all available options.
 # adhocracy.listings.instance_proposal.sorting = None
 
+# Display instance index as tiles instead of list
+# adhocracy.instance_index_as_tiles = true
 
 ## Performance options
 
