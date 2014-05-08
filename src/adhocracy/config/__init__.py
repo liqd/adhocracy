@@ -54,6 +54,8 @@ DEFAULTS = {
     'adhocracy.instance_domains': {},
     'adhocracy.instance_domains.enabled': True,
     'adhocracy.instance_footers': [],
+    'adhocracy.instance_index_as_tiles': False,
+    'adhocracy.instance_index_sidebar': True,
     'adhocracy.instance_key_length_max': 20,
     'adhocracy.instance_key_length_min': 4,
 

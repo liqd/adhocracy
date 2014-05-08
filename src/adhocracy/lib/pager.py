@@ -173,6 +173,14 @@ class PagerMixin(object):
         '''
         return render_def('/pager.html', 'namedpager', pager=self)
 
+    def render_pages_nav(self):
+        """Render template only for the pages navigation.
+
+        This is implicitly called by render_pager. It is useful if you
+        use some other mechanism to render the items.
+        """
+        return render_def('/pager.html', 'pages_nav', pager=self)
+
     @property
     def sort_param(self):
         return "%s_sort" % self.name

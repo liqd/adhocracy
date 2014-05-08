@@ -31,56 +31,62 @@
         ${pager.itemfunc(item)}
     %endfor
       </ul>
-    %if pager.enable_pages:
-        %if pager.pages > 1:
-        <div class="pager">
-            <div class="prev_page">
-                %if pager.page > 1:
-                <a href="${pager.build_url(page=pager.page-1)|n}#top"
-                   target="_self">&laquo; ${_("previous")}</a>
-                %else:
-                <span>&laquo; ${_("previous")}</span>
-                %endif
-            </div>
-            %for page in pager.pages_items():
-                %if page['seperator']:
-                    <span class="seperator">...</span>
-                %else:
-                    %if page['current']:
-                        <span class="current">${page['label']}</span>
-                    %else:
-                        <a href="${page['url']|n}#top"
-                           target="_self"
-                           class="${page['class']}">${page['label']}</a>
-                    %endif
-                %endif
-            %endfor
-            <div class="next_page">
-                %if pager.page < pager.pages:
-                <a href="${pager.build_url(page=pager.page+1)|n}#top"
-                   target="_self">${_("next")} &raquo;</a>
-                %else:
-                <span>${_("next")} &raquo;</span>
-                %endif
-            </div>
-        </div>
-        %endif
-        %if pager.page_sizes():
-        <div class="pager_sorts bottom">
-            %for size in pager.page_sizes():
-            %if size['current']:
-            ${size['size']}
-            %else:
-            <a href="${size['url']|n}#top" rel="nofollow" target="_self">${size['size']}</a>
-            %endif
-            ${'|' if not size['last'] else ''}
-            %endfor
-            ${_("entries")}
-        </div>
-        %endif
-    %endif
+    ${pager.render_pages_nav()}
 </div>
 </%def>
+
+
+<%def name="pages_nav(pager)">
+%if pager.enable_pages:
+    %if pager.pages > 1:
+    <div class="pager">
+        <div class="prev_page">
+            %if pager.page > 1:
+            <a href="${pager.build_url(page=pager.page-1)|n}#top"
+               target="_self">&laquo; ${_("previous")}</a>
+            %else:
+            <span>&laquo; ${_("previous")}</span>
+            %endif
+        </div>
+        %for page in pager.pages_items():
+            %if page['seperator']:
+                <span class="seperator">...</span>
+            %else:
+                %if page['current']:
+                    <span class="current">${page['label']}</span>
+                %else:
+                    <a href="${page['url']|n}#top"
+                       target="_self"
+                       class="${page['class']}">${page['label']}</a>
+                %endif
+            %endif
+        %endfor
+        <div class="next_page">
+            %if pager.page < pager.pages:
+            <a href="${pager.build_url(page=pager.page+1)|n}#top"
+               target="_self">${_("next")} &raquo;</a>
+            %else:
+            <span>${_("next")} &raquo;</span>
+            %endif
+        </div>
+    </div>
+    %endif
+    %if pager.page_sizes():
+    <div class="pager_sorts bottom">
+        %for size in pager.page_sizes():
+        %if size['current']:
+        ${size['size']}
+        %else:
+        <a href="${size['url']|n}#top" rel="nofollow" target="_self">${size['size']}</a>
+        %endif
+        ${'|' if not size['last'] else ''}
+        %endfor
+        ${_("entries")}
+    </div>
+    %endif
+%endif
+</%def>
+
 
 <%def name="facets(pager, cls=None, exclude=[])">
 <% is_admin = can.badge.edit_global() or can.badge.edit_instance() %>
