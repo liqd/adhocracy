@@ -31,6 +31,10 @@ threadpool_workers = 20
 
 [composite:main]
 use = egg:Paste#urlmap
+{% if parts.get("adhocracy_service_conf", False) %}
+${parts.adhocracy_service_conf.cms_path} = adhocracy_service
+/api = adhocracy_service
+{% end %}
 / = default
 
 [pipeline:default]
@@ -43,6 +47,10 @@ pipeline = content
 
 [composite:main]
 use = egg:Paste#urlmap
+{% if parts.get("adhocracy_service_conf", False) %}
+${parts.adhocracy_service_conf.cms_path} = adhocracy_service
+/api = adhocracy_service
+{% end %}
 /static_theme = static
 /_wordpress = wordpress_pipe
 / = default
@@ -647,6 +655,13 @@ kotti.secret = ${parts.adhocracy_service_conf.kotti_secret}
 # see http://www.sqlalchemy.org/docs/core/engines.html#database-urls
 sqlalchemy.url = ${parts.adhocracy_service_conf.sqlalchemy_url}
 
+{% if parts.adhocracy_service_conf.database_type != 'sqlite' %}
+# INSTALL: The SQLAlchemy queue pool size should be at least the size of the
+# paster threads, multiplied with the number of processes.
+sqlalchemy.pool_size = 40
+sqlalchemy.max_overflow = 80
+{% end %}
+
 # mail.default_sender: configure the 'from' address of emails sent by Kotti
 mail.default_sender = yourname@yourhost
 
@@ -671,12 +686,16 @@ pyramid.includes =
 #  pyramid_debugtoolbar
   adhocracy_kotti
 
+[filter:paste_prefix]
+use = egg:PasteDeploy#prefix
+prefix = ${parts.adhocracy_service_conf.cms_path}
 
 [filter:fanstatic]
 use = egg:fanstatic#fanstatic
 
 [pipeline:adhocracy_service]
 pipeline =
+    paste_prefix
     fanstatic
     kotti
 {% end %}
@@ -685,7 +704,10 @@ pipeline =
 script_location = src/adhocracy/alembic
 sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
-# Logging configuration
+###########################
+#  Logging configuration  #
+###########################
+
 [loggers]
 keys = root, adhocracy, sqlalchemy
 
