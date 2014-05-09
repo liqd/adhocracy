@@ -239,7 +239,7 @@ a.show_me {
                 @include background-image(linear-gradient(to bottom, darken($header-color2, 1%), lighten($header-color2, 4%)));
 
                 > a {
-                    color: contras-color($header-color2, $fg1, #c1c4c9);
+                    color: contrast-color($header-color2, $fg1, #c1c4c9);
                 }
             }
             // FIXME not accessible
