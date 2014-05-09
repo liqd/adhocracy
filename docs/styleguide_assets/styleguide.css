@@ -1,0 +1,45 @@
+.styleguide-nav ul {
+    display: block;
+    margin: 0;
+    list-style: none;
+}
+.styleguide-nav li {
+    display: inline-block;
+}
+.styleguide-nav a {
+    display: inline-block;
+    padding: 0.5em;
+}
+.styleguide-nav a:hover,
+.styleguide-nav a:focus,
+.styleguide-nav a:active {
+    background-color: #f6f6f6;
+    text-decoration: none;
+}
+
+.styleguide .codeExample {
+    border: 1px solid silver;
+    border-radius: 0.5em;
+    overflow: hidden;
+}
+.styleguide .codeExample .exampleOutput {
+    border-bottom: 1px solid silver;
+    padding: 1em;
+}
+.styleguide .codeExample .codeBlock pre {
+    margin: 0;
+    padding: 1em;
+    border: none;
+}
+
+.styleguide .components h1 {
+    padding-bottom: 0.2em;
+    border-bottom: 1px solid silver;
+}
+.styleguide .components h1:not(:first-of-type) {
+    margin-top: 3em;
+}
+
+#footer {
+    text-align: center;
+}

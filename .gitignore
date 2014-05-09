@@ -18,6 +18,7 @@
 bundestag.ini
 data/*
 docs/build/*
+docs/styleguide/*
 site/*
 var
 parts
@@ -44,6 +45,7 @@ etc/adhocracy-interactive.ini
 etc/test.ini
 etc/compass.rb
 etc/compass.min.rb
+etc/hologram.yml
 mailsink
 adhocracy-test-chroot
 RELEASE-VERSION

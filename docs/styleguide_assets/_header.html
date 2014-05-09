@@ -1,0 +1,40 @@
+<!doctype html>
+<html class="styleguide">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+
+        <title>Adhocracy 2 Styleguide - <%= title %></title>
+
+        <!-- assets -->
+        <link rel="stylesheet" href="styleguide.css">
+        <link rel="stylesheet" href="github.css">
+
+        <!-- generated style -->
+        <link rel="stylesheet" href="static/stylesheets/adhocracy.css">
+    </head>
+    <body>
+
+        <header id="header">
+            <div class="page_wrapper">
+                <h1>Adhocracy 2 Styleguide</h1>
+
+                <nav class="styleguide-nav">
+                    <ul>
+                        <% @categories.each do |category, file_name| %>
+                        <li><a href="<%= file_name %>"><%= category %></a></li>
+                        <% end %>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main id="main">
+            <div class="page_wrapper">
+                <ul>
+                    <% @blocks.each do |b| %>
+                    <li><a href="#<%= b[:name] %>"><%= b[:title] %></a></li>
+                    <% end %>
+                </ul>
+
+                <div class="components">
