@@ -124,14 +124,14 @@ class CategoryController(BaseController):
         enable_pages = asbool(request.params.get('enable_pages', 'true'))
         row_type = request.params.get('row_type', 'row')
 
-        if not row_type in ['row', 'profile_row', 'sidebar_row', 'tiny_row']:
+        if row_type not in ['row', 'profile_row', 'sidebar_row', 'tiny_row']:
             abort(400)
 
         data = {
             'event_pager': pager.events(events,
-                enable_sorts=enable_sorts,
-                enable_pages=enable_pages,
-                row_type=row_type),
+                                        enable_sorts=enable_sorts,
+                                        enable_pages=enable_pages,
+                                        row_type=row_type),
         }
         return render('/category/events.html', data,
                       overlay=format == 'overlay',
@@ -152,8 +152,8 @@ class CategoryController(BaseController):
 
         data = {
             'milestone_pager': pager.milestones(milestones,
-                enable_sorts=enable_sorts,
-                enable_pages=enable_pages),
+                                                enable_sorts=enable_sorts,
+                                                enable_pages=enable_pages),
         }
         return render('/category/milestones.html', data,
                       overlay=format == 'overlay',
