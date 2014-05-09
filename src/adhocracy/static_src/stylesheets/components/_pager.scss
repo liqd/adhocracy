@@ -58,19 +58,19 @@
         min-width: 2em - 2*0.6em;
         text-align: center;
         background: $bg1;
-        margin: 0.2em;
         color: $fg1;
+        margin: 0.2em;
         @include border-radius(1em);
         border: 1px solid $border;
     }
     a:hover, a:focus {
-        color: #fff;
         background-color: lighten($button-color, 10%);
+        color: contrast-color(lighten($button-color, 10%), $black, white);
         text-decoration: none;
     }
     .current, a:active {
-        color: #fff;
         background-color: $button-color;
+        color: contrast-color($button-color, $black, white);
     }
 }
 

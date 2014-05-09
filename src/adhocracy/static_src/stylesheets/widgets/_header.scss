@@ -47,7 +47,7 @@ body.logged_in #logo {
     text-align: right;
     padding-top: 1.5em;
     font-weight: bold;
-    color: #fff;
+    color: contrast-color($header-color, $black, white);
 
     body.logged_in & {
         padding-top: 0.2em;
@@ -78,12 +78,12 @@ body.logged_in #logo {
     li {
         a {
             display: block;
-            color: #fff;
+            color: contrast-color($header-color2, $black, white);
             text-decoration: none;
             padding: 0;
         }
         a:hover, a:focus, &.current a {
-            color: #c1c4c9;
+            color: contrast-color($header-color2, $fg1, #c1c4c9);
         }
     }
     > li {
@@ -162,7 +162,7 @@ a.show_me {
     #mobile-login-button,
     #mobile-user-menu-button {
         display: inline-block;
-        color: white;
+        color: contrast-color($header-color, $black, white);
         text-decoration: none;
         padding: 1em 0.8em 0 0.8em;
         height: 3.5em;
@@ -224,7 +224,7 @@ a.show_me {
             position: relative;
 
             a {
-                color: #fff;
+                color: contrast-color($header-color, $black, white);
                 text-decoration: none;
                 display: block;
             }
@@ -239,13 +239,17 @@ a.show_me {
                 @include background-image(linear-gradient(to bottom, darken($header-color2, 1%), lighten($header-color2, 4%)));
 
                 > a {
-                    color: #c1c4c9;
+                    color: contrast-color($header-color2, $fg1, #c1c4c9);
                 }
             }
             // FIXME not accessible
             &:hover {
                 background-color: lighten($header-color2, 4%);
                 @include background-image(linear-gradient(to bottom, lighten($header-color2, 5%), $header-color2));
+
+                > a {
+                    color: contrast-color(lighten($header-color2, 4%), $fg1, $bg1);
+                }
             }
         }
         .hlist > ul > li > ul.children {
