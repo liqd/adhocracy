@@ -122,6 +122,7 @@ class SelectionController(BaseController):
 
         redirect(h.entity_url(c.proposal))
 
+    @RequireInstance
     def details(self, proposal_id, selection_id, format='html'):
         '''
         '''
