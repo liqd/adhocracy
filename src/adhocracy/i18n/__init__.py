@@ -1,6 +1,7 @@
 from datetime import datetime
 import logging
 import pkgutil
+import string
 
 import pytz
 import babel
@@ -33,6 +34,11 @@ LOCALE_STRINGS = map(str, LOCALES)
 LOCALE_ALIASES = {
     'pt': 'pt_BR',
 }
+# Babel language negotiation can only compare language codes using the same
+# separator. As we use underscores and browsers send dashes, we convert our
+# static list to use dashes as well for the negotiation.
+LOCALE_STRINGS_DASH = map(lambda l: string.replace(l, '_', '-'),
+                          LOCALE_STRINGS)
 
 FALLBACK_TZ = 'Europe/Berlin'
 
@@ -116,8 +122,8 @@ def user_language(user, fallbacks=[]):
         locale = user.locale
 
     if locale is None:
-        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS,
-                                               aliases=LOCALE_ALIASES)) \
+        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS_DASH,
+                                               sep='-')) \
             or get_default_locale()
 
     # determinate from which path we load the translations
