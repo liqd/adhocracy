@@ -30,6 +30,10 @@ LOCALES = [babel.Locale('de', 'DE'),
 
 LOCALE_STRINGS = map(str, LOCALES)
 
+LOCALE_ALIASES = {
+    'pt': 'pt_BR',
+}
+
 FALLBACK_TZ = 'Europe/Berlin'
 
 
@@ -112,7 +116,8 @@ def user_language(user, fallbacks=[]):
         locale = user.locale
 
     if locale is None:
-        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS)) \
+        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS,
+                                               aliases=LOCALE_ALIASES)) \
             or get_default_locale()
 
     # determinate from which path we load the translations
@@ -121,7 +126,7 @@ def user_language(user, fallbacks=[]):
 
     # set language and fallback
     set_lang(str(locale), pylons_config=translations_config)
-    add_fallback(get_default_locale().language,
+    add_fallback(str(get_default_locale()),
                  pylons_config=translations_config)
     formencode.api.set_stdtranslation(domain="FormEncode",
                                       languages=[locale.language])
