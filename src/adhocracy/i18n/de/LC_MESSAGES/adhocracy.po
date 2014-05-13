@@ -37,9 +37,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-30 16:03+0200\n"
-"PO-Revision-Date: 2014-04-30 14:48+0000\n"
-"Last-Translator: EvaPanek <eva.panek@liqd.de>\n"
+"POT-Creation-Date: 2014-05-07 13:05+0200\n"
+"PO-Revision-Date: 2014-05-13 13:40+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1267,7 +1267,7 @@ msgstr "Sie scheinen nicht die benötigten Rechte zu haben um fortzufahren."
 msgid ""
 "The requested action could not be performed, because the session which was "
 "active when you visited the previous page has expired."
-msgstr "Die gewünschte Aktion konnte nicht ausgeführt werden, weil die Sitzung auf der vorigen Seite abgelaufen ist."
+msgstr "Die gewünschte Aktion konnte nicht ausgeführt werden, weil die Sitzung, die aktiv war, als Sie die vorige Seite besucht haben, abgelaufen ist."
 
 msgid "Back to your current session"
 msgstr "Zurück zu Ihrer Sitzung."
@@ -1560,7 +1560,7 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr "Version: %(user)s %(vote)s %(poll)s"
 
 #, python-format
-msgid "Message send: %(message)s"
+msgid "Message sent: %(message)s"
 msgstr "Mitteilung gesendet: %(message)s"
 
 #, python-format
@@ -1615,6 +1615,100 @@ msgstr "Bearbeiteter Kommentar: %(topic)s"
 msgid "Message from %(sender)s: %(message)s"
 msgstr "Mitteilung von %(sender)s: %(message)s"
 
+msgid "User"
+msgstr "Benutzer*in"
+
+msgid "Membership"
+msgstr "Mitgliedschaft"
+
+msgid "Proposal"
+msgstr "Vorschlag"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] "Änderungsvorschlag"
+msgstr[1] "Änderungsvorschläge"
+
+msgid "Page"
+msgstr "Beschluss"
+
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Kommentar"
+msgstr[1] "Kommentare"
+
+msgid "Delegation"
+msgstr "Delegation"
+
+msgid "Vote"
+msgstr "abstimmen"
+
+msgid "Variant"
+msgstr "Variante"
+
+msgid "Message"
+msgstr "Mitteilung"
+
+msgid "Massmessage"
+msgstr "Massenmitteilung"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "created"
+msgstr "erstellt"
+
+msgid "edited"
+msgstr "bearbeitet"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "joined"
+msgstr "beigetreten"
+
+msgid "left"
+msgstr "verlassen"
+
+msgid "updated"
+msgstr "aktualisiert"
+
+msgid "badged"
+msgstr "gebadget"
+
+msgid "changed state"
+msgstr "Status verändert"
+
+msgid "deleted"
+msgstr "gelöscht"
+
+msgid "revoked"
+msgstr "zurückgezogen"
+
+msgid "casted"
+msgstr "abgegeben"
+
+msgid "selected"
+msgstr "ausgewählt"
+
+msgid "sent"
+msgstr "gesendet"
+
+msgid "tested"
+msgstr "getestet"
+
+msgid "received"
+msgstr "erhalten"
+
+msgid "lost"
+msgstr "verloren"
+
+msgid "conflicted"
+msgstr "kollidiert"
+
+msgid "replied"
+msgstr "geantwortet"
+
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Über diesen Vorschlag wird gerade abgestimmt, er kann daher nicht verändert werden."
 
@@ -1635,9 +1729,6 @@ msgstr "(Unbekannt)"
 
 msgid "Implementation"
 msgstr "Umsetzung"
-
-msgid "delete"
-msgstr "löschen"
 
 #, python-format
 msgid "%s (deleted user)"
@@ -1778,9 +1869,6 @@ msgstr "Bei Änderungen per Email benachrichtigen."
 
 msgid "Message to Members"
 msgstr "Mitteilung an Mitglieder"
-
-msgid "Message"
-msgstr "Mitteilung"
 
 msgid "Send us your feedback"
 msgstr "Senden Sie uns Feedback"
@@ -2048,7 +2136,7 @@ msgid ""
 "You can log in using various external user accounts. Please be aware that "
 "the login via external providers may cause security and privacy related "
 "risks."
-msgstr "Sie können sich mit verschiedenen externen Benutzerkonten anmelden. Bitte beachten sie, dass die Anmeldung durch externe Anbieter riskant für Ihre Privatsphäre und Sicherheit sein kann."
+msgstr "Sie können sich mit verschiedenen externen Benutzerkonten anmelden. Bitte beachten Sie, dass die Anmeldung durch externe Anbieter riskant für Ihre Privatsphäre und Sicherheit sein kann."
 
 msgid "Login with Facebook"
 msgstr "Mit Facebook einloggen"
@@ -2489,11 +2577,6 @@ msgstr "Neuer Vorschlag"
 msgid "Norms in this Category"
 msgstr "Beschlüsse in dieser Kategorie"
 
-msgid "Comment"
-msgid_plural "Comments"
-msgstr[0] "Kommentar"
-msgstr[1] "Kommentare"
-
 msgid "Argument"
 msgstr "Argument"
 
@@ -2699,9 +2782,6 @@ msgstr "prüfen"
 #, python-format
 msgid "Delegate: %s"
 msgstr "Delegieren: %s"
-
-msgid "Delegation"
-msgstr "Delegation"
 
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
@@ -3399,9 +3479,6 @@ msgstr "Und Informationen über das Ziel bzw. den Zweck des Termins einsehen –
 msgid "tutorial_milestone_details_listing"
 msgstr "Hier finden Sie eine Liste aller Vorschläge und Beschlüsse, die für den Termin relevant sind."
 
-msgid "See more"
-msgstr "Mehr erfahren"
-
 msgid "with an abstention on"
 msgstr "mit Enthaltung bei"
 
@@ -3420,7 +3497,7 @@ msgstr "Weiter"
 
 msgid ""
 "Single sign-on services allow you to use a single login on many web sites."
-msgstr "\"Single Sign-on\"-Dienste erlauben es, sich mit einem Benuzterkonto auf vielen Webseiten anzumelden."
+msgstr "\"Single Sign-on\"-Dienste erlauben es, sich mit einem Benutzerkonto auf unterschiedlichen Webseiten anzumelden."
 
 msgid "Select a user name"
 msgstr "Benutzernamen auswählen"
@@ -3617,9 +3694,6 @@ msgstr "Der Text verglichen mit der Originalversion"
 msgid "Reasoning"
 msgstr "Begründung"
 
-msgid "Proposal"
-msgstr "Vorschlag"
-
 msgid "tutorial_norm_show_vote"
 msgstr "Bewerten Sie die Original- und die eingebrachten Versionen eines Beschlusses, indem Sie über die Pfeile Ihre Zustimmung (hoch) oder Ablehnung (runter) ausdrücken. Sie können dabei auch mehreren Versionen zustimmen oder diese ablehnen."
 
@@ -3642,11 +3716,6 @@ msgstr[1] "Diskussionen"
 
 msgid "Amendments"
 msgstr "Änderungsvorschläge"
-
-msgid "Amendment"
-msgid_plural "Amendments"
-msgstr[0] "Änderungsvorschlag"
-msgstr[1] "Änderungsvorschläge"
 
 msgid "Add section"
 msgstr "Abschnitt hinzufügen"
@@ -3809,9 +3878,6 @@ msgstr "Verifizieren Sie Ihre Email-Adresse, um eine Änderung einzubringen."
 
 msgid "Get Involved"
 msgstr "Mitmachen"
-
-msgid "Vote"
-msgstr "abstimmen"
 
 msgid "Kein Text"
 msgstr "Kein Text"
