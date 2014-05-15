@@ -1,10 +1,12 @@
 from datetime import datetime
 import logging
 import pkgutil
+import string
 
 import pytz
 import babel
 from babel import Locale
+from babel.core import LOCALE_ALIASES
 import babel.dates
 import formencode
 from pylons.i18n import _
@@ -30,9 +32,15 @@ LOCALES = [babel.Locale('de', 'DE'),
 
 LOCALE_STRINGS = map(str, LOCALES)
 
-LOCALE_ALIASES = {
-    'pt': 'pt_BR',
-}
+# Babel language negotiation can only compare language codes using the same
+# separator. As we use underscores and browsers send dashes, we convert our
+# static list to use dashes as well for the negotiation.
+LOCALE_STRINGS_DASH = map(lambda l: string.replace(l, '_', '-'),
+                          LOCALE_STRINGS)
+
+# We have only Brazilian Portuguese, so we show that when pt is requested.
+A2_LOCALE_ALIASES = LOCALE_ALIASES.copy()
+A2_LOCALE_ALIASES['pt'] = 'pt_BR'
 
 FALLBACK_TZ = 'Europe/Berlin'
 
@@ -116,8 +124,9 @@ def user_language(user, fallbacks=[]):
         locale = user.locale
 
     if locale is None:
-        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS,
-                                               aliases=LOCALE_ALIASES)) \
+        locale = Locale.parse(Locale.negotiate(fallbacks, LOCALE_STRINGS_DASH,
+                                               sep='-',
+                                               aliases=A2_LOCALE_ALIASES)) \
             or get_default_locale()
 
     # determinate from which path we load the translations
