@@ -1,5 +1,9 @@
+from pylons import tmpl_context as c
 from pylons.i18n import _
 
+from sqlalchemy.orm import aliased
+
+from adhocracy import model
 from adhocracy.lib import cache
 from adhocracy.lib import logo
 from adhocracy.lib.helpers import url as _url
@@ -30,3 +34,36 @@ def breadcrumbs(category):
     if category is not None:
         bc += bc_entity(category)
     return bc
+
+
+def event_q(category, event_filter=[], count=50):
+    """Get events related to this category.
+
+    This is not trivial with our current models. For example this query does
+    only include one level of page nesting.
+    """
+    alias = aliased(model.Delegateable)
+
+    topics = model.meta.Session.query(model.Delegateable.id)\
+        .join(model.Delegateable.categories)\
+        .union(model.meta.Session.query(model.Delegateable.id)
+               .join(model.Page._proposal)
+               .join(alias, alias.id == model.Proposal.id)
+               .join(alias.categories))\
+        .union(model.meta.Session.query(model.Delegateable.id)
+               .join(alias, model.Delegateable.parents)
+               .join(alias.categories))\
+        .distinct()\
+        .filter(model.Delegateable.instance == c.instance)\
+        .filter(model.CategoryBadge.id == category.id)
+
+    events = model.Event.all_q(
+        instance=c.instance,
+        include_hidden=False,
+        event_filter=event_filter)\
+        .join(model.Event.topics)\
+        .filter(model.Delegateable.id.in_(topics))\
+        .order_by(model.Event.time.desc())\
+        .limit(count)
+
+    return events
