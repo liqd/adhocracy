@@ -108,17 +108,11 @@ class CategoryController(BaseController):
             abort(404)
         category = get_entity_or_abort(model.CategoryBadge, id)
 
-        # This is probably somewhere between "not exactly what we want" and
-        # "very slow".
-        events = model.Event.all_q(
-            instance=c.instance,
-            include_hidden=False,
-            event_filter=request.params.getall('event_filter'))\
-            .join(model.Event.topics)\
-            .join(model.Delegateable.categories)\
-            .filter(model.CategoryBadge.id == category.id)\
-            .order_by(model.Event.time.desc())\
-            .limit(min(int(request.params.get('count', 50)), 100)).all()
+        events = h.category.event_q(
+            category,
+            event_filter=request.params.getall('event_filter'),
+            count=min(int(request.params.get('count', 50)), 100),
+        ).all()
 
         enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
         enable_pages = asbool(request.params.get('enable_pages', 'true'))
