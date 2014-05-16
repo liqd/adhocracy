@@ -44,15 +44,19 @@ def event_q(category, event_filter=[], count=50):
     """
     alias = aliased(model.Delegateable)
 
-    topics = model.meta.Session.query(model.Delegateable.id)\
+    proposal_description_q = model.meta.Session.query(model.Delegateable.id)\
+        .join(model.Page._proposal)\
+        .join(alias, alias.id == model.Proposal.id)\
+        .join(alias.categories)
+
+    page_child_q = model.meta.Session.query(model.Delegateable.id)\
+        .join(alias, model.Delegateable.parents)\
+        .join(alias.categories)
+
+    topic_ids_q = model.meta.Session.query(model.Delegateable.id)\
         .join(model.Delegateable.categories)\
-        .union(model.meta.Session.query(model.Delegateable.id)
-               .join(model.Page._proposal)
-               .join(alias, alias.id == model.Proposal.id)
-               .join(alias.categories))\
-        .union(model.meta.Session.query(model.Delegateable.id)
-               .join(alias, model.Delegateable.parents)
-               .join(alias.categories))\
+        .union(proposal_description_q)\
+        .union(page_child_q)\
         .distinct()\
         .filter(model.Delegateable.instance == c.instance)\
         .filter(model.CategoryBadge.id == category.id)
@@ -62,7 +66,7 @@ def event_q(category, event_filter=[], count=50):
         include_hidden=False,
         event_filter=event_filter)\
         .join(model.Event.topics)\
-        .filter(model.Delegateable.id.in_(topics))\
+        .filter(model.Delegateable.id.in_(topic_ids_q))\
         .order_by(model.Event.time.desc())\
         .limit(count)
 
