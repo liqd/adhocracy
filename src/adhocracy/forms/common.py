@@ -880,3 +880,11 @@ class CaptchasDotNetCaptcha(formencode.FancyValidator):
         if not cap.verify(value, random):
             raise formencode.Invalid(_(u'Incorrect. Try again.'),
                                      value, state)
+
+
+class TermsCheckValidator(formencode.validators.StringBool):
+
+    def __init__(self):
+        super(formencode.validators.StringBool, self).__init__(not_empty=True)
+
+    ## FIXME: Needs better error message

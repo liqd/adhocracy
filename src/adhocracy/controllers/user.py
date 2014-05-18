@@ -81,6 +81,8 @@ class UserCreateForm(formencode.Schema):
     if h.get_captcha_type() == 'captchasdotnet':
         captchasdotnet_captcha = forms.CaptchasDotNetCaptcha(session,
                                                              h.captchasdotnet)
+    if config.get_bool('adhocracy.registration.require_terms_check'):
+        accept_terms = forms.TermsCheckValidator()
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
 
@@ -224,6 +226,13 @@ class UserController(BaseController):
                 data['captcha'] = h.recaptcha.displayhtml(use_ssl=True)
             add_static_content(data, u'adhocracy.static_agree_text',
                                body_key=u'agree_text', title_key='_ignored')
+            if data['agree_text'] is None:
+                data['agree_text'] = (
+                    _(u"By registering, you agree with the %s. We'll "
+                      u"occasionally inform you about important events such "
+                      u"as the start of a new participation process via "
+                      u"email.")
+                    % h.help_link(_("Terms and Conditions"), 'terms'))
             return htmlfill.render(render("/user/register.html", data,
                                           overlay=format == u'overlay'),
                                    defaults=defaults)

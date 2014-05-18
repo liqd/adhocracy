@@ -18,3 +18,4 @@ from common import MessageableInstances
 from common import ProposalSortOrder
 from common import ProposalMessageNoRecipientGroup
 from common import CaptchasDotNetCaptcha
+from common import TermsCheckValidator

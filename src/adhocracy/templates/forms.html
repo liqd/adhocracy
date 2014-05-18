@@ -32,7 +32,7 @@
     <form:error name="field_name" />
     <input name="${name}"  type="checkbox"
            ${'autofocus="autofocus"' if autofocus else '' | n}
-           ${'checked="checked"' if checked else '' | n} /> ${label}
+           ${'checked="checked"' if checked else '' | n} /> ${label|n}
     %if help:
     <div class="help-block">${help}</div>
     %endif
