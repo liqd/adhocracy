@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-30 16:03+0200\n"
-"PO-Revision-Date: 2014-04-30 14:04+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-05-18 11:15+0200\n"
+"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1040,9 +1040,6 @@ msgstr "Недействительный запрос. Вернитесь наз
 msgid "The method you used is not implemented."
 msgstr "Примененный Вами метод не реализован. "
 
-msgid "Start"
-msgstr "Старт"
-
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Сообщение о злоупотреблении: %s"
@@ -1536,7 +1533,7 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr "Варианты: %(user)s %(vote)s %(poll)s"
 
 #, python-format
-msgid "Message send: %(message)s"
+msgid "Message sent: %(message)s"
 msgstr ""
 
 #, python-format
@@ -1591,6 +1588,102 @@ msgstr "Редактирование коментария: %(topic)s"
 msgid "Message from %(sender)s: %(message)s"
 msgstr ""
 
+msgid "User"
+msgstr ""
+
+msgid "Membership"
+msgstr ""
+
+msgid "Proposal"
+msgstr "Предложение"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "Delegation"
+msgstr "Делегирование"
+
+msgid "Vote"
+msgstr "Голосовать"
+
+msgid "Variant"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Massmessage"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "edited"
+msgstr ""
+
+msgid "delete"
+msgstr "удалить"
+
+msgid "joined"
+msgstr ""
+
+msgid "left"
+msgstr ""
+
+msgid "updated"
+msgstr ""
+
+msgid "badged"
+msgstr ""
+
+msgid "changed state"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "revoked"
+msgstr ""
+
+msgid "casted"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "sent"
+msgstr ""
+
+msgid "tested"
+msgstr ""
+
+msgid "received"
+msgstr ""
+
+msgid "lost"
+msgstr ""
+
+msgid "conflicted"
+msgstr ""
+
+msgid "replied"
+msgstr ""
+
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Предложение в данный момент находится в процессе голосования и не может быть изменено. "
 
@@ -1611,9 +1704,6 @@ msgstr "(неизвестно)"
 
 msgid "Implementation"
 msgstr "Реализация"
-
-msgid "delete"
-msgstr "удалить"
 
 #, python-format
 msgid "%s (deleted user)"
@@ -1755,9 +1845,6 @@ msgstr ""
 msgid "Message to Members"
 msgstr ""
 
-msgid "Message"
-msgstr ""
-
 msgid "Send us your feedback"
 msgstr "Отправить отзыв"
 
@@ -1878,6 +1965,9 @@ msgstr "<b>%s</b> голоса"
 
 msgid "Menu"
 msgstr ""
+
+msgid "Start"
+msgstr "Старт"
 
 msgid "Instances"
 msgstr "Организации"
@@ -2185,14 +2275,14 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr "Администратор: ипмортировать список пользователей"
 
-msgid "Users CSV"
-msgstr "Пользователи CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
+
+msgid "Users CSV"
+msgstr "Пользователи CSV"
 
 msgid "Email Subject"
 msgstr "Тема письма"
@@ -2275,11 +2365,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Описание ярлыка. "
 
-msgid "Long category description"
-msgstr ""
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
+msgstr ""
+
+msgid "Long category description"
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2465,12 +2555,6 @@ msgstr "новое предложение"
 
 msgid "Norms in this Category"
 msgstr ""
-
-msgid "Comment"
-msgid_plural "Comments"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
 
 msgid "Argument"
 msgstr ""
@@ -2678,9 +2762,6 @@ msgstr "просмотр"
 msgid "Delegate: %s"
 msgstr "Делегировать: %s"
 
-msgid "Delegation"
-msgstr "Делегирование"
-
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
 " the listed delegates, or enter another user name."
@@ -2838,6 +2919,9 @@ msgstr "Создть новую организацию. "
 msgid "Instances are little democracies that are ran by their community."
 msgstr "Организации это малые демократии самоуправляющихся общин. "
 
+msgid "participate"
+msgstr ""
+
 msgid "new instance"
 msgstr "новая организация"
 
@@ -2965,11 +3049,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "Extra CSS"
-msgstr "Дополнительные CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr ""
+
+msgid "Extra CSS"
+msgstr "Дополнительные CSS"
 
 msgid "Status badge image width"
 msgstr ""
@@ -3048,20 +3132,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
-msgstr "Лого"
+msgid "Description of the instance"
+msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
+
+msgid "Logo"
+msgstr "Лого"
 
 msgid "Current logo"
 msgstr "Действующий логотип"
@@ -3379,9 +3463,6 @@ msgstr ""
 msgid "tutorial_milestone_details_listing"
 msgstr ""
 
-msgid "See more"
-msgstr "Подробнее..."
-
 msgid "with an abstention on"
 msgstr ""
 
@@ -3408,11 +3489,13 @@ msgstr "Выберите имя пользователя"
 msgid "User name"
 msgstr "Пользовательское имя"
 
+msgid "A unique user name is required for you to complete sign up and login."
+msgstr ""
+
 #, python-format
 msgid ""
-"A unique user name is required for you complete sign up and login. The user "
-"name \"%s\" received from your OpenID provider is invalid or already used. "
-"Please provide a different, unique user name."
+"The user name \"%s\" received from your OpenID provider is invalid or "
+"already used. Please provide a different, unique user name."
 msgstr ""
 
 msgid "Username:"
@@ -3465,10 +3548,10 @@ msgstr "Название варианта"
 msgid "Text"
 msgstr "Текст"
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -3597,9 +3680,6 @@ msgstr "Сравнить текст с оригинальной версией"
 msgid "Reasoning"
 msgstr ""
 
-msgid "Proposal"
-msgstr "Предложение"
-
 msgid "tutorial_norm_show_vote"
 msgstr ""
 
@@ -3623,12 +3703,6 @@ msgstr[2] ""
 
 msgid "Amendments"
 msgstr ""
-
-msgid "Amendment"
-msgid_plural "Amendments"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
 
 msgid "Add section"
 msgstr ""
@@ -3792,9 +3866,6 @@ msgstr ""
 
 msgid "Get Involved"
 msgstr "включиться"
-
-msgid "Vote"
-msgstr "Голосовать"
 
 msgid "Kein Text"
 msgstr "Текста нет."
@@ -4572,12 +4643,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4586,13 +4657,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Краткая биография"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
+
+msgid "Short biography"
+msgstr "Краткая биография"
 
 msgid "I am an organisation"
 msgstr ""
