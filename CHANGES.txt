@@ -2,6 +2,35 @@ Adhocracy Changelog
 ===================
 
 
+2.4.2 (2014-05-18)
+------------------
+
+Improvements:
+
+- Show comment and sectionpage events in category event view. (#896)
+
+- Use icon font for event and milestone icons.
+
+- New tiny row type for event view (#888)
+
+- Automatically choose button and various other colors  based on contrast.
+  (#889)
+
+- Allow to show instance list as tiles. (#890)
+
+Bug fixes:
+
+- Fix Brazilian translation. (#895)
+
+- Fix regression in feedback form.
+
+- Fix message in username choice dialog after OpenID login. (#892)
+
+- Proper font invalidation
+
+- Strip HTML from description in milestone row
+
+
 2.4.1 (2014-04-30)
 ------------------
 
