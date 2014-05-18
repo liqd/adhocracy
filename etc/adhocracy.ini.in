@@ -632,11 +632,14 @@ velruse.protocol = ${parts.velruse.proxy_protocol}
 
 {% if parts.get("adhocracy_service_conf", False) %}
 
+# allow to add mediafiles to proposals
+adhocracy.delegateable_mediafiles = True
+
 # token to access the rest api (use it for header "X-API-Token")
 adhocracy_service.rest_api_token = ${parts.adhocracy_service_conf.rest_api_token}
 
-# rest api url
-adhocracy_service.rest_api_address = ${parts.adhocracy_service_conf.rest_api_address}
+# rest api url 
+adhocracy_service.rest_api_address = ${parts.adhocracy_service_conf.rest_api_address} 
 
 ######################################################
 #  adhocracy_service rest api backend and kotti cms  #
@@ -681,7 +684,7 @@ kotti.populators = ${parts.adhocracy_service_conf.kotti_populate}
 rest_api_token = ${parts.adhocracy_service_conf.rest_api_token}
 
 # pyramid.default_locale_name: set the user interface language
-pyramid.default_locale_name = ${parts.adhocracy.language}
+pyramid.default_locale_name = en
 
 pyramid.includes =
   pyramid_tm
