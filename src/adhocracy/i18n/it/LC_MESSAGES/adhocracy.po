@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-30 16:03+0200\n"
-"PO-Revision-Date: 2014-04-30 14:04+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-05-18 11:15+0200\n"
+"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,7 +130,7 @@ msgid "The requested page could not be found."
 msgstr ""
 
 msgid "The system is currently down for maintenance. Please check back soon!"
-msgstr "Il sistema è attualmente in manutenzione. Si prega di riprovare i prossimi giorni"
+msgstr ""
 
 msgid "Bad Request"
 msgstr ""
@@ -1037,9 +1037,6 @@ msgstr "Richiesta non valida. Ti preghiamo di tornare indietro e di riprovare."
 msgid "The method you used is not implemented."
 msgstr "Il metodo utilizzato non è implementato."
 
-msgid "Start"
-msgstr "Home"
-
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Report di abuso: %s"
@@ -1533,7 +1530,7 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr "Versioni: %(user)s %(vote)s %(poll)s"
 
 #, python-format
-msgid "Message send: %(message)s"
+msgid "Message sent: %(message)s"
 msgstr ""
 
 #, python-format
@@ -1588,6 +1585,100 @@ msgstr "Modica del commento: %(topic)s"
 msgid "Message from %(sender)s: %(message)s"
 msgstr ""
 
+msgid "User"
+msgstr ""
+
+msgid "Membership"
+msgstr ""
+
+msgid "Proposal"
+msgstr "Proposta"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Delegation"
+msgstr "Delegazione"
+
+msgid "Vote"
+msgstr "Vota"
+
+msgid "Variant"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Massmessage"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "edited"
+msgstr ""
+
+msgid "delete"
+msgstr "elimina"
+
+msgid "joined"
+msgstr ""
+
+msgid "left"
+msgstr ""
+
+msgid "updated"
+msgstr ""
+
+msgid "badged"
+msgstr ""
+
+msgid "changed state"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "revoked"
+msgstr ""
+
+msgid "casted"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "sent"
+msgstr ""
+
+msgid "tested"
+msgstr ""
+
+msgid "received"
+msgstr ""
+
+msgid "lost"
+msgstr ""
+
+msgid "conflicted"
+msgstr ""
+
+msgid "replied"
+msgstr ""
+
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Questa proposta sta per essere votata e non può essere modificata."
 
@@ -1608,9 +1699,6 @@ msgstr "(Sconosciuto)"
 
 msgid "Implementation"
 msgstr "Attuazione"
-
-msgid "delete"
-msgstr "elimina"
 
 #, python-format
 msgid "%s (deleted user)"
@@ -1752,9 +1840,6 @@ msgstr "Ricevi email di notifica se avvengono modifiche."
 msgid "Message to Members"
 msgstr ""
 
-msgid "Message"
-msgstr ""
-
 msgid "Send us your feedback"
 msgstr "Inviaci un Feedback"
 
@@ -1875,6 +1960,9 @@ msgstr "<b>%s</b> voti"
 
 msgid "Menu"
 msgstr ""
+
+msgid "Start"
+msgstr "Home"
 
 msgid "Instances"
 msgstr "Gruppi"
@@ -2181,14 +2269,14 @@ msgstr "Assegna i treatment badges."
 msgid "Admin: Import Users"
 msgstr "Amministratore: importa utenti"
 
-msgid "Users CSV"
-msgstr "Utenti CSV"
-
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Incolla il contenuto del documento CDV, per esempio esporta da Excel con 4 colonne, il nome utente, il nome visualizzato, l'indirizzo email e i badge (badge è optionale, separato da una virgola e con la lista tra virgolette)"
+
+msgid "Users CSV"
+msgstr "Utenti CSV"
 
 msgid "Email Subject"
 msgstr "Oggetto della email"
@@ -2271,11 +2359,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Descrizione del Badge"
 
-msgid "Long category description"
-msgstr ""
-
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
+msgstr ""
+
+msgid "Long category description"
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2461,11 +2549,6 @@ msgstr "nuova proposta"
 
 msgid "Norms in this Category"
 msgstr ""
-
-msgid "Comment"
-msgid_plural "Comments"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Argument"
 msgstr "Discussione"
@@ -2673,9 +2756,6 @@ msgstr "controlla"
 msgid "Delegate: %s"
 msgstr "Delegare: %s"
 
-msgid "Delegation"
-msgstr "Delegazione"
-
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
 " the listed delegates, or enter another user name."
@@ -2833,6 +2913,9 @@ msgstr "Crea un nuovo gruppo"
 msgid "Instances are little democracies that are ran by their community."
 msgstr "I gruppi rappresentano delle piccole democrazie che gestiscono la propria comunità."
 
+msgid "participate"
+msgstr ""
+
 msgid "new instance"
 msgstr "Nuovo gruppo"
 
@@ -2960,11 +3043,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "Extra CSS"
-msgstr "Extra CSS"
-
 msgid "You can add css that will be used to style the instance."
 msgstr "Puoi aggiungere i CSS che verranno utilizzati per modificare il gruppo."
+
+msgid "Extra CSS"
+msgstr "Extra CSS"
 
 msgid "Status badge image width"
 msgstr ""
@@ -3043,20 +3126,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
-
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Logo"
-msgstr "Logo"
+msgid "Description of the instance"
+msgstr ""
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
+
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Logo attuale"
@@ -3372,9 +3455,6 @@ msgstr "E puoi visualizzare le informazioni relative allo scopo dell'evento - se
 msgid "tutorial_milestone_details_listing"
 msgstr "Qui troverai una lista di proposte e di delibere relative all'evento."
 
-msgid "See more"
-msgstr "Vedi altro"
-
 msgid "with an abstention on"
 msgstr "con l'astensione da"
 
@@ -3401,12 +3481,14 @@ msgstr "Seleziona un nome utente"
 msgid "User name"
 msgstr "Nome utente"
 
+msgid "A unique user name is required for you to complete sign up and login."
+msgstr ""
+
 #, python-format
 msgid ""
-"A unique user name is required for you complete sign up and login. The user "
-"name \"%s\" received from your OpenID provider is invalid or already used. "
-"Please provide a different, unique user name."
-msgstr "Per poter concludere il processo di registrazione è necessario inserire un solo nome utente. Il nome utente \"%s\" che è stato messo a disposizione dal tuo OpenID Provider non è valido oppure è giá stato utilizzato. Ti preghiamo di sceglierne un altro valido."
+"The user name \"%s\" received from your OpenID provider is invalid or "
+"already used. Please provide a different, unique user name."
+msgstr ""
 
 msgid "Username:"
 msgstr "Nome utente"
@@ -3458,10 +3540,10 @@ msgstr "Nome della versione"
 msgid "Text"
 msgstr "Testo"
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -3590,9 +3672,6 @@ msgstr "Confronta il testo con la versione originale"
 msgid "Reasoning"
 msgstr "Argomentazione"
 
-msgid "Proposal"
-msgstr "Proposta"
-
 msgid "tutorial_norm_show_vote"
 msgstr "Valuta le delibere originali e quelle che sono già state suggerite cliccando sulle frecce: per sostenere (clicca sopra) o per opporti al voto (clicca sotto). Puoi sostenere oppure opporti anche ad altri argomenti."
 
@@ -3615,11 +3694,6 @@ msgstr[1] ""
 
 msgid "Amendments"
 msgstr "Correzioni"
-
-msgid "Amendment"
-msgid_plural "Amendments"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "Add section"
 msgstr "Aggiungi sezione"
@@ -3782,9 +3856,6 @@ msgstr "Verifica il tuo indirizzo email per poter apportare una nuova modifica."
 
 msgid "Get Involved"
 msgstr "Partecipa "
-
-msgid "Vote"
-msgstr "Vota"
 
 msgid "Kein Text"
 msgstr "Nessun testo"
@@ -4562,12 +4633,12 @@ msgstr "Saluto"
 msgid "Select your prefered gender"
 msgstr "Selezione il tuo genere preferito"
 
-msgid "Avatar"
-msgstr ""
-
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
+msgstr ""
+
+msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4576,13 +4647,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "Short biography"
-msgstr "Breve biografia"
-
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Scrivendo una breve biografia su di te, gli altri utenti ti potranno conoscere meglio e potranno eventualmente delegarti determinate scelte."
+
+msgid "Short biography"
+msgstr "Breve biografia"
 
 msgid "I am an organisation"
 msgstr ""
