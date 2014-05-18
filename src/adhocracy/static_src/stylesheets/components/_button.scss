@@ -6,7 +6,6 @@
     }
     .register & {
         @include button-background($register-color);
-        color: #fff;
         line-height: 2;
         float: left;
         margin-right: 1em;
@@ -44,13 +43,11 @@
 }
 
 a.button_small {
-    color: #fff;
     @include button-small($button-color, $primary-color);
 }
 
 a.participate {
     @include button-small($primary-color, $primary-color);
-    color: white;
 }
 
 a.button_round {

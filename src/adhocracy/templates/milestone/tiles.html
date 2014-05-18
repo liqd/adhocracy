@@ -5,6 +5,7 @@
     <li class="content_box">
       <div>
         %if milestone.time:
+        <i class="icon-event-milestone icon-milestone"></i>
         <span class="milestone_row_date">
           ${h.date_tag(milestone.time, format=u'medium')|n}
         </span>
@@ -14,10 +15,10 @@
             ${milestone.title}
           </a>
         </h3>
-        <div class="milestone_row_content meta">
-          ${h.truncate(h.markdown_to_plain_text(milestone.text), 280, whole_word=True)}
+        <div class="milestone_row_content">
+          ${h.truncate(h.html_to_plain_text(tile.text), 280, whole_word=True)}
           <a href="${h.entity_url(milestone)}" class="more_link">
-            ${_(u'See more')}
+            ${_(u'more')}
           </a>
         </div>
       </div>

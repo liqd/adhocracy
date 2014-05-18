@@ -7,7 +7,8 @@ from pylons.i18n import _
 from adhocracy import model
 from adhocracy.lib import helpers as h
 from adhocracy.lib.event.types import (S_INSTANCE, S_VOTE, S_DELEGATION_IN,
-    S_DELEGATION_OUT, S_PROPOSAL, S_AMENDMENT, S_COMMENT, S_PAGE, S_BADGE)
+    S_DELEGATION_OUT, S_PROPOSAL, S_AMENDMENT, S_COMMENT, S_PAGE, S_BADGE,
+    S_MESSAGE)
 
 log = logging.getLogger(__name__)
 DT_FORMAT = "%Y%m%d%H%M%S"
@@ -192,27 +193,28 @@ def as_html(event, msg=None):
 
 def as_icon(event, classes=''):
     if event.event.code in S_INSTANCE:
-        src = '/images/event-instance.png'
+        icon = 'event-instance'
     elif event.event.code in S_PAGE:
-        src = '/images/event-page.png'
+        icon = 'event-page'
     elif event.event.code in S_COMMENT:
-        src = '/images/event-comment.png'
+        icon = 'event-comment'
     elif event.event.code in S_PROPOSAL:
-        src = '/images/event-proposal.png'
+        icon = 'event-proposal'
     elif event.event.code in S_AMENDMENT:
-        src = '/images/event-amendment.png'
+        icon = 'event-amendment'
     elif event.event.code in S_DELEGATION_IN:
-        src = '/images/event-delegation-in.png'
+        icon = 'event-delegation-in'
     elif event.event.code in S_DELEGATION_OUT:
-        src = '/images/event-delegation-out.png'
+        icon = 'event-delegation-out'
     elif event.event.code in S_VOTE:
-        src = '/images/event-vote.png'
+        icon = 'event-vote'
     elif event.event.code in S_BADGE:
-        src = '/images/event-badge.png'
+        icon = 'event-badge'
+    elif event.event.code == 't_massmessage_send':
+        icon = 'event-massmessage'
+    elif event.event.code in S_MESSAGE:
+        icon = 'event-message'
     else:
-        src = '/images/event-unknown.png'
+        icon = 'event-unknown'
 
-    return '<img src="%(src)s" alt="" class="%(classes)s">' % {
-        'src': src,
-        'classes': classes,
-    }
+    return '<i class="icon-%s %s"></i>' % (icon, classes)

@@ -1,10 +1,10 @@
 @font-face {
   font-family: "adhocracy_icons";
-  src: url("../fonts/adhocracy_icons.eot");
-  src: url("../fonts/adhocracy_icons.eot?#iefix") format("embedded-opentype"),
-       url("../fonts/adhocracy_icons.woff") format("woff"),
-       url("../fonts/adhocracy_icons.ttf") format("truetype"),
-       url("../fonts/adhocracy_icons.svg#adhocracy_icons") format("svg");
+  src: url("../fonts/adhocracy_icons.eot?v=1");
+  src: url("../fonts/adhocracy_icons.eot?v=1#iefix") format("embedded-opentype"),
+       url("../fonts/adhocracy_icons.woff?v=1") format("woff"),
+       url("../fonts/adhocracy_icons.ttf?v=1") format("truetype"),
+       url("../fonts/adhocracy_icons.svg?v=1#adhocracy_icons") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -12,13 +12,28 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "adhocracy_icons";
-    src: url("../fonts/adhocracy_icons.svg#adhocracy_icons") format("svg");
+    src: url("../fonts/adhocracy_icons.svg?v=1#adhocracy_icons") format("svg");
   }
 }
 
 .icon,
 .icon-discussion:before,
 .icon-documents:before,
+.icon-event-amendment:before,
+.icon-event-argument:before,
+.icon-event-badge:before,
+.icon-event-comment:before,
+.icon-event-delegation-in:before,
+.icon-event-delegation-out:before,
+.icon-event-instance:before,
+.icon-event-massmessage:before,
+.icon-event-message:before,
+.icon-event-milestone:before,
+.icon-event-page:before,
+.icon-event-profile:before,
+.icon-event-proposal:before,
+.icon-event-unknown:before,
+.icon-event-vote:before,
 .icon-menu:before,
 .icon-search:before {
     font-family: "adhocracy_icons";
@@ -34,5 +49,20 @@
 
 .icon-discussion:before { content: "\f100"; }
 .icon-documents:before { content: "\f101"; }
+.icon-event-amendment:before { content: "\f111"; }
+.icon-event-argument:before { content: "\f104"; }
+.icon-event-badge:before { content: "\f105"; }
+.icon-event-comment:before { content: "\f106"; }
+.icon-event-delegation-in:before { content: "\f113"; }
+.icon-event-delegation-out:before { content: "\f114"; }
+.icon-event-instance:before { content: "\f109"; }
+.icon-event-massmessage:before { content: "\f10a"; }
+.icon-event-message:before { content: "\f10b"; }
+.icon-event-milestone:before { content: "\f10c"; }
+.icon-event-page:before { content: "\f10d"; }
+.icon-event-profile:before { content: "\f10e"; }
+.icon-event-proposal:before { content: "\f10f"; }
+.icon-event-unknown:before { content: "\f112"; }
+.icon-event-vote:before { content: "\f110"; }
 .icon-menu:before { content: "\f102"; }
 .icon-search:before { content: "\f103"; }

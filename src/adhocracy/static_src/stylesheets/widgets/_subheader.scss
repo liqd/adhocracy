@@ -21,6 +21,15 @@
         background-position: 50%;
         opacity: 0.2;
     }
+
+    #searchbox {
+        padding-top: 2em;
+        float: right;
+
+        input[type="text"] {
+            max-width: 17em;
+        }
+    }
 }
 
 #logo_row {
@@ -36,6 +45,7 @@
         vertical-align: bottom;
         margin-right: 0.8em;
         max-height: 2.7em;
+        max-width: 100%;
     }
     h2 {
         color: #000;

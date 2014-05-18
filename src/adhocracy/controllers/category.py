@@ -8,6 +8,7 @@ from pylons.controllers.util import abort
 from adhocracy.lib import helpers as h
 from adhocracy.lib.base import BaseController
 from adhocracy.lib.templating import render, render_logo
+from adhocracy.lib.templating import OVERLAY_SMALL
 from adhocracy.lib import pager
 from adhocracy.lib import tiles
 from adhocracy.lib.instance import RequireInstance
@@ -91,14 +92,15 @@ class CategoryController(BaseController):
 
         description = category.long_description
         description = h.render(description)
-        description = h.text.truncate_html(description, 200, u'&hellip;')
+        description = h.text.truncate_html(description, 65, u'&hellip;')
 
         data = {
             'category': category,
             'description': description,
         }
         return render('/category/description.html', data,
-                      overlay=format == 'overlay')
+                      overlay=format == 'overlay',
+                      overlay_size=OVERLAY_SMALL)
 
     @RequireInstance
     def events(self, id, format=u'html'):
@@ -106,28 +108,28 @@ class CategoryController(BaseController):
             abort(404)
         category = get_entity_or_abort(model.CategoryBadge, id)
 
-        # This is probably somewhere between "not exactly what we want" and
-        # "very slow".
-        events = model.Event.all_q(
-            instance=c.instance,
-            include_hidden=False,
-            event_filter=request.params.getall('event_filter'))\
-            .join(model.Event.topics)\
-            .join(model.Delegateable.categories)\
-            .filter(model.CategoryBadge.id == category.id)\
-            .order_by(model.Event.time.desc())\
-            .limit(min(int(request.params.get('count', 50)), 100)).all()
+        events = h.category.event_q(
+            category,
+            event_filter=request.params.getall('event_filter'),
+            count=min(int(request.params.get('count', 50)), 100),
+        ).all()
 
         enable_sorts = asbool(request.params.get('enable_sorts', 'true'))
         enable_pages = asbool(request.params.get('enable_pages', 'true'))
+        row_type = request.params.get('row_type', 'row')
+
+        if row_type not in ['row', 'profile_row', 'sidebar_row', 'tiny_row']:
+            abort(400)
 
         data = {
             'event_pager': pager.events(events,
-                enable_sorts=enable_sorts,
-                enable_pages=enable_pages),
+                                        enable_sorts=enable_sorts,
+                                        enable_pages=enable_pages,
+                                        row_type=row_type),
         }
         return render('/category/events.html', data,
-                      overlay=format == 'overlay')
+                      overlay=format == 'overlay',
+                      overlay_size=OVERLAY_SMALL)
 
     @RequireInstance
     def milestones(self, id, format=u'html'):
@@ -144,8 +146,9 @@ class CategoryController(BaseController):
 
         data = {
             'milestone_pager': pager.milestones(milestones,
-                enable_sorts=enable_sorts,
-                enable_pages=enable_pages),
+                                                enable_sorts=enable_sorts,
+                                                enable_pages=enable_pages),
         }
         return render('/category/milestones.html', data,
-                      overlay=format == 'overlay')
+                      overlay=format == 'overlay',
+                      overlay_size=OVERLAY_SMALL)

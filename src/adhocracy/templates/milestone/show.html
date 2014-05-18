@@ -27,7 +27,7 @@ ${components.watch(c.milestone)}
 
         %if c.milestone.category:
         <h6>${_('Category')}</h6>
-        <p>${c.milestone.category.title}</p>
+        <p>${components.category_link(c.milestone.category)}</p>
         %endif
 
     </div>

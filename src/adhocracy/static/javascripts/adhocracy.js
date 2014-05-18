@@ -722,6 +722,16 @@ var adhocracy = adhocracy || {};
             return false;
         }
     };
+
+    adhocracy.helpers.relative_time = function(element) {
+        element.each(function(i, e) {
+            var el = $(e);
+            if (!el.attr('title')) {
+                el.attr('title', el.text());
+            }
+            el.text(moment(el.attr('datetime')).fromNow());
+        });
+    };
 }());
 
 $(window).load(function() {
@@ -1313,10 +1323,7 @@ $(document).ready(function () {
                 if (data.length > 0) {
                     self.html(data[j % data.length].innerHTML);
 
-                    // relative time
-                    var datetime = $('.ts', self);
-                    datetime.attr('title', datetime.text());
-                    datetime.text(moment(datetime.attr('datetime')).fromNow());
+                    adhocracy.helpers.relative_time($('.ts', self));
 
                     self.fadeIn('fast');
                     j += 1;
@@ -1412,4 +1419,6 @@ $(document).ready(function () {
         .addClass('only-mobile')
         .css('display', 'none')
     );
+
+    adhocracy.helpers.relative_time($('time.relative'));
 });

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-30 16:03+0200\n"
-"PO-Revision-Date: 2014-04-30 14:04+0000\n"
-"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
+"POT-Creation-Date: 2014-05-07 13:05+0200\n"
+"PO-Revision-Date: 2014-05-12 22:28+0000\n"
+"Last-Translator: sicco <sicco@ddo.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -128,31 +128,31 @@ msgid "The delegation is now revoked."
 msgstr "De volmachtiging is nu ingetrokken."
 
 msgid "The requested page could not be found."
-msgstr ""
+msgstr "De opgevraagde pagina kon niet gevonden worden."
 
 msgid "The system is currently down for maintenance. Please check back soon!"
-msgstr "Het systeem is op het moment niet beschikbaar in verband met werkzaamheden. Kom graag later terug!"
+msgstr "Het systeem is op het moment niet beschikbaar in verband met werkzaamheden. Probeer het later nog eens!"
 
 msgid "Bad Request"
-msgstr ""
+msgstr "Onjuist Verzoek"
 
 msgid "Unauthorized"
-msgstr ""
+msgstr "Onbevoegd"
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Verboden"
 
 msgid "Not Found"
-msgstr ""
+msgstr "Niet Gevonden"
 
 msgid "I'm a teapot"
-msgstr ""
+msgstr "Ik ben een theepot"
 
 msgid "Internal Server Error"
-msgstr ""
+msgstr "Interne Serverfout"
 
 msgid "Service Unavailable"
-msgstr ""
+msgstr "Dienst Niet Beschikbaar"
 
 #, python-format
 msgid "%s News"
@@ -988,7 +988,7 @@ msgid "Invalid choice"
 msgstr "Ongeldige keuze"
 
 msgid "Incorrect. Try again."
-msgstr ""
+msgstr "Onjuist. Probeer opnieuw."
 
 #, python-format
 msgid "%d days"
@@ -1241,10 +1241,10 @@ msgstr "Sorry, maar het lijkt erop dat u niet de rechten heeft om verder te gaan
 msgid ""
 "The requested action could not be performed, because the session which was "
 "active when you visited the previous page has expired."
-msgstr ""
+msgstr "De gevraagde actie kon niet worden uitgevoerd, omdat de sessie die actief was toen u de vorige pagina bezocht verlopen is."
 
 msgid "Back to your current session"
-msgstr ""
+msgstr "Terug naar uw huidige sessie"
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1534,8 +1534,8 @@ msgid "Variants: %(user)s %(vote)s %(poll)s"
 msgstr "Varianten: %(user)s %(vote)s %(poll)s"
 
 #, python-format
-msgid "Message send: %(message)s"
-msgstr "Bericht verzenden: %(message)s"
+msgid "Message sent: %(message)s"
+msgstr "Bericht verzonden: %(message)s"
 
 #, python-format
 msgid "sent message: \"%(message)s\""
@@ -1589,6 +1589,100 @@ msgstr "Reactie Bewerken: %(topic)s"
 msgid "Message from %(sender)s: %(message)s"
 msgstr "Bericht van %(sender)s: %(message)s"
 
+msgid "User"
+msgstr "Gebruiker"
+
+msgid "Membership"
+msgstr "Lidmaatschap"
+
+msgid "Proposal"
+msgstr "Voorstel"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] "Amendement"
+msgstr[1] "Amendementen"
+
+msgid "Page"
+msgstr "Pagina"
+
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "Reactie"
+msgstr[1] "Reacties"
+
+msgid "Delegation"
+msgstr "Volmachten"
+
+msgid "Vote"
+msgstr "Stem"
+
+msgid "Variant"
+msgstr "Variant"
+
+msgid "Message"
+msgstr "Bericht"
+
+msgid "Massmessage"
+msgstr "Massabericht"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "created"
+msgstr "aangemaakt"
+
+msgid "edited"
+msgstr "bewerkt"
+
+msgid "delete"
+msgstr "verwijder"
+
+msgid "joined"
+msgstr "werd lid"
+
+msgid "left"
+msgstr "verliet"
+
+msgid "updated"
+msgstr "bijgewerkt"
+
+msgid "badged"
+msgstr "badged"
+
+msgid "changed state"
+msgstr "veranderde status"
+
+msgid "deleted"
+msgstr "verwijderd"
+
+msgid "revoked"
+msgstr "herroept"
+
+msgid "casted"
+msgstr "uitgebracht"
+
+msgid "selected"
+msgstr "geselecteerd"
+
+msgid "sent"
+msgstr "verstuurd"
+
+msgid "tested"
+msgstr "getest"
+
+msgid "received"
+msgstr "ontvangen"
+
+msgid "lost"
+msgstr "verloren"
+
+msgid "conflicted"
+msgstr "botste"
+
+msgid "replied"
+msgstr "beantwoord"
+
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aangepast."
 
@@ -1609,9 +1703,6 @@ msgstr "(Onbekend)"
 
 msgid "Implementation"
 msgstr "Implementatie"
-
-msgid "delete"
-msgstr "verwijder"
 
 #, python-format
 msgid "%s (deleted user)"
@@ -1752,9 +1843,6 @@ msgstr "Ontvang e-mailnotificaties als er wijzigingen optreden."
 
 msgid "Message to Members"
 msgstr "Bericht aan Deelnemers"
-
-msgid "Message"
-msgstr "Bericht"
 
 msgid "Send us your feedback"
 msgstr "Stuur ons feedback"
@@ -1982,10 +2070,10 @@ msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Deze groep is bevroren - u kunt geen aanpassingen maken of nieuwe inhoud plaatsen."
 
 msgid "Skip to the navigation"
-msgstr ""
+msgstr "Doorgaan naar navigatie"
 
 msgid "Skip to the content"
-msgstr ""
+msgstr "Doorgaan naar inhoud"
 
 msgid "Next"
 msgstr "Volgende"
@@ -2022,7 +2110,7 @@ msgid ""
 "You can log in using various external user accounts. Please be aware that "
 "the login via external providers may cause security and privacy related "
 "risks."
-msgstr ""
+msgstr "U kunt inloggen met verschillende externe gebruikersaccounts. Houd er rekening mee dat inloggen via externe aanbieders beveiligings- en privacyrisico's kunnen veroorzaken."
 
 msgid "Login with Facebook"
 msgstr "Log in met Facebook"
@@ -2431,7 +2519,7 @@ msgid "No Badges"
 msgstr "Geen Badges"
 
 msgid "more"
-msgstr ""
+msgstr "meer"
 
 msgid "View and discuss"
 msgstr "Bekijk en discussieer"
@@ -2462,11 +2550,6 @@ msgstr "nieuw voorstel"
 
 msgid "Norms in this Category"
 msgstr "Reglementen in deze Categorie"
-
-msgid "Comment"
-msgid_plural "Comments"
-msgstr[0] "Reactie"
-msgstr[1] "Reacties"
 
 msgid "Argument"
 msgstr "Argument"
@@ -2674,9 +2757,6 @@ msgstr "controleren"
 msgid "Delegate: %s"
 msgstr "Volmachtiging: %s"
 
-msgid "Delegation"
-msgstr "Volmachten"
-
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
 " the listed delegates, or enter another user name."
@@ -2753,7 +2833,7 @@ msgstr "U heeft nog %s extra stemmen."
 
 #, python-format
 msgid "Error %d"
-msgstr ""
+msgstr "Fout %d"
 
 #, python-format
 msgid ""
@@ -3373,9 +3453,6 @@ msgstr "Informatie over de doelstelling van de mijlpaal, gaat het bv. over een m
 msgid "tutorial_milestone_details_listing"
 msgstr "Hier vindt u een lijst met voorstellen en reglementen die betrekking hebben tot de mijlpaal."
 
-msgid "See more"
-msgstr "Meer"
-
 msgid "with an abstention on"
 msgstr "met een onthouding op"
 
@@ -3591,9 +3668,6 @@ msgstr "Tekst vergeleken met de originele versie"
 msgid "Reasoning"
 msgstr "Redenering"
 
-msgid "Proposal"
-msgstr "Voorstel"
-
 msgid "tutorial_norm_show_vote"
 msgstr "Bekijk het originele reglement en de voorgestelde varianten. U kunt voor een variant stemmen door op het pijltje omhoog te klikken of tegen door op het pijltje omlaag te klikken. U kunt op meerdere varianten uw stem uitbrengen."
 
@@ -3616,11 +3690,6 @@ msgstr[1] "Discussies"
 
 msgid "Amendments"
 msgstr "Amendementen"
-
-msgid "Amendment"
-msgid_plural "Amendments"
-msgstr[0] "Amendement"
-msgstr[1] "Amendementen"
 
 msgid "Add section"
 msgstr "Sectie toevoegen"
@@ -3783,9 +3852,6 @@ msgstr "Bevestig uw e-mailadres om een nieuwe variant voor te stellen."
 
 msgid "Get Involved"
 msgstr "Raak Betrokken"
-
-msgid "Vote"
-msgstr "Stem"
 
 msgid "Kein Text"
 msgstr "Geen Tekst"
@@ -4400,10 +4466,10 @@ msgid "Password (confirm):"
 msgstr "Wachtwoord (bevestiging):"
 
 msgid "Security query"
-msgstr ""
+msgstr "Veiligheidsvraag"
 
 msgid "Please enter the letters in the following image in the field below."
-msgstr ""
+msgstr "Type de letters van de afbeelding in het onderstaande veld."
 
 #, python-format
 msgid "By registering, you agree with the %s."
@@ -4665,7 +4731,7 @@ msgid "Generate welcome link"
 msgstr "Genereer welkomlink"
 
 msgid "Phonetic spelling"
-msgstr ""
+msgstr "Fonetische spelling"
 
 #, python-format
 msgid "Watchlist: %s"

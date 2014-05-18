@@ -38,7 +38,7 @@ class RESTAPI(object):
         self.staticpages_api_address = staticpages_api_address()
         self.staticpages_verify = config.get_bool(
             'adhocracy_service.staticpages.verify_ssl',
-            config.get_bool('adhocracy_service.verify_ssl', True))
+            config.get_bool('adhocracy_service.verify_ssl'))
         self.staticpages_headers = {"X-API-Token": self.staticpages_api_token}
 
     def staticpages_get(self, base=None, languages=None):
