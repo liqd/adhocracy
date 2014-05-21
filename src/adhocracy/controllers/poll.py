@@ -8,7 +8,6 @@ from pylons.controllers.util import abort, redirect
 from pylons.decorators import validate
 from pylons.i18n import _
 
-from adhocracy import config
 from adhocracy import model
 from adhocracy.lib import democracy, event, helpers as h, pager, tiles
 from adhocracy.lib import votedetail
@@ -76,7 +75,7 @@ class PollController(BaseController):
         votes = decision.make(self.form_result.get("position"))
         model.meta.Session.commit()
 
-        if not config.get_bool('adhocracy.hide_individual_votes'):
+        if not h.poll.hide_individual_votes(c.poll):
             for vote in votes:
                 event.emit(event.T_VOTE_CAST, vote.user, instance=c.instance,
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
@@ -120,7 +119,7 @@ class PollController(BaseController):
                       }.get(c.poll.action)
         model.meta.Session.commit()
 
-        if not config.get_bool('adhocracy.hide_individual_votes', False):
+        if not h.poll.hide_individual_votes(c.poll):
             for vote in votes:
                 event.emit(event_type, vote.user, instance=c.instance,
                            topics=[c.poll.scope], vote=vote, poll=c.poll)
