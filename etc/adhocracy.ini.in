@@ -355,6 +355,9 @@ piwik.id =
 # INSTALL: Hide individual votes and only show aggregate results (EXPERIMENTAL)
 # adhocracy.hide_individual_votes = true
 
+# INSTALL: Hide individual votes on instance level (also EXPERIMENTAL)
+# adhocracy.hide_individual_votes.aalen = true
+
 # INSTALL: Allow users to lock themselves out of adhocracy
 # adhocracy.self_deletion_allowed = true
 
