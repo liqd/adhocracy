@@ -17,6 +17,36 @@
     text-decoration: none;
 }
 
+.styleguide-page-nav {
+    position: fixed;
+    right: -11em;
+    top: 0;
+    min-width: 12em;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1;
+
+    list-style: none;
+    margin: 0;
+    padding: 1em 0;
+
+    border-left: 1px solid silver;
+    background-color: white;
+    transition: right 0.2s;
+}
+.styleguide-page-nav:hover {
+    right: 0;
+}
+.styleguide-page-nav a {
+    display: block;
+    padding: 0.2em 1.5em;
+}
+.styleguide-page-nav a:hover,
+.styleguide-page-nav a:focus {
+    background: #eee;
+    text-decoration: none;
+}
+
 .styleguide .codeExample {
     border: 1px solid silver;
     border-radius: 0.5em;
@@ -40,6 +70,9 @@
     margin-top: 3em;
 }
 
+#header {
+    overflow: hidden;
+}
 #footer {
     text-align: center;
 }
