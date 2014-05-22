@@ -5,6 +5,22 @@ body {
     line-height: 1.5;
 }
 
+/*doc
+---
+title: Headings
+name: headings
+category: Base
+---
+
+```html_example
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+```
+*/
 h1, h2, h3, h4, h5, h6, legend {
     color: $heading-color;
     font-family: 'ColaborateRegular', Arial, sans-serif;
@@ -26,8 +42,8 @@ h2:not(:first-of-type) {
     margin-top: 1.5em;
 }
 
-/* don't allow headings in user generated content to be as big
- * as our own */
+// don't allow headings in user generated content to be as big
+// as our own
 blockquote,
 .text,
 .comment .body {
@@ -75,6 +91,18 @@ section.subpage {
     }
 }
 
+/*doc
+---
+title: Paragraph
+name: p
+category: Base
+---
+
+```html_example
+<p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<p>
+<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+```
+*/
 p {
     margin-bottom: 1.5em;
     word-wrap: break-word;
@@ -84,6 +112,58 @@ p {
     }
 }
 
+/*doc
+---
+title: Lists
+name: lists
+category: Base
+---
+*/
+
+/*doc
+---
+title: Ordered List
+name: ol
+parent: lists
+---
+
+```html_example
+<ol>
+    <li>larry</li>
+    <li>moe</li>
+    <li>curly</li>
+</ol>
+```
+*/
+/*doc
+---
+title: Unordered List
+name: ul
+parent: lists
+---
+
+```html_example
+<ul>
+    <li>larry</li>
+    <li>moe</li>
+    <li>curly</li>
+</ul>
+```
+*/
+/*doc
+---
+title: Definition List
+name: dl
+parent: lists
+---
+
+```html_example
+<dl>
+    <dt>Defintion Term</dt><dd>Definition data defining the previous term</dd>
+    <dt>Another Definition Term</dt><dd>Definition data defining the previous term</dd>
+</dl>
+```
+*/
 ul, ol, dl {
     margin: 0 0 1.5em 1.5em;
 }
@@ -92,13 +172,62 @@ li {
     margin-left: 0;
 }
 
+/*doc
+---
+title: Thematic Break
+name: hr
+category: Base
+---
+
+```html_example
+<hr />
+```
+*/
 hr {
     margin: 1.5em 0;
     border: 0;
     border-top: 1px dotted $border;
 }
 
-/* table */
+/*doc
+---
+title: Table
+name: table
+category: Base
+---
+
+```html_example
+<table>
+    <caption>This is a table caption, made with caption</caption>
+    <thead>
+        <tr>
+            <th>Table Header 1</th>
+            <th>Table Header 2</th>
+            <th>Table Header 3</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Table Footer 1</th>
+            <td>Table Footer 2</td>
+            <td>Table Footer 3</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr>
+            <th>TD 1.1</th>
+            <td>TD 1.2</td>
+            <td>TD 1.3</td>
+        </tr>
+        <tr>
+            <th>TD 2.1</th>
+            <td>TD 2.2</td>
+            <td>TD 2.3</td>
+        </tr>
+    </tbody>
+</table>
+```
+*/
 table {
     margin-bottom: 1.5em;
 
@@ -137,7 +266,17 @@ table {
     }
 }
 
-/* links */
+/*doc
+---
+title: Link
+name: a
+category: Base
+---
+
+```html_example
+<a href="#">link</a>
+```
+*/
 a {
     text-decoration: none;
     color: $primary-color;
@@ -160,7 +299,20 @@ a {
     }
 }
 
-// blockqoute
+/*doc
+---
+title: Blockquote
+name: blockqoute
+category: Base
+---
+
+```html_example
+<blockquote>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<p>
+    <cite>James T. Kirk</cite>
+</blockquote>
+```
+*/
 blockquote {
     position: relative;
     font-style: italic;
@@ -172,11 +324,43 @@ blockquote {
     }
 }
 
-// code
+/*doc
+---
+title: Inline
+name: inline
+category: Base
+---
+*/
+
+/*doc
+---
+title: Code
+name: code
+parent: inline
+---
+
+```html_example
+<code>Example Text</code>
+```
+*/
 code {
     font-size: $smaller;
     background-color: $bg2;
 }
+
+/*doc
+---
+title: Preformated
+name: pre
+category: Base
+---
+
+```html_example
+<pre>def hello_world(name):
+    s = "Hello %s!" % name
+    print s</pre>
+```
+*/
 pre {
     margin: 1em 0;
     display: block;
@@ -216,3 +400,68 @@ h1, h2, h3, h4, h5, h6 {
         margin-bottom: 0;
     }
 }
+
+/*doc
+---
+title: Emphasis
+name: em
+parent: inline
+---
+
+```html_example
+<em>Example Text</em>
+<strong>Example Text</strong>
+```
+*/
+
+/*doc
+---
+title: Inserted
+name: ins
+parent: inline
+---
+
+```html_example
+<ins>Example Text</ins>
+```
+*/
+
+/*doc
+---
+title: Deleted
+name: del
+parent: inline
+---
+
+```html_example
+<del>Example Text</del>
+```
+*/
+
+/*doc
+---
+title: Address
+name: address
+category: Base
+---
+
+```html_example
+<address>
+    John Q. Public<br />
+    123 Main Street<br />
+    Anywhere, ST 12345
+</address>
+```
+*/
+
+/*doc
+---
+title: Time
+name: time
+parent: inline
+---
+
+```html_example
+<time datetime="2013-04-18T13:50:47+02:00">18. April 2013 13:50</time>
+```
+*/

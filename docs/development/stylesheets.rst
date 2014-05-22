@@ -101,6 +101,17 @@ If you do not want to replace a whole component you should think about creating
 a file with the suffix `_overwrite` (e.g. `gerneral/_mixins_overwrite.scss`)
 instead of throwing everything into `_overwrite.scss`.
 
+
+Styleguide
+----------
+
+You can automatically generate a styleguide from source code documentation.
+See hologram_ for a full documentation. To build the styleguide, simply run::
+
+    bin/buildout install styleguide
+
+The result is then located in ``docs/styleguide``.
+
 Migration from the old `style_custom.css` system
 ................................................
 
@@ -121,3 +132,4 @@ theme to `${theme-dir}/static_src/adhocracy.scss`. You may also want to move
 .. _Foundation: http://foundation.zurb.com/
 .. _SASS: http://sass-lang.com/
 .. _compass: http://compass-style.org/
+.. _hologram: https://github.com/trulia/hologram
