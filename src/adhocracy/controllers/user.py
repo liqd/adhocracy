@@ -752,6 +752,14 @@ class UserController(BaseController):
     def activate(self, id):
         c.page_user = get_entity_or_abort(model.User, id,
                                           instance_filter=False)
+        fairnopoly_instance = model.Instance.find('fairnopoly')
+        if c.instance != fairnopoly_instance:
+            fairnopoly_badge = model.UserBadge.find(20)
+            if fairnopoly_badge in c.page_user.badges:
+                redirect(h.base_url(request.path,
+                                    instance=fairnopoly_instance,
+                                    query_string=request.query_string))
+
         code = self.form_result.get('c')
 
         # If activate_came_from is set, we assume that we've tried to do
