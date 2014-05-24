@@ -17,7 +17,7 @@ data = MetaData()
 
 
 def filter_invalid_strings(k, v):
-    return (k, filter(lambda x: x != u'\x0b', v)
+    return (k, filter(lambda x: x not in [u'\x0b', u'\x0c'], v)
             if isinstance(v, basestring) else v)
 
 
