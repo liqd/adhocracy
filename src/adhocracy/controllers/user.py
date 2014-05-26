@@ -1388,7 +1388,7 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='edit_badges')
-    def update_badges(self, id):
+    def update_badges(self, id, format=u'html'):
         user = get_entity_or_abort(model.User, id)
         require.user.badge(user)
         want = set(self.form_result.get('badge'))
