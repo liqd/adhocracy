@@ -17,8 +17,8 @@ def edit(check, p, variant):
                 not p.has_variants and variant != Text.HEAD)
 
     if not has('page.edit_head'):
-        check.other('page_function_is_norm_and_variant_is_head',
-                    p.function == p.NORM and variant == Text.HEAD)
+        check.other('page_is_listed_and_variant_is_head',
+                    p.function in p.LISTED and variant == Text.HEAD)
 
 
 def delete(check, p, variant):
