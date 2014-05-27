@@ -882,9 +882,15 @@ class CaptchasDotNetCaptcha(formencode.FancyValidator):
                                      value, state)
 
 
-class TermsCheckValidator(formencode.validators.StringBool):
+class TermsCheckValidator(formencode.validators.FancyValidator):
+    field_name = 'accept_terms'
 
-    def __init__(self):
-        super(formencode.validators.StringBool, self).__init__(not_empty=True)
-
-    ## FIXME: Needs better error message
+    def validate_python(self, field_dict, state):
+        if self.field_name not in field_dict:
+            msg = _(u'Please accept the terms of service')
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={self.field_name: msg}
+            )
+        else:
+            return field_dict

@@ -81,10 +81,10 @@ class UserCreateForm(formencode.Schema):
     if h.get_captcha_type() == 'captchasdotnet':
         captchasdotnet_captcha = forms.CaptchasDotNetCaptcha(session,
                                                              h.captchasdotnet)
-    if config.get_bool('adhocracy.registration.require_terms_check'):
-        accept_terms = forms.TermsCheckValidator()
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
+    if config.get_bool('adhocracy.registration.require_terms_check'):
+        chained_validators.append(forms.TermsCheckValidator())
 
 
 class UserSettingsPersonalForm(formencode.Schema):
