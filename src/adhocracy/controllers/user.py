@@ -228,7 +228,7 @@ class UserController(BaseController):
                                body_key=u'agree_text', title_key='_ignored')
             if data['agree_text'] is None:
                 data['agree_text'] = (
-                    _(u"By registering, you agree with the %s. We'll "
+                    _(u"I agree with the %s. We'll "
                       u"occasionally inform you about important events such "
                       u"as the start of a new participation process via "
                       u"email.")
