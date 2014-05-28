@@ -1411,4 +1411,8 @@ $(document).ready(function () {
     );
 
     adhocracy.helpers.relative_time($('time.relative'));
+
+    // expand inline rows on direct links
+    // :target does not work for some reason, so we use window.location.hash
+    $(window.location.hash).find('.row_button a').click();
 });
