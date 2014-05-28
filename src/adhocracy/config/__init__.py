@@ -103,6 +103,7 @@ DEFAULTS = {
     'adhocracy.readonly.message': u'__default__',
     'adhocracy.redirect_startpage_to_instance': u'',
     'adhocracy.registration.email.blacklist': '',
+    'adhocracy.registration.require_terms_check': False,
     'adhocracy.registration_support_email': None,
     'adhocracy.relative_urls': False,
     'adhocracy.requestlog_active': False,

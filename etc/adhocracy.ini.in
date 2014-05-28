@@ -531,6 +531,9 @@ adhocracy.static_index_path = index
 #     2001; 2222; 1111
 ## adhocracy.user.optional_attributes.foo =
 
+# Require user to accept terms and conditions and privacy policy
+# adhocracy.registration.require_terms_check = true
+
 {% python
 velruse_enabled = 'False'
 if parts['domains'].get('velruse', None):

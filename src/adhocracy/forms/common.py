@@ -880,3 +880,17 @@ class CaptchasDotNetCaptcha(formencode.FancyValidator):
         if not cap.verify(value, random):
             raise formencode.Invalid(_(u'Incorrect. Try again.'),
                                      value, state)
+
+
+class TermsCheckValidator(formencode.validators.FancyValidator):
+    field_name = 'accept_terms'
+
+    def validate_python(self, field_dict, state):
+        if self.field_name not in field_dict:
+            msg = _(u'Please accept the terms of service')
+            raise formencode.Invalid(
+                msg, field_dict, state,
+                error_dict={self.field_name: msg}
+            )
+        else:
+            return field_dict
