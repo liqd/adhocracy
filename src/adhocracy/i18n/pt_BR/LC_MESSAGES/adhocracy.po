@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 18:43+0200\n"
+"PO-Revision-Date: 2014-05-28 16:43+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/adhocracy/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -539,6 +539,15 @@ msgstr "Lista de membros da comunidade."
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Desculpe, o registro foi desabilitado pelo administrador."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Termos e condições"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Desculpe, mas nós não aceitamos registros com este endereço de correio eletrônico."
 
@@ -990,6 +999,9 @@ msgstr "Escolha inválida"
 msgid "Incorrect. Try again."
 msgstr ""
 
+msgid "Please accept the terms of service"
+msgstr ""
+
 #, python-format
 msgid "%d days"
 msgstr "%d dias"
@@ -1037,6 +1049,9 @@ msgstr "Solicitação inválida. Por favor, retorne e tente de novo."
 
 msgid "The method you used is not implemented."
 msgstr "O método usado não está implementado."
+
+msgid "Start"
+msgstr "Início"
 
 #, python-format
 msgid "Abuse report: %s"
@@ -1962,9 +1977,6 @@ msgstr "<b>%s</b> votos"
 msgid "Menu"
 msgstr ""
 
-msgid "Start"
-msgstr "Início"
-
 msgid "Instances"
 msgstr "Comunidade"
 
@@ -2270,14 +2282,14 @@ msgstr "Atribuir identificador de tratamento"
 msgid "Admin: Import Users"
 msgstr "Admin: Importar Usuários"
 
+msgid "Users CSV"
+msgstr "Usuários CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "Cole o conteúdo do arquivo CSV - por exemplo, exportado do Excel - com as 4 colunas \"nome de usuário\", \"nome exibido\", \"correio eletrônico\" e \"identificadores\" (os identificadores são opcionais e devem ser separados por vírgulas e a lista deve estar entre aspas)."
-
-msgid "Users CSV"
-msgstr "Usuários CSV"
 
 msgid "Email Subject"
 msgstr "Assunto do correio"
@@ -2360,12 +2372,12 @@ msgstr "Descrição da categoria"
 msgid "Badge description"
 msgstr "Descrição do identificador"
 
+msgid "Long category description"
+msgstr "Descrição longa da categoria"
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "Aqui você pode escrever um descrição mais detalhada da sua categoria. "
-
-msgid "Long category description"
-msgstr "Descrição longa da categoria"
 
 msgid "The color that is used to show the category"
 msgstr "A cor usada para exibir a categoria"
@@ -3044,11 +3056,11 @@ msgid ""
 "this embed code to your website."
 msgstr "Para mostrar os últimos eventos da comunidade %(site_name)s, você pode adicionar este código embutido no seu website."
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Você pode especificar regras CSS para mudar o visual da comunidade."
-
 msgid "Extra CSS"
 msgstr "CSS Extra"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Você pode especificar regras CSS para mudar o visual da comunidade."
 
 msgid "Status badge image width"
 msgstr "Largura da imagem do identificador de status"
@@ -3127,20 +3139,20 @@ msgstr "Nome da comunidade"
 msgid "Give your instance a name."
 msgstr "Dê um nome à sua comunidade."
 
+msgid "Description of the instance"
+msgstr "Descrição da comunidade"
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "Isto é o que aparece na página Visão Geral da sua comunidade. Descreva o processo de participação que você tem em mente. Também é importante informar claramente os objetivos desse grupo e como seus membros contribuir para o seu alcance."
 
-msgid "Description of the instance"
-msgstr "Descrição da comunidade"
+msgid "Logo"
+msgstr "Logotipo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "Selecione o logotipo que você gostaria de ter como cabeçalho do seu grupo."
-
-msgid "Logo"
-msgstr "Logotipo"
 
 msgid "Current logo"
 msgstr "Logotipo atual"
@@ -3541,11 +3553,11 @@ msgstr "Nome da Alternativa"
 msgid "Text"
 msgstr "Texto"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
-msgstr "Resumo da página. Isto é usado apenas se a página é exibida como bloco."
-
 msgid "Abstract"
 msgstr "Resumo"
+
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "Resumo da página. Isto é usado apenas se a página é exibida como bloco."
 
 msgid "Display subnorms as sections"
 msgstr "Exibir subnormas como seções"
@@ -4476,17 +4488,8 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Ao se registrar, você concorda com o %s."
-
-msgid "Terms and Conditions"
-msgstr "Termos e condições"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
-msgstr "Nós ocasionalmente lhe enviaremos um correio eletrônico para informá-lo sobre ocorrências importantes, como, por exemplo, o início de um novo processo participativo"
+msgid "Terms and conditions"
+msgstr ""
 
 msgid "leave empty"
 msgstr "deixar em branco"
@@ -4634,13 +4637,13 @@ msgstr "Saudação"
 msgid "Select your prefered gender"
 msgstr "Selecione seu gênero"
 
+msgid "Avatar"
+msgstr "Avatar"
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "Selecione uma foto de perfil. A imagem deve ser quadrada, do contrário, ela pode não ser exibida adequadamente."
-
-msgid "Avatar"
-msgstr "Avatar"
 
 msgid "Current avatar"
 msgstr "Avatar atual"
@@ -4648,13 +4651,13 @@ msgstr "Avatar atual"
 msgid "Delete current avatar"
 msgstr "Remover avatar atual"
 
+msgid "Short biography"
+msgstr "Breve biografia (fale um pouco sobre você)"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Uma biografia permitirá que outros usuários saibam um pouco mais sobre você."
-
-msgid "Short biography"
-msgstr "Breve biografia (fale um pouco sobre você)"
 
 msgid "I am an organisation"
 msgstr "Sou uma organização"
