@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.4.2-23-g8428db4\n"
+"Project-Id-Version: adhocracy 2.4.2-31-gf342c94\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-28 18:43+0200\n"
+"POT-Creation-Date: 2014-05-31 00:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2898,6 +2898,12 @@ msgid "Members of your instance only see the catagories you created."
 msgstr ""
 
 msgid "Display page index as tiles"
+msgstr ""
+
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid "Disabling pagination might be useful if you want to be able to link to individual list rows."
 msgstr ""
 
 msgid "Hide this instance"

@@ -8,6 +8,7 @@
 # alexobi <alex-obi@hotmail.de>, 2013
 # alexobi <alex-obi@hotmail.de>, 2013
 # xanderbattaglia <xanderbattaglia@gmail.com>, 2013
+# asiabeevi <asiabeeviebrahim@gmail.com>, 2014
 # cs <schroeder_carsten@gmx.de>, 2013
 # Daniel Reichert <daniel.reichert@liqd.de>, 2012
 # EvaPanek <eva.panek@liqd.de>, 2014
@@ -37,9 +38,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-28 18:43+0200\n"
-"PO-Revision-Date: 2014-05-28 16:46+0000\n"
-"Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
+"POT-Creation-Date: 2014-05-31 00:40+0200\n"
+"PO-Revision-Date: 2014-05-30 22:45+0000\n"
+"Last-Translator: tobib <tobias.bengfort@liqd.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +78,7 @@ msgstr "Dieser Badge-Typ ist nicht bekannt"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr "Das Badge mit ID %s konnte nicht gefunden werden."
+msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
 
 msgid "User Badges"
 msgstr "Benutzerbadges"
@@ -3052,6 +3053,14 @@ msgstr "Die Mitglieder dieser Instanz sehen nur die Kategorien, die Sie erstellt
 
 msgid "Display page index as tiles"
 msgstr "Beschlussliste als Kacheln anzeigen"
+
+msgid "Split proposal list to several pages."
+msgstr "Vorschlagsliste auf mehrere Seiten aufteilen."
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr "Das Deaktivieren der Seitenumbrüche kann nützlich sein, wenn einzelne Zeilen verlinkt werden sollen."
 
 msgid "Hide this instance"
 msgstr "Diese Gruppe verbergen"
