@@ -2,10 +2,12 @@ Adhocracy Changelog
 ===================
 
 
-2.4.3 (unreleased)
+2.4.3 (2014-05-31)
 ------------------
 
 Improvements:
+
+-   Allow to disable proposal pagination on instance level. (#906)
 
 -   Optionally require user to accept terms on register. (#903)
 
