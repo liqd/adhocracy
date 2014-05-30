@@ -1694,6 +1694,8 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
                         badge), badge.title)()
                 for badge in instance.votedetail_userbadges]))
 
+    enable_pages = instance.allow_proposal_pagination
+
     facets = [(DelegateableBadgeCategoryFacet, {}),
               (DelegateableBadgeFacet, {}),
               (DelegateableAddedByBadgeFacet, {}),
@@ -1713,6 +1715,7 @@ def solr_proposal_pager(instance, wildcard_queries=None, default_sorting=None,
     pager = SolrPager('proposals', row,
                       entity_type=model.Proposal,
                       sorts=sorts,
+                      enable_pages=enable_pages,
                       extra_filter=extra_filter,
                       facets=facets,
                       wildcard_queries=wildcard_queries,
