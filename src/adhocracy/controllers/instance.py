@@ -151,6 +151,8 @@ class InstanceAdvancedEditForm(formencode.Schema):
         not_empty=False, if_empty=False, if_missing=False)
     page_index_as_tiles = validators.StringBool(
         not_empty=False, if_empty=False, if_missing=False)
+    allow_proposal_pagination = validators.StringBool(
+        not_empty=False, if_empty=False, if_missing=False)
     votedetail_badges = forms.ValidUserBadges()
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
@@ -741,6 +743,8 @@ class InstanceController(BaseController):
             'require_selection': c.page_instance.require_selection,
             'hide_global_categories': c.page_instance.hide_global_categories,
             'page_index_as_tiles': c.page_instance.page_index_as_tiles,
+            'allow_proposal_pagination':
+            c.page_instance.allow_proposal_pagination,
             'hidden': c.page_instance.hidden,
             'frozen': c.page_instance.frozen,
             'css': c.page_instance.css,
@@ -767,11 +771,16 @@ class InstanceController(BaseController):
         c.page_instance = self._get_current_instance(id)
         require.instance.edit(c.page_instance)
 
-        updated = update_attributes(
-            c.page_instance, self.form_result,
-            ['editable_comments_default', 'editable_proposals_default',
-             'require_selection', 'hide_global_categories', 'hidden',
-             'frozen', 'page_index_as_tiles'])
+        updated = update_attributes(c.page_instance, self.form_result, [
+            'editable_comments_default',
+            'editable_proposals_default',
+            'require_selection',
+            'hide_global_categories',
+            'hidden',
+            'frozen',
+            'page_index_as_tiles',
+            'allow_proposal_pagination',
+        ])
         # currently no ui for allow_index
 
         if h.has_permission('global.admin'):
