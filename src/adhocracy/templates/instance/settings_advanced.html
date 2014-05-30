@@ -17,7 +17,7 @@
         ${forms.checkbox(_("Require to propose a variant"), 'require_selection', help=_("If norms are activated, this option will ensure that users change at least one norm with each proposal."))}
         ${forms.checkbox(_("Hide global categories"), 'hide_global_categories', help=_("Members of your instance only see the catagories you created."))}
         ${forms.checkbox(_("Display page index as tiles"), 'page_index_as_tiles')}
-        ${forms.checkbox(_("Split proposal list to several pages."), 'allow_proposal_pagination', help=_("This might be useful if you want to be able to link to individual list rows."))}
+        ${forms.checkbox(_("Split proposal list to several pages."), 'allow_proposal_pagination', help=_("Disabling pagination might be useful if you want to be able to link to individual list rows."))}
     </fieldset>
     <fieldset>
         ${forms.checkbox(_("Hide this instance"), 'hidden', help=_("Select whether this instance will be shown in public listings."))}
