@@ -12,10 +12,13 @@ down_revision = '486aab29697a'
 
 from alembic import op
 import sqlalchemy as sa
+from adhocracy.model import instance_table
 
 
 def upgrade():
-    op.add_column('instance', sa.Column('allow_proposal_pagination', sa.Boolean(), nullable=True))
+    op.add_column('instance', sa.Column('allow_proposal_pagination',
+                                        sa.Boolean))
+    op.execute(instance_table.update().values(allow_proposal_pagination=True))
 
 
 def downgrade():
