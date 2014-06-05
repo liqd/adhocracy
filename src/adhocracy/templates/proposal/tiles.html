@@ -52,7 +52,7 @@
 
 
 <%def name="row(tile, proposal)">
-    <li class="content_box ${'fresh' if tile.fresh else ''} proposal-row">
+    <li class="content_box ${'fresh' if tile.fresh else ''} proposal-row" id="proposal-${proposal.id}">
         <div class="main_row">
             ${_row(tile, proposal)}
         </div>
@@ -83,19 +83,19 @@ FIXME - stupid code duplication, see lib.pager.proposals_small
 
 
 <%def name="row_inline(tile, proposal)">
-    <li class="content_box ${'fresh' if tile.fresh else ''} proposal-row-inline">
+    <li class="content_box ${'fresh' if tile.fresh else ''} proposal-row-inline" id="proposal-${proposal.id}">
         <div class="main_row">
             <div class="row_button">
                 <a class="button_small showhide_button content"
-                   data-target="#proposal-${proposal.id}"
-                   aria-controls="proposal-${proposal.id}"
+                   data-target="#proposal-${proposal.id}-detail"
+                   aria-controls="proposal-${proposal.id}-detail"
                    data-target-speed="fast"
                    data-toggle-class="less"
-                   href="#"></a>
+                   href="#proposal-${proposal.id}"></a>
             </div>
             ${_row(tile, proposal)}
         </div>
-        <article class="proposal" style="display: none" id="proposal-${proposal.id}">
+        <article class="proposal" style="display: none" id="proposal-${proposal.id}-detail">
             <div class="body">
                 ${tiles.page.inline(proposal.description)}
             </div>

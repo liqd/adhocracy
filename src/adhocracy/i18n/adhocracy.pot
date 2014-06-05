@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.4.1-53-g680f481\n"
+"Project-Id-Version: adhocracy 2.4.3-4-g249c94f\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
+"POT-Creation-Date: 2014-06-05 17:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,9 @@ msgstr ""
 
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
+msgstr ""
+
+msgid "No need to fix autojoin."
 msgstr ""
 
 msgid "Requested generation of welcome codes, but welcome functionality(adhocracy.enable_welcome) is not enabled."
@@ -514,6 +517,13 @@ msgstr ""
 msgid "Sorry, registration has been disabled by administrator."
 msgstr ""
 
+#, python-format
+msgid "I agree with the %s. We'll occasionally inform you about important events such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr ""
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr ""
 
@@ -950,6 +960,9 @@ msgid "Invalid choice"
 msgstr ""
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -2963,6 +2976,12 @@ msgstr ""
 msgid "Display page index as tiles"
 msgstr ""
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid "Disabling pagination might be useful if you want to be able to link to individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr ""
 
@@ -4410,14 +4429,7 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr ""
-
-msgid "Terms and Conditions"
-msgstr ""
-
-msgid "We'll occasionally inform you about important events such as the start of a new participation process via email."
+msgid "Terms and conditions"
 msgstr ""
 
 msgid "leave empty"

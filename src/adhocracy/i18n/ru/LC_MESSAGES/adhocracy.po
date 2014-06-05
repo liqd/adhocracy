@@ -8,13 +8,13 @@
 # Iwan Gabovitch <qubodup@gmail.com>, 2012
 # iliaryvkin <ryel33@gmail.com>, 2012
 # iliaryvkin <ryel33@gmail.com>, 2012
-# Nasretdinov.R.R <nasretdinov.r.r@ya.ru>, 2013
+# Руслан <nasretdinov.r.r@ya.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,9 @@ msgstr ""
 
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
+msgstr ""
+
+msgid "No need to fix autojoin."
 msgstr ""
 
 msgid ""
@@ -541,6 +544,15 @@ msgstr ""
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Регистрация запрещена администратором. Приносим свои извинения за неудобства."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Правила и Условия"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr ""
 
@@ -990,6 +1002,9 @@ msgid "Invalid choice"
 msgstr ""
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -3020,6 +3035,14 @@ msgstr ""
 msgid "Display page index as tiles"
 msgstr ""
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Скрыть эту организацию"
 
@@ -4485,16 +4508,7 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Регистрируясь, Вы соглашаетесь с %s."
-
-msgid "Terms and Conditions"
-msgstr "Правила и Условия"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
+msgid "Terms and conditions"
 msgstr ""
 
 msgid "leave empty"

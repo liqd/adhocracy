@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/adhocracy/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,9 @@ msgstr "Solr index bijgewerkt."
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
 msgstr "Autojoin gecorrigeerd - %s leden toegevoegd"
+
+msgid "No need to fix autojoin."
+msgstr ""
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -539,6 +542,15 @@ msgstr "Deelnemerslijst van de groep."
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Sorry, registratie is uitgeschakeld door de beheerder."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr "Ik ga akkoord met %s. We zullen je af en toe te informeren over belangrijke gebeurtenissen via e-mail, zoals de start van een nieuwe participatieproces."
+
+msgid "Terms and Conditions"
+msgstr "Algemene Voorwaarden"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Het spijt ons, registratie met dit e-mailadres is niet toegestaan."
 
@@ -989,6 +1001,9 @@ msgstr "Ongeldige keuze"
 
 msgid "Incorrect. Try again."
 msgstr "Onjuist. Probeer opnieuw."
+
+msgid "Please accept the terms of service"
+msgstr "Gelieve de voorwaarden te aanvaarden"
 
 #, python-format
 msgid "%d days"
@@ -2915,7 +2930,7 @@ msgid "Instances are little democracies that are ran by their community."
 msgstr "Overzicht van alle groepen. Wordt lid van een groep om actief deel te nemen aan de discussie."
 
 msgid "participate"
-msgstr ""
+msgstr "deelnemen"
 
 msgid "new instance"
 msgstr "nieuwe groep"
@@ -3014,6 +3029,14 @@ msgstr "Deelnemers van uw groep zien enkel de categorieen die u heeft aangemaakt
 
 msgid "Display page index as tiles"
 msgstr "Geef de pagina-index als tegels weer "
+
+msgid "Split proposal list to several pages."
+msgstr "Spreid lijst met voorstellen over meerdere pagina's uit."
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr "Het kan handig zijn om spreiding over meerdere pagina's uit te schakelen als u wilt linken naar afzonderlijke rijen uit de lijst."
 
 msgid "Hide this instance"
 msgstr "Verberg deze groep"
@@ -3483,13 +3506,13 @@ msgid "User name"
 msgstr "Gebruikersnaam"
 
 msgid "A unique user name is required for you to complete sign up and login."
-msgstr ""
+msgstr "Uw gebruikersnaam moet uniek zijn om het aanmeldingsproces te voltooien."
 
 #, python-format
 msgid ""
 "The user name \"%s\" received from your OpenID provider is invalid or "
 "already used. Please provide a different, unique user name."
-msgstr ""
+msgstr "De gebruikersnaam \"%s\" die we ontvingen van uw OpenID provider is ongeldig of al in gebruik. Kies een andere, unieke gebruikersnaam."
 
 msgid "Username:"
 msgstr "Gebruikersnaam: "
@@ -4476,17 +4499,8 @@ msgstr "Veiligheidsvraag"
 msgid "Please enter the letters in the following image in the field below."
 msgstr "Type de letters van de afbeelding in het onderstaande veld."
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Door te registeren gaat u akkoord met de %s."
-
-msgid "Terms and Conditions"
-msgstr "Algemene Voorwaarden"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
-msgstr "We zullen je via e-mail af en toe te informeren over belangrijke gebeurtenissen, zoals de start van een nieuw participatieproces."
+msgid "Terms and conditions"
+msgstr "Algemene voorwaarden"
 
 msgid "leave empty"
 msgstr "laat leeg"

@@ -4,7 +4,7 @@ import re
 
 from pylons.i18n import _
 from sqlalchemy import Table, Column, ForeignKey, func, or_, not_
-from sqlalchemy import Integer, Unicode, UnicodeText, Boolean
+from sqlalchemy import Integer, Unicode, Boolean
 from geoalchemy2 import Geometry
 import geojson
 

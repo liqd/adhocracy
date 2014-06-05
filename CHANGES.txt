@@ -2,6 +2,49 @@ Adhocracy Changelog
 ===================
 
 
+2.4.4 (2014-06-05)
+------------------
+
+Improvements
+
+- Improve fix-autojoin flash message if autojoin isn't needed.
+
+Bug fixes
+
+- Autojoin imported users after activation. (#911, #907)
+
+- Don't show sentiment in sectionpage comment edit form (#910, #899)
+
+- Proper membership check in can.proposal.create (#908)
+
+
+2.4.3 (2014-05-31)
+------------------
+
+Improvements:
+
+- Allow to disable proposal pagination on instance level. (#906)
+
+- Optionally require user to accept terms on register. (#903)
+
+- Allow to define 'hide_individual_votes' on instance level. (#897)
+
+Bug fixes:
+
+- The guard decorator was not thread-safe. This allowed perpetrators to
+  let other users execute controller functions with manipulated
+  parameters. However, we could not find any siginifcant exploits based on
+  this bug. (#905)
+
+- Fix some permission checks in the context of containerpages. (#901)
+
+- Fix userbadge assignment within overlay. (#900)
+
+- Don't try to solr index form-feed characters.
+
+- Don't allow amendment creation for non-joined members.
+
+
 2.4.2 (2014-05-18)
 ------------------
 

@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
-# alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
-# alexanderbrateanu <alexander.brateanu@gmail.com>, 2013
-# alexobi <alex-obi@hotmail.de>, 2013
-# alexobi <alex-obi@hotmail.de>, 2013
-# xanderbattaglia <xanderbattaglia@gmail.com>, 2013
+# Alexander Brateanu <alexander.brateanu@gmail.com>, 2013
+# Alexander Brateanu <alexander.brateanu@gmail.com>, 2013
+# Alexander O <alex-obi@hotmail.de>, 2013
+# Alexander O <alex-obi@hotmail.de>, 2013
+# Alex <xanderbattaglia@gmail.com>, 2013
+# asiabeevi <asiabeeviebrahim@gmail.com>, 2014
 # cs <schroeder_carsten@gmx.de>, 2013
 # Daniel Reichert <daniel.reichert@liqd.de>, 2012
 # EvaPanek <eva.panek@liqd.de>, 2014
@@ -17,10 +18,10 @@
 # Lea_Thielscher <lea.thielscher@googlemail.com>, 2012
 # Mateusz Batelt <mateusz@batelt.eu>, 2012
 # Nicolas Dietrich <nicodietrich@gmail.com>, 2012-2014
-# oskarb <o.brabanski@gmail.com>, 2013
-# oskarb <o.brabanski@gmail.com>, 2013
-# phihag <phihag@phihag.de>, 2013
-# phihag <phihag@phihag.de>, 2013
+# Oskar Brabanski <o.brabanski@gmail.com>, 2013
+# Oskar Brabanski <o.brabanski@gmail.com>, 2013
+# Philipp Hagemeister <phihag@phihag.de>, 2013
+# Philipp Hagemeister <phihag@phihag.de>, 2013
 # rosangela <rosangelabochicchio@gmail.com>, 2013
 # Rouven.B <rouven.brues@liqd.de>, 2014
 # Rouven.B <rouven.brues@liqd.de>, 2014
@@ -28,17 +29,17 @@
 # veryrandomname <seriousemailadress@googlemail.com>, 2014
 # sicco <sicco@ddo.nl>, 2012
 # sicco <sicco@ddo.nl>, 2012
-# tobib <tobias.bengfort@liqd.de>, 2013-2014
+# Tobias Bengfort <tobias.bengfort@liqd.de>, 2013-2014
 # Wawe <transifex.com@jroene.de>, 2013
 # veryrandomname <seriousemailadress@googlemail.com>, 2014
 # Wawe <transifex.com@jroene.de>, 2013
-# xanderbattaglia <xanderbattaglia@gmail.com>, 2013
+# Alex <xanderbattaglia@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version:  Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:18+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:03+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/adhocracy/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -67,6 +68,9 @@ msgstr "Solr-Index aktualisiert."
 msgid "Autojoin fixed - added %s memberships."
 msgstr "Autojoin korrigiert - %s Mitgliedschaften hinzugefügt."
 
+msgid "No need to fix autojoin."
+msgstr "Autojoin muss nicht korrigiert werden."
+
 msgid ""
 "Requested generation of welcome codes, but welcome "
 "functionality(adhocracy.enable_welcome) is not enabled."
@@ -77,7 +81,7 @@ msgstr "Dieser Badge-Typ ist nicht bekannt"
 
 #, python-format
 msgid "We cannot find the badge with the id %s"
-msgstr "Das Badge mit ID %s konnte nicht gefunden werden."
+msgstr "Das Badge mit der ID %s konnte nicht gefunden werden"
 
 msgid "User Badges"
 msgstr "Benutzerbadges"
@@ -571,6 +575,15 @@ msgstr "Mitgliederliste der Gruppe."
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Es tut uns leid - Registrierung ist in dieser Installation deaktiviert."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr "Ich akzeptiere die %s. Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Gruppen per E-Mail informieren."
+
+msgid "Terms and Conditions"
+msgstr "Nutzungsbedingungen"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Es tut uns Leid - diese E-Mail-Adresse ist nicht zur Registrierung zugelassen."
 
@@ -1034,6 +1047,9 @@ msgstr "Ungültige Auswahl"
 
 msgid "Incorrect. Try again."
 msgstr "Inkorrekt. Versuchen Sie es noch einmal."
+
+msgid "Please accept the terms of service"
+msgstr "Bitte akzeptieren Sie die Nutzungsbedingungen"
 
 #, python-format
 msgid "%d days"
@@ -3151,6 +3167,14 @@ msgstr "Die Mitglieder dieser Instanz sehen nur die Kategorien, die Sie erstellt
 msgid "Display page index as tiles"
 msgstr "Beschlussliste als Kacheln anzeigen"
 
+msgid "Split proposal list to several pages."
+msgstr "Vorschlagsliste auf mehrere Seiten aufteilen."
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr "Das Deaktivieren der Seitenumbrüche kann nützlich sein, wenn einzelne Zeilen verlinkt werden sollen."
+
 msgid "Hide this instance"
 msgstr "Diese Gruppe verbergen"
 
@@ -4707,17 +4731,8 @@ msgstr "Sicherheitsabfrage"
 msgid "Please enter the letters in the following image in the field below."
 msgstr "Bitte tragen Sie die Zeichen im folgenden Bild in das unten stehende Feld ein."
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Durch Ihre Anmeldung stimmen Sie den %s zu."
-
-msgid "Terms and Conditions"
+msgid "Terms and conditions"
 msgstr "Nutzungsbedingungen"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
-msgstr "Wir werden Sie gelegentlich über wichtige Ereignisse wie den Beteiligungsstart einzelner Gruppen per E-Mail informieren."
 
 msgid "leave empty"
 msgstr "frei lassen"

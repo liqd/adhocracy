@@ -95,27 +95,16 @@ class AdminController(BaseController):
             return ret_abort('autojoin is not enabled')
 
         users = model.User.all()
-        instances = model.Instance.all(include_hidden=True)
         added = 0
-        if config_autojoin != 'ALL':
-            instance_keys = [key.strip() for key in
-                             config_autojoin.split(",")]
-            instances = [instance for instance in instances
-                         if instance.key in instance_keys]
         for user in users:
-            to_join = set(instances)
-            for m in user.memberships:
-                to_join.discard(m.instance)
-            for instance in to_join:
-                autojoin_membership = model.Membership(
-                    user, instance,
-                    instance.default_group)
-                model.meta.Session.add(autojoin_membership)
-                added += 1
+            added += user.fix_autojoin(commit=False)
         if added > 0:
             model.meta.Session.commit()
+            flash(_('Autojoin fixed - added %s memberships.') % added,
+                  'success')
+        else:
+            flash(_('No need to fix autojoin.'), 'success')
 
-        flash(_('Autojoin fixed - added %s memberships.') % added, 'success')
         return redirect(base_url('/admin'))
 
     @RequireInternalRequest()

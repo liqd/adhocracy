@@ -10,7 +10,7 @@
     <h2>
         ${c.page.title}
         <div class="utility">
-            %if can.page.edit(c.page):
+            %if can.norm.edit(c.page):
             <a href="${h.entity_url(c.page, member='edit')}">${_(u"Edit")}</a>
             %endif
             %if can.page.delete(c.page):

@@ -26,6 +26,8 @@ def create(check, instance=None):
     check.valid_email()
     if instance is None:
         instance = c.instance
+    check.other('user_is_no_member', not c.user or
+                not c.user.is_member(instance))
     check.other('instance_frozen', instance.frozen)
     check.perm('proposal.create')
 

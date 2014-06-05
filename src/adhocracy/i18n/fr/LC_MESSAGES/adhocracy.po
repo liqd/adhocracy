@@ -5,15 +5,15 @@
 # Translators:
 # Skl8em <ben@skl8em.com>, 2010
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009
-# Debetancourt <idebetancourt@googlemail.com>, 2013-2014
+# Ingrid Kuhn <idebetancourt@googlemail.com>, 2013-2014
 # leacharlet <lea.charlet@aegee.org>, 2014
 # Viola <post@violalebro.de>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,9 @@ msgstr "Index Solr mis à jour."
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
 msgstr "adhésion automatique fixe - membres %s ajoutés"
+
+msgid "No need to fix autojoin."
+msgstr ""
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -540,6 +543,15 @@ msgstr "Liste des membres du groupe."
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Désolée, l'inscription a été désactivée par l'administrateur. "
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Modalités et Conditions"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Désolé, mais nous n'acceptons pas d'inscription avec cette adresse mail. "
 
@@ -989,6 +1001,9 @@ msgid "Invalid choice"
 msgstr "choix non valide"
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -3016,6 +3031,14 @@ msgstr "Les membres de votre instance voient uniquement les catégories que vous
 msgid "Display page index as tiles"
 msgstr "afficher l'index de page en mosaïque."
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Cacher ce groupe"
 
@@ -4477,17 +4500,8 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "En registrant, vous accepterez les %s."
-
-msgid "Terms and Conditions"
-msgstr "Modalités et Conditions"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
-msgstr "Nous vous informerons par mail des événements importants, tels que le début d'un processus de participation. "
+msgid "Terms and conditions"
+msgstr ""
 
 msgid "leave empty"
 msgstr "laisser en blanc"

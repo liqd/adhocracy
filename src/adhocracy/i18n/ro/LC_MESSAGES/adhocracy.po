@@ -4,15 +4,15 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012
-# zacks <mirceazachia@yahoo.com>, 2012
-# zacks <mirceazachia@yahoo.com>, 2013
-# zacks <mirceazachia@yahoo.com>, 2013
+# rotranslate <mirceazachia@yahoo.com>, 2012
+# rotranslate <mirceazachia@yahoo.com>, 2013
+# rotranslate <mirceazachia@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,9 @@ msgstr "Indexul Solr a fost updatat."
 
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
+msgstr ""
+
+msgid "No need to fix autojoin."
 msgstr ""
 
 msgid ""
@@ -539,6 +542,15 @@ msgstr "Tutorial: Membrii comunitatii"
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Ne pare rau, inregistrarea nu este permisa de catre administrator."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Termeni si Conditii"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Ne pare rau, dar nu acceptam intregistrarea folosind adresa aceasta de email."
 
@@ -988,6 +1000,9 @@ msgid "Invalid choice"
 msgstr ""
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -3018,6 +3033,14 @@ msgstr ""
 msgid "Display page index as tiles"
 msgstr ""
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Ascunde comunitatea"
 
@@ -4483,16 +4506,7 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Prin inregistrare, iti dai acordul pentru %s."
-
-msgid "Terms and Conditions"
-msgstr "Termeni si Conditii"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
+msgid "Terms and conditions"
 msgstr ""
 
 msgid "leave empty"

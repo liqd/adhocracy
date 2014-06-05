@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
-# xanderbattaglia <xanderbattaglia@gmail.com>, 2013
-# ellie84 <elegiampi@gmail.com>, 2013
+# Alex <xanderbattaglia@gmail.com>, 2013
+# eleonora <elegiampi@gmail.com>, 2013
 # rosangela <rosangelabochicchio@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/adhocracy/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,9 @@ msgstr "Solr Index aggiornato"
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
 msgstr "Autoiscrizione riparata - %s membri aggiunti."
+
+msgid "No need to fix autojoin."
+msgstr ""
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -538,6 +541,15 @@ msgstr "Lista dei membri del gruppo."
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Ci scusiamo ma la registrazione è stata disabilitata dall'amministratore."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Termini e condizioni"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Ci dispiace ma non accettiamo registrazioni con questo indirizzo email."
 
@@ -987,6 +999,9 @@ msgid "Invalid choice"
 msgstr "Scelta non valida"
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -3014,6 +3029,14 @@ msgstr ""
 msgid "Display page index as tiles"
 msgstr ""
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Nascondi questo gruppo"
 
@@ -4475,16 +4498,7 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Registrandoti, accetterai le condizioni di %s."
-
-msgid "Terms and Conditions"
-msgstr "Termini e condizioni"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
+msgid "Terms and conditions"
 msgstr ""
 
 msgid "leave empty"

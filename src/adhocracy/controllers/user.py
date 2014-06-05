@@ -83,6 +83,8 @@ class UserCreateForm(formencode.Schema):
                                                              h.captchasdotnet)
     chained_validators = [validators.FieldsMatch(
         'password', 'password_confirm')]
+    if config.get_bool('adhocracy.registration.require_terms_check'):
+        chained_validators.append(forms.TermsCheckValidator())
 
 
 class UserSettingsPersonalForm(formencode.Schema):
@@ -224,6 +226,13 @@ class UserController(BaseController):
                 data['captcha'] = h.recaptcha.displayhtml(use_ssl=True)
             add_static_content(data, u'adhocracy.static_agree_text',
                                body_key=u'agree_text', title_key='_ignored')
+            if data['agree_text'] is None:
+                data['agree_text'] = (
+                    _(u"I agree with the %s. We'll "
+                      u"occasionally inform you about important events such "
+                      u"as the start of a new participation process via "
+                      u"email.")
+                    % h.help_link(_("Terms and Conditions"), 'terms'))
             return htmlfill.render(render("/user/register.html", data,
                                           overlay=format == u'overlay'),
                                    defaults=defaults)
@@ -771,6 +780,7 @@ class UserController(BaseController):
             # Users imported by admins
             login_user(c.page_user, request, response)
             h.flash(_("Welcome to %s") % h.site.name(), 'success')
+            c.page_user.fix_autojoin()
             if c.instance:
                 membership = model.Membership(c.page_user, c.instance,
                                               c.instance.default_group)
@@ -1388,7 +1398,7 @@ class UserController(BaseController):
 
     @RequireInternalRequest()
     @validate(schema=UserBadgesForm(), form='edit_badges')
-    def update_badges(self, id):
+    def update_badges(self, id, format=u'html'):
         user = get_entity_or_abort(model.User, id)
         require.user.badge(user)
         want = set(self.form_result.get('badge'))

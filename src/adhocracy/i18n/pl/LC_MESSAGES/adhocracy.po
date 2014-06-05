@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the adhocracy project.
 # 
 # Translators:
-# kaiel <kaielblue@gmail.com>, 2014
+# Kamil Kisiel <kaielblue@gmail.com>, 2014
 # Mateusz Batelt <mateusz@batelt.eu>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/adhocracy/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -37,6 +37,9 @@ msgstr ""
 
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
+msgstr ""
+
+msgid "No need to fix autojoin."
 msgstr ""
 
 msgid ""
@@ -537,6 +540,15 @@ msgstr "Lista członków grupy"
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Możliwość rejestracji została wyłączona przez administratora."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Warunki korzystania"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Niestety nie możesz zarejestrować się przy użyciu tego adresu e-mail."
 
@@ -986,6 +998,9 @@ msgid "Invalid choice"
 msgstr ""
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -3016,6 +3031,14 @@ msgstr ""
 msgid "Display page index as tiles"
 msgstr ""
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Ukryj tę grupę"
 
@@ -4481,16 +4504,7 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Rejestrując się, zgadzasz się na %s."
-
-msgid "Terms and Conditions"
-msgstr "Warunki korzystania"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
+msgid "Terms and conditions"
 msgstr ""
 
 msgid "leave empty"

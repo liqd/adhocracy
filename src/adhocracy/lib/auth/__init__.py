@@ -94,7 +94,6 @@ class RecursiveAuthWrapper(object):
     def __init__(self, obj, raise_type):
         self.obj = obj
         self.raise_type = raise_type
-        self.closure = None
 
     def __getattr__(self, attr):
         orig = getattr(self.obj, attr)
@@ -113,8 +112,8 @@ class RecursiveAuthWrapper(object):
             @decorator
             def wrapper(decorated_fun, *args, **kwargs):
 
-                self.closure = partial(decorated_fun, *args, **kwargs)
-                return self.check(*a, **kw)
+                closure = partial(decorated_fun, *args, **kwargs)
+                return self.check_with_closure(closure, *a, **kw)
 
             return wrapper
 
@@ -122,6 +121,9 @@ class RecursiveAuthWrapper(object):
             return self.check(*a, **kw)
 
     def check(self, *a, **kw):
+        return self.check_with_closure(None, *a, **kw)
+
+    def check_with_closure(self, closure, *a, **kw):
 
         auth_check = authorization.AuthCheck(method=self.obj.__name__)
         self.obj(auth_check, *a, **kw)
@@ -136,7 +138,7 @@ class RecursiveAuthWrapper(object):
             assert(self.raise_type in [RETURN_TEMPLATE, RETURN_DECORATOR])
             if auth_check:
                 if self.raise_type == RETURN_DECORATOR:
-                    return self.closure()
+                    return closure()
                 else:
                     return auth_check
             elif auth_check.propose_login():

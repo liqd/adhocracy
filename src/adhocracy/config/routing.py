@@ -31,7 +31,7 @@ def make_map(config):
                 action='all', conditions=dict(method=['GET']))
     map.connect('/user/{id}/badges{.format}', controller='user',
                 action='edit_badges', conditions=dict(method=['GET']))
-    map.connect('/user/{id}/badges', controller='user',
+    map.connect('/user/{id}/badges{.format}', controller='user',
                 action='update_badges', conditions=dict(method=['POST']))
     # Old dashboard
     map.connect('/user/{id}/dashboard', controller='user',

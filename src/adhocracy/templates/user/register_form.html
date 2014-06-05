@@ -1,3 +1,4 @@
+<%namespace name="forms" file="/forms.html"/>
 <%namespace name="sso" file="/sso.html"/>
 
 <div class="form_wrapper">
@@ -50,14 +51,18 @@
     </fieldset>
     %endif
 
+    %if h.config.get_bool('adhocracy.registration.require_terms_check'):
+    <fieldset>
+        <legend>${_("Terms and conditions")}</legend>
+        <p class="info">
+            ${forms.checkbox(c.agree_text, 'accept_terms')}
+        </p>
+    </fieldset>
+    %else:
     <p>
-      %if c.agree_text is None:
-        ${_("By registering, you agree with the %s.") % h.help_link(_("Terms and Conditions"), 'terms') |n}
-        ${_(u"We'll occasionally inform you about important events such as the start of a new participation process via email.")}
-      %else:
         ${c.agree_text|n}
-      %endif
     </p>
+    %endif
 
     ## <!--SPAM protection-->
     <div class="hidejs" id="register_input_js">

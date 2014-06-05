@@ -6,13 +6,13 @@
 # EvaPanek <eva.panek@liqd.de>, 2014
 # f78rocha <f78rocha@gmail.com>, 2014
 # f78rocha <f78rocha@gmail.com>, 2014
-# NAmorim <na.amorim@gmail.com>, 2013
+# Nuno Amorim <na.amorim@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-18 11:15+0200\n"
-"PO-Revision-Date: 2014-05-18 09:16+0000\n"
+"POT-Creation-Date: 2014-06-05 17:01+0200\n"
+"PO-Revision-Date: 2014-06-05 15:02+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/adhocracy/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,9 @@ msgstr "Índice Solr atualizado."
 #, python-format
 msgid "Autojoin fixed - added %s memberships."
 msgstr "Definida entrada automática - adicionados %s membros."
+
+msgid "No need to fix autojoin."
+msgstr ""
 
 msgid ""
 "Requested generation of welcome codes, but welcome "
@@ -539,6 +542,15 @@ msgstr "Lista de membros da comunidade."
 msgid "Sorry, registration has been disabled by administrator."
 msgstr "Desculpe, o registro foi desabilitado pelo administrador."
 
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr "Termos e condições"
+
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Desculpe, mas nós não aceitamos registros com este endereço de correio eletrônico."
 
@@ -988,6 +1000,9 @@ msgid "Invalid choice"
 msgstr "Escolha inválida"
 
 msgid "Incorrect. Try again."
+msgstr ""
+
+msgid "Please accept the terms of service"
 msgstr ""
 
 #, python-format
@@ -3015,6 +3030,14 @@ msgstr "Os membros da sua comunidade veem apenas as categorias que você criou. 
 msgid "Display page index as tiles"
 msgstr "Mostrar índice da página como blocos."
 
+msgid "Split proposal list to several pages."
+msgstr ""
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr ""
+
 msgid "Hide this instance"
 msgstr "Ocultar esta comunidade"
 
@@ -4476,17 +4499,8 @@ msgstr ""
 msgid "Please enter the letters in the following image in the field below."
 msgstr ""
 
-#, python-format
-msgid "By registering, you agree with the %s."
-msgstr "Ao se registrar, você concorda com o %s."
-
-msgid "Terms and Conditions"
-msgstr "Termos e condições"
-
-msgid ""
-"We'll occasionally inform you about important events such as the start of a "
-"new participation process via email."
-msgstr "Nós ocasionalmente lhe enviaremos um correio eletrônico para informá-lo sobre ocorrências importantes, como, por exemplo, o início de um novo processo participativo"
+msgid "Terms and conditions"
+msgstr ""
 
 msgid "leave empty"
 msgstr "deixar em branco"
