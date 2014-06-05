@@ -114,8 +114,11 @@ class AdminController(BaseController):
                 added += 1
         if added > 0:
             model.meta.Session.commit()
+            flash(_('Autojoin fixed - added %s memberships.') % added,
+                  'success')
+        else:
+            flash(_('No need to fix autojoin.'), 'success')
 
-        flash(_('Autojoin fixed - added %s memberships.') % added, 'success')
         return redirect(base_url('/admin'))
 
     @RequireInternalRequest()
