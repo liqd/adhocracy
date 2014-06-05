@@ -518,16 +518,7 @@ class User(meta.Indexable):
         # Autojoin the user in instances
         config_autojoin = config.get('adhocracy.instances.autojoin')
         if autojoin and config_autojoin:
-            instances = Instance.all(include_hidden=True)
-            if config_autojoin != 'ALL':
-                instance_keys = [key.strip() for key in
-                                 config_autojoin.split(",")]
-                instances = [instance for instance in instances
-                             if instance.key in instance_keys]
-            for instance in instances:
-                autojoin_membership = Membership(user, instance,
-                                                 instance.default_group)
-                meta.Session.add(autojoin_membership)
+            user.fix_autojoin(commit=False)
 
         if global_admin:
             admin_group = Group.by_code(Group.CODE_ADMIN)
@@ -580,3 +571,27 @@ class User(meta.Indexable):
     @property
     def title(self):
         return self.name
+
+    def fix_autojoin(self, commit=True):
+        from membership import Membership
+        config_autojoin = config.get('adhocracy.instances.autojoin')
+        if config_autojoin == 'ALL':
+            instances = Instance.all(include_hidden=True)
+        else:
+            instance_keys = [key.strip() for key in
+                             config_autojoin.split(",")]
+            instances = meta.Session.query(Instance)\
+                .filter(Instance.key.in_(instance_keys)).all()
+        to_join = set(instances)
+        added = 0
+        for m in self.memberships:
+            to_join.discard(m.instance)
+        for instance in to_join:
+            autojoin_membership = Membership(
+                self, instance,
+                instance.default_group)
+            meta.Session.add(autojoin_membership)
+            added += 1
+        if commit:
+            meta.Session.commit()
+        return added
