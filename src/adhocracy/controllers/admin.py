@@ -95,13 +95,14 @@ class AdminController(BaseController):
             return ret_abort('autojoin is not enabled')
 
         users = model.User.all()
-        instances = model.Instance.all(include_hidden=True)
         added = 0
-        if config_autojoin != 'ALL':
+        if config_autojoin == 'ALL':
+            instances = model.Instance.all(include_hidden=True)
+        else:
             instance_keys = [key.strip() for key in
                              config_autojoin.split(",")]
-            instances = [instance for instance in instances
-                         if instance.key in instance_keys]
+            instances = model.meta.Session.query(model.Instance)\
+                .filter(model.Instance.key.in_(instance_keys)).all()
         for user in users:
             to_join = set(instances)
             for m in user.memberships:
