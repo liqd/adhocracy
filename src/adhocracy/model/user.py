@@ -581,7 +581,7 @@ class User(meta.Indexable):
     def title(self):
         return self.name
 
-    def fix_autojoin(self):
+    def fix_autojoin(self, commit=True):
         from membership import Membership
         config_autojoin = config.get('adhocracy.instances.autojoin')
         if config_autojoin == 'ALL':
@@ -601,5 +601,6 @@ class User(meta.Indexable):
                 instance.default_group)
             meta.Session.add(autojoin_membership)
             added += 1
-        meta.Session.commit()
+        if commit:
+            meta.Session.commit()
         return added

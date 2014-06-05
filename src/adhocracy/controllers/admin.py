@@ -97,7 +97,7 @@ class AdminController(BaseController):
         users = model.User.all()
         added = 0
         for user in users:
-            added += user.fix_autojoin()
+            added += user.fix_autojoin(commit=False)
         if added > 0:
             model.meta.Session.commit()
             flash(_('Autojoin fixed - added %s memberships.') % added,
