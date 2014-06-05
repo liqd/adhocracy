@@ -2,6 +2,22 @@ Adhocracy Changelog
 ===================
 
 
+2.4.4 (2014-06-05)
+------------------
+
+Improvements
+
+- Improve fix-autojoin flash message if autojoin isn't needed.
+
+Bug fixes
+
+- Autojoin imported users after activation. (#911, #907)
+
+- Don't show sentiment in sectionpage comment edit form (#910, #899)
+
+- Proper membership check in can.proposal.create (#908)
+
+
 2.4.3 (2014-05-31)
 ------------------
 
