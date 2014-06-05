@@ -518,16 +518,7 @@ class User(meta.Indexable):
         # Autojoin the user in instances
         config_autojoin = config.get('adhocracy.instances.autojoin')
         if autojoin and config_autojoin:
-            instances = Instance.all(include_hidden=True)
-            if config_autojoin != 'ALL':
-                instance_keys = [key.strip() for key in
-                                 config_autojoin.split(",")]
-                instances = [instance for instance in instances
-                             if instance.key in instance_keys]
-            for instance in instances:
-                autojoin_membership = Membership(user, instance,
-                                                 instance.default_group)
-                meta.Session.add(autojoin_membership)
+            user.fix_autojoin(commit=False)
 
         if global_admin:
             admin_group = Group.by_code(Group.CODE_ADMIN)
