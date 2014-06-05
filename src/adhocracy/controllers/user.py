@@ -780,6 +780,7 @@ class UserController(BaseController):
             # Users imported by admins
             login_user(c.page_user, request, response)
             h.flash(_("Welcome to %s") % h.site.name(), 'success')
+            c.page_user.fix_autojoin()
             if c.instance:
                 membership = model.Membership(c.page_user, c.instance,
                                               c.instance.default_group)
