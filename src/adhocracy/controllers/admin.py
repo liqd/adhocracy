@@ -96,23 +96,8 @@ class AdminController(BaseController):
 
         users = model.User.all()
         added = 0
-        if config_autojoin == 'ALL':
-            instances = model.Instance.all(include_hidden=True)
-        else:
-            instance_keys = [key.strip() for key in
-                             config_autojoin.split(",")]
-            instances = model.meta.Session.query(model.Instance)\
-                .filter(model.Instance.key.in_(instance_keys)).all()
         for user in users:
-            to_join = set(instances)
-            for m in user.memberships:
-                to_join.discard(m.instance)
-            for instance in to_join:
-                autojoin_membership = model.Membership(
-                    user, instance,
-                    instance.default_group)
-                model.meta.Session.add(autojoin_membership)
-                added += 1
+            added += user.fix_autojoin()
         if added > 0:
             model.meta.Session.commit()
             flash(_('Autojoin fixed - added %s memberships.') % added,

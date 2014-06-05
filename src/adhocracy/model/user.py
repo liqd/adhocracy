@@ -580,3 +580,25 @@ class User(meta.Indexable):
     @property
     def title(self):
         return self.name
+
+    def fix_autojoin(self):
+        from membership import Membership
+        config_autojoin = config.get('adhocracy.instances.autojoin')
+        if config_autojoin == 'ALL':
+            instances = Instance.all(include_hidden=True)
+        else:
+            instance_keys = [key.strip() for key in
+                             config_autojoin.split(",")]
+            instances = meta.Session.query(Instance)\
+                .filter(Instance.key.in_(instance_keys)).all()
+        to_join = set(instances)
+        added = 0
+        for m in self.memberships:
+            to_join.discard(m.instance)
+        for instance in to_join:
+            autojoin_membership = Membership(
+                self, instance,
+                instance.default_group)
+            meta.Session.add(autojoin_membership)
+            added += 1
+        return added
