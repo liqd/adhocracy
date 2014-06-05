@@ -601,4 +601,5 @@ class User(meta.Indexable):
                 instance.default_group)
             meta.Session.add(autojoin_membership)
             added += 1
+        meta.Session.commit()
         return added
