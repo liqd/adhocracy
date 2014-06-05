@@ -254,6 +254,8 @@ klass_con = klass(-1)
         </div>
         <div class="c40r">
           <div class="subcr comment_settings">
+            <% from adhocracy.model.page import Page %>
+            %if comment.topic.function == Page.DESCRIPTION:
             <div class="input_wrapper comment_status only-js">
               ${_(u'Comment is...') if h.comment.wording() else _(u'Argument is...')}<br />
               <a class="${klass_pro}"
@@ -268,6 +270,7 @@ klass_con = klass(-1)
                      value="${str(comment.latest.sentiment)}" />
             </div>
             <hr />
+            %endif
             <div class="input_wrapper submit">
               <input type="submit" value="${_('Save')}" />&nbsp;
               <a class="cancel"
