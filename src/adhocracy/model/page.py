@@ -122,7 +122,7 @@ class Page(Delegateable):
 
     @classmethod
     def unused_label(cls, label, instance_filter=True, functions=None,
-                    include_deleted=False):
+                     include_deleted=False):
         q = meta.Session.query(Page)\
             .filter(Page.label == label)
         if not include_deleted:
