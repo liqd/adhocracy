@@ -3,7 +3,7 @@
 <%namespace name="forms" file="/forms.html"/>
 <%namespace name="sidebar_defs" file="/sidebar.html"/>
 
-<%def name="title()">${c.category.title}</%def>
+<%def name="title()">${c.category.title|n}</%def>
 
 <%def name="breadcrumbs()">
 ${h.category.breadcrumbs(c.category)|n}
