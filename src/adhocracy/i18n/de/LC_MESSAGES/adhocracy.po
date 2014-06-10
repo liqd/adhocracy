@@ -3340,7 +3340,7 @@ msgstr "Absender-Namen anpassen:"
 msgid ""
 "Please note that your e-mail address may be included in this message to give"
 " the recipient a method to reply to you."
-msgstr "Bitte beachten Sie, dass Ihre Email-Adresse in der Nachricht enthalten sein muss, damit die/der Empfänger*in die Möglichkeit hat, Ihnen zu antworten."
+msgstr "Bitte beachten Sie, dass Ihre Email-Adresse in der Nachricht enthalten sein kann, damit die/der Empfänger*in die Möglichkeit hat, Ihnen zu antworten."
 
 msgid "Send to ..."
 msgstr "Senden an ..."
