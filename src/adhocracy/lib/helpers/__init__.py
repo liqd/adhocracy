@@ -190,9 +190,11 @@ def help_url(page, anchor=None):
     return url % (page, 'html')
 
 
-def help_link(text, page, anchor=None):
+def help_link(text, page, anchor=None, target=None):
     url = help_url(page, anchor=anchor)
-    return (u"<a class='staticlink_%s' href='%s' >%s</a>") % (page, url, text)
+    target_text = u'target="%s"' % target if target is not None else u''
+    return u"<a class='staticlink_%s' href='%s' %s >%s</a>" % (
+        page, url, target_text, text)
 
 
 def get_redirect_url(target=u'login', entity=None, **kwargs):
