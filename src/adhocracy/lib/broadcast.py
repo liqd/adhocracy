@@ -22,8 +22,8 @@ def notify_abuse(instance, user, url, message):
 
 
 def get_instance_admins(instance):
-    sgroup = model.Group.find(model.Group.CODE_SUPERVISOR)
-    agroup = model.Group.find(model.Group.CODE_ADMIN)
+    sgroup = model.Group.by_code(model.Group.CODE_SUPERVISOR)
+    agroup = model.Group.by_code(model.Group.CODE_ADMIN)
     q = model.meta.Session.query(model.User)
     q = q.join(model.Membership)
     q = q.filter(model.Membership.instance == instance)
@@ -35,7 +35,7 @@ def get_instance_admins(instance):
 
 
 def get_global_admins():
-    group = model.Group.find(model.Group.CODE_ADMIN)
+    group = model.Group.by_code(model.Group.CODE_ADMIN)
     q = model.meta.Session.query(model.User)
     q = q.join(model.Membership)
     q = q.filter(model.Membership.instance == None)  # noqa
