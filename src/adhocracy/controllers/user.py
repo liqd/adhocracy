@@ -323,6 +323,14 @@ class UserController(BaseController):
                 location = h.url.unquote(c.came_from)
             else:
                 location = h.user.post_register_url(user)
+
+            h.flash(_(
+                u"Welcome to %(site_name)s! Please activate your account by "
+                u"clicking on the activation link we just sent to you. "
+                u"If you can't find it in your inbox, please check your spam "
+                u"folder.") % {'site_name': config.get('adhocracy.site.name')},
+                category='success')
+
             raise HTTPFound(location=location, headers=headers)
         else:
             raise Exception('We have added the user to the Database '
@@ -836,7 +844,8 @@ class UserController(BaseController):
 
         ret_success(
             message=_("The activation link has been re-sent to your email "
-                      "address."), category='success',
+                      "address. Please check your spam folder if you can't "
+                      "find it in your inbox."), category='success',
             entity=c.page_user, member='settings/notifications',
             format=None, force_path=force_path)
 
