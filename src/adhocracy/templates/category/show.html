@@ -23,7 +23,7 @@ ${h.category.breadcrumbs(c.category)|n}
 <hr />
 
 <div class="category_body">
-    ${h.render(c.category.long_description)|n}
+    ${h.render(c.category.long_description, safe_mode='adhocracy_config')|n}
 </div>
 
 <div class="morelink_header">
