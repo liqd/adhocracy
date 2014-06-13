@@ -17,7 +17,9 @@ ${h.user.breadcrumbs(c.page_user)|n} &raquo; ${_("Edit Badges")}
     <h3>${_(u"Badges")}</h3>
 
     ${badge_tiles.select_form(c.badges, _('Global Badges'), _('No badges'), 'badge')}
+    %if c.instance:
     ${badge_tiles.select_form(c.instance_badges, _("Badges in instance %s") % c.instance.label, _('No badges'), 'badge')}
+    %endif
 
     ${components.savebox(h.base_url("/user/%s" % c.page_user.user_name))}
 
