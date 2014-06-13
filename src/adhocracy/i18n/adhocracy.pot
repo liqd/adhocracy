@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.4.4-15-g0badedf\n"
+"Project-Id-Version: adhocracy 2.4.4-17-g08e811b\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:25+0200\n"
+"POT-Creation-Date: 2014-06-13 18:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -525,7 +525,7 @@ msgid "Sorry, but we don't accept registrations with this email address."
 msgstr ""
 
 #, python-format
-msgid "Welcome to %(site_name)s! Please activate your account by clicking on the activation link we just sent to you. If you can't find it in your inbox, please check your spam folder."
+msgid "Welcome to %(site_name)s! Please activate your account by clicking on the activation link we just sent to you by email. If you can't find it in your inbox, please check your spam folder."
 msgstr ""
 
 msgid "Gender-neutral"
