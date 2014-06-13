@@ -326,9 +326,10 @@ class UserController(BaseController):
 
             h.flash(_(
                 u"Welcome to %(site_name)s! Please activate your account by "
-                u"clicking on the activation link we just sent to you. "
-                u"If you can't find it in your inbox, please check your spam "
-                u"folder.") % {'site_name': config.get('adhocracy.site.name')},
+                u"clicking on the activation link we just sent to you by "
+                u"email. If you can't find it in your inbox, please check "
+                u"your spam folder.") %
+                {'site_name': config.get('adhocracy.site.name')},
                 category='success')
 
             raise HTTPFound(location=location, headers=headers)
