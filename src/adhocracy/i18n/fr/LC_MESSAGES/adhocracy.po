@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-05 17:01+0200\n"
-"PO-Revision-Date: 2014-06-05 15:02+0000\n"
+"POT-Creation-Date: 2014-06-13 18:34+0200\n"
+"PO-Revision-Date: 2014-06-13 16:35+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/adhocracy/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -132,31 +132,31 @@ msgid "The delegation is now revoked."
 msgstr "La délégation a été révoquée."
 
 msgid "The requested page could not be found."
-msgstr ""
+msgstr "La page demandée n'a pas pu être trouvée."
 
 msgid "The system is currently down for maintenance. Please check back soon!"
-msgstr ""
+msgstr "Le système est actuellement hors service pour des raisons de maintenance. Veuillez réessayer plus tard !"
 
 msgid "Bad Request"
-msgstr ""
+msgstr "Mauvaise demande"
 
 msgid "Unauthorized"
-msgstr ""
+msgstr "Non autorisé."
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Interdit"
 
 msgid "Not Found"
-msgstr ""
+msgstr "Introuvable"
 
 msgid "I'm a teapot"
-msgstr ""
+msgstr "Je suis une théière"
 
 msgid "Internal Server Error"
-msgstr ""
+msgstr "Erreur de serveur interne"
 
 msgid "Service Unavailable"
-msgstr ""
+msgstr "Service non disponible"
 
 #, python-format
 msgid "%s News"
@@ -555,6 +555,13 @@ msgstr "Modalités et Conditions"
 msgid "Sorry, but we don't accept registrations with this email address."
 msgstr "Désolé, mais nous n'acceptons pas d'inscription avec cette adresse mail. "
 
+#, python-format
+msgid ""
+"Welcome to %(site_name)s! Please activate your account by clicking on the "
+"activation link we just sent to you by email. If you can't find it in your "
+"inbox, please check your spam folder."
+msgstr ""
+
 msgid "Gender-neutral"
 msgstr "Genre-neutre"
 
@@ -621,8 +628,10 @@ msgstr "Bienvenue à %s"
 msgid "Your email has been confirmed."
 msgstr "Votre adresse mail a été confirmée."
 
-msgid "The activation link has been re-sent to your email address."
-msgstr "Un code d'activation a été envoyé à votre adresse mail."
+msgid ""
+"The activation link has been re-sent to your email address. Please check "
+"your spam folder if you can't find it in your inbox."
+msgstr ""
 
 msgid "About us"
 msgstr "À propos de nous"
@@ -1001,7 +1010,7 @@ msgid "Invalid choice"
 msgstr "choix non valide"
 
 msgid "Incorrect. Try again."
-msgstr ""
+msgstr "Erroné. Essayez à nouveau."
 
 msgid "Please accept the terms of service"
 msgstr ""
@@ -1254,10 +1263,10 @@ msgstr "Nous somme désolés, il semble que vous n'ayez pas les droits requis po
 msgid ""
 "The requested action could not be performed, because the session which was "
 "active when you visited the previous page has expired."
-msgstr ""
+msgstr "L'action demandée n'a pas pu être opérée, parce que la session encore active lors de la visite de la page précédente, vient d'expirer."
 
 msgid "Back to your current session"
-msgstr ""
+msgstr "Retour à votre session courante."
 
 #, python-format
 msgid "variant %(variant)s of %(page)s"
@@ -1548,7 +1557,7 @@ msgstr "Motions: %(user)s %(vote)s %(poll)s"
 
 #, python-format
 msgid "Message sent: %(message)s"
-msgstr ""
+msgstr "Message envoyé: %(message)s"
 
 #, python-format
 msgid "sent message: \"%(message)s\""
@@ -1603,10 +1612,10 @@ msgid "Message from %(sender)s: %(message)s"
 msgstr "message de: %(sender)s: %(message)s"
 
 msgid "User"
-msgstr ""
+msgstr "utilisateur"
 
 msgid "Membership"
-msgstr ""
+msgstr "Adhésion"
 
 msgid "Proposal"
 msgstr "Proposition"
@@ -1617,7 +1626,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 msgid "Comment"
 msgid_plural "Comments"
@@ -1637,28 +1646,28 @@ msgid "Message"
 msgstr "Message "
 
 msgid "Massmessage"
-msgstr ""
+msgstr "Message en masse"
 
 msgid "Test"
-msgstr ""
+msgstr "Essai"
 
 msgid "created"
-msgstr ""
+msgstr "créé"
 
 msgid "edited"
-msgstr ""
+msgstr "édité"
 
 msgid "delete"
 msgstr "effacer"
 
 msgid "joined"
-msgstr ""
+msgstr "a rejoint"
 
 msgid "left"
-msgstr ""
+msgstr "a quitté"
 
 msgid "updated"
-msgstr ""
+msgstr "mis à jour"
 
 msgid "badged"
 msgstr ""
@@ -1667,7 +1676,7 @@ msgid "changed state"
 msgstr ""
 
 msgid "deleted"
-msgstr ""
+msgstr "supprimé"
 
 msgid "revoked"
 msgstr ""
@@ -1976,7 +1985,7 @@ msgid "<b>%s</b> votes"
 msgstr "<b>%s</b> votes"
 
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 msgid "Start"
 msgstr "Accueil"
@@ -2007,7 +2016,7 @@ msgstr "Déconnexion"
 
 #, python-format
 msgid "Search in \"%s\""
-msgstr ""
+msgstr "Chercher dans \"%s\""
 
 #, python-format
 msgid "%(start)s-%(end)s out of %(total)s"
@@ -2086,10 +2095,10 @@ msgid "This instance has been frozen - you can not edit or post anything."
 msgstr "Cette instance a été gelée - vous ne pouvez éditer ou poster aucun contenu. "
 
 msgid "Skip to the navigation"
-msgstr ""
+msgstr "Passer à la navigation"
 
 msgid "Skip to the content"
-msgstr ""
+msgstr "Passer au contenu"
 
 msgid "Next"
 msgstr "Prochain"
@@ -2126,7 +2135,7 @@ msgid ""
 "You can log in using various external user accounts. Please be aware that "
 "the login via external providers may cause security and privacy related "
 "risks."
-msgstr ""
+msgstr "Vous pouvez vous connecter avec différents comptes utilisateurs. Veuillez noter que la connexion via des serveurs externes peut présenter des risques pour la sécurité et la vie privée. "
 
 msgid "Login with Facebook"
 msgstr "Login avec Facebook"
@@ -2535,7 +2544,7 @@ msgid "No Badges"
 msgstr "Pas d'étiquettes"
 
 msgid "more"
-msgstr ""
+msgstr "plus"
 
 msgid "View and discuss"
 msgstr "voir et discuter "
@@ -2849,13 +2858,13 @@ msgstr "vous avez %s voix supplémentaires."
 
 #, python-format
 msgid "Error %d"
-msgstr ""
+msgstr "Erreur %d"
 
 #, python-format
 msgid ""
 "If this error continues to occur, please %snotify the developers%s with a "
 "description of what you were trying to do."
-msgstr ""
+msgstr "Si cette erreur survient à nouveau, nous vous prions d'en %s informer les développeurs %s en décrivant ce que vous étiez en train de faire. "
 
 msgid ""
 "An automated email message describing the situation has been sent to our "
@@ -2931,7 +2940,7 @@ msgid "Instances are little democracies that are ran by their community."
 msgstr "Des groupes sont des petites démocraties, gérées par la communauté. "
 
 msgid "participate"
-msgstr ""
+msgstr "participer"
 
 msgid "new instance"
 msgstr "nouveau groupe"
@@ -3507,13 +3516,13 @@ msgid "User name"
 msgstr "Nom d'utilisateur"
 
 msgid "A unique user name is required for you to complete sign up and login."
-msgstr ""
+msgstr "Un nom d'utilisateur unique est requis pour achever l'inscription et la connexion. "
 
 #, python-format
 msgid ""
 "The user name \"%s\" received from your OpenID provider is invalid or "
 "already used. Please provide a different, unique user name."
-msgstr ""
+msgstr "Le nom d'utilisateur \"%s\" reçu pour votre opérateur OpenID n'est pas valide ou est déjà utilisé. Veuillez fournir un nom d'utilisateur unique différent. "
 
 msgid "Username:"
 msgstr "Nom d'utilisateur :"
@@ -4094,7 +4103,7 @@ msgid "Search in %s"
 msgstr "Rechercher dans %s"
 
 msgid "Search proposals and norms..."
-msgstr ""
+msgstr "Chercher les propositions et thèmes..."
 
 msgid "You did not provide a search query."
 msgstr "Vous n'avez pas inclu une demande de recherche."
@@ -4340,7 +4349,7 @@ msgid "All Members on this Adhocracy Server"
 msgstr "Tous les membres sur ce serveur d'Adhocracy"
 
 msgid "A listing of all users in all instances on this Adhocracy server."
-msgstr ""
+msgstr "Une liste des utilisateurs de toutes les instances sur ce serveur Adhocracy. "
 
 msgid "Validate email address"
 msgstr "Confirmer l'adresse mail"
@@ -4495,10 +4504,10 @@ msgid "Password (confirm):"
 msgstr "Mot de passe : (confirmation)"
 
 msgid "Security query"
-msgstr ""
+msgstr "message de sécurité"
 
 msgid "Please enter the letters in the following image in the field below."
-msgstr ""
+msgstr "Nous vous prions de saisir les lettres dans l'image suivante affichée dans la zone ci-dessous."
 
 msgid "Terms and conditions"
 msgstr ""
@@ -4751,7 +4760,7 @@ msgid "Generate welcome link"
 msgstr "générer le welcome link. "
 
 msgid "Phonetic spelling"
-msgstr ""
+msgstr "Orthographe phonétique"
 
 #, python-format
 msgid "Watchlist: %s"

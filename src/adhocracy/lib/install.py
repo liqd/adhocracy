@@ -85,7 +85,7 @@ def setup_entities(config, initial_setup):
         u'badge.edit_instance': [moderator],
         u'badge.manage_instance': [moderator],
         u'comment.create': [advisor],
-        u'comment.delete': [moderator],
+        u'comment.delete': [advisor],
         u'comment.edit': [advisor],
         u'comment.show': [anonymous],
         u'comment.view': [anonymous],

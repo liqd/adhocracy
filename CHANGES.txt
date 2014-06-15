@@ -2,14 +2,34 @@ Adhocracy Changelog
 ===================
 
 
+2.4.5 (2014-06-13)
+------------------
+
+Improvements:
+
+- Better flash messages after sending of activation links - with spam hint
+
+- Allow to add html in category long_description (#913)
+
+- Open formatting links in new tab
+
+Bug fixes:
+
+- Fix non-instance user badge form
+
+- Fix abuse message function
+
+- Allow advisors and higher to delete own comments by default
+
+
 2.4.4 (2014-06-05)
 ------------------
 
-Improvements
+Improvements:
 
 - Improve fix-autojoin flash message if autojoin isn't needed.
 
-Bug fixes
+Bug fixes:
 
 - Autojoin imported users after activation. (#911, #907)
 
