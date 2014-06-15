@@ -24,6 +24,7 @@ DEFAULTS = {
     'adhocracy.customize_footer': False,
     'adhocracy.debug.sql': False,
     'adhocracy.delay_update_queue_seconds': 1,
+    'adhocracy.delegateable_mediafiles': False,
     'adhocracy.demo_users': [],
     'adhocracy.domain': '',
     'adhocracy.domains': None,  # deprecated
