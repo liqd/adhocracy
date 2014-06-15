@@ -359,8 +359,8 @@ piwik.id =
 # adhocracy.hide_individual_votes.aalen = true
 
 # INSTALL: Hide proposal rating results (EXPERIMENTAL)
-# adhocracy.proposal.hide_score = true
-# adhocracy.proposal.hide_score.beelen = true
+# adhocracy.proposal.hide_scores = true
+# adhocracy.proposal.hide_scores.beelen = true
 
 # INSTALL: Allow users to lock themselves out of adhocracy
 # adhocracy.self_deletion_allowed = true
