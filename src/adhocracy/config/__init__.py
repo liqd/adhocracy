@@ -94,6 +94,7 @@ DEFAULTS = {
     'adhocracy.post_register_instance': None,
     'adhocracy.post_register_url': None,
     'adhocracy.proposal_pager_inline': False,
+    'adhocracy.proposal.hide_score': False,
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
     'adhocracy.protocol': u'http',

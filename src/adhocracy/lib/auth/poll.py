@@ -12,6 +12,13 @@ def show(check, p):
     check.other('hide_individual_votes', h.poll.hide_individual_votes(p))
 
 
+def show_result(check, p):
+    from adhocracy.lib import helpers as h
+
+    check.other('result_not_shown_until_frozen',
+                h.poll.hide_score_until_hidden(p))
+
+
 def create(check):
     check.readonly()
     check.valid_email()
