@@ -32,7 +32,7 @@
             %if proposal.is_adopt_polling():
                 ${_("%s%% approval") % int(proposal.adopt_poll.tally.rel_for * 100)|n}
                 ·
-            %elif proposal.rate_poll is not None:
+            %elif proposal.rate_poll is not None and can.poll.show_result(proposal.rate_poll):
                 ${_("%s:%s votes") % (proposal.rate_poll.tally.num_for, proposal.rate_poll.tally.num_against)|n}
                 ·
             %endif
