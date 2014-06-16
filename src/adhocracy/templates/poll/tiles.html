@@ -19,6 +19,8 @@ con = tile.widget_action_attrs(model.Vote.NO)
     %elif tile.can_show_result:
         <span class="vote_count ${tile.count_class}"
             >${tile.display_score}</span
+    %else:
+        <span></span
     %endif
     %if tile.can_vote:
     ><a href="${pro['url']}"
