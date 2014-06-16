@@ -28,7 +28,8 @@ LOCALES = [babel.Locale('de', 'DE'),
            babel.Locale('pl', 'PL'),
            babel.Locale('pt', 'BR'),
            babel.Locale('ro', 'RO'),
-           babel.Locale('ru', 'RU')]
+           babel.Locale('ru', 'RU'),
+           babel.Locale.parse('zh_TW')]
 
 LOCALE_STRINGS = map(str, LOCALES)
 
@@ -39,8 +40,11 @@ LOCALE_STRINGS_DASH = map(lambda l: string.replace(l, '_', '-'),
                           LOCALE_STRINGS)
 
 # We have only Brazilian Portuguese, so we show that when pt is requested.
+# We have only Traditional Chinese (Taiwan), so we show that when zh is
+# requested.
 A2_LOCALE_ALIASES = LOCALE_ALIASES.copy()
 A2_LOCALE_ALIASES['pt'] = 'pt_BR'
+A2_LOCALE_ALIASES['zh'] = 'zh_Hant_TW'
 
 FALLBACK_TZ = 'Europe/Berlin'
 
