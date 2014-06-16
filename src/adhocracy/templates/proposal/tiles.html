@@ -80,7 +80,9 @@
             %if not proposal.is_adopt_polling() and proposal.rate_poll is not None:
             ${tiles.poll.widget(proposal.rate_poll, cls='big')}
             %endif
+            %if not h.config.get_bool('adhocracy.proposal.hide_comments.%s' % proposal.instance.key):
             <a class="button" href="${h.entity_url(proposal, member='comments')}" rel="#overlay-url">${_('Join the discussion')}</a>
+            %endif
         </article>
     </li>
 </%def>
