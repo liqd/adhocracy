@@ -20,6 +20,7 @@ DEFAULTS = {
     'adhocracy.cache_tiles': True,
     'adhocracy.category.long_description.max_length': 20000,
     'adhocracy.comment_wording': False,
+    'adhocracy.comment_wording.allow_overwrite': True,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.debug.sql': False,
