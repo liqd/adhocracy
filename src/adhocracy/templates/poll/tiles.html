@@ -15,10 +15,12 @@ con = tile.widget_action_attrs(model.Vote.NO)
 <div id="${tile.html_id}" class="${tile.widget_class}">
     %if tile.can_show:
         <a href="${tile.votes_listing_url}" rel="#overlay-url" class="vote_count ${tile.count_class}"
-          >${tile.display_score}</a
-    %else:
+            >${tile.display_score}</a
+    %elif tile.can_show_result:
         <span class="vote_count ${tile.count_class}"
-          >${tile.display_score}</span
+            >${tile.display_score}</span
+    %else:
+        <span></span
     %endif
     %if tile.can_vote:
     ><a href="${pro['url']}"
