@@ -45,6 +45,7 @@ LOCALE_STRINGS_DASH = map(lambda l: string.replace(l, '_', '-'),
 A2_LOCALE_ALIASES = LOCALE_ALIASES.copy()
 A2_LOCALE_ALIASES['pt'] = 'pt_BR'
 A2_LOCALE_ALIASES['zh'] = 'zh_Hant_TW'
+A2_LOCALE_ALIASES['zh-tw'] = 'zh_Hant_TW'
 
 FALLBACK_TZ = 'Europe/Berlin'
 
