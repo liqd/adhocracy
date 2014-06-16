@@ -47,6 +47,7 @@ DEFAULTS = {
     # in the UI, it makes sense to also hide it from the settings UI.
     'adhocracy.hide_final_adoption_votings': False,
     'adhocracy.hide_individual_votes': False,
+    'adhocracy.hide_individual_votes.allow_overwrite': True,
     'adhocracy.hide_instance_list_in_navigation': False,
     'adhocracy.hide_locallogin': False,
     'adhocracy.include_machine_name_in_header': False,
