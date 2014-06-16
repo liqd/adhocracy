@@ -78,6 +78,7 @@ DEFAULTS = {
     # one of 'OLDEST', 'NEWEST', 'ACTIVITY', 'ALPHA'
     'adhocracy.listings.instance.sorting': 'ACTIVITY',
     'adhocracy.listings.instance_proposal.sorting': None,
+    'adhocracy.listings.instance_proposal.sorting.allow_overwrite': True,
 
     # 'default' or 'alternate'
     'adhocracy.login_style': 'default',
