@@ -13,6 +13,11 @@ def show(check, p):
                 config.get_bool('adhocracy.hide_individual_votes'))
 
 
+def show_result(check):
+    check.other('result_not_shown_until_frozen',
+                config.get_bool('adhocracy.proposal.rate_poll.hide_scores'))
+
+
 def create(check):
     check.readonly()
     check.valid_email()
