@@ -98,6 +98,9 @@ DEFAULTS = {
     'adhocracy.post_register_url': None,
     'adhocracy.proposal_pager_inline': False,
 
+    'adhocracy.proposal.hide_comments': False,
+    'adhocracy.proposal.hide_comments.allow_overwrite': True,
+
     # Hiding rate_poll scores only makes sense if hide_individual_votes is
     # also enabled.
     'adhocracy.proposal.rate_poll.hide_scores': False,

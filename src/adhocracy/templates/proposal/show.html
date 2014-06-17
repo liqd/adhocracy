@@ -66,9 +66,11 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
         ${components.social_share_buttons(c.proposal.title)}
 
         <div class="meta">
+            %if not h.config.get_bool('adhocracy.proposal.hide_comments'):
             <a href="#discussions">${
                 _("%s Discussions") % c.proposal.description.comment_count(reply_filter=None)
             }</a>
+            %endif
             %if c.show_selections:
             ·
             %if len(c.num_selections) == 1:
@@ -88,6 +90,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
     </article>
     <br />
 
+    %if not h.config.get_bool('adhocracy.proposal.hide_comments'):
     <div id="main_comments"
         %if c.monitor_comment_url:
         data-stats-baseurl="${c.monitor_comment_url}"
@@ -102,6 +105,7 @@ ${tiles.poll.widget(c.proposal.adopt_poll, cls='big', delegate_url=delegate_url)
         ${tiles.comment.list(c.proposal.description,
                              variant=c.proposal.description.head.variant)}
     </div>
+    %endif
 </section>
 
 
