@@ -74,7 +74,7 @@ jquerytools = Resource(jquerytools_library, 'jquery.tools.min.js',
 
 # --[ moment ]-------------------------------------------------------------
 
-moment_library = Library('moment', 'javascripts/moment', version="2.5.1")
+moment_library = Library('moment', 'javascripts/moment', version="2.7.0")
 moment = Resource(moment_library, 'moment.js',
                   minified='moment.min.js')
 js_i18n['moment'] = dict()

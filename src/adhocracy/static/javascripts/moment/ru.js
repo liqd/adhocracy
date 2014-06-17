@@ -19,7 +19,7 @@
 
     function relativeTimeWithPlural(number, withoutSuffix, key) {
         var format = {
-            'mm': 'минута_минуты_минут',
+            'mm': withoutSuffix ? 'минута_минуты_минут' : 'минуту_минуты_минут',
             'hh': 'час_часа_часов',
             'dd': 'день_дня_дней',
             'MM': 'месяц_месяца_месяцев',
@@ -125,7 +125,10 @@
             yy : relativeTimeWithPlural
         },
 
-        // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
+        meridiemParse: /ночи|утра|дня|вечера/i,
+        isPM : function (input) {
+            return /^(дня|вечера)$/.test(input);
+        },
 
         meridiem : function (hour, minute, isLower) {
             if (hour < 4) {
