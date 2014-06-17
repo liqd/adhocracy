@@ -14,7 +14,7 @@ from pylons.i18n import add_fallback, set_lang
 from pylons import tmpl_context as c
 
 from adhocracy import config
-from adhocracy.lib import cache
+#from adhocracy.lib import cache
 
 
 log = logging.getLogger(__name__)
@@ -45,7 +45,7 @@ A2_LOCALE_ALIASES['pt'] = 'pt_BR'
 FALLBACK_TZ = 'Europe/Berlin'
 
 
-@cache.memoize('_translations_root')
+#@cache.memoize('_translations_root')
 def _get_translations_root():
     translations_module = config.get('adhocracy.translations')
     translations_module_loader = pkgutil.get_loader(translations_module)
