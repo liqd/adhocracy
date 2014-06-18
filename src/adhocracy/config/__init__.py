@@ -289,7 +289,7 @@ def get_json(key, default=None, config=config, instance_overwrites=True):
     try:
         return get_value(key, json.loads, default, config,
                          instance_overwrites=instance_overwrites)
-    except ValueError, e:
+    except ValueError:
         log.error("invalid json: %s \nin config option %s" %
                   (config.get(key, instance_overwrites=instance_overwrites),
                    key))
