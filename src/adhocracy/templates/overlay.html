@@ -16,6 +16,7 @@
     </head>
 
 <body lang="${c.locale.language}" class="${" ".join(c.body_css_classes)}"
+    data-baseurl="${h.base_url()}"
     data-stats-baseurl="${c.page_stats_url}"
     %if c.monitor_page_time_interval:
     data-stats-interval="${c.monitor_page_time_interval}"
