@@ -55,6 +55,7 @@ class PollTile(BaseTile):
         self.has_ended = self.poll.has_ended()
         self.can_vote = can.poll.vote(self.poll)
         self.can_show = can.poll.show(self.poll)
+        self.can_show_result = can.poll.show_result()
         if self.has_ended or self.can_vote:
             self.need_auth = False
             self.need_membership = False

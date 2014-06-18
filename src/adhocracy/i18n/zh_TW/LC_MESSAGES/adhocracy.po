@@ -1,0 +1,4766 @@
+# Translations template for adhocracy.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the adhocracy project.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Adhocracy\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-06-13 18:34+0200\n"
+"PO-Revision-Date: 2014-06-15 07:55+0000\n"
+"Last-Translator: charlesc <yeouhsin@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/adhocracy/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Not specified"
+msgstr "未指定"
+
+msgid "Thank you for helping."
+msgstr "感謝您的協助。"
+
+msgid "Please insert a subject for the mail we will send to the users."
+msgstr "請填入要傳送給使用者的郵件主旨。"
+
+msgid "Please insert a template for the mail we will send to the users."
+msgstr "請插入要傳送給使用者的郵件範本。"
+
+msgid "Solr index updated."
+msgstr "已更新 Solr 搜尋索引。"
+
+#, python-format
+msgid "Autojoin fixed - added %s memberships."
+msgstr "已修正自動加入 - 新增了 %s 個會員。"
+
+msgid "No need to fix autojoin."
+msgstr "不需要修正自動加入。"
+
+msgid ""
+"Requested generation of welcome codes, but welcome "
+"functionality(adhocracy.enable_welcome) is not enabled."
+msgstr "已請求產生歡迎程式碼。但是目前並未啟用歡迎功能(adhocracy.enable_welcome)。"
+
+msgid "No such badge type"
+msgstr "無此徽章類型"
+
+#, python-format
+msgid "We cannot find the badge with the id %s"
+msgstr "我們找不到編號 %s 的徽章"
+
+msgid "User Badges"
+msgstr "使用者徽章"
+
+msgid "Proposal Badges"
+msgstr "提案徽章"
+
+msgid "Categories"
+msgstr "分類"
+
+msgid "Instance Badges"
+msgstr "Instance 徽章"
+
+msgid "Status Badges"
+msgstr "狀態徽章"
+
+msgid "Badge changed successfully"
+msgstr "已成功變更徽章"
+
+msgid "The image has been deleted."
+msgstr "已刪除圖片。"
+
+msgid "Badge deleted successfully"
+msgstr "已刪除徽章。"
+
+msgid "oldest"
+msgstr "最舊"
+
+msgid "newest"
+msgstr "最新"
+
+#, python-format
+msgid "Topic %s does not allow comments"
+msgstr "主題 %s 不接受回應"
+
+#, python-format
+msgid "Comment topic has no variant %s"
+msgstr "回應主題沒有修正案 %s"
+
+msgid "The comment has been deleted."
+msgstr "已刪除回應。"
+
+msgid ""
+"You're trying to revert to a revision which is not part of this comment's "
+"history"
+msgstr "您想要回復到不屬於此回應的歷史版本。"
+
+msgid "The comment has been reverted."
+msgstr "已回復此回應。"
+
+msgid ""
+"You're trying to purge a revision which is not part of this comment's "
+"history"
+msgstr "您想要清除不屬於此回應的歷史版本。"
+
+msgid "The comment revision has been deleted."
+msgstr "已刪除此回應的舊版本。"
+
+msgid "Wrong topic"
+msgstr "錯誤主題"
+
+msgid "Invalid delegation recipient"
+msgstr "無效的被委任者"
+
+#, python-format
+msgid "You have already delegated voting to %s in %s"
+msgstr "您已經將%s的投票委任給%s "
+
+#, python-format
+msgid "Cannot access delegation %(id)s"
+msgstr "無法存取委任%(id)s"
+
+msgid "The delegation is now revoked."
+msgstr "已撤回此委任。"
+
+msgid "The requested page could not be found."
+msgstr "找不到要看的網頁。"
+
+msgid "The system is currently down for maintenance. Please check back soon!"
+msgstr "系統維護中，請稍後再回來。"
+
+msgid "Bad Request"
+msgstr "錯誤的請求"
+
+msgid "Unauthorized"
+msgstr "未授權"
+
+msgid "Forbidden"
+msgstr "禁止"
+
+msgid "Not Found"
+msgstr "找不到"
+
+msgid "I'm a teapot"
+msgstr "我是茶罐"
+
+msgid "Internal Server Error"
+msgstr "內部伺服器錯誤"
+
+msgid "Service Unavailable"
+msgstr "服務無法使用"
+
+#, python-format
+msgid "%s News"
+msgstr "%s 新聞"
+
+#, python-format
+msgid "News from %s"
+msgstr "%s 的新聞"
+
+msgid "Overview"
+msgstr "總覽"
+
+msgid "General settings"
+msgstr "一般設定"
+
+msgid "Process settings"
+msgstr "流程設定"
+
+msgid "Manage members"
+msgstr "管理成員"
+
+msgid "Advanced settings"
+msgstr "進階設定"
+
+msgid "Process presets"
+msgstr "流程組合設置"
+
+msgid "Please select at least one preset"
+msgstr "請選擇至少一種設置"
+
+msgid "The requested page was not found"
+msgstr "找不到想看的頁面"
+
+msgid "Intro"
+msgstr "介紹"
+
+msgid "Delegations are enabled."
+msgstr "已啟用委任功能。"
+
+msgid "Delegations are disabled."
+msgstr "已關閉委任功能。"
+
+msgid "tutorial_instance_show_intro"
+msgstr "tutorial_instance_show_intro"
+
+msgid "This instance is not yet open for public participation."
+msgstr "此安裝實例並不開放公眾參與。"
+
+msgid ""
+"This instance is not active for use and is archived. It isn't possible to "
+"perform any changes to the instance, but all content is available to be "
+"read."
+msgstr "此安裝實例已被封存、無法使用。不可以進行任何變動，但是可以讀取所有內容。"
+
+msgid "The logo has been deleted."
+msgstr "已刪除LOGO。"
+
+msgid ""
+"Instance created successfully. You can now configure it in greater detail if"
+" you wish."
+msgstr "已成功建立安裝實例。您現在可以進行較詳細的設定了。"
+
+#, python-format
+msgid "The instance %s has been deleted."
+msgstr "已刪除安裝實例%s。"
+
+#, python-format
+msgid "Welcome to %(instance)s"
+msgstr "歡迎來到%(instance)s。"
+
+#, python-format
+msgid "You're not a member of %(instance)s."
+msgstr "您不是%(instance)s的成員。"
+
+#, python-format
+msgid "You're the founder of %s, cannot leave."
+msgstr "您是%s的創建者，不可以離開！"
+
+#, python-format
+msgid "You've left %(instance)s."
+msgstr "您離開了%(instance)s。"
+
+msgid "You cannot manipulate one instance from within another instance."
+msgstr "您無法在別的安裝實例裡操控另一個安裝實例。"
+
+msgid "Sorry, but you're not allowed to set these message options"
+msgstr "很抱歉，您無法設定這些訊息選項。"
+
+msgid "Email isn't activated"
+msgstr "尚未啟用/驗證電子郵件。"
+
+msgid "Not permitted in system settings"
+msgstr "系統設定未允許"
+
+msgid "adhocracy.registration_support_email not set"
+msgstr "未設定 adhocracy.registration_support_email"
+
+#, python-format
+msgid "Could not render message: %s"
+msgstr "無法處理訊息：%s"
+
+#, python-format
+msgid "Message sent to %d users."
+msgstr "寄送訊息給%d個使用者。"
+
+msgid "Your message has been sent. Thanks."
+msgstr "已送出您的訊息。謝謝。"
+
+msgid "tutorial_milestones_tab"
+msgstr "tutorial_milestones_tab"
+
+msgid "tutorial_milestone_details_tab"
+msgstr "tutorial_milestone_details_tab"
+
+#, python-format
+msgid "The milestone %s has been deleted."
+msgstr "已刪除里程碑%s。"
+
+msgid "Invalid input."
+msgstr "無效的輸入。"
+
+msgid "No OpenID given!"
+msgstr "未提供 OpenID。"
+
+msgid ""
+"Connection not allowed, single sign-on has been disabled on this "
+"installation"
+msgstr "不允許連結。本安裝已關閉單一登入功能。"
+
+msgid "No OpenID was entered."
+msgstr "未輸入 OpenID。"
+
+msgid "Removal not allowed, OpenID has been disabled on this installation"
+msgstr "無法移除。本安裝已關閉 OpenID 功能。"
+
+#, python-format
+msgid "No OpenID with ID '%s' exists."
+msgstr "編號 %s 的 OpenID 不存在。"
+
+#, python-format
+msgid "You're not authorized to change %s's settings."
+msgstr "您未取得更改%s設定的授權。"
+
+msgid "Successfully removed OpenID from account"
+msgstr "已成功移除帳號的 OpenID"
+
+msgid "OpenID login has been disabled on this installation"
+msgstr "此安裝已關閉 OpenID 登入"
+
+msgid "OpenID login failed."
+msgstr "OpenID 登入失敗。"
+
+msgid "You have already claimed this OpenID."
+msgstr "您已經成功使用此 OpenID。"
+
+#, python-format
+msgid "OpenID %s is already connected to an account."
+msgstr "OpenID %s 已經連接到某個帳號。"
+
+msgid "Successfully added OpenID to user account."
+msgstr "成功新增 OpenID 到使用者帳號。"
+
+#, python-format
+msgid ""
+"OpenID %s doesn't belong to an existing user account and user registration "
+"is disabled in this installation."
+msgstr "OpenID %s 並不屬於一個現有的使用者帳號，但是本安裝關閉了使用者註冊功能。"
+
+#, python-format
+msgid ""
+"The email address %s which was returned by the OpenID provider already "
+"belongs to a different user account. Please login with that account or use "
+"the forgot password functionality, and add the OpenID in your user profile "
+"settings afterwards. Sorry for the inconvenience."
+msgstr "OpenID 供應商所傳回的電子郵件位址 %s 已經屬於某個不同的使用者帳號。請用該帳號登入（或使用忘記密碼的功能），然後在您的使用者頁面裡加入該 OpenID。很抱歉有此不便。"
+
+#, python-format
+msgid "Successfully created new user account %s"
+msgstr "已成功建立新的使用者帳號 %s。"
+
+msgid "tutorial_norms_overview_tab"
+msgstr "tutorial_norms_overview_tab"
+
+msgid "No proposal has been specified"
+msgstr "未指定提案"
+
+msgid "You cannot create a new norm"
+msgstr "您無法建立新的規範"
+
+#, python-format
+msgid "errors while uploading image: %s"
+msgstr "上傳圖片時發生錯誤：%s"
+
+#, python-format
+msgid "Variant %s is already present, cannot branch."
+msgstr "已提供修正案 %s，無法分支。"
+
+msgid ""
+"You're trying to update to a text which is not part of this pages history"
+msgstr "您想要更新一個不屬於此頁面歷史的文字。"
+
+msgid "<i>(No text)</i>"
+msgstr "<i>（無字）</i>"
+
+msgid "<i>(No title)</i>"
+msgstr "<i>(無標題)</i>"
+
+msgid "<i>(No differences)</i>"
+msgstr "<i>(無差異)</i>"
+
+msgid "Original version"
+msgstr "原始版本"
+
+#, python-format
+msgid "Variant: \"%s\""
+msgstr "修正案：\"%s\""
+
+msgid "Original Version"
+msgstr "原始版本"
+
+#, python-format
+msgid "Page %s does not allow selections"
+msgstr "頁面%s不允許選擇。"
+
+#, python-format
+msgid "Variant %s does not exist!"
+msgstr "不存在修正案%s。"
+
+msgid "alphabetically"
+msgstr "依字母"
+
+msgid "tutorial_norm_show_tab"
+msgstr "tutorial_norm_show_tab"
+
+msgid "No such text revision."
+msgstr "無此文字版本。"
+
+#, python-format
+msgid "Page %s does not allow comments"
+msgstr "頁面%s不允許回應。"
+
+msgid "Cannot compare identical text revisions."
+msgstr "無法比較同樣的文字版本。"
+
+msgid "Cannot compare versions of different texts."
+msgstr "無法比較兩段不同文字的版本。"
+
+#, python-format
+msgid "The variant %s has been deleted."
+msgstr "已刪除修正案%s。"
+
+msgid "Cannot delete, if there's only one version"
+msgstr "如果只有一個版本，則無法刪除。"
+
+msgid "The selected version has been deleted."
+msgstr "已刪除所選擇的版本。"
+
+#, python-format
+msgid "The page %s has been deleted."
+msgstr "已刪除頁面%s。"
+
+#, python-format
+msgid "Invalid text ID %s for this page/variant!"
+msgstr "此頁面/修正案裡的無效文字編號%s！"
+
+msgid "This is not an adoption poll."
+msgstr "這不是一個 adoption poll。"
+
+msgid "This is not a rating poll."
+msgstr "這不是一個 rating poll。"
+
+msgid "The poll has ended."
+msgstr "投票已結束。"
+
+msgid "The proposal is not undergoing a poll."
+msgstr "此提案並未採用投票。"
+
+msgid "tutorial_proposal_overview_tab"
+msgstr "tutorial_proposal_overview_tab"
+
+msgid "Please select norm and propose a change to it."
+msgstr "請選擇規範，並提出該規範的修正。"
+
+msgid "tutorial_proposal_show_tab"
+msgstr "tutorial_proposal_show_tab"
+
+#, python-format
+msgid "Proposal: %s"
+msgstr "提案：%s"
+
+#, python-format
+msgid "Activity on the %s proposal"
+msgstr "提案%s的動態"
+
+#, python-format
+msgid "The proposal %s has been deleted."
+msgstr "已刪除提案%s。"
+
+#, python-format
+msgid "Proposal: %(proposal)s"
+msgstr "提案：%(proposal)s"
+
+#, python-format
+msgid "You are not allowed to edit badge %i"
+msgstr "您無法編輯徽章%i"
+
+msgid "relevance"
+msgstr "關聯性"
+
+#, python-format
+msgid "The inclusion of %s has been deleted."
+msgstr "已刪除%s所包含的...。"
+
+msgid "Page not Found"
+msgstr "找不到頁面"
+
+msgid "Shibboleth authentication not enabled"
+msgstr "未啟用 Shibboleth 認證方式。"
+
+msgid "This URL shouldn't be called directly"
+msgstr "不應直接呼叫此網址"
+
+#, python-format
+msgid "User %s has been undeleted"
+msgstr "已還原被刪除的使用者%s"
+
+msgid "Page does already exist. Select another key or language."
+msgstr "頁面已存在。請選擇其他的key或語言。"
+
+msgid "Page updated"
+msgstr "已更新頁面"
+
+msgid "Cannot find static page to edit"
+msgstr "無法找到可編輯的靜態頁面"
+
+#, python-format
+msgid "Tag \"%s\" has been removed from %s \"%s\"."
+msgstr "已從%s \"%s\"裡移除標籤 \"%s\"。"
+
+msgid "Treatment has been created."
+msgstr "已建立treatment。"
+
+#, python-format
+msgid "Could not find the entity '%s'"
+msgstr "無法找到'%s'"
+
+msgid "All users have been assigned to their respective treatment badges."
+msgstr "所有使用者都被分派了他們相對應的徽章。"
+
+msgid "All users are already assigned to their respective treatment badges."
+msgstr "所有使用者都已經被分派到他們相對應的徽章。"
+
+msgid ""
+"You have been logged out while authenticating at twitter. Please try again."
+msgstr "當在驗證 Twitter 時，您已經登出了。請重試。"
+
+#, python-format
+msgid ""
+"You're now following %s on twitter so we can send you notifications as "
+"direct messages"
+msgstr "您現在已經在 Twitter 追蹤了 %s。因此我們可以用直接訊息傳送通知給您。"
+
+msgid "You have no twitter association."
+msgstr "您還沒有整合Twitter帳號。"
+
+msgid "Personal"
+msgstr "個人"
+
+msgid "Login"
+msgstr "登入"
+
+msgid "Notifications"
+msgstr "通知"
+
+msgid "Advanced"
+msgstr "進階"
+
+msgid "Optional"
+msgstr "可選"
+
+msgid "tutorial_user_index_intro"
+msgstr "tutorial_user_index_intro"
+
+msgid "Sorry, registration has been disabled by administrator."
+msgstr "很抱歉，管理者已關閉註冊功能。"
+
+#, python-format
+msgid ""
+"I agree with the %s. We'll occasionally inform you about important events "
+"such as the start of a new participation process via email."
+msgstr "我同意%s。若有重要的事件，我們會不定期用電子郵件通知您，例如開始了一個新的參與程序。"
+
+msgid "Terms and Conditions"
+msgstr "服務條款"
+
+msgid "Sorry, but we don't accept registrations with this email address."
+msgstr "很抱歉，我們不接受此電子郵件位址的帳號。註冊"
+
+#, python-format
+msgid ""
+"Welcome to %(site_name)s! Please activate your account by clicking on the "
+"activation link we just sent to you by email. If you can't find it in your "
+"inbox, please check your spam folder."
+msgstr "歡迎來到%(site_name)s！請點選我們透過電子郵件傳送給您的啟用連結。如果您在收件夾裡找不到信，請檢查垃圾郵件夾。"
+
+msgid "Gender-neutral"
+msgstr "性別-中立"
+
+msgid "Female"
+msgstr "女性"
+
+msgid "Male"
+msgstr "男性"
+
+msgid "The avatar has been deleted."
+msgstr "已刪除代表圖片。"
+
+msgid "No optional attributes defined."
+msgstr "未定義選填屬性。"
+
+msgid "Password has been set. Have fun!"
+msgstr "已設定密碼。"
+
+msgid "There is no user registered with that email address."
+msgstr "目前沒有使用者用該電子郵件位址註冊。"
+
+msgid ""
+"you have requested that your password be reset. In order to confirm the "
+"validity of your claim, please open the link below in your browser:"
+msgstr "您請求重設您的密碼。為了要確認您的請求屬實，請在您的瀏覽器裡開啟以下網址："
+
+#, python-format
+msgid "Login for %s"
+msgstr "%s的登入網址"
+
+#, python-format
+msgid "Your user name to login is: %s"
+msgstr "您用來登入的使用者名稱是：%s"
+
+msgid "Reset your password"
+msgstr "重設密碼"
+
+msgid "your password has been reset. It is now:"
+msgstr "已經重設您的密碼。現在是："
+
+msgid "Please login and change the password in your user settings."
+msgstr "請登入並到您的使用者設定裡修改密碼。"
+
+msgid "Your new password"
+msgstr "您的新密碼"
+
+msgid "Success. You have been sent an email with your new password."
+msgstr "成功！已經用電子郵件傳送新密碼給您。"
+
+msgid ""
+"The reset code is invalid. Please repeat the password recovery procedure."
+msgstr "重設碼無效。請重新進行密碼復原程序。"
+
+msgid "The activation code is invalid. Please have it resent."
+msgstr "啟用密碼無效。請重新寄送。"
+
+msgid "Thank you, The address is already activated."
+msgstr "感謝您，已啟用此電子郵件位址。"
+
+#, python-format
+msgid "Welcome to %s"
+msgstr "歡迎來到%s"
+
+msgid "Your email has been confirmed."
+msgstr "已確認您的電子郵件位址。"
+
+msgid ""
+"The activation link has been re-sent to your email address. Please check "
+"your spam folder if you can't find it in your inbox."
+msgstr "已經重新發送啟動連結到您的電子郵件信箱。如果還是沒有收到，請檢查您的垃圾郵件夾。"
+
+msgid "About us"
+msgstr "關於我們"
+
+msgid "About me"
+msgstr "關於我"
+
+msgid "Newest events"
+msgstr "最新事件"
+
+msgid "Contributions"
+msgstr "貢獻"
+
+msgid "Votes"
+msgstr "投票"
+
+msgid "Delegations"
+msgstr "委任"
+
+msgid "All Events"
+msgstr "所有事件"
+
+msgid "Messages"
+msgstr "訊息"
+
+msgid "Invalid login"
+msgstr "無效的登入"
+
+msgid "Invalid email / user name or password"
+msgstr "無效的電子郵件/使用者名稱或密碼"
+
+msgid "Invalid user name or password"
+msgstr "無效的使用者名稱或密碼"
+
+msgid "Invalid email or password"
+msgstr "無效的電子郵件或密碼"
+
+#, python-format
+msgid "You can finish that session <a href='%s'>here</a>."
+msgstr "您可以<a href='%s'>在此</a>結束該連線狀態。"
+
+#, python-format
+msgid ""
+"<p>You have successfully logged out of Adhocracy. However you might still be"
+" logged in at the central identity provider. %s</p><p>If you're on a public "
+"computer, please close your browser to complete the logout.</p>"
+msgstr "<p>您已經成功登出 Adhocracy。不過，您可能仍登入在某個集中式識別服務商。%s</p><p>如果您是使用共用的電腦，請關閉瀏覽器以完整登出。</p>"
+
+msgid ""
+"You have successfully logged out of Adhocracy. However you might still be "
+"logged in through your OpenID provider. "
+msgstr "您已經成功登出 Adhocracy。不過您可能仍然透過 OpenID 服務商維持某種登入狀態。"
+
+msgid "Successfully logged out"
+msgstr "成功登出"
+
+msgid "Please use a valid email address."
+msgstr "請使用有效的電子郵件位址。"
+
+#, python-format
+msgid ""
+"A user tried to register on %s with the email address %s. Please contact "
+"them at %s ."
+msgstr "某位使用者想要使用電子郵件位址%s登入到%s。請到%s聯絡他們。"
+
+#, python-format
+msgid "Registration attempt on %s"
+msgstr "嘗試在%s註冊使用者。"
+
+msgid "The account has been suspended."
+msgstr "已暫停該帳號。"
+
+msgid "The account has been re-activated."
+msgstr "已重新啟用該帳號。"
+
+msgid "The account has been deleted."
+msgstr "已刪除該帳號。"
+
+msgid "Invalid badge choice."
+msgstr "無效的徽章選擇。"
+
+msgid "Added badges"
+msgstr "已新增徽章"
+
+msgid "Added badge"
+msgstr "已新增徽章"
+
+msgid "Removed badges"
+msgstr "已移除徽章"
+
+msgid "Removed badge"
+msgstr "已移除徽章"
+
+#, python-format
+msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
+msgstr "%(user)s正在使用 Adhocracy，一套民主的決策工具。"
+
+#, python-format
+msgid "%(user)ss Activity"
+msgstr "%(user)ss的動態"
+
+#, python-format
+msgid "%s is not a member of %s"
+msgstr "%s並非%s的成員"
+
+#, python-format
+msgid "%s is banned from the system."
+msgstr "%s已被系統封鎖。"
+
+msgid "You already have a password - use that to log in."
+msgstr "您已經有密碼了 - 請用來登入。"
+
+#, python-format
+msgid "The user can now log in via %s"
+msgstr "使用者現在可以透過 %s 登入。"
+
+msgid "Internal server error:velruse service not available."
+msgstr "內部伺服器錯誤：未提供velruse服務。"
+
+msgid "Login failed: "
+msgstr "登入錯誤："
+
+msgid ""
+"You have to give Adhocracy permission to connect to your Facebook account."
+msgstr "您必須允許  Adhocracy 連結您的 Facebook 帳號。"
+
+#, python-format
+msgid "Logging in with %s is not allowed on this installation."
+msgstr "在此安裝裡無法使用%s登入。"
+
+msgid "Error"
+msgstr "錯誤"
+
+#, python-format
+msgid "This %(provider)s account is already connected."
+msgstr "已經連結%(provider)s帳號。"
+
+#, python-format
+msgid "Your %(provider)s account is locked."
+msgstr "您的%(provider)s帳號已遭鎖住。"
+
+#, python-format
+msgid "You successfully connected to %s."
+msgstr "您成功地連結到%s。"
+
+#, python-format
+msgid "Your %s account is already connected."
+msgstr "您的%s帳號已經連結了。"
+
+msgid ""
+"You are trying to disconnect from a provider you are disconnected from "
+"already."
+msgstr "您想要跟一個已經取消連結的服務商裡取消連結。"
+
+#, python-format
+msgid "You successfully disconnected from %(provider)s."
+msgstr "您已成功地與%(provider)s取消連結。"
+
+msgid "A watchlist entry for this entity already exists."
+msgstr "已經存在此項目的觀察項目。"
+
+#, python-format
+msgid "You're not authorized to delete %s's watchlist entries."
+msgstr "您無權刪除%s的觀察項目。"
+
+msgid "No username is given"
+msgstr "未提供使用者名稱"
+
+msgid "Username is too short"
+msgstr "使用者名稱太短"
+
+msgid "The username is invalid"
+msgstr "使用者名稱無效"
+
+msgid "That username already exists"
+msgstr "使用者名稱已經存在"
+
+msgid "That email is already registered"
+msgstr "此電子郵件已經註冊過了"
+
+msgid "That email is already used by another account"
+msgstr "此電子郵件已經使用在另一個帳號"
+
+msgid "Invalid locale choice"
+msgstr "無效的地域選擇"
+
+msgid "Invalid date, expecting DD.MM.YYYY"
+msgstr "無效的日期，應該是 DD.MM.YYYY"
+
+msgid ""
+"Please enter a html color code like '#f0f0f0'. '%(value)' is not a valid "
+"color code."
+msgstr "請輸入 HTML 色碼，例如'#f0f0f0'。'%(value)'並不是一個有效的色碼。"
+
+msgid "No instance key is given"
+msgstr "未提供 instance key"
+
+msgid "The instance key is invalid"
+msgstr "無效的 instance key"
+
+msgid "An instance with that key already exists"
+msgstr "採用該 key 的安裝實例已經存在了。"
+
+msgid "No static key is given"
+msgstr "未提供 static key"
+
+msgid "The static key is invalid"
+msgstr "無效的 static key"
+
+#, python-format
+msgid "No entity with ID '%s' exists"
+msgstr "編號'%s'的項目不存在"
+
+#, python-format
+msgid "No proposal with ID '%s' exists"
+msgstr "編號'%s'的提案不存在"
+
+#, python-format
+msgid "No group with ID '%s' exists"
+msgstr "編號'%s'的群組不存在"
+
+#, python-format
+msgid "Group '%s' is no instance group"
+msgstr "群組'%s'並不是instance group"
+
+msgid "At least one character is required"
+msgstr "至少要提供一個字元"
+
+msgid "You're not allowed to edit global badges"
+msgstr "您不被允許修改全域徽章"
+
+#, python-format
+msgid "No Badge ID '%s' exists"
+msgstr "編號'%s'的徽章不存在"
+
+msgid "No badges selected"
+msgstr "未選擇徽章"
+
+msgid "Duplicates in input set of user badge IDs"
+msgstr "使用者徽章編號的輸入有重複"
+
+#, python-format
+msgid "Could not find badges %s"
+msgstr "無法找到徽章%s"
+
+msgid "Duplicates in input set of user badge labels"
+msgstr "使用者徽章名稱的輸入有重複"
+
+#, python-format
+msgid "Cannot use global category %s in this instance"
+msgstr "無法在本安裝實例裡使用全域分類%s "
+
+#, python-format
+msgid "Badge with ID '%s' not valid in this instance"
+msgstr "編號'%s'的徽章在此安裝實例裡無效。"
+
+msgid "Parent and child category instance have to match"
+msgstr "必須符合上層和下層分類"
+
+msgid "You shall not create cycles!"
+msgstr "您不應該建立循環！"
+
+#, python-format
+msgid "No revision with ID '%s' exists"
+msgstr "不存在編號'%s'的版本。"
+
+#, python-format
+msgid "No comment with ID '%s' exists"
+msgstr "編號'%s'的回應不存在"
+
+#, python-format
+msgid "No watchlist entry with ID '%s' exists"
+msgstr "編號'%s'的觀察項目不存在"
+
+msgid "Invalid reference"
+msgstr "無效的參照"
+
+#, python-format
+msgid "No user with the user name '%s' exists"
+msgstr "不存在使用者名稱為'%s'的使用者"
+
+#, python-format
+msgid "No tagging with ID '%s' exists"
+msgstr "編號'%s'的標籤不存在"
+
+#, python-format
+msgid "No tag with ID '%s' exists"
+msgstr "編號'%s'的標籤不存在"
+
+#, python-format
+msgid "No text with ID '%s' exists"
+msgstr "編號'%s'的文字不存在"
+
+#, python-format
+msgid "No page '%s' exists"
+msgstr "頁面'%s'不存在"
+
+#, python-format
+msgid "Invalid page function: %s"
+msgstr "無效的頁面功能：%s"
+
+msgid "No name is given."
+msgstr "未提供名稱。"
+
+#, python-format
+msgid "Invalid name: %s"
+msgstr "無效的名稱：%s"
+
+#, python-format
+msgid "Name cannot be purely numeric: %s"
+msgstr "不能使用純數字的名稱：%s"
+
+msgid "An entry with this title already exists"
+msgstr "已經存在使用此標題的項目"
+
+msgid "No page name is given."
+msgstr "未提供頁面名稱。"
+
+#, python-format
+msgid "Invalid page name: %s"
+msgstr "無效的頁面名稱：%s"
+
+#, python-format
+msgid "Variant name cannot be purely numeric: %s"
+msgstr "修正案名稱不能是純數字：%s"
+
+msgid "Please select at least one recipient group"
+msgstr "請選擇至少一個收信群組"
+
+#, python-format
+msgid "Error \"%(error)s\" while reading line <pre><i>%(line_content)s</i></pre>"
+msgstr "讀取以下內容時發生錯誤\"%(error)s\"：<pre><i>%(line_content)s</i></pre>"
+
+#, python-format
+msgid "The following errors occured while reading the list of users: <br />%s"
+msgstr "讀取使用者列表時發生以下錯誤：<br />%s"
+
+#, python-format
+msgid "Line %s: %s"
+msgstr "行 %s: %s"
+
+#, python-format
+msgid "Email %s is used multiple times"
+msgstr "已經多次使用電子郵件 %s"
+
+#, python-format
+msgid "Username %s is used multiple times"
+msgstr "已經多次使用使用者名稱 %s"
+
+#, python-format
+msgid "Lines %s: %s"
+msgstr "行 %s: %s"
+
+#, python-format
+msgid ""
+"You need to insert the following placeholders into the email text so we can "
+"insert enough information for the user: %s"
+msgstr "您需要在電子郵件裡插入以下的替換符號，以便讓我們為使用者插入足夠的資訊：%s"
+
+msgid "This is not a valid image file"
+msgstr "這不是有效的圖片檔案"
+
+msgid "The file is too big (>1MB)"
+msgstr "檔案太大了（>1MB）"
+
+msgid "Please select at least one instance"
+msgstr "請選擇至少一個安裝實例"
+
+msgid "Disallowed instance selected"
+msgstr "不允許所選擇的安裝實例"
+
+msgid "Invalid value"
+msgstr "無效的值"
+
+msgid "Invalid choice"
+msgstr "無效的選擇"
+
+msgid "Incorrect. Try again."
+msgstr "不正確。請重試。"
+
+msgid "Please accept the terms of service"
+msgstr "請同意服務條款。"
+
+#, python-format
+msgid "%d days"
+msgstr "%d 天"
+
+msgid "Voter"
+msgstr "投票者"
+
+msgid "Observer"
+msgstr "觀察者"
+
+msgid "Supervisor"
+msgstr "監督者"
+
+msgid "Administrator"
+msgstr "管理者"
+
+msgid "Default"
+msgstr "預設"
+
+msgid "Advisor"
+msgstr "顧問"
+
+msgid "Draft"
+msgstr "草稿"
+
+msgid "Polling"
+msgstr "投票"
+
+msgid "Adopted"
+msgstr "Adopted"
+
+msgid ""
+"A liquid democracy platform for making decisions in distributed, open groups"
+" by cooperatively creating proposals and voting on them to establish their "
+"support."
+msgstr "經由合作建立提案，透過投票取得支持，運用分散式的開放群組來進行決策的流動式民主平台。"
+
+msgid ""
+"adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
+"voting,participation, group decisions, decisions, decision-making"
+msgstr "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, voting,participation, group decisions, decisions, decision-making, 直接民主, 流動式民主, 協作, 投票, 參與, 決策,群體決策"
+
+msgid "Invalid request. Please go back and try again."
+msgstr "無效的請求。請回上頁再試一次。"
+
+msgid "The method you used is not implemented."
+msgstr "您所使用的方法並未導入。"
+
+#, python-format
+msgid "Abuse report: %s"
+msgstr "檢舉報表：%s"
+
+#, python-format
+msgid ""
+"%(user)s has reported abuse on the page %(url)s:\r\n"
+"\r\n"
+"%(message)s"
+msgstr "%(user)s 檢舉了頁面 %(url)s：\r\n\r\n%(message)s"
+
+#, python-format
+msgid "Hi %s,"
+msgstr "%s 您好,"
+
+#, python-format
+msgid ""
+"Cheers,\r\n"
+"\r\n"
+"    the %s Team\r\n"
+msgstr "感謝，\r\n\r\n    %s 團隊\r\n"
+
+#, python-format
+msgid "%s <%s>"
+msgstr "%s <%s>"
+
+msgid ""
+"this email is to check the email address you have provided. In order to "
+"confirm this email address, please open the link below in your browser:"
+msgstr "本信是要確認您所提供的電子郵件位址。為了要確認此電子郵件位址，請在您的瀏覽器裡開啟下面的網址："
+
+msgid "Confirm your email address"
+msgstr "確認您的電子郵件位址"
+
+msgid "Dear Ms."
+msgstr "小姐您好"
+
+msgid "Dear Mr."
+msgstr "先生您好"
+
+msgid "Dear"
+msgstr "您好"
+
+msgid "[{site_name}] Message from {sender_name}: {subject}"
+msgstr "[{site_name}] {sender_name} 寄來的訊息：{subject}"
+
+msgid "Oldest"
+msgstr "最舊"
+
+msgid "Newest"
+msgstr "最新"
+
+msgid "Activity"
+msgstr "動態"
+
+msgid "Alphabetically"
+msgstr "依字母"
+
+msgid "Newest Comment"
+msgstr "最新回應"
+
+msgid "Most Support"
+msgstr "最多支持"
+
+msgid "Mixed"
+msgstr "混合"
+
+msgid "Controversy"
+msgstr "最有爭議"
+
+msgid "Sort by proposal creation date"
+msgstr "依照提案日期排序"
+
+msgid "Sort by date of the last comment"
+msgstr "依照最新回應時間排序"
+
+msgid "Sort by number of votes for the proposal"
+msgstr "依照提案的投票數量排序"
+
+msgid ""
+"First sort by proposals with important badges, then by the difference "
+"between number of votes for and against and also prefer newer proposals"
+msgstr "先依照擁有重要徽章的提案來排序，然後依照贊成和反對投票數的差異來排序，比較新的提案會排在前面"
+
+msgid ""
+"Prefer proposals where the gap between votes for and against is close, also "
+"proposals with more absolut votes are rated slightly higher"
+msgstr "偏好贊成和反對的差距很接近的提案，擁有較多絕對投票的提案的排序也較高"
+
+msgid "Sort by the characters of the proposal title"
+msgstr "依照提案標題的字母排序"
+
+msgid "by date"
+msgstr "依照日期"
+
+msgid "most proposals"
+msgstr "最多提案"
+
+msgid "hierarchical"
+msgstr "階層式"
+
+msgid "activity"
+msgstr "動態"
+
+msgid "Badge"
+msgstr "徽章"
+
+msgid "Instance hidden state"
+msgstr "隱藏狀態"
+
+msgid "hidden"
+msgstr "隱藏"
+
+msgid "visible"
+msgstr "可見"
+
+msgid "Instance state"
+msgstr "狀態"
+
+msgid "frozen"
+msgstr "凍結"
+
+msgid "open"
+msgstr "開放"
+
+msgid "Instance"
+msgstr "安裝實例"
+
+msgid "Status"
+msgstr "狀態"
+
+msgid "Badges"
+msgstr "徽章"
+
+msgid "Created by"
+msgstr "建立者"
+
+msgid "Tags"
+msgstr "標籤"
+
+msgid "Milestones"
+msgstr "里程碑"
+
+msgid "Yays - nays"
+msgstr "贊成 - 反對"
+
+msgid "Most Votes"
+msgstr "最多投票"
+
+msgid "Yays + nays"
+msgstr "贊成 + 反對"
+
+msgid "Most Ayes"
+msgstr "最多贊成"
+
+msgid "Most Nays"
+msgstr "最多反對"
+
+msgid "Support with impact"
+msgstr "Support with impact"
+
+msgid "Age and Support"
+msgstr "年紀與支持"
+
+msgid "Rating"
+msgstr "評等"
+
+msgid "Date"
+msgstr "日期"
+
+msgid "User behavior"
+msgstr "使用者行為"
+
+msgid "Other"
+msgstr "其他"
+
+msgid "Support"
+msgstr "支持"
+
+msgid "Newest Proposals"
+msgstr "最新提案"
+
+msgid "Support by"
+msgstr "支持者"
+
+msgid "The changes were saved."
+msgstr "已儲存修改。"
+
+msgid "No update required."
+msgstr "無需更新。"
+
+msgid "The image is not avaliable in that size"
+msgstr "沒有適合尺寸的圖片"
+
+msgid "We're sorry, but it seems that you lack the permissions to continue."
+msgstr "很抱歉，似乎您少了相關權限。"
+
+msgid ""
+"The requested action could not be performed, because the session which was "
+"active when you visited the previous page has expired."
+msgstr "無法執行所請求的動作，因為當您瀏覽前個網頁時所啟用的連線，已經過期了。"
+
+msgid "Back to your current session"
+msgstr "回到您目前的連線"
+
+#, python-format
+msgid "variant %(variant)s of %(page)s"
+msgstr "%(page)s的修正案%(variant)sf "
+
+msgid "is for"
+msgstr "贊成"
+
+msgid "abstains on"
+msgstr "棄權"
+
+msgid "is against"
+msgstr "反對"
+
+msgid "is"
+msgstr "is"
+
+msgid "for"
+msgstr "for"
+
+msgid "against"
+msgstr "against"
+
+#, python-format
+msgid "comment on %s"
+msgstr "%s的回應"
+
+#, python-format
+msgid "argument on %s"
+msgstr "%s的論點"
+
+msgid "(Undefined)"
+msgstr "（未定義）"
+
+#, python-format
+msgid "New user: %(user)s"
+msgstr "新使用者：%(user)s"
+
+msgid "signed up"
+msgstr "註冊"
+
+#, python-format
+msgid "%(user)s: profile updated"
+msgstr "%(user)s：已更新個人資訊"
+
+msgid "edited their profile"
+msgstr "編輯個人資訊"
+
+#, python-format
+msgid "%(user)s: profile was edited by %(admin)s"
+msgstr "%(user)s：%(admin)s編輯了個人資訊"
+
+#, python-format
+msgid "had their profile updated by %(admin)s"
+msgstr "%(admin)s更新了個人資訊"
+
+#, python-format
+msgid "New instance: %(instance)s"
+msgstr "新的安裝實例：%(instance)s"
+
+#, python-format
+msgid "founded the %(instance)s instance"
+msgstr "找到%(instance)s安裝實例"
+
+#, python-format
+msgid "%(instance)s: instance was updated"
+msgstr "%(instance)s：已更新安裝實例"
+
+#, python-format
+msgid "updated the %(instance)s instance"
+msgstr "已更新%(instance)s安裝實例"
+
+#, python-format
+msgid "Deleted Adhocracy: %(instance)s"
+msgstr "已刪除 Adhocracy：%(instance)s"
+
+#, python-format
+msgid "deleted the %(instance)s instance"
+msgstr "已刪除%(instance)s安裝實例"
+
+#, python-format
+msgid "%(instance)s: %(user)s joined"
+msgstr "%(instance)s：%(user)s加入"
+
+#, python-format
+msgid "joined %(instance)s"
+msgstr "加入了%(instance)s"
+
+#, python-format
+msgid "%(instance)s: %(user)s left"
+msgstr "%(instance)s：%(user)s離開"
+
+#, python-format
+msgid "left %(instance)s"
+msgstr "離開了%(instance)s"
+
+#, python-format
+msgid "%(instance)s: %(user)s was forced to leave"
+msgstr "%(instance)s：強制%(user)s離開"
+
+#, python-format
+msgid "was forced to leave %(instance)s by %(admin)s"
+msgstr "被%(admin)s強制離開%(instance)s "
+
+#, python-format
+msgid "%(instance)s: %(user)s is now a %(group)s"
+msgstr "%(instance)s：%(user)s現在屬於%(group)s"
+
+#, python-format
+msgid "now is a %(group)s within %(instance)s"
+msgstr "現在是%(instance)s裡的%(group)s"
+
+#, python-format
+msgid "New proposal: %(proposal)s"
+msgstr "新提案：%(proposal)s"
+
+#, python-format
+msgid "created %(proposal)s"
+msgstr "建立了%(proposal)s"
+
+#, python-format
+msgid "Edit proposal: %(proposal)s"
+msgstr "編輯提案：%(proposal)s"
+
+#, python-format
+msgid "edited %(proposal)s"
+msgstr "編輯了%(proposal)s"
+
+#, python-format
+msgid "Proposal badged: %(proposal)s"
+msgstr "Proposal badged: %(proposal)s"
+
+#, python-format
+msgid "badged %(proposal)s"
+msgstr "badged %(proposal)s"
+
+#, python-format
+msgid "Poll cancelled: %(proposal)s"
+msgstr "取消的投票：%(proposal)s"
+
+#, python-format
+msgid "re-drafted %(proposal)s"
+msgstr "重新起草%(proposal)s"
+
+#, python-format
+msgid "New Poll: %(proposal)s"
+msgstr "新的投票：%(proposal)s"
+
+#, python-format
+msgid "called a vote on %(proposal)s"
+msgstr "發起針對%(proposal)s的投票"
+
+#, python-format
+msgid "Deleted proposal: %(proposal)s"
+msgstr "刪除的提案：%(proposal)s"
+
+#, python-format
+msgid "deleted %(proposal)s"
+msgstr "刪除%(proposal)s"
+
+#, python-format
+msgid "New amendment to %(page)s: %(proposal)s"
+msgstr "針對%(page)s的新修改：%(proposal)s"
+
+#, python-format
+msgid "created amendment %(proposal)s to %(page)s"
+msgstr "已建立針對%(proposal)s的修改於%(page)s"
+
+#, python-format
+msgid "Edit amendment to %(page)s: %(proposal)s"
+msgstr "編輯%(page)s的修改：%(proposal)s"
+
+#, python-format
+msgid "edited amendment %(proposal)s to %(page)s"
+msgstr "編輯%(proposal)s的修改到%(page)s"
+
+#, python-format
+msgid "Deleted amendment to %(page)s: %(proposal)s"
+msgstr "刪除%(page)s的修改：%(proposal)s"
+
+#, python-format
+msgid "deleted amendment %(proposal)s to %(page)s"
+msgstr "刪除%(proposal)s的修改到%(page)s"
+
+#, python-format
+msgid "New page: %(page)s"
+msgstr "新增頁面：%(page)s"
+
+#, python-format
+msgid "created %(page)s"
+msgstr "已建立%(page)s"
+
+#, python-format
+msgid "Edit page: %(page)s"
+msgstr "編輯頁面：%(page)s"
+
+#, python-format
+msgid "edited %(page)s"
+msgstr "已編輯%(page)s"
+
+#, python-format
+msgid "Deleted page: %(page)s"
+msgstr "已刪除頁面：%(page)s"
+
+#, python-format
+msgid "deleted %(page)s"
+msgstr "已刪除%(page)s"
+
+#, python-format
+msgid "New comment: in %(topic)s"
+msgstr "新回應：%(topic)s"
+
+#, python-format
+msgid "New argument: in %(topic)s"
+msgstr "新論述：%(topic)s"
+
+#, python-format
+msgid "commented on %(topic)s"
+msgstr "回應%(topic)s"
+
+#, python-format
+msgid "discussed %(topic)s"
+msgstr "討論%(topic)s"
+
+#, python-format
+msgid "Edited comment: in %(topic)s"
+msgstr "已編輯回應：%(topic)s"
+
+#, python-format
+msgid "Edited argument: in %(topic)s"
+msgstr "已編輯論述：%(topic)s"
+
+#, python-format
+msgid "edited comment on %(topic)s"
+msgstr "已編輯回應：%(topic)s"
+
+#, python-format
+msgid "edited argument about %(topic)s"
+msgstr "已編輯關於%(topic)s的論述"
+
+#, python-format
+msgid "Deleted comment: in %(topic)s"
+msgstr "已刪除回應：%(topic)s"
+
+#, python-format
+msgid "Deleted argument: in %(topic)s"
+msgstr "已刪除論述：%(topic)s"
+
+#, python-format
+msgid "deleted comment from %(topic)s"
+msgstr "已刪除%(topic)s的回應"
+
+#, python-format
+msgid "deleted argument from %(topic)s"
+msgstr "已刪除%(topic)s的論述"
+
+#, python-format
+msgid "New Delegation: %(user)s delegated %(scope)s to %(agent)s"
+msgstr "新的委任：%(user)s將%(scope)s委派給%(agent)s"
+
+#, python-format
+msgid "delegated voting on %(scope)s to %(agent)s"
+msgstr "已將%(scope)s的投票委任給%(agent)s"
+
+#, python-format
+msgid "Revoked Delegation: %(user)s revoked delegation to %(agent)s"
+msgstr "撤回委任：%(user)s撤回給%(agent)s的委任"
+
+#, python-format
+msgid "revoked their delegation on %(scope)s to %(agent)s"
+msgstr "將針對%(scope)s的委任從%(agent)s給撤回"
+
+#, python-format
+msgid "Vote: %(user)s %(vote)s %(poll)s"
+msgstr "投票：%(user)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "%(vote)s %(poll)s"
+msgstr "%(vote)s %(poll)s"
+
+#, python-format
+msgid "Rating: %(user)s %(vote)s %(poll)s"
+msgstr "評等：%(user)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "Variants: %(user)s %(vote)s %(poll)s"
+msgstr "修正案：%(user)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "Message sent: %(message)s"
+msgstr "訊息已送出：%(message)s"
+
+#, python-format
+msgid "sent message: \"%(message)s\""
+msgstr "傳送訊息：\"%(message)s\""
+
+#, python-format
+msgid "Adhocracy says hello: %(test)s"
+msgstr "雙向民主（Adhocracy）跟妳/你打招呼：%(test)s"
+
+#, python-format
+msgid "test %(test)s"
+msgstr "測試%(test)s"
+
+#, python-format
+msgid "You received %(user)ss delegation on %(scope)s"
+msgstr "您收到%(user)ss針對%(scope)s的委任。"
+
+#, python-format
+msgid "You lost %(user)ss delegation on %(scope)s"
+msgstr "您失去了%(user)ss針對%(scope)s的委任"
+
+#, python-format
+msgid "Membership: You've been kicked from %(instance)s"
+msgstr "會員：您已經被退出%(instance)s"
+
+#, python-format
+msgid "Membership: you're now a %(group)s in %(instance)s"
+msgstr "會員：您現在已加入%(instance)s裡的%(group)s"
+
+#, python-format
+msgid "Your vote %(vote)s %(poll)s"
+msgstr "您的投票：%(vote)s %(poll)s"
+
+#, python-format
+msgid "Your delegate %(agent)s %(vote)s %(poll)s"
+msgstr "您的委任：%(agent)s %(vote)s %(poll)s"
+
+#, python-format
+msgid "Delegation conflict regarding %(poll)s"
+msgstr "針對%(poll)s的委任衝突"
+
+#, python-format
+msgid "Comment Reply: %(topic)s"
+msgstr "回覆回應：%(topic)s"
+
+#, python-format
+msgid "Comment Edit: %(topic)s"
+msgstr "編輯回應：%(topic)s"
+
+#, python-format
+msgid "Message from %(sender)s: %(message)s"
+msgstr "%(sender)s寄來的訊息：%(message)s"
+
+msgid "User"
+msgstr "使用者"
+
+msgid "Membership"
+msgstr "會員"
+
+msgid "Proposal"
+msgstr "提案"
+
+msgid "Amendment"
+msgid_plural "Amendments"
+msgstr[0] "修正"
+
+msgid "Page"
+msgstr "頁面"
+
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] "回應"
+
+msgid "Delegation"
+msgstr "委任"
+
+msgid "Vote"
+msgstr "投票"
+
+msgid "Variant"
+msgstr "修正案"
+
+msgid "Message"
+msgstr "訊息"
+
+msgid "Massmessage"
+msgstr "大量訊息"
+
+msgid "Test"
+msgstr "測試"
+
+msgid "created"
+msgstr "建立"
+
+msgid "edited"
+msgstr "編輯"
+
+msgid "delete"
+msgstr "刪除"
+
+msgid "joined"
+msgstr "加入"
+
+msgid "left"
+msgstr "left"
+
+msgid "updated"
+msgstr "更新"
+
+msgid "badged"
+msgstr "徽章"
+
+msgid "changed state"
+msgstr "改變狀態"
+
+msgid "deleted"
+msgstr "刪除"
+
+msgid "revoked"
+msgstr "撤回"
+
+msgid "casted"
+msgstr "投票"
+
+msgid "selected"
+msgstr "選擇"
+
+msgid "sent"
+msgstr "傳送"
+
+msgid "tested"
+msgstr "測試"
+
+msgid "received"
+msgstr "接收"
+
+msgid "lost"
+msgstr "失去"
+
+msgid "conflicted"
+msgstr "衝突"
+
+msgid "replied"
+msgstr "回覆"
+
+msgid "This proposal is currently being voted on and cannot be modified."
+msgstr "提案已在投票階段，不能進行修改。"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Proposals"
+msgstr "提案"
+
+msgid "Norms"
+msgstr "規範"
+
+msgid "Members"
+msgstr "會員"
+
+msgid "(Unknown)"
+msgstr "（未知）"
+
+msgid "Implementation"
+msgstr "導入"
+
+#, python-format
+msgid "%s (deleted user)"
+msgstr "%s（刪除的使用者）"
+
+msgid "Dashboard"
+msgstr "儀表板"
+
+msgid "This action is only available in an instance context."
+msgstr "此動作僅能在一個安裝的脈絡裡使用。"
+
+msgid "show more"
+msgstr "顯示更多"
+
+msgid "show less"
+msgstr "顯示較少"
+
+msgid "(no milestone)"
+msgstr "（沒有里程碑）"
+
+msgid "Your current vote is already pro"
+msgstr "您目前的投票是贊成"
+
+msgid "Click to change you vote to neutral"
+msgstr "點選以改變您的投票為中立"
+
+msgid "Click to vote pro"
+msgstr "點選以投贊成票"
+
+msgid "Click to vote con"
+msgstr "點選以投反對票"
+
+msgid "Your current vote is already con"
+msgstr "您目前的投票是反對"
+
+msgid "Topic is frozen. Click to view the list of votes."
+msgstr "主題已被凍結。點選此處以檢視投票列表。"
+
+msgid "Instance is frozen. Click to view the list of votes."
+msgstr "此站台已被凍結。點選此處以檢視投票列表。"
+
+msgid "Voting has ended. Click to view the list of votes"
+msgstr "投票已結束。點選此處以檢視投票列表。"
+
+msgid "Please login or register to vote."
+msgstr "請登入或註冊以投票。"
+
+#, python-format
+msgid "Please join the instance \"%s\" to vote."
+msgstr "請加入\"%s\"網站來投票。"
+
+msgid "Click to see the list of votes"
+msgstr "點選此處以檢視投票列表。"
+
+msgid "User badge"
+msgstr "使用者徽章"
+
+msgid "Instance badge"
+msgstr "網站徽章"
+
+msgid "Proposal badge"
+msgstr "提案徽章"
+
+msgid "Category"
+msgstr "分類"
+
+msgid "Status badge"
+msgstr "狀態徽章"
+
+#, python-format
+msgid ""
+"\r\n"
+"\r\n"
+"More info: %(url)s"
+msgstr "\r\n\r\n更多資訊：%(url)s"
+
+msgid "(Untitled)"
+msgstr "（無標題）"
+
+#, python-format
+msgid "%s (section %s)"
+msgstr "%s (section %s)"
+
+msgid "Status Quo"
+msgstr "現狀"
+
+#, python-format
+msgid "The random username %s has been assigned to you."
+msgstr "隨機的使用者名稱%s已經指派給你了。"
+
+msgid "formatting hints"
+msgstr "格式提醒"
+
+msgid "Save"
+msgstr "儲存"
+
+msgid "or"
+msgstr "或"
+
+msgid "cancel"
+msgstr "取消"
+
+msgid "Notify me of updates."
+msgstr "通知我更新。"
+
+msgid "Follow Norm"
+msgstr "追蹤規範"
+
+msgid "Follow Instance"
+msgstr "追蹤網站"
+
+msgid "Follow Proposal"
+msgstr "追蹤提案"
+
+msgid "Follow Milestone"
+msgstr "追蹤里程碑"
+
+msgid "Follow User"
+msgstr "追蹤使用者"
+
+msgid "Follow Comment"
+msgstr "追蹤回應"
+
+msgid "Follow Tag"
+msgstr "追蹤標籤"
+
+msgid "Following"
+msgstr "追蹤"
+
+msgid "Unfollow"
+msgstr "不追蹤"
+
+msgid "Disable email notifications."
+msgstr "取消電子郵件通知。"
+
+msgid "Receive email notifications if changes occur."
+msgstr "如果發生變動，收到電子郵件通知。"
+
+msgid "Message to Members"
+msgstr "發訊息給會員"
+
+msgid "Send us your feedback"
+msgstr "請給我們您的回饋"
+
+msgid "Title"
+msgstr "標題"
+
+msgid "One line summary"
+msgstr "一行簡述"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Please enter your feedback in here and help us to improve our website"
+msgstr "請在這裡輸入您的回饋，幫助我們改進此網站"
+
+msgid "Submit"
+msgstr "送出"
+
+msgid "List existing feedback"
+msgstr "列出現有的回饋"
+
+msgid "Feedback"
+msgstr "回饋"
+
+msgid "Proposal Category"
+msgstr "提案分類"
+
+msgid "No Category"
+msgstr "無分類"
+
+msgid "Others"
+msgstr "其他"
+
+msgid "Default proposal sort order"
+msgstr "預設的提案排序方式"
+
+msgid "Register"
+msgstr "註冊"
+
+msgid "Get an account to participate in the discussion."
+msgstr "取得帳號以參與討論。"
+
+msgid "Log in to participate in the discussion."
+msgstr "登入以參與討論。"
+
+msgid "join"
+msgstr "加入"
+
+msgid "Join this instance to start contributing."
+msgstr "加入此網站以開始貢獻。"
+
+msgid "Edit profile"
+msgstr "編輯個人資料"
+
+msgid ""
+"You need to set an email in your profile in order to contribute to this "
+"instance."
+msgstr "您需要在個人資料裡設定電子郵件，以在此貢獻。"
+
+#, python-format
+msgid "Resend validation email to %s"
+msgstr "重新傳送驗證電子郵件給%s"
+
+msgid "Send activation link"
+msgstr "傳送啟用連結"
+
+msgid ""
+"Please validate your email address in order to contribute to this instance."
+msgstr "請驗證您的電子郵件位址，以參與此網站。"
+
+msgid "Your registered email address is:"
+msgstr "您註冊的電子郵件位址是："
+
+msgid "Provide information"
+msgstr "提供資訊"
+
+msgid "Please provide statistical information to help scientific evaluation!"
+msgstr "請提供統計資訊，有助於科學提供！"
+
+#, python-format
+msgid "Hide %s"
+msgstr "隱藏%s"
+
+#, python-format
+msgid "Show %s"
+msgstr "顯示%s"
+
+msgid "code of conduct"
+msgstr "行為準則"
+
+msgid "terms and conditions"
+msgstr "使用條款"
+
+msgid "privacy"
+msgstr "隱私權"
+
+msgid "imprint"
+msgstr "imprint"
+
+msgid "Search"
+msgstr "搜尋"
+
+#, python-format
+msgid "<b>%s</b> members"
+msgstr "<b>%s</b>成員"
+
+#, python-format
+msgid "<b>%s</b> proposals"
+msgstr "<b>%s</b>提案"
+
+#, python-format
+msgid "<b>%s</b> comments"
+msgstr "<b>%s</b>回應"
+
+#, python-format
+msgid "<b>%s</b> votes"
+msgstr "<b>%s</b>票"
+
+msgid "Menu"
+msgstr "選單"
+
+msgid "Start"
+msgstr "開始"
+
+msgid "Instances"
+msgstr "安裝網站"
+
+msgid "Watchlist"
+msgstr "觀察名單"
+
+msgid "About"
+msgstr "關於"
+
+msgid "Help"
+msgstr "說明"
+
+msgid "Edit Profile"
+msgstr "編輯個人檔案"
+
+msgid "View Profile"
+msgstr "檢視個人資料"
+
+msgid "Administrate Site"
+msgstr "管理網站"
+
+msgid "Logout"
+msgstr "登出"
+
+#, python-format
+msgid "Search in \"%s\""
+msgstr "在\"%s\"裡搜尋"
+
+#, python-format
+msgid "%(start)s-%(end)s out of %(total)s"
+msgstr "%(start)s-%(end)s out of %(total)s"
+
+msgid "No entries."
+msgstr "無項目。"
+
+msgid "previous"
+msgstr "前一頁"
+
+msgid "next"
+msgstr "後一頁"
+
+msgid "entries"
+msgstr "項目"
+
+msgid "Filter list"
+msgstr "過濾列表"
+
+msgid "reset"
+msgstr "重設"
+
+msgid "Edit"
+msgstr "編輯"
+
+#, python-format
+msgid "%i item"
+msgid_plural "%i items"
+msgstr[0] "%i 項目"
+
+msgid "None"
+msgstr "無"
+
+msgid "Sort:"
+msgstr "排序："
+
+msgid "You are using an outdated web browser. Click here to update."
+msgstr "您目前使用的是過時的瀏覽器。點選此處以更新。"
+
+msgid "Adhocracy works best with JavaScript enabled."
+msgstr "使用 Adhocracy 時最好能啟用JavaScript。"
+
+#, python-format
+msgid ""
+"We could not display an overlay. See <a href=\"%s\">here</a> what it would "
+"have displayed."
+msgstr "我們無法顯示overlay。<a href=\"%s\">請看這裡</a>以瞭解內容。"
+
+msgid ""
+"This installation of adhocracy has been frozen. You can look at all content "
+"but editing is disabled."
+msgstr "此Adhocracy的安裝網站已經停用了。您可以檢視所有內容，但是編輯功能已停用。"
+
+msgid "Welcome back!"
+msgstr "歡迎回來！"
+
+#, python-format
+msgid "Welcome to %s!"
+msgstr "歡迎%s！"
+
+msgid "Please choose a password:"
+msgstr "請設定密碼："
+
+msgid "Please pick a secure password"
+msgstr "請設定一個安全的密碼"
+
+msgid "Set Password"
+msgstr "設定密碼"
+
+msgid "Validate email to start contributing."
+msgstr "驗證電子郵件以開始參與。"
+
+msgid "This instance has been frozen - you can not edit or post anything."
+msgstr "此安裝網站已停用。您不能編輯或張貼任何內容。"
+
+msgid "Skip to the navigation"
+msgstr "略過導覽"
+
+msgid "Skip to the content"
+msgstr "跳到內容"
+
+msgid "Next"
+msgstr "下一個"
+
+msgid "Previous"
+msgstr "上一個"
+
+msgid "start_this_tutorial"
+msgstr "start_this_tutorial"
+
+msgid "disable_this_tutorial"
+msgstr "disable_this_tutorial"
+
+msgid "disable_all_tutorials"
+msgstr "disable_all_tutorials"
+
+#, python-format
+msgid ""
+"A total of <a href=\"%(url)s\">%(votes)s votes</a>, thereof %(for)s ayes and"
+" %(against)s nays"
+msgstr "總共有<a href=\"%(url)s\">%(votes)s 票</a>，%(for)s贊成、%(against)s反對。"
+
+#, python-format
+msgid "A total of %(votes)s votes, thereof %(for)s ayes and %(against)s nays"
+msgstr "總共有%(votes)s票，%(for)s贊成、%(against)s反對。"
+
+msgid "Votes by User Group"
+msgstr "依據使用者群組的票數"
+
+msgid "Shortlink"
+msgstr "捷徑"
+
+msgid ""
+"You can log in using various external user accounts. Please be aware that "
+"the login via external providers may cause security and privacy related "
+"risks."
+msgstr "您可以使用不同的外部帳號登入。請注意，透過外部身分供應商可能會有安全性與隱私權的風險。"
+
+msgid "Login with Facebook"
+msgstr "透過Facebook登入"
+
+msgid "Report abuse"
+msgstr "檢舉濫用"
+
+msgid "Link:"
+msgstr "連結："
+
+msgid "Reason to report this page..."
+msgstr "請說明檢舉此頁面的原因："
+
+msgid "Send"
+msgstr "傳送"
+
+msgid "Export"
+msgstr "匯出"
+
+msgid "Export users"
+msgstr "匯出使用者"
+
+msgid "Include personal data"
+msgstr "包括個人資料"
+
+msgid "Include password hashes"
+msgstr "包括密碼雜湊"
+
+msgid "Export badges"
+msgstr "匯出徽章"
+
+msgid "Export content (instances)"
+msgstr "匯出內容（安裝網站）"
+
+msgid "Include proposals"
+msgstr "包括提案"
+
+msgid "Include comments"
+msgstr "包括回應"
+
+msgid "Include proposal creator badges"
+msgstr "包括提案建立者徽章"
+
+msgid "Include ratings"
+msgstr "包括評等"
+
+msgid "Export request log"
+msgstr "匯出請求記錄"
+
+msgid "Export static pages"
+msgstr "匯出靜態頁面"
+
+msgid "Export format:"
+msgstr "匯出格式："
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "JSON file"
+msgstr "JSON檔案"
+
+msgid "JSON file, compressed with gzip"
+msgstr "JSON 檔案，使用 gzip 壓縮"
+
+msgid "Tar file, compressed with bz2"
+msgstr "Tar 檔案，使用 bz2 壓縮"
+
+msgid "Zip file"
+msgstr "Zip 檔案"
+
+msgid "Export Now"
+msgstr "現在匯出"
+
+msgid "Import"
+msgstr "匯入"
+
+msgid "Import users"
+msgstr "匯入使用者"
+
+msgid "Generate welcome codes"
+msgstr "產生歡迎碼"
+
+msgid "Import badges"
+msgstr "匯入徽章"
+
+msgid "Import content (instances)"
+msgstr "匯入內容（安裝網站）"
+
+msgid "Import static pages"
+msgstr "匯入靜態頁面"
+
+msgid "Replacement strategy"
+msgstr "取代策略"
+
+msgid "Update duplicate entries"
+msgstr "更新重複的項目"
+
+msgid "Skip duplicate entries"
+msgstr "略過重複的項目"
+
+msgid "Detect"
+msgstr "偵測"
+
+msgid "ZIP"
+msgstr "ZIP"
+
+msgid "Import Now"
+msgstr "現在匯入"
+
+msgid "Import successfully performed."
+msgstr "已成功匯入。"
+
+msgid "back to main page"
+msgstr "回到主頁面"
+
+msgid "Site administration"
+msgstr "網站管理"
+
+msgid "Admin: Group Permissions"
+msgstr "管理：群組權限"
+
+msgid "Admin &raquo; Group Permissions"
+msgstr "管理 &raquo; 群組權限"
+
+msgid "Group Permissions"
+msgstr "群組權限"
+
+msgid ""
+"WARNING: This allows you to shut yourself out of your adhocracy. Handle with"
+" care!"
+msgstr "警告：這會讓您無法使用您的 Adhocracy。請小心處理。"
+
+msgid "Permissions"
+msgstr "權限"
+
+msgid "Users"
+msgstr "使用者"
+
+msgid "Import Users"
+msgstr "匯入使用者"
+
+msgid "Update Search Index"
+msgstr "更新搜尋索引"
+
+msgid "Fix autojoin"
+msgstr "修正自動加入"
+
+msgid "Static Pages"
+msgstr "靜態頁面"
+
+msgid "Send a message to users"
+msgstr "傳送訊息給使用者"
+
+msgid "Assign treatment badges"
+msgstr "指派對照徽章"
+
+msgid "Admin: Import Users"
+msgstr "管理：匯入使用者"
+
+msgid ""
+"Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
+"columns username, display name, email and badges (badges are optional, comma"
+" separated and with quotes around the list)"
+msgstr "貼上 CSV 的內容，例如從 Excel 匯出，例如四個欄位的使用者名稱、顯示名稱、電子郵件和徽章（徽章是選擇性的，逗號分隔，並有引號包含內容）"
+
+msgid "Users CSV"
+msgstr "使用者 CSV"
+
+msgid "Email Subject"
+msgstr "電子郵件主旨"
+
+msgid "Email Template"
+msgstr "電子郵件範本"
+
+msgid "The name with which the user can log in."
+msgstr "使用者可用來登入的名稱。"
+
+msgid "The initial password for the user."
+msgstr "使用者所使用的初始密碼。"
+
+msgid "An URL for the user to activate his account."
+msgstr "提供給使用者來驗證帳號的網址。"
+
+msgid "The name that will be displayed to other users."
+msgstr "此名稱會顯示給其他使用者。"
+
+msgid "The email address of the user."
+msgstr "使用者的電子郵件位址。"
+
+msgid "for additional columns."
+msgstr "額外的欄位。"
+
+msgid ""
+"The template for the mail to the users. You need to insert some placeholders"
+" into the email text."
+msgstr "寄給使用者的電子郵件範本。您需要在內文裡放一些可代換的符號。"
+
+msgid "Required"
+msgstr "必填"
+
+msgid "Imported Users"
+msgstr "匯入的使用者"
+
+msgid "But some errors occured"
+msgstr "但是有一些錯誤發生"
+
+msgid "You successfully created the following users:"
+msgstr "您成功地建立了以下的使用者："
+
+#, python-format
+msgid ""
+"You successfully created the following users and added them as Members to "
+"the instance \"%s\":"
+msgstr "您成功地建立了以下的使用者，把他們加入為\"%s\"安裝網站的成員："
+
+msgid "The following errors happend while creating the users"
+msgstr "在建立使用者時，發生了以下錯誤"
+
+msgid "These users could not be created:"
+msgstr "無法建立以下使用者："
+
+msgid "These users were created, but we could not send out mails:"
+msgstr "已建立以下這些使用者，但我們無法寄電子郵件給他們："
+
+msgid ""
+"Note that the following entities will be unbadged if this badge is deleted:"
+msgstr "請注意，如果刪除了此徽章，以下項目將會沒有徽章："
+
+msgid "This badge is not in use, so it can be removed safely."
+msgstr "此徽章並沒有在使用，所以它可以安全地移除。"
+
+msgid "Are you sure you want to delete this badge?"
+msgstr "您確定要刪除這個徽章嗎？"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Category title"
+msgstr "分類標題"
+
+msgid "Badge title"
+msgstr "徽章標題"
+
+msgid "Category description"
+msgstr "分類說明"
+
+msgid "Badge description"
+msgstr "徽章說明"
+
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
+msgstr "您可以在這裡使用 markdown 標記，新增關於分類的詳細說明。"
+
+msgid "Long category description"
+msgstr "完整的分類說明"
+
+msgid "The color that is used to show the category"
+msgstr "用來呈現此分類的顏色"
+
+msgid "The color that is used to show the badge"
+msgstr "用來顯示此徽章的顏色"
+
+msgid "Like '#a4a4a4'"
+msgstr "例如 '#a4a4a4'"
+
+msgid "Preview:"
+msgstr "預覽："
+
+msgid "Image upload does not work in your browser. Please update."
+msgstr "您的瀏覽器無法使用圖片上傳的功能，請更新瀏覽器。"
+
+msgid "Image"
+msgstr "圖片"
+
+msgid "Upload image. This is used instead of color to show the badge"
+msgstr "上傳圖片。使用圖片來代替顏色來做為徽章。"
+
+msgid "Delete current thumbnail image"
+msgstr "刪除目前的縮圖"
+
+msgid "Upload category image"
+msgstr "上傳分類圖片"
+
+msgid "Delete current category image"
+msgstr "刪除目前的分類圖片"
+
+msgid "Check to hide category in user interface"
+msgstr "勾選此項可在使用介面裡隱藏分類"
+
+msgid "Check to hide badge in user interface"
+msgstr "勾選此項可在使用介面裡隱藏標籤"
+
+msgid "Group"
+msgstr "群組"
+
+msgid "No Group"
+msgstr "無群組"
+
+msgid ""
+"Automatically assign all users with this badge to the selected group for all"
+" instances in the adhocracy site."
+msgstr "將此 Adhocracy 裡所有的安裝網站，自動把所有有此徽章的使用者，指派到所選擇的群組。"
+
+msgid "Automatically assign all users with this badge to the selected group."
+msgstr "自動把所有有此徽章的使用者，指派到所選擇的群組。"
+
+msgid "Display group in instances"
+msgstr "顯示安裝網站裡的群組"
+
+msgid "Display this badge instead of the normal user group."
+msgstr "顯示此徽章，而不是一般的使用者群組。"
+
+msgid "Global"
+msgstr "全域"
+
+msgid "Parent Category"
+msgstr "上層分類"
+
+msgid "Link this category to a superordinate category"
+msgstr "將此目錄連到上層分類"
+
+msgid "No Parent Category"
+msgstr "無上層分類"
+
+msgid "Global categories"
+msgstr "全域分類"
+
+msgid "Local instance categories"
+msgstr "本安裝網站分類"
+
+msgid ""
+"Description to select children of this category (irrelevant if this category"
+" doesn't have any children)"
+msgstr "此分類的子分類的說明（如果此分類沒有任何子分類，就不需要）"
+
+msgid "Impact"
+msgstr "影響"
+
+msgid "Delete"
+msgstr "刪除"
+
+msgid "New"
+msgstr "新增"
+
+msgid "In all instances"
+msgstr "在所有的安裝網站"
+
+#, python-format
+msgid "In instance \"%s\""
+msgstr "在安裝網站 \"%s\""
+
+msgid "No badges added yet."
+msgstr "尚未新增徽章。"
+
+msgid ""
+"User badges allow you to organize your members according to certain groups."
+msgstr "使用者徽章，讓您根據群組來可以組織成員。"
+
+msgid ""
+"Proposal badges may be used to link different attributes to a proposal (e.g."
+" official, first phase, etc.)."
+msgstr "提案徽章可以用來連結不同的屬性到提案裡（例如 正式、第一階段...等）。"
+
+msgid ""
+"Add new categories to allow your users to categorize their proposals "
+"according to a topic."
+msgstr "新增分類，可以讓您的使用者根據主題來分類提案。"
+
+msgid ""
+"Status badges may be used to indicate different statuses of proposals in "
+"your participation process (e.g. accepted, rejected, in discussion, etc.) "
+"with an image."
+msgstr "狀態徽章，可以用圖片來辨識您在此提案的參與過程的不同狀態（例如同意、反對、討論中...等）。"
+
+msgid "Preview"
+msgstr "預覽"
+
+msgid "Assigned Group"
+msgstr "被指派的群組"
+
+msgid "Display"
+msgstr "顯示"
+
+msgid "Actions"
+msgstr "動作"
+
+msgid "yes"
+msgstr "是"
+
+msgid "no"
+msgstr "否"
+
+msgid "Parent"
+msgstr "上層"
+
+msgid "Global badges"
+msgstr "全域徽章"
+
+msgid "No Badge"
+msgstr "無徽章"
+
+msgid "invisible"
+msgstr "隱形"
+
+msgid "No Badges"
+msgstr "無徽章"
+
+msgid "more"
+msgstr "更多"
+
+msgid "View and discuss"
+msgstr "檢視並討論"
+
+msgid "edit"
+msgstr "編輯"
+
+msgid "Introduce a new idea to debate."
+msgstr "提出一個新想法以供討論。"
+
+msgid "Create new proposal"
+msgstr "建立新提案"
+
+msgid "Join instance to create a new proposal."
+msgstr "加入此安裝網站以新增提案"
+
+msgid "Login to create a new proposal."
+msgstr "登入以建立新提案。"
+
+msgid "Validate email in order to create a new proposal."
+msgstr "驗證電子郵件，以新增提案。"
+
+msgid "Find proposals"
+msgstr "尋找提案"
+
+msgid "new proposal"
+msgstr "新增提案"
+
+msgid "Norms in this Category"
+msgstr "此分類裡的規範"
+
+msgid "Argument"
+msgstr "論述"
+
+#, python-format
+msgid "Comment on %s"
+msgstr "回應%s"
+
+#, python-format
+msgid "Argument about %s"
+msgstr "關於%s的論述"
+
+msgid "Are you sure you want to delete this comment?"
+msgstr "您確定要刪除此回應？"
+
+msgid "Are you sure you want to delete this argument?"
+msgstr "您確定要刪除此論述？"
+
+msgid "Edit comment"
+msgstr "編輯回應"
+
+msgid "Edit argument"
+msgstr "編輯論述"
+
+#, python-format
+msgid "Comment on: %s"
+msgstr "回應：%s"
+
+#, python-format
+msgid "Argument about: %s"
+msgstr "關於%s的論述"
+
+msgid "Comment History"
+msgstr "回應記錄"
+
+msgid "Argument History"
+msgstr "論述記錄"
+
+msgid "New comment"
+msgstr "新回應"
+
+msgid "New argument"
+msgstr "新論述"
+
+#, python-format
+msgid "created %s"
+msgstr "已新增%s"
+
+msgid "revert here"
+msgstr "在此回復"
+
+msgid "delete version permanently"
+msgstr "永遠刪除此版本"
+
+#, python-format
+msgid "on %s"
+msgstr "on %s"
+
+#, python-format
+msgid "edited %s"
+msgstr "已編輯%s"
+
+msgid "Add comment"
+msgstr "新增回應"
+
+msgid "Start new discussion"
+msgstr "開始新討論"
+
+msgid "Join instance to comment."
+msgstr "加入此安裝網站以進行回應。"
+
+msgid "Join instance to discuss."
+msgstr "加入此安裝網站以進行討論。"
+
+msgid "Login to comment."
+msgstr "登入以進行回應。"
+
+msgid "Login to discuss."
+msgstr "登入以進行討論。"
+
+msgid "Validate email in order to comment."
+msgstr "驗證電子郵件，以進行回應。"
+
+msgid "Validate email in order to discuss."
+msgstr "驗證電子郵件，以進行討論。"
+
+msgid "No comments were made yet."
+msgstr "尚未有任何回應。"
+
+msgid "No discussions were started yet."
+msgstr "尚未有任何討論。"
+
+msgid "is pro"
+msgstr "贊成"
+
+msgid "is con"
+msgstr "反對"
+
+msgid "(deleted)"
+msgstr "（已刪除）"
+
+msgid "This comment has been deleted."
+msgstr "回應已刪除。"
+
+msgid "This argument has been deleted."
+msgstr "論述已刪除。"
+
+#, python-format
+msgid "deleted %s"
+msgstr "已刪除%s"
+
+#, python-format
+msgid "edited %s by %s"
+msgstr "已編輯%s（by %s）"
+
+msgid "history"
+msgstr "記錄"
+
+msgid "report"
+msgstr "報告"
+
+msgid "reply"
+msgstr "回覆"
+
+msgid "Add argument"
+msgstr "新增論述"
+
+msgid "Join instance to reply"
+msgstr "加入此安裝網站以進行回覆"
+
+msgid "Join instance to argue"
+msgstr "加入此安裝網站以進行論述"
+
+msgid "Login to reply"
+msgstr "登入以進行回覆"
+
+msgid "Login to argue"
+msgstr "登入以進行論述"
+
+msgid "Validate email in order to reply"
+msgstr "驗證電子郵件以進行回覆"
+
+msgid "Validate email in order to argue"
+msgstr "驗證電子郵件以進行論述"
+
+msgid "Comment is..."
+msgstr "回應是..."
+
+msgid "Argument is..."
+msgstr "論述是..."
+
+msgid "Pro"
+msgstr "贊成"
+
+msgid "Neutral"
+msgstr "中立"
+
+msgid "Con"
+msgstr "反對"
+
+msgid "Allow others to edit this comment."
+msgstr "允許其他人編輯此回應"
+
+msgid "Allow others to edit this argument."
+msgstr "允許其他人編輯此論述"
+
+#, python-format
+msgid "Comments on %s"
+msgstr "針對%s的回應"
+
+#, python-format
+msgid "Discussion on %s"
+msgstr "針對%s的討論"
+
+msgid "Context"
+msgstr "脈絡"
+
+msgid "History"
+msgstr "歷史"
+
+msgid "abstained"
+msgstr "棄權"
+
+msgid "undecided"
+msgstr "未決定"
+
+msgid ""
+"The user's delegates have voted, but no consensus wasreached among them. The"
+" decision is deferred."
+msgstr "使用者的委任已經投票，但是並沒有達成結果。決定已被擱置。"
+
+msgid "The decision was made without delegations."
+msgstr "未經委任但以做出決定。"
+
+msgid "The decision was determined as a result of the following delegations:"
+msgstr "經由以下的委任，做出了決定："
+
+msgid "on"
+msgstr "on"
+
+msgid "review"
+msgstr "檢視"
+
+#, python-format
+msgid "Delegate: %s"
+msgstr "委任：%s"
+
+msgid ""
+"These people might be a good match for your delegation. Either select one of"
+" the listed delegates, or enter another user name."
+msgstr "這些人可能適合您的委任。您可以選擇其中之一，或是輸入其他使用者的名字。"
+
+msgid "Start typing, you will receive suggestions to find the user."
+msgstr "開始輸入，您會收到建議已找到使用者。"
+
+msgid "Include decisions made before now."
+msgstr "包括以前所做的決定。"
+
+#, python-format
+msgid "Delegation: %s"
+msgstr "委任：%s"
+
+msgid "Cancel this delegation."
+msgstr "取消委任。"
+
+msgid "revoke"
+msgstr "撤銷"
+
+#, python-format
+msgid "from %s"
+msgstr "從%s"
+
+#, python-format
+msgid "to %s"
+msgstr "到%s"
+
+#, python-format
+msgid "established %s"
+msgstr "已建立%s"
+
+#, python-format
+msgid "revoked %s"
+msgstr "撤銷%s"
+
+msgid "The delegation can be overridden or revoked at any time."
+msgstr "您可以在任何時候撤銷或改變您的委任。"
+
+msgid ""
+"No decisions have been based on this delegation yet. As soon as this "
+"delegation leads to any decisions, they will be listed here."
+msgstr "還沒有依據此委任做出任何決定。只要有因為此委任做出任何決定，都會列出在此。"
+
+msgid "track record"
+msgstr "追蹤記錄"
+
+#, python-format
+msgid "created <b>%s</b>"
+msgstr "已建立<b>%s</b>"
+
+msgid "Delegate voting"
+msgstr "委任投票"
+
+msgid "You have not delegated voting."
+msgstr "您尚未委任投票。"
+
+msgid "You have delegated voting to:"
+msgstr "您已經把投票委任給："
+
+msgid "Delegate your say in this debate to another participant."
+msgstr "針對此議題的討論，將您的聲音委任給其他參與者。"
+
+msgid "delegate"
+msgstr "委任"
+
+msgid "You hold an additional vote."
+msgstr "您有了額外的一票。"
+
+#, python-format
+msgid "You hold %s additional votes."
+msgstr "您有了額外的%s票。"
+
+#, python-format
+msgid "Error %d"
+msgstr "錯誤%d"
+
+#, python-format
+msgid ""
+"If this error continues to occur, please %snotify the developers%s with a "
+"description of what you were trying to do."
+msgstr "如果此錯誤持續發生，請%s 通知開發者%s，並說明您發生問題的情境。"
+
+msgid ""
+"An automated email message describing the situation has been sent to our "
+"developers."
+msgstr "一封描述此問題的電子郵件訊息已傳送給我們的開發者。"
+
+msgid "Latest events"
+msgstr "最新活動"
+
+msgid "All current events."
+msgstr "所有目前的活動。"
+
+msgid "Show full proposal"
+msgstr "顯示完整的提案"
+
+msgid "Show full amendment"
+msgstr "顯示完整的修正案"
+
+msgid "Show full comment"
+msgstr "顯示完整的回應"
+
+msgid "Show full message"
+msgstr "顯示完整的訊息"
+
+msgid "created new proposal"
+msgstr "已建立新提案"
+
+msgid "display all events"
+msgstr "顯示所有活動"
+
+msgid "Delete instance"
+msgstr "刪除安裝網站"
+
+msgid "Are you sure you want to delete this instance?"
+msgstr "您確定要刪除此安裝網站？"
+
+#, python-format
+msgid "Join %s"
+msgstr "加入%s"
+
+msgid "Join"
+msgstr "加入"
+
+msgid "Join instance"
+msgstr "加入安裝網站"
+
+msgid ""
+"In order to perform the requested action, you need to join this instance."
+msgstr "為了要進行所選擇的動作，您需要加入此安裝網站。"
+
+msgid "Leave"
+msgstr "離開"
+
+msgid ""
+"Are you sure you want to leave this instance? You will no longer be able to "
+"write contributions or to vote."
+msgstr "您確定您要離開此安裝網站？您將無法在此提供貢獻或投票。"
+
+#, python-format
+msgid "Edit badges for %s"
+msgstr "編輯%s的徽章"
+
+msgid "Edit Badges"
+msgstr "編輯徽章"
+
+msgid "No badges"
+msgstr "沒有徽章"
+
+msgid "Create new instance"
+msgstr "建立新的安裝網站"
+
+msgid "Instances are little democracies that are ran by their community."
+msgstr "安裝網站是由社群所維護的小型民主政體。"
+
+msgid "participate"
+msgstr "參與"
+
+msgid "new instance"
+msgstr "新增安裝網站"
+
+#, python-format
+msgid "Manage: %s"
+msgstr "管理：%s"
+
+msgid "Manage"
+msgstr "管理"
+
+msgid "New Instance"
+msgstr "新增安裝網站"
+
+msgid "Instance name"
+msgstr "網站名稱"
+
+msgid "Instance URL"
+msgstr "網站網址"
+
+msgid ""
+"The address may only contain alpha-numeric characters. Please note that this"
+" key cannot be changed after the instance has been created."
+msgstr "網址僅能使用字母/數字。請注意一旦成立之後，將無法再改動。"
+
+msgid ""
+"Describe what the goals of this instance are and who constitutes its "
+"community."
+msgstr "說明此網站的目標，以及是由哪些人組成此社群。"
+
+msgid "(Both Markdown and HTML are allowed here.)"
+msgstr "（這裡可以使用 Markdown 和 HTML 語法）"
+
+msgid ""
+"Please select one or more of the following presets for the preliminary "
+"configuration of your instance. If necessary you can adapt individual "
+"options later."
+msgstr "請為您的網站選擇一個或多個初始設定。如果有需要的話，之後可以針對個別項目再做調整。"
+
+msgid ""
+"You can select one or more of these presets to reset your instance "
+"configuration. Note that any manual configuration will be lost."
+msgstr "您可以選擇一個或多個初始設定，重新設置您的網站。請注意，原本的手動設置選項都會不見。"
+
+msgid "Collecting ideas"
+msgstr "收集想法"
+
+msgid ""
+"The participants can make proposals and discuss these. This option enables "
+"everything from an open dialogue to formulating and organizing concrete "
+"ideas and goals."
+msgstr "參與者可以提出提案並進行討論。此功能有多種用途，例如開放式的對話，或是形塑想法、組織目標。"
+
+msgid "Planning Ideas"
+msgstr "規劃想法"
+
+msgid ""
+"The participants can make, discuss and plan proposals in connection to "
+"concrete dates through a calendar function."
+msgstr "參與者可以透過月曆功能進行提案的討論與規劃、形成扎實的想法。"
+
+msgid "Collaboratively drafting texts"
+msgstr "協同起草文案"
+
+msgid ""
+"Whether you want to draft statutes, strategic papers or a manifesto – with "
+"this option the participants will have the chance to discuss, and "
+"collaboratively work on the texts you introduce to the platform."
+msgstr "不論您是想要起草法規、策略、或宣言，此功能可以讓參與者針對您在平台上提出的內容進行討論與協作。"
+
+msgid "Configure"
+msgstr "設定"
+
+msgid "Reset"
+msgstr "重設"
+
+msgid "Allow editing of comments by default"
+msgstr "預設允許編輯回應"
+
+msgid "Allow editing of proposals by default"
+msgstr "預設允許編輯提案"
+
+msgid "Require to propose a variant"
+msgstr "提出修正案時為必填"
+
+msgid ""
+"If norms are activated, this option will ensure that users change at least "
+"one norm with each proposal."
+msgstr "如果啟用了規範功能，此功能可以確保使用者在提出提案時，至少有修改一個規範。"
+
+msgid "Hide global categories"
+msgstr "隱藏全域分類"
+
+msgid "Members of your instance only see the catagories you created."
+msgstr "您的網站的成員只會看到您所建立的分類。"
+
+msgid "Display page index as tiles"
+msgstr "以磚塊方式顯示頁面索引"
+
+msgid "Split proposal list to several pages."
+msgstr "將提案列表頁分成幾個頁面。"
+
+msgid ""
+"Disabling pagination might be useful if you want to be able to link to "
+"individual list rows."
+msgstr "如果您想要連結到個別的列表欄，可以取消分頁功能。"
+
+msgid "Hide this instance"
+msgstr "隱藏此安裝網站"
+
+msgid "Select whether this instance will be shown in public listings."
+msgstr "選擇此網站是否要顯示在公開列表裡。"
+
+msgid "Freeze this instance"
+msgstr "凍結此網站"
+
+msgid ""
+"This will prevent members from making any more changes or contributions to "
+"the existing discussion."
+msgstr "此功能將會使成員無法針對現有的討論進行任何修改或貢獻。"
+
+msgid "Break down Voting Result by Badge"
+msgstr "依據徽章來呈現投票結果"
+
+msgid "Display how the users with the selected badges feel about the issue."
+msgstr "顯示擁有不同徽章的使用者，是如何針對此議題進行投票。"
+
+msgid "Embed latest events"
+msgstr "崁入最新活動"
+
+#, python-format
+msgid ""
+"To display the latest events from your %(site_name)s instance you can add "
+"this embed code to your website."
+msgstr "要顯示您的%(site_name)s的最新活動，您可以在您的網站上加入此崁入碼。"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "您可以增加此網站想要使用的 CSS 程式碼。"
+
+msgid "Extra CSS"
+msgstr "額外的 CSS"
+
+msgid "Status badge image width"
+msgstr "狀態徽章的圖片寬度"
+
+msgid "Status badge image height"
+msgstr "狀態徽章的圖片高度"
+
+msgid "Authenticate this instance"
+msgstr "驗證此安裝網站"
+
+msgid "Activates additional feature, e.g. massinvite und massmessage"
+msgstr "啟用額外的功能，例如大量邀請和大量郵件。"
+
+msgid "Language"
+msgstr "語言"
+
+msgid ""
+"The language setting will be overridden by the user's personal setting."
+msgstr "語言設定裡的內容，可以被各個使用者的個人設定所修改。"
+
+msgid "Enable delegated voting"
+msgstr "啟用委任投票"
+
+msgid "Enable milestones"
+msgstr "啟用里程碑"
+
+msgid ""
+"Milestones link the online discussions with offline events through a "
+"calendar function."
+msgstr "里程碑可以透過月曆功能，連結線上討論與離線活動。"
+
+msgid "Display category pages"
+msgstr "顯示分類頁面"
+
+msgid "categories"
+msgstr "分類"
+
+msgid "Themes"
+msgstr "版型"
+
+msgid ""
+"You can select one of several themes to customize the appearance of this "
+"instance."
+msgstr "您可以選擇其中一種版型，客製化網站的樣貌。"
+
+msgid "default"
+msgstr "預設"
+
+msgid "preview"
+msgstr "預覽"
+
+msgid "Delete this instance"
+msgstr "刪除此安裝網站"
+
+msgid "Require email validation"
+msgstr "需要進行電子郵件驗證"
+
+msgid "Require instance members to validate their email address."
+msgstr "需要網站成員驗證其電子郵件位址。"
+
+msgid "Default group for new members"
+msgstr "新成員的預設群組"
+
+msgid ""
+"This will initially decide whether new members can actively participate in "
+"or simply read the discussions on your instance. You can change user groups "
+"of individual members later."
+msgstr "這會初步決定您的網站裡的新成員，是否可以主動參與、或是僅能閱讀討論。您之後也可以改變個別成員的群組。"
+
+msgid "user badges"
+msgstr "使用者徽章"
+
+msgid "Name of the instance"
+msgstr "網站的名稱"
+
+msgid "Give your instance a name."
+msgstr "設定您的網站名稱。"
+
+msgid ""
+"This is what appears on the overview-page of your instance. Describe the "
+"participation process you have in mind. Clearly state the goals of this "
+"group and how its members can participate in reaching them."
+msgstr "這會顯示在您的網站總覽頁面上。描述您所設想的參與過程。清楚地陳述群組目標，以及成員們可以如何參與，以達成這些目標。"
+
+msgid "Description of the instance"
+msgstr "網站的說明"
+
+msgid "Select the logo you would like to have as header of your group."
+msgstr "選擇您的網站 LOGO，顯示在網頁上。"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Current logo"
+msgstr "目前的 LOGO"
+
+msgid "Delete current logo"
+msgstr "刪除目前的 LOGO"
+
+msgid "Use logo as background image"
+msgstr "使用 LOGO 作為背景圖片"
+
+msgid "Show proposals navigation item"
+msgstr "顯示提案導覽項目"
+
+msgid "Show proposals as an extra tab"
+msgstr "以額外的頁籤來顯示提案"
+
+msgid "proposal badges"
+msgstr "提案徽章"
+
+msgid "status badges"
+msgstr "狀態徽章"
+
+msgid "Enable norms"
+msgstr "啟用規範"
+
+msgid ""
+"Unlike proposals, norms are documents that you introduce to be discussed on "
+"the platform."
+msgstr "與提案不同，規範是您提出來要在平台上進行討論的文件。"
+
+msgid "Allow members to propose norms"
+msgstr "允許成員提出規範"
+
+msgid "Allow members to change norms from within proposals"
+msgstr "允許成員在提案裡改變規劃"
+
+msgid "Members will be able to propose changes of the norms you introduce."
+msgstr "成員可以針對您所提出的規範來提出調整建議。"
+
+msgid "Show norms navigation item"
+msgstr "顯示規範導覽項目"
+
+msgid "Show norms as an extra tab"
+msgstr "以額外的頁籤來顯示規範"
+
+msgid "show a list of proposals"
+msgstr "顯示提案列表"
+
+msgid "more proposals"
+msgstr "更多提案"
+
+msgid "Next milestone"
+msgstr "下一個里程碑"
+
+msgid "Next milestones"
+msgstr "下個里程碑"
+
+msgid "Newest Events"
+msgstr "最新活動"
+
+msgid "Information"
+msgstr "資訊"
+
+msgid "Created"
+msgstr "已建立"
+
+#, python-format
+msgid "by %s on %s"
+msgstr "by %s on %s"
+
+msgid "Votings"
+msgstr "投票"
+
+msgid "By the numbers"
+msgstr "根據數字"
+
+#, python-format
+msgid "<b>%s</b> community members"
+msgstr "<b>%s</b>社群成員"
+
+msgid "tutorial_instance_proposals_table"
+msgstr "tutorial_instance_proposals_table"
+
+msgid "tutorial_instance_proposal_button"
+msgstr "tutorial_instance_proposal_button"
+
+msgid "Close"
+msgstr "關閉"
+
+msgid "tutorial_instance_numbers"
+msgstr "tutorial_instance_numbers"
+
+#, python-format
+msgid "%s proposal"
+msgid_plural "%s proposals"
+msgstr[0] "%s個提案"
+
+#, python-format
+msgid "%s norm"
+msgid_plural "%s norms"
+msgstr[0] "%s個規範"
+
+msgid "Send mass message"
+msgstr "傳送大量訊息"
+
+msgid ""
+"Please note that users may not necessarily receive this message by email. "
+"The message will however show up in their dashboards."
+msgstr "請注意，使用者可能不同意用電子郵件接受訊息。訊息將會顯示在他們的儀表板裡。"
+
+msgid "Filter users ..."
+msgstr "過濾使用者..."
+
+msgid "... by instance:"
+msgstr "... 依據安裝網站："
+
+msgid "... by badge:"
+msgstr "... 依據徽章："
+
+msgid "Subject"
+msgstr "主旨"
+
+msgid "Body"
+msgstr "內文"
+
+msgid "Use {name} and {salutation} to address the user directly."
+msgstr "使用 {name} 和 {salutation} 來稱呼使用者。"
+
+msgid ""
+"Add a note about why the user got this message, and how to unsubscribe."
+msgstr "增加一段附註，說明為什麼使用者會收到此訊息，以及如何取消訂閱。"
+
+msgid "Uncheck if user management is centralized."
+msgstr "如果使用者管理是集中式的，取消勾選此項。"
+
+msgid "Include footer"
+msgstr "包括頁尾"
+
+msgid "Sender identity"
+msgstr "寄件者身分"
+
+msgid "Customize sender name: "
+msgstr "自訂寄件者名稱"
+
+msgid ""
+"Please note that your e-mail address may be included in this message to give"
+" the recipient a method to reply to you."
+msgstr "請注意，您應該在訊息裡附上您的電子郵件位址，讓收件者有辦法可以回信給你。"
+
+msgid "Send to ..."
+msgstr "傳送到 ..."
+
+msgid "Creators"
+msgstr "建立者"
+
+#, python-format
+msgid "Users who have participated in writing \"%s\""
+msgstr "參與在撰寫\"%s\"的使用者"
+
+msgid "Supporters"
+msgstr "支持者"
+
+#, python-format
+msgid "Users who have voted in favour of \"%s\""
+msgstr "投票贊成\"%s\"的使用者"
+
+msgid "Opponents"
+msgstr "反對者"
+
+#, python-format
+msgid "Users who have voted against \"%s\""
+msgstr "投票反對\"%s\"的使用者"
+
+msgid "Mass Message Preview"
+msgstr "預覽大量郵件"
+
+#, python-format
+msgid "You're about to send the following message to %s recipients:"
+msgstr "您即將傳送以下訊息給%s的收件者："
+
+msgid "The message will go to the following users:"
+msgstr "此訊息將會傳送給以下的使用者："
+
+#, python-format
+msgid "The following message was sent to you by %s:"
+msgstr "以下訊息是由%s傳送給您："
+
+#, python-format
+msgid "You can reply to %s by sending mail to: %s"
+msgstr "您可以回信給%s，僅需要傳送電子郵件到：%s"
+
+#, python-format
+msgid ""
+"You receive this message because you are signed in to the message service on"
+" %(site_name)s. You can change your subscription settings on the following "
+"page: %(url)s"
+msgstr "您會收到此訊息，是因為您表示要接收%(site_name)s的電子郵件。您可以到以下網址調整訂閱設定：%(url)s"
+
+#, python-format
+msgid "Message %s"
+msgstr "訊息%s"
+
+#, python-format
+msgid "Dear %s, ..."
+msgstr "親愛的%s, ..."
+
+msgid "Message sent"
+msgstr "訊息已送出"
+
+#, python-format
+msgid "by %(creator)s on %(datetime)s"
+msgstr "by %(creator)s on %(datetime)s"
+
+msgid "Recipient"
+msgstr "收件人"
+
+#, python-format
+msgid "%d recipients"
+msgstr "%d個收件人"
+
+msgid "Recipients"
+msgstr "收件人"
+
+#, python-format
+msgid "You and %d others"
+msgstr "您與%d個其他使用者 "
+
+#, python-format
+msgid "Delete: %s"
+msgstr "刪除：%s"
+
+msgid "Are you sure you want to delete this milestone?"
+msgstr "您確定要刪除此里程碑嗎？"
+
+#, python-format
+msgid "Edit %s"
+msgstr "編輯%s"
+
+msgid "Edit milestone"
+msgstr "編輯里程碑"
+
+msgid "Milestone title"
+msgstr "里程碑的標題"
+
+msgid "Milestone description"
+msgstr "里程碑的說明"
+
+msgid "Give a brief description of the milestone."
+msgstr "為此里程碑加上簡要說明。"
+
+msgid "Date of the milestone"
+msgstr "里程碑的日期"
+
+msgid "Please use the DD.MM.YYYY format."
+msgstr "請使用 DD.MM.YYYY 格式。"
+
+msgid "Show all proposals"
+msgstr "顯示所有提案"
+
+msgid "Show all open proposals if milestone is in the future."
+msgstr "顯示所有里程碑是在未來時間的開放提案。"
+
+msgid "Create new milestone"
+msgstr "建立一個新的里程碑"
+
+msgid "Upcoming Milestones"
+msgstr "即將到來的里程碑"
+
+msgid "Past Milestones"
+msgstr "過去的里程碑"
+
+msgid "Create a new milestone."
+msgstr "建立一個新的里程碑。"
+
+msgid "new milestone"
+msgstr "新的里程碑"
+
+msgid "tutorial_milestones_timeline"
+msgstr "tutorial_milestones_timeline"
+
+msgid "tutorial_milestones_listing"
+msgstr "tutorial_milestones_listing"
+
+msgid "New milestone"
+msgstr "新的里程碑"
+
+msgid "Last Change"
+msgstr "最近修改"
+
+msgid "(unknown)"
+msgstr "（未知）"
+
+msgid "Associated Proposals"
+msgstr "相關的提案"
+
+msgid "No proposals are connected to this milestone"
+msgstr "此里程碑沒有相關的提案"
+
+msgid "Associated Norms"
+msgstr "相關的規範"
+
+msgid "No norms are connected to this milestone"
+msgstr "此里程碑沒有相關的規範"
+
+msgid "tutorial_milestone_details_follow"
+msgstr "tutorial_milestone_details_follow"
+
+msgid "tutorial_milestone_details_description"
+msgstr "tutorial_milestone_details_description"
+
+msgid "tutorial_milestone_details_listing"
+msgstr "tutorial_milestone_details_listing"
+
+msgid "with an abstention on"
+msgstr "with an abstention on（棄權）"
+
+#, python-format
+msgid "On %s, %s wrote:"
+msgstr "在 %s，%s寫道："
+
+msgid "Add a single sign-on service"
+msgstr "增加單一登入服務"
+
+msgid "Sign in"
+msgstr "登入"
+
+msgid "Continue"
+msgstr "繼續"
+
+msgid ""
+"Single sign-on services allow you to use a single login on many web sites."
+msgstr "單一登入服務，可以讓你可以使用一個帳號登入到許多網站。"
+
+msgid "Select a user name"
+msgstr "選擇使用者名稱"
+
+msgid "User name"
+msgstr "使用者名稱"
+
+msgid "A unique user name is required for you to complete sign up and login."
+msgstr "必須使用唯一的使用者名稱來完成註冊與登入。"
+
+#, python-format
+msgid ""
+"The user name \"%s\" received from your OpenID provider is invalid or "
+"already used. Please provide a different, unique user name."
+msgstr "您的 OpenID 服務所提供的使用者名稱\"%s\"，是無效的、或是已經被用掉了。請換一個不同的使用者名稱。"
+
+msgid "Username:"
+msgstr "使用者名稱："
+
+msgid "Are you sure you want to delete this page?"
+msgstr "您確定要刪除此頁？"
+
+#, python-format
+msgid "Are you sure you want to purge variant %s?"
+msgstr "您確定要清理修訂版本%s？"
+
+msgid ""
+"WARNING: This will remove all revisions of the variant from any proposals "
+"that might support it."
+msgstr "WARNING: This will remove all revisions of the variant from any proposals that might support it.（警告：這會移除掉所有提案的所有的修訂版本。）"
+
+msgid "Are you sure you want to purge the following version:"
+msgstr "您確定要清除以下的版本："
+
+#, python-format
+msgid "Variant: %s"
+msgstr "修訂版本：%s"
+
+msgid "This variant has no text."
+msgstr "此修正案沒有內容。"
+
+msgid "Related Proposals"
+msgstr "相關的提案"
+
+msgid "(supports this variant)"
+msgstr "（支持此修正案）"
+
+msgid "Create a new proposal..."
+msgstr "建立一個新的提案..."
+
+msgid "Edit variant"
+msgstr "編輯修正案"
+
+msgid "Edit section"
+msgstr "編輯單元"
+
+#, python-format
+msgid "Norm: %s"
+msgstr "規範：%s"
+
+msgid "Variant Name"
+msgstr "修正案名稱"
+
+msgid "Text"
+msgstr "文字"
+
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "頁面摘要。如果頁面是以磚塊的樣式呈現，才會用到此摘要。"
+
+msgid "Abstract"
+msgstr "摘要"
+
+msgid "Display subnorms as sections"
+msgstr "以單元來顯示次規範"
+
+msgid "Allow Comments"
+msgstr "允許回應"
+
+msgid "Allow Amendments"
+msgstr "允許修正"
+
+msgid "Use markdown formatting."
+msgstr "使用 markdown 文字格式。"
+
+msgid ""
+"Upload a logo for this page. Please note that the logo will only be "
+"displayed in the pages index."
+msgstr "為此頁面上傳Logo。請注意，Logo只會顯示在頁面索引首頁。"
+
+msgid "Parent page:"
+msgstr "上層頁面："
+
+msgid "Relates to a milestone"
+msgstr "連結到里程碑"
+
+msgid "Popular tags"
+msgstr "熱門標籤"
+
+msgid "Create new norm"
+msgstr "建立新規範"
+
+msgid "Create a new norm."
+msgstr "建立一個新規範。"
+
+msgid "new norm"
+msgstr "新規範"
+
+msgid "tutorial_norms_overview_table"
+msgstr "tutorial_norms_overview_table"
+
+msgid "tutorial_norms_overview_facets"
+msgstr "tutorial_norms_overview_facets"
+
+msgid "New page"
+msgstr "新頁面"
+
+#, python-format
+msgid "Add section to %s"
+msgstr "增加單元到%s"
+
+msgid "Create norm"
+msgstr "建立規範"
+
+msgid "Norm title"
+msgstr "規範標題"
+
+msgid "New norm"
+msgstr "新增規範"
+
+msgid "Section content"
+msgstr "單元內容"
+
+msgid "Norm content"
+msgstr "規範內容"
+
+msgid "Use as a container for other norms"
+msgstr "用來含括其他規範"
+
+msgid "Upload a logo for this page"
+msgstr "上傳此頁面的 Logo"
+
+msgid "Tag and classify"
+msgstr "標籤和分類"
+
+msgid "The new norm will be categorized under the specified parent theme."
+msgstr "新規範可以使用其所指定的上層目錄的主題來進行分類。"
+
+msgid "Highlight Changes"
+msgstr "重點變動"
+
+msgid "On"
+msgstr "On"
+
+msgid "Off"
+msgstr "Off"
+
+msgid "Propose New Amendment"
+msgstr "提出新的修正"
+
+msgid "New Proposal"
+msgstr "新提案"
+
+msgid "Information about the norm"
+msgstr "關於此規範的資訊"
+
+msgid "Last Activity"
+msgstr "最近動態"
+
+msgid "This page is not assigned to any category"
+msgstr "此頁面未被指派的任何分類"
+
+#, python-format
+msgid "This norm relates to the milestone %s."
+msgstr "此規範跟里程碑%s相關。"
+
+msgid "Subnorms"
+msgstr "次規範"
+
+msgid "View Proposal"
+msgstr "檢視提案"
+
+#, python-format
+msgid "Created by %(creator)s on %(datetime)s"
+msgstr "%(creator)s於%(datetime)s建立"
+
+#, python-format
+msgid "Proposed amendments for \"%s\""
+msgstr "提出針對\"%s\"的修正"
+
+msgid "No text."
+msgstr "無文字。"
+
+msgid "Text compared to the original version"
+msgstr "與原始版本的文字比較。"
+
+msgid "Reasoning"
+msgstr "推論"
+
+msgid "tutorial_norm_show_vote"
+msgstr "tutorial_norm_show_vote"
+
+msgid "tutorial_norm_show_diff"
+msgstr "tutorial_norm_show_diff"
+
+msgid "tutorial_norm_show_new"
+msgstr "tutorial_norm_show_new"
+
+msgid "Comments"
+msgstr "回應"
+
+msgid "Discussions"
+msgstr "討論"
+
+msgid "Discussion"
+msgid_plural "Discussions"
+msgstr[0] "討論"
+
+msgid "Amendments"
+msgstr "修正"
+
+msgid "Add section"
+msgstr "新增單元"
+
+msgid "This norm has been split into several sections."
+msgstr "此規範被分割成多個單元。"
+
+msgid ""
+"You can propose amendments and comment each section individually by using "
+"the controls on the right."
+msgstr "您可以使用右方的功能，提出修正，或是針對各單元進行回應，"
+
+msgid "hide sub-topics"
+msgstr "隱藏次主題"
+
+msgid "show sub-topics"
+msgstr "顯示次主題"
+
+#, python-format
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] "%s 個回應"
+
+#, python-format
+msgid "latest <b>%s</b>"
+msgstr "最近的<b>%s</b>"
+
+msgid "(none)"
+msgstr "（無）"
+
+msgid "Propose alternative language."
+msgstr "提出替代的語言。"
+
+msgid "branch new variant"
+msgstr "提出新的修正案"
+
+msgid "Edit the status quo."
+msgstr "編輯現狀"
+
+msgid "Edit this variant."
+msgstr "編輯修正案。"
+
+msgid "Delete this variant."
+msgstr "刪除修正案。"
+
+msgid "purge variant"
+msgstr "清除修正案"
+
+#, python-format
+msgid "Variant %s of %s"
+msgstr "修正案 %s of %s"
+
+#, python-format
+msgid "Variant of %s"
+msgstr "%s的修正案"
+
+msgid "End a poll"
+msgstr "結束投票"
+
+msgid ""
+"You are about to cancel this poll. This means that the proposal will become "
+"editable again but that all votes that have been cast at this time "
+"<strong>will be invalidated</strong>."
+msgstr "您即將要取消此投票。這表示提案將可以再次成為可編輯的狀態，但是所有曾經投過的票都將變成<strong>無效的</strong>。"
+
+msgid "to abstain"
+msgstr "棄權/不投票"
+
+msgid "or:"
+msgstr "或："
+
+msgid "Poll"
+msgstr "投票"
+
+msgid "Option"
+msgstr "選項"
+
+msgid "Percent"
+msgstr "百分比"
+
+msgid "Affirm"
+msgstr "同意"
+
+msgid "Dissent"
+msgstr "不同意"
+
+msgid "Abstain"
+msgstr "棄權"
+
+msgid "vote"
+msgstr "投票"
+
+#, python-format
+msgid "%d votes"
+msgstr "%d票"
+
+#, python-format
+msgid "ended %s"
+msgstr "結束%s"
+
+#, python-format
+msgid "began %s"
+msgstr "開始%s"
+
+msgid "no enddate"
+msgstr "無結束日期"
+
+#, python-format
+msgid "Votes: %s"
+msgstr "投票：%s"
+
+msgid ""
+"Vote results are updated with a short delay. After casting your vote, expect"
+" a short delay before the tally updates."
+msgstr "投票結果的更新會有一點短暫的延遲。當您投票後，稍等一下，就會全部更新。"
+
+msgid "Latest Events"
+msgstr "最近的事件"
+
+msgid "This is a record of all recent actions concerning this proposal."
+msgstr "關於此提案的所有近期事件的紀錄。"
+
+msgid "Call a poll"
+msgstr "發起投票"
+
+msgid ""
+"You are about to call for a vote. When you do this, you will lose the "
+"ability to <strong>change the proposal's wording</strong> unless you cancel "
+"the vote."
+msgstr "您即將要發起投票。若是開始投票，您將會失去<strong>修改提案內容</strong>的功能，除非您取消投票。"
+
+msgid "Are you sure you want to delete this proposal?"
+msgstr "您確定要刪除此提案嗎？"
+
+msgid "Status badges"
+msgstr "狀態徽章"
+
+msgid "No status badges"
+msgstr "無狀態徽章"
+
+msgid "No Status Badge"
+msgstr "無狀態徽章"
+
+#, python-format
+msgid "Delegations: %s"
+msgstr "委任：%s"
+
+msgid "Propose new Variant"
+msgstr "提出新的修正案"
+
+msgid "Join instance to propose a new variant."
+msgstr "加入此網站以提出新的修正案。"
+
+msgid "Login to propose a new variant."
+msgstr "登入以提出新的修正案。"
+
+msgid "Validate email in order to propose a new variant."
+msgstr "驗證電子郵件，以提出新的修正案。"
+
+msgid "Get Involved"
+msgstr "參與"
+
+msgid "Kein Text"
+msgstr "Kein Text"
+
+msgid "History of this variant"
+msgstr "此修正案的歷史"
+
+msgid "Votes for this variant"
+msgstr "此修正案的投票"
+
+#, python-format
+msgid "Edit &ldquo;%s&rdquo;"
+msgstr "編輯 &ldquo;%s&rdquo;"
+
+msgid "Amendment title"
+msgstr "修正案標題"
+
+msgid "Proposal title"
+msgstr "提案標題"
+
+msgid "New amendment"
+msgstr "新的修正案"
+
+msgid "New proposal"
+msgstr "新的提案"
+
+msgid "Proposal goals"
+msgstr "提案目標"
+
+msgid "Give a brief explanation of the idea behind your amendment."
+msgstr "提供關於您的修正案背後的想法的簡短說明"
+
+msgid "Give a brief description of <b>the goals</b> of your proposal."
+msgstr "提供關於您的提案<b>目標</b>的簡短說明。"
+
+msgid "The amendment would..."
+msgstr "修正案將會..."
+
+msgid "The proposal would..."
+msgstr "提案將會..."
+
+msgid "Status Badge"
+msgstr "狀態徽章"
+
+msgid "No Status Badges"
+msgstr "無狀態徽章"
+
+msgid "Collaboration and Notification"
+msgstr "協作與通知 "
+
+msgid "Allow modifications by other users"
+msgstr "允許其他使用者修改"
+
+msgid "Freeze proposal"
+msgstr "凍結提案"
+
+msgid "tutorial_proposal_overview_table"
+msgstr "tutorial_proposal_overview_table"
+
+msgid "tutorial_proposal_overview_facets"
+msgstr "tutorial_proposal_overview_facets"
+
+msgid "tutorial_proposal_overview_new"
+msgstr "tutorial_proposal_overview_new"
+
+msgid "Create new amendment"
+msgstr "建立新的修正案"
+
+msgid "Proposed changes"
+msgstr "提出的修改"
+
+msgid "Change norms with this proposal"
+msgstr "以此提案修改規範"
+
+msgid ""
+"Proposals are implemented by including changes towards new or existing norm."
+" Norms are fixed documents that represent the consensus of this instance and"
+" can only be changed through a vote. Amend the proposal to change or create "
+"a norm."
+msgstr "提案會包括提出新的規範、或是現有規範的修正。規範是固定的文件，代表此網站裡的共識，只能透過投票來修改。透過提案的修正，可以修改或建立規範。"
+
+msgid "Select a norm to change:"
+msgstr "選擇要修改的規範："
+
+msgid "Multiple tags can be separated by commas."
+msgstr "可以使用逗號來分隔多個標籤。"
+
+msgid "Delete this proposal."
+msgstr "刪除此提案。"
+
+#, python-format
+msgid "%s Discussions"
+msgstr "%s 討論"
+
+msgid "1 Proposed Implementation"
+msgstr "1 Proposed Implementation"
+
+#, python-format
+msgid "%s Proposed Implementations"
+msgstr "%s Proposed Implementations"
+
+msgid "Proposed Implementations"
+msgstr "Proposed Implementations"
+
+msgid "Propose to change a norm"
+msgstr "提案以修改規範"
+
+msgid "Login to propose to change a norm"
+msgstr "登入以提案修改規範"
+
+msgid "Join instance to propose to change a norm"
+msgstr "加入網站以提案修改規範"
+
+msgid "Validate email in order to propose to change a norm"
+msgstr "驗證電子郵件，以提案修改規範"
+
+msgid "tutorial_proposal_show_vote"
+msgstr "tutorial_proposal_show_vote"
+
+msgid "tutorial_proposal_show_follow"
+msgstr "tutorial_proposal_show_follow"
+
+msgid "tutorial_proposal_show_information"
+msgstr "tutorial_proposal_show_information"
+
+msgid "tutorial_proposal_show_tags"
+msgstr "tutorial_proposal_show_tags"
+
+msgid "tutorial_proposal_show_share"
+msgstr "tutorial_proposal_show_share"
+
+msgid "tutorial_proposal_show_vote_comment"
+msgstr "tutorial_proposal_show_vote_comment"
+
+msgid "tutorial_proposal_show_answers"
+msgstr "tutorial_proposal_show_answers"
+
+msgid "tutorial_proposal_show_answer"
+msgstr "tutorial_proposal_show_answer"
+
+msgid "tutorial_proposal_show_new_discussion"
+msgstr "tutorial_proposal_show_new_discussion"
+
+msgid "tutorial_proposal_show_propose_variant"
+msgstr "tutorial_proposal_show_propose_variant"
+
+msgid "This proposal is not assigned to any category"
+msgstr "此提案沒有指派到任何分類"
+
+#, python-format
+msgid "This proposal relates to the deleted milestone %s."
+msgstr "此提案與被刪除的里程碑%s相關。"
+
+#, python-format
+msgid "This proposal relates to the milestone %s."
+msgstr "此提案與里程碑%s相關。"
+
+msgid "This proposal is not related to a milestone"
+msgstr "此提案並無任何相關的里程碑。"
+
+#, python-format
+msgid "by %s on %s, %s changes since then."
+msgstr "by %s on %s, %s changes since then."
+
+msgid "(new)"
+msgstr "（新）"
+
+#, python-format
+msgid "%s%% approval"
+msgstr "%s%% approval"
+
+#, python-format
+msgid "%s:%s votes"
+msgstr "%s:%s 票"
+
+msgid "Join the discussion"
+msgstr "加入討論"
+
+#, python-format
+msgid "The proposal was created by %s on %s"
+msgstr "此提案是由%s建立（on %s）"
+
+msgid ""
+"This is a <b>joint proposal</b> that can be improved by anyone. Edit it to "
+"improve or refine the text."
+msgstr "這是一個<b>聯合提案</b>，可以被任何人所改進。您可以進行編輯，進行改進或潤飾文字。"
+
+msgid "Main page"
+msgstr "主頁面"
+
+msgid "Who is receiving delegations?"
+msgstr "誰被賦予委任？"
+
+#, python-format
+msgid "%s has been adopted %s."
+msgstr "%s has been adopted %s."
+
+msgid "Adoption requirements:"
+msgstr "Adoption requirements:"
+
+#, python-format
+msgid "%s participators"
+msgstr "%s 參與者"
+
+#, python-format
+msgid "stable majority for %s days"
+msgstr "stable majority for %s days"
+
+#, python-format
+msgid "Search in %s"
+msgstr "於%s搜尋"
+
+msgid "Search proposals and norms..."
+msgstr "搜尋提案和規範..."
+
+msgid "You did not provide a search query."
+msgstr "您並沒有提供搜尋。"
+
+#, python-format
+msgid "Delete: Implementation of %s"
+msgstr "刪除：Implementation of %s"
+
+#, python-format
+msgid "Are you sure you want to delete the norm %s from this proposal?"
+msgstr "您確定要從此提案裡刪除規範%s嗎？"
+
+#, python-format
+msgid "Implementation: %s"
+msgstr "Implementation: %s"
+
+msgid "Change an existing norm"
+msgstr "修改現有規範"
+
+msgid ""
+"Select a norm that you want to relate to. You can later propose a variant of"
+" this norm to effect a change."
+msgstr "選擇您想要關聯的規範。您之後可以提供此規範的修正案，以進行調整。"
+
+msgid "Include"
+msgstr "包括"
+
+msgid "Can't find an appropriate norm?"
+msgstr "找不到適合的規範？"
+
+msgid "Create a new norm instead"
+msgstr "或是建立新的規範"
+
+msgid "Propose a new norm"
+msgstr "提出新的規範"
+
+msgid ""
+"Create a new norm that you want to relate to. The norm will be created "
+"without any status quo. You can then add a text variant of that norm, "
+"specifying the change you want to implement."
+msgstr "建立一個您想要關聯的規範。所建立的規範將沒有任何狀態。您稍後可以加入該規範的文字版本，並指定您想要導入的改變。"
+
+msgid "New norm title"
+msgstr "新的規範標題"
+
+msgid "The new norm will be categorized under the specified parent page."
+msgstr "新的規範將會在所指定的上層頁面裡作分類。"
+
+msgid "Have you checked for exisiting norms?"
+msgstr "您檢查過現有的規範呢？"
+
+msgid "Include an existing norm instead"
+msgstr "包括現有的規範"
+
+msgid "Show Norm"
+msgstr "顯示規範"
+
+msgid "There is a tie between variants, thus none is included at the moment."
+msgstr "修正案之間打成平手，因此目前並沒有納入任何一個。"
+
+msgid ""
+"Status quo has the most votes, resulting in no proposed change to this norm."
+msgstr "現況獲得最多的票數，因此規範將不會有任何改變。"
+
+msgid "Proposed by"
+msgstr "由誰提案："
+
+msgid "Support this variant"
+msgstr "支持此修正案"
+
+msgid "Oppose this variant"
+msgstr "反對此修正案"
+
+msgid "(this proposal should not change this norm)"
+msgstr "（此提案不會改變規範）"
+
+msgid "Currently selected for inclusion in this proposal"
+msgstr "目前被選擇為含括到此提案"
+
+msgid "view"
+msgstr "檢視"
+
+msgid "compare"
+msgstr "比較"
+
+msgid "Complete registration"
+msgstr "完成註冊"
+
+msgid "Please complete the Shibboleth based user registration"
+msgstr "請完成以 Shibboleth 為基礎的使用者註冊程序"
+
+msgid "Username"
+msgstr "使用者名稱"
+
+msgid "Display name"
+msgstr "顯示名稱"
+
+msgid "Email"
+msgstr "電子郵件"
+
+msgid "optional"
+msgstr "選填"
+
+#, python-format
+msgid "Edit %(key)s (%(langname)s)"
+msgstr "編輯 %(key)s (%(langname)s)"
+
+msgid "Title:"
+msgstr "標題："
+
+msgid "Content of the page"
+msgstr "頁面內容"
+
+msgid "Change static page"
+msgstr "改變靜態頁面"
+
+msgid "Back to the list"
+msgstr "回到列表"
+
+msgid "Key"
+msgstr "Key"
+
+msgid "Create new page"
+msgstr "建立新頁面"
+
+msgid "New Static Page"
+msgstr "新的靜態頁面"
+
+msgid "New static page"
+msgstr "新的靜態頁面"
+
+msgid "Key:"
+msgstr "Key:"
+
+msgid "Add static page"
+msgstr "新增靜態頁面"
+
+msgid "Edit this page"
+msgstr "編輯此頁面"
+
+msgid ""
+"Tags are keywords used to find, sort and filter proposals and documents."
+msgstr "標籤是用來尋找、排序、或過濾提案和文件的關鍵字。"
+
+msgid "Similar tags"
+msgstr "類似的標籤"
+
+#, python-format
+msgid "used %s times"
+msgstr "使用了 %s 次"
+
+msgid "more tags..."
+msgstr "更多標籤..."
+
+msgid "Tagged with"
+msgstr "加上標籤"
+
+msgid "Not tagged yet"
+msgstr "尚未有標籤"
+
+msgid "add tags"
+msgstr "新增標籤"
+
+msgid "Multiple tags can be separated by commas or spaces."
+msgstr "可以用逗號和空格來分隔多個標籤。"
+
+msgid "Add tags"
+msgstr "新增標籤"
+
+msgid "Cancel"
+msgstr "取消"
+
+#, python-format
+msgid "by %s, "
+msgstr "by %s, "
+
+msgid "delete version"
+msgstr "刪除版本"
+
+msgid "This revision has no text."
+msgstr "此版本並無文字內容。"
+
+msgid ""
+"This norm has not yet been decided and is thus no official position of this "
+"group."
+msgstr "此規範尚未被定案，因此在此群組裡並無正式位置。"
+
+#, python-format
+msgid "discuss (%s comments) &raquo;"
+msgstr "討論 (%s comments) &raquo;"
+
+msgid "Variant:"
+msgstr "修正案："
+
+msgid "see"
+msgstr "see"
+
+#, python-format
+msgid "%s by %s"
+msgstr "%s by %s"
+
+msgid "Compare"
+msgstr "比較"
+
+msgid "Treatments"
+msgstr "Treatments"
+
+#, python-format
+msgid "User assignments of %(treatment_key)s"
+msgstr "使用者指派 of %(treatment_key)s"
+
+msgid "back to treatments"
+msgstr "回到 treatments"
+
+msgid "Treatment"
+msgstr "Treatment"
+
+msgid "Source Badges"
+msgstr "來源標籤"
+
+msgid "Assign users"
+msgstr "指派使用者"
+
+msgid "See assigned users"
+msgstr "檢視已指派的使用者"
+
+msgid "Create a new treatment"
+msgstr "建立新的treatment"
+
+msgid "Name:"
+msgstr "名稱："
+
+msgid "Select users to treat by their badges:"
+msgstr "依據標籤來選擇使用者進行treat："
+
+msgid "Number of variants:"
+msgstr "修正案的名稱："
+
+msgid "Create treatment"
+msgstr "建立treatment"
+
+msgid "All Members on this Adhocracy Server"
+msgstr "在此 Adhocracy 伺服器裡的所有成員"
+
+msgid "A listing of all users in all instances on this Adhocracy server."
+msgstr "在此 Adhocracy 伺服器上的所有安裝網站裡的使用者列表"
+
+msgid "Validate email address"
+msgstr "驗證電子郵件位址"
+
+msgid "You have not yet validated your email address."
+msgstr "您尚未驗證電子郵件位址。"
+
+#, python-format
+msgid ""
+"An email with a validation link has been sent to your email address (%s) "
+"right after registration. Please follow that link in order to proceed."
+msgstr "註冊後，系統會發送驗證連結到您的電子郵件信箱裡（%s）。請點選連結以繼續進行。"
+
+msgid ""
+"If you click on the button below, the validation link will be resent to you."
+msgstr "如果您點選下面的按鈕，將會再發送驗證連結給您。"
+
+msgid ""
+"Are you sure you want to delete your profile? This step cannot be reversed."
+msgstr "您確定要刪除您的個資？此步驟無法回復哦。"
+
+#, python-format
+msgid "Edit Badges for %s"
+msgstr "編輯%s的標籤 "
+
+#, python-format
+msgid "Badges for %s"
+msgstr "%s的標籤"
+
+msgid "Global Badges"
+msgstr "全域標籤"
+
+#, python-format
+msgid "Badges in instance %s"
+msgstr "%s裡的標籤"
+
+msgid "Topic"
+msgstr "主題"
+
+msgid "Given"
+msgstr "送出"
+
+msgid "Received"
+msgstr "收到"
+
+msgid "There are no delegations."
+msgstr "目前沒有委任。"
+
+msgid "Import Members"
+msgstr "匯入成員"
+
+msgid "Find users"
+msgstr "尋找使用者"
+
+msgid "tutorial_user_index_table"
+msgstr "tutorial_user_index_table"
+
+msgid "tutorial_user_index_facets"
+msgstr "tutorial_user_index_facets"
+
+#, python-format
+msgid "Adhocracies: %s"
+msgstr "Adhocracies：%s"
+
+msgid "Adhocracies"
+msgstr "Adhocracies（互動民主）"
+
+#, python-format
+msgid "%s is a member in these Adhocracies"
+msgstr "%s 是這些 Adhocracies 的成員"
+
+msgid "Who are you, then?"
+msgstr "那麼，請問您是誰啊？"
+
+msgid "Email or username:"
+msgstr "電子郵件或使用者名稱："
+
+msgid "Login:"
+msgstr "登入："
+
+msgid "Email:"
+msgstr "電子郵件："
+
+msgid "Login via Shibboleth"
+msgstr "透過 Shibboleth 登入"
+
+msgid "Password:"
+msgstr "密碼："
+
+msgid "Forgot your password?"
+msgstr "忘記密碼？"
+
+msgid "Register new account"
+msgstr "註冊新帳號"
+
+msgid "What is your email address?"
+msgstr "您的電子郵件位址？"
+
+msgid "My email:"
+msgstr "我的電子郵件："
+
+msgid "What is your user name?"
+msgstr "您的使用者名稱？"
+
+msgid "My user name:"
+msgstr "我的使用者名稱："
+
+#, python-format
+msgid "Do you have a password for %s?"
+msgstr "您記得%s的密碼嗎？"
+
+msgid "No, I do not have a password, or I forgot it."
+msgstr "不，我沒有設定密碼，或是我忘了..."
+
+msgid "Yes, I do have a password:"
+msgstr "是的，我的密碼是："
+
+msgid "Validation email sent"
+msgstr "已傳送驗證電子郵件"
+
+msgid ""
+"An email has been sent to you. Please click on the validation link in this "
+"email in order to proceed."
+msgstr "已傳送電子郵件給您。請點選電子郵件裡的驗證連結以繼續。"
+
+msgid ""
+"Creating an account is easy; all you need is a user name, password and email"
+" address."
+msgstr "建立帳號是非常簡單的；您所需要的僅是使用者名稱、密碼、以及電子郵件位址。"
+
+msgid ""
+"If you have an account but you've lost your password, <a href='/reset'>click"
+" here</a>."
+msgstr "如果您有帳號、但是忘記密碼了，<a href='/reset'>請點選這裡</a>。"
+
+msgid "Can only contain letters and numbers. Spaces aren't allowed."
+msgstr "只能使用字母和數字。不允許使用空格。"
+
+msgid "You can choose which name other users see."
+msgstr "您可以選擇讓其他人看到的名稱。"
+
+msgid "E-mail"
+msgstr "電子郵件"
+
+msgid "Password"
+msgstr "密碼"
+
+msgid "Enter password:"
+msgstr "輸入密碼："
+
+msgid "Password (confirm):"
+msgstr "密碼（確認）："
+
+msgid "Security query"
+msgstr "安全性查詢"
+
+msgid "Please enter the letters in the following image in the field below."
+msgstr "請輸入下方圖片裡的字母。"
+
+msgid "Terms and conditions"
+msgstr "使用條款"
+
+msgid "leave empty"
+msgstr "留空"
+
+msgid "Registration request sent"
+msgstr "已送出註冊請求"
+
+#, python-format
+msgid ""
+"Our support team has been notified of your registration request for %s.We "
+"will verify your request and contact you as soon as possible."
+msgstr "我們的支援團隊已經收到您針對%s的註冊請求。我們會儘快確認並聯絡您。"
+
+msgid "Password reset"
+msgstr "重設密碼"
+
+msgid ""
+"You will be sent an activation link that, when opened, will cause the system"
+" to email you a new password."
+msgstr "您會收到一個驗證連結，啟用後，系統會寄送新的密碼給您。"
+
+msgid ""
+"You will be sent an activation link that, when opened, will allow you pick a"
+" new password."
+msgstr "您會收到一個驗證連結，啟用後，系統會讓您設定一個新密碼。"
+
+msgid ""
+"In order to retrieve your login, you will have to enter your email address."
+msgstr "為了讓您可以登入，您必須輸入您的電子郵件位址。"
+
+msgid "E-Mail:"
+msgstr "電子郵件："
+
+msgid "Confirmation pending"
+msgstr "待處理確認"
+
+msgid ""
+"You have received an email containing a link. Please open that link in order"
+" to reset you password"
+msgstr "您會收到一封包含連結的電子郵件位址。請點選連結以重設密碼。"
+
+msgid "User settings"
+msgstr "使用者設定"
+
+msgid "Pager size"
+msgstr "分頁大小"
+
+msgid "Default number of entries in listing pages"
+msgstr "列表頁裡的項目之預設數量"
+
+msgid "Disable help messages"
+msgstr "取消說明訊息"
+
+msgid "Disable help messages and links to the documentation"
+msgstr "取消說明訊息與文件連結"
+
+msgid "Login settings"
+msgstr "登入設定"
+
+msgid "Select a new password or leave the fields blank to keep your old one."
+msgstr "選擇新密碼，或是不填寫（保留使用舊密碼）。"
+
+msgid "Single sign-on services"
+msgstr "單一登入服務"
+
+msgid "There are no associated single sign-on services."
+msgstr "目前並沒有使用單一登入服務。"
+
+msgid "OpenID:"
+msgstr "OpenID："
+
+msgid "remove"
+msgstr "移除"
+
+msgid "Connect to single sign-on service"
+msgstr "連結到單一登入服務"
+
+msgid "Notification settings"
+msgstr "通知設定"
+
+msgid "Select how you would like to be notified of events."
+msgstr "選擇您要收到事件通知的方式。"
+
+msgid ""
+"Please select on which occasions you would like to receive an email. The "
+"options further down this list will allow you to receive email notifications"
+" for all the above points too."
+msgstr "請選擇您想要收到電子郵件的頻率。此列表下的選項可以讓您接收未來的電子郵件通知。"
+
+msgid "No notifications via email."
+msgstr "不接收電子郵件通知。"
+
+msgid "Send email for new proposals or norms in my watched instances"
+msgstr "在我所觀察的網站裡，若有新的提案或規範，就傳送電子郵件給我。"
+
+msgid "and when a watched object is edited or deleted"
+msgstr "若有編輯或刪除的事件，也會通知"
+
+msgid "Send email when a watched object is edited or deleted"
+msgstr "當所觀察的標的被編輯或刪除時，傳送電子郵件通知。"
+
+msgid "and when a watched object is commented on"
+msgstr "當所觀察的標的被回應時"
+
+msgid "and when a watched object is rated"
+msgstr "當所觀察的標的被打分數時"
+
+msgid "and when new members join my watched instances"
+msgstr "當有新成員加入我所觀察的網站時"
+
+msgid "Not confirmed."
+msgstr "未確認。"
+
+msgid "Re-send activation link"
+msgstr "重新傳送驗證啟動連結"
+
+msgid "Receive messages via email"
+msgstr "透過電子郵件接收訊息"
+
+msgid ""
+"Receive messages from administrators and other users via email. (These "
+"messages are always available on your dashboard)"
+msgstr "透過電子郵件接收訊息（這些訊息都可以在您的儀表板裡取得）。"
+
+msgid "Optional attributes"
+msgstr "可選擇的屬性"
+
+msgid ""
+"The following attributes are only used for statistical evaluation. Your "
+"choices are not shown to other users."
+msgstr "以下屬性只用在統計評估。這些選項不會讓其他人看到。"
+
+msgid "Personal settings"
+msgstr "個人設定"
+
+msgid "You can chose which name other users see."
+msgstr "您可以選擇其他使用者要看到的名稱。"
+
+msgid "Prefered user interface language"
+msgstr "偏好的使用者介面語言"
+
+msgid "Salutation"
+msgstr "打招呼"
+
+msgid "Select your prefered gender"
+msgstr "選擇您偏好的性別"
+
+msgid ""
+"Select a profile picture. The image should be square. If it is not it may be"
+" scaled accordingly."
+msgstr "選擇個人照面。圖片必須是正方形的。如果不是正方形，就會進行調整。"
+
+msgid "Avatar"
+msgstr "大頭貼"
+
+msgid "Current avatar"
+msgstr "目前的大頭貼"
+
+msgid "Delete current avatar"
+msgstr "刪除目前的大頭貼"
+
+msgid ""
+"A bio will allow others to learn about you and perhaps even get you a few "
+"delegations."
+msgstr "簡介可以讓其他人認識您，說不定可以讓您獲得一些委任哦。"
+
+msgid "Short biography"
+msgstr "簡要的個人介紹"
+
+msgid "I am an organisation"
+msgstr "我是組織"
+
+msgid "Activity in"
+msgstr "Activity in"
+
+msgid "All instances"
+msgstr "所有安裝網站"
+
+msgid "Delete this user."
+msgstr "刪除使用者。"
+
+msgid "Resign from this instance."
+msgstr "從此安裝網站退出。"
+
+msgid "leave"
+msgstr "離開"
+
+msgid "un-ban"
+msgstr "取消封鎖"
+
+msgid "ban"
+msgstr "封鎖"
+
+msgid ""
+"In order to inform other users about your interests please create a personal"
+" bio."
+msgstr "請建立個人簡歷，讓其他使用者可以了解您。"
+
+msgid "Create a bio"
+msgstr "建立簡歷"
+
+#, python-format
+msgid "%s does not yet have a bio."
+msgstr "%s還沒有填寫簡歷。"
+
+msgid "Upload avatar"
+msgstr "上傳大頭貼"
+
+msgid "Account created"
+msgstr "帳戶已建立"
+
+#, python-format
+msgid "Member in \"%s\" since"
+msgstr "\"%s\"的成員，自從"
+
+#, python-format
+msgid "Not a member in \"%s\""
+msgstr "不是\"%s\"的成員"
+
+msgid "User group"
+msgstr "使用者群組"
+
+msgid "change group"
+msgstr "改變群組"
+
+msgid "User badges"
+msgstr "使用者徽章"
+
+msgid "Most recent activity"
+msgstr "近期活動"
+
+msgid "Member in the following instances"
+msgstr "以下安裝網站的成員"
+
+msgid "Member in other instances"
+msgstr "其他安裝網站的成員"
+
+#, python-format
+msgid "joined %s"
+msgstr "已加入%s"
+
+#, python-format
+msgid "signed up %s"
+msgstr "已註冊%s"
+
+msgid "Generate welcome link"
+msgstr "產生歡迎連結"
+
+msgid "Phonetic spelling"
+msgstr "拼音"
+
+#, python-format
+msgid "Watchlist: %s"
+msgstr "觀察列表：%s"
+
+msgid ""
+"This is your watchlist. You will receive notifications for events concerning"
+" each of these items."
+msgstr "這是您的觀察列表。您會收到與這些項目相關的事件通知。"
+
+msgid "Logging in"
+msgstr "登入"
+
+msgid "You are being logged in."
+msgstr "您已經登入。"

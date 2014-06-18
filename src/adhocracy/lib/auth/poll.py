@@ -1,3 +1,4 @@
+from adhocracy import config
 import user
 
 
@@ -6,10 +7,15 @@ def index(check):
 
 
 def show(check, p):
-    from adhocracy.lib import helpers as h
     check.perm('poll.show')
     check.other('poll_has_ended', p.has_ended())
-    check.other('hide_individual_votes', h.poll.hide_individual_votes(p))
+    check.other('hide_individual_votes',
+                config.get_bool('adhocracy.hide_individual_votes'))
+
+
+def show_result(check):
+    check.other('result_not_shown_until_frozen',
+                config.get_bool('adhocracy.proposal.rate_poll.hide_scores'))
 
 
 def create(check):

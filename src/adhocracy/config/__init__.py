@@ -20,6 +20,7 @@ DEFAULTS = {
     'adhocracy.cache_tiles': True,
     'adhocracy.category.long_description.max_length': 20000,
     'adhocracy.comment_wording': False,
+    'adhocracy.comment_wording.allow_overwrite': True,
     'adhocracy.create_initial_instance_page': True,
     'adhocracy.customize_footer': False,
     'adhocracy.debug.sql': False,
@@ -50,6 +51,7 @@ DEFAULTS = {
     # in the UI, it makes sense to also hide it from the settings UI.
     'adhocracy.hide_final_adoption_votings': False,
     'adhocracy.hide_individual_votes': False,
+    'adhocracy.hide_individual_votes.allow_overwrite': True,
     'adhocracy.hide_instance_list_in_navigation': False,
     'adhocracy.hide_locallogin': False,
     'adhocracy.include_machine_name_in_header': False,
@@ -80,6 +82,7 @@ DEFAULTS = {
     # one of 'OLDEST', 'NEWEST', 'ACTIVITY', 'ALPHA'
     'adhocracy.listings.instance.sorting': 'ACTIVITY',
     'adhocracy.listings.instance_proposal.sorting': None,
+    'adhocracy.listings.instance_proposal.sorting.allow_overwrite': True,
 
     # 'default' or 'alternate'
     'adhocracy.login_style': 'default',
@@ -97,6 +100,15 @@ DEFAULTS = {
     'adhocracy.post_register_instance': None,
     'adhocracy.post_register_url': None,
     'adhocracy.proposal_pager_inline': False,
+
+    'adhocracy.proposal.hide_comments': False,
+    'adhocracy.proposal.hide_comments.allow_overwrite': True,
+
+    # Hiding rate_poll scores only makes sense if hide_individual_votes is
+    # also enabled.
+    'adhocracy.proposal.rate_poll.hide_scores': False,
+    'adhocracy.proposal.rate_poll.hide_scores.allow_overwrite': True,
+
     'adhocracy.proposal.split_badge_edit': True,
     'adhocracy.propose_optional_attributes': False,
     'adhocracy.protocol': u'http',
@@ -204,9 +216,20 @@ DEFAULTS = {
 
 
 def get_value(key, converter, default=None, config=config,
-              converter_kwargs={}):
+              converter_kwargs={}, instance_overwrites=True):
 
-    value = config.get(key)
+    allow_overwrite = (instance_overwrites
+                       and get_bool('%s.allow_overwrite' % key,
+                                    instance_overwrites=False))
+
+    if allow_overwrite:
+        from adhocracy.model import instance_filter as ifilter
+        value = config.get('%s.%s' % (key, ifilter.get_instance().key))
+    else:
+        value = None
+
+    if value is None:
+        value = config.get(key)
 
     if value is None:
         if default is not None:
@@ -220,38 +243,44 @@ def get_value(key, converter, default=None, config=config,
         return converter(value, **converter_kwargs)
 
 
-def get(key, default=None, config=config):
+def get(key, default=None, config=config, instance_overwrites=True):
     """ Return a config value as unicode. """
-    return get_value(key, lambda x: x.decode('utf-8'), default, config)
+    return get_value(key, lambda x: x.decode('utf-8'), default, config,
+                     instance_overwrites=instance_overwrites)
 
 
-def get_string(key, default=None, config=config):
+def get_string(key, default=None, config=config, instance_overwrites=True):
     """ Return a config value as string.
 
     This is pretty much the same as pylons.config.get.
 
     """
-    return get_value(key, None, default, config)
+    return get_value(key, None, default, config,
+                     instance_overwrites=instance_overwrites)
 
 
-def get_bool(key, default=None, config=config):
-    return get_value(key, asbool, default, config)
+def get_bool(key, default=None, config=config, instance_overwrites=True):
+    return get_value(key, asbool, default, config,
+                     instance_overwrites=instance_overwrites)
 
 
-def get_int(key, default=None, config=config):
-    return get_value(key, asint, default, config)
+def get_int(key, default=None, config=config, instance_overwrites=True):
+    return get_value(key, asint, default, config,
+                     instance_overwrites=instance_overwrites)
 
 
-def get_list(key, default=None, config=config, sep=',', cast=None):
-    result = get_value(key, aslist, default, config, {'sep': sep})
+def get_list(key, default=None, config=config, sep=',', cast=None,
+             instance_overwrites=True):
+    result = get_value(key, aslist, default, config, {'sep': sep},
+                       instance_overwrites=instance_overwrites)
     if cast is None or result is None:
         return result
     else:
         return map(cast, result)
 
 
-def get_tuples(key, default=[], sep=u' '):
-    mapping = get(key, None)
+def get_tuples(key, default=[], sep=u' ', instance_overwrites=True):
+    mapping = get(key, None, instance_overwrites=instance_overwrites)
     if mapping is None:
         return default
     return ((v.strip() for v in line.split(sep))
@@ -259,12 +288,14 @@ def get_tuples(key, default=[], sep=u' '):
             if line is not u'')
 
 
-def get_json(key, default=None, config=config):
+def get_json(key, default=None, config=config, instance_overwrites=True):
     try:
-        return get_value(key, json.loads, default, config)
+        return get_value(key, json.loads, default, config,
+                         instance_overwrites=instance_overwrites)
     except ValueError, e:
         log.error("invalid json: %s \nin config option %s" %
-                  (config.get(key), key))
+                  (config.get(key, instance_overwrites=instance_overwrites),
+                   key))
         raise
 
 
