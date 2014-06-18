@@ -43,6 +43,8 @@ DEFAULTS = {
     'adhocracy.geo.image_layers': [],
     'adhocracy.geo.instance_overwrites': False,
     'adhocracy.geo.use_instancebadge_colors': True,
+    'adhocracy.geo.large_map.show_proposals': True,
+    'adhocracy.geo.large_map.show_proposals.allow_overwrite': True,
     'adhocracy.hide_empty_categories_in_facet_list': False,
 
     # Final adoption voting has been disabled from the UI during the
