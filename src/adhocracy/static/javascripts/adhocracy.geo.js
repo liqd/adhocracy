@@ -1055,6 +1055,9 @@ var adhocracy = adhocracy || {};
         var osmLayers = [
             // default Openstreetmap Baselayer
             {name: "OpenStreetMap",
+             url: ["//a.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                   "//b.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                   "//c.tile.openstreetmap.org/${z}/${x}/${y}.png"],
              minZoom: 0,
              maxZoom: 19},
             {name: "OSM Roads Greyscale",
