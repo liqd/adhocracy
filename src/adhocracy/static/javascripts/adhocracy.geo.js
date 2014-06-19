@@ -1059,29 +1059,62 @@ var adhocracy = adhocracy || {};
                    "//b.tile.openstreetmap.org/${z}/${x}/${y}.png",
                    "//c.tile.openstreetmap.org/${z}/${x}/${y}.png"],
              minZoom: 0,
-             maxZoom: 19},
-            {name: "OSM Roads Greyscale",
-             url: "http://129.206.74.245:8008/tms_rg.ashx?x=${x}&y=${y}&z=${z}",
-             minZoom: 0,
-             maxZoom: 18},
+             maxZoom: 19
+            },
             {name: "Public Transport",
-             url: "http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png",
+             url: ["http://a.tile.thunderforest.com/transport/${z}/${x}/${y}.png",
+                   "http://b.tile.thunderforest.com/transport/${z}/${x}/${y}.png",
+                   "http://c.tile.thunderforest.com/transport/${z}/${x}/${y}.png"],
              minZoom: 0,
-             maxZoom: 18},
-            {name: "Transport Map",
-             url: "http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png",
+             maxZoom: 18,
+             attribution: 'Map tiles © <a href="http://www.thunderforest.com">Thunderforest</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            },
+            {name: "OpenCycleMap",
+             url: ["http://a.tile.thunderforest.com/cycle/${z}/${x}/${y}.png",
+                   "http://b.tile.thunderforest.com/cycle/${z}/${x}/${y}.png",
+                   "http://c.tile.thunderforest.com/cycle/${z}/${x}/${y}.png"],
              minZoom: 0,
-             maxZoom: 18},
+             maxZoom: 18,
+             attribution: 'Map tiles © <a href="http://www.thunderforest.com">Thunderforest</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            },
+            {name: "MapQuest Transport",
+             url: ["http://otile1.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png",
+                   "http://otile2.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png",
+                   "http://otile3.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png",
+                   "http://otile4.mqcdn.com/tiles/1.0.0./osm/${z}/${x}/${y}.png"],
+             minZoom: 0,
+             maxZoom: 18,
+             attribution: 'Map tiles © <a href="http://www.mapquest.com/">MapQuest</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            },
             {name: "&Ouml;pnv Deutschland",
              url: "http://tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png",
              minZoom: 0,
-             maxZoom: 18},
-            {name: "OSM Admin Boundaries",
+             maxZoom: 18,
+             attribution: 'Map tiles © <a href="http://memomaps.de/">MeMoMaps</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            },
+            {name: "Stamen Watercolor",
+             url: ["https://stamen-tiles.a.ssl.fastly.net/watercolor/${z}/${x}/${y}.jpg",
+                   "https://stamen-tiles-a.a.ssl.fastly.net/watercolor/${z}/${x}/${y}.jpg",
+                   "https://stamen-tiles-b.a.ssl.fastly.net/watercolor/${z}/${x}/${y}.jpg",
+                   "https://stamen-tiles-c.a.ssl.fastly.net/watercolor/${z}/${x}/${y}.jpg",
+                   "https://stamen-tiles-d.a.ssl.fastly.net/watercolor/${z}/${x}/${y}.jpg"],
+             minZoom: 0,
+             maxZoom: 17,
+             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+            },
+            {name: "Roads Greyscale",
+             url: "http://openmapsurfer.uni-hd.de/tiles/roadsg/?x=${x}&y=${y}&z=${z}",
+             minZoom: 0,
+             maxZoom: 18,
+             attribution: 'Map tiles © <a href="http://giscience.uni-hd.de/">GIScience Heidelberg</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            },
+            {name: "Admin Boundaries",
              url: "http://129.206.74.245:8007/tms_b.ashx?x=${x}&y=${y}&z=${z}",
              minZoom: 0,
              maxZoom: 18,
              overlay: true,
-             visible: (admin_boundaries === undefined) ? false : admin_boundaries
+             visible: (admin_boundaries === undefined) ? false : admin_boundaries,
+             attribution: 'Map tiles © <a href="http://giscience.uni-hd.de/">GIScience Heidelberg</a>'
             }
         ];
 
@@ -1099,6 +1132,7 @@ var adhocracy = adhocracy || {};
                     maxResolution: adhocracy.geo.AVAILABLE_RESOLUTIONS[minZoom],
                     tileOptions: {crossOriginKeyword: null},
                     visibility: (l.visible === undefined) ? true : l.visible,
+                    attribution: l.attribution
                 };
                 baseLayers.push(new OpenLayers.Layer.OSM(l.name, l.url, options));
             }
