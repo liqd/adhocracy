@@ -1138,7 +1138,6 @@ $(document).ready(function () {
             conflict = $(self.data('conflict')),
             conflict_target = $(conflict.data('target'));
 
-            //debugger;
         if (conflict_target.filter(':not(:hidden)').length) {
             conflict.click();
         }
