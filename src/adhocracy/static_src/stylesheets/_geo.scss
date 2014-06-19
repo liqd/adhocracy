@@ -341,6 +341,7 @@ div.marker img {
   font-size: x-small;
   text-align: right;
 }
+
 /* License note within map */
 .note_map_inline {
   color: #000;
@@ -354,6 +355,20 @@ div.marker img {
   position: absolute;
   bottom: 0px;
   right: 0px;
+}
+
+/* License note within map (OpenLayers control)*/
+.olControlAttribution {
+    font-size: x-small !important;
+    color: #000;
+    background-color: #bbb;
+    opacity: 0.6;
+    padding: 0px 4px;
+    border-top-left-radius: 4px;
+    font-size: x-small;
+    text-align: right;
+    bottom: 0px !important;
+    right: 0px !important;
 }
 
 #left_block {

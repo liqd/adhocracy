@@ -110,7 +110,6 @@ ${attribution(long=False)}</div>
 <% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
 <div id="map" class="map large_map">
-${attribution(long=True)}</div>
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.loadRegionMap(${h.geo.map_config(instanceKey=c.instance.key, initialProposals=initial_proposals, initialPages=initial_pages, largeMap=True, fullRegion=full_region)|n});
 }</script>
@@ -132,7 +131,6 @@ ${attribution(long=False)}</div>
 <% h.need.jquery_ui %>
 <% h.need_js_i18n('geo') %>
 <% h.need.adhocracy_geo_js %>
-${attribution(long=True)}
 <script type="text/javascript">window.onload=function() {
     adhocracy.geo.showSelectInstanceMap(${h.geo.map_config()|n});
 }</script>

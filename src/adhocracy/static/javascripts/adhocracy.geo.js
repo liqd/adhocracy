@@ -1232,6 +1232,7 @@ var adhocracy = adhocracy || {};
         ];
 
         if (fullControls) {
+            mapControls.push(new OpenLayers.Control.Attribution()),
             mapControls.push(new OpenLayers.Control.PanZoomBar());
             mapControls.push(new OpenLayers.Control.LayerSwitcher());
             // mapControls.push(new OpenLayers.Control.Scale());
