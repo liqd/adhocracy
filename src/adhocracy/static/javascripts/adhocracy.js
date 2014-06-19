@@ -88,15 +88,30 @@ var adhocracy = adhocracy || {};
         return url.toString();
     }
 
-    adhocracy.ajax_submit = function(form, success, patch_overlay) {
+    adhocracy.ajax_submit = function(form, success, patch_overlay, $iframe) {
         // submits using ajax
         // will magically insert error messages
         // will call success() on success
+        // will trigger custom beforeAjaxSubmit events in iframe if given
         form.submit(function(e) {
             e.preventDefault();
 
             var form = $(e.target),  // form outside might be wrong
                 selector = adhocracy.uniqueSelector(form);
+
+            if (typeof $iframe !== 'undefined') {
+                var iframe = $iframe[0];
+                // Use $ from iframe in order to access custom events. See
+                // http://stackoverflow.com/a/1654262/201743 for how to get
+                // the iframe window.
+                //
+                // This is used in the geo branch (function preSubmitHook in
+                // adhocracy.geo.fetchSingleDelegateable)
+                var iframewindow = (
+                    iframe.contentWindow ? iframe.contentWindow
+                    : iframe.contentDocument.defaultView);
+                iframewindow.$(e.target).triggerHandler('beforeAjaxSubmit');
+            }
 
             // ajax submit takes a while. Show some feedback
             form.find('*[type="submit"]').addClass('loading');
@@ -320,7 +335,7 @@ var adhocracy = adhocracy || {};
                     uri.deleteQueryParam('overlay_path');
                     uri.deleteQueryParam('overlay_type');
                     window.location = uri.toString();
-                }, true);
+                }, true, iframe);
             }
 
             /* update history */
