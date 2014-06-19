@@ -1401,7 +1401,9 @@ var adhocracy = adhocracy || {};
                 if (feature) {
                     editor.loadFeatures([feature]);
                 }
-                $('form[name="' + p.formName + '"]').on('submit', function (event) {
+
+                var form = $('form[name="' + p.formName + '"]');
+                var preSubmitHook = function() {
                     //$('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.toMultiPolygon(editor.editLayer.features)));
                     if (editor.editLayer.features.length > 0) {
                         $('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.editLayer.features[0]));
@@ -1409,8 +1411,11 @@ var adhocracy = adhocracy || {};
                         $('#geotag_field').val('');
                     };
                     editor.stopEditMode();
-                    return true;
-                });
+                }
+                // called from adhocracy.ajax_submit
+                form.on('beforeAjaxSubmit', preSubmitHook);
+                form.on('submit', preSubmitHook);
+
             } else {
                 var pageLayer = adhocracy.geo.createPageLayer();
                 map.addLayer(pageLayer);
