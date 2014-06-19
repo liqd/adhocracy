@@ -1406,8 +1406,8 @@ var adhocracy = adhocracy || {};
                     if (editor.editLayer.features.length > 0) {
                         $('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(editor.editLayer.features[0]));
                     } else {
-                        $('#geotag_field').val(new OpenLayers.Format.GeoJSON({}).write(''));
-                    }
+                        $('#geotag_field').val('');
+                    };
                     editor.stopEditMode();
                     return true;
                 });
