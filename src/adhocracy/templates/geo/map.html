@@ -41,7 +41,7 @@ ${attribution()}</div>
 <div id="edit_map_buttons"></div>
 
 %if not inline:
-<form id="edit_geotag" method='post' action='${h.entity_url(c.page, member="update_geotag")}'>
+<form name="edit_geotag" method='post' action='${h.entity_url(c.page, member="update_geotag")}'>
 %endif
     <input id='geotag_field' name='geotag' type='hidden' />
 %if not inline:
