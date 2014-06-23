@@ -1429,4 +1429,10 @@ $(document).ready(function () {
     // expand inline rows on direct links
     // :target does not work for some reason, so we use window.location.hash
     $(window.location.hash).find('.row_button a').click();
+
+    // avoid multiple submits (e.g. double-click)
+    $('html').on('submit', 'form', function(e) {
+        $(this).find('submit').prop("disabled", true);
+        $(this).find('[type="submit"]').prop("disabled", true);
+    });
 });
