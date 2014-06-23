@@ -14,7 +14,7 @@ from pylons.i18n import add_fallback, set_lang
 from pylons import tmpl_context as c
 
 from adhocracy import config
-from adhocracy.lib import cache
+#from adhocracy.lib import cache
 
 
 log = logging.getLogger(__name__)
@@ -58,7 +58,7 @@ def get_enabled_locales():
         return filter(lambda x: x.language in enabled_locales, LOCALES)
 
 
-@cache.memoize('_translations_root')
+#@cache.memoize('_translations_root')
 def _get_translations_root():
     translations_module = config.get('adhocracy.translations')
     translations_module_loader = pkgutil.get_loader(translations_module)
