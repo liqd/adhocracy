@@ -32,7 +32,7 @@ user_table = Table(
     Column('activation_code', Unicode(255), nullable=True, unique=False),
     Column('reset_code', Unicode(255), nullable=True, unique=False),
     Column('password', Unicode(80), nullable=True),
-    Column('locale', Unicode(7), nullable=True),
+    Column('locale', Unicode(10), nullable=True),
     Column('create_time', DateTime, default=datetime.utcnow),
     Column('access_time', DateTime, default=datetime.utcnow,
            onupdate=datetime.utcnow),
