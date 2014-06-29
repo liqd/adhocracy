@@ -2,6 +2,48 @@ Adhocracy Changelog
 ===================
 
 
+2.4.6 (2014-06-23)
+------------------
+
+This release contains an alembic migration which doesn't work on SQLite. SQLite
+users can safely stamp their alembic setup instead of migrating:
+
+    bin/alembic -c etc/adhocracy.ini stamp 1e296c7f5e8c
+
+
+Improvements:
+
+- Avoid multiple submits (e.g. double-click). (#925)
+
+- Add traditional chines (Taiwan). Thanks to Charles Chuang. (#918, #924)
+
+- Allow to hide proposal comments. (#919)
+
+- Hide proposal rate_poll results (experimental). (#916)
+
+- Add permission poll.show_result.
+
+- Generic instance setting overwrites (#915). This is by default enabled for
+  the following settings:
+
+  - adhocracy.hide_individual_votes
+  - adhocracy.listings.instance_proposal.sorting
+  - adhocracy.comment_wording
+
+- Better flash messages after sending of activation links - with spam hint.
+  (#914)
+
+
+Bug fixes:
+
+- Fix custom submit handlers in JavaScript in iframes.
+
+- Fix data-baseurl in overlays. This fixes JavaScript issues in overlays.
+
+- Fix pluralization issues when compiling translations.
+  (see upstream: camptocamp/c2c.recipe.msgfmt#3).
+
+
 2.4.5 (2014-06-13)
 ------------------
 
