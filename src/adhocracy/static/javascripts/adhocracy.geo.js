@@ -1640,7 +1640,7 @@ var adhocracy = adhocracy || {};
         map.addControls(adhocracy.geo.createControls(false, false));
         var baseLayers = adhocracy.geo.createBaseLayers(p, 5, 12);
         map.addLayers(baseLayers);
-        map.setBaseLayer(baseLayers[1]);
+        map.setBaseLayer(baseLayers[6]);
 
         var boundaryLayer = new OpenLayers.Layer.Vector('overview', {
             displayInLayerSwitcher: false,
@@ -1877,7 +1877,7 @@ var adhocracy = adhocracy || {};
         map.addControls(adhocracy.geo.createControls(true, false));
         var baseLayers = adhocracy.geo.createBaseLayers(p, 5, 12, true);
         map.addLayers(baseLayers);
-        map.setBaseLayer(baseLayers[1]);
+        map.setBaseLayer(baseLayers[6]);
 
         // var foldLayers = adhocracy.geo.addMultiBoundaryLayer(map, layers, tiles);
 
