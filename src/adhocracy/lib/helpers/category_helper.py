@@ -44,37 +44,33 @@ def event_q(category, event_filter=[], count=50):
     """
     alias = aliased(model.Delegateable)
 
-    proposal_descriptions = model.meta.Session.query(model.Delegateable.id)\
+    proposal_description_q = model.meta.Session.query(model.Delegateable.id)\
         .join(model.Page._proposal)\
         .join(alias, alias.id == model.Proposal.id)\
         .join(alias.categories)\
         .filter(model.Delegateable.instance == c.instance)\
-        .filter(model.CategoryBadge.id == category.id)\
-        .all()
+        .filter(model.CategoryBadge.id == category.id)
 
-    page_children = model.meta.Session.query(model.Delegateable.id)\
+    page_child_q = model.meta.Session.query(model.Delegateable.id)\
         .join(alias, model.Delegateable.parents)\
         .join(alias.categories)\
         .filter(model.Delegateable.instance == c.instance)\
-        .filter(model.CategoryBadge.id == category.id)\
-        .all()
+        .filter(model.CategoryBadge.id == category.id)
 
-    delegateables = model.meta.Session.query(model.Delegateable.id)\
+    topic_ids_q = model.meta.Session.query(model.Delegateable.id)\
         .join(model.Delegateable.categories)\
         .filter(model.Delegateable.instance == c.instance)\
         .filter(model.CategoryBadge.id == category.id)\
-        .all()
-
-    topic_ids = [d.id for d in set().union(proposal_descriptions,
-                                           page_children,
-                                           delegateables)]
+        .union(proposal_description_q)\
+        .union(page_child_q)\
+        .distinct()
 
     events = model.Event.all_q(
         instance=c.instance,
         include_hidden=False,
         event_filter=event_filter)\
         .join(model.Event.topics)\
-        .filter(model.Delegateable.id.in_(topic_ids))\
+        .filter(model.Delegateable.id.in_(topic_ids_q))\
         .order_by(model.Event.time.desc())\
         .limit(count)
 
