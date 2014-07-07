@@ -1373,31 +1373,6 @@ $(document).ready(function () {
         });
     });
 
-    var top_u = new Uri(window.location.href);
-    if (top_u.path().match(/\.overlay$/)) {
-        var overlay_url = function(url) {
-            var u = new Uri(url);
-            if (u.host() === '' || u.host() === top_u.host()) {
-                u.path(u.path().replace(/(\..*)?$/, '.overlay'));
-            }
-            return u.toString();
-        };
-
-        // registering this event on parent element to also catch
-        // events from generated elements
-        $('html').on('click', 'a[href]', function(e) {
-            if (this.href[0] != '#' && !this.target) {
-                this.target = '_top';
-            }
-            if (this.target === '_self') {
-                this.href = overlay_url(this.href);
-            }
-        });
-        $('html').on('submit', 'form', function(e) {
-            this.action = overlay_url(this.action);
-        });
-    }
-
     $('#mobile-main-menu-button')
         .addClass('only-mobile')
         .addClass('showhide_button')
@@ -1435,4 +1410,33 @@ $(document).ready(function () {
         $(this).find('submit').prop("disabled", true);
         $(this).find('[type="submit"]').prop("disabled", true);
     });
+});
+
+// the ready event does not work consistently on iframes. So any iframe
+// related setup code must go into the load event handler.
+$(window).load(function() {
+    var top_u = new Uri(window.location.href);
+    if (top_u.path().match(/\.overlay$/)) {
+        var overlay_url = function(url) {
+            var u = new Uri(url);
+            if (u.host() === '' || u.host() === top_u.host()) {
+                u.path(u.path().replace(/(\..*)?$/, '.overlay'));
+            }
+            return u.toString();
+        };
+
+        // registering this event on parent element to also catch
+        // events from generated elements
+        $('html').on('click', 'a[href]', function(e) {
+            if (this.href[0] != '#' && !this.target) {
+                this.target = '_top';
+            }
+            if (this.target === '_self') {
+                this.href = overlay_url(this.href);
+            }
+        });
+        $('html').on('submit', 'form', function(e) {
+            this.action = overlay_url(this.action);
+        });
+    }
 });
