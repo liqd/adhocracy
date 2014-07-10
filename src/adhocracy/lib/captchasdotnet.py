@@ -118,7 +118,7 @@ class CaptchasDotNet:
             self.__random = random
             return random
 
-    def image_url(self, random=None, base='http://image.captchas.net/'):
+    def image_url(self, random=None, base='https://image.captchas.net/'):
         if not random:
             random = self.__random
         url = base
@@ -133,7 +133,7 @@ class CaptchasDotNet:
             url += '&amp;height=%s' % self.__height
         return url
 
-    def audio_url(self, random=None, base='http://audio.captchas.net/'):
+    def audio_url(self, random=None, base='https://audio.captchas.net/'):
         if not random:
             random = self.__random
         url = base
@@ -154,8 +154,9 @@ class CaptchasDotNet:
           function captchas_image_error (image)
           {
             if (!image.timeout) return true;
-            image.src = image.src.replace (/^http:\/\/image\.captchas\.net/,
-                                           'http://image.backup.captchas.net');
+            image.src = image.src.replace (
+                /^https:\/\/image\.captchas\.net/,
+                'https://image.backup.captchas.net');
             return captchas_image_loaded (image);
           }
 
