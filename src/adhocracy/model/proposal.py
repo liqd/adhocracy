@@ -40,7 +40,12 @@ class Proposal(Delegateable):
     @property
     def selection(self):
         assert(self.is_amendment)
-        return self._selections[0]
+        try:
+            return self._selections[0]
+        except IndexError:
+            raise Exception(
+                'Proposal %d is amendment but doesn\'t have selections'
+                % self.id)
 
     @property
     def title(self):
