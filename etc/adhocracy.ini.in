@@ -641,18 +641,45 @@ script_location = src/adhocracy/alembic
 sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 # Logging configuration
+
+{% if parts.adhocracy['sentry.enabled'] == 'True' %}
+[loggers]
+keys = root, adhocracy, sqlalchemy, sentry
+
+[handlers]
+keys = console, sentry
+
+[logger_root]
+level = INFO
+handlers = console, sentry
+
+[logger_sentry]
+level = WARN
+handlers = console
+qualname = sentry.errors
+propagate = 0
+
+[handler_sentry]
+class = raven.handlers.logging.SentryHandler
+args = ('${parts.adhocracy["sentry.dsn"]}',)
+level = WARN
+formatter = generic
+{% end %}
+
+{% if parts.adhocracy['sentry.enabled'] == 'False' %}
 [loggers]
 keys = root, adhocracy, sqlalchemy
 
 [handlers]
 keys = console
 
-[formatters]
-keys = generic
-
 [logger_root]
 level = INFO
 handlers = console
+{% end %}
+
+[formatters]
+keys = generic
 
 [logger_routes]
 level = INFO

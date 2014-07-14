@@ -47,19 +47,23 @@ def event_q(category, event_filter=[], count=50):
     proposal_description_q = model.meta.Session.query(model.Delegateable.id)\
         .join(model.Page._proposal)\
         .join(alias, alias.id == model.Proposal.id)\
-        .join(alias.categories)
+        .join(alias.categories)\
+        .filter(model.Delegateable.instance == c.instance)\
+        .filter(model.CategoryBadge.id == category.id)
 
     page_child_q = model.meta.Session.query(model.Delegateable.id)\
         .join(alias, model.Delegateable.parents)\
-        .join(alias.categories)
+        .join(alias.categories)\
+        .filter(model.Delegateable.instance == c.instance)\
+        .filter(model.CategoryBadge.id == category.id)
 
     topic_ids_q = model.meta.Session.query(model.Delegateable.id)\
         .join(model.Delegateable.categories)\
+        .filter(model.Delegateable.instance == c.instance)\
+        .filter(model.CategoryBadge.id == category.id)\
         .union(proposal_description_q)\
         .union(page_child_q)\
-        .distinct()\
-        .filter(model.Delegateable.instance == c.instance)\
-        .filter(model.CategoryBadge.id == category.id)
+        .distinct()
 
     events = model.Event.all_q(
         instance=c.instance,

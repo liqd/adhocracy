@@ -22,9 +22,11 @@ ${h.category.breadcrumbs(c.category)|n}
 </h2>
 <hr />
 
+%if c.category.long_description:
 <div class="category_body">
     ${h.render(c.category.long_description, safe_mode='adhocracy_config')|n}
 </div>
+%endif
 
 <div class="morelink_header">
     <h3>${_('Proposals')}</h3>
