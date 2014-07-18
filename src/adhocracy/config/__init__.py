@@ -84,6 +84,8 @@ DEFAULTS = {
     # 'default' or 'alternate'
     'adhocracy.login_style': 'default',
     'adhocracy.milestone.allow_show_all_proposals': False,
+    'adhocracy.milestone.hide_timeline': False,
+    'adhocracy.milestone.hide_timeline.allow_overwrite': True,
     'adhocracy.monitor_browser_values': False,
     'adhocracy.monitor_comment_behavior': False,
     'adhocracy.monitor_extended': False,

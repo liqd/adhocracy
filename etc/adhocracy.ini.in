@@ -558,6 +558,9 @@ velruse.port = ${parts.ports.velruse_proxy}
 velruse.protocol = ${parts.velruse.proxy_protocol}
 {% end %}
 
+# hide milestone timeline
+# adhocracy.milestone.hide_timeline = True
+
 
 # The following settings lack documentation
 
