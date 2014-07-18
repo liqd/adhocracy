@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: adhocracy 2.4.4-17-g08e811b\n"
+"Project-Id-Version: adhocracy 2.4.4-72-g2f2c6f1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:34+0200\n"
+"POT-Creation-Date: 2014-07-18 11:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1005,6 +1005,9 @@ msgstr ""
 msgid "The method you used is not implemented."
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr ""
@@ -1918,9 +1921,6 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
@@ -2215,10 +2215,10 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr ""
 
-msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
+msgid "Users CSV"
 msgstr ""
 
-msgid "Users CSV"
+msgid "Paste the content of a CSV file, e.g. exported from Excel, with the 4 columns username, display name, email and badges (badges are optional, comma separated and with quotes around the list)"
 msgstr ""
 
 msgid "Email Subject"
@@ -2297,10 +2297,10 @@ msgstr ""
 msgid "Badge description"
 msgstr ""
 
-msgid "Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
-msgid "Long category description"
+msgid "Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -2938,10 +2938,10 @@ msgstr ""
 msgid "To display the latest events from your %(site_name)s instance you can add this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
+msgid "Extra CSS"
 msgstr ""
 
-msgid "Extra CSS"
+msgid "You can add css that will be used to style the instance."
 msgstr ""
 
 msgid "Status badge image width"
@@ -3013,16 +3013,16 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
-msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
-msgstr ""
-
 msgid "Description of the instance"
 msgstr ""
 
-msgid "Select the logo you would like to have as header of your group."
+msgid "This is what appears on the overview-page of your instance. Describe the participation process you have in mind. Clearly state the goals of this group and how its members can participate in reaching them."
 msgstr ""
 
 msgid "Logo"
+msgstr ""
+
+msgid "Select the logo you would like to have as header of your group."
 msgstr ""
 
 msgid "Current logo"
@@ -3409,10 +3409,10 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4440,10 +4440,10 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
-msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
+msgid "Avatar"
 msgstr ""
 
-msgid "Avatar"
+msgid "Select a profile picture. The image should be square. If it is not it may be scaled accordingly."
 msgstr ""
 
 msgid "Current avatar"
@@ -4452,10 +4452,10 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
-msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
+msgid "Short biography"
 msgstr ""
 
-msgid "Short biography"
+msgid "A bio will allow others to learn about you and perhaps even get you a few delegations."
 msgstr ""
 
 msgid "I am an organisation"

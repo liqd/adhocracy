@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:34+0200\n"
+"POT-Creation-Date: 2014-07-18 11:10+0200\n"
 "PO-Revision-Date: 2014-06-15 07:55+0000\n"
 "Last-Translator: charlesc <yeouhsin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/adhocracy/language/zh_TW/)\n"
@@ -1058,6 +1058,9 @@ msgstr "無效的請求。請回上頁再試一次。"
 msgid "The method you used is not implemented."
 msgstr "您所使用的方法並未導入。"
 
+msgid "Start"
+msgstr "開始"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "檢舉報表：%s"
@@ -1980,9 +1983,6 @@ msgstr "<b>%s</b>票"
 msgid "Menu"
 msgstr "選單"
 
-msgid "Start"
-msgstr "開始"
-
 msgid "Instances"
 msgstr "安裝網站"
 
@@ -2287,14 +2287,14 @@ msgstr "指派對照徽章"
 msgid "Admin: Import Users"
 msgstr "管理：匯入使用者"
 
+msgid "Users CSV"
+msgstr "使用者 CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr "貼上 CSV 的內容，例如從 Excel 匯出，例如四個欄位的使用者名稱、顯示名稱、電子郵件和徽章（徽章是選擇性的，逗號分隔，並有引號包含內容）"
-
-msgid "Users CSV"
-msgstr "使用者 CSV"
 
 msgid "Email Subject"
 msgstr "電子郵件主旨"
@@ -2377,12 +2377,12 @@ msgstr "分類說明"
 msgid "Badge description"
 msgstr "徽章說明"
 
+msgid "Long category description"
+msgstr "完整的分類說明"
+
 msgid ""
 "Here you can add a more detailed description of your category with markdown."
 msgstr "您可以在這裡使用 markdown 標記，新增關於分類的詳細說明。"
-
-msgid "Long category description"
-msgstr "完整的分類說明"
 
 msgid "The color that is used to show the category"
 msgstr "用來呈現此分類的顏色"
@@ -3069,11 +3069,11 @@ msgid ""
 "this embed code to your website."
 msgstr "要顯示您的%(site_name)s的最新活動，您可以在您的網站上加入此崁入碼。"
 
-msgid "You can add css that will be used to style the instance."
-msgstr "您可以增加此網站想要使用的 CSS 程式碼。"
-
 msgid "Extra CSS"
 msgstr "額外的 CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "您可以增加此網站想要使用的 CSS 程式碼。"
 
 msgid "Status badge image width"
 msgstr "狀態徽章的圖片寬度"
@@ -3152,20 +3152,20 @@ msgstr "網站的名稱"
 msgid "Give your instance a name."
 msgstr "設定您的網站名稱。"
 
+msgid "Description of the instance"
+msgstr "網站的說明"
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr "這會顯示在您的網站總覽頁面上。描述您所設想的參與過程。清楚地陳述群組目標，以及成員們可以如何參與，以達成這些目標。"
 
-msgid "Description of the instance"
-msgstr "網站的說明"
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr "選擇您的網站 LOGO，顯示在網頁上。"
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "目前的 LOGO"
@@ -3564,11 +3564,11 @@ msgstr "修正案名稱"
 msgid "Text"
 msgstr "文字"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
-msgstr "頁面摘要。如果頁面是以磚塊的樣式呈現，才會用到此摘要。"
-
 msgid "Abstract"
 msgstr "摘要"
+
+msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgstr "頁面摘要。如果頁面是以磚塊的樣式呈現，才會用到此摘要。"
 
 msgid "Display subnorms as sections"
 msgstr "以單元來顯示次規範"
@@ -4646,13 +4646,13 @@ msgstr "打招呼"
 msgid "Select your prefered gender"
 msgstr "選擇您偏好的性別"
 
+msgid "Avatar"
+msgstr "大頭貼"
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
 msgstr "選擇個人照面。圖片必須是正方形的。如果不是正方形，就會進行調整。"
-
-msgid "Avatar"
-msgstr "大頭貼"
 
 msgid "Current avatar"
 msgstr "目前的大頭貼"
@@ -4660,13 +4660,13 @@ msgstr "目前的大頭貼"
 msgid "Delete current avatar"
 msgstr "刪除目前的大頭貼"
 
+msgid "Short biography"
+msgstr "簡要的個人介紹"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "簡介可以讓其他人認識您，說不定可以讓您獲得一些委任哦。"
-
-msgid "Short biography"
-msgstr "簡要的個人介紹"
 
 msgid "I am an organisation"
 msgstr "我是組織"

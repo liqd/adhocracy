@@ -4,14 +4,14 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012
-# rotranslate <mirceazachia@yahoo.com>, 2012
-# rotranslate <mirceazachia@yahoo.com>, 2013
-# rotranslate <mirceazachia@yahoo.com>, 2013
+# rotranslate, 2012
+# rotranslate, 2013
+# rotranslate, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:34+0200\n"
+"POT-Creation-Date: 2014-07-18 11:10+0200\n"
 "PO-Revision-Date: 2014-06-13 16:35+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/adhocracy/language/ro/)\n"
@@ -1062,6 +1062,9 @@ msgstr "Cerere invalida. Te rugam sa te intorci si sa incerci din nou."
 msgid "The method you used is not implemented."
 msgstr "Metoda folosita nu este implementata."
 
+msgid "Start"
+msgstr "Start"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Raportare abuz: %s"
@@ -1988,9 +1991,6 @@ msgstr "<b>%s</b> voturi"
 msgid "Menu"
 msgstr ""
 
-msgid "Start"
-msgstr "Start"
-
 msgid "Instances"
 msgstr "Comunitati"
 
@@ -2297,14 +2297,14 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr "Admin: Importa Utilizatori"
 
+msgid "Users CSV"
+msgstr "Lista utilizatori CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
-
-msgid "Users CSV"
-msgstr "Lista utilizatori CSV"
 
 msgid "Email Subject"
 msgstr "Subiect Email"
@@ -2387,11 +2387,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Descriere titlu"
 
-msgid ""
-"Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
-msgid "Long category description"
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -3079,11 +3079,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
-msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
-
 msgid "Extra CSS"
 msgstr "Still CSS aditional"
+
+msgid "You can add css that will be used to style the instance."
+msgstr "Poti adauga un stil css care va fi utilizat ca stil grafic al comunitatii."
 
 msgid "Status badge image width"
 msgstr ""
@@ -3162,20 +3162,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
+msgid "Description of the instance"
+msgstr ""
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
+msgid "Logo"
+msgstr "Logo"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
-
-msgid "Logo"
-msgstr "Logo"
 
 msgid "Current logo"
 msgstr "Logo curent"
@@ -3578,10 +3578,10 @@ msgstr "Numele Variantei"
 msgid "Text"
 msgstr "Text"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4664,12 +4664,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
+msgid "Avatar"
+msgstr ""
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
-
-msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4678,13 +4678,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
+msgid "Short biography"
+msgstr "Scurta biografie"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "O scurta biografie le va permite celorlalti sa afle mai multe despre tine si iti maresc sansele sa obtii mai multe delegari de vot."
-
-msgid "Short biography"
-msgstr "Scurta biografie"
 
 msgid "I am an organisation"
 msgstr ""
