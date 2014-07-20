@@ -75,6 +75,7 @@ setup(
         "ipaddress>=1.0.3",
         "pytz",
         "requests",
+        "raven",
     ],
     setup_requires=["setuptools>=0.6c6",  # fix OS X 10.5.7
                     "PasteScript",
