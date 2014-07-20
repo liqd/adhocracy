@@ -128,7 +128,7 @@ DEFAULTS = {
     'adhocracy.send_error_emails': True,
 
     # Enable sentry logging
-    'adhocracy.sentry.enabled': True,
+    'adhocracy.sentry.enabled': False,
     'adhocracy.sentry.dsn': '',
     'adhocracy.sentry.loglevel': 'WARNING',
 
