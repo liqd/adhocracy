@@ -123,6 +123,15 @@ DEFAULTS = {
     'adhocracy.requestlog_active': False,
     'adhocracy.require_email': True,
     'adhocracy.self_deletion_allowed': True,
+
+    # Send error emails in case of internal server errors
+    'adhocracy.send_error_emails': True,
+
+    # Enable sentry logging
+    'adhocracy.sentry.enabled': False,
+    'adhocracy.sentry.dsn': '',
+    'adhocracy.sentry.loglevel': 'WARNING',
+
     'adhocracy_service.rest_api_address': '',
     'adhocracy_service.rest_api_token': '',
     'adhocracy_service.staticpages.rest_api_address': '',
