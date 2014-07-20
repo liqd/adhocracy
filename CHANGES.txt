@@ -2,6 +2,31 @@ Adhocracy Changelog
 ===================
 
 
+2.5.0 (2014-07-20)
+------------------
+
+Improvements:
+
+- Allow to log to sentry. (#930, #933)
+
+- Allow to hide milestone timeline. (#931)
+
+
+Bug fixes:
+
+- No email uniqueness on database level (#932, fixes #790, #364)
+
+- Load captchasdotnet with SSL.
+
+- Raise meaningful exception if amendment doesn't have a selection. (#929)
+
+- Fix category page if long description is empty. (#928)
+
+- Fix category events. (#927)
+
+- Fix iframe setup. (#926)
+
+
 2.4.6 (2014-06-23)
 ------------------
 
