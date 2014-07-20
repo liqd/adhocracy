@@ -1,14 +1,14 @@
 """Add geo
 
 Revision ID: 5209f75543b2
-Revises: 1e296c7f5e8c
+Revises: 266ab139e8ab
 Create Date: 2014-06-05 18:57:00.687812
 
 """
 
 # revision identifiers, used by Alembic.
 revision = '5209f75543b2'
-down_revision = '1e296c7f5e8c'
+down_revision = '266ab139e8ab'
 
 from alembic import op
 import sqlalchemy as sa
