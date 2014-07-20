@@ -321,6 +321,11 @@ adhocracy.behind_proxy = ${parts.adhocracy.behind_proxy}
 piwik.site =
 piwik.id =
 
+# Log to a sentry server. You need to supply a dsn in the form of a http url.
+#adhocracy.sentry.enabled = true
+#adhocracy.sentry.dsn =
+#adhocracy.sentry.loglevel = WARNING
+
 # INSTALL: Allow select users to include HTML
 # If this option is set to false, we only allow markdown input.
 # If it is set, we make a best effort to filter unsafe HTML, but allow iframes
@@ -579,6 +584,9 @@ velruse.port = ${parts.ports.velruse_proxy}
 velruse.protocol = ${parts.velruse.proxy_protocol}
 {% end %}
 
+# hide milestone timeline
+# adhocracy.milestone.hide_timeline = True
+
 
 # The following settings lack documentation
 
@@ -642,31 +650,6 @@ sqlalchemy.url = ${parts.adhocracy['sqlalchemy.url']}
 
 # Logging configuration
 
-{% if parts.adhocracy['sentry.enabled'] == 'True' %}
-[loggers]
-keys = root, adhocracy, sqlalchemy, sentry
-
-[handlers]
-keys = console, sentry
-
-[logger_root]
-level = INFO
-handlers = console, sentry
-
-[logger_sentry]
-level = WARN
-handlers = console
-qualname = sentry.errors
-propagate = 0
-
-[handler_sentry]
-class = raven.handlers.logging.SentryHandler
-args = ('${parts.adhocracy["sentry.dsn"]}',)
-level = WARN
-formatter = generic
-{% end %}
-
-{% if parts.adhocracy['sentry.enabled'] == 'False' %}
 [loggers]
 keys = root, adhocracy, sqlalchemy
 
@@ -676,7 +659,6 @@ keys = console
 [logger_root]
 level = INFO
 handlers = console
-{% end %}
 
 [formatters]
 keys = generic

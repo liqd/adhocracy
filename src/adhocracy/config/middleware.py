@@ -10,6 +10,7 @@ from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
 
+from adhocracy import config as aconfig
 from adhocracy.lib.auth.authentication import setup_auth
 from adhocracy.lib.cors import CorsMiddleware
 from adhocracy.lib.instance import setup_discriminator
@@ -19,6 +20,7 @@ from adhocracy.config.environment import load_environment
 from adhocracy.lib.requestlog import RequestLogger
 from adhocracy.lib.helpers.site_helper import base_url
 from adhocracy.lib.session import CookieSessionMiddleware
+from adhocracy.lib.sentry import SentryMiddleware
 
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
@@ -81,10 +83,15 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     if asbool(full_stack):
         # Handle Python exceptions
-        app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
+        if debug or aconfig.get_bool('adhocracy.send_error_emails',
+                                     config=config):
+            app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
 
     # Display error documents for 401, 403, 404 status codes
     app = StatusCodeRedirect(app, [400, 401, 403, 404, 500])
+
+    if aconfig.get_bool('adhocracy.sentry.enabled', config=config):
+        app = SentryMiddleware(app, config)
 
     # Establish the Registry for this application
     app = RegistryManager(app)

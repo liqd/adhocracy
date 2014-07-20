@@ -19,7 +19,9 @@
 
 <hr />
 
+%if not h.config.get('adhocracy.milestone.hide_timeline'):
 ${tiles.milestone.timeline(c.milestones)}
+%endif
 
 </%block>
 

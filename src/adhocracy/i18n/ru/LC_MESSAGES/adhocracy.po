@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:34+0200\n"
+"POT-Creation-Date: 2014-07-18 11:10+0200\n"
 "PO-Revision-Date: 2014-06-13 16:35+0000\n"
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/adhocracy/language/ru/)\n"
@@ -1064,6 +1064,9 @@ msgstr "Недействительный запрос. Вернитесь наз
 msgid "The method you used is not implemented."
 msgstr "Примененный Вами метод не реализован. "
 
+msgid "Start"
+msgstr "Старт"
+
 #, python-format
 msgid "Abuse report: %s"
 msgstr "Сообщение о злоупотреблении: %s"
@@ -1990,9 +1993,6 @@ msgstr "<b>%s</b> голоса"
 msgid "Menu"
 msgstr ""
 
-msgid "Start"
-msgstr "Старт"
-
 msgid "Instances"
 msgstr "Организации"
 
@@ -2299,14 +2299,14 @@ msgstr ""
 msgid "Admin: Import Users"
 msgstr "Администратор: ипмортировать список пользователей"
 
+msgid "Users CSV"
+msgstr "Пользователи CSV"
+
 msgid ""
 "Paste the content of a CSV file, e.g. exported from Excel, with the 4 "
 "columns username, display name, email and badges (badges are optional, comma"
 " separated and with quotes around the list)"
 msgstr ""
-
-msgid "Users CSV"
-msgstr "Пользователи CSV"
 
 msgid "Email Subject"
 msgstr "Тема письма"
@@ -2389,11 +2389,11 @@ msgstr ""
 msgid "Badge description"
 msgstr "Описание ярлыка. "
 
-msgid ""
-"Here you can add a more detailed description of your category with markdown."
+msgid "Long category description"
 msgstr ""
 
-msgid "Long category description"
+msgid ""
+"Here you can add a more detailed description of your category with markdown."
 msgstr ""
 
 msgid "The color that is used to show the category"
@@ -3081,11 +3081,11 @@ msgid ""
 "this embed code to your website."
 msgstr ""
 
-msgid "You can add css that will be used to style the instance."
-msgstr ""
-
 msgid "Extra CSS"
 msgstr "Дополнительные CSS"
+
+msgid "You can add css that will be used to style the instance."
+msgstr ""
 
 msgid "Status badge image width"
 msgstr ""
@@ -3164,20 +3164,20 @@ msgstr ""
 msgid "Give your instance a name."
 msgstr ""
 
+msgid "Description of the instance"
+msgstr ""
+
 msgid ""
 "This is what appears on the overview-page of your instance. Describe the "
 "participation process you have in mind. Clearly state the goals of this "
 "group and how its members can participate in reaching them."
 msgstr ""
 
-msgid "Description of the instance"
-msgstr ""
+msgid "Logo"
+msgstr "Лого"
 
 msgid "Select the logo you would like to have as header of your group."
 msgstr ""
-
-msgid "Logo"
-msgstr "Лого"
 
 msgid "Current logo"
 msgstr "Действующий логотип"
@@ -3580,10 +3580,10 @@ msgstr "Название варианта"
 msgid "Text"
 msgstr "Текст"
 
-msgid "Page abstract. This is only used if a page is displayed as a tile."
+msgid "Abstract"
 msgstr ""
 
-msgid "Abstract"
+msgid "Page abstract. This is only used if a page is displayed as a tile."
 msgstr ""
 
 msgid "Display subnorms as sections"
@@ -4666,12 +4666,12 @@ msgstr ""
 msgid "Select your prefered gender"
 msgstr ""
 
+msgid "Avatar"
+msgstr ""
+
 msgid ""
 "Select a profile picture. The image should be square. If it is not it may be"
 " scaled accordingly."
-msgstr ""
-
-msgid "Avatar"
 msgstr ""
 
 msgid "Current avatar"
@@ -4680,13 +4680,13 @@ msgstr ""
 msgid "Delete current avatar"
 msgstr ""
 
+msgid "Short biography"
+msgstr "Краткая биография"
+
 msgid ""
 "A bio will allow others to learn about you and perhaps even get you a few "
 "delegations."
 msgstr "Биография позволит другим пользователям что-то узнать о Вас и возможно даже делегировать Вам свои голоса."
-
-msgid "Short biography"
-msgstr "Краткая биография"
 
 msgid "I am an organisation"
 msgstr ""
