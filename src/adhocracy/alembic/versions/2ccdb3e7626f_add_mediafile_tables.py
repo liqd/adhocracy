@@ -1,14 +1,14 @@
 """Add mediafile tables
 
 Revision ID: 2ccdb3e7626f
-Revises: 486aab29697a
+Revises: 266ab139e8ab
 Create Date: 2014-02-21 17:59:57.932147
 
 """
 
 # revision identifiers, used by Alembic.
 revision = '2ccdb3e7626f'
-down_revision = '486aab29697a'
+down_revision = '266ab139e8ab'
 
 from alembic import op
 import sqlalchemy as sa
