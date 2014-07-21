@@ -8,7 +8,7 @@ from adhocracy import i18n
 
 
 def instance_staticpages_api_address():
-    if c.instance is not None:
+    if c.instance:
         key = 'adhocracy.instance-%s.staticpages.rest_api_address'
         return config.get(key % c.instance.key, '')
     else:
