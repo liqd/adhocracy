@@ -9,6 +9,7 @@ from pylons.i18n import _
 from sqlalchemy.exc import IntegrityError
 from requests import get
 
+from adhocracy import config
 from adhocracy.lib.auth.authentication import allowed_login_types
 from adhocracy.lib.base import BaseController
 from adhocracy.lib import event
@@ -78,7 +79,8 @@ class VelruseController(BaseController):
         payload = {'format': 'json', 'token': token}
         rsp = get(h.velruse_url('/auth_info'),
                   params=payload,
-                  timeout=1)
+                  timeout=1,
+                  verify=config.get_bool('velruse.verify_ssl'))
         if rsp.status_code >= 400:
             return self._failure(_('Internal server error:'
                                  'velruse service not available.'),

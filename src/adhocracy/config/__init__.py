@@ -199,6 +199,7 @@ DEFAULTS = {
     'velruse.domain': 'localhost',
     'velruse.port': 5028,
     'velruse.protocol': 'http',
+    'velruse.verify_ssl': True,
 
     # 'adhocracy.twitter.consumer_key':
     # 'adhocracy.twitter.key':
