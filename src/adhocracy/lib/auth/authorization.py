@@ -19,6 +19,7 @@ log = logging.getLogger(__name__)
 
 
 NOT_LOGGED_IN = 'not_logged_in'
+NOT_JOINED = 'user_is_no_member'
 
 
 class InstanceGroupSourceAdapter(SqlGroupsAdapter):
@@ -173,8 +174,8 @@ class AuthCheck(object):
         """
         return (self.permission_refusals
                 and (not self.other_refusals or
-                     (len(self.other_refusals) == 1
-                      and NOT_LOGGED_IN in self.other_refusals))
+                     all(map(lambda e: e in [NOT_LOGGED_IN, NOT_JOINED],
+                             self.other_refusals)))
                 and all(has_default_permission(perm).is_met(request.environ)
                         for perm in self.permission_refusals))
 
