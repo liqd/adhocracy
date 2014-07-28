@@ -2,6 +2,7 @@ from pylons import tmpl_context as c
 
 from adhocracy.lib.auth import poll
 from adhocracy.lib.auth.authorization import has
+from adhocracy.lib.auth.authorization import NOT_JOINED
 
 
 # helper functions
@@ -26,8 +27,7 @@ def create(check, instance=None):
     check.valid_email()
     if instance is None:
         instance = c.instance
-    check.other('user_is_no_member', not c.user or
-                not c.user.is_member(instance))
+    check.other(NOT_JOINED, not c.user or not c.user.is_member(instance))
     check.other('instance_frozen', instance.frozen)
     check.perm('proposal.create')
 
@@ -45,8 +45,7 @@ def edit(check, p):
         # having proposal.edit is enough
         return
 
-    check.other('user_is_no_member', not c.user or
-                not c.user.is_member(c.instance))
+    check.other(NOT_JOINED, not c.user or not c.user.is_member(c.instance))
     check.other('proposal_head_not_wiki_or_own',
                 not is_own(p) and not p.description.head.wiki)
 
