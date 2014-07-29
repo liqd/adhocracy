@@ -51,7 +51,7 @@ class UserTile(BaseTile):
     def _instance_roles(self):
         if c.instance and not self.__instance_roles:
             instance_roles = []
-            for badge in self.user.badges:
+            for badge in self.user.get_badges(c.instance):
                 if badge.group and badge.display_group:
                     instance_roles.append(badge.group)
             if instance_roles:
