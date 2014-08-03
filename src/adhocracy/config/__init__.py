@@ -233,7 +233,11 @@ def get_value(key, converter, default=None, config=config,
 
     if allow_overwrite:
         from adhocracy.model import instance_filter as ifilter
-        value = config.get('%s.%s' % (key, ifilter.get_instance().key))
+        current_instance = ifilter.get_instance()
+        if current_instance is not None:
+            value = config.get('%s.%s' % (key, current_instance.key))
+        else:
+            value = None
     else:
         value = None
 
