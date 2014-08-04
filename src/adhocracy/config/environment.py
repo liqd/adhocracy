@@ -7,7 +7,6 @@ import traceback
 from mako.lookup import TemplateLookup
 from paste.deploy.converters import asbool
 from pylons import tmpl_context as c
-from pylons.error import handle_mako_error
 from pylons.configuration import PylonsConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy.interfaces import ConnectionProxy
@@ -59,7 +58,6 @@ def load_environment(global_conf, app_conf, with_db=True):
     # Create the Mako TemplateLookup, with the default auto-escaping
     config['pylons.app_globals'].mako_lookup = TemplateLookup(
         directories=paths['templates'],
-        error_handler=handle_mako_error,
         module_directory=os.path.join(app_conf['cache_dir'], 'templates'),
         input_encoding='utf-8', default_filters=['escape'],
         imports=['from markupsafe import escape'])
