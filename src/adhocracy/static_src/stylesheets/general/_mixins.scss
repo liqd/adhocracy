@@ -1,11 +1,18 @@
 @mixin desktop {
-    html {
+    @media (min-width: $min-width-large) {
+        html {
+            @content;
+        }
+    }
+    html.no-mediaquery {
         @content;
     }
 }
 @mixin mobile {
-    #no-not-show-this-hack html {
-        @content;
+    @media (max-width: $min-width-large) {
+        html {
+            @content;
+        }
     }
 }
 
