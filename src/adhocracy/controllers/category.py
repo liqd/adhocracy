@@ -90,13 +90,9 @@ class CategoryController(BaseController):
             abort(404)
         category = get_entity_or_abort(model.CategoryBadge, id)
 
-        description = category.long_description
-        description = h.render(description)
-        description = h.text.truncate_html(description, 65, u'&hellip;')
-
         data = {
             'category': category,
-            'description': description,
+            'description': category.description,
         }
         return render('/category/description.html', data,
                       overlay=format == 'overlay',

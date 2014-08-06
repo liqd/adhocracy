@@ -2,6 +2,28 @@ Adhocracy Changelog
 ===================
 
 
+2.5.1 (2014-08-06)
+------------------
+
+Improvements:
+
+- Allow to disable SSL verification for Velruse.
+
+- Show short category description in category description view. (#934)
+
+Bug fixes:
+
+- Disable broken mako debugging. (#939)
+
+- Fix config.get_value allow_overwrite for non-instance cases. (#938, #937)
+
+- Fix display of user role in listing. (#936)
+
+- Fix AuthCheck.propose_login. (#935)
+
+- Fix test suite by making Adhocracy egg depend on raven.
+
+
 2.5.0 (2014-07-20)
 ------------------
 

@@ -1,5 +1,6 @@
 from pylons import tmpl_context as c, app_globals as g
 from authorization import has
+from adhocracy.lib.auth.authorization import NOT_JOINED
 from adhocracy.lib.auth.authorization import NOT_LOGGED_IN
 
 
@@ -75,7 +76,7 @@ def leave(check, i):
     check.perm('instance.leave')
     check.other('not_logged_in', not c.user)
     if c.user:
-        check.other('user_is_no_member', not c.user.is_member(i))
+        check.other(NOT_JOINED, not c.user.is_member(i))
         check.other('user_is_instance_creator', c.user == i.creator)
 
 
