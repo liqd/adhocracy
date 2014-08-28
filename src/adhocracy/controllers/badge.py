@@ -442,6 +442,13 @@ class BadgeController(BaseController):
         badge = self._get_badge_or_redirect(id)
         require.badge.edit(badge)
 
+        if not c.came_from:
+            # if badge has entity_url, redirect there
+            try:
+                c.came_from = h.entity_url(badge)
+            except ValueError:
+                pass
+
         data = {
             'badge_type': self._get_badge_type(badge),
             'form_type': 'update',
