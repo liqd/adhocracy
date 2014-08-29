@@ -1,5 +1,6 @@
 from pylons.i18n import _
 from pylons.i18n import lazy_ugettext as L_
+from pylons.i18n import lazy_ungettext
 
 from adhocracy.lib import helpers as h
 
@@ -453,9 +454,9 @@ TOPIC_TYPES = {
     "t_page_create": L_('Page'),
     "t_page_edit": L_('Page'),
     "t_page_delete": L_('Page'),
-    "t_comment_create": L_('Comment'),
-    "t_comment_edit": L_('Comment'),
-    "t_comment_delete": L_('Comment'),
+    "t_comment_create": lazy_ungettext('Comment', 'Comments', 1),
+    "t_comment_edit": lazy_ungettext('Comment', 'Comments', 1),
+    "t_comment_delete": lazy_ungettext('Comment', 'Comments', 1),
     "t_delegation_create": L_('Delegation'),
     "t_delegation_revoke": L_('Delegation'),
     "t_vote_cast": L_('Vote'),
@@ -471,8 +472,8 @@ TOPIC_TYPES = {
     "n_self_voted": L_('Vote'),
     "n_delegate_voted": L_('Vote'),
     "n_delegate_conflict": L_('Vote'),
-    "n_comment_reply": L_('Comment'),
-    "n_comment_edit": L_('Comment'),
+    "n_comment_reply": lazy_ungettext('Comment', 'Comments', 1),
+    "n_comment_edit": lazy_ungettext('Comment', 'Comments', 1),
     "n_message_receive": L_('Message'),
 }
 VERBS = {
