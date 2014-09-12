@@ -394,7 +394,7 @@ class UserController(BaseController):
         c.settings_menu = settings_menu(c.page_user, 'personal')
 
         c.locales = []
-        for locale in i18n.LOCALES:
+        for locale in i18n.get_enabled_locales():
             c.locales.append({'value': str(locale),
                               'label': locale.language_name,
                               'selected': locale == c.user.locale})

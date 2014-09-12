@@ -81,6 +81,9 @@ DEFAULTS = {
     'adhocracy.listings.instance_proposal.sorting': None,
     'adhocracy.listings.instance_proposal.sorting.allow_overwrite': True,
 
+    # available locales can be restricted by adding a list of enabled locales
+    'adhocracy.enabled_locales': None,
+
     # 'default' or 'alternate'
     'adhocracy.login_style': 'default',
     'adhocracy.milestone.allow_show_all_proposals': False,

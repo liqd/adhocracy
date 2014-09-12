@@ -554,7 +554,7 @@ class InstanceController(BaseController):
         c.settings_menu = settings_menu(c.page_instance, 'general')
 
         c.locales = []
-        for locale in i18n.LOCALES:
+        for locale in i18n.get_enabled_locales():
             c.locales.append({'value': str(locale),
                               'label': locale.language_name,
                               'selected': locale == c.page_instance.locale})

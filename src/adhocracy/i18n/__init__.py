@@ -50,6 +50,13 @@ A2_LOCALE_ALIASES['zh-tw'] = 'zh_Hant_TW'
 FALLBACK_TZ = 'Europe/Berlin'
 
 
+def get_enabled_locales():
+    enabled_locales = config.get_list('adhocracy.enabled_locales')
+    if enabled_locales is None:
+        return LOCALES
+    else:
+        return filter(lambda x: x.language in enabled_locales, LOCALES)
+
 @cache.memoize('_translations_root')
 def _get_translations_root():
     translations_module = config.get('adhocracy.translations')
