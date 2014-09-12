@@ -57,6 +57,7 @@ def get_enabled_locales():
     else:
         return filter(lambda x: x.language in enabled_locales, LOCALES)
 
+
 @cache.memoize('_translations_root')
 def _get_translations_root():
     translations_module = config.get('adhocracy.translations')
