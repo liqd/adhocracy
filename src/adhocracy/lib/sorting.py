@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import math
+from operator import attrgetter
 import re
 import unicodedata
 
@@ -214,7 +215,7 @@ def user_name(entities):
 
 
 def milestone_time(entities):
-    return sorted(entities, key=lambda e: e.time)
+    return sorted(entities, key=attrgetter('time', 'title'))
 
 
 def polls_time(entities):
