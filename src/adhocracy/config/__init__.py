@@ -40,6 +40,11 @@ DEFAULTS = {
     'adhocracy.feedback_use_categories': True,
     'adhocracy.force_no_http_proxy': False,
     'adhocracy.force_randomized_user_names': False,
+
+    # Disable category navigation item, even if category pages are enabled in
+    # an instance
+    'adhocracy.hide_categories_navigation': False,
+    'adhocracy.hide_categories_navigation.allow_overwrite': True,
     'adhocracy.hide_empty_categories_in_facet_list': False,
 
     # Final adoption voting has been disabled from the UI during the
