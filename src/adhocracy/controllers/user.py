@@ -1165,7 +1165,7 @@ class UserController(BaseController):
                 'warning')
         else:
             h.flash(_(u"Successfully logged out"), 'success')
-        redirect(h.base_url())
+        redirect(h.user.post_logout_url())
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=NoPasswordForm(), post_only=True)

@@ -120,6 +120,19 @@ def post_register_url(user):
         return base_url(url, Instance.find(instance))
 
 
+def post_logout_url():
+    from adhocracy.lib.helpers import base_url
+    url = config.get('adhocracy.post_logout_url')
+    if url is None:
+        return base_url()
+
+    instance = config.get('adhocracy.post_logout_instance')
+    if instance is None:
+        return base_url(url)
+    else:
+        return base_url(url, Instance.find(instance))
+
+
 def can_change_password(user):
     if user._shibboleths:
         return config.get_bool('adhocracy.allow_password_change')

@@ -104,6 +104,8 @@ DEFAULTS = {
     'adhocracy.page.allow_abstracts': False,
     'adhocracy.post_login_instance': None,
     'adhocracy.post_login_url': None,
+    'adhocracy.post_logout_instance': None,
+    'adhocracy.post_logout_url': None,
     'adhocracy.post_register_instance': None,
     'adhocracy.post_register_url': None,
     'adhocracy.proposal_pager_inline': False,

@@ -386,6 +386,8 @@ piwik.id =
 # adhocracy.post_register_instance =
 # adhocracy.post_login_url = /proposal
 # adhocracy.post_login_instance = test
+# adhocracy.post_logout_url =
+# adhocracy.post_logout_instance =
 
 # activate geo features
 
