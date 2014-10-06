@@ -250,7 +250,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.add('instance', i.unpack_errors())
+            return self.add('instance', i.unpack_errors(), format=format)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
 
@@ -274,7 +274,7 @@ class BadgeController(BaseController):
                 form = UserBadgeForm()
             self.form_result = form.to_python(request.params)
         except Invalid as i:
-            return self.add('user', i.unpack_errors())
+            return self.add('user', i.unpack_errors(), format=format)
 
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
@@ -307,7 +307,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.add('delegateable', i.unpack_errors())
+            return self.add('delegateable', i.unpack_errors(), format=format)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
 
@@ -327,7 +327,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = CategoryBadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.add('category', i.unpack_errors())
+            return self.add('category', i.unpack_errors(), format=format)
 
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
@@ -359,7 +359,7 @@ class BadgeController(BaseController):
             meta.Session.rollback()
             h.flash(unicode(e), 'error')
             log.debug(e)
-            return self.add('category')
+            return self.add('category', format=format)
 
         # commit cause redirect() raises an exception
         meta.Session.commit()
@@ -370,7 +370,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.add('thumbnail', i.unpack_errors())
+            return self.add('thumbnail', i.unpack_errors(), format=format)
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
 
@@ -508,7 +508,7 @@ class BadgeController(BaseController):
                 form = UserBadgeForm()
             self.form_result = form.to_python(request.params)
         except Invalid as i:
-            return self.edit(id, i.unpack_errors())
+            return self.edit(id, i.unpack_errors(), format=format)
 
         badge = self._get_badge_or_redirect(id)
         require.badge.edit(badge)
@@ -541,7 +541,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.edit(id, i.unpack_errors())
+            return self.edit(id, i.unpack_errors(), format=format)
         badge = self._get_badge_or_redirect(id)
         require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
@@ -567,7 +567,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = BadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.edit(id, i.unpack_errors())
+            return self.edit(id, i.unpack_errors(), format=format)
         badge = self._get_badge_or_redirect(id)
         require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
@@ -595,7 +595,7 @@ class BadgeController(BaseController):
             params['id'] = id
             self.form_result = CategoryBadgeUpdateForm().to_python(params)
         except Invalid as i:
-            return self.edit(id, i.unpack_errors())
+            return self.edit(id, i.unpack_errors(), format=format)
         badge = self._get_badge_or_redirect(id)
         require.badge.edit(badge)
 
@@ -616,7 +616,7 @@ class BadgeController(BaseController):
             meta.Session.rollback()
             h.flash(unicode(e), 'error')
             log.debug(e)
-            return self.edit('category')
+            return self.edit('category', format=format)
 
         title, color, visible, description, impact, instance =\
             self._get_common_fields(self.form_result)
@@ -650,7 +650,7 @@ class BadgeController(BaseController):
         try:
             self.form_result = ThumbnailBadgeForm().to_python(request.params)
         except Invalid as i:
-            return self.edit(id, i.unpack_errors())
+            return self.edit(id, i.unpack_errors(), format=format)
         badge = self._get_badge_or_redirect(id)
         require.badge.edit(badge)
         title, color, visible, description, impact, instance =\
