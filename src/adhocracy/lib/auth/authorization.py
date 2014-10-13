@@ -189,10 +189,11 @@ class AuthCheck(object):
 
     def propose_join(self):
         """
-        Login is proposed if the user is logged in, but not member of the
+        Join is proposed if the user is logged in, but not member of the
         instance and can therefore not perform the requested action.
         """
-        return (c.user is not None
+        return (c.instance
+                and c.user is not None
                 and not c.user.is_member(c.instance)
                 and self._propose_join_or_login())
 

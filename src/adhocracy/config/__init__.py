@@ -45,6 +45,11 @@ DEFAULTS = {
     'adhocracy.geo.use_instancebadge_colors': True,
     'adhocracy.geo.large_map.show_proposals': True,
     'adhocracy.geo.large_map.show_proposals.allow_overwrite': True,
+
+    # Disable category navigation item, even if category pages are enabled in
+    # an instance
+    'adhocracy.hide_categories_navigation': False,
+    'adhocracy.hide_categories_navigation.allow_overwrite': True,
     'adhocracy.hide_empty_categories_in_facet_list': False,
 
     # Final adoption voting has been disabled from the UI during the
@@ -86,6 +91,9 @@ DEFAULTS = {
     'adhocracy.listings.instance_proposal.sorting': None,
     'adhocracy.listings.instance_proposal.sorting.allow_overwrite': True,
 
+    # available locales can be restricted by adding a list of enabled locales
+    'adhocracy.enabled_locales': None,
+
     # 'default' or 'alternate'
     'adhocracy.login_style': 'default',
     'adhocracy.milestone.allow_show_all_proposals': False,
@@ -101,6 +109,8 @@ DEFAULTS = {
     'adhocracy.page.allow_abstracts': False,
     'adhocracy.post_login_instance': None,
     'adhocracy.post_login_url': None,
+    'adhocracy.post_logout_instance': None,
+    'adhocracy.post_logout_url': None,
     'adhocracy.post_register_instance': None,
     'adhocracy.post_register_url': None,
     'adhocracy.proposal_pager_inline': False,

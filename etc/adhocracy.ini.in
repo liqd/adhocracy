@@ -206,6 +206,9 @@ adhocracy.protocol = ${parts.adhocracy.protocol}
 adhocracy.site.name = ${parts.adhocracy['site.name']}
 adhocracy.language = ${parts.adhocracy.language}
 
+# Restrict available locale choice
+# adhocracy.enabled_locales = de, fr
+
 # INSTALL: Server timezone
 # adhocracy.timezone = Europe/Berlin
 
@@ -383,6 +386,8 @@ piwik.id =
 # adhocracy.post_register_instance =
 # adhocracy.post_login_url = /proposal
 # adhocracy.post_login_instance = test
+# adhocracy.post_logout_url =
+# adhocracy.post_logout_instance =
 
 # activate geo features
 

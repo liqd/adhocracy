@@ -394,7 +394,7 @@ class UserController(BaseController):
         c.settings_menu = settings_menu(c.page_user, 'personal')
 
         c.locales = []
-        for locale in i18n.LOCALES:
+        for locale in i18n.get_enabled_locales():
             c.locales.append({'value': str(locale),
                               'label': locale.language_name,
                               'selected': locale == c.user.locale})
@@ -1165,7 +1165,7 @@ class UserController(BaseController):
                 'warning')
         else:
             h.flash(_(u"Successfully logged out"), 'success')
-        redirect(h.base_url())
+        redirect(h.user.post_logout_url())
 
     @RequireInternalRequest(methods=['POST'])
     @validate(schema=NoPasswordForm(), post_only=True)

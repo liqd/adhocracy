@@ -1,6 +1,29 @@
 Adhocracy Changelog
 ===================
 
+2.5.2 (2014-10-13)
+------------------
+
+Improvements:
+
+- Allow to define post_logout_url.
+
+- Allow to hide category navigation item.
+
+- Allow to restrict locale choice.
+
+- Sort milestones by date, secondarily by title.
+
+Bug fixes:
+
+- Fix badge form in overlay after validation error. (#943)
+
+- Fix "Comment" translation. (#941)
+
+- Redirect to entity_url after badge edit. (#940)
+
+- Fix propose_join in non-instance case.
+
 
 2.5.1 (2014-08-06)
 ------------------
