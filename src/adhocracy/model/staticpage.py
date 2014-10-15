@@ -84,12 +84,6 @@ class StaticPage(StaticPageBase):
                 return q.first()
         return None
 
-    @property
-    def css_classes(self):
-        # FIXME: check how css_classes are going to be used with database
-        # staticpage backend
-        return []
-
     @classmethod
     def create(cls, key, lang, title, body):
         s = StaticPage(key, lang, body, title)
