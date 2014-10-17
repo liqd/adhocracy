@@ -45,6 +45,9 @@ def test_doctests():
     as py.test supports generator based test cases.
 
     FIXME: to be replaced by proper py.test doctest discovery.
+
+    FIXME: This currently doesn't work. Tests always pass, even if they're
+    broken.
     """
 
     def perform_doctest(path):
