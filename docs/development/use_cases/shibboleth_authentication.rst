@@ -238,3 +238,7 @@ Simulate IdP behavior:
 
     >>> u"paula@example.com" in unicode(browser.contents, errors = 'replace')
     True
+
+    >>> browser.open(app_url + '/user/admin/settings/notifications')
+    >>> "Not confirmed" in browser.contents
+    False

@@ -54,9 +54,9 @@ class User(meta.Indexable):
     IMPORT_MARKER = 'i__'
 
     def __init__(self, user_name, email, password, locale, display_name=None,
-                 bio=None):
+                 bio=None, omit_activation_code=False):
         self.user_name = user_name
-        self.email = email
+        self._set_email(email, omit_activation_code)
         self.password = password
         self.locale = locale
         self.display_name = display_name
@@ -84,9 +84,9 @@ class User(meta.Indexable):
     def _get_email(self):
         return self._email
 
-    def _set_email(self, email):
+    def _set_email(self, email, omit_activation_code=False):
         import adhocracy.lib.util as util
-        if not self._email == email:
+        if not omit_activation_code and not self._email == email:
             self.activation_code = util.random_token()
         self._email = email
 
@@ -479,7 +479,8 @@ class User(meta.Indexable):
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
                openid_identity=None, global_admin=False, display_name=None,
-               autojoin=True, shibboleth_persistent_id=None):
+               autojoin=True, shibboleth_persistent_id=None,
+               omit_activation_code=False):
         """
         Create a user. If user_name is None, a random user name is generated.
         """

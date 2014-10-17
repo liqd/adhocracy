@@ -138,7 +138,8 @@ class ShibbolethController(BaseController):
                            email,
                            locale=locale,
                            display_name=display_name,
-                           shibboleth_persistent_id=persistent_id)
+                           shibboleth_persistent_id=persistent_id,
+                           omit_activation_code=(email is not None))
         # NOTE: We might want to automatically join the current instance
         # here at some point
 
