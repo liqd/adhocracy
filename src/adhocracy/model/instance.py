@@ -109,7 +109,7 @@ class Instance(meta.Indexable):
     def current_memberships(self):
         return [m for m in self.memberships if not m.is_expired()]
 
-    def members(self):
+    def members(self, include_global_members=True):
         '''
         return all users that are members of this instance through
         global or local membership
@@ -117,11 +117,13 @@ class Instance(meta.Indexable):
         from adhocracy.model.permission import Permission
         members = [membership.user for membership in
                    self.current_memberships()]
-        global_membership = Permission.find('global.member')
-        for group in global_membership.groups:
-            for membership in group.memberships:
-                if membership.instance is None and not membership.expire_time:
-                    members.append(membership.user)
+        if include_global_members:
+            global_membership = Permission.find('global.member')
+            for group in global_membership.groups:
+                for membership in group.memberships:
+                    if (membership.instance is None
+                            and not membership.expire_time):
+                        members.append(membership.user)
         return list(set(members))
 
     def _get_required_participation(self):
