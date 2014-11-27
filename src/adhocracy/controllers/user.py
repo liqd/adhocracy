@@ -332,7 +332,7 @@ class UserController(BaseController):
                 {'site_name': config.get('adhocracy.site.name')},
                 category='success')
 
-            raise HTTPFound(location=location, headers=headers)
+            raise HTTPFound(location=location.encode('utf-8'), headers=headers)
         else:
             raise Exception('We have added the user to the Database '
                             'but cannot authenticate him: '
