@@ -47,3 +47,9 @@
     padding: 0 2em;
     margin-bottom: 0;
 }
+
+// google has deprecated its OpenID 2.0 login service. see
+// https://developers.google.com/+/api/auth-migration
+.openid_btns [title="Google"] {
+    display: none;
+}
