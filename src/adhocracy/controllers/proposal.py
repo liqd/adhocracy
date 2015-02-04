@@ -240,22 +240,8 @@ class ProposalController(BaseController):
         label = title2alias(title)
         variant = variant_normalize(title)
 
-        pages = self.form_result.get('page', [])
         is_amendment = self.form_result.get('amendment', False)
 
-        if ((is_amendment and len(pages) != 1) or
-                any([not p['id'].allow_selection for p in pages]) or
-                (not is_amendment and not c.instance.allow_propose_changes and
-                    len(pages) != 0)):
-            return self.new(
-                errors={u'msg':
-                        u'Cannot change arbitrary norms within proposals'})
-
-        if c.instance.require_selection and len(pages) < 1:
-            h.flash(
-                _('Please select norm and propose a change to it.'),
-                'error')
-            return self.new()
         proposal = model.Proposal.create(c.instance,
                                          label,
                                          c.user, with_vote=can.user.vote(),
@@ -278,14 +264,39 @@ class ProposalController(BaseController):
         category = categories[0] if categories else None
         proposal.set_category(category, c.user)
 
-        for page in pages:
-            page_text = page.get('text', '')
-            page = page.get('id')
-            if page is None or page.function != model.Page.NORM:
-                continue
-            if not can.norm.edit(page, variant) or \
-               not can.selection.create(proposal):
-                continue
+        def valid_page(item):
+            page = item.get('id')
+            return page is not None and \
+                page.function == model.Page.NORM and \
+                can.norm.edit(page, variant) and \
+                can.selection.create(proposal)
+
+        _pages = self.form_result.get('page', [])
+        pages = filter(valid_page, _pages)
+
+        if ((is_amendment and len(pages) != 1) or
+                any([not p['id'].allow_selection for p in pages]) or
+                (not is_amendment and not c.instance.allow_propose_changes and
+                    len(pages) != 0)):
+            if is_amendment and len(pages) != 1:
+                log.warning(
+                    u'Could not create amendment: Not the right number of '
+                    u'valid pages in %s -> %s' % (_pages, pages))
+            model.meta.Session.rollback()
+            return self.new(
+                errors={u'msg':
+                        u'Cannot change arbitrary norms within proposals'})
+
+        if c.instance.require_selection and len(pages) < 1:
+            h.flash(
+                _('Please select norm and propose a change to it.'),
+                'error')
+            model.meta.Session.rollback()
+            return self.new()
+
+        for _page in pages:
+            page_text = _page.get('text', '')
+            page = _page['id']
             model.Text.create(page, variant, c.user,
                               page.head.title,
                               page_text, parent=page.head)
