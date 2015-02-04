@@ -86,8 +86,8 @@ Check out Adhocracy:
 
 Setup an isolated python environment to run Adhocracy
 `````````````````````````````````````````````````````
-To install Adhocracy you need python (2.6|2.7) with PIL (python imaging) but
-no other system-packages.
+To install Adhocracy you need python 2.7 with PIL (python imaging) but no other
+system-packages.
 
 Compile python and PIL with the included python buildout::
 
