@@ -1,6 +1,29 @@
 Adhocracy Changelog
 ===================
 
+
+2.5.3 (2015-03-08)
+------------------
+
+Improvements:
+
+- Hide google openid (deprecated by Google)
+
+- Upgrade various dependencies
+
+- Allow to not list global members in instance.members (#945)
+
+- Autoactivate Shibboleth users (#944)
+
+Bug fixes:
+
+- Fix amendment w/o selection (#952)
+
+- Fix came_from encoding after register (#948)
+
+- Fix creation of static pages with database backend
+
+
 2.5.2 (2014-10-13)
 ------------------
 
