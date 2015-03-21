@@ -101,7 +101,7 @@ Configure Adhocracy as desired
 
 Create a custom buildout file and customize it as desired::
 
-    $ cp buildout buildout-my.cfg
+    $ cp buildout.cfg buildout-my.cfg
     $ vi buildout-my.cfg
 
 Install and start Adhocracy
