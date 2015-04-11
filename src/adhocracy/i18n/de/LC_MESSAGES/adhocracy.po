@@ -4676,7 +4676,7 @@ msgid "You can chose which name other users see."
 msgstr "Sie können auswählen, welcher Name den anderen Benutzer*innen angezeigt werden soll."
 
 msgid "Prefered user interface language"
-msgstr "Beverzugte Sprache der Nutzeroberfläche"
+msgstr "Bevorzugte Sprache der Nutzeroberfläche"
 
 msgid "Salutation"
 msgstr "Anrede"
