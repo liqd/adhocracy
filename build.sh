@@ -167,7 +167,7 @@ if ! $not_use_sudo_commands; then
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby ruby-dev'
 
         # rubygems is included on modern debians
-        if apt-cache show rubygems >/dev/null 2>&1 ; then
+        if dpkg -p rubygems >/dev/null 2>&1 ; then
             PKGS_TO_INSTALL=$PKGS_TO_INSTALL' rubygems'
         fi
 
