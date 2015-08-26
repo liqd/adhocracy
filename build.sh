@@ -304,6 +304,12 @@ if [ '!' -x bin/python ]; then
     (cd python && bin/buildout)
 fi
 
+# Workaround: the custom Pillow in our custom Python brings in a custom libjpeg
+# However, during runtime, the custom libjpeg is not in ld's path.
+if ! bin/python -c 'from PIL import Image' 2>/dev/null ; then
+    ${SUDO_CMD} cp ./python/parts/opt/lib/libjpeg.so.8 /usr/lib/
+    bin/python -c 'from PIL import Image'
+fi
 
 
 # Fix until https://github.com/collective/buildout.python/pull/31 is accepted
