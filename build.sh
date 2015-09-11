@@ -163,6 +163,7 @@ if ! $not_use_sudo_commands; then
     case $distro in
     debian )
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' gcc make build-essential bin86 unzip libpcre3-dev git mercurial python libssl-dev libbz2-dev pkg-config libsqlite3-dev openjdk-7-jre libpq-dev'
+        PKGS_TO_INSTALL=$PKGS_TO_INSTALL' python-dev python-imaging'
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' openssh-client mutt'
         PKGS_TO_INSTALL=$PKGS_TO_INSTALL' ruby ruby-dev'
 
@@ -291,32 +292,12 @@ fi
 
 cd adhocracy_buildout
 
-if [ '!' -e python/buildout.python/src ]; then
-    git submodule init
-    git submodule update
-fi
-
 # Install local python if necessary
+if [ '!' -e bin ]; then
+    mkdir -p bin
+fi
 if [ '!' -x bin/python ]; then
-    if [ '!' -f python/bin/buildout ]; then
-        (cd python && python bootstrap.py)
-    fi
-    (cd python && bin/buildout)
-fi
-
-# Workaround: the custom Pillow in our custom Python brings in a custom libjpeg
-# However, during runtime, the custom libjpeg is not in ld's path.
-if ! bin/python -c 'from PIL import Image' 2>/dev/null ; then
-    ${SUDO_CMD} cp ./python/parts/opt/lib/libjpeg.so.8 /usr/lib/
-    bin/python -c 'from PIL import Image'
-fi
-
-
-# Fix until https://github.com/collective/buildout.python/pull/31 is accepted
-find python/buildout.python/ -name *pyc -delete
-# Fix until https://github.com/collective/buildout.python/pull/32 is accepted
-if [ "$(strings bin/python | grep '^PyUnicodeUCS._DecodeLatin1$')" '!=' "$(strings eggs/lxml-*.egg/lxml/etree.so 2>/dev/null | grep '^PyUnicodeUCS._DecodeLatin1$')" ]; then
-    rm -rf -- eggs/lxml-*.egg
+    ln -sf "$(which python)" bin/python
 fi
 
 # Set up adhocracy configuration
@@ -326,11 +307,6 @@ ln -s -f "${buildout_cfg_file}" ./buildout_current.cfg
 HAVE_BUILDOUT_VERSION=$(bin/buildout --version 2>&1 | cut -d ' ' -f 3)
 WANT_BUILDOUT_VERSION=$(sed -n 's#zc\.buildout = ##p' versions.cfg)
 if test "$HAVE_BUILDOUT_VERSION" "!=" "$WANT_BUILDOUT_VERSION"; then
-    # Workaround for https://github.com/liqd/adhocracy/issues/479
-    if test "$(bin/python -c 'import setuptools;print setuptools.__version__' || true)" = "0.6"; then
-        python/python-2.7/bin/easy_install -U distribute
-    fi
-
     bin/python bootstrap.py -c buildout_current.cfg
 fi
 
