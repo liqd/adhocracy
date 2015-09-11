@@ -503,7 +503,7 @@ class StaticPageTransform(_Transform):
 
     def _get_by_key(self, k):
         key, _, lang = k.partition(u'_')
-        return self._backend.get(key, lang)
+        return self._backend.get(key, [lang])
 
     def _get_all(self):
         return self._backend.all()
