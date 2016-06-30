@@ -1,6 +1,7 @@
 
 import datetime
 import re
+import hashlib
 
 from adhocracy.lib import votedetail
 from adhocracy import config
@@ -465,11 +466,49 @@ class RequestLogTransform(_Transform):
 
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
+        self.hash_func = hashlib.sha1
 
     def _export(self, obj):
         res = obj.to_dict()
+
+        # Convert the time to a printable version
         res['access_time'] = encode_time(res['access_time'])
+
+        # Anonymize the cookies
+        cookies = []
+        for cookie in res['cookies'].split(";"):
+            cookie = cookie.strip()
+            label = cookie.split("=")[0]
+            value = cookie.split("=")[1]
+            if "login" in label:
+                token = self.hash_func(value[0:40]).hexdigest()
+                value = (token, value[40:])
+
+            cookies.append((label, value))
+
+        res['cookies'] = tuple(cookies)
+
+        # Filter out welcome codes
+        res['request_url'] = self._url_filter(res['request_url'])
+        res['referer'] = self._url_filter(res['referer'])
+
         return res
+
+    def _url_filter(self, url):
+        regex = r'(.*\/welcome\/)(\w+)\/(\w+)(.*)'
+
+        if url is not None:
+            matches = re.search(regex, url)
+
+            if matches is not None:
+                username = self.hash_func(matches.group(2)).hexdigest()
+                code = self.hash_func(matches.group(3)).hexdigest()
+
+                sub_regex = r'\1{0}/{1}\4'.format(username, code)
+                url = re.sub(regex, sub_regex, url)
+
+        return url
+
 
 
 class StaticPageTransform(_Transform):
