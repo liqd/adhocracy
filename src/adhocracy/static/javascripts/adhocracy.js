@@ -1185,7 +1185,14 @@ $(document).ready(function () {
     $('body').delegate('select.autoreload', 'change', function (event) {
         event.preventDefault();
         var url = $(this).find('option:selected').data('url');
-        window.location.href = url;
+
+        $.ajax({
+            url: url,
+            success: function(data) {
+                var src = $('<ajax_dom>').html(data).find('.pager_wrapper');
+                $(event.target).closest('.pager_wrapper').html(src.html());
+            }
+        });
     });
 
     $('body').delegate('a.do_vote', 'click', function (event) {
