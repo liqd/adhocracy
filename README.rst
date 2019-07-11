@@ -32,7 +32,7 @@ Memcached, Redis, many Python libraries and more.
 Installing
 ----------
 
-Adhocracy is known to run on current Linux systems, such as Debian Squeeze. It
+Adhocracy is known to run on Linux systems, such as Debian Squeeze. It
 might run on FreeBSD or OS X, but this hasn't been tested recently.
 
 Installation is usually done through buildout or through an installer script
@@ -43,27 +43,18 @@ for Debian based systems. In either case, read `INSTALLATION.rst
 Development
 -----------
 
-Adhocracy is openly developed as free software and distributed for the common
+Adhocracy was developed as free software and distributed for the common
 good under the `AGPLv3 license <http://www.gnu.org/licenses/agpl-3.0.html>`_.
 
-Source code hosting, bug tracking and planned feature discussion is done `on
+Source code hosting is done `on
 GitHub <https://github.com/liqd/adhocracy>`_.
-
-Communication also takes place on the `adhocracy-dev mailing list
-<http://lists.liqd.net/cgi-bin/mailman/listinfo/adhocracy-dev>`_.
 
 Documentation is included in the source code and can be read online `on
 readthedocs <http://adhocracy.readthedocs.org>`_.
-
-We're very open for contributions, please drop us a note on the mailing list or
-create a pull request on GitHub.
 
 
 Support
 -------
 
-Community support is available through the `adhocracy-dev mailing list
-<http://lists.liqd.net/cgi-bin/mailman/listinfo/adhocracy-dev>`_.
-
-Commercial support (installation, hosting, customization, training) is offered
+Support (installation, hosting, customization, training) is offered
 by the Liquid Democracy e.V. - you can reach us at `info(at)liqd(dot)de`.
