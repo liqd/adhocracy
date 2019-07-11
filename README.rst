@@ -2,6 +2,14 @@ Adhocracy
 =========
 
 
+ARCHIVED
+-----
+
+This project is archived. We develop adhocracy `here <https://github.com/liqd/adhocracy4>`_.
+
+You can still fork this project if you want to use or develop it.
+
+
 About
 -----
 
