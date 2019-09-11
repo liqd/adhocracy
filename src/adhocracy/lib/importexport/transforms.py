@@ -1,6 +1,7 @@
 
 import datetime
 import re
+import hashlib
 
 from adhocracy.lib import votedetail
 from adhocracy import config
@@ -465,11 +466,30 @@ class RequestLogTransform(_Transform):
 
     def __init__(self, options):
         super(RequestLogTransform, self).__init__(options)
+        self.hash_func = hashlib.sha1
 
     def _export(self, obj):
         res = obj.to_dict()
+
         res['access_time'] = encode_time(res['access_time'])
+
+        # Filter out session codes from adhocracy login cookie
+        res['cookies'] = re.sub(r'(adhocracy_login\=)("?[a-f0-9]{40})',
+                lambda m: m.group(1) + self.hash_func(m.group(2)).hexdigest(),
+                res['cookies'])
+
+        # Filter out welcome codes
+        res['request_url'] = self._url_filter(res['request_url'])
+        res['referer'] = self._url_filter(res['referer'])
+
         return res
+
+    def _url_filter(self, url):
+        if url is not None:
+            url = re.sub(r'(/welcome/[^/]+/)([0-9a-f]+)(?=/|\?|$)',
+                    lambda m: m.group(1) + self.hash_func(m.group(2)).hexdigest(),
+                    url)
+        return url
 
 
 class StaticPageTransform(_Transform):
