@@ -67,18 +67,18 @@ try:
 except ImportError:
     ez = {}
     if USE_DISTRIBUTE:
-        exec urllib2.urlopen('http://python-distribute.org/distribute_setup.py'
-                         ).read() in ez
+        raise Exception('python-distribute.org has been taken over by spammers.')
+        #exec urllib2.urlopen('http://python-distribute.org/distribute_setup.py'
+        #                 ).read() in ez
         ez['use_setuptools'](to_dir=tmpeggs, download_delay=0, no_fake=True)
     else:
-        exec urllib2.urlopen('http://peak.telecommunity.com/dist/ez_setup.py'
+        exec open('ez_setup.py'
                              ).read() in ez
         ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
 
-    if to_reload:
-        reload(pkg_resources)
-    else:
-        import pkg_resources
+    # Re-import, module may have removed by setuptools download
+    import pkg_resources
+    reload(pkg_resources)
 
 if sys.platform == 'win32':
     def quote(c):
